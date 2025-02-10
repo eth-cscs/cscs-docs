@@ -35,6 +35,10 @@ Welcome to the techincal documentation for Alps.
 
 -   :fontawesome-solid-key: __Getting Access__
 
+    A project is required to access resources on Alps
+
+    [:octicons-arrow-right-24: Applying for an Alps project](https://www.cscs.ch/user-lab/applying-for-accounts)
+
     CSCS uses multifactor authentification for secure connection to our services and systems
 
     [:octicons-arrow-right-24: Setting up MFA](./access/mfa/index.md)
@@ -44,10 +48,6 @@ Welcome to the techincal documentation for Alps.
     Manage your project and team in the user management portal
 
     [:octicons-arrow-right-24: User management portal](./access/ump.md)
-
-    A project is required to access resources on Alps
-
-    [:octicons-arrow-right-24: Applying for an Alps project](https://www.cscs.ch/user-lab/applying-for-accounts)
 
 </div>
 
