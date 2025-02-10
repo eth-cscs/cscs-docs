@@ -86,7 +86,7 @@ If you can't find the information that you need in the documentation, help is av
 
 -   :fontawesome-solid-screwdriver-wrench: __Build and Install Software__
 
-    Focus on your content and generate a responsive and searchable static site
+    Guides on how to build and install software from source using uenv and containers
 
     [:octicons-arrow-right-24: Building and Installing Software](build-install/index.md)
 
