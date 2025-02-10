@@ -25,11 +25,13 @@ jobs:
             PR_NBR=$(cat pr_number.txt)
             curl --data-binary @site.tar.gz -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://docs.tds.cscs.ch/upload?path=$PR_NBR
       - name: Post comment with preview URL
+        shell: bash
         run: |
+          PR_NBR=$(cat pr_number.txt)
           curl -L -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/eth-cscs/cscs-docs/issues/${{ github.event.pull_request.number }}/comments" \
+            "https://api.github.com/repos/eth-cscs/cscs-docs/issues/${PR_NBR}/comments" \
             -d '{
-              "body": "preview available: https://docs.tds.cscs.ch/${{ github.event.pull_request.number }}"
+              "body": "preview available: https://docs.tds.cscs.ch/${PR_NBR}"
             }'
