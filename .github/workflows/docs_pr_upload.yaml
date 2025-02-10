@@ -32,6 +32,4 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/eth-cscs/cscs-docs/issues/${PR_NBR}/comments" \
-            -d '{
-              "body": "preview available: https://docs.tds.cscs.ch/${PR_NBR}"
-            }'
+            -d "{ \"body\": \"preview available: https://docs.tds.cscs.ch/${PR_NBR}\" }"
