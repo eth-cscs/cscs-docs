@@ -1,12 +1,18 @@
-site_name: CSCS Knowledge Base
-# TODO: change to match target deployment
-#site_url: https://eth-cscs.github.io/
+site_name: CSCS Documentation
+# TODO: change to https://docs.cscs.ch when the time comes
+site_url: https://eth-cscs.github.io/
 
 # provide a link to the docs in top RHS corner
 repo_url: https://github.com/eth-cscs/cscs-docs
 # provide a link to "edit this page" to each page
 edit_uri: edit/main/docs/
-
+extra_css:
+  - stylesheets/extra.css
+plugins:
+  - search:
+      pipeline:
+        - trimmer
+  - autorefs
 nav:
   - Welcome: index.md
   - 'Alps':
@@ -55,7 +61,6 @@ nav:
 theme:
   name: material
   language: en
-  #custom_dir: docs/.overrides
   features:
     - content.code.copy
     # add an "edit this page" icon on each page
@@ -92,18 +97,10 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-
   logo: assets/cscs-logo.png
   font:
     text: Roboto
     code: Roboto Mono
-
-plugins:
-  - search:
-      pipeline:
-        - trimmer
-  - autorefs
-
 markdown_extensions:
   - admonition
   - def_list
@@ -139,7 +136,4 @@ markdown_extensions:
 #extra_javascript:
 #  - javascripts/mathjax.js
 #  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-
-extra_css:
-  - stylesheets/extra.css
 

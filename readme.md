@@ -13,8 +13,8 @@ The source CSCS documentation [docs.cscs.ch](httpa://docs.cscs.ch)
 
 Clone this repository on your PC/laptop, then view the documentation in a browser run `./serve`:
 ```bash
-> git clone git@github.com:${githubusername}/kb.git
-> cd kb
+> git clone git@github.com:${githubusername}/cscs-docs.git
+> cd cscs-docs
 > ./serve
 ...
 INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
