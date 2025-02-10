@@ -49,8 +49,6 @@ Welcome to the techincal documentation for Alps.
 
     [:octicons-arrow-right-24: Applying for an Alps project](https://www.cscs.ch/user-lab/applying-for-accounts)
 
-
-
 </div>
 
 ## Get in Touch
