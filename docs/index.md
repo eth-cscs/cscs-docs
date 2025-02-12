@@ -8,7 +8,7 @@ Welcome to the techincal documentation for Alps.
 
     Once you have a project at CSCS, start here to find your platform:
 
-    [:octicons-arrow-right-24: Platforms overview](platforms/index.md)
+    [:octicons-arrow-right-24: Platforms overview][platforms]
 
     Go straight to the documentation for the platform that hosts your project:
 

@@ -21,8 +21,17 @@ Once invited to a project, you will receive an email, which you can need to crea
 
 The main cluster provided by the MLp is Clariden, a large Grace-Hopper GPU system on Alps.
 
-!!! todo
-    introduction paragraph and cards that link to Clariden and Bristen
+<div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: [__Clariden__][clariden]
+
+    Clariden is the main [Grace-Hopper][gh200-node] cluster used for **todo**
+</div>
+
+<div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: [__Bristen__][bristen]
+
+    Bristen is a smaller system with [A100 GPU nodes][a100-node] for **todo**
+</div>
 
 ## Guides and Tutorials
 

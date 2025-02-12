@@ -15,24 +15,6 @@ plugins:
   - autorefs
 nav:
   - Welcome: index.md
-  - 'Alps':
-    - alps/index.md
-    - 'Hardware': alps/hardware.md
-    - 'Network': alps/network.md
-    - 'Storage': alps/storage.md
-    - 'vClusters': alps/vclusters.md
-    - 'Tenants': alps/tenants.md
-  - 'Platforms':
-    - platforms/index.md
-    - 'HPC Platform':
-      - platforms/hpcp/index.md
-    - 'Machine Learning Platform':
-      - platforms/mlp/index.md
-      # we could move all vcluster descriptions to a vcluster/name.md
-      # then link them into the respective platform
-      - 'clariden': vclusters/clariden.md
-    - 'Climate and Weather Platform':
-      - platforms/cwp/index.md
   - 'Access':
     - access/index.md
     - 'MFA':
@@ -40,6 +22,20 @@ nav:
       - 'using windows': access/mfa/windows.md
     - 'UMP': access/ump.md
     - 'Waldur': access/waldur.md
+  - 'Alps':
+    - alps/index.md
+    - 'Platforms': alps/platforms.md
+    - 'Clusters': alps/vclusters.md
+    - 'Hardware': alps/hardware.md
+    - 'Storage': alps/storage.md
+  - 'Machine Learning Platform':
+    - platforms/mlp/index.md
+    - 'clariden': vclusters/clariden.md
+    - 'bristen': vclusters/bristen.md
+  - 'HPC Platform':
+    - platforms/hpcp/index.md
+  - 'Climate and Weather Platform':
+    - platforms/cwp/index.md
   - 'Tools':
     - tools/index.md
     - 'slurm': tools/slurm.md

@@ -29,7 +29,7 @@ The following sections will provide detailed guidance on how to use SLURM to req
     [using slurm on Grace-Hopper][gh200-slurm]
     ```
 
-Link to the [Grace-Hopper overview][gh200-hardware-description].
+Link to the [Grace-Hopper overview][gh200-node].
 
 An example of using tabs to show srun and sbatch useage to get one GPU per MPI rank:
 

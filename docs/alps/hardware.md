@@ -1,3 +1,4 @@
+[](){#alps-hardware}
 # Alps Hardware
 
 Alps is a HPE Cray EX3000 system, a liquid cooled blade-based, high-density system.
@@ -20,7 +21,19 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
 * Maximum of 64 quad-blade compute blades
 * Maximum of 64 Slingshot switch blades
 
-## Alps Blades
+## Alps High Speed Network
+
+!!! todo
+    information about the network.
+
+    * Details about SlingShot 11.
+        * how many NICS per node
+        * raw feeds and speeds
+    * Some OSU benchmark results.
+    * GPU-aware communication
+    * **slingshot is not infiniband - there is no NVSwitch**
+
+## Alps Nodes
 
 Alps was installed in phases, starting with the installation of 1024 AMD Rome dual socket CPU nodes in 2020, through to the main installation of 2,688 Grace-Hopper nodes in 2024.
 
@@ -34,26 +47,31 @@ There are currently four node types in Alps, with another becoming available in 
 | AMD MI250x     |   12   |   24  |     24      |  96         |
 | AMD MI300A     |   64   |  128  |    512      | 512         |
 
+[](){#gh200-node}
 ### NVIDIA GH200 GPU Nodes
-[](){#gh200-hardware-description}
 
 Perry Peak
 
+[](){#zen2-node}
 ### AMD Rome CPU Nodes
 
 EX425
 
+[](){#a100-node}
 ### NVIDIA A100 GPU Nodes
 
 Grizzly Peak
 
+[](){#mi200-node}
 ### AMD MI250x GPU Nodes
 
 Bard Peak
 
+[](){#mi300-node}
 ### AMD MI300A GPU Nodes
 
 Parry Peak
 
 !!! info "coming soon"
     H1 2025
+
