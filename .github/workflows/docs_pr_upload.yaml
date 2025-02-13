@@ -10,7 +10,7 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     steps:
-      - name: Upload docs from GH artifacts
+      - name: Download docs from GH artifacts
         id: download-artifact
         uses: dawidd6/action-download-artifact@v6
         with:
@@ -18,7 +18,7 @@ jobs:
           workflow: docs_pr.yaml
           allow_forks: true
           workflow_conclusion: success
-      - name: Upload coverage report
+      - name: Upload docs for preview
         shell: bash
         run: |
             ls -alh
