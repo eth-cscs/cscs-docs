@@ -1,0 +1,113 @@
+:root {
+  --md-admonition-icon--alps: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M256 32c12.5 0 24.1 6.4 30.8 17l216.6 345.4c5.6 8.9 8.6 19.2 8.6 29.7 0 30.9-25 55.9-55.9 55.9H55.9C25 480 0 455 0 424.1c0-10.5 3-20.8 8.6-29.7L225.2 49c6.6-10.6 18.3-17 30.8-17zm65 192-65-103.6-79.1 126.1 18.3 24.4c6.4 8.5 19.2 8.5 25.6 0l25.6-34.1c6-8.1 15.5-12.8 25.6-12.8h49z"/></svg>');
+  --base-border-radius: 0.2rem;
+  --base-border-width: 0.05rem;
+}
+.md-typeset .admonition.alps,
+.md-typeset details.alps {
+  border-color: rgb(255, 51, 51);
+}
+.md-typeset .alps > .admonition-title,
+.md-typeset .alps > summary {
+  background-color: rgba(255, 51, 51, 0.1);
+}
+.md-typeset .alps > .admonition-title::before,
+.md-typeset .alps > summary::before {
+  background-color: rgb(255, 51, 51);
+  -webkit-mask-image: var(--md-admonition-icon--alps);
+          mask-image: var(--md-admonition-icon--alps);
+}
+.md-typeset .admonition.change,
+.md-typeset details.change {
+  border-color: rgb(43, 155, 70);
+}
+.md-typeset .change > .admonition-title,
+.md-typeset .change > summary {
+  background-color: rgba(43, 155, 70, 0.1);
+}
+.md-typeset .change > .admonition-title::before,
+.md-typeset .change > summary::before {
+  background-color: rgb(43, 155, 70);
+  -webkit-mask-image: var(--md-admonition-icon--alps);
+          mask-image: var(--md-admonition-icon--alps);
+}
+
+/* todo admonition */
+.md-typeset .admonition.todo,
+.md-typeset details.todo {
+  border-color: rgb(255, 0, 0);
+}
+.md-typeset .todo > .admonition-title,
+.md-typeset .todo > summary {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+.md-typeset .todo > .admonition-title::before,
+.md-typeset .todo > summary::before {
+  background-color: rgb(255, 0, 0);
+  -webkit-mask-image: var(--md-admonition-icon--alps);
+          mask-image: var(--md-admonition-icon--alps);
+}
+
+.md-nav__item .md-nav__link--active {
+    font-weight: bold;
+}
+
+/* Light mode */
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #121417; /* Darker border for contrast */
+  background-color: #ffffff; /* Ensures light background */
+  color: #121417; /* Dark text for readability */
+}
+
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li:hover {
+  box-shadow: 0 0 0.5rem #010945; /* Dark blue shadow on hover */
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #bbbbbb; /* Lighter border for better contrast in dark mode */
+  background-color: #1a1a1a; /* Darker background to blend well */
+  color: #e0e0e0; /* Lighter text for readability */
+}
+
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
+  box-shadow: 0 0 0.5rem #79aaff; /* Softer, lighter blue glow on hover */
+}
+
+/* Table */
+.md-typeset table:not([class]) {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #121417;
+}
+
+/* code hilighting */
+
+
+/* light mode:  pale yellow background, solid black foreground */
+[data-md-color-scheme="default"] {
+  --md-code-bg-color: #fcfafa;
+  --md-code-fg-color: #000000;
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] {
+  --md-code-bg-color: #1e1e1e;
+  --md-code-fg-color: #ffffff;
+}
+
+/* Light mode */
+[data-md-color-scheme="default"] .md-typeset pre {
+  border: 2px solid #fcb8b8;
+  border-radius: 2px; /* slight rounding to corners */
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] .md-typeset pre {
+  border: 2px solid #3f4013;
+  border-radius: 2px;
+}
