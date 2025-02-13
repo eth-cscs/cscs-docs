@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # use uv to run mkdocs with mkdocs-material and its dependencies installed
 uv tool run --with-requirements ./requirements.txt mkdocs ${@:-serve}
