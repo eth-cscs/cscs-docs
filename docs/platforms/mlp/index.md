@@ -13,7 +13,7 @@
 ### Getting access
 
 Project administrators (PIs and deputy PIs) of projects on the MLp can to invite users to join their project, before they can use the project's resources on Alps.
-This is performed using the [project managemant tool][waldur]
+This is performed using the [project management tool][waldur]
 
 Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentification][mfa] (MFA).
 
