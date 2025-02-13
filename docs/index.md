@@ -41,13 +41,13 @@ Welcome to the techincal documentation for Alps.
 
     CSCS uses multifactor authentification for secure connection to our services and systems
 
-    [:octicons-arrow-right-24: Setting up MFA](./access/mfa/index.md)
+    [:octicons-arrow-right-24: Setting up MFA][mfa]
 
-    [:octicons-arrow-right-24: Logging into vClusters][mfa-ssh]
+    [:octicons-arrow-right-24: Logging into vClusters][ssh]
 
     Manage your project and team in the user management portal
 
-    [:octicons-arrow-right-24: User management portal](./access/ump.md)
+    [:octicons-arrow-right-24: User management portal][ump]
 
 </div>
 

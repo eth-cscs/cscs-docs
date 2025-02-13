@@ -1,22 +1,11 @@
-# Access and Accounting
+# Connecting to Alps
 
-Users at CSCS typically have one account that can be used to access all services at CSCS.
+This documentation guides users through the process of accessing CSCS systems and services.
 
-<div class="grid cards" markdown>
+!!! info
+    Before accessing CSCS, you need to have an account at CSCS, and be part of a project that has been allocated resources.
+    More information on how to get an account is available in [accounts and projects][account-management].
 
--   :fontawesome-solid-mountain-sun: __Multi Factor Authetification (MFA)__
-
-    A guide to setting up and using MFA.
-
-    [:octicons-arrow-right-24: Setting up and use MFA][mfa]
-
--   :fontawesome-solid-mountain-sun: __Getting Access__
-
-    A project is required to get access to resources on Alps.
-    Instructions on how to submit a project proposal is available on the main CSCS web site.
-
-    [:octicons-arrow-right-24: Applying for an Alps project](https://www.cscs.ch/user-lab/applying-for-accounts)
-</div>
 
 There are different ways to authenticate your identity in order to access services at CSCS, using a password set by the user. Currently users can be authenticated with:
 

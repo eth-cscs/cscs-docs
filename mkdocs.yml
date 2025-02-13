@@ -15,13 +15,16 @@ plugins:
   - autorefs
 nav:
   - Welcome: index.md
-  - 'Access':
+  - 'Accounts and Projects':
+    - accounts/index.md
+    - 'Account and Resources Management Tool': accounts/ump.md
+    - 'Project and Resources Management Tool': accounts/waldur.md
+  - 'Connecting to Alps':
     - access/index.md
-    - 'MFA':
-      - access/mfa/index.md
-      - 'using windows': access/mfa/windows.md
-    - 'UMP': access/ump.md
-    - 'Waldur': access/waldur.md
+    - 'Multi Factor Authentification (MFA)': access/mfa.md
+    - 'Web Services': access/web.md
+    - 'SSH': access/ssh.md
+    - 'VSCode': access/vscode.md
   - 'Alps':
     - alps/index.md
     - 'Platforms': alps/platforms.md
