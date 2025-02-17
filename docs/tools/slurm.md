@@ -20,37 +20,103 @@ The following sections will provide detailed guidance on how to use SLURM to req
 [](){#gh200-slurm}
 ### NVIDIA GH200 GPU Nodes
 
-!!! todo
-    document how slurm can be used on the Grace-Hopper nodes.
+The [GH200 nodes on Alps][gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources. Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode. [Configuring SLURM jobs to use a single GPU per rank][gh200-slurm-single-rank-per-gpu] is also the most straightforward setup. Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process-Service (MPS)](https://docs.nvidia.com/deploy/mps/index.html) to oversubscribe GPUs with multiple ranks per GPU.
 
-    Note how you can link to this section from elsewhere using the anchor above, e.g.:
+The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case. Also see [TODO][TODO] for information about recommended application-specific SLURM configurations.
 
-    ```
-    [using slurm on Grace-Hopper][gh200-slurm]
-    ```
+!!! warning
+    The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes). Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously. This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
+    
+     Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][gh200-slurm-multi-rank-per-gpu] in these cases.
+    
+     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script. If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
-Link to the [Grace-Hopper overview][gh200-node].
+[](){#gh200-slurm-single-rank-per-gpu}
+#### One rank per GPU
 
-An example of using tabs to show srun and sbatch useage to get one GPU per MPI rank:
+Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags. For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node. The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
 === "sbatch"
 
     ```bash
     #!/bin/bash
     #SBATCH --job-name=affinity-test
-    #SBATCH --ntasks-per-node=4
     #SBATCH --nodes=2
+    #SBATCH --ntasks-per-node=4
     #SBATCH --gpus-per-task=1
 
-    srun affinity
+    srun <application>
     ```
 
 === "srun"
 
     ```
-    > srun -n8 -N2 --gpus-per-task=1 affinity
+    srun --nodes=2 --ntasks-per-node=4 --gpus-per-task=1 <application>
     ```
+    
+Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the first GPU.
 
+[](){#gh200-slurm-multi-rank-per-gpu}
+#### Multiple ranks per GPU
+
+Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU. In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU. This is best done using MPS. To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
+
+```bash
+#!/bin/bash
+# Example mps-wrapper.sh usage:
+# > srun --cpu-bind=socket [srun args] mps-wrapper.sh [cmd] [cmd args]
+
+# Only this path is supported by MPS
+export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps
+export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$(id -un)
+
+# Launch MPS from a single rank per node
+if [[ $SLURM_LOCALID -eq 0 ]]; then
+    CUDA_VISIBLE_DEVICES=0,1,2,3 nvidia-cuda-mps-control -d
+fi
+
+# Set CUDA device
+numa_nodes=$(hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+export CUDA_VISIBLE_DEVICES=$numa_nodes
+
+# Wait for MPS to start
+sleep 1
+
+# Run the command
+numactl --membind=$numa_nodes "$@"
+result=$?
+
+# Quit MPS control daemon before exiting
+if [[ $SLURM_LOCALID -eq 0 ]]; then
+    echo quit | nvidia-cuda-mps-control
+fi
+
+exit $result
+```
+
+Save the above script as `mps-wrapper.sh` and make it executable with `chmod +x mps-wrapper.sh`. If the `mps-wrapper.sh` script is in the current working directory, you can then launch jobs using MPS for example as follows:
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=oversubscription-affinity-test
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=8
+
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+srun --cpu-bind=socket ./mps-wrapper.sh <application>
+```
+
+Note that in the example job above:
+
+- `--gpus-per-node` is not set at all; the `mps-wrapper.sh` script ensures that the right GPU is visible for each rank using `CUDA_VISIBLE_DEVICES`
+- `--ntasks-per-node` is set to 32; this results in 8 ranks per GPU
+- `--cpus-per-task` is set to 8; this ensures that the CPU mask is set appropriately for each rank
+- `OMP_NUM_THREADS` is exported for applications that use OpenMP; this may not be needed for your application, or you may need other libraries to be configured to use the correct number of threads
+- `--cpu-bind=socket` is set on the `srun` command; this will expose a full CPU for each rank, allowing threads to migrate between cores within the socket, but not across sockets
+
+The configuration that is optimal for your application may be different.
 
 [](){#amdcpu-slurm}
 ## AMD CPU
