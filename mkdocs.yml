@@ -47,7 +47,7 @@ nav:
       - 'GROMACS': software/sciapps/gromacs.md
       - 'LAMMPS': software/sciapps/lammps.md
       - 'NAMD': software/sciapps/namd.md
-      - 'quantumespressso': software/sciapps/quantumespresso.md
+      - 'Quantum ESPRESSO': software/sciapps/quantumespresso.md
       - 'VASP': software/sciapps/vasp.md
     - 'Programming Environments':
       - software/prgenv/index.md

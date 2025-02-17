@@ -1,4 +1,4 @@
 [](){#uenv-cp2k}
-#cp2k
+# CP2K
 !!! todo
     complete docs

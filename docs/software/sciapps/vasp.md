@@ -1,5 +1,5 @@
 [](){#uenv-vasp}
-#VASP
+# VASP
 
 !!! todo
     port over docs

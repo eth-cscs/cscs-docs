@@ -1,4 +1,4 @@
 [](){#uenv-namd}
-#namd
+# NAMD
 !!! todo
     complete docs

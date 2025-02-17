@@ -1,4 +1,4 @@
 [](){#uenv-lammps}
-#lammps
+# LAMMPS
 !!! todo
     complete docs

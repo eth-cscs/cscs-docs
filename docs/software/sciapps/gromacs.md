@@ -1,4 +1,4 @@
 [](){#uenv-gromacs}
-#gromacs
+# GROMACS
 !!! todo
     complete docs
