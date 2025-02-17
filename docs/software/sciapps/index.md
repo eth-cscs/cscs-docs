@@ -15,4 +15,4 @@ CSCS staff can also help users with performance analysis to optimise their workf
 * [VASP][uenv-vasp]
 
 !!! warning "Unsupported Applications"
-    Please note that Amber and CPMD provided on the Piz Daint XC system are not supported on Alps.
+    Please note that Amber and CPMD previously provided on the Piz Daint XC system are not provided by CSCS on Alps.
