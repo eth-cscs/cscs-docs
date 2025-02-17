@@ -1,4 +1,4 @@
 [](){#uenv-quantumespresso}
-#quantumespresso
+#Quantum ESPRESSO
 !!! todo
     complete docs
