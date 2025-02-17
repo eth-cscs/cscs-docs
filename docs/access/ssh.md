@@ -1,4 +1,4 @@
-[](){#ssh}
+[](){#access-ssh}
 # Using SSH
 
 Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][account-management] that is part of a project that has access to the cluster, and have [multi factor authentification][mfa] configured.

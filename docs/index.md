@@ -1,6 +1,30 @@
 # CSCS Documentation
 
-Welcome to the techincal documentation for Alps.
+Start here to get access to CSCS services and Alps
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-layer-group: __Accounts and Projects__
+
+    The first step is to get an account and a project
+
+    [:octicons-arrow-right-24: Accounts and Projects][account-management]
+
+-   :fontawesome-solid-key: __Logging In__
+
+    Once you have an account, you can set up multi factor authentification
+
+    [:octicons-arrow-right-24: Setting up MFA][mfa]
+
+    Then access CSCS services
+
+    [:octicons-arrow-right-24: Accessing CSCS Web Services][access-web]
+
+    [:octicons-arrow-right-24: Using SSH][access-ssh]
+
+</div>
+
+The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities
 
 <div class="grid cards" markdown>
 
@@ -16,7 +40,7 @@ Welcome to the techincal documentation for Alps.
 
     [:octicons-arrow-right-24: Machine Learning Platform][mlp]
 
-    [:octicons-arrow-right-24: Climate and weather Platform][cwp]
+    [:octicons-arrow-right-24: Climate and Weather Platform][cwp]
 
 -   :fontawesome-solid-mountain-sun: __Alps__
 
@@ -28,26 +52,7 @@ Welcome to the techincal documentation for Alps.
 
     [:octicons-arrow-right-24: Alps Hardware](alps/hardware.md)
 
-    [:octicons-arrow-right-24: Alps Network](alps/network.md)
-
     [:octicons-arrow-right-24: Alps Storage](alps/storage.md)
-
-
--   :fontawesome-solid-key: __Getting Access__
-
-    A project is required to access resources on Alps
-
-    [:octicons-arrow-right-24: Applying for an Alps project](https://www.cscs.ch/user-lab/applying-for-accounts)
-
-    CSCS uses multifactor authentification for secure connection to our services and systems
-
-    [:octicons-arrow-right-24: Setting up MFA][mfa]
-
-    [:octicons-arrow-right-24: Logging into vClusters][ssh]
-
-    Manage your project and team in the user management portal
-
-    [:octicons-arrow-right-24: User management portal][ump]
 
 </div>
 
@@ -71,7 +76,7 @@ If you can't find the information that you need in the documentation, help is av
 
 </div>
 
-# Tools and Services
+## Tools and Services
 
 !!! todo
     Provide some links to the "how" documentation here.
