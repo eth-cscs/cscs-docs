@@ -20,21 +20,30 @@ The following sections will provide detailed guidance on how to use SLURM to req
 [](){#gh200-slurm}
 ### NVIDIA GH200 GPU Nodes
 
-The [GH200 nodes on Alps][gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources. Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode. [Configuring SLURM jobs to use a single GPU per rank][gh200-slurm-single-rank-per-gpu] is also the most straightforward setup. Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process-Service (MPS)](https://docs.nvidia.com/deploy/mps/index.html) to oversubscribe GPUs with multiple ranks per GPU.
+The [GH200 nodes on Alps][gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
+Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
+[Configuring SLURM jobs to use a single GPU per rank][gh200-slurm-single-rank-per-gpu] is also the most straightforward setup.
+Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process-Service (MPS)](https://docs.nvidia.com/deploy/mps/index.html) to oversubscribe GPUs with multiple ranks per GPU.
 
-The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case. Also see [TODO][TODO] for information about recommended application-specific SLURM configurations.
+The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
+Also see [TODO][TODO] for information about recommended application-specific SLURM configurations.
 
 !!! warning
-    The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes). Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously. This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
+    The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
+    Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously.
+    This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
     
      Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][gh200-slurm-multi-rank-per-gpu] in these cases.
     
-     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script. If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
+     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
+     If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
 [](){#gh200-slurm-single-rank-per-gpu}
 #### One rank per GPU
 
-Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags. For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node. The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
+Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
+For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
+The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
 === "sbatch"
 
@@ -59,7 +68,10 @@ Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the
 [](){#gh200-slurm-multi-rank-per-gpu}
 #### Multiple ranks per GPU
 
-Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU. In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU. This is best done using MPS. To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
+Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
+In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
+This is best done using MPS.
+To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
 ```bash
 #!/bin/bash
@@ -94,7 +106,8 @@ fi
 exit $result
 ```
 
-Save the above script as `mps-wrapper.sh` and make it executable with `chmod +x mps-wrapper.sh`. If the `mps-wrapper.sh` script is in the current working directory, you can then launch jobs using MPS for example as follows:
+Save the above script as `mps-wrapper.sh` and make it executable with `chmod +x mps-wrapper.sh`.
+If the `mps-wrapper.sh` script is in the current working directory, you can then launch jobs using MPS for example as follows:
 
 ```bash
 #!/bin/bash
