@@ -86,6 +86,7 @@ theme:
     - navigation.tracking
     - navigation.path
     - navigation.top
+    - content.code.annotate
   icon:
     # set the icon for "edit this page"
     edit: material/pencil
