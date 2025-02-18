@@ -103,6 +103,7 @@ ssh -i ~/.ssh/cscs-key ela.cscs.ch
 To log into a target system at CSCS, you need to perform some additional setup to handle forwarding of SSH keys generated using the SSHService.
 There are two alternatives detailed below.
 
+[](){#ssh-ssh-config}
 ### Adding Ela as a jump host in SSH Configuration
 
 This approach configures Ela as a jump host and creates aliases for the systems that you want to access in `~/.ssh/config` on your laptop or PC.
@@ -147,6 +148,7 @@ After saving this file, one can directly log into `daint.alps.cscs.ch` from your
 ssh daint
 ```
 
+[](){#ssh-ssh-agent}
 ### Using SSH Agent
 
 Alternatively, the [SSH authentification agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.

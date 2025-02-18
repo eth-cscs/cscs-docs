@@ -132,16 +132,16 @@ Examples of the settings are below.
     | Field       | Value                                   |
     | ----------- | --------------------------------------- |
     | Connection  | `eiger`                                |
-    | Host Name   | `bsmith@ela.cscs.ch bsmith@eiger.cscs.ch`  |
+    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@eiger.cscs.ch`  |
     | Remote Installation Directory | `uenv run linaro-forge/23.1.2:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `$HOME/.ssh/cscs-key` |
 
-=== "Todi"
+=== "Daint"
 
     | Field       | Value                                   |
     | ----------- | --------------------------------------- |
-    | Connection  | `todi`                                  |
-    | Host Name   | `bsmith@ela.cscs.ch bsmith@todi.cscs.ch`  |
+    | Connection  | `daint`                                  |
+    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@daint.cscs.ch`  |
     | Remote Installation Directory | `uenv run linaro-forge/23.1.2:/user-tools -- /user-tools/env/forge/` |    
 
 === "Santis"
@@ -149,7 +149,7 @@ Examples of the settings are below.
     | Field       | Value                                   |
     | ----------- | --------------------------------------- |
     | Connection  | `santis`                                |
-    | Host Name   | `bsmith@ela.cscs.ch bsmith@santis.cscs.ch`  |
+    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@santis.cscs.ch`  |
     | Remote Installation Directory | `uenv run linaro-forge/23.1.2:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `$HOME/.ssh/cscs-key` |
 
@@ -157,9 +157,9 @@ Examples of the settings are below.
 Some notes on the examples above:
 
 * SSH Forwarding via `ela.cscs.ch` is used to access the cluster.
-* replace the username `bsmith` with your CSCS user name that you would normally use to open an SSH connection to CSCS.
+* replace the username `cscsusername` with your CSCS user name that you would normally use to open an SSH connection to CSCS.
 * `Remote Installation Path` is pointing to the install directotory of ddt inside the image
-* private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your SSH agent.
+* private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your [SSH agent][ssh-ssh-agent].
 
 Once configured, test and save the configuration:
 
