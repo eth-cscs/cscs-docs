@@ -90,7 +90,7 @@
 
 /* light mode:  pale yellow background, solid black foreground */
 [data-md-color-scheme="default"] {
-  --md-code-bg-color: #fcfafa;
+  --md-code-bg-color: #fdfdfd;
   --md-code-fg-color: #000000;
 }
 
@@ -102,7 +102,7 @@
 
 /* Light mode */
 [data-md-color-scheme="default"] .md-typeset pre {
-  border: 2px solid #fcb8b8;
+  border: 2px solid #b4b4b4;
   border-radius: 2px; /* slight rounding to corners */
 }
 

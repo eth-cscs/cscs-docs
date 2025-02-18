@@ -73,8 +73,6 @@ nav:
     - 'Data Transfer': storage/transfer.md
     - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
-  - 'Frequently asked questions':
-    - faq/index.md
 theme:
   name: material
   language: en

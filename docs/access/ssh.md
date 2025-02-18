@@ -3,7 +3,11 @@
 
 Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][account-management] that is part of a project that has access to the cluster, and have [multi factor authentification][mfa] configured.
 
-It is not possible to authenticate with a username/password and user-created SSH keys: it is necessary to use a certified SSH key created using the CSCS SSHService, which is documented below.
+[](){#sshservice}
+## Generating Keys with SSHService
+
+It is not possible to authenticate with a username/password and user-created SSH keys.
+Instead, it is necessary to use a certified SSH key created using the CSCS SSHService.
 
 !!! note
     Keys are valid for 24 hours, after which a new key must be generated.
@@ -11,8 +15,6 @@ It is not possible to authenticate with a username/password and user-created SSH
 !!! warning
     The number of certified SSH keys is limited to **five per day**.
     Once you have reached this number you will not be able to generate new keys until at least one of these key expires or keys are revoked.
-
-## Generating Keys with SSHService
 
 There are two methods for generating SSH keys using the SSHService, the [SSHService web app](https://sshservice.cscs.ch/) or by using a [command-line script](https://github.com/eth-cscs/sshservice-cli).
 
@@ -81,14 +83,75 @@ mv /download/location/cscs-key ~/.ssh/cscs-key
 chmod 0600 ~/.ssh/cscs-key
 ```
 
-## Logging in with the generated keys
+### Adding a password to the key
 
-Set up a passphrase on the private key:
+Once the key has been generated using either the CLI or web interface above, it is strongly reccomended that you add a password to the generated key using the [ssh-keygen](https://www.ssh.com/academy/ssh/keygen) tool.
+
 ```
 ssh-keygen -f ~/.ssh/cscs-key -p
 ```
 
-Add the key to the SSH agent:
+## Logging In
+
+To ensure secure access, CSCS requires users to connect through the designated jump host Ela (`ela.cscs.ch`) before accessing any cluster.
+
+Before trying to log into your target cluster, you can first check that the SSH key generated above can be used to access Ela:
+```
+ssh -i ~/.ssh/cscs-key ela.cscs.ch
+```
+
+To log into a target system at CSCS, you need to perform some additional setup to handle forwarding of SSH keys generated using the SSHService.
+There are two alternatives detailed below.
+
+### Adding Ela as a jump host in SSH Configuration
+
+This approach configures Ela as a jump host and creates aliases for the systems that you want to access in `~/.ssh/config` on your laptop or PC.
+The benefit of this approach is that once the `~/.ssh/config` file has been configured, no additional steps are required between creating a new key using MFA, and logging in.
+
+Below is an example `~./.ssh/config` file that facilitates directly logging into the Daint, Santis and Clariden clusters using `ela.cscs.ch` as a Jump host:
+
+```
+Host ela
+    HostName ela.cscs.ch
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+
+Host daint
+    HostName daint.alps.cscs.ch
+    User cscsusername
+    ProxyJump ela
+    IdentityFile ~/.ssh/cscs-key
+    IdentitiesOnly yes
+
+Host santis
+    HostName santis.alps.cscs.ch
+    ProxyJump ela
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+    IdentitiesOnly yes
+
+Host clariden
+    HostName clariden.alps.cscs.ch
+    ProxyJump ela
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+    IdentitiesOnly yes
+```
+
+!!! note ""
+    :exclamation: Replace `cscsusername` with your CSCS username in the file above.
+
+After saving this file, one can directly log into `daint.alps.cscs.ch` from your local system using the alias `daint`:
+
+```
+ssh daint
+```
+
+### Using SSH Agent
+
+Alternatively, the [SSH authentification agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.
+
+Each time a new key is generated using the [SSHService][sshservice], add the key to the SSH agent:
 ```
 ssh-add -t 1d ~/.ssh/cscs-key
 ```
@@ -100,44 +163,13 @@ ssh-add -t 1d ~/.ssh/cscs-key
     eval $(ssh-agent)
     ```
 
-Once the key has been configured, you can log in to CSCS' login system Ela:
+Once the key has been configured, log into Ela using the `-A` flag, and then jump to the target system:
 ```bash
 # log in to ela.cscs.ch
-> ssh -A cscs_username@ela.cscs.ch
+ssh -A cscsusername@ela.cscs.ch
 
 # then jump to a cluster
-> ssh clariden
-```
-
-### Set up SSH Config
-
-To simplify logging in, you can edit (or create) the SSH configuration file `$HOME/.ssh/config` on your laptop or PC.
-A simple configuration for that simplifies logging into [Clariden][clariden] is:
-
-```
-Host ela
-    HostName ela.cscs.ch
-    ForwardAgent yes
-    # replace with your CSCS username
-    User username
-
-Host clariden
-    HostName clariden.alps.cscs.ch
-    ProxyJump ela
-    # replace with your CSCS username
-    User username
-
-Host daint
-    HostName daint.alps.cscs.ch
-    ProxyJump ela
-    # replace with your CSCS username
-    User username
-```
-
-With this configuration, you can log into Clariden directly using the name clariden that was defined in `Host clariden`.
-
-```bash
-ssh clariden
+ssh daint.cscs.ch
 ```
 
 ## Frequently encountered issues
