@@ -109,7 +109,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
 
         !!! info "Action required"
             Modify the `<PATH_TO_NAMD_SOURCE>/arch/Linux-ARM64.tcl` file now.
-            Change `-ltcl8.5` with `-ltcl8.6` in the definition of the "TCLLIB" variable.
+            Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable.
     
         ```bash
         # Build bundled Charm++
@@ -162,7 +162,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
 
         !!! info "Action required"
             Modify the `<PATH_TO_NAMD_SOURCE>/arch/Linux-ARM64.tcl` file now.
-            Change `-ltcl8.5` with `-ltcl8.6` in the definition of the "TCLLIB" variable.
+            Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable.
         
         ```bash
         # Build bundled Charm++
@@ -223,7 +223,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
 
     !!! info "Action required"
         Modify the `<PATH_TO_NAMD_SOURCE>/arch/Linux-ARM64.tcl` file now.
-        Change `-ltcl8.5` with `-ltcl8.6` in the definition of the "TCLLIB" variable.
+        Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable.
 
     ```bash
     # Build bundled Charm++
