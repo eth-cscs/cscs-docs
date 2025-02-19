@@ -62,7 +62,7 @@ Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
 In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
-This is best done using MPS.
+This is best done using [MPS](https://docs.nvidia.com/deploy/mps/index.html).
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
 ```bash
