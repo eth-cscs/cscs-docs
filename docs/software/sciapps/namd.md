@@ -26,7 +26,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
 
     ## Running NAMD 
 
-    The following SBATCH script shows how to run NAMD on a single node with 4 GPUs:
+    The following sbatch script shows how to run NAMD on a single node with 4 GPUs:
 
     ```bash
     #!/bin/bash
