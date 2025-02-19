@@ -23,7 +23,7 @@ The following sections will provide detailed guidance on how to use SLURM to req
 The [GH200 nodes on Alps][gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
 [Configuring SLURM jobs to use a single GPU per rank][gh200-slurm-single-rank-per-gpu] is also the most straightforward setup.
-Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process-Service (MPS)](https://docs.nvidia.com/deploy/mps/index.html) to oversubscribe GPUs with multiple ranks per GPU.
+Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process Service (MPS)] to oversubscribe GPUs with multiple ranks per GPU.
 
 The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
 See [Scientific Applications][sciapps] for information about recommended application-specific SLURM configurations.
@@ -62,7 +62,7 @@ Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
 In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
-This is best done using [MPS](https://docs.nvidia.com/deploy/mps/index.html).
+This is best done using [NVIDIA's Multi-Process Service (MPS)].
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
 ```bash
@@ -122,6 +122,8 @@ Note that in the example job above:
 - `--cpu-bind=socket` is set on the `srun` command; this will expose a full CPU for each rank, allowing threads to migrate between cores within the socket, but not across sockets
 
 The configuration that is optimal for your application may be different.
+
+[NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
 [](){#amdcpu-slurm}
 ## AMD CPU
