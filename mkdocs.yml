@@ -67,12 +67,16 @@ nav:
     - tools/index.md
     - 'slurm': tools/slurm.md
     - 'uenv': tools/uenv.md
-  - 'Storage':
+  - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
     - 'Data Transfer': storage/transfer.md
     - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
+  - 'Policies':
+    - 'Code of Conduct': policies/code-of-conduct.md
+    - 'UserLab Support Policy': policies/support.md
+    - 'Slack Code of Conduct': policies/slack.md
 theme:
   name: material
   language: en
