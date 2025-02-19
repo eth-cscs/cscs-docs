@@ -45,23 +45,15 @@ Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--nta
 For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
 The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
-=== "sbatch"
+```bash
+#!/bin/bash
+#SBATCH --job-name=affinity-test
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=4
+#SBATCH --gpus-per-task=1
 
-    ```bash
-    #!/bin/bash
-    #SBATCH --job-name=affinity-test
-    #SBATCH --nodes=2
-    #SBATCH --ntasks-per-node=4
-    #SBATCH --gpus-per-task=1
-
-    srun <application>
-    ```
-
-=== "srun"
-
-    ```
-    srun --nodes=2 --ntasks-per-node=4 --gpus-per-task=1 <application>
-    ```
+srun <application>
+```
     
 Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the first GPU.
 
