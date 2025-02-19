@@ -33,10 +33,10 @@ See [Scientific Applications][sciapps] for information about recommended applica
     Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously.
     This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
     
-     Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][gh200-slurm-multi-rank-per-gpu] in these cases.
+    Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][gh200-slurm-multi-rank-per-gpu] in these cases.
     
-     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
-     If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
+    If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
+    If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
 [](){#gh200-slurm-single-rank-per-gpu}
 #### One rank per GPU
