@@ -69,7 +69,7 @@ To use MPS, launch your application using the following wrapper script, which wi
 ```bash
 #!/bin/bash
 # Example mps-wrapper.sh usage:
-# > srun --cpu-bind=socket [srun args] mps-wrapper.sh [cmd] [cmd args]
+# > srun [srun args] mps-wrapper.sh [cmd] [cmd args]
 
 # Only this path is supported by MPS
 export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps
@@ -109,18 +109,14 @@ If the `mps-wrapper.sh` script is in the current working directory, you can then
 #SBATCH --ntasks-per-node=32
 #SBATCH --cpus-per-task=8
 
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-
-srun --cpu-bind=socket ./mps-wrapper.sh <application>
+srun ./mps-wrapper.sh <application>
 ```
 
 Note that in the example job above:
 
 - `--gpus-per-node` is not set at all; the `mps-wrapper.sh` script ensures that the right GPU is visible for each rank using `CUDA_VISIBLE_DEVICES`
 - `--ntasks-per-node` is set to 32; this results in 8 ranks per GPU
-- `--cpus-per-task` is set to 8; this ensures that the CPU mask is set appropriately for each rank
-- `OMP_NUM_THREADS` is exported for applications that use OpenMP; this may not be needed for your application, or you may need other libraries to be configured to use the correct number of threads
-- `--cpu-bind=socket` is set on the `srun` command; this will expose a full CPU for each rank, allowing threads to migrate between cores within the socket, but not across sockets
+- `--cpus-per-task` is set to 8; this ensures that threads are not allowed to migrate across the whole GH200 node
 
 The configuration that is optimal for your application may be different.
 
