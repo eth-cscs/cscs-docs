@@ -56,7 +56,7 @@ The examples below launch jobs on two nodes with four ranks per node using `sbat
 srun <application>
 ```
     
-Omitting the `--gpus-per-task` flag will lead to all ranks on the node using the first GPU.
+Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, which will lead to most applications using the first GPU on all ranks.
 
 [](){#gh200-slurm-multi-rank-per-gpu}
 #### Multiple ranks per GPU
