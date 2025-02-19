@@ -12,7 +12,7 @@
 * Multi-node build
 
 The single-node build works on a single node and benefits from the new GPU-resident mode (see [NAMD 3.0b6 GPU-Resident benchmarking results] for more details).
-The multi-node build works on multiple nodes and is based on [Charm++] MPI backend.
+The multi-node build works on multiple nodes and is based on [Charm++]'s MPI backend.
 
 !!! note "Prefer the single-node build and exploit GPU-resident mode"
     Unless you have good reasons to use the multi-node build, we recommend using the single-node build with the GPU-resident mode.
@@ -196,7 +196,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
     * `develop` (development view, without NAMD)
 
     !!! note "GPU-resident mode"
-        The multi-node build based on [Charm++] MPI backend can't take advantage of the new GPU-resident mode. Unless you require the multi-node
+        The multi-node build based on [Charm++]'s MPI backend can't take advantage of the new GPU-resident mode. Unless you require the multi-node
         build or you can prove it is faster for your use case, we recommend using the single-node build with the GPU-resident mode.
         
     ## Building NAMD from source
