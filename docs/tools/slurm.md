@@ -47,7 +47,7 @@ The examples below launch jobs on two nodes with four ranks per node using `sbat
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=affinity-test
+#SBATCH --job-name=gh200-single-rank-per-gpu
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-task=1
@@ -103,7 +103,7 @@ If the `mps-wrapper.sh` script is in the current working directory, you can then
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=oversubscription-affinity-test
+#SBATCH --job-name=gh200-multiple-ranks-per-gpu
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=32
 #SBATCH --cpus-per-task=8
