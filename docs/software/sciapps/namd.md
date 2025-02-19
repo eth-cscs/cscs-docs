@@ -192,7 +192,7 @@ The multi-node build works on multiple nodes and is based on [Charm++] MPI backe
 
     The multi-node build provides the following views:
 
-    * `namd`
+    * `namd` (standard view, with NAMD)
     * `develop` (development view, without NAMD)
 
     !!! note "GPU-resident mode"
