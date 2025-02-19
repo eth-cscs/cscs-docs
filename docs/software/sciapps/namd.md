@@ -4,7 +4,7 @@
 [NAMD] is a parallel molecular dynamics code based on [Charm++], designed for high-performance simulations of large biomolecular systems.
 
 !!! danger "Licensing Terms and Conditions"
-    [NAMD] is distributed free of charge for research purposes only and not for commercial use: users must agree to [NAMD license] in order to use it at [CSCS]. Users agree to acknowledge use of [NAMD] in any reports or publications of results obtained with the Software (see [NAMD Homepage] for details).
+    [NAMD] is distributed free of charge for research purposes only and not for commercial use: users must agree to the [NAMD license] in order to use it at [CSCS]. Users agree to acknowledge use of [NAMD] in any reports or publications of results obtained with the Software (see [NAMD Homepage] for details).
 
 [NAMD] is provided in two flavours on [CSCS] systems:
 
