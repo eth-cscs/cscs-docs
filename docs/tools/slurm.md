@@ -26,7 +26,7 @@ Applications that can saturate the GPUs with a single process per GPU should gen
 Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process-Service (MPS)](https://docs.nvidia.com/deploy/mps/index.html) to oversubscribe GPUs with multiple ranks per GPU.
 
 The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
-Also see [Scientific Applications][sciapps] for information about recommended application-specific SLURM configurations.
+See [Scientific Applications][sciapps] for information about recommended application-specific SLURM configurations.
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
