@@ -30,6 +30,7 @@ See [Scientific Applications][sciapps] for information about recommended applica
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
+    The "default" mode is used to avoid issues with certain containers.
     Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously.
     This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
     
