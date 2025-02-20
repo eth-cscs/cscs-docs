@@ -2,12 +2,13 @@ Uenv are user environments that provide scientific applications, libraries and t
 
 For more documentation on how to find, download and use uenv in your workflow, see the [env tool documentation](../tools/uenv.md).
 
+[](){#building-uenv-spack}
 ## Building software using Spack
 
 Each uenv is tightly coupled with [Spack] and can be used as an upstream [Spack] instance, because
 the sofware in uenv is built with [Spack] using the [Stackinator] tool.
 
-CSCS provides `uenv-spack` - a tool that can be used to quickly install software using the software and configuration provided inside a uenv.
+CSCS provides `uenv-spack` - a tool that can be used to quickly install software using the software and configuration provided inside a uenv, similarly to how `module load` loads software packages.
 
 ### Installing `uenv-spack`
 
