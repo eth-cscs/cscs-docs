@@ -26,4 +26,10 @@ This documentation guides users through the process of accessing CSCS systems an
 
     [:octicons-arrow-right-24: SSH][access-ssh]
 
+-   :fontawesome-solid-layer-group: __VSCode__
+
+    How to connect VSCode IDE on your laptop with Alps
+
+    [:octicons-arrow-right-24: SSH][access-vscode]
+
 </div>
