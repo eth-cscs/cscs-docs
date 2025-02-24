@@ -64,7 +64,8 @@ You will be asked to choose whether to log in to Microsoft or GitHub (we have te
 ❯ GitHub Account
 ```
 
-* `--name` sets a name for the tunnel, which will be later listed on the VSCode UI
+!!! tip
+    Give the tunnel a unique name using the `--name` flag, which will later be listed on the VSCode UI.
 
 You will be requested to go to [github.com/login/device](https://github.com/login/device) and enter an 8-digit code.
 Once you have finished registering the service with GitHub, in VSCode on your PC/laptop open the "remote explorer" pane on the left hand side of the main window, and the connection will be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
