@@ -57,12 +57,15 @@ run the `code` executable that you downloaded the `tunnel` argument.
 You will be asked to choose whether to log in to Microsoft or GitHub (we have tested with GitHub):
 
 ```
-> code tunnel
+> code tunnel --name=$CLUSTER_NAME-tunnel
 ...
 ? How would you like to log in to Visual Studio Code? ›
   Microsoft Account
 ❯ GitHub Account
 ```
+
+!!! tip
+    Give the tunnel a unique name using the `--name` flag, which will later be listed on the VSCode UI.
 
 You will be requested to go to [github.com/login/device](https://github.com/login/device) and enter an 8-digit code.
 Once you have finished registering the service with GitHub, in VSCode on your PC/laptop open the "remote explorer" pane on the left hand side of the main window, and the connection will be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
@@ -91,13 +94,13 @@ ssh daint
 # start a uenv session on the login node
 uenv start --view=default prgenv-gnu/24.11:v1
 # then start the tunnel
-code tunnel
+code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
 Alternatively, you can execute `code tunnel` directly in the environment:
 ```
 ssh daint
-uenv run --view=default prgenv-gnu/24.11:v1 -- code tunnel
+uenv run --view=default prgenv-gnu/24.11:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
 Once the tunnel is configured, you can access it from VSCode.
@@ -119,7 +122,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     You can directly execute the `code tunnel` command using srun:
     ```
     ssh daint
-    srun --uenv=prgenv-gnu/24.11:v1 --view=default -t120 -n1 --pty code tunnel
+    srun --uenv=prgenv-gnu/24.11:v1 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
     ```
 
     * `--uenv` and `--view` set up the uenv
@@ -131,7 +134,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     If you don't want to use a uenv, the command is even simpler:
     ```
     ssh daint
-    srun -t120 -n1 --pty code tunnel
+    srun -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
     ```
 
 !!! example "log into a node before starting"
@@ -145,7 +148,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
     # set up the environment before starting the tunnel
     uenv start prgenv-gnu/24.11:v1 --view=default
-    code tunnel
+    code tunnel --name=$CLUSTER_NAME-tunnel
     ```
 
     * `-t120` requests a 2 hour (120 minute) reservation
