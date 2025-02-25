@@ -136,7 +136,7 @@ It is important to note that in such a case, all the contents of the script are 
 
 For the time being, if the script requires to invoke Slurm commands, the recommended approach is to use `--environment` as part of the commands, for example, when launching job steps:
 
-```
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat example.sbatch 
 #!/bin/bash -l
 #SBATCH --job-name=edf-example
