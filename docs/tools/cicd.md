@@ -118,7 +118,7 @@ A typical error is accepting to defaults of GitHub for new webhooks, where only 
 
 
 [](){#ref-cicd-pipeline-triggers}
-### Understanding when CI is triggered
+## Understanding when CI is triggered
 [](){#ref-cicd-pipeline-triggers-push}
 #### Push events
 - Every pipeline can define its own list of CI-enabled branches
@@ -183,19 +183,235 @@ Typical users do not need to know the underlying workflow behind the scenes, so 
 1. If the repository uses git submodules, `GIT_SUBMODULE_STRATEGY: recursive` has to be specified (see [GitLab documentation](https://docs.gitlab.com/ee/ci/git_submodules.html#use-git-submodules-in-cicd-jobs))
 1. The `container-builder`, which has as input a Dockerfile (specified in the variable `DOCKERFILE`), will take this Dockerfile and execute something similar to `docker build -f $DOCKERFILE .`, where the build context is the whole (recursively) cloned repository
 
-### CI variables
+## CI variables
 
 Many variables exist during a pipeline run, they are documented at [Gitlab's predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html). Additionally to CI variables available through Gitlab, there are a few CSCS specific pipeline variables:
 
 | Variable                       | Value             | Additional information                                                               |
-|--------------------------------|-------------------|--------------------------------------------------------------------------------------|
+|:------------------------------:|:-----------------:|:------------------------------------------------------------------------------------:|
 | `CSCS_REGISTRY`                | jfrog.svc.cscs.ch | CSCS internal registry, preferred registry to store your container images            |
 | `CSCS_REGISTRY_PATH`           | jfrog.svc.cscs.ch/docker-ci-ext/<repositorypid> | The prefix path in the CSCS internal container image registry, to which your pipeline has write access. Within this prefix, you can choose any directory structure. Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network |
 | `CSCS_CI_MW_URL`               | https://cicd-ext-mw.cscs.ch/ci | The URL of the middleware, the orchestrator software.                   |
 | `CSCS_CI_DEFAULT_SLURM_ACCOUNT` | d123             | The project to which accounting will go to. It is set up on the CI setup page in the Admin section. It can be overwritten via SLURM_ACCOUNT for individual jobs. |
 | `CSCS_CI_ORIG_CLONE_URL`       | https://github.com/my-org/my-project (public) git@github.com:my-or/my-project (private) | Clone URL for git. This is needed for some implementation details of the gitlab-runner custom executor. This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project. |
 
-### Example projects
+## Containerized CI - best practices
+###  Multi-architecture images
+
+With the introduction of Grace-Hopper nodes, we have now `aarch64` and `x86_64` machines. This implies that the container images should be built for the correct architecture. This can be achieved by the following example
+```yaml
+include:
+  - remote: 'https://gitlab.com/cscs-ci/recipes/-/raw/master/templates/v2/.ci-ext.yml'
+
+stages:
+  - build
+  - make_multiarch
+  - run
+
+.build:
+  stage: build
+  variables:
+    DOCKERFILE: path/to/my_dockerfile
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/${ARCH}/my_image_name:${CI_COMMIT_SHORT_SHA}
+build aarch64:
+  extends: [.container-builder-cscs-gh200, .build]
+build x86_64:
+  extends: [.container-builder-cscs-zen2, .build]
+
+make multiarch:
+  extends: .make-multiarch-image
+  stage: make_multiarch
+  variables:
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/my_multiarch_image:${CI_COMMIT_SHORT_SHA}
+    PERSIST_IMAGE_NAME_AARCH64: $CSCS_REGISTRY_PATH/aarch64/my_image_name:${CI_COMMIT_SHORT_SHA}
+    PERSIST_IMAGE_NAME_X86_64: $CSCS_REGISTRY_PATH/x86_64/my_image_name:${CI_COMMIT_SHORT_SHA}
+
+.run:
+  stage: run
+  image: $CSCS_REGISTRY_PATH/my_multiarch_image:${CI_COMMIT_SHORT_SHA}
+  script:
+    - uname -a
+run aarch64:
+  extends: [.container-runner-daint-gh200, .run]
+run x86_64:
+  extends: [.container-runner-eiger-mc, .run]
+```
+
+We first create two container images which have different names. Then we combine these two names to a single name, with both architectures. Finally in the run step we use the multi-architecture image, where the container runtime will pull the correct architecture.
+
+It is *not* mandatory to combine the container images to a multi-architecture image, i.e. a CI setup which consistently uses the correct architecture specific paths can work. A multi-architecture image is convenient when you plan to distribute it to other users.
+
+### Dependency management
+#### Problem
+
+A common observation is that your software has many dependencies that are more or less static, i.e. they can change but do so very rarely. A common pattern one can observe to work around rebuilding base images unnecessarily is a multi-stage CI setup
+
+1. Build (rarely but manually) a base container with all static dependencies and push it to a public container registry
+1. Use the base container and build the software container
+1. Test the newly created software container
+1. Deploy the software container
+
+This works fine but has the drawback that one has to do a manual step whenever the dependencies change, e.g. when one wants to upgrade to new versions of the dependencies. Another drawback of this is that it allows to keep the recipe of the base container outside of the repository, which makes it harder to reproduce results, especially when colleagues want to reproduce a build.
+
+#### Solution
+
+A common solution to this problem is that you have a multi stage setup. Your repository should have (at least) two Dockerfiles, let us call them `Dockerfile.base` and `Dockerfile`.
+
+- `Dockerfile.base`: This dockerfile contains the recipe to build your base-container, it normally derives `FROM` a very basic container, e.g. `docker.io/ubuntu:24.04` or CSCS spack base containers. Let us call the container image that is built using this recipe `BASE_IMG`.
+!!! todo
+    link to spack base containers
+- `Dockerfile`: This Dockerfile contains the recipe to build your software-container. It must start with `FROM $BASE_IMG`.
+
+The `.container-builder-cscs-*` blocks can be used to solve this problem. The runner supports the variable `CSCS_REBUILD_POLICY`, which by default is set to `if-not-exists`.
+
+This means that the runner will check the remote registry if the container image specified in `PERSIST_IMAGE_NAME` exists. A new container image is built only if it does not exist yet. Note: In case you have one build job, `PERSIST_IMAGE_NAME` can be specified in the `variables:` field of this build job or as a global variable, like in the Hello World example. In case you have multiple build jobs and you specify the `PERSIST_IMAGE_NAME` variable per build job, you need to specify the exact name of the image to be used in the `image` field of the test job.
+
+A CI YAML file would look in the simplest case like this:
+
+`ci/cscs.yml`
+```yaml
+include:
+  - remote: 'https://gitlab.com/cscs-ci/recipes/-/raw/master/templates/v2/.ci-ext.yml'
+
+stages:
+  - build_base
+  - build
+  - test
+
+build base:
+  extends: .container-builder-cscs-zen2
+  stage: build_base
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile.base
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/base/my_base_container:1.0
+    CSCS_REBUILD_POLICY: if-not-exists # default anyway, only here for verbosity
+
+build software:
+  extends: .container-builder-cscs-zen2
+  stage: build
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/software/my_software:$CI_COMMIT_SHORT_SHA
+    DOCKER_BUILD_ARGS: '["BASE_IMG=$CSCS_REGISTRY_PATH/base/my_base_container:1.0"]'
+
+test software single node:
+  extends: .container-runner-daint-gpu
+  image: $CSCS_REGISTRY_PATH/software/my_software:$CI_COMMIT_SHORT_SHA
+  script:
+    - ./test_suite_1.sh
+    - ./test_suite_2.sh
+  variables:
+    SLURM_JOB_NUM_NODES: 1
+
+test software multi:
+  extends: .container-runner-daint-gpu
+  image: $CSCS_REGISTRY_PATH/software/my_software:$CI_COMMIT_SHORT_SHA
+  script:
+    - ./test_suite_1.sh
+    - ./test_suite_2.sh
+  variables:
+    SLURM_JOB_NUM_NODES: 4
+```
+
+`ci/docker/Dockerfile.base`
+```Dockerfile
+FROM docker.io/finkandreas/spack:0.19.2-cuda11.7.1-ubuntu22.04
+
+ARG NUM_PROCS
+
+RUN spack-install-helper daint-gpu \
+    petsc \
+    trilinos
+```
+
+`ci/docker/Dockerfile`
+```Dockerfile
+ARG BASE_IMG
+FROM $BASE_IMG
+
+ARG NUM_PROCS
+
+RUN mkdir /build && cd /build && cmake /sourcecode && make -j$NUM_PROCS
+```
+
+A setup like this would run the very first time and build the container image `$CSCS_REGISTRY_PATH/base/my_base_container:1.0`, followed by the job that builds the container image `$CSCS_REGISTRY_PATH/software/my_software:1.0`. The next time CI is triggered the `.container-builder-cscs-zen2` would check the remote repository if the target tag (`PERSIST_IMAGE_NAME`) exists, and only build a new container image if it does not exist yet. Since the tag for the job `build base` is static, i.e. it is the same for every run of CI, it would build the first time it is running, but not for subsequent runs. In contrast to this is the job `build software`: Here the tag changes with every CI run, since the variable `CI_COMMIT_SHORT_SHA` is different for every run.
+
+##### Manual dependency update
+At some point you realise that you have to update some of the dependencies. You can use a manual update process to update your base-container, where you ensure that you update all necessary image tags. In our example, this means updating in `ci/cscs.yml` all occurences of `$CSCS_REGISTRY_PATH/base/my_base_container:1.0` to `$CSCS_REGISTRY_PATH/base/my_base_container:2.0` (or any other versioning scheme - for all that matters is that the full name must change). Of course something in `Dockerfile.base` should change too, otherwise you are building the same artifact, with just a different name.
+
+##### Dynamic dependency update
+While manually updating image tags works fine, it has the drawback that it is error-prone. Take for example the situation where you update the tag in `build base`, but forget to change it in `build software`. Your pipeline would still run fine, because the dependency of `build software` exists. Since there is no explicit error for the inconsistencies it is hard to find the error.
+
+Therefore, there is also the possibility to have a dynamic way of naming your container images. The idea is the same, i.e. we build first a base-container, and use this base-container to build our software-container.
+
+The `build base` and `build software` jobs would look similar to this:
+```yaml
+build base:
+  extends: .container-builder-cscs-zen2
+  stage: build_base
+  before_script:
+    - DOCKER_TAG=`cat ci/docker/Dockerfile.base | sha256sum - | head -c 16`
+    - export PERSIST_IMAGE_NAME=$CSCS_REGISTRY_IMAGE/base/my_base_image:$DOCKER_TAG
+    - echo "BASE_IMAGE=$PERSIST_IMAGE_NAME" > build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile.base # overwrite with the real path of the Dockerfile
+
+build software:
+  extends: .container-builder-cscs-zen2
+  stage: build
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/software/my_software:$CI_COMMIT_SHORT_SHA
+    DOCKER_BUILD_ARGS: '["BASE_IMG=$BASE_IMAGE"]'
+```
+
+Let us walk through the changes in the `build base` job:
+
+- `DOCKER_TAG` is computed at runtime by the sha256sum of the `Dockerfile.base`, i.e. it would change, when you change the content of `Dockerfile.base` (we keep only the first 16 characters, this is random enough to guarantee that we have a unique name).
+- We export `PERSIST_IMAGE_NAME` to the dynamic name with `DOCKER_TAG`.
+- We write the dynamic name to the file `build.env`
+- We tell the CI system to keep the `build.env` as an artifact (see [here](https://docs.gitlab.com/ee/ci/yaml/artifacts_reports.html#artifactsreportsdotenv) the documentation of this)
+
+Note: The dotenv artifacts of a specific job for public projects is available at `https://gitlab.com/cscs-ci/ci-testing/webhook-ci/mirrors/<project_id>/<pipeline_id>/-/jobs/<job_id>/artifacts/download?file_type=dotenv`.
+
+Now let us look at the changes in the `build software` job:
+
+- `DOCKER_BUILD_ARGS` is now using `$BASE_IMAGE`. This variable exists, because we transferred the information via a `dotenv` artifact from `build base` to this job.
+
+In this example the names `BASE_IMG` and `BASE_IMAGE` are chosen to be different, for clarification where the different variables are set and used. Feel free to use the same names for consistent naming. The default behaviour is to import all artifacts from all previous jobs. If you want only specific artifacts in your job, you should have a look at [dependencies](https://docs.gitlab.com/ee/ci/yaml/#dependencies).
+
+There is also a building block in the templates, name `.dynamic-image-name`, which you can use to get rid for most of the boilerplate. It is important to note that this building block will export the dynamic name under the hardcoded name `BASE_IMAGE` in the `dotenv` file. The jobs would look something like this:
+```yaml
+build base:
+  extends: [.container-builder-cscs-zen2, .dynamic-image-name]
+  stage: build_base
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile.base
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/base/my_base_image
+    WATCH_FILECHANGES: 'ci/docker/Dockerfile.base'
+
+build software:
+  extends: .container-builder-cscs-zen2
+  stage: build
+  variables:
+    DOCKERFILE: ci/docker/Dockerfile
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/software/my_software:$CI_COMMIT_SHORT_SHA
+    DOCKER_BUILD_ARGS: '["BASE_IMG=$BASE_IMAGE"]'
+```
+
+`build base` is using additionally the building block `.dynamic-image-name`, while `build software` is unchanged. Have a look at the definition of the block `.dynamic-image-name` in the file [.ci-ext.yml](https://gitlab.com/cscs-ci/recipes/-/blob/master/templates/v2/.ci-ext.yml) for further notes.
+
+#### Examples
+See for working examples these two yaml files (and check the respective Dockerfiles mentioned in the build jobs)
+
+- [dcomex-framework](https://github.com/DComEX/dcomex-framework/blob/master/ci/prototype.yml)
+- [utopia](https://bitbucket.org/zulianp/mars/src/development/ci/gitlab/cscs/gpu/gitlab-daint.yml)
+
+
+## Example projects
 Here are a couple of projects which use this CI setup. Please have a look there for more advanced usage:
 
 - [dcomex-framework](https://github.com/DComEX/dcomex-framework): entry point is `ci/prototype.yml`
