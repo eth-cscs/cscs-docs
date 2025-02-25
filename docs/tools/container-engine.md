@@ -629,31 +629,31 @@ In the following, the default value is none (i.e., the empty value of the corres
 
  * **base_environment**  (Type: ARRAY or STRING)
 
-Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
+    Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
-<details>
-<summary>Details</summary>
+    <details>
+    <summary>Details</summary>
 
-Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
-The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
-This parameter can be a string if there is only one base environment.
-</details>
+    Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
+    The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
+    This parameter can be a string if there is only one base environment.
+    </details>
 
-<details>
-<summary>Examples</summary>
+    <details>
+    <summary>Examples</summary>
 
-1. Single environment inheritance:
+    1. Single environment inheritance:
 
-```bash
-base_environment = "common_env"
-```
+    ```bash
+    base_environment = "common_env"
+    ```
 
-2. Multiple environment inheritance:
+    2. Multiple environment inheritance:
 
-```bash
-base_environment = ["common_env", "ml_pytorch_env1"]
-```
-</details>
+    ```bash
+    base_environment = ["common_env", "ml_pytorch_env1"]
+    ```
+    </details>
 
 image
 
