@@ -37,8 +37,11 @@ nav:
     - 'bristen': vclusters/bristen.md
   - 'HPC Platform':
     - platforms/hpcp/index.md
+    - 'daint': vclusters/daint.md
+    - 'eiger': vclusters/eiger.md
   - 'Climate and Weather Platform':
     - platforms/cwp/index.md
+    - 'santis': vclusters/santis.md
   - 'Software':
     - software/index.md
     - 'Scientific Applications':
