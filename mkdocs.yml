@@ -69,7 +69,10 @@ nav:
   - 'Tools':
     - tools/index.md
     - 'slurm': tools/slurm.md
+    - 'FirecREST': tools/firecrest.md
     - 'uenv': tools/uenv.md
+    - 'CI/CD': tools/cicd.md
+    - 'container-engine': tools/container-engine.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
