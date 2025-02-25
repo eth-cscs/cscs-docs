@@ -348,12 +348,14 @@ To avoid mistakes, notice a few key features of TOML:
 authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 enabled = "true"
 ```
+
     * Case 2 (valid):
 ```bash
 [annotations]
 com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 com.hooks.ssh.enabled = "true"
 ```
+
     * Case 3 (**invalid**):
 ```bash
 [annotations]
