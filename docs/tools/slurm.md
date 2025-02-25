@@ -9,6 +9,7 @@ SLURM is an open-source, highly scalable job scheduler that allocates computing 
 !!! todo
     document `--account`, `--constrant` and other generic flags.
 
+[](){#ref-slurm-partitions}
 ## Partitions
 
 At CSCS, SLURM is configured to accommodate the diverse range of node types available in our HPC clusters. These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs. Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.

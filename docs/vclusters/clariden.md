@@ -6,7 +6,10 @@
 
     This page is a cut and paste of some of Todi's old documentation, which we can turn into a template.
 
-## Cluster Details
+## Cluster Specification
+### Hardware
+Clariden consists of ~1200 [Grace-Hopper nodes](ref-alps-gh200-node). Most nodes are in the [`normal` slurm partition](ref-slurm-partitions), while a few nodes are in the [`debug` partition](ref-slurm-partitions).
+
 
 !!! todo
     a standardised table with information about
