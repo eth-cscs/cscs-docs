@@ -67,6 +67,7 @@ nav:
     - tools/index.md
     - 'slurm': tools/slurm.md
     - 'uenv': tools/uenv.md
+    - 'container-engine': tools/container-engine.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
