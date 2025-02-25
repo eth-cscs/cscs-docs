@@ -69,6 +69,7 @@ nav:
   - 'Tools':
     - tools/index.md
     - 'slurm': tools/slurm.md
+    - 'FirecREST': tools/firecrest.md
     - 'uenv': tools/uenv.md
   - 'Data Management and Storage':
     - storage/index.md
