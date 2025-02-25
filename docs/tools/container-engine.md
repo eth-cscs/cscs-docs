@@ -655,19 +655,20 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
     ```
 </details>
 
-  * **image** (Type: STRING)
+### image (STRING)
 
-    The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
+The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
-    <details>
-    <summary>Notes</summary>
+<details>
+<summary>Notes</summary>
 
-     * The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
-         * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
-         * IMAGE : image name.
-         * [:TAG] : (optional) image tag name, preceded by :.
-     * The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
-    </details>
+The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
+ * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
+ * IMAGE : image name.
+ * [:TAG] : (optional) image tag name, preceded by :.
+
+The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
+</details>
 
     <details>
     <summary>Examples</summary>
