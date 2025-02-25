@@ -43,7 +43,7 @@ Use Slurm in the cluster login node to start the Ubuntu environment that was jus
 $ srun --environment=ubuntu --pty bash
 ```
 
-Since the ubuntu.toml file is located in the EDF search path, the filename can be passed to the option without the file extension.
+Since the ubuntu.toml file is located in the [EDF search path](#edf-search-path), the filename can be passed to the option without the file extension.
 
 ### Example Output
 
@@ -113,7 +113,7 @@ SUPPORT_URL="https://www.debian.org/support"
 BUG_REPORT_URL="https://bugs.debian.org/"
 ```
 
-If a file is located in the EDF search path, the argument to the command line option can be just the environment name, that is the name of the file without the .toml extension, for example:
+If a file is located in the [EDF search path](#edf-search-path), the argument to the command line option can be just the environment name, that is the name of the file without the .toml extension, for example:
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun --environment=debian cat /etc/os-release
@@ -150,7 +150,7 @@ For the time being, if the script requires to invoke Slurm commands, the recomme
 srun --environment=debian cat /etc/os-release
 ```
 
-### The EDF search path
+### <a name="edf-search-path"></a> The EDF search path
 
 By default, the EDFs for each user are looked up in $HOME/.edf. The search path for EDFs can be controlled through the EDF_PATH environment variable. EDF_PATH must be a colon-separated list of absolute paths to directories where the CE looks for TOML files, similar to the PATH and LD_LIBRARY_PATH variables. If a file is located in the search path, its name can be used in --environment options without the .toml extension, for example:
 
@@ -341,7 +341,7 @@ To avoid mistakes, notice a few key features of TOML:
  * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
  * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table ssh inside hooks, which in turn is inside com, which is inside annotations).
  * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the com.hooks.ssh.enabled attribute within the [annotations] table is exactly equivalent to assigning to the enabled attribute within the [annotations.com.hooks.ssh] subtable.
- * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the ssh table is defined (gets attributes set) both in the [annotations] and in the [annotations.com.hooks.ssh] sections. See the TOML format spec for more details.
+ * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the ssh table is defined (gets attributes set) both in the [annotations] and in the [annotations.com.hooks.ssh] sections. See the [TOML format](https://toml.io/en/) spec for more details.
     * Case 1 (valid):
 ```bash
 [annotations.com.hooks.ssh]
@@ -621,7 +621,7 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 
 ## <a name="edf-reference"></a> EDF Reference
 
-EDF files use the TOML format. For details about the data types used by the different parameters, please refer to the TOML spec webpage.
+EDF files use the [TOML format](https://toml.io/en/). For details about the data types used by the different parameters, please refer to the TOML spec webpage.
 
 Parameter	Description
 
@@ -636,7 +636,7 @@ Default: N/A
 Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
 Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
-The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the EDF search path.
+The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
 This parameter can be a string if there is only one base environment.
 
 
