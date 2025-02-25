@@ -316,7 +316,7 @@ machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
 machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
 ```
 
-## Annotations 
+## <a name="annotations"></a> Annotations 
 
 Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations). Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
 
@@ -634,9 +634,9 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
 <details>
 <summary>Notes</summary>
 
- * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
+ * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in `base_environment`. When evaluating `mounts` or `env` parameters, values from downstream EDFs are appended to inherited values.
 
- * The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
+ * The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
 
  * This parameter can be a string if there is only one base environment.
 </details>
@@ -662,11 +662,11 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
 <details>
 <summary>Notes</summary>
 
- * The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
-     * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
-     * IMAGE : image name.
-     * [:TAG] : (optional) image tag name, preceded by :.
- * The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
+ * The full format for remote references is `[USER@][REGISTRY#]IMAGE[:TAG]`.
+     * `[REGISTRY#]`: (optional) registry URL, followed by #. Default: Docker Hub.
+     * `IMAGE`: image name.
+     * `[:TAG]`: (optional) image tag name, preceded by :.
+ * The registry user can also be specified in the `$HOME/.config/enroot/.credentials` file.
 </details>
 
 <details>
@@ -710,7 +710,7 @@ Initial working directory when the container starts. Default: inherited from ima
     workdir = "/home/user/projects"
     ```
 
- * Workdir pointing to the /tmp directory
+ * Workdir pointing to the `/tmp` directory
     ```bash
     workdir = "/tmp"
     ```
@@ -745,12 +745,12 @@ writable = true
 
 ### (ARRAY) mounts
 
-List of bind mounts in the format SOURCE:DESTINATION[:FLAGS]. Flags are optional and can include ro, private, etc.
+List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
 
 <details>
 <summary>Notes</summary>
 
- * Mount flags are separated with a plus symbol, for example: ro+private.
+ * Mount flags are separated with a plus symbol, for example: `ro+private`.
  * Optional flags from docker format or OCI (need reference)
 </details>
 
@@ -762,7 +762,7 @@ List of bind mounts in the format SOURCE:DESTINATION[:FLAGS]. Flags are optional
     mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
     ```
 
- * Mapping path with env variable expansion
+ * Mapping path with `env` variable expansion
     ```bash
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
     ```
@@ -789,7 +789,7 @@ Environment variables to set in the container. Null-string values will unset the
 <details>
 <summary>Example</summary>
 
- * Basic env block
+ * Basic `env` block
     ```bash
     [env]
     MY_RUN = "production",
@@ -808,7 +808,7 @@ Environment variables to set in the container. Null-string values will unset the
 
 ### (TABLE) annotations
 
-OCI-like annotations for the container. For more details, refer to the Annotations section.
+OCI-like annotations for the container. For more details, refer to the [Annotations](#annotations) section.
 
 <details>
 <summary>Example</summary>
