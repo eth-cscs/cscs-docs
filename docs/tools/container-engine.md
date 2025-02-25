@@ -325,16 +325,16 @@ As annotations are often used to control hooks, they have a deep nesting level. 
 EDF files support setting annotations through the `annotations` table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
  * Case: nest levels in the TOML key.
-```bash
-[annotations]
-com.hooks.ssh.enabled = "true"
-```
+    ```bash
+    [annotations]
+    com.hooks.ssh.enabled = "true"
+    ```
 
  * Case: nest levels in the TOML table name.
-```bash
-[annotations.com.hooks.ssh]
-enabled = "true"
-```
+    ```bash
+    [annotations.com.hooks.ssh]
+    enabled = "true"
+    ```
 
 To avoid mistakes, notice a few key features of TOML:
 
@@ -350,20 +350,20 @@ To avoid mistakes, notice a few key features of TOML:
         ```
 
     * Case 2 (valid):
-    ```bash
-    [annotations]
-    com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
-    com.hooks.ssh.enabled = "true"
-    ```
+        ```bash
+        [annotations]
+        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        com.hooks.ssh.enabled = "true"
+        ```
 
     * Case 3 (**invalid**):
-    ```bash
-    [annotations]
-    com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        ```bash
+        [annotations]
+        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 
-    [annotations.com.hooks.ssh]
-    enabled = "true"
-    ```
+        [annotations.com.hooks.ssh]
+        enabled = "true"
+        ```
 
 ## Accessing native resources
 
