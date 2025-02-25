@@ -655,7 +655,7 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
     ```
 </details>
 
-### image (STRING)
+### (STRING) image
 
 The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
@@ -698,7 +698,7 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
     ```
 </details>
 
-### workdir (STRING)
+### (STRING) workdir
 
 Initial working directory when the container starts. Default: inherited from image.
 
@@ -717,7 +717,7 @@ Initial working directory when the container starts. Default: inherited from ima
 </details>
 
 
-### entrypoint (BOOL)
+### (BOOL) entrypoint
 
 If true, run the entrypoint from the container image. Default: true.
 
@@ -730,7 +730,7 @@ entrypoint = false
 </details>
 
 
-### writable (BOOL)
+### (BOOL) writable
 
 If false, the container filesystem is read-only. Default: false.
 
@@ -743,7 +743,7 @@ writable = true
 </details>
 
 
-### mounts (ARRAY)
+### (ARRAY) mounts
 
 List of bind mounts in the format SOURCE:DESTINATION[:FLAGS]. Flags are optional and can include ro, private, etc.
 
@@ -774,7 +774,7 @@ List of bind mounts in the format SOURCE:DESTINATION[:FLAGS]. Flags are optional
 </details>
 
 
-### env (TABLE)
+### (TABLE) env
 
 Environment variables to set in the container. Null-string values will unset the variable. Default: inherited from the host and the image.
 
@@ -806,7 +806,7 @@ Environment variables to set in the container. Null-string values will unset the
 </details>
 
 
-### annotations (TABLE)
+### (TABLE) annotations
 
 OCI-like annotations for the container. For more details, refer to the Annotations section.
 
