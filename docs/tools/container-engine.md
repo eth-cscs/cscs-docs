@@ -131,7 +131,7 @@ BUG_REPORT_URL="https://bugs.debian.org/"
 ### Use from batch scripts
 
 In principle, the --environment option can also be used within batch scripts as an #SBATCH option.
-It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section Container Hooks (controlled by the ENROOT_SLURM_HOOK environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example srun or scontrol) within the batch script will work.
+It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks](#container-hooks) (controlled by the ENROOT_SLURM_HOOK environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example srun or scontrol) within the batch script will work.
 
 
 For the time being, if the script requires to invoke Slurm commands, the recommended approach is to use --environment as part of the commands, for example, when launching job steps:
@@ -264,7 +264,7 @@ image = "/capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu
 
 ### Third-party and private registries
 
-Docker Hub is the default registry from which remote images are imported.
+[Docker Hub](https://hub.docker.com/) is the default registry from which remote images are imported.
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator. For example:
 
@@ -277,7 +277,7 @@ image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ srun enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
 ```
 
-To import images from private repositories, access credentials should be configured by individual users in the $HOME/.config/enroot/.credentials file, following the netrc file format.
+To import images from private repositories, access credentials should be configured by individual users in the $HOME/.config/enroot/.credentials file, following the [netrc file format](https://everything.curl.dev/usingcurl/netrc).
 Using the enroot import documentation page as a reference, some examples could be:
 
 ```bash
@@ -318,9 +318,9 @@ machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>
 
 ## Annotations 
 
-Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the OCI Runtime Specification. Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
+Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations). Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
 
-As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the SSH hook described below, the annotation com.hooks.ssh.enabled must be set to the string "true".
+As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the [SSH hook](#ssh-hook) described below, the annotation com.hooks.ssh.enabled must be set to the string "true".
 
 EDF files support setting annotations through the annotations table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
@@ -412,16 +412,16 @@ Thu Oct 26 17:59:36 2023       
 
 It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
 Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
-For the full details about using these features, please refer to the official documentation: Driver Capabilities, Constraints.
+For the full details about using these features, please refer to the official documentation: [Driver Capabilities](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#driver-capabilities), [Constraints](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#constraints).
 
-### HPE Slingshot interconnect 
+### <a name="cxi-hook"></a> HPE Slingshot interconnect 
 
-The Container Engine provides a hook to allow containers relying on libfabric to leverage the HPE Slingshot 11 high-speed interconnect. This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
+The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect. This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
 The hook leverages bind-mounting the custom host libfabric library into the container (in addition to all the required dependency libraries and devices as well).
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
 > **NOTE**: Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also this section for more details).
+> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this](#aws-ofi-hook) section for more details).
 
 The hook is activated by setting the com.hooks.cxi.enabled annotation, which can be defined in the EDF, as shown in the following example:
 
@@ -498,7 +498,7 @@ com.hooks.cxi.enabled = "true"
 
 > **TIP**: On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks. Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
-## Container Hooks
+## <a name="container-hooks"></a> Container Hooks
 
 Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
 
@@ -507,9 +507,9 @@ Container hooks let you customize container behavior to fit system-specific need
 
 > **INFO**: This section outlines all hooks supported in production by the Container Engine. However, specific Alps vClusters may support only a subset or use custom configurations. For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
 
-### AWS OFI NCCL Hook 
+### <a name="aws-ofi-hook"></a> AWS OFI NCCL Hook 
 
-The AWS OFI NCCL plugin is a software extension that allows the NCCL and RCCL libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
+The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the com.hooks.aws_ofi_nccl.variant annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: cuda11, cuda12 (to be used on NVIDIA GPU nodes), rocm5, and rocm6 (to be used on AMD GPU nodes alongside RCCL).
@@ -527,12 +527,12 @@ com.hooks.aws_ofi_nccl.variant = "cuda11"
 
 The AWS OFI NCCL hook also takes care of the following aspects:
 
- * It implicitly enables the CXI hook, therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
+ * It implicitly enables the [CXI hook](#cxi-hook), therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
  * It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the NCCL_NET_PLUGIN variable is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
 
-### SSH Hook 
+### <a name="ssh-hook"></a> SSH Hook 
 
-The SSH hook runs a lightweight, statically-linked SSH server (a build of Dropbear) inside the container. It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
+The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container. It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
 
 The com.hooks.ssh.authorize_ssh_key annotation allows the authorization of a custom public SSH key for remote connections. The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate). After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
@@ -564,7 +564,7 @@ While the container is running, it's possible to connect to it from a remote hos
 ssh -p 15263 <host-of-container>
 ```
 
-> **INFO**: In order to establish connections through Visual Studio Code Remote - SSH extension, the scp program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
+> **INFO**: In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the scp program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
 
 ### NVIDIA CUDA MPS Hook
 
@@ -596,7 +596,7 @@ srun: error: [...]
 [...]
 ```
 
-In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the NVIDIA CUDA Multi-Process Service (or MPS, for short) must be started on the compute node.
+In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the [NVIDIA CUDA Multi-Process Service](https://docs.nvidia.com/deploy/mps/index.html) (or MPS, for short) must be started on the compute node.
 
 The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
 The hook can be activated by setting the com.hooks.nvidia_cuda_mps.enabled to the string true.
@@ -621,7 +621,7 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 
 ## <a name="edf-reference"></a> EDF Reference
 
-EDF files use the [TOML format](https://toml.io/en/). For details about the data types used by the different parameters, please refer to the TOML spec webpage.
+EDF files use the [TOML format](https://toml.io/en/). For details about the data types used by the different parameters, please refer to the [TOML spec webpage](https://toml.io/en/v1.0.0).
 
 Parameter	Description
 
