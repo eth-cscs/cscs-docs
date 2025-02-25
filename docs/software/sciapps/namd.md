@@ -6,6 +6,11 @@
 !!! danger "Licensing Terms and Conditions"
     [NAMD] is distributed free of charge for research purposes only and not for commercial use: users must agree to the [NAMD license] in order to use it at [CSCS]. Users agree to acknowledge use of [NAMD] in any reports or publications of results obtained with the Software (see [NAMD Homepage] for details).
 
+!!! note "User Environments"
+
+    [CP2K] is provided on [ALPS](#ref-alps-platforms) via [User Environments](#ref-tool-uenv) (UENVs). Please have a look at
+    the [User Environments documentation](#ref-tool-uenv) for more information about UENVs and how to use them.
+
 [NAMD] is provided in two flavours on [CSCS] systems:
 
 * Single-node build
@@ -32,6 +37,7 @@ The following sbatch script shows how to run NAMD on a single node with 4 GPUs:
 #!/bin/bash
 #SBATCH --job-name="namd-example"
 #SBATCH --time=00:10:00
+#SBATCH --account=<ACCOUNT>
 #SBATCH --nodes=1                    (1)
 #SBATCH --ntasks-per-node=1          (2)
 #SBATCH --cpus-per-task=288
@@ -49,6 +55,7 @@ srun namd3 +p 29 +pmeps 5 +setcpuaffinity +devices 0,1,2,3 <NAMD_CONFIG_FILE>
 4. Load the NAMD UENV (UENV name or path to the UENV)
 5. Load the `namd-single-node` view
 
+* Change `<ACCOUNT>` to your project account
 * Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
 * Change `<NAMD_CONFIG_FILE>` to the name (or path) of the NAMD configuration file for your simulation 
 * Make sure you set `+p`, `+pmeps`, and other NAMD options optimally for your calculation
