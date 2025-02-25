@@ -157,8 +157,6 @@ markdown_extensions:
   # for captioning images
   - pymdownx.blocks.caption
 
-# disable mathjax until the "GET /javascripts/mathjax.js HTTP/1.1" code 404 errors are fixed
-#extra_javascript:
-#  - javascripts/mathjax.js
-#  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-
+extra_javascript:
+ - javascripts/mathjax.js
+ - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

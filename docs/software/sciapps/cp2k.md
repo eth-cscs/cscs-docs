@@ -10,11 +10,10 @@ PM6, RM1, MNDO, …), and classical force fields (AMBER, CHARMM, …). CP2K can 
 metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis, core level spectroscopy, energy minimization, and
 transition state optimization using NEB or dimer method. See [CP2K Features] for a detailed overview.
 
-!!! note "User Environments"
+!!! note "uenvs"
 
-    [CP2K] is provided on [ALPS](#platforms-on-alps) via [User Environments](#ref-tool-uenv)
-    (UENVs). Please have a look at the [User Environments documentation](#ref-tool-uenv) for more information about
-    UENVs and how to use them.
+    [CP2K] is provided on [ALPS][platforms-on-alps] via [uenv][ref-tool-uenv].
+    Please have a look at the [uenv documentation][ref-tool-uenv] for more information about uenvs and how to use them.
 
 ## Dependencies
 
@@ -47,6 +46,8 @@ On our systems, CP2K is built with the following dependencies:
 
 ## Running CP2K
 
+### Running on the HPC platform
+
 To start a job, two bash scripts are potentially required: a [slurm] submission script, and a wrapper to start the [CUDA
 MPS] daemon so that multiple MPI ranks can use the same GPU.
 
@@ -71,9 +72,6 @@ export MPICH_MALLOC_FALLBACK=1
 export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
 
 ulimit -s unlimited
-
-export CP2K_DATA_DIR=<PATH_TO_CP2K_DATA_DIR>
-
 srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 ```
 
@@ -91,7 +89,7 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
 
 
 * Change <ACCOUNT> to your project account name
-* Change `<CP2K_UENV>` to the name (or path) of the actual CP2K UENV you want to use
+* Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
 * Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
 * Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
 
@@ -124,25 +122,11 @@ sbatch run_cp2k.sh
          per node. Experiments have shown that CP2K performs and scales better when the number of MPI ranks is a power
          of 2, even if some cores are left idling. 
 
-??? warning "CP2K grid CUDA backend with high angular momenta basis sets"
-
-    The CP2K grid CUDA backend is currently buggy on Alps. Using basis sets with high angular momenta ($l \ge 3$)
-    result in slow calculations, especially for force calculations with meta-GGA functionals. 
-
-    As a workaround, you can you can disable CUDA acceleration fo the grid backend:
-
-    ```bash
-    &GLOBAL
-        &GRID
-            BACKEND CPU
-        &END GRID
-    &END GLOBAL
-    ```
 
 ??? info "Running regression tests"
 
-    If you want to run CP2K regression tests with the CP2K executable provided by the UENV, make sure to use the version
-    of the regression tests corresponding to the version of CP2K provided by the UENV. The regression test data is
+    If you want to run CP2K regression tests with the CP2K executable provided by the uenv, make sure to use the version
+    of the regression tests corresponding to the version of CP2K provided by the uenv. The regression test data is
     sometimes adjusted, and using the wrong version of the regression tests can lead to test failures.
 
 
@@ -302,32 +286,62 @@ sbatch run_cp2k.sh
 
     This RPA input scales well until 32 GH200 nodes.
 
-### Known issues
+### Running on Eiger
 
+On Eiger, a similar sbatch script can be used:
 
-#### DBCSR GPU scaling
+```bash title="run_cp2k.sh"
+#!/bin/bash -l
+#SBATCH --job-name=cp2k-job
+#SBATCH --time=00:30:00           # (1)
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-core=1
+#SBATCH --ntasks-per-node=32      # (2)
+#SBATCH --cpus-per-task=4         # (3)
+#SBATCH --account=<ACCOUNT>
+#SBATCH --hint=nomultithread
+#SBATCH --hint=exclusive
+#SBATCH --constraint=mc
+#SBATCH --uenv=<CP2K_UENV>
+#SBATCH --view=cp2k
 
-On the GH200 architecture, it has been observed that the GPU accelerated version of [DBCSR] does not perform optimally in some cases.
-For example, in the `QS/H2O-1024` benchmark above, CP2K does not scale well beyond 2 nodes. 
-The CPU implementation of DBCSR does not suffer from this. A workaround was implemented in DBCSR, in order to switch 
-GPU acceleration on/off with an environment variable:
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
 
-```bash
-export DBCSR_RUN_ON_GPU=0
+ulimit -s unlimited
+srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 ```
 
-While GPU acceleration is very good on a small number of nodes, the CPU implementation scales better. 
-Therefore, for CP2K jobs running on a large number of nodes, it is worth investigating the use of the `DBCSR_RUN_ON_GPU`
-environment variable.
+1. Time format: `HH:MM:SS`
 
-Ssome niche application cases such as the `QS_low_scaling_postHF` benchmarks only run efficiently with the CPU version
-of DBCSR. Generally, if the function `dbcsr_multiply_generic` takes a significant portion of the timing report
-(at the end of the CP2K output file), it is worth investigating the effect of the `DBCSR_RUN_ON_GPU` environment variable.
+2. Number of MPI ranks per node
+ 
+3. Number of CPUs per MPI ranks
+
+4. [OpenBLAS] spawns an extra thread, therefore it is necessary to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1`
+   for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
+   `SLURM_CPUS_PER_TASK`.
+
+5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead
+
+* Change <ACCOUNT> to your project account name
+* Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
+* Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
+* Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
+
+!!! warning
+
+    The `--cpu-bind=socket` option is necessary to get good performance.
+
+??? info "Running regression tests"
+
+    If you want to run CP2K regression tests with the CP2K executable provided by the uenv, make sure to use the version
+    of the regression tests corresponding to the version of CP2K provided by the uenv. The regression test data is
+    sometimes adjusted, and using the wrong version of the regression tests can lead to test failures.
 
 ## Building CP2K from Source
 
 
-The [CP2K] UENV provides all the dependencies required to build [CP2K] from source, with several optional features
+The [CP2K] uenv provides all the dependencies required to build [CP2K] from source, with several optional features
 enabled. You can follow these steps to build [CP2K] from source:
 
 ```bash
@@ -355,7 +369,7 @@ CC=mpicc CXX=mpic++ FC=mpifort cmake \
 ninja -j 32
 ```
 
-1. Start the CP2K UENV and load the `develop` view (which provides all the necessary dependencies)
+1. Start the CP2K uenv and load the `develop` view (which provides all the necessary dependencies)
 
 2. Go to the CP2K source directory
 
@@ -368,7 +382,7 @@ ninja -j 32
 ??? note "Eiger: Intel MKL (before `cp2k@2025.1`)"
 
     On `x86` we deployed with `intel-oneapi-mkl` before `cp2k@2025.1`. 
-    If you are using a pre-`cp2k@2025.1` UENV, add `-DCP2K_SCALAPACK_VENDOR=MKL` to the CMake invocation to find MKL.
+    If you are using a pre-`cp2k@2025.1` uenv, add `-DCP2K_SCALAPACK_VENDOR=MKL` to the CMake invocation to find MKL.
 
 ??? note "CUDA architecture for `cp2k@2024.1` and earlier"
 
@@ -376,6 +390,44 @@ ninja -j 32
     which enables the `sm_80` architecture.
 
 See [manual.cp2k.org/CMake] for more details.
+
+### Known issues
+
+
+#### DBCSR GPU scaling
+
+On the GH200 architecture, it has been observed that the GPU accelerated version of [DBCSR] does not perform optimally in some cases.
+For example, in the `QS/H2O-1024` benchmark above, CP2K does not scale well beyond 2 nodes. 
+The CPU implementation of DBCSR does not suffer from this. A workaround was implemented in DBCSR, in order to switch 
+GPU acceleration on/off with an environment variable:
+
+```bash
+export DBCSR_RUN_ON_GPU=0
+```
+
+While GPU acceleration is very good on a small number of nodes, the CPU implementation scales better. 
+Therefore, for CP2K jobs running on a large number of nodes, it is worth investigating the use of the `DBCSR_RUN_ON_GPU`
+environment variable.
+
+Ssome niche application cases such as the `QS_low_scaling_postHF` benchmarks only run efficiently with the CPU version
+of DBCSR. Generally, if the function `dbcsr_multiply_generic` takes a significant portion of the timing report
+(at the end of the CP2K output file), it is worth investigating the effect of the `DBCSR_RUN_ON_GPU` environment variable.
+
+
+### CUDA grid backend with high angular momenta basis sets
+
+The CP2K grid CUDA backend is currently buggy on Alps. Using basis sets with high angular momenta ($l \ge 3$)
+result in slow calculations, especially for force calculations with meta-GGA functionals. 
+
+As a workaround, you can you can disable CUDA acceleration fo the grid backend:
+
+```bash
+&GLOBAL
+    &GRID
+        BACKEND CPU
+    &END GRID
+&END GLOBAL
+```
 
 [CP2K]: https://www.cp2k.org/
 [CP2K Features]: https://www.cp2k.org/features
