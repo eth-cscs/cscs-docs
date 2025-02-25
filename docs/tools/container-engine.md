@@ -7,7 +7,7 @@ The Container Engine (CE) toolset is designed to enable computing jobs to seamle
 
 Containers effectively encapsulate a software stack; however, to be useful in HPC computing environments, they often require the customization of bind mounts, environment variables, working directories, hooks, plugins, etc. To simplify this process, the Container Engine (CE) toolset supports the specification of user environments through Environment Definition Files.
 
-An Environment Definition File (EDF) is a text file in the TOML format that declaratively and prescriptively represents the creation of a computing environment based on a container image. Users can create their own custom environments and share, edit, or build upon already existing environments.
+An Environment Definition File (EDF) is a text file in the [TOML format](https://toml.io/en/) that declaratively and prescriptively represents the creation of a computing environment based on a container image. Users can create their own custom environments and share, edit, or build upon already existing environments.
 
 The Container Engine (CE) toolset leverages its tight integration with the Slurm workload manager to parse EDFs directly from the command line or batch script and instantiate containerized user environments seamlessly and transparently.
 
@@ -33,7 +33,7 @@ workdir = "/capstor/scratch/cscs/${USER}"
 
 Note: Ensure that your ${USER} environment variable is defined with your actual username.
 
-Save this file as ubuntu.toml file in $HOME/.edf directory (which is the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the EDF reference.
+Save this file as ubuntu.toml file in $HOME/.edf directory (which is the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference](#edf-reference).
 
 ### Running the environment
 
@@ -619,7 +619,7 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 
 > **INFO**: When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
 
-## EDF Reference
+## <a name="edf-reference"></a> EDF Reference
 
 EDF files use the TOML format. For details about the data types used by the different parameters, please refer to the TOML spec webpage.
 
