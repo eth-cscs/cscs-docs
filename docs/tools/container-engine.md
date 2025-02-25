@@ -698,191 +698,143 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
     ```
 </details>
 
-workdir
+### workdir (STRING)
 
-Type: STRING
+Initial working directory when the container starts. Default: inherited from image.
 
-Default:
+<details>
+<summary>Example</summary>
 
-Inherited from image
+ * Workdir pointing to a user defined project path 
+    ```bash
+    workdir = "/home/user/projects"
+    ```
 
-	
-
-Initial working directory when the container starts.
-
-
-
-
-Examples
-
-1. Workdir pointing to a user defined project path 
-
-workdir = "/home/user/projects"
-
-2. Workdir pointing to the /tmp directory
-
-workdir = "/tmp"
+ * Workdir pointing to the /tmp directory
+    ```bash
+    workdir = "/tmp"
+    ```
+</details>
 
 
-entrypoint
+### entrypoint (BOOL)
 
-Type: BOOL
+If true, run the entrypoint from the container image. Default: true.
 
-Default: true
+<details>
+<summary>Example</summary>
 
-	
-
-If true, run the entrypoint from the container image
-
-
-
-
-Examples
-
+```bash
 entrypoint = false
+```
+</details>
 
 
+### writable (BOOL)
 
+If false, the container filesystem is read-only. Default: false.
 
-writable
+<details>
+<summary>Example</summary>
 
-Type: BOOL
-
-Default: false
-
-	
-
-If false, the container filesystem is read-only
-
-
-
-
-Examples
-
+```bash
 writable = true
+```
+</details>
 
 
-
-
-mounts
-
-Type: ARRAY
-
-Default: N/A
-
-	
+### mounts (ARRAY)
 
 List of bind mounts in the format SOURCE:DESTINATION[:FLAGS]. Flags are optional and can include ro, private, etc.
 
-Mount flags are separated with a plus symbol, for example: ro+private.
-Optional flags from docker format or OCI (need reference)
+<details>
+<summary>Notes</summary>
+
+ * Mount flags are separated with a plus symbol, for example: ro+private.
+ * Optional flags from docker format or OCI (need reference)
+</details>
+
+<details>
+<summary>Example</summary>
+
+ * Literal fixed mount map
+    ```bash
+    mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
+    ```
+
+ * Mapping path with env variable expansion
+    ```bash
+    mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
+    ```
+
+ * Mounting the scratch filesystem using a host environment variable
+    ```bash
+    mounts = ["${SCRATCH}:/scratch"]
+    ```
+</details>
 
 
+### env (TABLE)
+
+Environment variables to set in the container. Null-string values will unset the variable. Default: inherited from the host and the image.
+
+<details>
+<summary>Notes</summary>
+
+ * By default, containers inherit environment variables from the container image and the host environment, with variables from the image taking precedence.
+ * The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
+ * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
+</details>
+
+<details>
+<summary>Example</summary>
+
+ * Basic env block
+    ```bash
+    [env]
+    MY_RUN = "production",
+    DEBUG = "false"
+    ```
+
+ * Use of environment variable expansion
+    ```bash
+    [env]
+    MY_NODE = "${VAR_FROM_HOST}",
+    PATH = "${PATH}:/custom/bin", 
+    DEBUG = "true"
+    ```
+</details>
 
 
+### annotations (TABLE)
 
+OCI-like annotations for the container. For more details, refer to the Annotations section.
 
+<details>
+<summary>Example</summary>
 
-Examples
+ * Disabling the CXI hook
+    ```bash
+    [annotations]
+    com.hooks.cxi.enabled = "false"
+    ```
 
-Literal fixed mount map
-mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
+ * Control of SSH hook parameters via annotation and variable expansion
+    ```bash
+    [annotations.com.hooks.ssh]
+    authorize_ssh_key = "/capstor/scratch/cscs/${USER}/tests/edf/authorized_keys"
+    enabled = "true"
+    ```
 
-2. Mapping path with env variable expansion
+ * Alternative example for usage of annotation with fixed path
+    ```bash
+    [annotations]
+    com.hooks.ssh.authorize_ssh_key = "/path/to/authorized_keys"
+    com.hooks.ssh.enabled = "true"
+    ```
+</details>
 
-mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
-
-3. Mounting the scratch filesystem using a host environment variable
-
-mounts = ["${SCRATCH}:/scratch"]
-
-
-
-
-env
-
-Type: TABLE
-
-Default:
-
-Inherited from
-
-host and
-
-image
-
-	
-
-Environment variables to set in the container. Null-string values will unset the variable.
-
-By default, containers inherit environment variables from the container image and the host environment, with variables from the image taking precedence.
-The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
-Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
-
-
-
-Examples
-
-1. Basic env block
-
-[env]
-MY_RUN = "production",
-DEBUG = "false"
-2. Use of environment variable expansion
-[env]
-MY_NODE = "${VAR_FROM_HOST}",
-PATH = "${PATH}:/custom/bin", 
-DEBUG = "true"
-
-
-
-
-
-
-
-
-annotations
-
-Type: TABLE
-
-Default: N/A
-
-	
-
-OCI-like annotations for the container.
-
-For more details, refer to the Annotations section.
-
- 
-
-
-
-
-Examples
-
-1. Disabling the CXI hook
-
-[annotations]
-com.hooks.cxi.enabled = "false"
-
-2. Control of SSH hook parameters via annotation and variable expansion
-
-[annotations.com.hooks.ssh]
-authorize_ssh_key = "/capstor/scratch/cscs/${USER}/tests/edf/authorized_keys"
-enabled = "true"
-
-3. Alternative example for usage of annotation with fixed path
-
-[annotations]
-com.hooks.ssh.authorize_ssh_key = "/path/to/authorized_keys"
-com.hooks.ssh.enabled = "true"
-
-
-
-
-
-
-Environment variable expansion and relative paths expansion are only available on the Bristen vCluster as technical preview.
+> **INFO**: Environment variable expansion and relative paths expansion are only available on the Bristen vCluster as technical preview.
 
 ### Environment Variable Expansion
 
@@ -895,9 +847,9 @@ Environment variable expansion allows for dynamic substitution of environment va
  * *Limitations*
     * Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments) . Therefore, only environment variables from the host or image can be referenced.
  * *Environment Variable Resolution Order*. The environment variables are resolved based on the following order:
-    1. TOML env: Variable values as defined in EDF’s env.
-    2. Container Image: Variables defined in the container image's environment take precedence.
-    3. Host Environment: Environment variables defined in the host system.
+     * TOML env: Variable values as defined in EDF’s env.
+     * Container Image: Variables defined in the container image's environment take precedence.
+     * Host Environment: Environment variables defined in the host system.
 
 ### Relative paths expansion
 
@@ -911,7 +863,7 @@ Alpine Linux is incompatible with some hooks, causing errors when used with Slur
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat alpine.toml
-image = "alpine:3.19"
+image = "alpine: *19"
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun -lN1 --environment=alpine.toml echo "abc"
 0: slurmstepd: error: pyxis: container start failed with error code: 1
 0: slurmstepd: error: pyxis: printing enroot log file:
@@ -926,7 +878,7 @@ This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat alpine_workaround.toml
-image = "alpine:3.19"
+image = "alpine: *19"
 [annotations]
 com.hooks.slurm.enabled = "false"
 com.hooks.cxi.enabled = "false"
