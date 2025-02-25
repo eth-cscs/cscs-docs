@@ -20,21 +20,21 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 
 On our systems, CP2K is built with the following dependencies:
 
+* [COSMA]
 * [Cray MPICH]
-* [OpenBLAS]
-* [ScaLAPACK]
-* [FFTW]
-* [Libxc]
-* [Spglib]
-* [spla]
-* [ELPA]
-* [PLUMED] (from `cp2k@2024.1` onwards)
-* [libint]
+* [DBCSR]
 * [DLA-Future]
 * [dftd4] (from `cp2k@2025.1` onwards)
-* [COSMA]
+* [ELPA]
+* [FFTW]
+* [Libxc]
+* [libint]
+* [OpenBLAS]
+* [PLUMED] (from `cp2k@2024.1` onwards)
+* [ScaLAPACK]
 * [SIRIUS]
-* [DBCSR]
+* [Spglib]
+* [spla]
 
 !!! note "GPU-aware MPI"
     [COSMA] and [DLA-Future] are built with GPU-aware MPI. On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
