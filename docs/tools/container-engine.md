@@ -74,16 +74,16 @@ LOGO=ubuntu-logo
 
 The above terminal snippet demonstrates how to launch a containerized environment using Slurm with the `--environment` option, where we highlight:
 
- Step 1. Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using srun --environment=ubuntu --pty bash.
- Step 2. Confirm the working directory inside the container (pwd) and that it is set to the user's scratch folder, as per EDF.
- Step 3. Show the OS version of your container (using cat /etc/os-release) based on Ubuntu 24.04 LTS.
- Step 4. Exiting the container (exit), returning to the login node.
+ Step 1. Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.
+ Step 2. Confirm the working directory inside the container (`pwd`) and that it is set to the user's scratch folder, as per EDF.
+ Step 3. Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
+ Step 4. Exiting the container (`exit`), returning to the login node.
 
 Note that the image pull and the container start happen automatically, streamlining the usage of the CE.
 
 ## Running containerized environments
 
-A job is run in a containerized environment by passing the --environment option to the srun or salloc Slurm commands. The option takes a file path to the EDF describing the environment in which the job should be executed, for example:
+A job is run in a containerized environment by passing the `--environment` option to the `srun` or `salloc` Slurm commands. The option takes a file path to the EDF describing the environment in which the job should be executed, for example:
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
@@ -97,7 +97,7 @@ HOME_URL="https://www.debian.org/"
 SUPPORT_URL="https://www.debian.org/support"
 BUG_REPORT_URL="https://bugs.debian.org/"
 
---environment can be a relative path from the current working directory (i.e., where the Slurm command is entered). A relative path should be prepended by ./. For example:
+`--environment` can be a relative path from the current working directory (i.e., where the Slurm command is entered). A relative path should be prepended by `./`. For example:
 
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ ls
 debian.toml
@@ -113,7 +113,7 @@ SUPPORT_URL="https://www.debian.org/support"
 BUG_REPORT_URL="https://bugs.debian.org/"
 ```
 
-If a file is located in the [EDF search path](#edf-search-path), the argument to the command line option can be just the environment name, that is the name of the file without the .toml extension, for example:
+If a file is located in the [EDF search path](#edf-search-path), the argument to the command line option can be just the environment name, that is the name of the file without the `.toml` extension, for example:
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun --environment=debian cat /etc/os-release
@@ -130,11 +130,11 @@ BUG_REPORT_URL="https://bugs.debian.org/"
 
 ### Use from batch scripts
 
-In principle, the --environment option can also be used within batch scripts as an #SBATCH option.
-It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks](#container-hooks) (controlled by the ENROOT_SLURM_HOOK environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example srun or scontrol) within the batch script will work.
+In principle, the `--environment` option can also be used within batch scripts as an `#SBATCH` option.
+It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks](#container-hooks) (controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example `srun` or `scontrol`) within the batch script will work.
 
 
-For the time being, if the script requires to invoke Slurm commands, the recommended approach is to use --environment as part of the commands, for example, when launching job steps:
+For the time being, if the script requires to invoke Slurm commands, the recommended approach is to use `--environment` as part of the commands, for example, when launching job steps:
 
 ```
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat example.sbatch 
@@ -152,7 +152,7 @@ srun --environment=debian cat /etc/os-release
 
 ### <a name="edf-search-path"></a> The EDF search path
 
-By default, the EDFs for each user are looked up in $HOME/.edf. The search path for EDFs can be controlled through the EDF_PATH environment variable. EDF_PATH must be a colon-separated list of absolute paths to directories where the CE looks for TOML files, similar to the PATH and LD_LIBRARY_PATH variables. If a file is located in the search path, its name can be used in --environment options without the .toml extension, for example:
+By default, the EDFs for each user are looked up in `$HOME/.edf`. The search path for EDFs can be controlled through the `EDF_PATH` environment variable. `EDF_PATH` must be a colon-separated list of absolute paths to directories where the CE looks for TOML files, similar to the `PATH` and L`D_LIBRARY_PATH` variables. If a file is located in the search path, its name can be used in `--environment` options without the `.toml` extension, for example:
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ ls -l ~/.edf
@@ -184,11 +184,11 @@ PRETTY_NAME="Fedora Linux 40 (Container Image)"
 
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached. A cached image would be preferred to pulling the image again in later usage. 
 
-An image cache is automatically created at .edf_imagestore in the user's scratch folder (i.e., $SCRATCH/.edf_imagestore), under which cached images are stored in a corresponding CPU architecture subfolder (e.g., x86 and aarch64 ). Users should regularly remove unused cache images to limit the cache size.
+An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `$SCRATCH/.edf_imagestore`), under which cached images are stored in a corresponding CPU architecture subfolder (e.g., `x86` and `aarch64`). Users should regularly remove unused cache images to limit the cache size.
 
 Should users want to re-pull a cached image, they have to remove the corresponding image in the cache.
 
-To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable EDF_IMAGESTORE. EDF_IMAGESTORE must be an absolute path to an existing folder.
+To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder.
 
 > **NOTE**: If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
 
@@ -196,9 +196,9 @@ To choose an alternative image store path (e.g., to use a directory owned by a g
 
 To work with images stored from the NGC Catalog, please refer also to the next section "Using images from third party registries and private repositories".
 
-To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF. To do so, users may execute enroot import docker://[REGISTRY#]IMAGE[:TAG] to pull container images from OCI registries to the current directory.
+To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF. To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to pull container images from OCI registries to the current directory.
 
-For example, the command below pulls an nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 image.
+For example, the command below pulls an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image.
 
 ```bash
 $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
@@ -260,7 +260,7 @@ After the import is complete, images are available in Squashfs format in the cur
 image = "/capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
 ```
 
-> **NOTE**: It is recommended to save images in /capstor/scratch/cscs/<username> or its subdirectories before using them with the CE.
+> **NOTE**: It is recommended to save images in `/capstor/scratch/cscs/<username>` or its subdirectories before using them with the CE.
 
 ### Third-party and private registries
 
@@ -277,8 +277,8 @@ image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ srun enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
 ```
 
-To import images from private repositories, access credentials should be configured by individual users in the $HOME/.config/enroot/.credentials file, following the [netrc file format](https://everything.curl.dev/usingcurl/netrc).
-Using the enroot import documentation page as a reference, some examples could be:
+To import images from private repositories, access credentials should be configured by individual users in the `$HOME/.config/enroot/.credentials` file, following the [netrc file format](https://everything.curl.dev/usingcurl/netrc).
+Using the `enroot import` documentation page as a reference, some examples could be:
 
 ```bash
 # NVIDIA NGC catalog (both endpoints are required)
@@ -320,9 +320,9 @@ machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>
 
 Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations). Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
 
-As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the [SSH hook](#ssh-hook) described below, the annotation com.hooks.ssh.enabled must be set to the string "true".
+As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the [SSH hook](#ssh-hook) described below, the annotation `com.hooks.ssh.enabled` must be set to the string `true`.
 
-EDF files support setting annotations through the annotations table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
+EDF files support setting annotations through the `annotations` table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
  * Case: nest levels in the TOML key.
 ```bash
@@ -339,9 +339,9 @@ enabled = "true"
 To avoid mistakes, notice a few key features of TOML:
 
  * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
- * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table ssh inside hooks, which in turn is inside com, which is inside annotations).
- * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the com.hooks.ssh.enabled attribute within the [annotations] table is exactly equivalent to assigning to the enabled attribute within the [annotations.com.hooks.ssh] subtable.
- * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the ssh table is defined (gets attributes set) both in the [annotations] and in the [annotations.com.hooks.ssh] sections. See the [TOML format](https://toml.io/en/) spec for more details.
+ * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table `ssh` inside `hooks`, which in turn is inside `com`, which is inside `annotations`).
+ * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
+ * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table is defined (gets attributes set) both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
     * Case 1 (valid):
 ```bash
 [annotations.com.hooks.ssh]
@@ -368,7 +368,7 @@ enabled = "true"
 ### NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
-GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the NVIDIA_VISIBLE_DEVICES environment variable is not empty, unset or set to "void".  NVIDIA_VISIBLE_DEVICES is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system. Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
+GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.  `NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system. Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 For example, on a cluster with 4 GH200 devices per compute node:
 
 ```bash
@@ -423,7 +423,7 @@ If a libfabric library is already present in the container filesystem (for examp
 > **NOTE**: Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
 > Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this](#aws-ofi-hook) section for more details).
 
-The hook is activated by setting the com.hooks.cxi.enabled annotation, which can be defined in the EDF, as shown in the following example:
+The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF, as shown in the following example:
 
 ```bash
 # Without the CXI hook
@@ -511,8 +511,8 @@ Container hooks let you customize container behavior to fit system-specific need
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 
-The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the com.hooks.aws_ofi_nccl.variant annotation is used to specify a plugin variant suitable for a given container image.
-At the moment of writing, 4 plugin variants are configured: cuda11, cuda12 (to be used on NVIDIA GPU nodes), rocm5, and rocm6 (to be used on AMD GPU nodes alongside RCCL).
+The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
+At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
 For example, the following EDF enables the hook and uses it to mount the plugin in a CUDA 11 image:
 
 ```bash
@@ -528,15 +528,15 @@ com.hooks.aws_ofi_nccl.variant = "cuda11"
 The AWS OFI NCCL hook also takes care of the following aspects:
 
  * It implicitly enables the [CXI hook](#cxi-hook), therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
- * It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the NCCL_NET_PLUGIN variable is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
+ * It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the `NCCL_NET_PLUGIN` variable ([link](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-plugin)) is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
 
 ### <a name="ssh-hook"></a> SSH Hook 
 
 The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container. It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
 
-The com.hooks.ssh.authorize_ssh_key annotation allows the authorization of a custom public SSH key for remote connections. The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate). After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
+The `com.hooks.ssh.authorize_ssh_key` annotation allows the authorization of a custom public SSH key for remote connections. The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate). After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
-By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the com.hooks.ssh.port annotation in the EDF.
+By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
 
 > **NOTE**: To use the SSH hook, it is **required** to keep the container **writable**.
 
@@ -552,7 +552,7 @@ enabled = "true"
 authorize_ssh_key = "<public key file>"
 ```
 
-Using the previous EDF, a container can be started as follows. Notice that the --pty option for the srun command is currently required in order for the hook to initialize properly:
+Using the previous EDF, a container can be started as follows. Notice that the `--pty` option for the `srun` command is currently required in order for the hook to initialize properly:
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun --environment=ubuntu-ssh --pty <command>
@@ -564,7 +564,7 @@ While the container is running, it's possible to connect to it from a remote hos
 ssh -p 15263 <host-of-container>
 ```
 
-> **INFO**: In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the scp program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
+> **INFO**: In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
 
 ### NVIDIA CUDA MPS Hook
 
@@ -599,7 +599,7 @@ srun: error: [...]
 In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the [NVIDIA CUDA Multi-Process Service](https://docs.nvidia.com/deploy/mps/index.html) (or MPS, for short) must be started on the compute node.
 
 The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
-The hook can be activated by setting the com.hooks.nvidia_cuda_mps.enabled to the string true.
+The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to the string `true`.
 
 > **NOTE**: To use the CUDA MPS hook, it is **required** to keep the container **writable**.
 
@@ -918,7 +918,7 @@ image = "alpine:3.19"
 0: slurmstepd: error: Failed to invoke spank plugin stack
 ```
 
-This is because some hooks (e.g., Slurm and CXI hooks) leverage ldconfig (from Glibc) when they bind-mount host libraries inside containers; since Alpine Linux provides an alternative ldconfig (from Musl Libc), it does not work as intended by hooks. As a workaround, users may disable problematic hooks. For example,
+This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from Glibc) when they bind-mount host libraries inside containers; since Alpine Linux provides an alternative `ldconfig` (from Musl Libc), it does not work as intended by hooks. As a workaround, users may disable problematic hooks. For example,
 
 ```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat alpine_workaround.toml
@@ -930,4 +930,4 @@ com.hooks.cxi.enabled = "false"
 abc
 ```
 
-Notice the section [annotations] disabling Slurm and CXI hooks.
+Notice the section `[annotations]` disabling Slurm and CXI hooks.
