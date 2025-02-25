@@ -27,7 +27,7 @@ This is the default partition, and will be used when you do not explicitly set a
 The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
 [](){#ref-slurm-gh200}
-### NVIDIA GH200 GPU Nodes
+## NVIDIA GH200 GPU Nodes
 
 The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
@@ -49,7 +49,7 @@ See [Scientific Applications][ref-software-sciapps] for information about recomm
     If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
 [](){#ref-slurm-gh200-single-rank-per-gpu}
-#### One rank per GPU
+### One rank per GPU
 
 Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
 For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
@@ -68,7 +68,7 @@ srun <application>
 Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, which will lead to most applications using the first GPU on all ranks.
 
 [](){#ref-slurm-gh200-multi-rank-per-gpu}
-#### Multiple ranks per GPU
+### Multiple ranks per GPU
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
 In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
