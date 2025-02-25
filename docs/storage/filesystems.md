@@ -1,4 +1,8 @@
+[](){#ref-storage-fs}
 # File Systems
+
+!!! todo
+    these are already out of date and need significant refactoring to be coherently linked to cluster definitions.
 
 CSCS supports different file systems, whose specifications are summarized in the table below:
 
