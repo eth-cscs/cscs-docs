@@ -16,6 +16,14 @@ At CSCS, SLURM is configured to accommodate the diverse range of node types avai
 
 Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs. For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently. SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
+[](){#ref-slurm-partition-debug}
+### Debug partition
+The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
+
+[](){#ref-slurm-partition-normal}
+### Normal partition
+This is the default partition, and will be used when you do not explicitly set a partition. This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
+
 The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
 [](){#ref-slurm-gh200}
