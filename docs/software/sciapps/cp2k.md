@@ -113,8 +113,9 @@ sbatch run_cp2k.sh
 
 !!! warning
 
-    There are 4 GPUs per node, and 72 cores per GPU. It is very important that the number of MPI ranks passed to [slurm]
-    with `--ntasks-per-node` is a multiple of 4.
+    Each GH200 node has 4 modules, each of them composed of a ARM Grace CPU with 72 cores and a H200 GPU directly
+    attached to it. Please see [Alps hardware][ref-alps-hardware] for more information.
+    It is important that the number of MPI ranks passed to [slurm] with `--ntasks-per-node` is a multiple of 4.
 
     ??? note
 
@@ -428,6 +429,12 @@ As a workaround, you can you can disable CUDA acceleration fo the grid backend:
     &END GRID
 &END GLOBAL
 ```
+
+??? info "Fix available upon request"
+
+    A fix for this issue for the HIP backend is currently being tested by CSCS engineers. If you would like to test it,
+    please contact us and we will be able to provide the source code. The fix will eventually land on the upstream
+    [CP2K] repository.
 
 [CP2K]: https://www.cp2k.org/
 [CP2K Features]: https://www.cp2k.org/features
