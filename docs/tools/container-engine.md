@@ -25,7 +25,7 @@ Let's set up a containerized Ubuntu 24.04 environment using a scratch folder as 
 
 ### Example EDF
 
-```
+```bash
 image = "library/ubuntu:24.04"
 mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
@@ -39,7 +39,7 @@ Save this file as ubuntu.toml file in $HOME/.edf directory (which is the defaul
 
 Use Slurm in the cluster login node to start the Ubuntu environment that was just defined as follows:
 
-```
+```bash
 $ srun --environment=ubuntu --pty bash
 ```
 
@@ -180,7 +180,7 @@ PRETTY_NAME="Fedora Linux 40 (Container Image)"
 
 ### Image cache
 
-> **NOTE**: The image caching functionality is only available on the Bristen vCluster as technical preview.
+> **INFO**: The image caching functionality is only available on the Bristen vCluster as technical preview.
 
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached. A cached image would be preferred to pulling the image again in later usage. 
 
@@ -190,9 +190,9 @@ Should users want to re-pull a cached image, they have to remove the correspondi
 
 To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable EDF_IMAGESTORE. EDF_IMAGESTORE must be an absolute path to an existing folder.
 
-If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
+> **NOTE**: If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
 
-Pulling images manually
+### Pulling images manually
 
 To work with images stored from the NGC Catalog, please refer also to the next section "Using images from third party registries and private repositories".
 
@@ -200,7 +200,14 @@ To bypass any caching behavior, users can manually pull an image and directly pl
 
 For example, the command below pulls an nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 image.
 
-enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+```bash
+$ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+```
+
+<details>
+<summary>Image import w/ full output</summary>
+	
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ srun enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 [INFO] Querying registry for permission grant
 [INFO] Authenticating with user: <anonymous>
@@ -238,9 +245,12 @@ Number of uids 1
 	root (0)
 Number of gids 1
 	root (0)
+```
+</details>
 
 After the import is complete, images are available in Squashfs format in the current directory and can be used in EDFs, for example:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ ls -l *.sqsh
 -rw-r--r-- 1 <username> csstaff 9720037376 Sep 11 14:46 nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
 
@@ -248,25 +258,29 @@ After the import is complete, images are available in Squashfs format in the cur
 
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ cat $HOME/.edf/cudnn8.toml 
 image = "/capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
+```
 
-It is recommended to save images in /capstor/scratch/cscs/<username> or its subdirectories before using them with the CE.
+> **NOTE**: It is recommended to save images in /capstor/scratch/cscs/<username> or its subdirectories before using them with the CE.
 
-Third-party and private registries
+### Third-party and private registries
 
 Docker Hub is the default registry from which remote images are imported.
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator. For example:
 
+```bash
 # Usage within an EDF
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ cat $HOME/.edf/nvhpc-23.7.toml
 image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
 
 # Usage on the command line
 [<vcluster>][<username>@<vcluster>-ln001 <username>]$ srun enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
+```
 
 To import images from private repositories, access credentials should be configured by individual users in the $HOME/.config/enroot/.credentials file, following the netrc file format.
 Using the enroot import documentation page as a reference, some examples could be:
 
+```bash
 # NVIDIA NGC catalog (both endpoints are required)
 machine nvcr.io login $oauthtoken password <token>
 machine authn.nvidia.com login $oauthtoken password <token>
@@ -300,7 +314,9 @@ machine gitlab.com login <username> password <GITLAB TOKEN>
 # ETH Zurich GitLab registry
 machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
 machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
-Annotations 
+```
+
+## Annotations 
 
 Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the OCI Runtime Specification. Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
 
@@ -308,15 +324,17 @@ As annotations are often used to control hooks, they have a deep nesting level. 
 
 EDF files support setting annotations through the annotations table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
-Case: nest levels in the TOML key.
-
+ * Case: nest levels in the TOML key.
+```bash
 [annotations]
 com.hooks.ssh.enabled = "true"
+```
 
-Case: nest levels in the TOML table name.
-
+ * Case: nest levels in the TOML table name.
+```bash
 [annotations.com.hooks.ssh]
 enabled = "true"
+```
 
 To avoid mistakes, notice a few key features of TOML:
 
