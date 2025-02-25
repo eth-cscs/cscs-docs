@@ -627,7 +627,7 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 In the following, the default value is none (i.e., the empty value of the corresponding type) if not specified.
 
- * **base_environment**  (Type: ARRAY or STRING)
+ * **base_environment** (Type: ARRAY or STRING)
 
     Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
@@ -655,47 +655,48 @@ In the following, the default value is none (i.e., the empty value of the corres
         ```
     </details>
 
-image
+  * **image** (Type: STRING)
 
-Type: STRING
+    The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
-Default: N/A
+    <details>
+    <summary>Notes</summary>
 
-	
+     * The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
+         * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
+         * IMAGE : image name.
+         * [:TAG] : (optional) image tag name, preceded by :.
+     * The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
+    </details>
 
-The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
+    <details>
+    <summary>Examples</summary>
 
-The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
-[REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
-IMAGE : image name.
-[:TAG] : (optional) image tag name, preceded by :.
-The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
-The default registry is Docker Hub (docker.io).
+     * Reference of Ubuntu image in the Docker Hub registry (default registry)
+        ```bash
+        image = "library/ubuntu:24.04"
+        ```
 
+     * Explicit reference of Ubuntu image in the Docker Hub registry
+        ```bash
+        image = "docker.io#library/ubuntu:24.04"
+        ```
 
+     * Reference to PyTorch image from NVIDIA Container Registry (nvcr.io)
+        ```bash
+        image = "nvcr.io#nvidia/pytorch:22.12-py3"
+        ```
 
-Examples
+     * Image from third-party quay.io registry
+        ```bash
+        image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
+        ```
 
-1. Reference of Ubuntu image in the Docker Hub registry (default registry)
-
-image = "library/ubuntu:24.04"
-
-2. Explicit reference of Ubuntu image in the Docker Hub registry
-
-image = "docker.io#library/ubuntu:24.04"
-
-3. Reference to PyTorch image from NVIDIA Container Registry (nvcr.io)
-
-image = "nvcr.io#nvidia/pytorch:22.12-py3"
-
-5. Image from third-party quay.io registry
-
-image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
-
-4. Reference to a manually pulled image stored in parallel FS
-
-image = "/path/to/image.squashfs"
-
+     * Reference to a manually pulled image stored in parallel FS
+        ```bash
+        image = "/path/to/image.squashfs"
+        ```
+    </details>
 
 workdir
 
