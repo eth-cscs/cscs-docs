@@ -343,11 +343,11 @@ To avoid mistakes, notice a few key features of TOML:
  * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
  * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
     * Case 1 (valid):
-    ```bash
-    [annotations.com.hooks.ssh]
-    authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
-    enabled = "true"
-    ```
+        ```bash
+        [annotations.com.hooks.ssh]
+        authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        enabled = "true"
+        ```
 
     * Case 2 (valid):
     ```bash
