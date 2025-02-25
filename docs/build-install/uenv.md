@@ -2,7 +2,7 @@ Uenv are user environments that provide scientific applications, libraries and t
 
 For more documentation on how to find, download and use uenv in your workflow, see the [env tool documentation](../tools/uenv.md).
 
-[](){#building-uenv-spack}
+[](){#ref-building-uenv-spack}
 ## Building software using Spack
 
 Each uenv is tightly coupled with [Spack] and can be used as an upstream [Spack] instance, because

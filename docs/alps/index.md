@@ -1,3 +1,4 @@
+[](){#ref-alps}
 # Alps Infrastructure
 
 Alps is a general-purpose compute and data Research Infrastructure (RI) open to the broad community of researchers in Switzerland and the rest of the world.
@@ -14,13 +15,13 @@ Additionally, network segregation ensures secure and isolated communication, wit
 
 -   :fontawesome-solid-signs-post: __Platforms__
 
-    [:octicons-arrow-right-24: Alps Platforms][platforms]
+    [:octicons-arrow-right-24: Alps Platforms][ref-alps-platforms]
 
 -   :fontawesome-solid-signs-post: __Clusters__
 
     The resources on Alps are partitioned and configured into versatile software defined clusters (vClusters).
 
-    [:octicons-arrow-right-24: Alps vClusters][clusters]
+    [:octicons-arrow-right-24: Alps vClusters][ref-alps-clusters]
 
 -   :fontawesome-solid-signs-post: __Hardware__
 

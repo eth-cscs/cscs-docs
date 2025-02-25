@@ -1,4 +1,4 @@
-[](){#access-vscode}
+[](){#ref-access-vscode}
 # Connecting with VSCode
 
 [Visual Studio Code](https://code.visualstudio.com/) provides flexible support for remote development.
@@ -107,7 +107,7 @@ Once the tunnel is configured, you can access it from VSCode.
 
 !!! warning
     If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below.
-    Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage][policies-fair-use] of Shared Resources policy.
+    Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage][ref-policies-fair-use] of Shared Resources policy.
 
 ### Using with containers
 

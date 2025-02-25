@@ -1,4 +1,4 @@
-[](){clariden}
+[](){#ref-cluster-clariden}
 # Clariden
 
 !!! todo
@@ -36,7 +36,7 @@
 
 Clariden uses [SLURM][slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-See detailed instructions on how to run jobs on the [Grace-Hopper nodes][gh200-slurm].
+See detailed instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ## Storage
 
@@ -47,7 +47,7 @@ See detailed instructions on how to run jobs on the [Grace-Hopper nodes][gh200-s
 
     Refer to the specific file systems that these map onto (capstor, iopstor, waldur), and link to the storage docs for these.
 
-    Also discuss any specific storage policies. You might want to discuss storage policies for MLp one level up, in the [MLp docs][mlp].
+    Also discuss any specific storage policies. You might want to discuss storage policies for MLp one level up, in the [MLp docs][ref-platform-mlp].
 
 * attached storage and policies
 

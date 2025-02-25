@@ -1,4 +1,4 @@
-[](){#mlp}
+[](){#ref-platform-mlp}
 # Machine Learning Platform
 
 !!! todo
@@ -13,24 +13,24 @@
 ### Getting access
 
 Project administrators (PIs and deputy PIs) of projects on the MLp can to invite users to join their project, before they can use the project's resources on Alps.
-This is performed using the [project management tool][waldur]
+This is performed using the [project management tool][ref-account-waldur]
 
-Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentification][mfa] (MFA).
+Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentification][ref-mfa] (MFA).
 
 ## vClusters
 
 The main cluster provided by the MLp is Clariden, a large Grace-Hopper GPU system on Alps.
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-mountain: [__Clariden__][clariden]
+-   :fontawesome-solid-mountain: [__Clariden__][ref-cluster-clariden]
 
-    Clariden is the main [Grace-Hopper][gh200-node] cluster used for **todo**
+    Clariden is the main [Grace-Hopper][ref-alps-gh200-node] cluster used for **todo**
 </div>
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-mountain: [__Bristen__][bristen]
+-   :fontawesome-solid-mountain: [__Bristen__][ref-cluster-bristen]
 
-    Bristen is a smaller system with [A100 GPU nodes][a100-node] for **todo**
+    Bristen is a smaller system with [A100 GPU nodes][ref-alps-a100-node] for **todo**
 </div>
 
 ## Guides and Tutorials

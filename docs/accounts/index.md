@@ -1,4 +1,4 @@
-[](){#account-management}
+[](){#ref-account-management}
 # Getting and Managing Accounts
 
 Users at CSCS have one account that can be used to access all services and systems at CSCS.
@@ -22,11 +22,11 @@ PIs can then invite members of their groups to join their project.
 
 The tool used to manage projects and accounts depends on the platform on which the project was granted:
 
-* The [HPC Platform][hpcp] and [Climate and Weather Platform][cwp] use the [account and resources management tool][ump] at [account.cscs.ch](https://account.cscs.ch)
-* The [Machine Learning Platform][mlp] uses the [project and resources management tool][waldur] at [portal.cscs.ch](https://portal.cscs.ch).
+* The [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] use the [account and resources management tool][ref-account-ump] at [account.cscs.ch](https://account.cscs.ch)
+* The [Machine Learning Platform][ref-platform-mlp] uses the [project and resources management tool][ref-account-waldur] at [portal.cscs.ch](https://portal.cscs.ch).
 
 !!! note
-    The [portal.cscs.ch][waldur] site will be used to manage all projects in the future.
+    The [portal.cscs.ch][ref-account-waldur] site will be used to manage all projects in the future.
 
 ## Signing up for a new account
 

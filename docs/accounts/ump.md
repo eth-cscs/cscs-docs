@@ -1,4 +1,4 @@
-[](){#ump}
+[](){#ref-account-ump}
 # Account and Resources Management Tool
 
 The Swiss National Supercomputing Centre (CSCS) offers a web-based tool for users to manage their accounts and projects at [account.cscs.ch](https://account.cscs.ch).

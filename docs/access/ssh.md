@@ -1,9 +1,9 @@
-[](){#access-ssh}
+[](){#ref-ssh}
 # Using SSH
 
-Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][account-management] that is part of a project that has access to the cluster, and have [multi factor authentification][mfa] configured.
+Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][ref-account-management] that is part of a project that has access to the cluster, and have [multi factor authentification][ref-mfa] configured.
 
-[](){#sshservice}
+[](){#ref-ssh-service}
 ## Generating Keys with SSHService
 
 It is not possible to authenticate with a username/password and user-created SSH keys.
@@ -103,7 +103,7 @@ ssh -i ~/.ssh/cscs-key ela.cscs.ch
 To log into a target system at CSCS, you need to perform some additional setup to handle forwarding of SSH keys generated using the SSHService.
 There are two alternatives detailed below.
 
-[](){#ssh-ssh-config}
+[](){#ref-ssh-config}
 ### Adding Ela as a jump host in SSH Configuration
 
 This approach configures Ela as a jump host and creates aliases for the systems that you want to access in `~/.ssh/config` on your laptop or PC.
@@ -148,12 +148,12 @@ After saving this file, one can directly log into `daint.alps.cscs.ch` from your
 ssh daint
 ```
 
-[](){#ssh-ssh-agent}
+[](){#ref-ssh-agent}
 ### Using SSH Agent
 
 Alternatively, the [SSH authentification agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.
 
-Each time a new key is generated using the [SSHService][sshservice], add the key to the SSH agent:
+Each time a new key is generated using the [SSHService][ref-ssh-service], add the key to the SSH agent:
 ```
 ssh-add -t 1d ~/.ssh/cscs-key
 ```

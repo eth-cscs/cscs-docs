@@ -22,7 +22,7 @@ Please note that the long term storage service is granted as long as your projec
 
 Furthermore, as soon as your project expires, the backup of the data belonging to the project will be disabled immediately: therefore no data backup will be available after the final data removal.
 
-[](){#policies-fair-use}
+[](){#ref-policies-fair-use}
 ## Fair Usage of Shared Resources
 
 The [Slurm][slurm] scheduling system is a shared resource that can handle a limited number of batch jobs and interactive commands simultaneously. Therefore users should not submit hundreds of Slurm jobs and commands at the same time, as doing so would infringe our fair usage policy.

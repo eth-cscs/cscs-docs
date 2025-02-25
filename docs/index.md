@@ -8,19 +8,19 @@ Start here to get access to CSCS services and Alps
 
     The first step is to get an account and a project
 
-    [:octicons-arrow-right-24: Accounts and Projects][account-management]
+    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
 
 -   :fontawesome-solid-key: __Logging In__
 
     Once you have an account, you can set up multi factor authentification
 
-    [:octicons-arrow-right-24: Setting up MFA][mfa]
+    [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
 
     Then access CSCS services
 
-    [:octicons-arrow-right-24: Accessing CSCS Web Services][access-web]
+    [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
 
-    [:octicons-arrow-right-24: Using SSH][access-ssh]
+    [:octicons-arrow-right-24: Using SSH][ref-ssh]
 
 </div>
 
@@ -32,15 +32,15 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
     Once you have a project at CSCS, start here to find your platform:
 
-    [:octicons-arrow-right-24: Platforms overview][platforms]
+    [:octicons-arrow-right-24: Platforms overview][ref-alps-platforms]
 
     Go straight to the documentation for the platform that hosts your project:
 
-    [:octicons-arrow-right-24: HPC Platform][hpcp]
+    [:octicons-arrow-right-24: HPC Platform][ref-platform-hpcp]
 
-    [:octicons-arrow-right-24: Machine Learning Platform][mlp]
+    [:octicons-arrow-right-24: Machine Learning Platform][ref-platform-mlp]
 
-    [:octicons-arrow-right-24: Climate and Weather Platform][cwp]
+    [:octicons-arrow-right-24: Climate and Weather Platform][ref-platform-cwp]
 
 -   :fontawesome-solid-mountain-sun: __Alps__
 

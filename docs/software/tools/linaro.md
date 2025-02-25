@@ -1,4 +1,4 @@
-[](){#uenv-linaro}
+[](){#ref-uenv-linaro}
 # Linaro Forge
 
 [Linaro Forge](https://www.linaroforge.com/downloadForge) is a suite of profiling and debugging tools.
@@ -159,7 +159,7 @@ Some notes on the examples above:
 * SSH Forwarding via `ela.cscs.ch` is used to access the cluster.
 * replace the username `cscsusername` with your CSCS user name that you would normally use to open an SSH connection to CSCS.
 * `Remote Installation Path` is pointing to the install directotory of ddt inside the image
-* private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your [SSH agent][ssh-ssh-agent].
+* private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your [SSH agent][ref-ssh-agent].
 
 Once configured, test and save the configuration:
 

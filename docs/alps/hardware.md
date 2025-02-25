@@ -1,4 +1,4 @@
-[](){#alps-hardware}
+[](){#ref-alps-hardware}
 # Alps Hardware
 
 Alps is a HPE Cray EX3000 system, a liquid cooled blade-based, high-density system.
@@ -47,27 +47,27 @@ There are currently four node types in Alps, with another becoming available in 
 | AMD MI250x     |   12   |   24  |     24      |  96         |
 | AMD MI300A     |   64   |  128  |    512      | 512         |
 
-[](){#gh200-node}
+[](){#ref-alps-gh200-node}
 ### NVIDIA GH200 GPU Nodes
 
 Perry Peak
 
-[](){#zen2-node}
+[](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
 
 EX425
 
-[](){#a100-node}
+[](){#ref-alps-a100-node}
 ### NVIDIA A100 GPU Nodes
 
 Grizzly Peak
 
-[](){#mi200-node}
+[](){#ref-alps-mi200-node}
 ### AMD MI250x GPU Nodes
 
 Bard Peak
 
-[](){#mi300-node}
+[](){#ref-alps-mi300-node}
 ### AMD MI300A GPU Nodes
 
 Parry Peak

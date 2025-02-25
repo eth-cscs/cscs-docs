@@ -1,11 +1,11 @@
-[](){#waldur}
+[](){#ref-account-waldur}
 # The Project and Resources Management Tool
 
 CSCS Account Managers, PIs and deputy PIs can invite users to the respective projects following the below steps on CSCS's new project management portal.
 
 !!! info
-    The new user project management portal is currently only used by the [Machine Learning Platform][mlp]
-    All other platforms use the old [user management portal](ump.md)
+    The new user project management portal is currently only used by the [Machine Learning Platform][ref-platform-mlp]
+    All other platforms use the old [user management portal][ref-account-ump]
 
 ## log in to the portal
 

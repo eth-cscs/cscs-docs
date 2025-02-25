@@ -1,4 +1,4 @@
-[](){#uenv}
+[](){#ref-tool-uenv}
 # uenv
 
 Uenv are user environments that provide scientific applications, libraries and tools.
@@ -51,7 +51,7 @@ Used to differentiate between _releases_ of a versioned uenv. Some examples of t
 
 The name of the Alps cluster for which the uenv was built.
 
-[](){#uenv-label-uarch}
+[](){#ref-tool-uenv-label-uarch}
 #### `uarch`
 
 The node type (microarchitecture) that the uenv is built for:
@@ -211,7 +211,7 @@ To be able to pull such images, you first need to configure the token for that s
 !!! note
     As of March 2025, the only restricted software is VASP.
 
-[](){#uenv-start}
+[](){#ref-tool-uenv-start}
 ## Starting a uenv session
 
 The `uenv start` command will start a new shell with one or more uenv images mounted.
@@ -380,9 +380,9 @@ By default, the modules are not activated when a uenv is started, and need to be
 
 uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies.
 No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv.
-For more information, see our guide on building software with [Spack and uenv][building-uenv-spack].
+For more information, see our guide on building software with [Spack and uenv][ref-building-uenv-spack].
 
-[](){#uenv-run}
+[](){#ref-tool-uenv-run}
 ## Running a uenv
 
 The `uenv run` command can be used to run an application or script in a uenv environment, and return control to the calling shell when the command has finished running.
@@ -439,7 +439,7 @@ The command takes two arguments:
     * `name` is the name, e.g. `prgenv-gnu`, `gromacs`, `vistools`.
     * `version` is a version string, e.g. `24.11`, `v1.2`, `2025-rc2`
     * `system` is the CSCS cluster to build on (e.g. `daint`, `santis`, `clariden`, `eiger`)
-    * `uarch` is the [micro-architecture][uenv-label-uarch].
+    * `uarch` is the [micro-architecture][ref-tool-uenv-label-uarch].
 
 !!! example "building a uenv"
     Call the 
@@ -471,7 +471,7 @@ This makes it easy to share your uenv with other users, by giving them the name,
     uenv image find service::@daint
     ```
 
-[](){#uenv-slurm}
+[](){#ref-tool-uenv-slurm}
 ## SLURM integration
 
 The environment to load can be provided directly to SLURM via three arguments:
@@ -548,7 +548,7 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 
 * Note how the second call has access to `mpicc`, provided by `prgenv-gnu`.
 
-[](){#uenv-installation}
+[](){#ref-tool-uenv-installation}
 ## Installing the uenv tool
 
 The command line tool can be installed from source, if you are working on a cluster that does not have uenv installed, or if you need to test a new version.

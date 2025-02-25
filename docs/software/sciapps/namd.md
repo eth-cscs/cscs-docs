@@ -1,4 +1,4 @@
-[](){#uenv-namd}
+[](){#ref-uenv-namd}
 # NAMD
 
 [NAMD] is a parallel molecular dynamics code based on [Charm++], designed for high-performance simulations of large biomolecular systems.

@@ -1,4 +1,4 @@
-[](){#mfa}
+[](){#ref-mfa}
 # Multi Factor Authentification
 
 To access CSCS services and systems users are required to authenticate using multi-factor authentication (MFA).
@@ -10,7 +10,7 @@ An OTP is a six-digit number which changes every 30 seconds.
 OTPs are generated using a tool installed on a device other than the one used to access CSCS services and infrastructure.
 We recommend to use a smartphone with an application such as Google Authenticator to obtain the OTPs.
 
-[](){#mfa-setup}
+[](){#ref-mfa-setup}
 ## Getting Started
 
 When you first log in to any of the CSCS web applications such as UMP, Jupyter, etc., you will be asked to register your device.
@@ -36,7 +36,7 @@ You can download Google Authenticator for your phone:
 * :fontawesome-brands-android: Android: on the [Google Play Store](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2).
 * :fontawesome-brands-apple: iOS: on the [Apple Store](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2).
 
-[](){#mfa-configure-otp}
+[](){#ref-mfa-configure-otp}
 ### Configure the Authenticator
 
 Before starting, ensure that the following pre-requisites are satisfied
@@ -78,7 +78,7 @@ In case users lose access to their mobile device/Authenticator OTP, users can re
 2. From the login screen, click the "Reset OTP" link below the "LOG IN" button
 3. Enter your username and password.
 4. On successful validation of user credentials, users will receive an email with a reset credentials link like the one below, click on the link in the email
-5. The steps are the same as for the first time you [configured the authenticator][mfa-configure-otp].
+5. The steps are the same as for the first time you [configured the authenticator][ref-mfa-configure-otp].
 
 !!! warning
     When replacing your smartphone remember to sync the authenticator app before resetting the old smartphone.

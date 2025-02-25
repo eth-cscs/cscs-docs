@@ -1,4 +1,4 @@
-[](){#slurm}
+[](){#ref-slurm}
 # SLURM
 
 CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) as its workload manager to efficiently schedule and manage jobs on Alps vClusters.
@@ -17,16 +17,16 @@ Each type of node has different resource constraints and capabilities, which SLU
 
 The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
-[](){#gh200-slurm}
+[](){#ref-slurm-gh200}
 ### NVIDIA GH200 GPU Nodes
 
-The [GH200 nodes on Alps][gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
+The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
-[Configuring SLURM jobs to use a single GPU per rank][gh200-slurm-single-rank-per-gpu] is also the most straightforward setup.
+[Configuring SLURM jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
 Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process Service (MPS)] to oversubscribe GPUs with multiple ranks per GPU.
 
 The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
-See [Scientific Applications][sciapps] for information about recommended application-specific SLURM configurations.
+See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific SLURM configurations.
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
@@ -34,12 +34,12 @@ See [Scientific Applications][sciapps] for information about recommended applica
     Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously.
     This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
     
-    Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][gh200-slurm-multi-rank-per-gpu] in these cases.
+    Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][ref-slurm-gh200-multi-rank-per-gpu] in these cases.
     
     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
     If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
-[](){#gh200-slurm-single-rank-per-gpu}
+[](){#ref-slurm-gh200-single-rank-per-gpu}
 #### One rank per GPU
 
 Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
@@ -58,7 +58,7 @@ srun <application>
     
 Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, which will lead to most applications using the first GPU on all ranks.
 
-[](){#gh200-slurm-multi-rank-per-gpu}
+[](){#ref-slurm-gh200-multi-rank-per-gpu}
 #### Multiple ranks per GPU
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
@@ -122,7 +122,7 @@ The configuration that is optimal for your application may be different.
 
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
-[](){#amdcpu-slurm}
+[](){#ref-slurm-amdcpu}
 ## AMD CPU
 
 !!! todo
