@@ -662,42 +662,41 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
 <details>
 <summary>Notes</summary>
 
-The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
- * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
- * IMAGE : image name.
- * [:TAG] : (optional) image tag name, preceded by :.
-
-The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
+ * The full format for remote references is [USER@][REGISTRY#]IMAGE[:TAG].
+     * [REGISTRY#] : (optional) registry URL, followed by #. Default: Docker Hub.
+     * IMAGE : image name.
+     * [:TAG] : (optional) image tag name, preceded by :.
+ * The registry user can also be specified in the $HOME/.config/enroot/.credentials file.
 </details>
 
-    <details>
-    <summary>Examples</summary>
+<details>
+<summary>Examples</summary>
 
-     * Reference of Ubuntu image in the Docker Hub registry (default registry)
-        ```bash
-        image = "library/ubuntu:24.04"
-        ```
+ * Reference of Ubuntu image in the Docker Hub registry (default registry)
+    ```bash
+    image = "library/ubuntu:24.04"
+    ```
 
-     * Explicit reference of Ubuntu image in the Docker Hub registry
-        ```bash
-        image = "docker.io#library/ubuntu:24.04"
-        ```
+ * Explicit reference of Ubuntu image in the Docker Hub registry
+    ```bash
+    image = "docker.io#library/ubuntu:24.04"
+    ```
 
-     * Reference to PyTorch image from NVIDIA Container Registry (nvcr.io)
-        ```bash
-        image = "nvcr.io#nvidia/pytorch:22.12-py3"
-        ```
+ * Reference to PyTorch image from NVIDIA Container Registry (nvcr.io)
+    ```bash
+    image = "nvcr.io#nvidia/pytorch:22.12-py3"
+    ```
 
-     * Image from third-party quay.io registry
-        ```bash
-        image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
-        ```
+ * Image from third-party quay.io registry
+    ```bash
+    image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
+    ```
 
-     * Reference to a manually pulled image stored in parallel FS
-        ```bash
-        image = "/path/to/image.squashfs"
-        ```
-    </details>
+ * Reference to a manually pulled image stored in parallel FS
+    ```bash
+    image = "/path/to/image.squashfs"
+    ```
+</details>
 
 workdir
 
