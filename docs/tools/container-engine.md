@@ -627,7 +627,7 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 In the following, the default value is none (i.e., the empty value of the corresponding type) if not specified.
 
- * **base_environment** (Type: ARRAY or STRING)
+ * **base_environment**  (Type: ARRAY or STRING)
 
 Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
