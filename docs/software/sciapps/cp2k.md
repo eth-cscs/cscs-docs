@@ -104,7 +104,8 @@ sbatch run_cp2k.sh
 
 !!! note
     
-    The `mps-wrapper.sh` script, required to properly over-subscribe the GPU, is described in TODO TODO TODO.
+    The `mps-wrapper.sh` script, required to properly over-subscribe the GPU, is provided at the following page: 
+    [NVIDIA GH200 GPU nodes: multiple ranks per GPU][ref-slurm-gh200-multi-rank-per-gpu].
 
 !!! warning
 
