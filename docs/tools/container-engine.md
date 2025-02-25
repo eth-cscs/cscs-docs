@@ -133,7 +133,7 @@ BUG_REPORT_URL="https://bugs.debian.org/"
 ### Use from batch scripts
 
 In principle, the `--environment` option can also be used within batch scripts as an `#SBATCH` option.
-It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks](#container-hooks) (controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example `srun` or `scontrol`) within the batch script will work.
+It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks][ref-ce-container-hooks] (controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example `srun` or `scontrol`) within the batch script will work.
 
 
 !!! tip
@@ -429,8 +429,9 @@ The Container Engine provides a hook to allow containers relying on [libfabric]
 The hook leverages bind-mounting the custom host libfabric library into the container (in addition to all the required dependency libraries and devices as well).
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
-> **NOTE**: Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this](#aws-ofi-hook) section for more details).
+!!! note
+    Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
+> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
 
 The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF, as shown in the following example:
 
@@ -505,18 +506,25 @@ com.hooks.cxi.enabled = "true"
 4194304             23925.61
 ```
 
-> **TIP**: On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks. Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
+!!! tip
+    On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
+    Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
-## <a name="container-hooks"></a> Container Hooks
+[](){#ref-ce-container-hooks}
+## Container Hooks
 
 Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
 
  * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
  * *Use for HPC*: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
 
-> **INFO**: This section outlines all hooks supported in production by the Container Engine. However, specific Alps vClusters may support only a subset or use custom configurations. For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
+!!! info
+    This section outlines all hooks supported in production by the Container Engine.
+    However, specific Alps vClusters may support only a subset or use custom configurations.
+    For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
 
-### <a name="aws-ofi-hook"></a> AWS OFI NCCL Hook 
+[](){#ref-ce-aws-ofi-hook}
+### AWS OFI NCCL Hook 
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 
@@ -631,7 +639,8 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 8
 ```
 
-> **INFO**: When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
+!!! info
+    When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
 
 [](){#ref-ce-edf-reference}
 ## EDF Reference
