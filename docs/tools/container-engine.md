@@ -338,35 +338,40 @@ enabled = "true"
 
 To avoid mistakes, notice a few key features of TOML:
 
-All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
-Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table ssh inside hooks, which in turn is inside com, which is inside annotations).
-An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the com.hooks.ssh.enabled attribute within the [annotations] table is exactly equivalent to assigning to the enabled attribute within the [annotations.com.hooks.ssh] subtable.
-Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, both of the following are valid:
-Case 1:
-
+ * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
+ * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table ssh inside hooks, which in turn is inside com, which is inside annotations).
+ * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the com.hooks.ssh.enabled attribute within the [annotations] table is exactly equivalent to assigning to the enabled attribute within the [annotations.com.hooks.ssh] subtable.
+ * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the ssh table is defined (gets attributes set) both in the [annotations] and in the [annotations.com.hooks.ssh] sections. See the TOML format spec for more details.
+    * Case 1 (valid):
+```bash
 [annotations.com.hooks.ssh]
 authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 enabled = "true"
-Case 2:
-
+```
+    * Case 2 (valid):
+```bash
 [annotations]
 com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 com.hooks.ssh.enabled = "true"
-However, the following is illegal:
-
+```
+    * Case 3 (**invalid**):
+```bash
 [annotations]
 com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 
 [annotations.com.hooks.ssh]
 enabled = "true"
- is not because the ssh table is defined (gets attributes set) both in the [annotations] and in the [annotations.com.hooks.ssh] sections. See the TOML format spec for more details
-Accessing native resources
-NVIDIA GPUs
+```
+
+## Accessing native resources
+
+### NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
 GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the NVIDIA_VISIBLE_DEVICES environment variable is not empty, unset or set to "void".  NVIDIA_VISIBLE_DEVICES is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system. Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 For example, on a cluster with 4 GH200 devices per compute node:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat .edf/cuda12.5.1.toml 
 image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
 
@@ -403,22 +408,24 @@ Thu Oct 26 17:59:36 2023       
 |====================================================================================|
 |  No running processes found                                                        |
 +------------------------------------------------------------------------------------+
+```
 
 It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
 Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
 For the full details about using these features, please refer to the official documentation: Driver Capabilities, Constraints.
 
-HPE Slingshot interconnect 
+### HPE Slingshot interconnect 
 
 The Container Engine provides a hook to allow containers relying on libfabric to leverage the HPE Slingshot 11 high-speed interconnect. This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
 The hook leverages bind-mounting the custom host libfabric library into the container (in addition to all the required dependency libraries and devices as well).
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
-Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also this section for more details).
+> **NOTE**: Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
+> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also this section for more details).
 
 The hook is activated by setting the com.hooks.cxi.enabled annotation, which can be defined in the EDF, as shown in the following example:
 
+```bash
 # Without the CXI hook
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat $HOME/.edf/osu-mb.toml 
 image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
@@ -487,28 +494,28 @@ com.hooks.cxi.enabled = "true"
 1048576             23827.78
 2097152             23890.95
 4194304             23925.61
+```
 
-On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
-Therefore, in many cases it is not necessary to enter the enabling annotation in the EDF.
+> **TIP**: On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks. Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
-Container Hooks
+## Container Hooks
 
 Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
 
-What they do: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
-Use for HPC: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
+ * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
+ * *Use for HPC*: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
 
-This section outlines all hooks supported in production by the Container Engine. However, specific Alps vClusters may support only a subset or use custom configurations. For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
+> **INFO**: This section outlines all hooks supported in production by the Container Engine. However, specific Alps vClusters may support only a subset or use custom configurations. For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
 
-AWS OFI NCCL Hook 
+### AWS OFI NCCL Hook 
 
 The AWS OFI NCCL plugin is a software extension that allows the NCCL and RCCL libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
-
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the com.hooks.aws_ofi_nccl.variant annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: cuda11, cuda12 (to be used on NVIDIA GPU nodes), rocm5, and rocm6 (to be used on AMD GPU nodes alongside RCCL).
 For example, the following EDF enables the hook and uses it to mount the plugin in a CUDA 11 image:
 
+```bash
 image = "nvcr.io#nvidia/pytorch:22.12-py3"
 mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
 entrypoint = false
@@ -516,12 +523,14 @@ entrypoint = false
 [annotations]
 com.hooks.aws_ofi_nccl.enabled = "true"
 com.hooks.aws_ofi_nccl.variant = "cuda11"
+```
 
 The AWS OFI NCCL hook also takes care of the following aspects:
 
-It implicitly enables the CXI hook, therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
-It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the NCCL_NET_PLUGIN variable is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
-SSH Hook 
+ * It implicitly enables the CXI hook, therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
+ * It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the NCCL_NET_PLUGIN variable is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
+
+### SSH Hook 
 
 The SSH hook runs a lightweight, statically-linked SSH server (a build of Dropbear) inside the container. It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
 
@@ -529,10 +538,11 @@ The com.hooks.ssh.authorize_ssh_key annotation allows the authorization of a cu
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the com.hooks.ssh.port annotation in the EDF.
 
-It is required to keep the container writable to use the hook.
+> **NOTE**: To use the SSH hook, it is **required** to keep the container **writable**.
 
 The following EDF file shows an example of enabling the SSH hook and authorizing a user-provided public key:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat $HOME/.edf/ubuntu-ssh.toml
 image = "ubuntu:latest"
 writable = true
@@ -540,25 +550,28 @@ writable = true
 [annotations.com.hooks.ssh]
 enabled = "true"
 authorize_ssh_key = "<public key file>"
+```
 
 Using the previous EDF, a container can be started as follows. Notice that the --pty option for the srun command is currently required in order for the hook to initialize properly:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun --environment=ubuntu-ssh --pty <command>
+```
 
 While the container is running, it's possible to connect to it from a remote host using a private key matching the public one authorized in the EDF annotation. For example, in a host where such private key is the default identity file, the following command could be used:
 
+```bash
 ssh -p 15263 <host-of-container>
+```
 
+> **INFO**: In order to establish connections through Visual Studio Code Remote - SSH extension, the scp program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
 
-
-
-In order to establish connections through Visual Studio Code Remote - SSH extension, the scp program must be available within the container. This is required to send and establish the VS Code Server into the remote container.
-
-NVIDIA CUDA MPS Hook
+### NVIDIA CUDA MPS Hook
 
 On several Alps vClusters, NVIDIA GPUs by default operate in "Exclusive process" mode, that is, the CUDA driver is configured to allow only one process at a time to use a given GPU.
 For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ nvidia-smi -L
 GPU 0: GH200 120GB (UUID: GPU-...)
 GPU 1: GH200 120GB (UUID: GPU-...)
@@ -581,16 +594,18 @@ Test PASSED
 Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
 srun: error: [...]
 [...]
+```
 
 In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the NVIDIA CUDA Multi-Process Service (or MPS, for short) must be started on the compute node.
 
 The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
 The hook can be activated by setting the com.hooks.nvidia_cuda_mps.enabled to the string true.
 
-It is required to keep the container writable to be able to use the hook.
+> **NOTE**: To use the CUDA MPS hook, it is **required** to keep the container **writable**.
 
 The following is an example of using the NVIDIA CUDA MPS hook:
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat $HOME/.edf/vectoradd-cuda-mps.toml
 image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 writable = true
@@ -600,10 +615,11 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun -t2 -N1 -n8 --environment=vectoradd-cuda-mps /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
 8
+```
 
-When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
+> **INFO**: When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
 
-EDF Reference
+## EDF Reference
 
 EDF files use the TOML format. For details about the data types used by the different parameters, please refer to the TOML spec webpage.
 
@@ -864,29 +880,32 @@ com.hooks.ssh.enabled = "true"
 
 Environment variable expansion and relative paths expansion are only available on the Bristen vCluster as technical preview.
 
-Environment Variable Expansion
+### Environment Variable Expansion
 
 Environment variable expansion allows for dynamic substitution of environment variable values within the EDF (Environment Definition File). This capability applies across all configuration parameters in the EDF, providing flexibility in defining container environments.
 
-Syntax. Use ${VAR} to reference an environment variable VAR. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
-Scope. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, ${SCRATCH} can be used in mounts to reference a directory path.
-Undefined Variables. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax ${VAR:-}, which evaluates to an empty string if VAR is undefined.
-Preventing Expansion. To prevent expansion, use double dollar signs $$. For example, $$${VAR} will render as the literal string ${VAR}.
-Limitations:
-Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments) . Therefore, only environment variables from the host or image can be referenced.
-Environment Variable Resolution Order. The environment variables are resolved based on the following order:
-TOML env: Variable values as defined in EDF’s env.
-Container Image: Variables defined in the container image's environment take precedence.
-Host Environment: Environment variables defined in the host system.
-Relative paths expansion
+ * *Syntax*. Use ${VAR} to reference an environment variable VAR. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
+ * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, ${SCRATCH} can be used in mounts to reference a directory path.
+ * *Undefined Variables*. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax ${VAR:-}, which evaluates to an empty string if VAR is undefined.
+ * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, $$${VAR} will render as the literal string ${VAR}.
+ * *Limitations*
+    * Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments) . Therefore, only environment variables from the host or image can be referenced.
+ * *Environment Variable Resolution Order*. The environment variables are resolved based on the following order:
+    1. TOML env: Variable values as defined in EDF’s env.
+    2. Container Image: Variables defined in the container image's environment take precedence.
+    3. Host Environment: Environment variables defined in the host system.
+
+### Relative paths expansion
 
 Relative filesystem paths can be used within EDF parameters, and will be expanded by the CE at runtime. The paths are interpreted as relative to the working directory of the process calling the CE, not to the location of the EDF file.
 
-Known Issues
-Compatibility with Alpine Linux
+## Known Issues
+
+### Compatibility with Alpine Linux
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat alpine.toml
 image = "alpine:3.19"
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun -lN1 --environment=alpine.toml echo "abc"
@@ -897,9 +916,11 @@ image = "alpine:3.19"
 0: slurmstepd: error: pyxis: couldn't start container
 0: slurmstepd: error: spank: required plugin spank_pyxis.so: task_init() failed with rc=-1
 0: slurmstepd: error: Failed to invoke spank plugin stack
+```
 
 This is because some hooks (e.g., Slurm and CXI hooks) leverage ldconfig (from Glibc) when they bind-mount host libraries inside containers; since Alpine Linux provides an alternative ldconfig (from Musl Libc), it does not work as intended by hooks. As a workaround, users may disable problematic hooks. For example,
 
+```bash
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ cat alpine_workaround.toml
 image = "alpine:3.19"
 [annotations]
@@ -907,9 +928,6 @@ com.hooks.slurm.enabled = "false"
 com.hooks.cxi.enabled = "false"
 [<vcluster>][<username>@<vcluster>-ln001 ~]$ srun -lN1 --environment=alpine_workaround.toml echo "abc"
 abc
+```
 
 Notice the section [annotations] disabling Slurm and CXI hooks.
-
-Further reading
-Containerized use case examples
-Building container images on Alps
