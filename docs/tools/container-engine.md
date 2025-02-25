@@ -632,11 +632,13 @@ In the following, the default value is none (i.e., the empty value of the corres
     Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
     <details>
-    <summary>Details</summary>
+    <summary>Notes</summary>
 
-    Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
-    The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
-    This parameter can be a string if there is only one base environment.
+     * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in base_environment. When evaluating mounts or env parameters, values from downstream EDFs are appended to inherited values.
+
+     * The individual EDF entries in the array follow the same search rules as the arguments of the --environment CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](#edf-search-path).
+    
+     * This parameter can be a string if there is only one base environment.
     </details>
 
     <details>
