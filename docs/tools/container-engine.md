@@ -341,7 +341,7 @@ To avoid mistakes, notice a few key features of TOML:
  * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
  * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table `ssh` inside `hooks`, which in turn is inside `com`, which is inside `annotations`).
  * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
- * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table is defined (gets attributes set) both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
+ * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
     * Case 1 (valid):
 ```bash
 [annotations.com.hooks.ssh]
