@@ -31,9 +31,9 @@ mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
 ```
 
-Note: Ensure that your ${USER} environment variable is defined with your actual username.
+Note: Ensure that your `${USER}` environment variable is defined with your actual username.
 
-Save this file as ubuntu.toml file in $HOME/.edf directory (which is the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference](#edf-reference).
+Save this file as `ubuntu.toml` file in `$HOME/.edf` directory (which is the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference](#edf-reference).
 
 ### Running the environment
 
@@ -43,7 +43,7 @@ Use Slurm in the cluster login node to start the Ubuntu environment that was jus
 $ srun --environment=ubuntu --pty bash
 ```
 
-Since the ubuntu.toml file is located in the [EDF search path](#edf-search-path), the filename can be passed to the option without the file extension.
+Since the `ubuntu.toml` file is located in the [EDF search path](#edf-search-path), the filename can be passed to the option without the file extension.
 
 ### Example Output
 
@@ -72,7 +72,7 @@ LOGO=ubuntu-logo
 [<vcluster>][<username>@<vcluster>-ln001 ~]$  
 ```
 
-The above terminal snippet demonstrates how to launch a containerized environment using Slurm with the --environment option, where we highlight:
+The above terminal snippet demonstrates how to launch a containerized environment using Slurm with the `--environment` option, where we highlight:
 
  Step 1. Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using srun --environment=ubuntu --pty bash.
  Step 2. Confirm the working directory inside the container (pwd) and that it is set to the user's scratch folder, as per EDF.
