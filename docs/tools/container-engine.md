@@ -642,17 +642,15 @@ In the following, the default value is none (i.e., the empty value of the corres
     <details>
     <summary>Examples</summary>
 
-    1. Single environment inheritance:
+     * Single environment inheritance:
+        ```bash
+        base_environment = "common_env"
+        ```
 
-    ```bash
-    base_environment = "common_env"
-    ```
-
-    2. Multiple environment inheritance:
-
-    ```bash
-    base_environment = ["common_env", "ml_pytorch_env1"]
-    ```
+     * Multiple environment inheritance:
+        ```bash
+        base_environment = ["common_env", "ml_pytorch_env1"]
+        ```
     </details>
 
 image
