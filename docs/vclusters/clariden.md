@@ -9,17 +9,37 @@
 ## Cluster Specification
 ### Hardware
 Clariden consists of ~1200 [Grace-Hopper nodes][ref-alps-gh200-node]. Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
+The nodes are interconnected with the [slingshot high speed network][ref-alps-slingshot-network].
 
-
-
+As usual the login nodes have direct internet connections, while the compute nodes use a [proxy server][ref-network-proxy-server] to access the internet.
 !!! todo
-    a standardised table with information about
+    Document proxy and the implications (normally transparent, but git needs modifications
 
-    * number and type of nodes
+### File systems and storage
+The scratch filesystem is hosted on [IOPStore][ref-storage-iopstor], but also the capacity storage [Capstor][ref-storage-capstor] is mounted at `/capstor/scratch/cscs`.
+The variables `STORE` and `PROJECT` are not set on Clariden.
+!!! todo
+    verify this claim after maintenance window
+The home directory is hosted on [VAST][ref-storage-vast]. As usual, an overview of your quota on the different filesystems can be obtained by the `quota` command.
 
-    and any special notes
+## Getting started
+### Connect to Clariden
+You can connect to Clariden via [ssh][ref-ssh-config], ensuring that the file `~/.ssh/config` has these settings (replace `cscsusername` with your username).
 
-## Logging into Clariden
+```title="$HOME/.ssh/config"
+Host ela
+    HostName ela.cscs.ch
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+
+Host clariden
+    HostName clariden.alps.cscs.ch
+    ProxyJump ela
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+    IdentitiesOnly yes
+```
+You can then use `ssh clariden` to login to Clariden.
 
 !!! todo
     how to log in, i.e. `ssh clariden.cscs.ch` via `ela.cscs.ch`
