@@ -18,11 +18,13 @@ As usual the login nodes have direct internet connections, while the compute nod
 ### File systems and storage
 The scratch filesystem is hosted on [IOPStore][ref-storage-iopstor], but also the capacity storage [Capstor][ref-storage-capstor] is mounted at `/capstor/scratch/cscs`.
 The variables `STORE` and `PROJECT` are not set on Clariden.
-!!! todo
-    verify this claim after maintenance window
-The home directory is hosted on [VAST][ref-storage-vast]. As usual, an overview of your quota on the different filesystems can be obtained by the `quota` command.
+The home directory is hosted on [VAST][ref-storage-vast].
+
+As usual, an overview of your quota on the different filesystems, can be obtained by the `quota` command.
 
 ## Getting started
+The project and resources are managed by [this tool][ref-account-waldur].
+
 ### Connect to Clariden
 You can connect to Clariden via [ssh][ref-ssh-config], ensuring that the file `~/.ssh/config` has these settings (replace `cscsusername` with your username).
 
@@ -41,44 +43,28 @@ Host clariden
 ```
 You can then use `ssh clariden` to login to Clariden.
 
-!!! todo
-    how to log in, i.e. `ssh clariden.cscs.ch` via `ela.cscs.ch`
+### Available programming environments
 
-    provide the snippet to add to your `~/.ssh/config`, and link to where we document this (docs not currently available)
+#### Container engine
+The recommended way for working on Clariden are containerized workflows leveraging the [container engine][ref-container-engine].
 
-## Software and services
+#### UENV
+Besides running containerized workflows, it is possible to run your jobs with a [UENV][ref-tool-uenv].
 
-!!! todo
-    information about CSCS services/tools available
+#### CPE
+Unlike on other platforms the Cray programming environment is not supported on Clariden.
 
-    * container engine
-    * uenv
-    * CPE
-    * ... etc
-
-## Running Jobs on Clariden
+### Running Jobs on Clariden
 
 Clariden uses [SLURM][slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
 See detailed instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
-## Storage
-
-!!! todo
-    describe the file systems that are attached, and where.
-
-    This is where `$SCRATCH`, `$PROJECT` etc are defined for this cluster.
-
-    Refer to the specific file systems that these map onto (capstor, iopstor, waldur), and link to the storage docs for these.
-
-    Also discuss any specific storage policies. You might want to discuss storage policies for MLp one level up, in the [MLp docs][ref-platform-mlp].
-
-* attached storage and policies
+The flag `--account=<account>` / `-A <account>` is mandatory for submitting jobs to SLURM, and nodehour accounting will be on the account that is specified with this flag.
 
 ## Calendar and key events
 
-The system is updated every Tuesday, between 9 am and 12 pm.
-...
+The system is updated every Wednesday, between 8 am and 12 pm Zurich local time.
 
 !!!todo
     notifications
