@@ -11,9 +11,10 @@
 Clariden consists of ~1200 [Grace-Hopper nodes][ref-alps-gh200-node]. Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 The nodes are interconnected with the [slingshot high speed network][ref-alps-slingshot-network].
 
-As usual the login nodes have direct internet connections, while the compute nodes use a [proxy server][ref-network-proxy-server] to access the internet.
+As usual the login nodes have direct internet connections, while the compute nodes use a [proxy server][ref-alps-slingshot-network] to access the internet.
 !!! todo
     Document proxy and the implications (normally transparent, but git needs modifications
+    Fix the ref
 
 ### File systems and storage
 The scratch filesystem is hosted on [IOPStore][ref-storage-iopstor], but also the capacity storage [Capstor][ref-storage-capstor] is mounted at `/capstor/scratch/cscs`.
