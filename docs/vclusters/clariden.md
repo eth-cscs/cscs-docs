@@ -63,16 +63,19 @@ See detailed instructions on how to run jobs on the [Grace-Hopper nodes][ref-slu
 
 The flag `--account=<account>` / `-A <account>` is mandatory for submitting jobs to SLURM, and nodehour accounting will be on the account that is specified with this flag.
 
-## Calendar and key events
+## Maintenance
+### Calendar and key events
 
-The system is updated every Wednesday, between 8 am and 12 pm Zurich local time.
+- The system is updated every Wednesday, between 08:00-12:00 Zurich local time.
+- Access to the system might be closed during the maintenance window.
+- There is a maintenance reservation for SLURM, which prohibits jobs to start, if their `StartTime+TimeLimit` is beyond the maintenance start.
 
 !!!todo
     notifications
     
     a calendar widget would be useful, particularly if we can have a central calendar, and a way to filter events for specific instances
 
-## Change log
+### Change log
 
 !!! change "special text boxes for updates"
     they can be opened and closed.
@@ -89,7 +92,7 @@ The system is updated every Wednesday, between 8 am and 12 pm Zurich local time.
 ??? change "2024-09-18 Daint users"
     In order to complete the preparatory work necessary to deliver Alps in production, as of September 18 2024 the vCluster Daint on Alps will no longer be accessible until further notice: the early access will still be granted on Tödi using the Slurm reservation option `--reservation=daint`
 
-## Known issues
+### Known issues
 
 __TODO__ list of know issues - include links to known issues page
 
