@@ -416,7 +416,7 @@ of DBCSR. Generally, if the function `dbcsr_multiply_generic` takes a significan
 (at the end of the CP2K output file), it is worth investigating the effect of the `DBCSR_RUN_ON_GPU` environment variable.
 
 
-### CUDA grid backend with high angular momenta basis sets
+#### CUDA grid backend with high angular momenta basis sets
 
 The CP2K grid CUDA backend is currently buggy on Alps. Using basis sets with high angular momenta ($l \ge 3$)
 result in slow calculations, especially for force calculations with meta-GGA functionals. 
