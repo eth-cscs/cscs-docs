@@ -74,6 +74,14 @@ If you can't find the information that you need in the documentation, help is av
 
     [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
 
+<div class="grid cards" markdown>
+-   :fontawesome-solid-hammer: __Contribute__
+
+    The source for the documentation is hosted on GitHub.
+
+    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
+</div>
+
 </div>
 
 ## Tools and Services
@@ -82,7 +90,6 @@ If you can't find the information that you need in the documentation, help is av
     Provide some links to the "how" documentation here.
 
 <div class="grid cards" markdown>
-
 -   :fontawesome-solid-hammer: __Tools__
 
     CSCS provides tools and software on Alps.
@@ -94,6 +101,5 @@ If you can't find the information that you need in the documentation, help is av
     Guides on how to build and install software from source using uenv and containers
 
     [:octicons-arrow-right-24: Building and Installing Software](build-install/index.md)
-
 </div>
 

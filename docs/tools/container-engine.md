@@ -44,7 +44,7 @@ Use Slurm in the cluster login node to start the Ubuntu environment that was jus
 $ srun --environment=ubuntu --pty bash
 ```
 
-Since the `ubuntu.toml` file is located in the [EDF search path](#edf-search-path), the filename can be passed to the option without the file extension.
+Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-search-path], the filename can be passed to the option without the file extension.
 
 !!! example "launching a containerized environment"
     The above terminal snippet demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
