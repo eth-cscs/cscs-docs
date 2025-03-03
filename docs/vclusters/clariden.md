@@ -1,40 +1,75 @@
 [](){#ref-cluster-clariden}
 # Clariden
 
-!!! todo
-    Introduction
-
-    This page is a cut and paste of some of Todi's old documentation, which we can turn into a template.
+Clariden is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of machine learning workloads in the [MLP][ref-platform-mlp].
 
 ## Cluster Specification
-### Hardware
-Clariden consists of ~1200 [Grace-Hopper nodes][ref-alps-gh200-node]. Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
+
+### Compute Nodes
+
+Clariden consists of ~1200 [Grace-Hopper nodes][ref-alps-gh200-node].
+
+| node type | number of nodes | total CPU sockets | total GPUs |
+|-----------|--------| ----------------- | ---------- |
+| [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
+
+!!! note
+    The size of the cluster can change.
 
 
+Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 
-!!! todo
-    a standardised table with information about
+### File Systems and Storage
 
-    * number and type of nodes
+The scratch filesystem is hosted on [IOPStore][ref-storage-iopstor], but also the capacity storage [Capstor][ref-storage-capstor] is mounted at `/capstor/scratch/cscs`.
+The variables `STORE` and are not set on Clariden.
+The home directory is hosted on [VAST][ref-storage-vast].
 
-    and any special notes
+As usual, an overview of your quota on the different filesystems, can be obtained by the `quota` command.
 
-## Logging into Clariden
+!!! todo "quota docs"
 
-!!! todo
-    how to log in, i.e. `ssh clariden.cscs.ch` via `ela.cscs.ch`
+## Getting started
 
-    provide the snippet to add to your `~/.ssh/config`, and link to where we document this (docs not currently available)
+### Logging into Clariden
 
-## Software and services
+To connect to Clariden via SSH, first refer to the [ssh guide][ref-ssh].
 
-!!! todo
-    information about CSCS services/tools available
+!!! example "`~/.ssh/config`"
+    Add the following to your [SSH configuration][ref-ssh-config] to enable you to directly connect to clariden using `ssh clariden`.
+    ```
+    Host clariden
+        HostName clariden.alps.cscs.ch
+        ProxyJump ela
+        User cscsusername
+        IdentityFile ~/.ssh/cscs-key
+        IdentitiesOnly yes
+    ```
 
-    * container engine
-    * uenv
-    * CPE
-    * ... etc
+Clariden can also be accessed using [FircREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
+
+### Software
+
+Users are encouraged to use containers on Clariden.
+
+* Jobs using containers can be easily set up and submitted using the [container engine][ref-container-engine].
+* To build images, see the [guide to building container images on Alps][ref-build-containers].
+
+Alternatively, [uenv][ref-tool-uenv] are also available on Clariden. Currently the only uenv that is deployed on Clariden is [prgenv-gnu][ref-uenv-prgenv-gnu].
+
+??? example "using uenv provided for other clusters"
+    You can run uenv that were built for other Alps clusters using the `@` notation.
+    For example, to use uenv images for [daint][ref-cluster-daint]:
+    ```bash
+    # list all images available for daint
+    uenv image find @daint
+
+    # download an image for daint
+    uenv image pull namd/3.0:v3@daint
+
+    # start the uenv
+    uenv start namd/3.0:v3@daint
+    ```
 
 ## Running Jobs on Clariden
 
@@ -42,48 +77,21 @@ Clariden uses [SLURM][slurm] as the workload manager, which is used to launch an
 
 See detailed instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
-## Storage
+## Maintenance and status
 
-!!! todo
-    describe the file systems that are attached, and where.
+### Scheduled Maintenance
 
-    This is where `$SCRATCH`, `$PROJECT` etc are defined for this cluster.
+Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
 
-    Refer to the specific file systems that these map onto (capstor, iopstor, waldur), and link to the storage docs for these.
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
 
-    Also discuss any specific storage policies. You might want to discuss storage policies for MLp one level up, in the [MLp docs][ref-platform-mlp].
+### Change log
 
-* attached storage and policies
+!!! change "2025-03-05 container engine updated"
+    now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
-## Calendar and key events
+??? change "2024-10-07 old event"
+    this is an old update. Use `???` to automatically fold the update.
 
-The system is updated every Tuesday, between 9 am and 12 pm.
-...
+### Known issues
 
-!!!todo
-    notifications
-    
-    a calendar widget would be useful, particularly if we can have a central calendar, and a way to filter events for specific instances
-
-## Change log
-
-!!! change "special text boxes for updates"
-    they can be opened and closed.
-
-!!! change "2024-10-15 reservation `daint` available again"
-    The reservation daint  is available again exclusively for Daint users that need to run their benchmarks for submitting their proposals, additionally to the debug  partition and free nodes.
-    Please add the Slurm option --reservation=daint to your batch script if you want to use it
-
-??? change "2024-10-07 New compute node image deployed"
-    New compute node image deployed to fix the issue with GPU-aware MPI.
-
-    Max job time limit is decreased from 12 hours to 6 hours
-
-??? change "2024-09-18 Daint users"
-    In order to complete the preparatory work necessary to deliver Alps in production, as of September 18 2024 the vCluster Daint on Alps will no longer be accessible until further notice: the early access will still be granted on Tödi using the Slurm reservation option `--reservation=daint`
-
-## Known issues
-
-__TODO__ list of know issues - include links to known issues page
-
-[CSCS Service Desk]: https://jira.cscs.ch/plugins/servlet/desk

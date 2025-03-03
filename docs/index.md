@@ -1,5 +1,12 @@
 # CSCS Documentation
 
+<div class="grid cards" markdown>
+-    Visit the CSCS status site for the status of Alps systems, and the latest announcements.
+
+
+    [:octicons-arrow-right-24: status.cscs.ch](https://status.cscs.ch/)
+</div>
+
 Start here to get access to CSCS services and Alps
 
 <div class="grid cards" markdown>

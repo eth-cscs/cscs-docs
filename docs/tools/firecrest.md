@@ -1,3 +1,4 @@
+[](){#ref-firecrest}
 # FirecREST
 
 FirecREST is a RESTful API for managing High-Performance Computing resources, developed at CSCS.

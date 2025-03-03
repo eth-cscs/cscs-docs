@@ -6,21 +6,36 @@
 
 CSCS supports different file systems, whose specifications are summarized in the table below:
 
-|          | `$SCRATCH` | `$PROJECT` | `$STORE` | `$HOME` | `$PROJECT_ID` | `$SCRATCH_ID` | `$STORE_ID` |
-|----------|-----------|-----------|----------|--------|--------------|--------------|------------|
-| Access Speed | Fast | Fast | Fast | Slow | Fast | Medium | Slow |
-| Capacity | 8.8 PB | 91 PB | 1.9 PB | 160 TB | 91 PB | 6.0 PB | 7.6 PB |
-| Data Backup | None | None | None | 90 days | 90 days | 90 days | 90 days |
-| Expiration | 30 days | 30 days | 30 days | Account closure | End of the project/contract | End of the project | End of the contract |
-| Quota | Soft (1M files) | Soft (150 TB and 1M files) | None | 50GB/user and 500k files | 150 TB and 1M files | Maximum 50k files/TB | Maximum 50k files/TB |
-| Type | Lustre | Lustre | GPFS | GPFS | Lustre | GPFS | GPFS |
-
-To check your usage, please type the command `quota` on the front end Ela.
 
 Please build big software projects not fitting `$HOME` on `$PROJECT` instead.
 Since you should not run jobs from `$HOME` or `$PROJECT`, please copy the executables, libraries and data sets needed to run your simulations to `$SCRATCH` with the Slurm transfer queue.
 
 Users can also write temporary builds on `/dev/shm`, a filesystem using virtual memory rather than a persistent storage device: please note that files older than 24 hours will be deleted automatically.
+
+[](){#ref-storage-quota}
+## Quota
+
+Limits that apply to the total size of stored data, and in some cases to the number of [inodes](https://en.wikipedia.org/wiki/Inode), to the filesystems on Daint.
+The size of the quota depends on the file system, platform and project.
+
+
+```bash
+# log into ela
+> ssh ela.cscs.ch
+# print a table that summarises the quota and usage for all of your paths and projects
+> quota
+```
+
+The `quota` command is available on `ela`, and on the login nodes of Alps clusters.
+
+!!! note
+    It is possible in some limited cases to increase the quota for a project or individual user
+    Contact the CSCS service desk if an increase is required.
+
+[](){#ref-storage-cleaning}
+
+## Cleaning Policy and Data Retention
+
 
 ## Scratch
 
