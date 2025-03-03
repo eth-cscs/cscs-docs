@@ -9,6 +9,12 @@ SLURM is an open-source, highly scalable job scheduler that allocates computing 
 !!! todo
     document `--account`, `--constrant` and other generic flags.
 
+[](){#ref-slurm-running-jobs}
+## Running jobs
+
+!!! todo
+    document `srun --pty`, `sbatch`, `squeue`, `scontrol`, `salloc` with a few common usage examples
+
 [](){#ref-slurm-partitions}
 ## Partitions
 
