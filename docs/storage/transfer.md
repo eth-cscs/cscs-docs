@@ -1,5 +1,7 @@
+[](){#ref-data-xfer}
 # Data Transfer
 
+[](){#ref-data-xfer-external}
 ## External Transfer
 
 CSCS currently offers the CSCS Globus online endpoint for uploading and downloading data from and to CSCS:
@@ -35,10 +37,11 @@ Currently Globus provide the following mount points at CSCS:
 | `/capstor/users/cscs` | Home directory for Bristen/Scopi/Errigal |
 | `/vast/users/cscs` | New Alps vclustewrs home directory  ( Alps Daint and others ) |
 
+[](){#ref-data-xfer-internal}
 ## Internal Transfer
 
-The Slurm queue `xfer` is available on Piz Daint (Cray XC) and daint.alps to address data transfers between internal CSCS file systems.
-The queue has been created to transfer files and folders from /users, /project, /store or /capstor/store to the /capstor/scratch and /scratch file systems (stage-in) and vice versa (stage-out).
+The Slurm queue `xfer` is available on Alps clusters to address data transfers between internal CSCS file systems.
+The queue has been created to transfer files and folders from `/users`, `/capstor/store` or `/iopstor/store` to the `/capstor/scratch` and `/iopstor/scratch` file systems (stage-in) and vice versa (stage-out).
 Currently the following commands are available on the cluster supporting the queue xfer:
 
 ```

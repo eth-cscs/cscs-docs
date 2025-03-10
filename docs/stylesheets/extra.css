@@ -92,7 +92,6 @@
 
 /* code hilighting */
 
-
 /* light mode:  pale yellow background, solid black foreground */
 [data-md-color-scheme="default"] {
   --md-code-bg-color: #fdfdfd;
@@ -108,11 +107,26 @@
 /* Light mode */
 [data-md-color-scheme="default"] .md-typeset pre {
   border: 2px solid #b4b4b4;
-  border-radius: 2px; /* slight rounding to corners */
+  border-radius: 2px;
+}
+
+[data-md-color-scheme="default"] .highlight span.filename {
+  border-left: 2px solid #b4b4b4;
+  border-right: 2px solid #b4b4b4;
+  border-top: 2px solid #b4b4b4;
+  border-radius: 2px;
 }
 
 /* Dark mode */
 [data-md-color-scheme="slate"] .md-typeset pre {
-  border: 2px solid #3f4013;
+  border: 2px solid #707070;
   border-radius: 2px;
 }
+
+[data-md-color-scheme="slate"] .highlight span.filename {
+  border-left: 2px solid #707070;
+  border-right: 2px solid #707070;
+  border-top: 2px solid #707070;
+  border-radius: 2px;
+}
+

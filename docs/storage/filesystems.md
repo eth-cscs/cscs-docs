@@ -15,22 +15,43 @@ Users can also write temporary builds on `/dev/shm`, a filesystem using virtual 
 [](){#ref-storage-quota}
 ## Quota
 
-Limits that apply to the total size of stored data, and in some cases to the number of [inodes](https://en.wikipedia.org/wiki/Inode), to the filesystems on Daint.
-The size of the quota depends on the file system, platform and project.
-
+You can check your storage quotas with the command quota on the front-end system ela (ela.cscs.ch) and the login nodes of [eiger][ref-cluster-eiger], [daint][ref-cluster-daint], [santis][ref-cluster-santis], and [clariden][ref-cluster-clariden].
 
 ```bash
-# log into ela
-> ssh ela.cscs.ch
-# print a table that summarises the quota and usage for all of your paths and projects
-> quota
+$ quota
+Retrieving data ...
+
+User: testuser
+Usage data updated on: 2025-02-21 16:01:27
++------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
+|                                    |  User quota  | Proj quota |             |   User files   |   Proj files   |             |
++------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
+| Directory                          |   Used |   % |  Used |  % | Quota limit |     Used |   % |    Used |    % | Files limit |
++------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
+| /iopsstor/scratch/cscs/testuser    |   4.0K |   - |     - |  - |           - |        1 |   - |       - |    - |           - |
+| /capstor/scratch/cscs/testuser     |   8.0K | 0.0 |     - |  - |      150.0T |        2 | 0.0 |       - |    - |     1000000 |
+| /users/testuser                    |  32.0K | 0.0 |     - |  - |       50.0G |       42 | 0.0 |       - |    - |      500000 |
++------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
 ```
 
-The `quota` command is available on `ela`, and on the login nodes of Alps clusters.
+Quotas apply to the total size of stored data, and in some cases to the number of [inodes](https://en.wikipedia.org/wiki/Inode), to the filesystems on Alps.
+The command reports both disk space and the number of files for each filesystem/directory.
+
+??? note "what is an inode"
+    inodes are data structures that describe Linux file system objects like files and directories - every file and directory has a corresponding inode.
+
+    Large inode counts degrade file system performance in multiple ways.
+    For example, Lustre filesystems have separate metadata and data management.
+    Excessive inode usage can overwhelm the metadata servces, causing degradation across the filesystem.
+
+    !!! tip
+        Consider archiving folders with the tar command in order to keep low the number of files owned by users and groups.
+
+    !!! tip
+        Consider compressing directories full of many small input files as squashfs images - which pack many files into a single file that can be mounted to access the contents efficiently.
 
 !!! note
-    It is possible in some limited cases to increase the quota for a project or individual user
-    Contact the CSCS service desk if an increase is required.
+    The size of the quota depends on the file system, platform and project.
 
 [](){#ref-storage-cleaning}
 

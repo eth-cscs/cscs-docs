@@ -7,27 +7,54 @@ Clariden is an Alps cluster that provides GPU accelerators and file systems desi
 
 ### Compute Nodes
 
-Clariden consists of ~1200 [Grace-Hopper nodes][ref-alps-gh200-node].
+Clariden consists of around 1200 [Grace-Hopper nodes][ref-alps-gh200-node].
+The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|--------| ----------------- | ---------- |
 | [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
 
-!!! note
-    The size of the cluster can change.
-
-
 Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 
 ### File Systems and Storage
 
-The scratch filesystem is hosted on [IOPStore][ref-storage-iopstor], but also the capacity storage [Capstor][ref-storage-capstor] is mounted at `/capstor/scratch/cscs`.
-The variables `STORE` and are not set on Clariden.
-The home directory is hosted on [VAST][ref-storage-vast].
+There are three main file systems mounted on Clariden and Bristen.
 
-As usual, an overview of your quota on the different filesystems, can be obtained by the `quota` command.
+| type |mount | filesystem |
+| -- | -- | -- |
+| Home | /users/$USER | [VAST][ref-alps-vast] |
+| Scratch | `/iopstor/scratch/cscs/$USER` | [Iopstor][ref-alps-iopstor] |
+| Project | `/capstor/store/cscs/swissai/<project>` | [Capstor][ref-alps-capstor] |
 
-!!! todo "quota docs"
+#### Home
+
+Every user has a home path (`$HOME`) mounted at `/users/$USER` on the [VAST][ref-alps-vast] filesystem.
+The home directory has 50 GB of capacity, and is intended for configuration, small software packages and scripts.
+
+#### Scratch
+
+Scratch filesystems provide temporary storage for high-performance I/O for executing jobs.
+Use scratch to store datasets that will be accessed by jobs, and for job output.
+Scratch is per user - each user gets separate scratch path and quota.
+
+* The environment variable `SCRATCH=/iopstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
+
+!!! warning "scratch cleanup policy"
+    Files that have not been accessed in 30 days are automatically deleted.
+
+    **Scratch is not intended for permanant storage**: transfer files back to the capstor project storage after job runs.
+
+!!! note
+    There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`, however this is not reccomended for ML workloads for performance reasons.
+
+### Project
+
+Project storage is backed up, with no cleaning policy: it provides intermediate storage space for datasets, shared code or configuration scripts that need to be accessed from different vClusters.
+Project is per project - each project gets a project folder with project-specific quota.
+
+* if you need additional storage, ask your PI to contact the CSCS service managers Fawzi or Nicholas.
+* hard limits on capacity and inodes prevent users from writing to project if the quota is reached - you can check quota and available space by running the [`quota`][ref-storage-quota] command on a login node or ela 
+* it is not recommended to write directly to the project path from jobs.
 
 ## Getting started
 
@@ -45,9 +72,6 @@ To connect to Clariden via SSH, first refer to the [ssh guide][ref-ssh].
         IdentityFile ~/.ssh/cscs-key
         IdentitiesOnly yes
     ```
-
-Clariden can also be accessed using [FircREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
-
 ### Software
 
 Users are encouraged to use containers on Clariden.
@@ -73,9 +97,27 @@ Alternatively, [uenv][ref-tool-uenv] are also available on Clariden. Currently t
 
 ## Running Jobs on Clariden
 
+### SLURM
+
 Clariden uses [SLURM][slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-See detailed instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+There are two slurm partitions on the system:
+
+* the `normal` partition is for all production workloads.
+* the `debug` partition can be used to access a single node for up to 30 minutes for debugging and testing purposes.
+* the `xfer` partition can be used for [internal data transfer][ref-data-xfer-internal] at CSCS.
+
+| name | nodes | time limit | job size limit |
+| -- | -- | -- | -- |
+| `normal` | ~1200 | 24 hours | none |
+| `debug`  | 32 | 30 minutes | 1 node |
+| `xfer`   | 2 | 24 minutes | 1 node |
+
+See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+
+### FirecREST
+
+Clariden can also be accessed using [FircREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
 
 ## Maintenance and status
 
