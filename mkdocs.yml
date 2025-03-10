@@ -85,6 +85,9 @@ nav:
     - 'Code of Conduct': policies/code-of-conduct.md
     - 'UserLab Support Policy': policies/support.md
     - 'Slack Code of Conduct': policies/slack.md
+  - 'Contributing':
+    - contributing/index.md
+
 theme:
   name: material
   language: en

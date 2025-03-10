@@ -8,8 +8,8 @@
 
 !!! note "User Environments"
 
-    [CP2K] is provided on [ALPS][ref-alps-platforms] via [User Environments][ref-tool-uenv] (UENVs). Please have a look at
-    the [User Environments documentation][ref-tool-uenv] for more information about UENVs and how to use them.
+    [NAMD] is provided on [ALPS][ref-alps-platforms] as a uenv.
+    Please have a look at the [uenv documentation][ref-tool-uenv] for more information about UENVs and how to use them.
 
 [NAMD] is provided in two flavours on [CSCS] systems:
 
@@ -131,7 +131,7 @@ The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from so
         --with-fftw --with-fftw3 --fftw-prefix ${DEV_VIEW_PATH} \
         --cuda-gencode arch=compute_90,code=sm_90 --with-single-node-cuda --with-cuda --cuda-prefix ${DEV_VIEW_PATH}
     cd Linux-ARM64-g++.cuda && make -j 32
-    
+
     # The namd3 executable (GPU-accelerated) will be built in the Linux-ARM64-g++.cuda directory
     ```
 
@@ -153,7 +153,7 @@ The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from so
         Do not use the CPU-only build for actual simulations as it will be slower than the GPU build.
 
     You can build a CPU-only version of NAMD as follows:
-    
+
     ```bash
     export DEV_VIEW_NAME="develop-single-node"
     export PATH_TO_NAMD_SOURCE=<PATH_TO_NAMD_SOURCE>
@@ -170,7 +170,7 @@ The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from so
     !!! info "Action required"
         Modify the `<PATH_TO_NAMD_SOURCE>/arch/Linux-ARM64.tcl` file now.
         Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable.
-    
+
     ```bash
     # Build bundled Charm++
     tar -xvf charm-8.0.0.tar && cd charm-8.0.0

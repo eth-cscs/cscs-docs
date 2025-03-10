@@ -128,7 +128,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     * `--uenv` and `--view` set up the uenv
     * `-t120` requests a 2 hour (120 minute) reservation
     * `-n1` requests a single rank - only one rank/process is required for VSCode
-    * `--pty` allows forwarding of terminal I/O, regired to sign in to Github
+    * `--pty` allows forwarding of terminal I/O, required to sign in to Github
 
     Once the job allocation is granted, you will be prompted to log into GitHub, the same as starting a session on the login node.
     If you don't want to use a uenv, the command is even simpler:

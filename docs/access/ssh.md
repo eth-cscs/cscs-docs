@@ -174,6 +174,7 @@ ssh -A cscsusername@ela.cscs.ch
 ssh daint.cscs.ch
 ```
 
+[](){#ref-ssh-faq}
 ## Frequently encountered issues
 
 ??? warning "too many authentification failures"
