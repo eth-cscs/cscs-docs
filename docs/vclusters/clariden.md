@@ -104,16 +104,30 @@ Clariden uses [SLURM][slurm] as the workload manager, which is used to launch an
 There are two slurm partitions on the system:
 
 * the `normal` partition is for all production workloads.
-* the `debug` partition can be used to access a single node for up to 30 minutes for debugging and testing purposes.
-* the `xfer` partition can be used for [internal data transfer][ref-data-xfer-internal] at CSCS.
+* the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
+* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
 
-| name | nodes | time limit | job size limit |
-| -- | -- | -- | -- |
-| `normal` | ~1200 | 24 hours | none |
-| `debug`  | 32 | 30 minutes | 1 node |
-| `xfer`   | 2 | 24 minutes | 1 node |
+| name | nodes  | max nodes per job | time limit |
+| --   | --     | --                | -- |
+| `normal` | 1266       | -    | 24 hours |
+| `debug`  | 32         | 2    | 30 minutes |
+| `xfer`   | 2          | 1    | 24 hours |
+
+* nodes in the `normal` and `debug` partitions are not shared
+* nodes in the `xfer` partition can be shared
 
 See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+
+??? example "how to check the number of nodes on the system"
+    You can check the size of the system by running the following command in the terminal:
+    ```terminal
+    > sinfo --format "| %20R | %10D | %10s | %10l | %10A |"
+    | PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |
+    | debug                | 32         | 1-2        | 30:00      | 3/29       |
+    | normal               | 1266       | 1-infinite | 1-00:00:00 | 812/371    |
+    | xfer                 | 2          | 1          | 1-00:00:00 | 1/1        |
+    ```
+    The last column shows the number of nodes that have been allocted in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 
 ### FirecREST
 
