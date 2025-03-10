@@ -99,7 +99,7 @@ Alternatively, [uenv][ref-tool-uenv] are also available on Clariden. Currently t
 
 ### SLURM
 
-Clariden uses [SLURM][slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Clariden uses [SLURM][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
 There are two slurm partitions on the system:
 
