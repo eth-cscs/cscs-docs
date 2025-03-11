@@ -97,11 +97,11 @@ If you can't find the information that you need in the documentation, help is av
     Provide some links to the "how" documentation here.
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-hammer: __Tools__
+-   :fontawesome-solid-hammer: __Services__
 
-    CSCS provides tools and software on Alps.
+    CSCS provides services and software on Alps.
 
-    [:octicons-arrow-right-24: Tools Overview](tools/index.md)
+    [:octicons-arrow-right-24: Services Overview](services/index.md)
 
 -   :fontawesome-solid-screwdriver-wrench: __Build and Install Software__
 
