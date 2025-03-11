@@ -79,7 +79,7 @@ Users are encouraged to use containers on Clariden.
 * Jobs using containers can be easily set up and submitted using the [container engine][ref-container-engine].
 * To build images, see the [guide to building container images on Alps][ref-build-containers].
 
-Alternatively, [uenv][ref-tool-uenv] are also available on Clariden. Currently the only uenv that is deployed on Clariden is [prgenv-gnu][ref-uenv-prgenv-gnu].
+Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently the only uenv that is deployed on Clariden is [prgenv-gnu][ref-uenv-prgenv-gnu].
 
 ??? example "using uenv provided for other clusters"
     You can run uenv that were built for other Alps clusters using the `@` notation.

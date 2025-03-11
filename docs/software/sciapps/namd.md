@@ -9,7 +9,7 @@
 !!! note "User Environments"
 
     [NAMD] is provided on [ALPS][ref-alps-platforms] as a uenv.
-    Please have a look at the [uenv documentation][ref-tool-uenv] for more information about UENVs and how to use them.
+    Please have a look at the [uenv documentation][ref-uenv] for more information about UENVs and how to use them.
 
 [NAMD] is provided in two flavours on [CSCS] systems:
 
