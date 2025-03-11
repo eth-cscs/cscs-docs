@@ -1,6 +1,6 @@
 Uenv are user environments that provide scientific applications, libraries and tools on Alps. This article use them to build software.
 
-For more documentation on how to find, download and use uenv in your workflow, see the [env tool documentation](../tools/uenv.md).
+For more documentation on how to find, download and use uenv in your workflow, see the [env tool documentation][ref-uenv].
 
 [](){#ref-building-uenv-spack}
 ## Building software using Spack

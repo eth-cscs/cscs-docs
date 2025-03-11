@@ -12,8 +12,8 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 
 !!! note "uenvs"
 
-    [CP2K] is provided on [ALPS][platforms-on-alps] via [uenv][ref-tool-uenv].
-    Please have a look at the [uenv documentation][ref-tool-uenv] for more information about uenvs and how to use them.
+    [CP2K] is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
+    Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
 ## Dependencies
 

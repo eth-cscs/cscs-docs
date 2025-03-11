@@ -15,6 +15,23 @@ plugins:
   - autorefs
 nav:
   - Welcome: index.md
+  - 'Alps':
+    - alps/index.md
+    - 'Platforms': alps/platforms.md
+    - 'Clusters': alps/clusters.md
+    - 'Hardware': alps/hardware.md
+    - 'Storage': alps/storage.md
+    - 'Machine Learning Platform':
+      - platforms/mlp/index.md
+      - 'clariden': clusters/clariden.md
+      - 'bristen': clusters/bristen.md
+    - 'HPC Platform':
+      - platforms/hpcp/index.md
+      - 'daint': clusters/daint.md
+      - 'eiger': clusters/eiger.md
+    - 'Climate and Weather Platform':
+      - platforms/cwp/index.md
+      - 'santis': clusters/santis.md
   - 'Accounts and Projects':
     - accounts/index.md
     - 'Account and Resources Management Tool': accounts/ump.md
@@ -25,23 +42,6 @@ nav:
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
     - 'VSCode': access/vscode.md
-  - 'Alps':
-    - alps/index.md
-    - 'Platforms': alps/platforms.md
-    - 'Clusters': alps/vclusters.md
-    - 'Hardware': alps/hardware.md
-    - 'Storage': alps/storage.md
-  - 'Machine Learning Platform':
-    - platforms/mlp/index.md
-    - 'clariden': vclusters/clariden.md
-    - 'bristen': vclusters/bristen.md
-  - 'HPC Platform':
-    - platforms/hpcp/index.md
-    - 'daint': vclusters/daint.md
-    - 'eiger': vclusters/eiger.md
-  - 'Climate and Weather Platform':
-    - platforms/cwp/index.md
-    - 'santis': vclusters/santis.md
   - 'Software':
     - software/index.md
     - 'Scientific Applications':
@@ -66,19 +66,24 @@ nav:
       - 'Containers': build-install/containers.md
       - 'Cray Programming Environment (CPE)': build-install/cpe.md
       - 'Python with pip': build-install/pip.md
-  - 'Tools':
-    - tools/index.md
-    - 'slurm': tools/slurm.md
-    - 'FirecREST': tools/firecrest.md
-    - 'uenv': tools/uenv.md
-    - 'CI/CD': tools/cicd.md
-    - 'container-engine': tools/container-engine.md
+    - 'uenv': software/uenv.md
+    - 'container-engine': software/container-engine.md
+  - 'Services':
+    - services/index.md
+    - 'FirecREST': services/firecrest.md
+    - 'CI/CD': services/cicd.md
+  - 'Running Jobs':
+    - running/index.md
+    - 'slurm': running/slurm.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
     - 'Data Transfer': storage/transfer.md
     - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
+  - 'Guides':
+    - guides/index.md
+    - 'Storage': guides/storage.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
