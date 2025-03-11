@@ -10,9 +10,9 @@ Each uenv is packaged in a single file (in the [Squashfs](https://docs.kernel.or
 
 Each environment contains a software stack, comprised of compilers, libraries, tools and scientific applications - built using Spack.
 
-!!! warning "uenv on Eiger"
+!!! warning "uenv on Eiger and Balfrin"
     
-    The uenv tool available on Eiger is a different version than the one described below. Some commands will be different.
+    The uenv tool available on Eiger and Balfrin is a different version than the one described below. Some commands will be different.
     Please refer to `uenv --help` for the correct usage.
 
 ## Getting started
