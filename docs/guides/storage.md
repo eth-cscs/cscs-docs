@@ -41,8 +41,8 @@ mkdir $SCRATCH/sqfs-demo
 cd $SCRATCH/sqfs-demo
 
 # start the uenv
-# in this case the "default" view of prgenv-gnu provides python, cray-mpich, and
-# other useful tools
+# in this case the "default" view of prgenv-gnu provides python, cray-mpich,
+# and other useful tools
 uenv start prgenv-gnu/24.11:v1 --view=default
 
 # create and activate the empty venv
@@ -73,7 +73,7 @@ The next step is to create a single squashfs file that contains the whole `$SCRA
 
 This is performed using the `mksquashfs` command, that is installed on all Alps clusters.
 
-```
+```bash
 mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
     -no-recovery -noappend -Xcompression-level 3
 ```
@@ -105,17 +105,16 @@ mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
 
 To use the optimised virtual environment, mount the squashfs image at the location of the original virtual environment when starting the uenv.
 
-```
+```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
     prgenv-gnu/24.11:v1,$PWD/pyenv.squashfs:$SCRATCH/sqfs-demo/.pyenv
-cd $SCRATCH/sqfs-demo
 source .pyenv/bin/activate
 ```
 
 Note that the original virtual environment is still installed in `$SCRATCH/sqfs-demo/.pyenv`, however the squashfs image has been mounted on top of it, so the single squashfs file is being accessed instead of the many files in the original version.
 
-A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy, and mounted from there.
+A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
 
 #### Step 4: (optional) regenerate the virtual environment
 
@@ -125,5 +124,5 @@ This means that it is not possible to `pip install` more packages in the virtual
 If you need to modify the virtual environment, run the original uenv without the squashfs file mounted, make changes, and run step 2 again to generate a new image.
 
 !!! hint
-    If you save the updated copy in a different file, you can now "roll" back to the old version of the environment by mounting the old image.
+    If you save the updated copy in a different file, you can now "roll back" to the old version of the environment by mounting the old image.
 
