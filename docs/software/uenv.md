@@ -10,9 +10,10 @@ Each uenv is packaged in a single file (in the [Squashfs](https://docs.kernel.or
 
 Each environment contains a software stack, comprised of compilers, libraries, tools and scientific applications - built using Spack.
 
-!!! warning
-
-    This documentation is for the new uenv2 implementation of uenv, that is not yet installed on Alps.
+!!! warning "uenv on Eiger and Balfrin"
+    
+    The uenv tool available on Eiger and Balfrin is a different version than the one described below. Some commands will be different.
+    Please refer to `uenv --help` for the correct usage.
 
 ## Getting started
 
@@ -150,6 +151,16 @@ The output above shows that there are 12 uenv (`prgenv-gnu`, `namd` , `cp2k` and
 
 ## Downloading uenv
 
+!!! note
+    In order to pull uenv images, a local directory for storing the images must first be created,
+    otherwise you will receive an error message that the repository does not exist.
+
+    To create a repo in the default location, use the following command:
+
+    ```terminal title="Create default uenv image reposiroty"
+    > uenv repo create
+    ```
+
 To use a uenv, it first has to be pulled from the registry to local storage where you can access it.
 For example, to use the `prgenv-gnu` uenv, use the uenv image pull command:
 
@@ -164,15 +175,7 @@ For example, to use the `prgenv-gnu` uenv, use the uenv image pull command:
     > uenv image pull 3ea1945046d884ee
     ```
 
-!!! note
-    In order to pull images, a local directory for storing the images must first be created, and you will receive an error message.
-    To create a repo in the default location, use the following command:
-
-    ```terminal title="uenv image repo"
-    > uenv repo create
-    ```
-
-Some images can be large, over 10 GB, and it can take a while to download from the registry.
+Some images can be large, over 10 GB, and it can take a while to download them from the registry.
 
 To view all uenv that have been pulled, and are ready to use use the `uenv image ls` command:
 
@@ -196,7 +199,7 @@ To view all uenv that have been pulled, and are ready to use use the `uenv image
 
 By default, uenv can be pulled by all users on a system, with no restrictions.
 
-Some uenv are not available to all users, for example the `vasp` images are only available for users with a VASP license, who are added to the `vasp` group once then have provided CSCS with a copy of their license.
+Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP][ref-uenv-vasp] license, who are added to the `vasp` group once then have provided CSCS with a copy of their license.
 
 To be able to pull such images a token that authorizes access must be provided.
 Tokens are created by CSCS, and stored on SCRATCH in a file that only users who have access to the software can read.
@@ -213,13 +216,13 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
     As of March 2025, the only restricted software is VASP.
 
 !!! note
-    Better token management is under development - tokens will be stored in a central location and be easier to use.
+    Better token management is under development - tokens will be stored in a central location and will be easier to use.
 
 [](){#ref-uenv-start}
 ## Starting a uenv session
 
 The `uenv start` command will start a new shell with one or more uenv images mounted.
-This is very useful for interactive sessions, for example if you want to work in the terminal to compile an application, or set up a python virtual environment.
+This is very useful for interactive sessions, for example if you want to work in the terminal to compile an application, or set up a Python virtual environment.
 
 !!! example "start an interactive shell to compile an application"
     Here we want to compile an MPI + CUDA application "affinity".
@@ -271,10 +274,10 @@ This is very useful for interactive sessions, for example if you want to work in
     SHELL=`which zsh` uenv start ...
     ```
 
-!!! warning "attention C Shell / tcsh users"
+!!! warning "C Shell / tcsh users"
     uenv is tested extensively with bash (the default shell), and zsh. C shell is not tested properly, and we won't make significant changes to uenv to maintain support for C shell.
 
-    If your are one of the handful of users using `tcsh` (c shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
+    If your are one of the handful of users using `tcsh` (C shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
 
 The basic syntax of uenv start is `uenv start image` where `image` is the uenv to start.
 The image can be a label, the hash/id of the uenv, or a file:
@@ -562,19 +565,18 @@ The command line tool can be installed from source, if you are working on a clus
 
     Only follow these steps if you are advised to test out a new version (e.g. if it has a fix for an issues that you are encountering).
 
-!!! example  "manually installing uenv in the terminal"
-    ```bash
-    git clone https://github.com/eth-cscs/uenv2.git
-    cd uenv2
+```bash
+git clone https://github.com/eth-cscs/uenv2.git
+cd uenv2
 
-    # run the installation script.
-    # this will install uenv2 in $HOME/.local/$(uname -m)/
-    ./install-alps-local.sh
+./install-alps-local.sh # (1)!
 
-    # update bashrc
-    echo "export PATH=\$HOME/.local/\$(uname -m)/bin:\$PATH" >> $HOME/.bashrc
-    echo "unset -f uenv" >> $HOME/.bashrc
-    ```
+# update bashrc
+echo "export PATH=\$HOME/.local/\$(uname -m)/bin:\$PATH" >> $HOME/.bashrc 
+echo "unset -f uenv" >> $HOME/.bashrc
+```
+
+1. Run installation script. This will install uenv in `$HOME/.local/$(uname -m)/bin/`.
 
 !!! warning
     Before uenv can be used, you need to log out then back in again and type `which uenv` to verify that uenv has been installed in your `$HOME` path.
