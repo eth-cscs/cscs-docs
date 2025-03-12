@@ -1,0 +1,52 @@
+[](){#ref-guides-internet-access}
+# Internet Access on Alps
+
+The [Alps network][ref-alps-hsn] is mostly configured with private IP addresses (`172.28.0.0/16`).
+Login nodes have public IP addresses which means that they can directly access the internet, while a proxy server provides internet access for compute nodes.
+
+??? info "Compute node proxy configuration"
+
+    Compute nodes are configured with the following environment variables to use the proxy server:
+    
+    ```bash
+    https_proxy=http://proxy.cscs.ch:8080
+    http_proxy=http://proxy.cscs.ch:8080
+    no_proxy=.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+    HTTPS_PROXY=http://proxy.cscs.ch:8080
+    HTTP_PROXY=http://proxy.cscs.ch:8080
+    NO_PROXY=.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+    ```
+
+## Using SSH through the proxy server 
+
+While use of the proxy server is transparent for most use cases, e.g. cloning git repositories from GitHub over SSH requires additional configuration for compute nodes.
+Cloning over https works without additional configuration.
+To make SSH use the proxy server, add the following to your `~/.ssh/config` file:
+
+```bash
+Match Host *,!148.187.0.0/16,!192.168.0.0/16,!172.16.0.0/12,!10.0.0.0/8 exec "hostname -I | grep -vqF 148.187."
+    ProxyCommand nc -X connect -x proxy.cscs.ch:8080 %h %p
+```
+
+This configuration takes into account that login and compute nodes require a different setup.
+
+!!! info "Error message when cloning without the proxy set up for SSH"
+    When cloning a git repository without the correct SSH configuration, cloning will time out as follows:
+    ```bash
+    [daint][<user>@daint-ln001 ~]$ git clone git@github.com:open-mpi/ompi.git
+    Cloning into 'ompi'...
+    ssh: connect to host github.com port 22: Connection timed out
+    fatal: Could not read from remote repository.
+
+    Please make sure you have the correct access rights
+    and the repository exists.
+    ```
+
+## Accessing the public IP of a node
+
+When on a login node configured with a public IP address, you can retrieve the public IP address for example as follows:
+
+```bash
+[daint][<user>@daint-ln001 ~]$ curl api.ipify.org
+148.187.6.19
+```

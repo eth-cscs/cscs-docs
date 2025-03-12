@@ -83,6 +83,7 @@ nav:
     - 'Object Storage': storage/object.md
   - 'Guides':
     - guides/index.md
+    - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
   - 'Policies':
     - policies/index.md
