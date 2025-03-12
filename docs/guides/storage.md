@@ -27,7 +27,7 @@ The main reasons for this include:
 As a result, using virtual environments can be slow, and these problems are only exacerbated when the virtual environment is loaded simultaneously by many ranks in an MPI job.
 
 One solution is to use the tool `mksquashfs` to compresses the contents of a directory - files, inodes and sub-directories - into a single file.
-This file can be mounted as a read-only file [Squashfs](https://en.wikipedia.org/wiki/SquashFS) file system, which is much faster because a single file is accessed instead of the many small files that were in the original environment.
+This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki/SquashFS) file system, which is much faster because a single file is accessed instead of the many small files that were in the original environment.
 
 
 #### Step 1: create the virtual environment
@@ -95,7 +95,7 @@ mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
     The default installed version of `mksquashfs` on Alps does not support the best `zstd` compression method.
     Every uenv contains a better version of `mksquashfs`, which is used by the uenv to compress itself when it is built.
 
-    The exact location inside the uenv depends on the target architecure, and version, and will be of the form:
+    The exact location inside the uenv depends on the target architecture, and version, and will be of the form:
     ```
     /user-environment/linux-sles15-${arch}/gcc-7.5.0/squashfs-${version}-${hash}/bin/mksquashfs
     ```
@@ -115,6 +115,9 @@ source .pyenv/bin/activate
 Note that the original virtual environment is still installed in `$SCRATCH/sqfs-demo/.pyenv`, however the squashfs image has been mounted on top of it, so the single squashfs file is being accessed instead of the many files in the original version.
 
 A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
+
+??? warning
+    Most likely, your virtual environment is not relocatable as it contains symlinks to paths in the original location on the filesystem. Therefore, you need to mount the image in the exact same location where you created the virtual environment.
 
 #### Step 4: (optional) regenerate the virtual environment
 
