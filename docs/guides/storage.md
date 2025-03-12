@@ -116,7 +116,7 @@ Note that the original virtual environment is still installed in `$SCRATCH/sqfs-
 
 A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
 
-??? warning
+!!! warning
     Most likely, your virtual environment is not relocatable as it contains symlinks to paths in the original location on the filesystem. Therefore, you need to mount the image in the exact same location where you created the virtual environment.
 
 #### Step 4: (optional) regenerate the virtual environment
