@@ -67,7 +67,7 @@ nav:
       - 'Cray Programming Environment (CPE)': build-install/cpe.md
       - 'Python with pip': build-install/pip.md
     - 'uenv': software/uenv.md
-    - 'container-engine': software/container-engine.md
+    - 'Container Engine': software/container-engine.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md

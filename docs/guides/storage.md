@@ -80,7 +80,7 @@ mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
 
 !!! hint
     The `-Xcompression-level` flag sets the compression level to a value between 1 and 9, with 9 being the most compressed.
-    We find that level 3 provides a good trade off between the size of the compressed image and performance: both [uenv][ref-uenv] and the [container-engine][ref-container-engine] use level 3.
+    We find that level 3 provides a good trade off between the size of the compressed image and performance: both [uenv][ref-uenv] and the [container engine][ref-container-engine] use level 3.
 
 ??? warning "I am seeing errors of the form `Unrecognised xattr prefix...`"
     You can safely ignore the (possibly many) warning messages of the form:
