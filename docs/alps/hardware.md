@@ -21,6 +21,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
 * Maximum of 64 quad-blade compute blades
 * Maximum of 64 Slingshot switch blades
 
+[](){#ref-alps-hsn}
 ## Alps High Speed Network
 
 !!! todo
