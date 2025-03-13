@@ -30,8 +30,8 @@ An example is cloning git repositories from GitHub over SSH.
 Cloning over https works without additional configuration.
 To make SSH use the proxy server, add the following to your `~/.ssh/config` file:
 
-```bash
-Match Host *,!148.187.0.0/16,!192.168.0.0/16,!172.16.0.0/12,!10.0.0.0/8 exec "hostname -I | grep -vqF 148.187."
+``` title="~/.ssh/config"
+Match Host *,!148.187.0.0/16,!192.168.0.0/16,!172.16.0.0/12,!10.0.0.0/8exec "hostname -I | grep -vqF 148.187."
     ProxyCommand nc -X connect -x proxy.cscs.ch:8080 %h %p
 ```
 
