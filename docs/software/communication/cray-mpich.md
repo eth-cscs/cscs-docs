@@ -10,7 +10,12 @@ On this page we outline the most common workflows and issues that you may encoun
 ## GPU-aware MPI
 
 We recommend using GPU-aware MPI whenever possible, as it almost always provides a significant performance improvement compared to communication through CPU memory.
-To use GPU-aware MPI with Cray MPICH, 1. the application must be linked to the GTL library, and 2. the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable must be set. If either of these are missing, the application will fail to communicate GPU buffers.
+To use GPU-aware MPI with Cray MPICH
+
+1. the application must be linked to the GTL library, and
+2. the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable must be set.
+
+If either of these are missing, the application will fail to communicate GPU buffers.
 
 In supported uenvs, Cray MPICH is built with GPU support (on clusters that have GPUs).
 This means that Cray MPICH will automatically be linked to the GTL library, which implements the the GPU support for Cray MPICH.
