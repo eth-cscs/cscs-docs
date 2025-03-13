@@ -22,7 +22,7 @@ This means that Cray MPICH will automatically be linked to the GTL library, whic
 
 ??? info "Checking that the application links to the GTL library"
 
-    To check if your application is linked against the required GTL library, running `ldd` on your executable `myexecutable` on your executable should print something similar to:
+    To check if your application is linked against the required GTL library, running `ldd` on your executable `myexecutable` should print something similar to:
     ```bash
     $ ldd myexecutable | grep gtl
             libmpi_gtl_cuda.so => /user-environment/linux-sles15-neoverse_v2/gcc-13.2.0/cray-gtl-8.1.30-fptqzc5u6t4nals5mivl75nws2fb5vcq/lib/libmpi_gtl_cuda.so (0x0000ffff82aa0000)
