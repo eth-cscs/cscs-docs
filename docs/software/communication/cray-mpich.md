@@ -116,5 +116,5 @@ or
 Assertion failed [...]: MPIR_THREAD_GLOBAL_ALLFUNC_MUTEX.count == 0
 ```
 
-??? Workaround
+??? info "Workaround"
     The issue can be worked around by falling back to a less optimized implementation of `MPICH_THREAD_MULTIPLE` by setting `MPICH_OPT_THREAD_SYNC=0`.
