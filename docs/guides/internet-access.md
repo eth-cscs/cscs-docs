@@ -17,9 +17,16 @@ Login nodes have public IP addresses which means that they can directly access t
     NO_PROXY=.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
     ```
 
+!!! warning "Public IPs are a shared resource"
+    Be aware that public IPs, whether on login nodes or through the proxy, are essentially a shared resource.
+    Many services will rate limit or block usage based on the IP address if abused.
+    An example is pulling container images from Docker Hub.
+    [Authenticating with Docker Hub][ref-ce-third-party-private-registries] makes their rate limit apply per user instead.
+
 ## Using SSH through the proxy server 
 
-While use of the proxy server is transparent for most use cases, e.g. cloning git repositories from GitHub over SSH requires additional configuration for compute nodes.
+While use of the proxy server is transparent for most use cases, others need additional configuration for compute nodes.
+An example is cloning git repositories from GitHub over SSH.
 Cloning over https works without additional configuration.
 To make SSH use the proxy server, add the following to your `~/.ssh/config` file:
 
@@ -30,7 +37,7 @@ Match Host *,!148.187.0.0/16,!192.168.0.0/16,!172.16.0.0/12,!10.0.0.0/8 exec "ho
 
 This configuration takes into account that login and compute nodes require a different setup.
 
-!!! info "Error message when cloning without the proxy set up for SSH"
+??? info "Error message when cloning without the proxy set up for SSH"
     When cloning a git repository without the correct SSH configuration, cloning will time out as follows:
     ```bash
     [daint][<user>@daint-ln001 ~]$ git clone git@github.com:open-mpi/ompi.git

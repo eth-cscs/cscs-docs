@@ -268,9 +268,15 @@ image = "/capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu
 !!! note
     It is recommended to save images in `/capstor/scratch/cscs/<username>` or its subdirectories before using them with the CE.
 
+[](){#ref-ce-third-party-private-registries}
 ### Third-party and private registries
 
 [Docker Hub](https://hub.docker.com/) is the default registry from which remote images are imported.
+
+!!! warning "Registry rate limits"
+    Some registries will rate limit image pulls by IP address.
+    Since [public IPs are a shared resource][ref-guides-internet-access] we recommend authenticating even for publicly available images.
+    For example, [Docker Hub applies its rate limits per user when authenticated](https://docs.docker.com/docker-hub/usage/).
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator. For example:
 
