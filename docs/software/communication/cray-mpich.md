@@ -80,7 +80,7 @@ Performance may be negatively affected by this option.
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
 
-??? info "Issue resolved on the 7th of October 2024"
+??? info "The issue has been resolved on the 7th of October 2024 with a system update"
     The issue was caused by a system misconfiguration.
 
 When doing inter-node GPU-aware communication with Cray MPICH after the update on the 30th of September 2024 on Alps, applications will fail with:
@@ -91,14 +91,15 @@ cxil_map: write error
 ??? info "Workaround"
     The only workaround is to not use inter-node GPU-aware MPI.
 
-    For users of CP2K encountering this issue, one can disable the use of COSMA, which uses GPU-aware MPI, by placing the following in the `&GLOBAL`` section of your input file: 
-    ```bash
-    &FM
-    TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
-    &END FM
-    ```
+    ??? tip "Workaround for CP2K"
+        For users of CP2K encountering this issue, one can disable the use of COSMA, which uses GPU-aware MPI, by placing the following in the `&GLOBAL` section of your input file: 
+        ```bash
+        &FM
+        TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+        &END FM
+        ```
 
-    Unless you run RPA calculations, this should have limited impact on performance.
+        Unless you run RPA calculations, this should have limited impact on performance.
 
 #### `MPI_THREAD_MULTIPLE` does not work
 
