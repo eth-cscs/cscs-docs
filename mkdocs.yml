@@ -137,6 +137,7 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+  custom_dir: overrides
 markdown_extensions:
   - admonition
   - def_list
