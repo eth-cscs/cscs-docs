@@ -40,6 +40,13 @@ On our systems, CP2K is built with the following dependencies:
     On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
     default.
 
+!!! note "CUDA cache path for JIT compilation"
+    [DBCSR] uses JIT compilation for CUDA kernels.
+    The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation.
+    Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`.
+    On the HPC platform, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by
+    default.
+
 !!! warning "BLAS/LAPACK on Eiger"
     
     On Eiger, the default BLAS/LAPACK library is Intel oneAPI MKL (oneMKL) until `cp2k@2024.3`. 
