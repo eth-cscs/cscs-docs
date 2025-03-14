@@ -57,6 +57,13 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
+    - 'Communication Libraries':
+      - software/communication/index.md
+      - 'Cray MPICH': software/communication/cray-mpich.md
+      - 'OpenMPI': software/communication/openmpi.md
+      - 'NCCL': software/communication/nccl.md
+      - 'RCCL': software/communication/rccl.md
+      - 'libfabric': software/communication/libfabric.md
     - 'Tools':
       - software/tools/index.md
       - 'Linaro Forge': software/tools/linaro.md
