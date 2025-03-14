@@ -37,7 +37,7 @@ Match Host *,!148.187.0.0/16,!192.168.0.0/16,!172.16.0.0/12,!10.0.0.0/8exec "hos
 
 This configuration takes into account that login and compute nodes require a different setup.
 
-??? info "Error message when cloning without the proxy set up for SSH"
+??? warning "Error message when cloning without the proxy set up for SSH"
     When cloning a git repository without the correct SSH configuration, cloning will time out as follows:
     ```bash
     [daint][<user>@daint-ln001 ~]$ git clone git@github.com:open-mpi/ompi.git
