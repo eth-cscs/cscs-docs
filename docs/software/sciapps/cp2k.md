@@ -36,8 +36,9 @@ On our systems, CP2K is built with the following dependencies:
 * [spla]
 
 !!! note "GPU-aware MPI"
-    [COSMA] and [DLA-Future] are built with GPU-aware MPI. On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
-    default, therefore there is no need to set it manually.
+    [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
+    On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
+    default.
 
 !!! warning "BLAS/LAPACK on Eiger"
     
