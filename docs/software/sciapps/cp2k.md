@@ -67,6 +67,8 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
+export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)
+export MPICH_GPU_SUPPORT_ENABLED=1 # (6)
 export MPICH_MALLOC_FALLBACK=1
 export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
 
@@ -84,7 +86,11 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
 
-5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead
+5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead.
+   This is set by default on the HPC platform, but it's set here explicitly as it's essential to avoid performance degradation.
+
+6. CP2K's dependencies use GPU-aware MPI, which requires enabling support at runtime.
+   This is set by default on the HPC platform, but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
 
 
 * Change <ACCOUNT> to your project account name
