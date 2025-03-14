@@ -7,6 +7,7 @@ It is available through uenvs like [prgenv-gnu][ref-uenv-prgenv-gnu] and [the ap
 The [Cray MPICH documentation](https://cpe.ext.hpe.com/docs/latest/mpt/mpich/index.html) contains detailed information about Cray MPICH.
 On this page we outline the most common workflows and issues that you may encounter on Alps.
 
+[](){#ref-communication-cray-mpich-gpu-aware}
 ## GPU-aware MPI
 
 We recommend using GPU-aware MPI whenever possible, as it almost always provides a significant performance improvement compared to communication through CPU memory.
