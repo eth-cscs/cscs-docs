@@ -455,6 +455,7 @@ As a workaround, you can you can disable CUDA acceleration fo the grid backend:
 [FFTW]: https://www.fftw.org
 [ScaLAPACK]: https://www.netlib.org/scalapack/
 [OpenBLAS]: http://www.openmathlib.org/OpenBLAS/
+[Intel MKL]: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
 [Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
 [slurm]: https://slurm.schedmd.com/
 [CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
