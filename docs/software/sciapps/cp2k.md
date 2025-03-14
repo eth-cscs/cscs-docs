@@ -67,7 +67,6 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
-export CUDA_CACHE_PATH="/dev/shm/$RANDOM"           # (5)
 export MPICH_MALLOC_FALLBACK=1
 export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
 
