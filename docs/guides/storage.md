@@ -68,20 +68,24 @@ pip install torch torchvision torchaudio \
 
 ##### Alternative virtual environment creation using uv
 
-The installation process described above is not optimized for file system performance and will still be slow on Lustre filesystems. An alternative way to create the virtual environment is to use the [uv](https://docs.astral.sh/uv/) tool, which supports _relocatable_ virtual environments and asynchronous package downloads for better installation times. This way, the installation process is much shorter and the resulting squashfs image can be shared across projects, as the virtual environment can be safely used from any location.
+The installation process described above is not optimized for file system performance and will still be slow on Lustre filesystems. An alternative way to create the virtual environment is to use the [uv](https://docs.astral.sh/uv/) tool, which supports _relocatable_ virtual environments and asynchronous package downloads. The main benefit of a relocatable virtual environment is that it does not need to be created in the final path from where it will be used. This allows the use of shared memory to speed up the creation and initialization of the virtual environment and, since the virtual environment can be used from any location, the resulting squashfs image can be safely shared across projects.
 
 ```bash
 # activate the uenv as before
 uenv start prgenv-gnu/24.11:v1 --view=default
 
 # create and activate a new relocatable venv using uv
-uv venv --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+# in this case we explicitly select python 3.12
+uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
 cd /dev/shm/sqfs-demo
 source .venv/bin/activate
 
 # install software in the virtual environment using uv
 uv pip install --link-mode=copy torch torchvision torchaudio \
     --index-url https://download.pytorch.org/whl/cu126
+# optionally, to reduce the import times, precompile all
+# python modules to bytecode before creating the squashfs image
+python -m compileall .venv/lib/python3.12/site-packages
 ```
 
 #### Step 2: make a squashfs image of the virtual environment
@@ -145,4 +149,3 @@ If you need to modify the virtual environment, run the original uenv without the
 
 !!! hint
     If you save the updated copy in a different file, you can now "roll back" to the old version of the environment by mounting the old image.
-
