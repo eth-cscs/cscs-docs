@@ -33,7 +33,6 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 #### Step 1: create the virtual environment
 
 The first step is to create the virtual environment using the usual workflow.
-This might be slow, because we are not optimising this stage for file system performance.
 
 ```bash
 # for the example create a working path on SCRATCH
@@ -66,6 +65,24 @@ pip install torch torchvision torchaudio \
     `find` is used to list every path and file, and `stat` is called on each of these to get the inode, and then `sort` and `wc` are used to count the number of unique inodes.
 
     In our "simple" pytorch example, I counted **22806 inodes**!
+
+##### Alternative virtual environment creation using uv
+
+The installation process described above is not optimized for file system performance and will still be slow on Lustre filesystems. An alternative way to create the virtual environment is to use the [uv](https://docs.astral.sh/uv/) tool, which supports _relocatable_ virtual environments and asynchronous package downloads for better installation times. This way, the installation process is much shorter and the resulting squashfs image can be shared across projects, as the virtual environment can be safely used from any location.
+
+```bash
+# activate the uenv as before
+uenv start prgenv-gnu/24.11:v1 --view=default
+
+# create and activate a new relocatable venv using uv
+uv venv --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+cd /dev/shm/sqfs-demo
+source .venv/bin/activate
+
+# install software in the virtual environment using uv
+uv pip install --link-mode=copy torch torchvision torchaudio \
+    --index-url https://download.pytorch.org/whl/cu126
+```
 
 #### Step 2: make a squashfs image of the virtual environment
 
@@ -117,7 +134,7 @@ Note that the original virtual environment is still installed in `$SCRATCH/sqfs-
 A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
 
 !!! warning
-    Virtual environment are usually not relocatable as they contain symlinks to absolute locations inside the virtual environment. Therefore, you need to mount the image in the exact same location where you created the virtual environment.
+    Virtual environments are not relocatable by default as they contain symlinks to absolute locations inside the virtual environment. This means that the squashfs file must be mounted in the exact same location where the virtual environment was created, unless it contains a virtual environment specifically created using a tool with support for relocatable virtual environments (e.g. `uv venv --relocatable` as mentioned in step 1), in which case it can be mounted in any location.
 
 #### Step 4: (optional) regenerate the virtual environment
 
