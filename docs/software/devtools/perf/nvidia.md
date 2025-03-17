@@ -14,8 +14,8 @@ developers to inspect the execution flow, pinpoint latencies, and correlate
 events across different system components. As a sampling profiler, it can be
 easily used to profile applications written in C, C++, Python, Fortran, or
 Julia by wrapping the application with the Nsight Systems profiler executable.
-`NVIDIA Nsight Systems` is available with any UENV that comes with a CUDA
-compiler.
+`NVIDIA Nsight Systems` is available with any [UENV][ref-uenv] that comes with
+a CUDA compiler, for instance prgenv-gnu.
 
 ## NVIDIA Nsight Compute
 
@@ -29,7 +29,7 @@ of memory usage, compute utilization, and instruction throughput. As a sampling
 profiler, it can be easily used to profile applications written in C, C++,
 Python, Fortran, or Julia by wrapping the application with the Nsight Compute
 profiler executable. `NVIDIA Nsight Compute` is available with any
-[UENV][ref-uenv] that comes with a CUDA compiler.
+[UENV][ref-uenv] that comes with a CUDA compiler, for instance prgenv-gnu.
 
 ## Troubleshooting
 
