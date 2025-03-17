@@ -30,3 +30,26 @@ profiler, it can be easily used to profile applications written in C, C++,
 Python, Fortran, or Julia by wrapping the application with the Nsight Compute
 profiler executable. `NVIDIA Nsight Compute` is available with any
 [UENV][ref-uenv] that comes with a CUDA compiler.
+
+## Troubleshooting
+
+Notes:
+
+=== "CrashReporter: Qt initialization failed, Failed to load Qt platform plugin: xcb"
+
+    !!! warning
+
+        While we recommend to use ncu instead of ncu-ui, it is possible to use
+        X11 to launch ncu-ui. However, this will fail with the following
+        error message: `Failed to load Qt platform plugin: "xcb"`.
+        To workaround this issue, you can follow these instructions:
+
+        ```bash
+        ssh -Y -J <user>@ela.cscs.ch <user>@daint.alps.cscs.ch
+        # the -Y ssh flag enables trusted X11 forwarding.
+        wget https://jfrog.svc.cscs.ch/artifactory/cscs-reframe-tests/nvidia/ncu_deps.tar.gz
+        tar xf ncu_deps.tar.gz
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/usr/lib64
+        ncu-ui &
+        ```
+
