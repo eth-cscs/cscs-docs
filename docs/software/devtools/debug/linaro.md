@@ -14,19 +14,23 @@ interface or from the command-line.
 
 Linaro Forge is available on Alps through a [uenv][ref-uenv].
 The name of the uenv image is `linaro-forge`, and the available versions can be
-determined using the `uenv image find` command, for example:
+determined using the `uenv image find` command.
 
-```
-> uenv --version
-7.0.0
+??? example
 
-> uenv image find linaro-forge
-uenv                    arch   system  id                size(MB)  date
-linaro-forge/24.1.1:v1  gh200  daint   e0e79f5c3e6a8ee0  365       2025-02-12
+    Available `linaro-forge` uenv
 
-> uenv image pull linaro-forge/24.1.1:v1
-pulling e0e79f5c3e6a8ee0 100.00% --- 365/365 (0.00 MB/s)
-```
+    ```
+    > uenv --version
+    7.0.0
+    
+    > uenv image find linaro-forge
+    uenv                    arch   system  id                size(MB)  date
+    linaro-forge/24.1.1:v1  gh200  daint   e0e79f5c3e6a8ee0  365       2025-02-12
+    
+    > uenv image pull linaro-forge/24.1.1:v1
+    pulling e0e79f5c3e6a8ee0 100.00% --- 365/365 (0.00 MB/s)
+    ```
 
 This uenv is configured to be mounted in the `/user-tools` path so that
 they can be used alongside application and development uenv mounted at
@@ -143,40 +147,41 @@ Next, configure a connection to the target system.
 Open the *Remote Launch* menu and click on *configure* then *Add*. 
 Examples of the settings are below.
 
-=== "Daint"
+??? example
 
-    | Field       | Value                                   |
-    | ----------- | --------------------------------------- |
-    | Connection  | `daint`                                  |
-    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@daint.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |    
+    === "Daint"
+    
+        | Field       | Value                                   |
+        | ----------- | --------------------------------------- |
+        | Connection  | `daint`                                  |
+        | Host Name   | `cscsusername@ela.cscs.ch cscsusername@daint.cscs.ch`  |
+        | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |    
+    
+    === "Santis"
+    
+        | Field       | Value                                   |
+        | ----------- | --------------------------------------- |
+        | Connection  | `santis`                                |
+        | Host Name   | `cscsusername@ela.cscs.ch cscsusername@santis.cscs.ch`  |
+        | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
+    
+    === "Clariden"
+    
+        | Field       | Value                                   |
+        | ----------- | --------------------------------------- |
+        | Connection  | `clariden`                                |
+        | Host Name   | `cscsusername@ela.cscs.ch cscsusername@clariden.cscs.ch`  |
+        | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
+    
+    === "Eiger"
+    
+        | Field       | Value                                   |
+        | ----------- | --------------------------------------- |
+        | Connection  | `eiger`                                |
+        | Host Name   | `cscsusername@ela.cscs.ch cscsusername@eiger.cscs.ch`  |
+        | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
 
-=== "Santis"
-
-    | Field       | Value                                   |
-    | ----------- | --------------------------------------- |
-    | Connection  | `santis`                                |
-    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@santis.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
-    | Private Key | `$HOME/.ssh/cscs-key` |
-
-=== "Clariden"
-
-    | Field       | Value                                   |
-    | ----------- | --------------------------------------- |
-    | Connection  | `clariden`                                |
-    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@clariden.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
-    | Private Key | `$HOME/.ssh/cscs-key` |
-
-=== "Eiger"
-
-    | Field       | Value                                   |
-    | ----------- | --------------------------------------- |
-    | Connection  | `eiger`                                |
-    | Host Name   | `cscsusername@ela.cscs.ch cscsusername@eiger.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
-    | Private Key | `$HOME/.ssh/cscs-key` |
+[//]: <> ( | Private Key | `$HOME/.ssh/cscs-key` |)
 
 Some notes on the examples above:
 
