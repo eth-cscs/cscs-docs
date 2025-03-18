@@ -70,10 +70,9 @@ nav:
       - 'Containers': build-install/containers.md
       - 'Cray Programming Environment (CPE)': build-install/cpe.md
       - 'Python with pip': build-install/pip.md
-    - 'Debugging and Performance Analysis tools':
+    - 'Debugging and Performance Analysis Tools':
       - software/devtools/index.md
       - 'Debugging': software/devtools/debug/index.md
-        # - 'Linaro Forge': software/devtools/linaro.md
       - 'Performance Analysis': software/devtools/perf/index.md
     - 'uenv': software/uenv.md
     - 'Container Engine': software/container-engine.md

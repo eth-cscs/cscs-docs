@@ -4,8 +4,8 @@
 [NVIDIA Nsight Systems](https://developer.nvidia.com/nsight-systems) 
 is a system-wide performance analysis tool that enables developers to gain a
 deep understanding of how their applications utilize computing resources, such
-as CPUs, GPUs, memory, and I/O. The tool provides a unified view of an
-application\'s performance across the entire system, capturing detailed trace
+as CPUs, GPUs, memory, and I/O. The tool provides a unified view of
+application performance across the entire system, capturing detailed trace
 information that allows users to analyze how different components interact and
 where performance issues might arise. A key advantage of Nsight Systems is its
 ability to provide detailed traces of GPU activity, offering deeper insights
@@ -14,8 +14,8 @@ developers to inspect the execution flow, pinpoint latencies, and correlate
 events across different system components. As a sampling profiler, it can be
 easily used to profile applications written in C, C++, Python, Fortran, or
 Julia by wrapping the application with the Nsight Systems profiler executable.
-`NVIDIA Nsight Systems` is available with any [UENV][ref-uenv] that comes with
-a CUDA compiler, for instance prgenv-gnu.
+`NVIDIA Nsight Systems` is available with any [uenv][ref-uenv] that comes with
+a CUDA compiler, for instance `prgenv-gnu`.
 
 ## NVIDIA Nsight Compute
 
@@ -29,7 +29,7 @@ of memory usage, compute utilization, and instruction throughput. As a sampling
 profiler, it can be easily used to profile applications written in C, C++,
 Python, Fortran, or Julia by wrapping the application with the Nsight Compute
 profiler executable. `NVIDIA Nsight Compute` is available with any
-[UENV][ref-uenv] that comes with a CUDA compiler, for instance prgenv-gnu.
+[uenv][ref-uenv] that comes with a CUDA compiler, for instance `prgenv-gnu`.
 
 ## Troubleshooting
 
@@ -39,8 +39,8 @@ Notes:
 
     !!! warning
 
-        While we recommend to use ncu instead of ncu-ui, it is possible to use
-        X11 to launch ncu-ui. However, this will fail with the following
+        While we recommend to use `ncu` instead of `ncu-ui`, it is possible to
+        use X11 to launch ncu-ui. However, this will fail with the following
         error message: `Failed to load Qt platform plugin: "xcb"`.
         To workaround this issue, you can follow these instructions:
 

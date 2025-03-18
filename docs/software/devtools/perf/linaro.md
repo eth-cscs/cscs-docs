@@ -2,7 +2,7 @@
 # Linaro Forge MAP and Performance Reports
 
 [Linaro Forge](https://docs.linaroforge.com/latest/html/forge/index.html) is a
-suite of profiling and debugging tools, it includes the Linaro
+suite of profiling and debugging tools. It includes the Linaro
 [DDT][ref-software-devtools-debug-ddt] debugger and the Linaro MAP and
 Performance Reports tools. MAP can be used for profiling serial,
 multi-threaded (OpenMP), multi-process (MPI) and accelerated (Cuda, OpenACC)
@@ -31,7 +31,7 @@ Alps the following script is necessary:
 This will generate a profile report in a binary file with suffix `.map`.
 
 To open this file we can open the Linaro Forge Client on our local machine,
-navigate to the `linaro MAP` tab, connect to the corresponding `Remote` and
+navigate to the `Linaro MAP` tab, connect to the corresponding `Remote` and
 then select `LOAD PROFILE DATA FILE` to locate the file.
 
 After loading the report file we will be in the home of Linaro MAP.
@@ -49,31 +49,30 @@ This will look like the following:
 <img src="https://raw.githubusercontent.com/iomaganaris/alps-uenv/refs/heads/linaro_map_docs_archive/docs/images/perf-report.png" width="300">
 </center>
 
-## Troubleshooting
-
-Notes on using specific systems:
-
-=== "Alps"
-
-    !!! warning
-
-        Some clusters are not connected directly to the internet, hence some
-        environment variables need to be set so that the tool can connect to
-        the license server.
-
-        ```bash
-        export https_proxy=proxy.cscs.ch:8080
-        export http_proxy=proxy.cscs.ch:8080
-        export no_proxy=".local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12"
-        ```
-
-        ???- note "default value of `http_proxy`"
-
-            By default the `https_proxy` and `http_proxy` variables are set to
-            `http://proxy.cscs.ch:8080`, as the transport is required for some
-            other services to work. You will have to set them for a debugging
-            session.
-
 More informations regarding how to use Linaro MAP and Performance Reports are
 provided in the Forge 
 [User Guide](https://docs.linaroforge.com/latest/html/forge/index.html).
+
+## Troubleshooting
+
+Notes about known issues:
+
+=== "The proxy type is invalid for this operation"
+
+    !!! note
+
+        If the tool fails to launch with the following error message: 
+
+            Error communicating with Licence Server velan.cscs.ch:
+            The proxy type is invalid for this operation
+            Attempting again while ignoring proxies.
+        
+        Proxy environment variables need to be set to let the tool connect to
+        the license server, as explained in 
+        [Compute node proxy configuration][ref-guides-internet-access].
+
+=== "AMD gpus support"
+
+    !!! note
+
+        CSCS does not currently have a Linaro license for AMD gpus.
