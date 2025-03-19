@@ -1,8 +1,11 @@
 [](){#ref-firecrest}
 # FirecREST
 
-FirecREST is a RESTful API for managing High-Performance Computing resources, developed at CSCS.
-Scientific platform developers can integrate Firecrest into web-enabled portals and applications, allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
+FirecREST is a RESTful API for programatically accessing High-Performance Computing resources, developed at CSCS.
+
+Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://github.com/eth-cscs/firecrest/tree/master/examples/CI-pipeline), [Worflow Managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools agains HPC resources.
+
+Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://firecrest-ui-hpc.cscs.ch) and [applications](https://github.com/eth-cscs/firecrest/tree/master/examples/UI-client-credentials), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
 
 Users can make HTTP requests to perform the following operations:
 
@@ -10,27 +13,73 @@ Users can make HTTP requests to perform the following operations:
 * actions against the Slurm workload manager (submit, query, and cancel jobs of the user)
 * internal (between CSCS systems) and external (to/from CSCS systems) data transfers
 
-For a full feature set, have a look at the latest [FirecREST API specification](https://firecrest-docs.v1.svc.cscs.ch/) deployed at CSCS.
+## FirecREST versions
 
-Please refer to the [FirecREST documentation](https://firecrest.readthedocs.io/en/latest/) for detailed documentation.
+Beginning 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
+
+Version 2 is faster, easier to use, and more efficient in resource management than its predecesor, therefore, if you are new to FirecREST start directly using **version 2** (if available for your platform).
+
+If you're using **version 1**, we recommend you to port your applications to use the new version.
+
+### Version 2
+
+!!!Warning
+    Documentation for version 2 is still work in progress
+
+For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
+
+Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/use) for detailed documentation.
+
+### Version 1
+
+For a full feature set, have a look at the latest [FirecREST version 1 API specification](https://firecrest-docs.v1.svc.cscs.ch/) deployed at CSCS.
+
+Please refer to the [FirecREST-v1 documentation](https://firecrest.readthedocs.io/en/latest/) for detailed documentation.
+
 
 ## FirecREST Deployment on Alps
 
-FirecREST is available for all three major [Alps platforms][ref-alps-platforms], with a different API endpoint for each platform.
+FirecREST is available for all three major [Alps platforms][ref-alps-platforms], with a different API endpoint and versions for each platform.
 
-| Platform | API Endpoint | Clusters |
-|----------|-------------|-----------|
-| HPC Platform | https://api.cscs.ch/hpc/firecrest/v1 | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger] |
-| ML Platform | https://api.cscs.ch/ml/firecrest/v1 | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
-| CW Platform | https://api.cscs.ch/cw/firecrest/v1 | [Santis][ref-cluster-santis] |
+<table>
+<tr><th>Platform</th><th>Version</th><th>API Endpoint</th><th>Clusters</th></tr>
+<tr><td style="vertical-align: middle;" rowspan="2">HPC Platform</td><td>v1</td><td>https://api.cscs.ch/hpc/firecrest/v1</td><td style="vertical-align: middle;" rowspan="2"><a href="../../clusters/daint">Daint</a>, <a href="../../clusters/eiger">Eiger</a></td></tr>
+<tr>                                 <td>v2</td><td>https://api.cscs.ch/hpc/firecrest/v2</td></tr>
+<tr><td>ML Platform</td><td>v1</td><td>https://api.cscs.ch/ml/firecrest/v1</td><td style="vertical-align: middle;"><a href="../../clusters/bristen">Bristen</a>, <a href="../../clusters/clariden">Clariden</a></td></tr>
+<tr><td style="vertical-align: middle;" rowspan="2">CW Platform</td><td>v1</td><td>https://api.cscs.ch/cw/firecrest/v1</td><td style="vertical-align: middle;" rowspan="2"><a href="../../clusters/santis">Santis</a></td></tr>
+<tr><td>v2</td><td>https://api.cscs.ch/cw/firecrest/v2</td></tr>
+</table>
 
-## Developer Portal: Creating FirecREST clients
 
-The [Developer Portal](https://developer.cscs.ch) is an application based on [WSO2 API Manager](https://wso2.com/api-manager/) that facilitates CSCS Users to manage subscriptions to an API at CSCS (such as FirecREST).
+## Accessing FirecREST
 
-Start by navigating to [developer.cscs.ch](https://developer.cscs.ch), then sign in by clicking the "SIGN-IN" button on the top right hand corner of the page.
+### Clients and Access tokens
+
+A **client application** that makes requests to FirecREST will not be using directly the credentials of the user for the authentication, but an **access token** instead. The access token is a signed JSON Web Token ([JWT](https://jwt.io/introduction)) which contains user information and it's valid for a short time (5 minutes). Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
+
+Every client will have a client ID (Consumer Key) and a secret (Consumer Secret) that will be used to get a short-lived access token with an HTTP request.
+
+!!! example "curl call to fetch the access token"
+    ```
+    curl -s -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
+         --data "grant_type=client_credentials" \
+         --data "client_id=<your_client>" \
+         --data "client_secret=<your_secret>"
+    ```
+
+You can manage your client application on the [CSCS Developer Portal][ref-devportal].
+
+[](){#ref-devportal}
+### CSCS Developer Portal
+
+The [Developer Portal](https://developer.cscs.ch) facilitates CSCS Users to manage subscriptions to an API at CSCS (such as FirecREST v1/v2).
+
+Start by browsing to [developer.cscs.ch](https://developer.cscs.ch), then sign in by clicking the "SIGN-IN" button on the top right hand corner of the page.
 
 Once logged in, you will see a list of APIs that are available to your user.
+
+!!! Warning
+    You might not see version 1 or version 2 of some API. You will be able to see all the versions when you *subscribe* your Application to the API.
 
 ### Creating an Application
 
@@ -50,30 +99,16 @@ When finished, click on the "Save" button.
 
 ### Configuring Production Keys
 
-
-Once the Application is created, create the Production Keys (Client ID and Client Secret) by clicking on "Production Keys" 
+Once the Application is created, create the Production Keys (`Client ID` and `Client Secret`) by clicking on "Production Keys" 
 
 ![FirecREST production keys](../images/firecrest/f7t-keys.png)
 
-There are two ways to configuring production keys:
 
-=== "use existing OAuth keys"
+Use this if this is your first FirecREST application, or if you wish to create new keys.
 
-    This approach can be used if you have already generated keys for FirecREST.
+* click on the "Generate Keys" button at the bottom of the page
 
-    * click on the "Provide Existing OAuth Keys" button
-    * enter the Consumer Key (Client ID) and Consumer Secret (Client Secret)
-    * click the "Provide" button to confirm
-
-    ![FirecREST existing keys](../images/firecrest/f7t-existing-keys.png)
-
-=== "generate new OAuth keys"
-
-    Use this if this is your first FirecREST application, or if you wish to create new keys.
-
-    * click on the "Generate Keys" button at the bottom of the page
-
-    ![FirecREST existing keys](../images/firecrest/f7t-generate-keys.png)
+![FirecREST existing keys](../images/firecrest/f7t-generate-keys.png)
 
 Once the keys are generated, you will see the pair "Consumer Key" and "Consumer Secret".
 
@@ -107,75 +142,241 @@ To use your Application to access FirecREST, follow the [API documentation](http
 One way to get started is by using [pyFirecREST](https://pyfirecrest.readthedocs.io/), a Python package with a collection of wrappers for the different functionalities of FirecREST.
 This package simplifies the usage of FirecREST by making multiple requests in the background for more complex workflows as well as by refreshing the access token before it expires.
 
+#### Try version 2
 
-!!! example "Try FirecREST using pyFirecREST"
+!!! example "Try FirecREST using pyFirecREST v2"
     ```python
-    import firecrest as fc
+    import json
+    import firecrest as f7t
 
-
-    client_id = <client_id>
-    client_secret = <client_secret>
+    client_id = "<client_id>"
+    client_secret = "<client_secret>"
     token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
 
     # Setup the client for the specific account
     # For instance, for the Alps HPC Platform system Daint:
 
-    client = fc.Firecrest(
-        firecrest_url="https://api.cscs.ch/hpc/firecrest/v1",
-        authorization=fc.ClientCredentialsAuth(client_id, client_secret, token_uri)
+    client = f7t.v2.Firecrest(
+        firecrest_url="https://api.cscs.ch/hpc/firecrest/v2",
+        authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
     )
 
-    print(client.all_systems())
+    # Status of the systems, filesystems and schedulers:
+    print(json.dumps(client.systems(), indent=2))
+
+    # Output: information about systems and health status of the infrastructure
+    # [
+    #   {
+    #     "name": "daint",
+    #     "ssh": {                           # --> SSH settings
+    #       "host": "daint.alps.cscs.ch",
+    #       "port": 22,
+    #       "maxClients": 100,
+    #       "timeout": {
+    #         "connection": 5,
+    #         "login": 5,
+    #         "commandExecution": 5,
+    #         "idleTimeout": 60,
+    #         "keepAlive": 5
+    #       }
+    #     },
+    #     "scheduler": {                     # --> Scheduler settings
+    #       "type": "slurm",
+    #       "version": "24.05.4",
+    #       "apiUrl": null,
+    #       "apiVersion": null,
+    #       "timeout": 10
+    #     },
+    #     "servicesHealth": [                # --> Health status of services
+    #       {
+    #         "serviceType": "scheduler",
+    #         "lastChecked": "2025-03-18T23:34:51.167545Z",
+    #         "latency": 0.4725925922393799,
+    #         "healthy": true,
+    #         "message": null,
+    #         "nodes": {
+    #           "available": 21,
+    #           "total": 858
+    #         }
+    #       },
+    #       {
+    #         "serviceType": "ssh",
+    #         "lastChecked": "2025-03-18T23:34:52.054056Z",
+    #         "latency": 1.358715295791626,
+    #         "healthy": true,
+    #         "message": null
+    #       },
+    #       {
+    #         "serviceType": "filesystem",
+    #         "lastChecked": "2025-03-18T23:34:51.969350Z",
+    #         "latency": 1.2738196849822998,
+    #         "healthy": true,
+    #         "message": null,
+    #         "path": "/capstor/scratch/cscs"
+    #       },
+    #     (...)
+    #     "fileSystems": [                   # --> Filesystem settings
+    #       {
+    #         "path": "/capstor/scratch/cscs",
+    #         "dataType": "scratch",
+    #         "defaultWorkDir": true
+    #       },
+    #       {
+    #         "path": "/users",
+    #         "dataType": "users",
+    #         "defaultWorkDir": false
+    #       },
+    #       {
+    #         "path": "/capstor/store/cscs",
+    #         "dataType": "store",
+    #         "defaultWorkDir": false
+    #       }
+    #     ]    
+    #   }
+    # ]
+
+    # List content of directories
+    print(json.dumps(client.list_files("daint", "/capstor/scratch/cscs/<username>"),
+                                       indent=2))
+    
+    # [
+    #   {
+    #     "name": "directory",
+    #     "type": "d",
+    #     "linkTarget": null,
+    #     "user": "<username>",
+    #     "group": "<project>",
+    #     "permissions": "rwxr-x---+",
+    #     "lastModified": "2024-09-02T12:34:45",
+    #     "size": "4096"
+    #   },
+    #   {
+    #     "name": "file.txt",
+    #     "type": "-",
+    #     "linkTarget": null,
+    #     "user": "<username>",
+    #     "group": "<project>",
+    #     "permissions": "rw-r-----+",
+    #     "lastModified": "2024-09-02T08:26:04",
+    #     "size": "131225"
+    #   }
+    # ]
+    ```
+
+
+#### Try version 1
+
+!!! example "Try FirecREST using pyFirecREST v1"
+    ```python
+    import json
+    import firecrest as f7t
+
+    client_id = "<client_id>"
+    client_secret = "<client_secret>"
+    token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
+
+    # Setup the client for the specific account
+    # For instance, for the Alps HPC Platform system Daint:
+
+    client = f7t.v1.Firecrest(
+        firecrest_url="https://api.cscs.ch/hpc/firecrest/v1",
+        authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
+    )
+
+    print(json.dumps(client.all_systems(), indent=2))
     # Output: (one dictionary per system)
     # [{
-    #      'system': 'daint'
-    #      'status': 'available',
     #      'description': 'System ready',
-    #  }]
+    #      'status': 'available',
+    #      'system': 'daint'      
+    # }]
 
-    print(client.list_files('daint', '/capstor/scratch/cscs/<username>'))
+    print(json.dumps(client.list_files('daint', '/capstor/scratch/cscs/<username>'),
+                                       indent=2))
     # Example output: (one dictionary per file)
-    # [{
-    #      'name': 'file.txt',
-    #      'user': 'username'
-    #      'last_modified': '2024-04-28T12:03:33',
-    #      'permissions': 'rw-r--r--',
-    #      'size': '2021',
-    #      'type': '-',
-    #      'group': 'project',
-    #      'link_target': '',
-    #  },
-    #  {
-    #       'name': 'test-dir',
-    #       'user': 'username'
+    # [
+    #   {
+    #       'name': 'directory',
+    #       'user': '<username>'
     #       'last_modified': '2024-04-20T11:22:41',
     #       'permissions': 'rwxr-xr-x',
     #       'size': '4096',
     #       'type': 'd',
-    #       'group': 'project',
+    #       'group': '<project>',
     #       'link_target': '',
-    #  }]
+    #   }
+    #   {
+    #      'name': 'file.txt',
+    #      'user': '<username>'
+    #      'last_modified': '2024-09-02T08:26:04',
+    #      'permissions': 'rw-r--r--',
+    #      'size': '131225',
+    #      'type': '-',
+    #      'group': '<project>',
+    #      'link_target': '',
+    #   }
+    # ]
     ```
+
 
 The tutorial is written for a generic instance of FirecREST but if you have a valid user at CSCS you can test it directly with your resource allocation on the exposed systems.
 
-### CSCS Developer Portal
+### Data Transfer with FirecREST
 
-A client application that makes requests to FirecREST will not be using directly the credentials of the user for the authentication, but an access token instead. The access token is a signed JSON Web Token (JWT) which contains expiry information. Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights. You can manage your client application on the CSCS Developer Portal.
-
-Every client will have a client ID (Consumer Key) and a secret (Consumer Secret) that will be used to get a short-lived access token with an HTTP request.
-
-!!! example "curl call to fetch the access token"
-    ```
-    curl -s -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
-         --data "grant_type=client_credentials" \
-         --data "client_id=<your_client>" \
-         --data "client_secret=<your_secret>"
-    ```
-
-### Downloading Large Files
+In addition to the [external transfer methods at CSCS][ref-data-xfer-external], FirecREST provides automated data transfer within the API.
 
 A staging area is used for external transfers and downloading/uploading a file from/to a CSCS filesystem.
+
+!!!Note
+    pyFirecREST (both v1 and v2) hides this complexity to the user. We strongly recommend to use this library for these tasks.
+
+#### Version 2
+
+!!! example "Upload a large file using FirecREST-v2"
+    ```python
+
+    import firecrest as f7t
+
+    (...)
+
+    system = "daint"
+    source_path = "/path/to/local/file"
+    target_dir = "/capstor/scratch/cscs/<username>"
+    target_file = "file"
+    account = "<project>"
+
+
+    upload_task = client.upload(system,
+                                local_file=source_path,
+                                directory=target_dir,
+                                filename=target_file,
+                                account=account,
+                                blocking=True)    
+    ```
+
+!!! example "Download a large file using FirecREST-v2"
+    ```python
+
+    import firecrest as f7t
+
+    (...)
+
+    system = "daint"
+    source_path = "/capstor/scratch/cscs/<username>/file"
+    target_path = "/path/to/local/file"
+    account = "<project>"
+
+
+    download_task = client.download(system,
+                                    source_path=source_path,
+                                    target_path=target_path,
+                                    account=account,
+                                    blocking=True)
+
+    
+    ```
+
+#### Version 1
 
 Please follow the steps below to download a file:
 
@@ -195,7 +396,7 @@ If you wish to transfer data bigger than the limit mentioned above, you can chec
 
 The limit on the time and size of files that can be download/uploaded via FirecREST might change if needed.
 
-!!! example "checking the current values in the parameters endpoint"
+!!! example "Checking the current values in the parameters endpoint"
     ```python
     >>> print(json.dumps(client.parameters(), indent = 2))
     {
@@ -233,9 +434,14 @@ This option ensures that the job submitted uses the same environment as your log
 
 ## Further Information
 
-* [Full list of FirecREST calls](https://firecrest.readthedocs.io/en/latest/reference.html)
-* [Documentation of FirecREST](https://firecrest.readthedocs.io/)
-* [Documentation of pyFirecREST](https://pyfirecrest.readthedocs.io/)
-* [Demo FirecREST environment in Git](https://github.com/eth-cscs/firecrest/tree/master/deploy/demo)
-* [www.oauth.com](https://www.oauth.com)
+* [FirecREST UI for HPC Platform](https://firecrest-ui-hpc.cscs.ch)
+* [FirecREST OpenAPI Specification Version 1](https://firecrest.readthedocs.io/en/latest/reference.html)
+* [FirecREST OpenAPI Specification Version 2](https://eth-cscs.github.io/firecrest-v2/openapi)
+* [FirecREST Docs Version 1](https://firecrest.readthedocs.io/)
+* [FirecREST Docs Version 2](https://eth-cscs.github.io/firecrest-v2)
+* [Documentation of pyFirecREST (v1/v2)](https://pyfirecrest.readthedocs.io/)
+* [FirecREST repository Version 1](https://github.com/eth-cscs/firecrest)
+* [FirecREST repository Version 2](https://github.com/eth-cscs/firecrest-v2)
+* [What are JSON Web Tokens](https://jwt.io/introduction)
 * [Python Requests](https://requests.readthedocs.io/en/master/user/quickstart)
+* [Python Async API Calls](https://docs.aiohttp.org/en/stable/)
