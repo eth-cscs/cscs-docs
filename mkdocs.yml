@@ -70,10 +70,14 @@ nav:
       - 'Containers': build-install/containers.md
       - 'Cray Programming Environment (CPE)': build-install/cpe.md
       - 'Python with pip': build-install/pip.md
-    - 'Debugging and Performance Analysis Tools':
+    - 'Debugging and Performance Analysis':
       - software/devtools/index.md
-      - 'Debugging': software/devtools/debug/index.md
-      - 'Performance Analysis': software/devtools/perf/index.md
+      - 'Linaro Forge uenv': software/devtools/linaro-forge.md
+      - 'Linaro MAP': software/devtools/linaro-map.md
+      - 'Linaro DDT': software/devtools/linaro-ddt.md
+      - 'NVIDIA Nsight': software/devtools/nvidia-nsight.md
+      #- 'Debugging': software/devtools/debug/index.md
+      #- 'Performance Analysis': software/devtools/perf/index.md
     - 'uenv': software/uenv.md
     - 'Container Engine': software/container-engine.md
   - 'Services':
