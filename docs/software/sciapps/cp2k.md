@@ -63,11 +63,11 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #!/bin/bash -l
 
 #SBATCH --job-name=cp2k-job
-#SBATCH --time=00:30:00           # (1)
+#SBATCH --time=00:30:00 # (1)!
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=32      # (2)
-#SBATCH --cpus-per-task=8         # (3)
+#SBATCH --ntasks-per-node=32 # (2)!
+#SBATCH --cpus-per-task=8 # (3)!
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
@@ -75,10 +75,10 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
-export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)
+export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)!
 export MPICH_GPU_SUPPORT_ENABLED=1 # (6)
 export MPICH_MALLOC_FALLBACK=1
-export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)!
 
 ulimit -s unlimited
 srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
@@ -308,11 +308,11 @@ On Eiger, a similar sbatch script can be used:
 ```bash title="run_cp2k.sh"
 #!/bin/bash -l
 #SBATCH --job-name=cp2k-job
-#SBATCH --time=00:30:00           # (1)
+#SBATCH --time=00:30:00 # (1)!
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=32      # (2)
-#SBATCH --cpus-per-task=4         # (3)
+#SBATCH --ntasks-per-node=32 # (2)!
+#SBATCH --cpus-per-task=4 # (3)!
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
@@ -320,7 +320,7 @@ On Eiger, a similar sbatch script can be used:
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
-export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)!
 
 ulimit -s unlimited
 srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
@@ -355,19 +355,26 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 
 ## Building CP2K from Source
 
+!!! warning
+    The following installation instructions are up-to-date with the latest version of CP2K provided by the uenv.
+    That is, they work when manually compiling the CP2K source code corresponding to the CP2K version provided by the uenv.
+    **They are not necessarily up-to-date with the latest version of CP2K available on the `master` branch.**
+
+    If you are trying to build CP2K from source, make sure you understand what is different in `master`
+    compared to the latest version of CP2K provided by the uenv.
 
 The [CP2K] uenv provides all the dependencies required to build [CP2K] from source, with several optional features
 enabled. You can follow these steps to build [CP2K] from source:
 
 ```bash
-uenv start --view=develop <CP2K_UENV>               # (1)
+uenv start --view=develop <CP2K_UENV> # (1)!
 
-cd <PATH_TO_CP2K_SOURCE>                            # (2)
+cd <PATH_TO_CP2K_SOURCE> # (2)!
 
 mkdir build && cd build
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
-    -DCMAKE_CUDA_HOST_COMPILER=mpicc \              # (3)
+    -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
     -DCP2K_USE_LIBXC=ON \
     -DCP2K_USE_LIBINT2=ON \
     -DCP2K_USE_SPGLIB=ON \
@@ -378,7 +385,7 @@ CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -DCP2K_USE_PLUMED=ON \
     -DCP2K_USE_DFTD4=ON \
     -DCP2K_USE_DLAF=ON \
-    -DCP2K_USE_ACCEL=CUDA -DCP2K_WITH_GPU=H100 \    # (4)
+    -DCP2K_USE_ACCEL=CUDA -DCP2K_WITH_GPU=H100 \ # (4)!
     ..
 
 ninja -j 32
@@ -408,6 +415,26 @@ See [manual.cp2k.org/CMake] for more details.
 
 ### Known issues
 
+#### DLA-Future
+
+The `cp2k/2025.1` uenv provides CP2K with [DLA-Future] support enabled. The DLA-Future library is initialized
+even if you don't [explicitly ask to use it](https://manual.cp2k.org/trunk/technologies/eigensolvers/dlaf.html).
+
+If you are heavily over-subscribing the GPU by running multiple ranks per GPU, you may encounter the following error:
+
+```
+created exception: cuSOLVER function returned error code 7 (CUSOLVER_STATUS_INTERNAL_ERROR): pika(bad_function_call)
+terminate called after throwing an instance of 'pika::cuda::experimental::cusolver_exception'
+what(): cuSOLVER function returned error code 7 (CUSOLVER_STATUS_INTERNAL_ERROR): pika(bad_function_call)
+```
+
+The reason is that too many cuSOLVER handles are created. If you don't need DLA-Future, you can manually set
+the number of BLAS and LAPACK handlers to 1 by setting the following environment variables:
+
+```bash
+DLAF_NUM_GPU_BLAS_HANDLES=1
+DLAF_NUM_GPU_LAPACK_HANDLES=1
+```
 
 #### DBCSR GPU scaling
 
