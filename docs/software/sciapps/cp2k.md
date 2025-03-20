@@ -63,11 +63,11 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #!/bin/bash -l
 
 #SBATCH --job-name=cp2k-job
-#SBATCH --time=00:30:00 # (1)!
+#SBATCH --time=00:30:00 (1)
 #SBATCH --nodes=4
 #SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=32 # (2)!
-#SBATCH --cpus-per-task=8 # (3)!
+#SBATCH --ntasks-per-node=32 (2)
+#SBATCH --cpus-per-task=8 (3)
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
@@ -76,7 +76,7 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #SBATCH --view=cp2k
 
 export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)!
-export MPICH_GPU_SUPPORT_ENABLED=1 # (6)
+export MPICH_GPU_SUPPORT_ENABLED=1 # (6)!
 export MPICH_MALLOC_FALLBACK=1
 export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)!
 
@@ -308,11 +308,11 @@ On Eiger, a similar sbatch script can be used:
 ```bash title="run_cp2k.sh"
 #!/bin/bash -l
 #SBATCH --job-name=cp2k-job
-#SBATCH --time=00:30:00 # (1)!
+#SBATCH --time=00:30:00 (1)
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=32 # (2)!
-#SBATCH --cpus-per-task=4 # (3)!
+#SBATCH --ntasks-per-node=32 (2)
+#SBATCH --cpus-per-task=4 (3)
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
@@ -335,8 +335,6 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 4. [OpenBLAS] spawns an extra thread, therefore it is necessary to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1`
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
-
-5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead
 
 * Change <ACCOUNT> to your project account name
 * Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
