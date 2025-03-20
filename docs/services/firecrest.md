@@ -55,7 +55,9 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 
 ### Clients and Access tokens
 
-A **client application** that makes requests to FirecREST will not be using directly the credentials of the user for the authentication, but an **access token** instead. The access token is a signed JSON Web Token ([JWT](https://jwt.io/introduction)) which contains user information and it's valid for a short time (5 minutes). Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
+For authenticating requests to FirecREST, **client applications** use an **access token** instead of directly using the user's credentials.
+The access token is a signed JSON Web Token ([JWT](https://jwt.io/introduction)) which contains user information and is only valid for a short time (5 minutes).
+Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
 
 Every client will have a client ID (Consumer Key) and a secret (Consumer Secret) that will be used to get a short-lived access token with an HTTP request.
 
