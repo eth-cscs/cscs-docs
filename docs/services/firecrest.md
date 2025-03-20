@@ -15,7 +15,7 @@ Users can make HTTP requests to perform the following operations:
 
 ## FirecREST versions
 
-Beginning 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
+Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
 
 Version 2 is faster, easier to use, and more efficient in resource management than its predecesor, therefore, if you are new to FirecREST start directly using **version 2** (if available for your platform).
 
