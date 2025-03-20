@@ -10,9 +10,9 @@ Specifically, it is intended for building and running applications that **requir
     By default, use the `prgenv-gnu` toolchain for a generic environment for building GPU applications.
     It provides CUDA and libraries with GPU support enabled for the Grace-Hopper nodes, the gnu compiler toolchain that it provides has better C and C++ standards complianace, and it also provides more libraries and tools than this `nvfortran` uenv.
 
-## versioning
+## Versioning
 
-The naming scheme is `prgenv-nvidia/<version>:v<i>`, where `<version>` matches the version of the NVIDIA HPC SDK.
+The naming scheme is `prgenv-nvfortran/<version>:v<i>`, where `<version>` matches the version of the NVIDIA HPC SDK.
 
 * the SDK is released every two months, and is numbered in the `YY.M[M]` format, e.g. `24.1` and `24.11`.
 * the `prgenv-nvfortran` will be released three times a year (every second NVHPC release).
@@ -51,7 +51,7 @@ The currently supported versions are:
 ??? note "I need a different version"
     If you need a version of the NVHPC SDK that is not provided, e.g. the 25.1 version that falls between 24.11 and 25.4, make a request on the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk).
 
-## Using the uenv
+## How to use
 
 The image is only provided on Alps systems that have NVIDIA GPUs.
 To see which versions have been installed on a system:
