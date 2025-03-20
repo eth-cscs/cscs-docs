@@ -419,7 +419,9 @@ See [manual.cp2k.org/CMake] for more details.
 
 The `cp2k/2025.1` uenv provides CP2K with [DLA-Future] support enabled. The DLA-Future library is initialized
 even if you don't [explicitly ask to use it](https://manual.cp2k.org/trunk/technologies/eigensolvers/dlaf.html).
+This can lead to some surprising warnings and failures described below.
 
+##### `CUSOLVER_STATUS_INTERNAL_ERROR` during initialization
 If you are heavily over-subscribing the GPU by running multiple ranks per GPU, you may encounter the following error:
 
 ```
