@@ -437,7 +437,18 @@ the number of BLAS and LAPACK handlers to 1 by setting the following environment
 DLAF_NUM_GPU_BLAS_HANDLES=1
 DLAF_NUM_GPU_LAPACK_HANDLES=1
 ```
+##### Warning about pika only using one worker thread
 
+When running CP2K with multiple tasks per node and only one core per task, the initialization of DLA-Future may trigger the following warning:
+\``` (I don't know how to correctly escape a code block within a suggestion)
+The pika runtime will be started with only one worker thread because the
+process mask has restricted the available resources to only one thread. If
+this is unintentional make sure the process mask contains the resources
+you need or use --pika:ignore-process-mask to use all resources. Use
+--pika:print-bind to print the thread bindings used by pika.
+\```
+
+This warning is triggered because the runtime used by DLA-Future, [pika](https://pikacpp.org), should typically be used with more than one thread and indicates a configuration mistake. However, if you are not using DLA-Future, the warning is harmless and can be ignored. The warning cannot be silenced.
 #### DBCSR GPU scaling
 
 On the GH200 architecture, it has been observed that the GPU accelerated version of [DBCSR] does not perform optimally in some cases.
