@@ -212,8 +212,8 @@ Write lists as proper sentences.
 Separate the items simply with commas if each item is simple, or make each item a full sentence if the items are longer and contain multiple sentences.
 
 1. The first item can look like this,
-2. The second like this, and
-3. The third item like this.
+2. the second like this, and
+3. the third item like this.
 
 ### Using Admonitions
 
