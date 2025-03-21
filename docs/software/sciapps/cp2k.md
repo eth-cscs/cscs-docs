@@ -94,7 +94,7 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
 
-5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead.
+5. [DBCSR] relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead.
    This is set by default on the HPC platform, but it's set here explicitly as it's essential to avoid performance degradation.
 
 6. CP2K's dependencies use GPU-aware MPI, which requires enabling support at runtime.
@@ -411,15 +411,15 @@ ninja -j 32
 
 See [manual.cp2k.org/CMake] for more details.
 
-### Known issues
+## Known issues
 
-#### DLA-Future
+### DLA-Future
 
 The `cp2k/2025.1` uenv provides CP2K with [DLA-Future] support enabled.
 The DLA-Future library is initialized even if you don't [explicitly ask to use it](https://manual.cp2k.org/trunk/technologies/eigensolvers/dlaf.html).
 This can lead to some surprising warnings and failures described below.
 
-##### `CUSOLVER_STATUS_INTERNAL_ERROR` during initialization
+#### `CUSOLVER_STATUS_INTERNAL_ERROR` during initialization
 
 If you are heavily over-subscribing the GPU by running multiple ranks per GPU, you may encounter the following error:
 
@@ -437,7 +437,7 @@ DLAF_NUM_GPU_BLAS_HANDLES=1
 DLAF_NUM_GPU_LAPACK_HANDLES=1
 ```
 
-##### Warning about pika only using one worker thread
+#### Warning about pika only using one worker thread
 
 When running CP2K with multiple tasks per node and only one core per task, the initialization of DLA-Future may trigger the following warning:
 
@@ -449,11 +449,12 @@ you need or use --pika:ignore-process-mask to use all resources. Use
 --pika:print-bind to print the thread bindings used by pika.
 ```
 
-This warning is triggered because the runtime used by DLA-Future, [pika](https://pikacpp.org), should typically be used with more than one thread and indicates a configuration mistake.
+This warning is triggered because the runtime used by DLA-Future, [pika](https://pikacpp.org),
+should typically be used with more than one thread and indicates a configuration mistake.
 However, if you are not using DLA-Future, the warning is harmless and can be ignored.
 The warning cannot be silenced.
 
-#### DBCSR GPU scaling
+### DBCSR GPU scaling
 
 On the GH200 architecture, it has been observed that the GPU accelerated version of [DBCSR] does not perform optimally in some cases.
 For example, in the `QS/H2O-1024` benchmark above, CP2K does not scale well beyond 2 nodes. 
@@ -464,21 +465,21 @@ GPU acceleration on/off with an environment variable:
 export DBCSR_RUN_ON_GPU=0
 ```
 
-While GPU acceleration is very good on a small number of nodes, the CPU implementation scales better. 
-Therefore, for CP2K jobs running on a large number of nodes, it is worth investigating the use of the `DBCSR_RUN_ON_GPU`
+While GPU acceleration is very good on few nodes, the CPU implementation scales better. 
+Therefore, for CP2K jobs running on many nodes, it is worth investigating the use of the `DBCSR_RUN_ON_GPU`
 environment variable.
 
-Ssome niche application cases such as the `QS_low_scaling_postHF` benchmarks only run efficiently with the CPU version
+Some niche application cases such as the `QS_low_scaling_postHF` benchmarks only run efficiently with the CPU version
 of DBCSR. Generally, if the function `dbcsr_multiply_generic` takes a significant portion of the timing report
 (at the end of the CP2K output file), it is worth investigating the effect of the `DBCSR_RUN_ON_GPU` environment variable.
 
 
-#### CUDA grid backend with high angular momenta basis sets
+### CUDA grid backend with high angular momenta basis sets
 
 The CP2K grid CUDA backend is currently buggy on Alps. Using basis sets with high angular momenta ($l \ge 3$)
 result in slow calculations, especially for force calculations with meta-GGA functionals. 
 
-As a workaround, you can you can disable CUDA acceleration fo the grid backend:
+As a workaround, you can disable CUDA acceleration for the grid backend:
 
 ```bash
 &GLOBAL
