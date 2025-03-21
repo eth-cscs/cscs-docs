@@ -3,7 +3,7 @@
 
 FirecREST is a RESTful API for programatically accessing High-Performance Computing resources, developed at CSCS.
 
-Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://github.com/eth-cscs/firecrest/tree/master/examples/CI-pipeline), [Worflow Managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools agains HPC resources.
+Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://github.com/eth-cscs/firecrest/tree/master/examples/CI-pipeline), [workflow managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools against HPC resources.
 
 Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://firecrest-ui-hpc.cscs.ch) and [applications](https://github.com/eth-cscs/firecrest/tree/master/examples/UI-client-credentials), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
 
@@ -21,20 +21,20 @@ Version 2 is faster, easier to use, and more efficient in resource management th
 
 If you're using **version 1**, we recommend you to port your applications to use the new version.
 
-### Version 2
+=== "Version 2"
 
-!!!Warning
-    Documentation for version 2 is still work in progress
+    !!!Warning
+        Documentation for version 2 is still work in progress
 
-For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
+    For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
 
-Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/use) for detailed documentation.
+    Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/use) for detailed documentation.
 
-### Version 1
+=== "Version 1"
 
-For a full feature set, have a look at the latest [FirecREST version 1 API specification](https://firecrest-docs.v1.svc.cscs.ch/) deployed at CSCS.
+    For a full feature set, have a look at the latest [FirecREST version 1 API specification](https://firecrest-docs.v1.svc.cscs.ch/) deployed at CSCS.
 
-Please refer to the [FirecREST-v1 documentation](https://firecrest.readthedocs.io/en/latest/) for detailed documentation.
+    Please refer to the [FirecREST-v1 documentation](https://firecrest.readthedocs.io/en/latest/) for detailed documentation.
 
 
 ## FirecREST Deployment on Alps
@@ -53,13 +53,13 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 
 ## Accessing FirecREST
 
-### Clients and Access tokens
+### Clients and access tokens
 
 A **client application** that makes requests to FirecREST will not be using directly the credentials of the user for the authentication, but an **access token** instead. The access token is a signed JSON Web Token ([JWT](https://jwt.io/introduction)) which contains user information and it's valid for a short time (5 minutes). Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
 
-Every client will have a client ID (Consumer Key) and a secret (Consumer Secret) that will be used to get a short-lived access token with an HTTP request.
+Every client has a client ID (Consumer Key) and a secret (Consumer Secret) that are used to get a short-lived access token with an HTTP request.
 
-!!! example "curl call to fetch the access token"
+??? example "`curl` call to fetch the access token"
     ```
     curl -s -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
          --data "grant_type=client_credentials" \
@@ -72,7 +72,7 @@ You can manage your client application on the [CSCS Developer Portal][ref-devpor
 [](){#ref-devportal}
 ### CSCS Developer Portal
 
-The [Developer Portal](https://developer.cscs.ch) facilitates CSCS Users to manage subscriptions to an API at CSCS (such as FirecREST v1/v2).
+The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage subscriptions to an API at CSCS (such as FirecREST v1/v2).
 
 Start by browsing to [developer.cscs.ch](https://developer.cscs.ch), then sign in by clicking the "SIGN-IN" button on the top right hand corner of the page.
 
@@ -142,186 +142,184 @@ To use your Application to access FirecREST, follow the [API documentation](http
 One way to get started is by using [pyFirecREST](https://pyfirecrest.readthedocs.io/), a Python package with a collection of wrappers for the different functionalities of FirecREST.
 This package simplifies the usage of FirecREST by making multiple requests in the background for more complex workflows as well as by refreshing the access token before it expires.
 
-#### Try version 2
+=== "Version 2"
 
-!!! example "Try FirecREST using pyFirecREST v2"
-    ```python
-    import json
-    import firecrest as f7t
+    ??? example "Try FirecREST using pyFirecREST v2"
+        ```python
+        import json
+        import firecrest as f7t
 
-    client_id = "<client_id>"
-    client_secret = "<client_secret>"
-    token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
+        client_id = "<client_id>"
+        client_secret = "<client_secret>"
+        token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
 
-    # Setup the client for the specific account
-    # For instance, for the Alps HPC Platform system Daint:
+        # Setup the client for the specific account
+        # For instance, for the Alps HPC Platform system Daint:
 
-    client = f7t.v2.Firecrest(
-        firecrest_url="https://api.cscs.ch/hpc/firecrest/v2",
-        authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
-    )
+        client = f7t.v2.Firecrest(
+            firecrest_url="https://api.cscs.ch/hpc/firecrest/v2",
+            authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
+        )
 
-    # Status of the systems, filesystems and schedulers:
-    print(json.dumps(client.systems(), indent=2))
+        # Status of the systems, filesystems and schedulers:
+        print(json.dumps(client.systems(), indent=2))
 
-    # Output: information about systems and health status of the infrastructure
-    # [
-    #   {
-    #     "name": "daint",
-    #     "ssh": {                           # --> SSH settings
-    #       "host": "daint.alps.cscs.ch",
-    #       "port": 22,
-    #       "maxClients": 100,
-    #       "timeout": {
-    #         "connection": 5,
-    #         "login": 5,
-    #         "commandExecution": 5,
-    #         "idleTimeout": 60,
-    #         "keepAlive": 5
-    #       }
-    #     },
-    #     "scheduler": {                     # --> Scheduler settings
-    #       "type": "slurm",
-    #       "version": "24.05.4",
-    #       "apiUrl": null,
-    #       "apiVersion": null,
-    #       "timeout": 10
-    #     },
-    #     "servicesHealth": [                # --> Health status of services
-    #       {
-    #         "serviceType": "scheduler",
-    #         "lastChecked": "2025-03-18T23:34:51.167545Z",
-    #         "latency": 0.4725925922393799,
-    #         "healthy": true,
-    #         "message": null,
-    #         "nodes": {
-    #           "available": 21,
-    #           "total": 858
-    #         }
-    #       },
-    #       {
-    #         "serviceType": "ssh",
-    #         "lastChecked": "2025-03-18T23:34:52.054056Z",
-    #         "latency": 1.358715295791626,
-    #         "healthy": true,
-    #         "message": null
-    #       },
-    #       {
-    #         "serviceType": "filesystem",
-    #         "lastChecked": "2025-03-18T23:34:51.969350Z",
-    #         "latency": 1.2738196849822998,
-    #         "healthy": true,
-    #         "message": null,
-    #         "path": "/capstor/scratch/cscs"
-    #       },
-    #     (...)
-    #     "fileSystems": [                   # --> Filesystem settings
-    #       {
-    #         "path": "/capstor/scratch/cscs",
-    #         "dataType": "scratch",
-    #         "defaultWorkDir": true
-    #       },
-    #       {
-    #         "path": "/users",
-    #         "dataType": "users",
-    #         "defaultWorkDir": false
-    #       },
-    #       {
-    #         "path": "/capstor/store/cscs",
-    #         "dataType": "store",
-    #         "defaultWorkDir": false
-    #       }
-    #     ]    
-    #   }
-    # ]
+        # Output: information about systems and health status of the infrastructure
+        # [
+        #   {
+        #     "name": "daint",
+        #     "ssh": {                           # --> SSH settings
+        #       "host": "daint.alps.cscs.ch",
+        #       "port": 22,
+        #       "maxClients": 100,
+        #       "timeout": {
+        #         "connection": 5,
+        #         "login": 5,
+        #         "commandExecution": 5,
+        #         "idleTimeout": 60,
+        #         "keepAlive": 5
+        #       }
+        #     },
+        #     "scheduler": {                     # --> Scheduler settings
+        #       "type": "slurm",
+        #       "version": "24.05.4",
+        #       "apiUrl": null,
+        #       "apiVersion": null,
+        #       "timeout": 10
+        #     },
+        #     "servicesHealth": [                # --> Health status of services
+        #       {
+        #         "serviceType": "scheduler",
+        #         "lastChecked": "2025-03-18T23:34:51.167545Z",
+        #         "latency": 0.4725925922393799,
+        #         "healthy": true,
+        #         "message": null,
+        #         "nodes": {
+        #           "available": 21,
+        #           "total": 858
+        #         }
+        #       },
+        #       {
+        #         "serviceType": "ssh",
+        #         "lastChecked": "2025-03-18T23:34:52.054056Z",
+        #         "latency": 1.358715295791626,
+        #         "healthy": true,
+        #         "message": null
+        #       },
+        #       {
+        #         "serviceType": "filesystem",
+        #         "lastChecked": "2025-03-18T23:34:51.969350Z",
+        #         "latency": 1.2738196849822998,
+        #         "healthy": true,
+        #         "message": null,
+        #         "path": "/capstor/scratch/cscs"
+        #       },
+        #     (...)
+        #     "fileSystems": [                   # --> Filesystem settings
+        #       {
+        #         "path": "/capstor/scratch/cscs",
+        #         "dataType": "scratch",
+        #         "defaultWorkDir": true
+        #       },
+        #       {
+        #         "path": "/users",
+        #         "dataType": "users",
+        #         "defaultWorkDir": false
+        #       },
+        #       {
+        #         "path": "/capstor/store/cscs",
+        #         "dataType": "store",
+        #         "defaultWorkDir": false
+        #       }
+        #     ]    
+        #   }
+        # ]
 
-    # List content of directories
-    print(json.dumps(client.list_files("daint", "/capstor/scratch/cscs/<username>"),
-                                       indent=2))
-    
-    # [
-    #   {
-    #     "name": "directory",
-    #     "type": "d",
-    #     "linkTarget": null,
-    #     "user": "<username>",
-    #     "group": "<project>",
-    #     "permissions": "rwxr-x---+",
-    #     "lastModified": "2024-09-02T12:34:45",
-    #     "size": "4096"
-    #   },
-    #   {
-    #     "name": "file.txt",
-    #     "type": "-",
-    #     "linkTarget": null,
-    #     "user": "<username>",
-    #     "group": "<project>",
-    #     "permissions": "rw-r-----+",
-    #     "lastModified": "2024-09-02T08:26:04",
-    #     "size": "131225"
-    #   }
-    # ]
-    ```
+        # List content of directories
+        print(json.dumps(client.list_files("daint", "/capstor/scratch/cscs/<username>"),
+                                        indent=2))
+        
+        # [
+        #   {
+        #     "name": "directory",
+        #     "type": "d",
+        #     "linkTarget": null,
+        #     "user": "<username>",
+        #     "group": "<project>",
+        #     "permissions": "rwxr-x---+",
+        #     "lastModified": "2024-09-02T12:34:45",
+        #     "size": "4096"
+        #   },
+        #   {
+        #     "name": "file.txt",
+        #     "type": "-",
+        #     "linkTarget": null,
+        #     "user": "<username>",
+        #     "group": "<project>",
+        #     "permissions": "rw-r-----+",
+        #     "lastModified": "2024-09-02T08:26:04",
+        #     "size": "131225"
+        #   }
+        # ]
+        ```
 
+=== "Version 1"
 
-#### Try version 1
+    ??? example "Try FirecREST using pyFirecREST v1"
+        ```python
+        import json
+        import firecrest as f7t
 
-!!! example "Try FirecREST using pyFirecREST v1"
-    ```python
-    import json
-    import firecrest as f7t
+        client_id = "<client_id>"
+        client_secret = "<client_secret>"
+        token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
 
-    client_id = "<client_id>"
-    client_secret = "<client_secret>"
-    token_uri = "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token"
+        # Setup the client for the specific account
+        # For instance, for the Alps HPC Platform system Daint:
 
-    # Setup the client for the specific account
-    # For instance, for the Alps HPC Platform system Daint:
+        client = f7t.v1.Firecrest(
+            firecrest_url="https://api.cscs.ch/hpc/firecrest/v1",
+            authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
+        )
 
-    client = f7t.v1.Firecrest(
-        firecrest_url="https://api.cscs.ch/hpc/firecrest/v1",
-        authorization=f7t.ClientCredentialsAuth(client_id, client_secret, token_uri)
-    )
+        print(json.dumps(client.all_systems(), indent=2))
+        # Output: (one dictionary per system)
+        # [{
+        #      'description': 'System ready',
+        #      'status': 'available',
+        #      'system': 'daint'      
+        # }]
 
-    print(json.dumps(client.all_systems(), indent=2))
-    # Output: (one dictionary per system)
-    # [{
-    #      'description': 'System ready',
-    #      'status': 'available',
-    #      'system': 'daint'      
-    # }]
-
-    print(json.dumps(client.list_files('daint', '/capstor/scratch/cscs/<username>'),
-                                       indent=2))
-    # Example output: (one dictionary per file)
-    # [
-    #   {
-    #       'name': 'directory',
-    #       'user': '<username>'
-    #       'last_modified': '2024-04-20T11:22:41',
-    #       'permissions': 'rwxr-xr-x',
-    #       'size': '4096',
-    #       'type': 'd',
-    #       'group': '<project>',
-    #       'link_target': '',
-    #   }
-    #   {
-    #      'name': 'file.txt',
-    #      'user': '<username>'
-    #      'last_modified': '2024-09-02T08:26:04',
-    #      'permissions': 'rw-r--r--',
-    #      'size': '131225',
-    #      'type': '-',
-    #      'group': '<project>',
-    #      'link_target': '',
-    #   }
-    # ]
-    ```
-
+        print(json.dumps(client.list_files('daint', '/capstor/scratch/cscs/<username>'),
+                                        indent=2))
+        # Example output: (one dictionary per file)
+        # [
+        #   {
+        #       'name': 'directory',
+        #       'user': '<username>'
+        #       'last_modified': '2024-04-20T11:22:41',
+        #       'permissions': 'rwxr-xr-x',
+        #       'size': '4096',
+        #       'type': 'd',
+        #       'group': '<project>',
+        #       'link_target': '',
+        #   }
+        #   {
+        #      'name': 'file.txt',
+        #      'user': '<username>'
+        #      'last_modified': '2024-09-02T08:26:04',
+        #      'permissions': 'rw-r--r--',
+        #      'size': '131225',
+        #      'type': '-',
+        #      'group': '<project>',
+        #      'link_target': '',
+        #   }
+        # ]
+        ```
 
 The tutorial is written for a generic instance of FirecREST but if you have a valid user at CSCS you can test it directly with your resource allocation on the exposed systems.
 
-### Data Transfer with FirecREST
+### Data transfer with FirecREST
 
 In addition to the [external transfer methods at CSCS][ref-data-xfer-external], FirecREST provides automated data transfer within the API.
 
@@ -330,107 +328,116 @@ A staging area is used for external transfers and downloading/uploading a file f
 !!!Note
     pyFirecREST (both v1 and v2) hides this complexity to the user. We strongly recommend to use this library for these tasks.
 
-#### Version 2
+=== "Version 2"
 
-!!! example "Upload a large file using FirecREST-v2"
-    ```python
+    #### Upload
+    !!! example "Upload a large file using FirecREST-v2"
+        ```python
 
-    import firecrest as f7t
+        import firecrest as f7t
 
-    (...)
+        (...)
 
-    system = "daint"
-    source_path = "/path/to/local/file"
-    target_dir = "/capstor/scratch/cscs/<username>"
-    target_file = "file"
-    account = "<project>"
-
-
-    upload_task = client.upload(system,
-                                local_file=source_path,
-                                directory=target_dir,
-                                filename=target_file,
-                                account=account,
-                                blocking=True)    
-    ```
-
-!!! example "Download a large file using FirecREST-v2"
-    ```python
-
-    import firecrest as f7t
-
-    (...)
-
-    system = "daint"
-    source_path = "/capstor/scratch/cscs/<username>/file"
-    target_path = "/path/to/local/file"
-    account = "<project>"
+        system = "daint"
+        source_path = "/path/to/local/file"
+        target_dir = "/capstor/scratch/cscs/<username>"
+        target_file = "file"
+        account = "<project>"
 
 
-    download_task = client.download(system,
-                                    source_path=source_path,
-                                    target_path=target_path,
+        upload_task = client.upload(system,
+                                    local_file=source_path,
+                                    directory=target_dir,
+                                    filename=target_file,
                                     account=account,
-                                    blocking=True)
+                                    blocking=True)    
+        ```
+    #### Download
 
-    
-    ```
+    !!! example "Download a large file using FirecREST-v2"
+        ```python
 
-#### Version 1
+        import firecrest as f7t
 
-Please follow the steps below to download a file:
+        (...)
 
-1. Request FirecREST to move the file to the staging area: a download link will be provided
-2. The file will remain in the staging area for 7 days or until the link gets invalidated with a request to the [`/storage/xfer-external/invalidate`](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-external-invalidate) endpoint or through the pyfirecrest method
-3. The staging area is common for all users, therefore users should invalidate the link as soon as the download has been completed
+        system = "daint"
+        source_path = "/capstor/scratch/cscs/<username>/file"
+        target_path = "/path/to/local/file"
+        account = "<project>"
 
-You can see the full process in this [tutorial](https://firecrest.readthedocs.io/en/latest/tutorial.html#upload-with-non-blocking-call-something-bigger).
 
-We may be forced to delete older files sooner than 7 days whenever large files are moved to the staging area and the link is not invalidated after the download, to avoid issues for other users: we will contact the user in this case.
+        download_task = client.download(system,
+                                        source_path=source_path,
+                                        target_path=target_path,
+                                        account=account,
+                                        blocking=True)
 
-When uploading files through the staging area, you don't need to invalidate the link. FirecREST will do it automatically as soon as it transfers the file to the filesystem of CSCS.
+        
+        ```
 
-There is also a constraint on the size of a single file to transfer externally to our systems via FirecREST: 5 GB.
+=== "Version 1"
 
-If you wish to transfer data bigger than the limit mentioned above, you can check the [compress](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-internal-compress) and [extract](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-internal-extract) endpoints or follow the following [example on how to split large files](https://github.com/eth-cscs/firecrest/blob/master/examples/download-large-files/README.md) and download/upload them using FirecREST.
+    Please follow the steps below to download a file:
 
-The limit on the time and size of files that can be download/uploaded via FirecREST might change if needed.
+    1. Request FirecREST to move the file to the staging area: a download link will be provided
+    2. The file will remain in the staging area for 7 days or until the link gets invalidated with a request to the [`/storage/xfer-external/invalidate`](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-external-invalidate) endpoint or through the pyfirecrest method
+    3. The staging area is common for all users, therefore users should invalidate the link as soon as the download has been completed
 
-!!! example "Checking the current values in the parameters endpoint"
-    ```python
-    >>> print(json.dumps(client.parameters(), indent = 2))
-    {
-      (...)
+    You can see the full process in this [tutorial](https://firecrest.readthedocs.io/en/latest/tutorial.html#upload-with-non-blocking-call-something-bigger).
 
-      "storage": [
+    We may be forced to delete older files sooner than 7 days whenever large files are moved to the staging area and the link is not invalidated after the download, to avoid issues for other users: we will contact the user in this case.
+
+    When uploading files through the staging area, you don't need to invalidate the link. FirecREST will do it automatically as soon as it transfers the file to the filesystem of CSCS.
+
+    There is also a constraint on the size of a single file to transfer externally to our systems via FirecREST: 5 GB.
+
+    If you wish to transfer data bigger than the limit mentioned above, you can check the [compress](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-internal-compress) and [extract](https://firecrest.readthedocs.io/en/latest/reference.html#post--storage-xfer-internal-extract) endpoints or follow the following [example on how to split large files](https://github.com/eth-cscs/firecrest/blob/master/examples/download-large-files/README.md) and download/upload them using FirecREST.
+
+    The limit on the time and size of files that can be download/uploaded via FirecREST might change if needed.
+
+    !!! example "Checking the current values in the parameters endpoint"
+        ```python
+        >>> print(json.dumps(client.parameters(), indent = 2))
         {
-          "description": "Type of object storage, like `swift`, `s3v2` or `s3v4`.",
-          "name": "OBJECT_STORAGE",
-          "unit": "",
-          "value": "s3v4"
-        },
-        {
-          "description": "Expiration time for temp URLs.",
-          "name": "STORAGE_TEMPURL_EXP_TIME",
-          "unit": "seconds",
-          "value": "604800"  ## <-------- 7 days
-        },
-        {
-          "description": "Maximum file size for temp URLs.",
-          "name": "STORAGE_MAX_FILE_SIZE",
-          "unit": "MB",
-          "value": "5120"   ## <--------- 5 GB
+        (...)
+
+        "storage": [
+            {
+            "description": "Type of object storage, like `swift`, `s3v2` or `s3v4`.",
+            "name": "OBJECT_STORAGE",
+            "unit": "",
+            "value": "s3v4"
+            },
+            {
+            "description": "Expiration time for temp URLs.",
+            "name": "STORAGE_TEMPURL_EXP_TIME",
+            "unit": "seconds",
+            "value": "604800"  ## <-------- 7 days
+            },
+            {
+            "description": "Maximum file size for temp URLs.",
+            "name": "STORAGE_MAX_FILE_SIZE",
+            "unit": "MB",
+            "value": "5120"   ## <--------- 5 GB
+            }
+        (...)
         }
-      (...)
-    }
+        ```
+!!! Note on Job Submission through FirecREST
+
+    FirecREST provides an abstraction for job submission using in the backend the SLURM scheduler of the vCluster.
+
+    When submitting a job via the different [endpoints](https://firecrest.readthedocs.io/en/latest/reference.html#compute), you should pass the `-l` option to the `/bin/bash` command on the batch file.
+
+    ```bash
+    #!/bin/bash -l
+
+    #SBATCH --nodes=1
+    ...
     ```
-### Job Submission to the Workload Manager through FirecREST
 
-FirecREST provides an abstraction for job submission using in the backend the SLURM scheduler of the vCluster (in the case of CSCS).
-
-When submitting a job via the different [endpoints](https://firecrest.readthedocs.io/en/latest/reference.html#compute), you should pass the `-l` option to the `/bin/bash` command on the batch file.
-
-This option ensures that the job submitted uses the same environment as your login shell to access the system-wide profile (`/etc/profile`) or to your profile (in files like `~/.bash_profile`, `~/.bash_login`, or `~/.profile`).
+    This option ensures that the job submitted uses the same environment as your login shell to access the system-wide profile (`/etc/profile`) or to your profile (in files like `~/.bash_profile`, `~/.bash_login`, or `~/.profile`).
 
 ## Further Information
 
