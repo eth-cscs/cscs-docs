@@ -228,11 +228,3 @@ They stand out better from the main text, and can be collapsed by default if nee
     This note is collapsed, because it uses `???`.
     
 If an admonition is collapsed by default, it should have a title.
-
-[](){#ref-style-references}
-### References
-
-Add references to headings to allow easier cross-referencing from other sections.
-Prefix the reference name with `ref-`, followed by at least one level of identifier for the page itself.
-Finally, add an identifier for the heading itself.
-[This section][ref-style-references] uses the identifier `ref-style-references`.
