@@ -226,6 +226,8 @@ They stand out better from the main text, and can be collapsed by default if nee
     
 ??? note "Collapsed note"
     This note is collapsed, because it uses `???`.
+    
+If an admonition is collapsed by default, it should have a title.
 
 [](){#ref-style-references}
 ### References
