@@ -36,8 +36,16 @@ On our systems, CP2K is built with the following dependencies:
 * [spla]
 
 !!! note "GPU-aware MPI"
-    [COSMA] and [DLA-Future] are built with GPU-aware MPI. On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
-    default, therefore there is no need to set it manually.
+    [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
+    On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
+    default.
+
+!!! note "CUDA cache path for JIT compilation"
+    [DBCSR] uses JIT compilation for CUDA kernels.
+    The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation.
+    Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`.
+    On the HPC platform, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by
+    default.
 
 !!! warning "BLAS/LAPACK on Eiger"
     
@@ -67,7 +75,8 @@ MPS] daemon so that multiple MPI ranks can use the same GPU.
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
-export CUDA_CACHE_PATH="/dev/shm/$RANDOM"           # (5)
+export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)
+export MPICH_GPU_SUPPORT_ENABLED=1 # (6)
 export MPICH_MALLOC_FALLBACK=1
 export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)
 
@@ -85,7 +94,11 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
 
-5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead
+5. [DBCSR] relies on extensive JIT compilation and we store the cache in memory to avoid I/O overhead.
+   This is set by default on the HPC platform, but it's set here explicitly as it's essential to avoid performance degradation.
+
+6. CP2K's dependencies use GPU-aware MPI, which requires enabling support at runtime.
+   This is set by default on the HPC platform, but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
 
 
 * Change <ACCOUNT> to your project account name

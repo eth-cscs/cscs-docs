@@ -9,12 +9,12 @@ Login nodes have public IP addresses which means that they can directly access t
     Compute nodes are configured with the following environment variables to use the proxy server:
     
     ```bash
-    export https_proxy=http://proxy.cscs.ch:8080
-    export http_proxy=http://proxy.cscs.ch:8080
-    export no_proxy=.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
-    export HTTPS_PROXY=http://proxy.cscs.ch:8080
-    export HTTP_PROXY=http://proxy.cscs.ch:8080
-    export NO_PROXY=.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+    export https_proxy='http://proxy.cscs.ch:8080'
+    export http_proxy='http://proxy.cscs.ch:8080'
+    export no_proxy='.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16'
+    export HTTPS_PROXY='http://proxy.cscs.ch:8080'
+    export HTTP_PROXY='http://proxy.cscs.ch:8080'
+    export NO_PROXY='.local, .cscs.ch, localhost, 148.187.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16'
     ```
 
 !!! warning "Public IPs are a shared resource"

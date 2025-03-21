@@ -33,27 +33,56 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 #### Step 1: create the virtual environment
 
 The first step is to create the virtual environment using the usual workflow.
-This might be slow, because we are not optimising this stage for file system performance.
 
-```bash
-# for the example create a working path on SCRATCH
-mkdir $SCRATCH/sqfs-demo
-cd $SCRATCH/sqfs-demo
+=== "uv"
 
-# start the uenv
-# in this case the "default" view of prgenv-gnu provides python, cray-mpich,
-# and other useful tools
-uenv start prgenv-gnu/24.11:v1 --view=default
+    The recommended way to create a new virtual environment is to use the [uv](https://docs.astral.sh/uv/) tool, which supports _relocatable_ virtual environments and asynchronous package downloads. The main benefit of a relocatable virtual environment is that it does not need to be created in the final path from where it will be used. This allows the use of shared memory to speed up the creation and initialization of the virtual environment and, since the virtual environment can be used from any location, the resulting squashfs image can be safely shared across projects.
 
-# create and activate the empty venv
-python -m venv ./.pyenv
-source ./.pyenv/bin/activate
+    ```bash
+    # start the uenv
+    # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
+    # and other useful tools
+    uenv start prgenv-gnu/24.11:v1 --view=default
 
-# install software in the virtual environment
-# in this case we install install pytorch
-pip install torch torchvision torchaudio \
-    --index-url https://download.pytorch.org/whl/cu126
-```
+    # create and activate a new relocatable venv using uv
+    # in this case we explicitly select python 3.12
+    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+    cd /dev/shm/sqfs-demo
+    source .venv/bin/activate
+
+    # install software in the virtual environment using uv
+    # in this case we install install pytorch
+    uv pip install --link-mode=copy torch torchvision torchaudio \
+        --index-url https://download.pytorch.org/whl/cu126
+
+    # optionally, to reduce the import times, precompile all
+    # python modules to bytecode before creating the squashfs image
+    python -m compileall -j 8 -o 1 -o 2 .venv/lib/python3.12/site-packages
+    ```
+
+=== "venv"
+
+    A new virtual environment can also be created using the standard `venv` module. However, virtual environments created by `venv` are not relocatable, and thus they need to be created and initialized in the path from where they will be used. This implies that the installation process can not be optimized for file system performance and will still be slow on Lustre filesystems.
+
+    ```bash
+    # start the uenv
+    # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
+    # and other useful tools
+    uenv start prgenv-gnu/24.11:v1 --view=default
+
+    # for the example create a working path on SCRATCH
+    mkdir $SCRATCH/sqfs-demo
+    cd $SCRATCH/sqfs-demo
+
+    # create and activate the empty venv
+    python -m venv ./.venv
+    source ./.venv/bin/activate
+
+    # install software in the virtual environment
+    # in this case we install install pytorch
+    pip install torch torchvision torchaudio \
+        --index-url https://download.pytorch.org/whl/cu126
+    ```
 
 ??? example "how many files did that create?"
     An inode is created for every file, directory and symlink on a file system.
@@ -61,22 +90,32 @@ pip install torch torchvision torchaudio \
 
     The following command can be used to count the number of inodes:
     ```
-    find $SCRATCH/sqfs-demo/.pyenv -exec stat --format="%i" {} + | sort -u | wc -l
+    find $SCRATCH/sqfs-demo/.venv -exec stat --format="%i" {} + | sort -u | wc -l
     ```
     `find` is used to list every path and file, and `stat` is called on each of these to get the inode, and then `sort` and `wc` are used to count the number of unique inodes.
 
     In our "simple" pytorch example, I counted **22806 inodes**!
 
+
 #### Step 2: make a squashfs image of the virtual environment
 
-The next step is to create a single squashfs file that contains the whole `$SCRATCH/sqfs-demo/.pyenv` path.
+The next step is to create a single squashfs file that contains the whole virtual environment folder (i.e. `/dev/shm/sqfs-demo/.venv` or `$SCRATCH/sqfs-demo/.venv`).
 
 This is performed using the `mksquashfs` command, that is installed on all Alps clusters.
 
-```bash
-mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
-    -no-recovery -noappend -Xcompression-level 3
-```
+=== "uv"
+
+    ```bash
+    mksquashfs /dev/shm/sqfs-demo/.venv py_venv.squashfs \
+        -no-recovery -noappend -Xcompression-level 3
+    ```
+
+=== "venv"
+
+    ```bash
+    mksquashfs $SCRATCH/sqfs-demo/.venv py_venv.squashfs \
+        -no-recovery -noappend -Xcompression-level 3
+    ```
 
 !!! hint
     The `-Xcompression-level` flag sets the compression level to a value between 1 and 9, with 9 being the most compressed.
@@ -105,27 +144,39 @@ mksquashfs $SCRATCH/sqfs-demo/.pyenv pyenv.squashfs \
 
 To use the optimised virtual environment, mount the squashfs image at the location of the original virtual environment when starting the uenv.
 
-```bash
-cd $SCRATCH/sqfs-demo
-uenv start --view=default \
-    prgenv-gnu/24.11:v1,$PWD/pyenv.squashfs:$SCRATCH/sqfs-demo/.pyenv
-source .pyenv/bin/activate
-```
+=== "uv"
 
-Note that the original virtual environment is still installed in `$SCRATCH/sqfs-demo/.pyenv`, however the squashfs image has been mounted on top of it, so the single squashfs file is being accessed instead of the many files in the original version.
+    ```bash
+    cd $SCRATCH/sqfs-demo
+    uenv start --view=default \
+        prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    source .venv/bin/activate
+    ```
 
-A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
+    Remember that virtual environments created by `uv` are relocatable only if the `--relocatable` option flag is passed to the `uv venv` command as mentioned in step 1. In that case, the generated environment is relocatable and thus it is possible to mount it in multiple locations without problems.
 
-!!! warning
-    Virtual environment are usually not relocatable as they contain symlinks to absolute locations inside the virtual environment. Therefore, you need to mount the image in the exact same location where you created the virtual environment.
+=== "venv"
+
+    ```bash
+    cd $SCRATCH/sqfs-demo
+    uenv start --view=default \
+        prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    source .venv/bin/activate
+    ```
+
+    Note that the original virtual environment is still installed in `$SCRATCH/sqfs-demo/.venv`, however the squashfs image has been mounted on top of it, so the single squashfs file is being accessed instead of the many files in the original version.
+
+    A benefit of this approach is that the squashfs file can be copied to a location that is not subject to the Scratch cleaning policy.
+
+    !!! warning
+        Virtual environments created by `venv` are not relocatable as they contain symlinks to absolute locations inside the virtual environment. This means that the squashfs file must be mounted in the exact same location where the virtual environment was created.
 
 #### Step 4: (optional) regenerate the virtual environment
 
-The squashfs file is immutable - it is not possible to modify the contents of `.pyenv` while it is mounted.
+The squashfs file is immutable - it is not possible to modify the contents of `.venv` while it is mounted.
 This means that it is not possible to `pip install` more packages in the virtual environment.
 
-If you need to modify the virtual environment, run the original uenv without the squashfs file mounted, make changes, and run step 2 again to generate a new image.
+If you need to modify the virtual environment, run the original uenv without the squashfs file mounted, make changes to the virtual environment, and run step 2 again to generate a new image.
 
 !!! hint
     If you save the updated copy in a different file, you can now "roll back" to the old version of the environment by mounting the old image.
-
