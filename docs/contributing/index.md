@@ -75,7 +75,7 @@ Links to external sites use the `[]()` syntax:
 
 !!! note
     The CI/CD pipeline will fail if it detects broken links in your draft documentation.
-    it is not completely foolproof - to ensure that your changes do not create broken links you should merge the most recent version of the `main` branch of the docs into your branch branch.
+    It is not completely foolproof - to ensure that your changes do not create broken links you should merge the most recent version of the `main` branch of the docs into your branch branch.
 
 Adding and maintaining links to internal pages and sections that don't break or conflict requires care.
 it is possible to refer to links in other files using relative links, for example `[the fast server](../servers.md#fast-server)`, however if the target file is moved, or the section title "fast-server" is changed, the link will break.
