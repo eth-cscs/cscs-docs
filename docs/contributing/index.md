@@ -3,7 +3,7 @@
 This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
 This means that everybody, CSCS staff and the CSCS user community can contribute to the documentation.
 
-## Getting Started
+## Getting started
 
 We use the GitHub fork and pull request model for development:
 
@@ -40,7 +40,7 @@ To build the docs in a `site` sub-directory:
 ```bash
 ./serve build
 ```
-## Review Process
+## Review process
 
 Documentation is owned by everybody - so don't be afraid to jump in and make changes or fixes where you see that there is something missing or outdated.
 
@@ -57,7 +57,7 @@ If you don't get a timely reply, ask the documentation owners for a review or fo
 
 ### Links
 
-#### External Links
+#### External links
 
 Links to external sites use the `[]()` syntax:
 
@@ -71,7 +71,7 @@ Links to external sites use the `[]()` syntax:
 
     [The Spack repository](https://github.com/spack/spack)
 
-#### Internal Links
+#### Internal links
 
 !!! note
     The CI/CD pipeline will fail if it detects broken links in your draft documentation.
@@ -124,7 +124,7 @@ Images are stored in the `docs/images` directory.
 !!! tip
     Do you need a screenshot, or can a text description also work?
 
-### Text Formatting
+### Text formatting
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
@@ -169,7 +169,7 @@ This method defines a canonical represention of text, i.e. there is one and only
 * changing one line of text will not modify the surrounding lines (see example above)
 * git diffs and git history are easier to read.
 
-### Frequently Asked Questions
+### Frequently asked questions
 
 The documentation does not have a FAQ section, because questions are best answered by the documentation, not in a separate section.
 Integrating information into the main documentation requires some care to identify where the information needs to go, and edit the documentation around it.
@@ -179,7 +179,7 @@ FAQ content, such as lists of most frequently encountered error messages, is sti
 If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
 
 
-### Small Contributions
+### Small contributions
 
 Small changes that only modify the contents of a single file, for example to fix some typos or add some clarifying detail to an example, it is possible to quickly create a pull request directly in the browser.
 
@@ -192,3 +192,39 @@ Once your changes are ready, click on the "Commit changes..." button in the top 
 
     * if the change is small and you are CSCS staff, you can merge the PR immediately
     * all other changes can be
+
+## Style guide
+
+This section contains general guidelines for how to format and present documentation in this repository.
+They should be followed for most cases, but as a guideline it can be broken, _with good reason_.
+
+### Headings are written in sentence case
+
+Use [title case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
+
+### Avoid nesting headings too deep
+
+Nesting headings up to three levels is generally ok.
+
+### Lists
+
+Write lists as proper sentences.
+Separate the items simply with commas if each item is simple, or make each item a full sentence if the items are longer and contain multiple sentences.
+
+1. The first item can look like this,
+2. the second like this, and
+3. the third item like this.
+
+### Using admonitions
+
+Aim to include examples, notes, warnings using [admonitions](https://squidfunk.github.io/mkdocs-material/reference/admonitions/) whenever appropriate.
+They stand out better from the main text, and can be collapsed by default if needed.
+
+!!! example "Example one"
+    This is an example.
+    The title of the example uses [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case).
+    
+??? note "Collapsed note"
+    This note is collapsed, because it uses `???`.
+    
+If an admonition is collapsed by default, it should have a title.
