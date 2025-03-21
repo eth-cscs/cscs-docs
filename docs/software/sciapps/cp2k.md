@@ -429,7 +429,8 @@ terminate called after throwing an instance of 'pika::cuda::experimental::cusolv
 what(): cuSOLVER function returned error code 7 (CUSOLVER_STATUS_INTERNAL_ERROR): pika(bad_function_call)
 ```
 
-The reason is that too many cuSOLVER handles are created. If you don't need DLA-Future, you can manually set the number of BLAS and LAPACK handlers to 1 by setting the following environment variables:
+The reason is that too many cuSOLVER handles are created.
+If you don't need DLA-Future, you can manually set the number of BLAS and LAPACK handlers to 1 by setting the following environment variables:
 
 ```bash
 DLAF_NUM_GPU_BLAS_HANDLES=1
