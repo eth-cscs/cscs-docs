@@ -426,7 +426,7 @@ A staging area is used for external transfers and downloading/uploading a file f
         (...)
         }
         ```
-!!! Note on Job Submission through FirecREST
+!!! Note "Job submission through FirecREST"
 
     FirecREST provides an abstraction for job submission using in the backend the SLURM scheduler of the vCluster.
 
