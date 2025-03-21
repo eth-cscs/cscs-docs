@@ -1,11 +1,9 @@
 [](){#ref-devtools-map}
 # Linaro Forge MAP and Performance Reports
 
-MAP can be used for profiling serial, multi-threaded (OpenMP), multi-process (MPI) and accelerated (Cuda, OpenACC) programs running on research and production systems, including the CSCS Alps system.
+Linaro MAP can be used for profiling serial, multi-threaded (OpenMP), multi-process (MPI) and accelerated (Cuda, OpenACC) programs running on research and production systems, including the CSCS Alps system.
 MAP can be executed either with its graphical user interface or from the command-line.
-
-Linaro MAP can be used to profile an application either by the GUI or by the CLI.
-In the first case the user can set the profiling configuration using the GUI and then see the results.
+In the first case, the user can set the profiling configuration using the GUI and then see the results.
 In the latter (recommended) case, the user can use the MAP executable to launch the application they want to profile which will generate a report file that can then be opened from the locally installed [client](https://docs.linaroforge.com/latest/html/forge/forge/installing/mac_install.html).
 
 !!! note

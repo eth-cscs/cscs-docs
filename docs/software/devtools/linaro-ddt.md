@@ -11,7 +11,7 @@ DDT can be executed either with its graphical user interface or from the command
 
 ## User guide
 
-The following guid will walk through the steps required to build and debug an application using DDT.
+The following guide will walk through the steps required to build and debug an application using DDT.
 
 ### Set up the user environment and build the executable
 
