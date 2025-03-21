@@ -71,7 +71,7 @@ Links to external sites use the `[]()` syntax:
 
     [The Spack repository](https://github.com/spack/spack)
 
-#### internal links
+#### Internal Links
 
 !!! note
     The CI/CD pipeline will fail if it detects broken links in your draft documentation.
