@@ -84,11 +84,11 @@ Instead, we advocate adding unique references to sections.
 
 === "adding a reference"
 
-    Add a reference above the item, in this case we want to link to the section with the title `## the fast server`:
+    Add a reference above the item, in this case we want to link to the section with the title `## The Fast Server`:
 
     ```
     [](){#ref-servers-fast}
-    ## fast server
+    ## Fast Server
     ```
 
     Use the `[](){#}` syntax to define the reference/anchor.
