@@ -106,7 +106,7 @@ Instead, we advocate adding unique references to sections.
 
 The benefits of this approach are that the link won't break if
 
-* either the file containing the link or the file that refers to the link move;
+* either the file containing the link or the file that refers to the link move,
 * or if the title of the target sections changes.
 
 ### Images
