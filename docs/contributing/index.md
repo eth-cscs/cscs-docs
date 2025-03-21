@@ -128,7 +128,7 @@ Images are stored in the `docs/images` directory.
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
-See the good and bad examples below for an example of of what happends when a change to a sentence forces a line rebalance:
+See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
 
 === "good"
     Before:
