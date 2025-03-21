@@ -57,7 +57,7 @@ If you don't get a timely reply, ask the documentation owners for a review or fo
 
 ### Links
 
-#### external links
+#### External Links
 
 Links to external sites use the `[]()` syntax:
 
