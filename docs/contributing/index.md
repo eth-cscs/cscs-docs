@@ -198,11 +198,6 @@ Once your changes are ready, click on the "Commit changes..." button in the top 
 This section contains general guidelines for how to format and present documentation in this repository.
 They should be followed for most cases, but as a guideline it can be broken, _with good reason_.
 
-### General Formatting
-
-- Format paragraphs with one sentence per line for easier diffs.
-- Leave a space before and after headings.
-
 ### Headings are Written in Title Case
 
 Use [title case](https://en.wikipedia.org/wiki/Letter_case#Title_case) for headings, meaning all words are capitalized except for minor words.
