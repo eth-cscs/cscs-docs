@@ -439,8 +439,7 @@ DLAF_NUM_GPU_LAPACK_HANDLES=1
 
 ##### Warning about pika only using one worker thread
 
-When running CP2K with multiple tasks per node and only one core per task,
-the initialization of DLA-Future may trigger the following warning:
+When running CP2K with multiple tasks per node and only one core per task, the initialization of DLA-Future may trigger the following warning:
 
 ```
 The pika runtime will be started with only one worker thread because the
