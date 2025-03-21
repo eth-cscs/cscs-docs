@@ -55,14 +55,59 @@ If you don't get a timely reply, ask the documentation owners for a review or fo
 
 ## Guidelines
 
-### Frequently Asked Questions
+### Links
 
-The documentation does not have a FAQ section, because questions are best answered by the documentation, not in a separate section.
-Integrating information into the main documentation requires some care to identify where the information needs to go, and edit the documentation around it.
-Adding the information to a FAQ is easier, but the result is information about a topic distributed betwen the docs and FAQ questions, which ultimately makes the documentation harder to search.
+#### External Links
 
-FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
-If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
+Links to external sites use the `[]()` syntax:
+
+=== "external link syntax"
+
+    ```
+    [The Spack repository](https://github.com/spack/spack)
+    ```
+
+=== "result"
+
+    [The Spack repository](https://github.com/spack/spack)
+
+#### Internal Links
+
+!!! note
+    The CI/CD pipeline will fail if it detects broken links in your draft documentation.
+    It is not completely foolproof - to ensure that your changes do not create broken links you should merge the most recent version of the `main` branch of the docs into your branch branch.
+
+Adding and maintaining links to internal pages and sections that don't break or conflict requires care.
+It is possible to refer to links in other files using relative links, for example `[the fast server](../servers.md#fast-server)`, however if the target file is moved, or the section title "fast-server" is changed, the link will break.
+
+Instead, we advocate adding unique references to sections.
+
+=== "adding a reference"
+
+    Add a reference above the item, in this case we want to link to the section with the title `## The Fast Server`:
+
+    ```
+    [](){#ref-servers-fast}
+    ## Fast Server
+    ```
+
+    Use the `[](){#}` syntax to define the reference/anchor.
+
+    !!! note
+        Always place the anchor above the item you are linking to.
+
+=== "linking to a reference"
+
+    In any other file in the project, use the `[][]` syntax to refer to the link (note that this link type uses square braces, instead of the usual parenthesis):
+
+    ```
+    [the fast server][ref-servers-fast]
+    ```
+
+The benefits of this approach are that the link won't break if
+
+* either the file containing the link or the file that refers to the link move,
+* or if the title of the target sections changes.
 
 ### Images
 
@@ -79,7 +124,62 @@ Images are stored in the `docs/images` directory.
 !!! tip
     Do you need a screenshot, or can a text description also work?
 
-## Small Contributions
+### Text Formatting
+
+Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
+
+See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
+
+=== "good"
+    Before:
+    ```
+    There are many different versions of MPI that can be used for communication.
+    The final choice of which to use is up to you.
+    ```
+
+    After:
+    ```
+    There are many different versions of the popular MPI communication library that can be used for communication.
+    The final choice of which to use is up to you.
+    ```
+
+    The diff in this case affects only one line.
+
+=== "bad"
+    Before:
+    ```
+    There are many different versions of MPI that
+    can be used for communication. The final choice
+    of which to use is up to you.
+    ```
+
+    After:
+    ```
+    There are many different versions of the popular
+    MPI communication library that can be used for
+    communication. The final choice of which to use
+    is up to you.
+    ```
+
+    The diff in this case affects the original 3 lines, and creates a new one.
+
+This method defines a canonical represention of text, i.e. there is one and only one way to write a paragraph of text, which plays much better with git.
+
+* changes to the text are less likely to create merge conflicts
+* changing one line of text will not modify the surrounding lines (see example above)
+* git diffs and git history are easier to read.
+
+### Frequently Asked Questions
+
+The documentation does not have a FAQ section, because questions are best answered by the documentation, not in a separate section.
+Integrating information into the main documentation requires some care to identify where the information needs to go, and edit the documentation around it.
+Adding the information to a FAQ is easier, but the result is information about a topic distributed betwen the docs and FAQ questions, which ultimately makes the documentation harder to search.
+
+FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
+If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
+
+
+### Small Contributions
 
 Small changes that only modify the contents of a single file, for example to fix some typos or add some clarifying detail to an example, it is possible to quickly create a pull request directly in the browser.
 

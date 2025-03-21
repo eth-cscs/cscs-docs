@@ -275,7 +275,7 @@ This is very useful for interactive sessions, for example if you want to work in
     ```
 
 !!! warning "C Shell / tcsh users"
-    uenv is tested extensively with bash (the default shell), and zsh. C shell is not tested properly, and we won't make significant changes to uenv to maintain support for C shell.
+    uenv is tested extensively with bash (the default shell), and zsh. C shell is not tested properly, and we will not make significant changes to uenv to maintain support for C shell.
 
     If your are one of the handful of users using `tcsh` (C shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
 
@@ -470,7 +470,7 @@ All uenv built by `uenv build` are pushed into the `service` namespace, where th
 This makes it easy to share your uenv with other users, by giving them the name, version and tag of the image.
 
 !!! warning
-    **If, for whatever reason, your uenv can't be made publicly available, do not use the build service.**
+    **If, for whatever reason, your uenv can not be made publicly available, do not use the build service.**
 
 !!! example "search user-built uenv"
     To view all of the uenv on daint that have been built by the service:

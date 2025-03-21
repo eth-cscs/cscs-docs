@@ -68,7 +68,7 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 [](){#ref-get-in-touch}
 ## Get in Touch
 
-If you can't find the information that you need in the documentation, help is available.
+If you cannot find the information that you need in the documentation, help is available.
 
 <div class="grid cards" markdown>
 
