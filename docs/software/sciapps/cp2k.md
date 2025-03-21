@@ -420,6 +420,7 @@ even if you don't [explicitly ask to use it](https://manual.cp2k.org/trunk/techn
 This can lead to some surprising warnings and failures described below.
 
 ##### `CUSOLVER_STATUS_INTERNAL_ERROR` during initialization
+
 If you are heavily over-subscribing the GPU by running multiple ranks per GPU, you may encounter the following error:
 
 ```
