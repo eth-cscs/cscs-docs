@@ -449,8 +449,7 @@ you need or use --pika:ignore-process-mask to use all resources. Use
 --pika:print-bind to print the thread bindings used by pika.
 ```
 
-This warning is triggered because the runtime used by DLA-Future, [pika](https://pikacpp.org),
-should typically be used with more than one thread and indicates a configuration mistake.
+This warning is triggered because the runtime used by DLA-Future, [pika](https://pikacpp.org), should typically be used with more than one thread and indicates a configuration mistake.
 However, if you are not using DLA-Future, the warning is harmless and can be ignored.
 The warning cannot be silenced.
 
