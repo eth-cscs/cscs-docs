@@ -124,7 +124,7 @@ Images are stored in the `docs/images` directory.
 !!! tip
     Do you need a screenshot, or can a text description also work?
 
-### Text formatting
+### Text Formatting
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
