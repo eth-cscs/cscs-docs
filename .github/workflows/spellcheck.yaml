@@ -1,0 +1,31 @@
+name: Check Spelling
+
+on:
+  push:
+
+jobs:
+  spelling:
+    name: Check Spelling
+    runs-on: ubuntu-latest
+    # if: ${{ contains(github.event_name, 'pull_request') || github.event_name == 'push' }}
+    # concurrency:
+    #   group: spelling-${{ github.event.pull_request.number || github.ref }}
+    #   # note: If you use only_check_changed_files, you do not want cancel-in-progress
+    #   cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check spelling
+        id: spelling
+        uses: check-spelling/check-spelling@main
+        with:
+          check_file_names: 1
+          post_comment: 0
+          use_magic_file: 1
+          warnings: bad-regex,binary-file,deprecated-feature,large-file,limited-references,no-newline-at-eof,noisy-file,non-alpha-in-dictionary,token-is-substring,unexpected-line-ending,whitespace-in-dictionary,minified-file,unsupported-configuration,no-files-to-check
+          use_sarif: ${{ (!github.event.pull_request || (github.event.pull_request.head.repo.full_name == github.repository)) && 1 }}
+          extra_dictionary_limit: 20
+          extra_dictionaries:
+            cspell:software-terms/dict/softwareTerms.txt
+            cspell:bash/bash-words.txt
+            cspell:companies/companies.txt
+            cspell:filetypes/filetypes.txt
