@@ -22,11 +22,11 @@ The User Lab Users must quote and acknowledge the use of Swiss Share of the LUMI
 
 > This work was supported by a grant from the Swiss National Supercomputing Centre (CSCS) on the Swiss share of the LUMI system under project ID ###
 
-Users with allocations under the  Swiss AI Intiative must quote and acknowledge the use of CSCS resources in all publications related to their projects on Alps as follows:
+Users with allocations under the  Swiss AI Initiative must quote and acknowledge the use of CSCS resources in all publications related to their projects on Alps as follows:
 
-> This work was supported as part of the “Swiss AI initiative”by a grant from the Swiss National Supercomputing Centre (CSCS) under project ID ### on Alps
+> This work was supported as part of the “Swiss AI initiative” by a grant from the Swiss National Supercomputing Centre (CSCS) under project ID ### on Alps
 
-User Lab Users should ackoweldge the PASC program in their publications as follows:
+User Lab Users should acknowledge the PASC program in their publications as follows:
 
 > This work was supported by the  Platform for Advanced Scientific Computing (PASC) project "name of the project"."
 

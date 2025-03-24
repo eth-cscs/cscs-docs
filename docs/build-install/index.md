@@ -2,7 +2,7 @@
 
 CSCS provides commonly used software and tools on Alps, however many use cases will require first installing software on a system before you can start working.
 
-Modern HPC applications and software stacks are often very complicated, and there is no one-size-fits-all method for building and installning them.
+Modern HPC applications and software stacks are often very complicated, and there is no one-size-fits-all method for building and installing them.
 
 ## Programming environments
 

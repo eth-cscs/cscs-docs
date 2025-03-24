@@ -84,7 +84,7 @@ uenv image find /24.11
 # search for all uenv with tag v1
 uenv image find :v1
 
-# seach for a specific version
+# search for a specific version
 uenv image find prgenv-gnu/24.11:v1
 ```
 
@@ -95,7 +95,7 @@ The name of the current cluster is always available via the `CLUSTER_NAME` envir
 # log into the eiger vCluster
 ssh eiger
 
-# this command will search for all pgrenv-gnu uenv on _eiger_
+# this command will search for all prgenv-gnu uenv on _eiger_
 uenv image find prgenv-gnu
 
 # use @ to search on a specific system, e.g. on daint:
@@ -104,7 +104,7 @@ uenv image find prgenv-gnu@daint
 # this can be used to search for all uenv on daint:
 uenv image find @daint
 
-# the '*' is a wildcard used meaining "all systems"
+# the '*' is a wildcard used meaning "all systems"
 # this will show all images on all systems
 # NOTE: the * character must be quoted in single quotes
 uenv image find @'*'
@@ -157,7 +157,7 @@ The output above shows that there are 12 uenv (`prgenv-gnu`, `namd` , `cp2k` and
 
     To create a repo in the default location, use the following command:
 
-    ```terminal title="Create default uenv image reposiroty"
+    ```terminal title="Create default uenv image repository"
     > uenv repo create
     ```
 

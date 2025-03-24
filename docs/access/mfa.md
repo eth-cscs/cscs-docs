@@ -1,5 +1,5 @@
 [](){#ref-mfa}
-# Multi Factor Authentification
+# Multi Factor Authentication
 
 To access CSCS services and systems users are required to authenticate using multi-factor authentication (MFA).
 MFA is implemented as a two-factor authentication, where one factor is the login and password pair ("the thing you know") and the other factor is the device which generates one-time passwords (OTPs, "the thing you have").
@@ -18,7 +18,7 @@ When you first log in to any of the CSCS web applications such as UMP, Jupyter, 
 Firstly, you will be asked to provide a code that you received by email.
 After this validation step, you will need to scan a QR code with your mobile phone using an application such as Google Authenticator.
 Lastly, you will need to enter the OTP from the authenticator application to complete the registration of your device.
-From then on, two-factor authrentication will be required to access CSCS services and systems.
+From then on, two-factor authentication will be required to access CSCS services and systems.
 A more detailed explanation of the registration process is provided in the next section.
 
 !!! warning
@@ -42,7 +42,7 @@ You can download Google Authenticator for your phone:
 Before starting, ensure that the following pre-requisites are satisfied
 
 1. You have an invitation email from CSCS for MFA enrollment
-    * a notification email will be sent atleast one week before we sent the invitation email.
+    * a notification email will be sent at least one week before we sent the invitation email.
 2. You have installed an OTP Authenticator app on your mobile device (see above).
 
 !!! note
@@ -61,7 +61,7 @@ Steps:
 1. Access any of the CSCS Web applications such as [`account.cscs.ch`](https://account.cscs.ch), Jupyter, etc., on a new browser session which will redirects you to the CSCS login page.
 2. Log in with your username and password.
 3. You will be asked to key in a code which CSCS Authentication system sent to you by email.
-   After successfaul validation of the code you will be redirected to the next page which present a QR code.
+   After successful validation of the code you will be redirected to the next page which present a QR code.
 4. Scan the QR code with the authenticator app that was installed on your mobile device.
    After scanning the QR code the authenticator app will start generating a new 6 digit OTP every 60 seconds.
 5. To complete the OTP registration process, please enter the 6 digit OTP from the authenticator app at the bottom of the the same QR code page. Optionally, you can input your device name where you imported the OTP seed by scanning the QR code

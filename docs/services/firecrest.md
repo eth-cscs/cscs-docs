@@ -1,7 +1,7 @@
 [](){#ref-firecrest}
 # FirecREST
 
-FirecREST is a RESTful API for programatically accessing High-Performance Computing resources, developed at CSCS.
+FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources, developed at CSCS.
 
 Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://github.com/eth-cscs/firecrest/tree/master/examples/CI-pipeline), [workflow managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools against HPC resources.
 
@@ -17,7 +17,7 @@ Users can make HTTP requests to perform the following operations:
 
 Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
 
-Version 2 is faster, easier to use, and more efficient in resource management than its predecesor, therefore, if you are new to FirecREST start directly using **version 2** (if available for your platform).
+Version 2 is faster, easier to use, and more efficient in resource management than its predecessor, therefore, if you are new to FirecREST start directly using **version 2** (if available for your platform).
 
 If you're using **version 1**, we recommend you to port your applications to use the new version.
 

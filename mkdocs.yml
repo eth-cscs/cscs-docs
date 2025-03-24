@@ -38,7 +38,7 @@ nav:
     - 'Project and Resources Management Tool': accounts/waldur.md
   - 'Connecting to Alps':
     - access/index.md
-    - 'Multi Factor Authentification (MFA)': access/mfa.md
+    - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
     - 'VSCode': access/vscode.md

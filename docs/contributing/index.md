@@ -19,7 +19,7 @@ Clone your fork repository on your PC/laptop:
 # ... make your edits ...
 # add and commit your changes
 > git add <files>
-> git commit -m 'update the ssh docs with alisases for all user lab vclusters'
+> git commit -m 'update the ssh docs with aliases for all user lab vclusters'
 > git push origin 'fix/ssh-alias'
 ```
 Then navigate to GitHub, and create a pull request.
@@ -163,7 +163,7 @@ See the good and bad examples below for an example of of what happens when a cha
 
     The diff in this case affects the original 3 lines, and creates a new one.
 
-This method defines a canonical represention of text, i.e. there is one and only one way to write a paragraph of text, which plays much better with git.
+This method defines a canonical representation of text, i.e. there is one and only one way to write a paragraph of text, which plays much better with git.
 
 * changes to the text are less likely to create merge conflicts
 * changing one line of text will not modify the surrounding lines (see example above)
@@ -173,7 +173,7 @@ This method defines a canonical represention of text, i.e. there is one and only
 
 The documentation does not have a FAQ section, because questions are best answered by the documentation, not in a separate section.
 Integrating information into the main documentation requires some care to identify where the information needs to go, and edit the documentation around it.
-Adding the information to a FAQ is easier, but the result is information about a topic distributed betwen the docs and FAQ questions, which ultimately makes the documentation harder to search.
+Adding the information to a FAQ is easier, but the result is information about a topic distributed between the docs and FAQ questions, which ultimately makes the documentation harder to search.
 
 FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
 If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].

@@ -8,7 +8,7 @@ Specifically, it is intended for building and running applications that **requir
 
 !!! note
     By default, use the `prgenv-gnu` toolchain for a generic environment for building GPU applications.
-    It provides CUDA and libraries with GPU support enabled for the Grace-Hopper nodes, the gnu compiler toolchain that it provides has better C and C++ standards complianace, and it also provides more libraries and tools than this `nvfortran` uenv.
+    It provides CUDA and libraries with GPU support enabled for the Grace-Hopper nodes, the gnu compiler toolchain that it provides has better C and C++ standards compliance, and it also provides more libraries and tools than this `nvfortran` uenv.
 
 ## Versioning
 
@@ -19,7 +19,7 @@ The naming scheme is `prgenv-nvfortran/<version>:v<i>`, where `<version>` matche
 
 The currently supported versions are:
 
-| `prgennv-nvhpc` | NVHPC |
+| `prgenv-nvhpc` | NVHPC |
 | --------------  | ----- |
 | 24.11 | 24.11 |
 
@@ -83,7 +83,7 @@ uenv image find prgenv-nvfortran/24.11:v1
     * `mpif90`
     * `mpifort`
 
-    And the following C/C++ wrapers are available:
+    And the following C/C++ wrappers are available:
 
     * `mpicc`
     * `mpicxx`

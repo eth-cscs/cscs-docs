@@ -16,7 +16,7 @@ The recommended way to transfer data externally occurs via the [CSCS globus-onli
     * Please make sure that the login page belongs to the cscs.ch domain (shown in the URL)
     * The CSCS endpoint requires authentication, therefore use your CSCS credentials to log in
     ![globus login](../images/storage/globus_endpoint_login.png)
-3. Once logged in, you can trasfer data to and from CSCS.
+3. Once logged in, you can transfer data to and from CSCS.
     * if you want to transfer the data to another endpoint, just search for it and transfer the data
     * if you want to download the data to your local system, you will need the [Globus Connect Personal client](https://www.globus.org/globus-connect-personal): the client will turn your local system into an endpoint, so you will be able to select it and transfer the data.
 
@@ -35,7 +35,7 @@ Currently Globus provide the following mount points at CSCS:
 | `/capstor/scratch/cscs` | New Alps Daint scratch area |
 | `/capstor/store/cscs` | New Alps Daint store area |
 | `/capstor/users/cscs` | Home directory for Bristen/Scopi/Errigal |
-| `/vast/users/cscs` | New Alps vclustewrs home directory  ( Alps Daint and others ) |
+| `/vast/users/cscs` | New Alps vclusters home directory  ( Alps Daint and others ) |
 
 [](){#ref-data-xfer-internal}
 ## Internal Transfer

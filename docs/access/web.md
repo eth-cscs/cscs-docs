@@ -6,7 +6,7 @@ This gives users the comfort of not having to sign in multiple times in each ind
 Furthermore, the Single Sign-On gate allow users to recover their forgotten passwords and authenticate using a third-party account. The login page looks like
 
 [](){#ref-web-mfa}
-## Using MFA to acccess web-based services
+## Using MFA to access web-based services
 
 After having completed the setup of [MFA][ref-mfa], you will be asked to enter your login/password and the OTP to access all web-based services.
 

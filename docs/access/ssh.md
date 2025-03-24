@@ -1,7 +1,7 @@
 [](){#ref-ssh}
 # Using SSH
 
-Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][ref-account-management] that is part of a project that has access to the cluster, and have [multi factor authentification][ref-mfa] configured.
+Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][ref-account-management] that is part of a project that has access to the cluster, and have [multi factor authentication][ref-mfa] configured.
 
 [](){#ref-ssh-service}
 ## Generating Keys with SSHService
@@ -53,14 +53,14 @@ The next step is to use either the bash or python scripts:
     pip install -r requirements.txt
     ```
 
-    Therafter, activate the venv before using the script:
+    Thereafter, activate the venv before using the script:
 
     ```bash
     source mfa/bin/activate
     python cscs-keygen.py
     ```
 
-For both approaches, follow the on screen instructions that require you to enter your username, password and the six-digit OTP from the authentifactor app on your phone.
+For both approaches, follow the on screen instructions that require you to enter your username, password and the six-digit OTP from the authenticator app on your phone.
 The script generates the key pair (`cscs-key` and `cscs-key-cert.pub`) in your `~/.ssh` path:
 
 ```bash
@@ -85,7 +85,7 @@ chmod 0600 ~/.ssh/cscs-key
 
 ### Adding a password to the key
 
-Once the key has been generated using either the CLI or web interface above, it is strongly reccomended that you add a password to the generated key using the [ssh-keygen](https://www.ssh.com/academy/ssh/keygen) tool.
+Once the key has been generated using either the CLI or web interface above, it is strongly recommended that you add a password to the generated key using the [ssh-keygen](https://www.ssh.com/academy/ssh/keygen) tool.
 
 ```
 ssh-keygen -f ~/.ssh/cscs-key -p
@@ -151,14 +151,14 @@ ssh daint
 [](){#ref-ssh-agent}
 ### Using SSH Agent
 
-Alternatively, the [SSH authentification agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.
+Alternatively, the [SSH authentication agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.
 
 Each time a new key is generated using the [SSHService][ref-ssh-service], add the key to the SSH agent:
 ```
 ssh-add -t 1d ~/.ssh/cscs-key
 ```
 
-??? warning "Could not open a connection to your authentification agent"
+??? warning "Could not open a connection to your authentication agent"
     If you see this error message, the ssh agent is not running.
     You can start it with the following command:
     ```
@@ -177,7 +177,7 @@ ssh daint.cscs.ch
 [](){#ref-ssh-faq}
 ## Frequently encountered issues
 
-??? warning "too many authentification failures"
+??? warning "too many authentication failures"
     You may have too many keys in your ssh agent.
     Remove the unused keys from the agent or flush them all with the following command:
     ```bash

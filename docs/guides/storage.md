@@ -12,7 +12,7 @@ Workloads that do not play nicely with Lustre include:
 
 At first it can seem strange that a "high-performance" file system is significantly slower than a laptop drive for a "simple" task like compilation or loading Python modules, however Lustre is designed for high-bandwidth parallel file access from many nodes at the same time, with the attendant trade offs this implies.
 
-Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to agressively cache meta data.
+Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 ### Python virtual environments with uenv
 
