@@ -1,7 +1,7 @@
 [](){#ref-uenv-linalg}
 # linalg
 
-The `linalg` and `linalg-complex` uenvs are similar to the [`prgenv-gnu`][ref-uenv-prgenv-gnu] and [`pregnv-nvfortran`][ref-uenv-prgenv-nvfortran] uenvs in that they don't provide a specific application, but common libraries useful as a base for building other applications.
+The `linalg` and `linalg-complex` uenvs are similar to the [`prgenv-gnu`][ref-uenv-prgenv-gnu] and [`prgenv-nvfortran`][ref-uenv-prgenv-nvfortran] uenvs in that they don't provide a specific application, but common libraries useful as a base for building other applications.
 They contain linear algebra and mesh partitioning libraries for a broad range of use cases.
 
 The two uenvs contain otherwise identical packages, except that `linalg-complex` contains `petsc` and `trilinos` with complex types enabled, but without the [`hypre`](https://packages.spack.io/package.html?name=hypre) package.
