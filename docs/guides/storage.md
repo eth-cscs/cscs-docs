@@ -57,7 +57,7 @@ The first step is to create the virtual environment using the usual workflow.
 
     # optionally, to reduce the import times, precompile all
     # python modules to bytecode before creating the squashfs image
-    python -m compileall -j 8 -o 1 -o 2 .venv/lib/python3.12/site-packages
+    python -m compileall -j 8 -o 0 -o 1 -o 2 .venv/lib/python3.12/site-packages
     ```
 
 === "venv"
