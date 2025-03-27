@@ -30,7 +30,7 @@ Its name derives from the highest mountain Säntis in the Alpstein massif of Nor
 [](){#ref-cwp-storage}
 ## File systems and storage
 
-There are three main file systems mounted on the CWp system Santis.
+There are three main file systems mounted on the CWP system Santis.
 
 | type |mount | filesystem |
 | -- | -- | -- |

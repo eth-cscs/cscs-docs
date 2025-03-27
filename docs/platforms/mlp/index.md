@@ -1,20 +1,20 @@
 [](){#ref-platform-mlp}
 # Machine learning platform
 
-The Machine Learning Platform (MLp) provides compute, storage and expertise to the machine learning and AI community in Switzerlan, with the main user being the [Swiss AI Initiative](https://www.swiss-ai.org/).
+The Machine Learning Platform (MLP) provides compute, storage and expertise to the machine learning and AI community in Switzerlan, with the main user being the [Swiss AI Initiative](https://www.swiss-ai.org/).
 
 ## Getting started
 
 ### Getting access
 
-Project administrators (PIs and deputy PIs) of projects on the MLp can to invite users to join their project, before they can use the project's resources on Alps.
+Project administrators (PIs and deputy PIs) of projects on the MLP can to invite users to join their project, before they can use the project's resources on Alps.
 This is performed using the [project management tool][ref-account-waldur]
 
 Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
 ## Systems
 
-The main cluster provided by the MLp is Clariden, a large Grace-Hopper GPU system on Alps.
+The main cluster provided by the MLP is Clariden, a large Grace-Hopper GPU system on Alps.
 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: [__Clariden__][ref-cluster-clariden]
@@ -31,7 +31,7 @@ The main cluster provided by the MLp is Clariden, a large Grace-Hopper GPU syste
 [](){#ref-mlp-storage}
 ## File Systems and Storage
 
-There are three main file systems mounted on the MLp clusters Clariden and Bristen.
+There are three main file systems mounted on the MLP clusters Clariden and Bristen.
 
 | type |mount | filesystem |
 | -- | -- | -- |

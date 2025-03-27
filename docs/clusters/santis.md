@@ -1,7 +1,7 @@
 [](){#ref-cluster-santis}
 # Santis
 
-Santis is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of climate and weather models for the [CWp][ref-platform-cwp].
+Santis is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of climate and weather models for the [CWP][ref-platform-cwp].
 
 ## Cluster specification
 
@@ -19,7 +19,7 @@ You will be assigned to one of the four login nodes when you ssh onto the system
 
 ### Storage and file systems
 
-Santis uses the [CWp filesystems and storage policies][ref-cwp-storage].
+Santis uses the [CWP filesystems and storage policies][ref-cwp-storage].
 
 ## Getting started
 
