@@ -21,7 +21,7 @@ A platform can consist of one or multiple [clusters][ref-alps-clusters], and its
 
 -   :fontawesome-solid-mountain: __Climate and Weather Platform__
 
-    !!! todo
+    The Climate and Weather Platform (CWP) provides resources to the climate modeling community.
 
     [:octicons-arrow-right-24: CWP][ref-platform-cwp]
 

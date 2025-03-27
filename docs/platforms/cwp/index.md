@@ -7,7 +7,7 @@ The Climate and Weather Platform (CWP) provides compute, storage and support to 
 
 ### Getting access
 
-Project administrators (PIs and deputy PIs) of projects on the MLp can to invite users to join their project, before they can use the project's resources on Alps.
+Project administrators (PIs and deputy PIs) of projects on the CWP can to invite users to join their project, before they can use the project's resources on Alps.
 
 !!! todo
     This points to the Waldur solution - whether the [UMP][ref-account-ump] or [Waldur][ref-account-waldur] docs are linked depends on which is being used when these docs go live.
