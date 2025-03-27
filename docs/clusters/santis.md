@@ -18,8 +18,8 @@ There are four login nodes, labelled `santis-ln00[1-4]`.
 You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.
 
 | node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|--------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
+|-----------|-----------------| ----------------- | ---------- |
+| [gh200][ref-alps-gh200-node] | 600 | 2,400      | 2,400 |
 
 ### Storage and file systems
 
