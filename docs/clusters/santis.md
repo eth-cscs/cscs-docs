@@ -17,6 +17,10 @@ You will be assigned to one of the four login nodes when you ssh onto the system
 |-----------|--------| ----------------- | ---------- |
 | [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
 
+### Storage and file systems
+
+Santis uses the [CWp filesystems and storage policies][ref-cwp-storage].
+
 ## Getting started
 
 ### Logging into Santis
@@ -33,10 +37,6 @@ To connect to Santis via SSH, first refer to the [ssh guide][ref-ssh].
         IdentityFile ~/.ssh/cscs-key
         IdentitiesOnly yes
     ```
-
-### Storage and file systems
-
-Santis uses the [CWp filesystems and storage policies][ref-cwp-storage].
 
 ### Software
 
