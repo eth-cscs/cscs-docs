@@ -62,6 +62,7 @@ The release schedule is not fixed, with new versions will be released roughly ev
     * [superlu@5.3.0](https://packages.spack.io/package.html?name=superlu)
     * [zlib-ng@2.2.1](https://packages.spack.io/package.html?name=zlib-ng)
 
+[](){#ref-uenv-prgenv-gnu-how-to-use}
 ## How to use
 
 The environment is designed as a fairly minimal set of 

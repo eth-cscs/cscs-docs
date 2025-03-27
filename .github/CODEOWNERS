@@ -1,4 +1,5 @@
 * @bcumming @msimberg @RMeli
-docs/software/sciapps/cp2k.md @abussy @RMeli
-docs/software/communication @msimberg
 docs/services/firecrest @jpdorsch @ekouts
+docs/software/communication @msimberg
+docs/software/prgenv/linalg.md @finkandreas @msimberg
+docs/software/sciapps/cp2k.md @abussy @RMeli

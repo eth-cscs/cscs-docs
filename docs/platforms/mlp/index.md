@@ -10,7 +10,7 @@ The Machine Learning Platform (MLp) provides compute, storage and expertise to t
 Project administrators (PIs and deputy PIs) of projects on the MLp can to invite users to join their project, before they can use the project's resources on Alps.
 This is performed using the [project management tool][ref-account-waldur]
 
-Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentification][ref-mfa] (MFA).
+Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
 ## Systems
 

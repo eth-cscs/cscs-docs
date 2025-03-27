@@ -5,7 +5,7 @@ The current implementation of the LTS service addresses the first two principles
 
 <div class="grid cards" markdown>
 
-- :fontawesome-solid-magnifying-glass: __Findable__ Data and supplementary materials have sufficiently rich metadata anda  unique and persistant identifier.
+- :fontawesome-solid-magnifying-glass: __Findable__ Data and supplementary materials have sufficiently rich metadata anda  unique and persistent identifier.
 - :fontawesome-solid-universal-access: __Accessible__ Metadata and data are understandable to humans and machines. Data is deposited in a trusted repository.
 - :fontawesome-solid-arrow-right-arrow-left: __Interoperable__ Metadata use a formal, accessible, shared, and broadly applicable language for knowledge representation.
 - :fontawesome-solid-recycle: __Reusable__ Data and collections have a clear usage license and provide accurate information on provenance.
@@ -147,7 +147,7 @@ The handle is attached to the collection and at that point the creation workflow
 
 ## Dealing with Failures
 
-After the collection is committed by the user, LTS performs a serie of checks on the uploaded data and requests an handle to the ePIC handle service. If any error occurs during this phase the collection state will be `FAILED`. Possible reasons for this state are:
+After the collection is committed by the user, LTS performs a series of checks on the uploaded data and requests an handle to the ePIC handle service. If any error occurs during this phase the collection state will be `FAILED`. Possible reasons for this state are:
 
 * a failure in one of the LTS microservices
 * a failure in one of the underneath services (object store, handle server, database server etc ..)

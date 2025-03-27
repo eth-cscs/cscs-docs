@@ -53,7 +53,7 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
 -   :fontawesome-solid-key: __Logging In__
 
-    Once you have an account, you can set up multi factor authentification
+    Once you have an account, you can set up multi factor authentication
 
     [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
 

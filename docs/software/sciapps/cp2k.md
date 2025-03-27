@@ -157,7 +157,7 @@ sbatch run_cp2k.sh
         `H2O-102.inp` is the largest example of DFT molecular dynamics simulation of liquid water that fits on a single
         GH200 node.
 
-    | Number of nodes | Wall time (s) | Speecup | Efficiency |
+    | Number of nodes | Wall time (s) | Speedup | Efficiency |
     |:---------------:|:-------------:|:-------:|:----------:|
     | 1               |  793.1        | 1.00    | 1.00       |
     | 2               |  535.2        | 1.48    | 0.74       |
@@ -169,7 +169,7 @@ sbatch run_cp2k.sh
 
 ??? example "Scaling of `QS_mp2_rpa/128-H2O/H2O-128-RI-MP2-TZ` benchmark"
 
-    The `QS_mp2_rpa/128-H2O/H2O-128-RI-MP2-TZ` benchmark is a straighfoward modification of the
+    The `QS_mp2_rpa/128-H2O/H2O-128-RI-MP2-TZ` benchmark is a straightforward modification of the
     [`QS_mp2_rpa/64-H2O/H2O-64-RI-MP2-TZ` benchmark](https://github.com/cp2k/cp2k/blob/master/benchmarks/QS_mp2_rpa/64-H2O/H2O-64-RI-MP2-TZ.inp).
     
     It is a RI-MP2 calculation of a water cluster with 128 atoms.
@@ -273,7 +273,7 @@ sbatch run_cp2k.sh
     The smallest amount of nodes necessary to run this calculation is 8.
 
 
-    | Number of nodes | Wall time (s) | Speecup | Efficiency |
+    | Number of nodes | Wall time (s) | Speedup | Efficiency |
     |:---------------:|:-------------:|:-------:|:----------:|
     | 8               |  2037.0       | 1.00    | 1.00       |
     | 16              |  1096.2       | 1.85    | 0.92       |
@@ -291,7 +291,7 @@ sbatch run_cp2k.sh
     The calculations were run with 16 MPI ranks per node and 16 OpenMP threads per rank.
     For RPA workloads, a higher ratio of threads per rank were beneficial.
 
-    | Number of nodes | Wall time (s) | Speecup | Efficiency |
+    | Number of nodes | Wall time (s) | Speedup | Efficiency |
     |:---------------:|:-------------:|:-------:|:----------:|
     | 8               |  575.4        | 1.00    | 1.00       |
     | 16              |  465.8        | 1.23    | 0.61       |

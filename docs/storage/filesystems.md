@@ -42,7 +42,7 @@ The command reports both disk space and the number of files for each filesystem/
 
     Large inode counts degrade file system performance in multiple ways.
     For example, Lustre filesystems have separate metadata and data management.
-    Excessive inode usage can overwhelm the metadata servces, causing degradation across the filesystem.
+    Excessive inode usage can overwhelm the metadata services, causing degradation across the filesystem.
 
     !!! tip
         Consider archiving folders with the tar command in order to keep low the number of files owned by users and groups.

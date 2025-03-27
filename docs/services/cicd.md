@@ -1,5 +1,5 @@
 [](){#ref-cicd}
-# Continous Integration / Continuous Deployment (CI/CD)
+# Continuous Integration / Continuous Deployment (CI/CD)
 
 [](){#ref-cicd-containerized-intro}
 ## Introduction containerized CI/CD

@@ -8,15 +8,15 @@ This documentation guides users through the process of accessing CSCS systems an
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-layer-group: __Multi Factor Authentification__
+-   :fontawesome-solid-layer-group: __Multi Factor Authentication__
 
-    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentification (MFA)
+    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentication (MFA)
 
     [:octicons-arrow-right-24: MFA][ref-mfa]
 
 -   :fontawesome-solid-layer-group: __Web Services__
 
-    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentification (MFA)
+    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentication (MFA)
 
     [:octicons-arrow-right-24: Accessing CSCS web services][ref-access-web]
 

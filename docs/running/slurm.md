@@ -7,7 +7,7 @@ SLURM is an open-source, highly scalable job scheduler that allocates computing 
 ## Accounting
 
 !!! todo
-    document `--account`, `--constrant` and other generic flags.
+    document `--account`, `--constraint` and other generic flags.
 
 [](){#ref-slurm-partitions}
 ## Partitions

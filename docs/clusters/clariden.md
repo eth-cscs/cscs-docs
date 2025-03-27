@@ -16,6 +16,10 @@ The number of nodes can change when nodes are added or removed from other cluste
 
 Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 
+### Storage and file systems
+
+Clariden uses the [MLp filesystems and storage policies][ref-mlp-storage].
+
 ## Getting started
 
 ### Logging into Clariden
@@ -32,10 +36,6 @@ To connect to Clariden via SSH, first refer to the [ssh guide][ref-ssh].
         IdentityFile ~/.ssh/cscs-key
         IdentitiesOnly yes
     ```
-### Storage and file systems
-
-Clariden uses the [MLp filesystems and storage policies][ref-mlp-storage].
-
 ### Software
 
 Users are encouraged to use containers on Clariden.
@@ -91,7 +91,7 @@ See the SLURM documentation for instructions on how to run jobs on the [Grace-Ho
     | normal               | 1266       | 1-infinite | 1-00:00:00 | 812/371    |
     | xfer                 | 2          | 1          | 1-00:00:00 | 1/1        |
     ```
-    The last column shows the number of nodes that have been allocted in currently running jobs (`A`) and the number of jobs that are idle (`I`).
+    The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 
 ### FirecREST
 
