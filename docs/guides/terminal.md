@@ -8,7 +8,7 @@ This documentation is a collection of guides, hints, and tips for setting up you
 
 Every user has a shell that will be used when they log in, with [bash](https://www.gnu.org/software/bash/) as the default shell for new users at CSCS.
 
-At CSCS the vast majority of users stick with the default `bash`: at the time of writing, with over 1200 users on Daint, 4 were using C shell, 2 were using zsh, and the rest were using Bash.
+At CSCS the vast majority of users stick with the default `bash`: at the time of writing, of over 1000 users on Daint, over 99% were using bash.
 
 !!! example "Which shell am I using?"
 
