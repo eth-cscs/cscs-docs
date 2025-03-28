@@ -34,7 +34,7 @@ There are two executables, one for using on systems with x86 or ARM CPUs respect
     ```
 
 !!! note
-    See the guide on how to manage [architecture-specific binaries][ref-guides-terminal-arch] if you plan to use vscode on both x86 and Grace-Hopper clusters.
+    See the guide on how to manage [architecture-specific binaries][ref-guides-terminal-arch] if you plan to use VScode on both x86 and ARM clusters.
 
 Alternatively, download the CLI tool from the [VS Code site](https://code.visualstudio.com/Download) -- take care to select either x86 or Arm64 version that matches the target system.
 

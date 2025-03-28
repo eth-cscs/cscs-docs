@@ -1,7 +1,7 @@
 [](){#ref-guides-terminal}
 # Terminal usage on Alps
 
-This documentation is a collection of guides, hints and tips for setting up your terminal environment on Alps.
+This documentation is a collection of guides, hints, and tips for setting up your terminal environment on Alps.
 
 [](){#ref-guides-terminal-shells}
 ## Shells
@@ -10,7 +10,7 @@ Every user has a shell that will be used when they log in, with [bash](https://w
 
 At CSCS the vast majority of users stick with the default `bash`: at the time of writing, with over 1200 users on Daint, 4 were using C shell, 2 were using zsh, and the rest were using Bash.
 
-!!! example "what shell am I using?"
+!!! example "Which shell am I using?"
 
     Run the following command after logging in:
 
@@ -19,10 +19,10 @@ At CSCS the vast majority of users stick with the default `bash`: at the time of
     bcumming:*:22008:1000:Benjamin Cumming, CSCS:/users/bcumming:/usr/local/bin/bash
     ```
 
-    the last entry in the output points to the bash of the user, in this case `/usr/local/bin/bash`.
+    The last entry in the output points to the shell of the user, in this case `/usr/local/bin/bash`.
 
 !!! tip
-    If you would like to change your shell, for example to zsh, you have to open a service desk ticket to request the change (you can't make the change yourself).
+    If you would like to change your shell, for example to [zsh](https://www.zsh.org), you have to open a [service desk](https://jira.cscs.ch/plugins/servlet/desk) ticket to request the change. You can't make the change yourself.
 
 
 !!! warning
@@ -33,19 +33,19 @@ At CSCS the vast majority of users stick with the default `bash`: at the time of
 [](){#ref-guides-terminal-arch}
 ## Managing x86 and ARM
 
-Alps has nodes with different CPU architectures, for example [Santis][ref-cluster-santis] has ARM (Grace `aarch64`) processors, and [Eiger][ref-cluster-eiger] uses X86 (AMD Rome `x86_64`) processors.
+Alps has nodes with different CPU architectures, for example [Santis][ref-cluster-santis] has ARM (Grace `aarch64`) processors, and [Eiger][ref-cluster-eiger] uses x86 (AMD Rome `x86_64`) processors.
 Binary applications are generally not portable, for example if you compile or install a tool compiled for `x86_64` on Eiger, you will get an error when you run it on an `aarch64` node.
 
 ??? warning "cannot execute binary file: Exec format error"
     You will see this error message if you try to execute an executable built for a different architecture.
 
-    In this case, the `rg` executable built for `aarch64` (for the Grace-Hopper nodes) is run on an `x86_64` node on [Eiger][ref-cluster-eiger]:
+    In this case, the `rg` executable built for `aarch64` (Grace-Hopper nodes) is run on an `x86_64` node on [Eiger][ref-cluster-eiger]:
     ```
     $ ~/.local/aarch64/bin/rg
     -bash: ./rg: cannot execute binary file: Exec format error
     ```
 
-A common pattern for installing local software, for example some useful command line utilities like [ripgrep](https://github.com/BurntSushi/ripgrep), is to install them in `$HOME/.local.bin`.
+A common pattern for installing local software, for example some useful command line utilities like [ripgrep](https://github.com/BurntSushi/ripgrep), is to install them in `$HOME/.local/bin`.
 This approach won't work if the same home directory is mounted on two different clusters with different architectures: the version of ripgrep in our example would crash with `Exec format error` on one of the clusters.
 
 Care needs to be taken to store executables, configuration and data for different architecures in separate locations, and automatically configure the login environment to use the correct location when you log into different systems.
@@ -70,7 +70,7 @@ export XDG_STATE_HOME=$xdgbase/state
 # - on x86: $HOME/.local/x86_64/bin
 # - on ARM: $HOME/.local/aarch64/bin
 export ARCHPATH=$xdgbase/bin
-export PATH=ARCHPATH:$PATH
+export PATH=$ARCHPATH:$PATH
 ```
 
 !!! note "XDG what?"
