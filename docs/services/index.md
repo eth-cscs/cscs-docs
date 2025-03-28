@@ -1,14 +1,16 @@
-# Tools
+# Services
 
-!!! todo
-    Documentation for tools used on the vClusters, including:
+<div class="grid cards" markdown>
+-   :fontawesome-solid-layer-group: __CI/CD__
 
-    * slurm
-    * uenv
-    * container engine
+    Configure CI/CD on Alps for your GitHub, GitLab and Bitbucket projects.
 
-    We document the tools and their interfaces here, but we do not put all the documentation for a tool here.
+    [:octicons-arrow-right-24: CI/CD][ref-cicd]
 
-    * e.g Documentation on how to build software using uenv, is in another section.
-    * e.g Documentation on how to use Podman to build containers, is in another section.
+-   :fontawesome-solid-mountain-sun: __FirecREST__
+
+    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
+
+    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
+</div>
 
