@@ -33,6 +33,9 @@ There are two executables, one for using on systems with x86 or ARM CPUs respect
     tar -xf vscode_cli_alpine_x64_cli.tar.gz
     ```
 
+!!! note
+    See the guide on how to manage [architecture-specific binaries][ref-guides-terminal-arch] if you plan to use vscode on both x86 and Grace-Hopper clusters.
+
 Alternatively, download the CLI tool from the [VS Code site](https://code.visualstudio.com/Download) -- take care to select either x86 or Arm64 version that matches the target system.
 
 After downloading, copy the `code` executable to a location in your PATH, so that it is available for future sessions.
