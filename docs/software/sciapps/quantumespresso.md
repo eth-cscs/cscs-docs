@@ -33,34 +33,34 @@ The following sbatch script can be used as a template.
 
 === "GH200"
 
-```bash
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=71
-#SBATCH --gpus-per-task=1
-#SBATCH -A <account>
-#SBATCH --uenv=quantumespresso/v7.4:v2
-#SBATCH --view=default
+    ```bash
+    #SBATCH -N 1
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --cpus-per-task=71
+    #SBATCH --gpus-per-task=1
+    #SBATCH -A <account>
+    #SBATCH --uenv=quantumespresso/v7.4:v2
+    #SBATCH --view=default
 
-export OMP_NUM_THREADS=20
-export MPICH_GPU_SUPPORT_ENABLED=1
-export OMP_PLACES=cores
+    export OMP_NUM_THREADS=20
+    export MPICH_GPU_SUPPORT_ENABLED=1
+    export OMP_PLACES=cores
 
-srun -u --cpu-bind=socket /user-environment/env/default/bin/pw.x < pw.in
-```
+    srun -u --cpu-bind=socket /user-environment/env/default/bin/pw.x < pw.in
+    ```
 
 === "Eiger"
 
-```bash
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=128
-#SBATCH -A <account>
-#SBATCH --uenv=quantumespresso/v7.4:v2
-#SBATCH --view=default
-#SBATCH --hint=nomultithread
+    ```bash
+    #SBATCH -N 1
+    #SBATCH --ntasks-per-node=128
+    #SBATCH -A <account>
+    #SBATCH --uenv=quantumespresso/v7.4:v2
+    #SBATCH --view=default
+    #SBATCH --hint=nomultithread
 
-export OMP_NUM_THREADS=1
+    export OMP_NUM_THREADS=1
 
-srun -u /user-environment/env/default/bin/pw.x < pw.in
-```
+    srun -u /user-environment/env/default/bin/pw.x < pw.in
+    ```
 
