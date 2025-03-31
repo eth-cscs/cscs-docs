@@ -29,8 +29,9 @@ QuantumESPRESSO can be compiled from source using the above uenv. The procedure 
 
 ### How to run
 
+The following sbatch script can be used as a template.
+
 === "GH200"
-Either run uenv start quantumespresso/v7.4  and then submit the job or set --uenv  sbatch option accordingly. The following sbatch script can be used as a template.
 
 ```bash
 #SBATCH -N 1
@@ -49,7 +50,6 @@ srun -u --cpu-bind=socket /user-environment/env/default/bin/pw.x < pw.in
 ```
 
 === "Eiger"
-Either run uenv start quantumespresso/v7.4  and then submit the job or set --uenv  sbatch option accordingly. The following sbatch script can be used as a template.
 
 ```bash
 #SBATCH -N 1
