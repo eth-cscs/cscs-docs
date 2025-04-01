@@ -43,7 +43,7 @@ The following sbatch script can be used as a template.
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
-    #SBATCH --uenv=quantumespresso/v7.4:v2
+    #SBATCH --uenv=quantumespresso/v7.3.1
     #SBATCH --view=default
     #SBATCH --hint=nomultithread
 
