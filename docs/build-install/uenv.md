@@ -43,23 +43,37 @@ graph TD
 
     On systems that have NVIDIA GPUs (`gh200` and `a100` uarch), it also provides the latest version of `cuda` and `nccl`, and is configured for GPU-aware MPI communication.
 
-To use Spack as an upstream, the uenv has to be started with the `spack` view:
+To use Spack as an upstream, the uenv can be started with the `spack` view:
 
 ```bash
 uenv start prgenv-gnu/24.11:v1 --view=spack
 ```
 
-??? note "what does the `spack` view do?"
+??? note "What does the `spack` view do?"
     The `spack` view sets environment variables that provide information about the version of Spack that was used to build the uenv, and where the uenv Spack configuration is stored.
-
-    This information is useful because it is strongly recomended that you use the same version of Spack to build software on top of the uenv.
-
+    
     | <div style="width:12em">variable</div> | <div style="width:18em">example</div> | description |
     | -------- | ------- | ----------- |
     | `UENV_SPACK_CONFIG_PATH` | `user-environment/config` | the path of the upstream [spack configuration files]. |
     | `UENV_SPACK_REF`         | `releases/v0.23` | the branch or tag used - this might be empty if a specific commit of Spack was used. |
     | `UENV_SPACK_URL`         | `https://github.com/spack/spack.git` | The git repository for Spack - nearly always the main spack/spack repository. |
     | `UENV_SPACK_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The commit of Spack that was used |
+
+    !!! warning
+
+        The environment variables set by the `spack` view are scoped by `UENV_`.
+        Therefore, they don't change Spack-related environment variables.
+        You can use them to consistently set Spack-related environment variables.
+
+You can then set the uenv as an upstream Spack instance as follows:
+
+```bash
+export SPACK_SYSTEM_CONFIG_PATH=$UENV_SPACK_CONFIG_PATH
+```
+
+??? warning "Upstream Spack version"
+
+    It is strongly recomended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 ### Describing what to build
 
