@@ -1,7 +1,7 @@
 [](){#ref-uenv-quantumespresso}
 # Quantum ESPRESSO
 
-Quantum ESPRESSO is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials:
+[Quantum ESPRESSO](https://www.quantum-espresso.org/) is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials:
 
 PWscf (Plane-Wave Self-Consistent Field)
 FPMD (First Principles Molecular Dynamics)
