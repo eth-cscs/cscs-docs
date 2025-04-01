@@ -10,7 +10,7 @@
 
 !!! note "uenvs"
 
-    [Quantum ESPRESSO] is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
+    [Quantum ESPRESSO](https://www.quantum-espresso.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
 
