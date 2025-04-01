@@ -49,7 +49,7 @@ To use Spack as an upstream, the uenv can be started with the `spack` view:
 uenv start prgenv-gnu/24.11:v1 --view=spack
 ```
 
-??? note "What does the `spack` view do?"
+!!! note "What does the `spack` view do?"
     The `spack` view sets environment variables that provide information about the version of Spack that was used to build the uenv, and where the uenv Spack configuration is stored.
     
     | <div style="width:12em">variable</div> | <div style="width:18em">example</div> | description |
