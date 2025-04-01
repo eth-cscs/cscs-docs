@@ -65,7 +65,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
         Therefore, they don't change Spack-related environment variables.
         You can use them to consistently set Spack-related environment variables.
 
-You can then set the uenv as an upstream Spack instance as follows:
+You can then set the uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/latest/chain.html) as follows:
 
 ```bash
 export SPACK_SYSTEM_CONFIG_PATH=$UENV_SPACK_CONFIG_PATH
