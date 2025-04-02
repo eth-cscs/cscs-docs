@@ -1,12 +1,12 @@
 [](){#ref-software-devtools}
 # Debugging and Performance Analysis tools
 
-Debugging and Performance Analysis tools can assist users in developing and optimizing scientific parallel applications, especially in a high-performance computing (HPC) environment.
-Efficient tools can significantly improve workflows and save valuable computational resources.
+Debugging and performance analysis tools can assist users in developing and optimizing scientific parallel applications, especially in a high-performance computing (HPC) environment.
+These tools can significantly improve workflows and save valuable computational resources.
 
-CSCS provides debuggers and performance analysis tools on Alps Clusters.
+CSCS provides debuggers and performance analysis tools on [Alps][ref-alps] clusters.
 
-!!! note "get in touch"
+!!! note "Get in touch"
     If you have issues or questions about debugging or performance analysis tools, please do not hesitate to [contact us][ref-get-in-touch].
 
 [](){#ref-devtools-debug}
