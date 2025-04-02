@@ -77,6 +77,9 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
 !!! note "Advanced Spack users"
 
     Advanced Spack users can use the environment variables set by the `spack` view to manually configure the uenv as a Spack upstream instance.
+    
+    !!! tip
+        If using multiple uenvs, we recommend using a different Spack instance per uenv.
 
     ??? example "Setting Spack configuration path"
     
