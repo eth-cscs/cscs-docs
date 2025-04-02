@@ -179,7 +179,7 @@ Some notes on the examples above:
 
 Once configured, test and save the configuration:
 
-1. check whether the configuration is correct by click `Test Remote Launch` (and then `OK` when the test is successful),
+1. check whether the configuration is correct by clicking `Test Remote Launch` (and then `OK` when the test is successful),
 2. click on `OK` and then `Close` to save the configuration.
 3. You can now connect by going to `Remote Launch` and choose the entry (`Connection` name) you added.
    If the client fails to connect, look at the error message, check your SSH
