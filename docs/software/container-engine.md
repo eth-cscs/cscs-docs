@@ -437,7 +437,9 @@ If a libfabric library is already present in the container filesystem (for examp
 
 !!! note
     Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-> Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
+
+!!! note
+    Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
 
 The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF, as shown in the following example:
 
