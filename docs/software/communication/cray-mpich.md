@@ -58,12 +58,14 @@ See [this page][ref-slurm-gh200] for more information on configuring SLURM to us
 
     Alternatively, if you wish to not use GPU-aware MPI, either unset `MPICH_GPU_SUPPORT_ENABLED` or explicitly set it to `0` in your launch scripts.
 
+[](){#ref-communication-cray-mpich-known-issues}
 ## Known issues
 
 This section documents known issues related to Cray MPICH on Alps. Resolved issues are also listed for reference.
 
 ### Existing Issues
 
+[](){#ref-communication-cray-mpich-cache-monitor-disable}
 #### Cray MPICH hangs
 
 Cray MPICH may sometimes hang on larger runs.
