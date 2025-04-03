@@ -31,14 +31,28 @@ srun --mpi=pmix ...
 Additionally, the following environment variables should be set:
 ```bash
 export PMIX_MCA_psec="native" # (1)
-export FI_PROVIDER="lnx" # (2)
-export FI_LNX_PROV_LINKS="shm+cxi" # (3)
-export OMPI_MCA_pml="^ucx" # (4)
-export OMPI_MCA_mtl="ofi" # (5)
+export FI_PROVIDER="cxi" # (2)
+export OMPI_MCA_pml="^ucx" # (3)
+export OMPI_MCA_mtl="ofi" # (4)
 ```
 
 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
-2. Use the [libfabric LINKx](https://ofiwg.github.io/libfabric/v2.1.0/man/fi_lnx.7.html) provider, to allow using different libfabric providers for inter- and intra-node communication.
-3. Use the shared memory provider for intra-node communication and the CXI (Slingshot) provider for inter-node communication.
-4. Use anything except [UCX](https://openucx.org/documentation/) for [point-to-point communication](https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time).
-5. Use libfabric for the [Matching Transport Layer](https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks).
+2. Use the CXI (Slingshot) provider.
+3. Use anything except [UCX](https://openucx.org/documentation/) for [point-to-point communication](https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time).
+4. Use libfabric for the [Matching Transport Layer](https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks).
+
+!!! info "CXI provider does all communication through the network interface cards (NICs)"
+    When using the libfabric CXI provider, all communication goes through NICs, including intra-node communication.
+    This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will not be severely limited.
+
+    Libfabric has a new [LINKx](https://ofiwg.github.io/libfabric/v2.1.0/man/fi_lnx.7.html) provider, which allows using different libfabric providers for inter- and intra-node communication.
+    This provider is not as well tested, but can in theory perform better for intra-node communication, because it can use shared memory.
+    To use the LINKx provider, set the following, instead of `FI_PROVIDER=cxi`:
+
+    ```bash
+    export FI_PROVIDER="lnx" # (1)
+    export FI_LNX_PROV_LINKS="shm+cxi" # (2)
+    ```
+
+    1. Use the libfabric LINKx provider, to allow using different libfabric providers for inter- and intra-node communication.
+    2. Use the shared memory provider for intra-node communication and the CXI (Slingshot) provider for inter-node communication.
