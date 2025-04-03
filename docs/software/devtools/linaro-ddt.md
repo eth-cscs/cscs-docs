@@ -18,7 +18,7 @@ The following guide will walk through the steps required to build and debug an a
 Once the uenv is loaded and activated, the program to debug must be compiled with the `-g` (for CPU) and `-G` (for GPU) debugging flags.
 For example, we can build a CUDA test with a user environment:
 
-```terminal
+```bash
 uenv start prgenv-gnu:24.11:v1 --view=default
 nvcc -c -arch=sm_90 -g -G test_gpu.cu
 mpicxx -g test_cpu.cpp test_gpu.o -o myexe
@@ -41,13 +41,13 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode
 
     Log into the system and launch with the `srun` command:
 
-    ```terminal
+    ```console
     # start a session with both the PE used to build your application
     # and the linaro-forge uenv mounted
-    > uenv start prgenv-gnu/24.11:v1,linaro-forge/24.1.1:v1 --view=prgenv-gnu:default
-    > source /user-tools/activate
+    $ uenv start prgenv-gnu/24.11:v1,linaro-forge/24.1.1:v1 --view=prgenv-gnu:default
+    $ source /user-tools/activate
 
-    > srun -N1 -n4 -t15 -pdebug ./cuda_visible_devices.sh   ddt-client   ./myexe
+    $ srun -N1 -n4 -t15 -pdebug ./cuda_visible_devices.sh   ddt-client   ./myexe
     ```
 
 ### Start debugging

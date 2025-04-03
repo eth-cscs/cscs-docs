@@ -18,12 +18,12 @@ The Linaro uenv is named `linaro-forge`, and the available versions can be deter
 
 !!! example "finding available linaro-forge versions"
 
-    ```
-    > uenv image find linaro-forge
+    ```console
+    $ uenv image find linaro-forge
     uenv                    arch   system  id                size(MB)  date
     linaro-forge/24.1.1:v1  gh200  daint   e0e79f5c3e6a8ee0  365       2025-02-12
 
-    > uenv image pull linaro-forge/24.1.1:v1
+    $ uenv image pull linaro-forge/24.1.1:v1
     pulling e0e79f5c3e6a8ee0 100.00% --- 365/365 (0.00 MB/s)
     ```
 
@@ -50,10 +50,10 @@ Version: 24.1.1
 !!! note
     The `linaro-forge` uenv is always mounted at the `/user-tools` mount point, and a script `/user-tools/activate` is provided to load both ddt and map into your environment, without needing to use a view.
 
-    ```bash
-    > uenv start linaro-forge/14.1.1
-    > source /user-tools/activate
-    > ddt --version
+    ```console
+    $ uenv start linaro-forge/14.1.1
+    $ source /user-tools/activate
+    $ ddt --version
     Linaro DDT Part of Linaro Forge.
     Copyright (c) 2023-2024 Linaro Limited. All rights reserved.
     Version: 24.1.1

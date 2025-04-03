@@ -13,20 +13,20 @@ We use the GitHub fork and pull request model for development:
 Clone your fork repository on your PC/laptop:
 ```bash
 # clone your fork of the repository
-> git clone git@github.com:${githubusername}/cscs-docs.git
-> cd cscs-docs
-> git switch -c 'fix/ssh-alias'
+git clone git@github.com:${githubusername}/cscs-docs.git
+cd cscs-docs
+git switch -c 'fix/ssh-alias'
 # ... make your edits ...
 # add and commit your changes
-> git add <files>
-> git commit -m 'update the ssh docs with aliases for all user lab vclusters'
-> git push origin 'fix/ssh-alias'
+git add <files>
+git commit -m 'update the ssh docs with aliases for all user lab vclusters'
+git push origin 'fix/ssh-alias'
 ```
 Then navigate to GitHub, and create a pull request.
 
 The `serve` script in the root path of the repository can be used to view the docs locally:`
-```
-> ./serve
+```bash
+./serve
 ...
 INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 ```
