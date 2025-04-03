@@ -18,5 +18,12 @@ export NCCL_NET_PLUGIN="ofi"
 This forces NCCL to use the libfabric plugin, enabling full use of the Slingshot network.
 Conversely, if the plugin can not be found, applications will fail to start instead of falling back to e.g. TCP, which would be significantly slower than with the plugin.
 
+!!! warning "GPU-aware MPI with NCCL"
+    Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi).
+    Unless care is taken to ensure that the two methods of communication are not used concurrently, we recommend not using GPU-aware MPI with NCCL.
+    To explicitly disable GPU-aware MPI with Cray MPICH, explicitly set `MPICH_GPU_SUPPORT_ENABLED=0`.
+    Note that this option may be set to `1` by default on some Alps clusters.
+    See [the Cray MPICH documentation][ref-communication-cray-mpich] for more details on GPU-aware MPI with Cray MPICH.
+
 !!! todo
     More options?
