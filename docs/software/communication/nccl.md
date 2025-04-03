@@ -9,7 +9,7 @@ It is commonly used in machine learning frameworks, but traditional scientific a
 To use the Slingshot network on Alps, the [`aws-ofi-nccl`](https://github.com/aws/aws-ofi-nccl) plugin must be used.
 With the container engine, the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] can be used to load the plugin into the container and configure NCCL to use it.
 
-Most uenvs, like [`prgenv-gnu`][ref-uenv-prgenv-gnu] also contain the NCCL plugin.
+Most uenvs, like [`prgenv-gnu`][ref-uenv-prgenv-gnu], also contain the NCCL plugin.
 When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin will be available in the environment.
 Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment.
 The environment variables described below must still be set to ensure that NCCL uses the plugin.
