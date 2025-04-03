@@ -9,14 +9,25 @@ It is commonly used in machine learning frameworks, but traditional scientific a
 To use the Slingshot network on Alps, the [`aws-ofi-nccl`](https://github.com/aws/aws-ofi-nccl) plugin must be used.
 With the container engine, the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] can be used to load the plugin into the container and configure NCCL to use it.
 
-While the container engine does this automatically, regardless of application, the following environment variable should always be set when using NCCL:
+While the container engine does this automatically, regardless of application, the following environment variables should always be set when using NCCL:
 
 ```bash
-export NCCL_NET_PLUGIN="ofi"
+export NCCL_NET="AWS Libfabric"
 ```
 
 This forces NCCL to use the libfabric plugin, enabling full use of the Slingshot network.
 Conversely, if the plugin can not be found, applications will fail to start instead of falling back to e.g. TCP, which would be significantly slower than with the plugin.
+
+For optimal performance, the following environment variables should also be set (these are set automatically by the container engine):
+
+```bash
+export NCCL_NET_GDR_LEVEL=PHB
+export FI_CXI_DISABLE_HOST_REGISTER=1
+export FI_MR_CACHE_MONITOR=userfaultfd
+export FI_CXI_DEFAULT_CQ_SIZE=131072
+export FI_CXI_DEFAULT_TX_SIZE=32768
+export FI_CXI_RX_MATCH_MODE=software
+```
 
 !!! warning "GPU-aware MPI with NCCL"
     Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi).
