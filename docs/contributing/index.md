@@ -236,38 +236,48 @@ The documentation uses [pygments](https://pygments.org) for highlighting.
 See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
 
 Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for interactive sessions with prompt-output pairs:
-````markdown
-```console title="Hello, world!"
-$ echo "Hello, world!"
-Hello, world!
-```
-````
 
-The above becomes:
+=== "Markdown"
 
-```console title="Hello, world!"
-$ echo "Hello, world!"
-Hello, world!
-```
+    ````markdown
+    ```console title="Hello, world!"
+    $ echo "Hello, world!"
+    Hello, world!
+    ```
+    ````
+
+=== "Rendered"
+
+    ```console title="Hello, world!"
+    $ echo "Hello, world!"
+    Hello, world!
+    ```
 
 !!! warning
     `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
     The text will be rendered without highlighting.
+
+!!! warning
+    Use `$` as the prompt character, optionally preceded by text.
+    `>` as the prompt character will not be highlighted correctly.
 
 Note the use of `title=...`, which will give the code block a heading.
 
 !!! tip
     Include a title whenever possible to describe what the code block does or is.
 
-If you want to display commands without that can easily be copied, use `bash` as the language.
-````markdown
-```bash title="Hello, world!"
-echo "Hello, world!"
-```
-````
+If you want to display commands without output that can easily be copied, use `bash` as the language:
 
-The above becomes:
+=== "Markdown"
 
-```bash title="Hello, world!"
-echo "Hello, world!"
-```
+    ````markdown
+    ```bash title="Hello, world!"
+    echo "Hello, world!"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```bash title="Hello, world!"
+    echo "Hello, world!"
+    ```
