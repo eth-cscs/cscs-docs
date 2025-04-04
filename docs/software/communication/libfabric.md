@@ -19,7 +19,6 @@ For a comprehensive overview libfabric options for the CXI provider (the provide
 Note that the exact version deployed on Alps may differ, and not all options may be applicable on Alps.
 
 See the [Cray MPICH known issues page][ref-communication-cray-mpich-known-issues] for issues when using Cray MPICH together with libfabric.
-For example, certain applications may hang at scale unless [the `FI_MR_CACHE_MONITOR=disabled`][ref-communication-cray-mpich-cache-monitor-disable] option is set.
 
 !!! todo
     More options?
