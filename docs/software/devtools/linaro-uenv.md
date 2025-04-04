@@ -69,7 +69,7 @@ It can be downloaded for a selection of operating systems.
 
     Make sure you download the [Linaro desktop client] matching the version of the `linaro-forge` uenv you are planning to use.
 
-    !!! example "Mismatched desktrop client and uenv versions"
+    !!! example "Mismatched desktop client and uenv versions"
         Mismatches between the client and the uenv version will lead to the following error when trying to establish a remote connection:
 
         ```
