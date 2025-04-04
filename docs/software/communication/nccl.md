@@ -24,7 +24,7 @@ export FI_CXI_DEFAULT_TX_SIZE=32768
 export FI_CXI_DISABLE_HOST_REGISTER=1
 export FI_CXI_RX_MATCH_MODE=software
 export FI_MR_CACHE_MONITOR=userfaultfd
-export MPICH_GPU_SUPPORT_ENABLED=0 # (3)
+export MPICH_GPU_SUPPORT_ENABLED=0 # (4)
 ```
 
 1. This forces NCCL to use the libfabric plugin, enabling full use of the Slingshot network. If the plugin can not be found, applications will fail to start. With the default value, applications would instead fall back to e.g. TCP, which would be significantly slower than with the plugin. [More information about `NCCL_NET`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net).
