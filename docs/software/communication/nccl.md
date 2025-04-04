@@ -58,7 +58,8 @@ export MPICH_GPU_SUPPORT_ENABLED=0 # (4)
     nid006352:34610:34631 [0] NCCL INFO Using network AWS Libfabric
     ```
 
-!!! warning "`NCCL_NET_PLUGIN="ofi"` with uenvs"
+!!! warning "Do not use `NCCL_NET_PLUGIN="ofi"` with uenvs"
+    NCCL has an alternative way of specifying what plugin to use: `NCCL_NET_PLUGIN`.
     When using uenvs, do not set `NCCL_NET_PLUGIN="ofi"` instead of, or in addition to, `NCCL_NET="AWS Libfabric"`.
     If you do, your application will fail to start since NCCL will:
 
