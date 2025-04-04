@@ -73,7 +73,7 @@ nav:
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
       - 'Linaro uenv': software/devtools/linaro-uenv.md
-      - 'Using Linaro profiler': software/devtools/linaro-map.md
+      - 'Using Linaro performance analysis tool': software/devtools/linaro-map.md
       - 'Using Linaro debugger': software/devtools/linaro-ddt.md
       - 'NVIDIA Nsight': software/devtools/nvidia-nsight.md
     - 'uenv': software/uenv.md

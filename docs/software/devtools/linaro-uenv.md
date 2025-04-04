@@ -1,16 +1,16 @@
 [](){#ref-uenv-linaro}
 # Linaro Forge
 
-[Linaro Forge](https://docs.linaroforge.com/latest/html/forge/index.html) is a suite of profiling and debugging tools, that includes the DDT debugger and the MAP profiler.
+[Linaro Forge](https://docs.linaroforge.com/latest/html/forge/index.html) is a suite of profiling and debugging tools, that includes the DDT debugger and the MAP performance analysis tool.
 
-!!! note "Linaro DDT debugger and Linaro MAP profiler"
+!!! note "Linaro DDT debugger and Linaro MAP performance analysis tool"
     We have separate user guides for the tools provided by the `linaro-forge` uenv.
     The documentation here shows how to download the uenv, and how to set up your environment.
 
     Once you are set up, follow the specific guides:
 
     * [DDT debugger][ref-devtools-ddt],
-    * [MAP profiler][ref-devtools-map].
+    * [MAP performance analysis tool][ref-devtools-map].
 
 ## Quickstart guide
 
