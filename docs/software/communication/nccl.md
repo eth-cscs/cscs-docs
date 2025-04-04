@@ -42,5 +42,39 @@ export MPICH_GPU_SUPPORT_ENABLED=0 # (3)
     Note that this option may be set to `1` by default on some Alps clusters.
     See [the Cray MPICH documentation][ref-communication-cray-mpich] for more details on GPU-aware MPI with Cray MPICH.
 
-!!! todo
-    More options?
+!!! warning "`invalid usage` error with `NCCL_NET="AWS Libfabric`"
+    If you are getting error messages such as:
+    ```console
+    nid006352: Test NCCL failure common.cu:958 'invalid usage (run with NCCL_DEBUG=WARN for details)
+    ```
+    this may be due to the plugin not being found by NCCL.
+    If this is the case, running the application with the recommended `NCCL_DEBUG=WARN` should print something similar to the following:
+    ```console
+    nid006352:34157:34217 [1] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+    ```
+    When using uenvs like `prgenv-gnu`, make sure you are either using the `default` view which loads `aws-ofi-nccl` automatically, or, if using the `modules` view, load the `aws-ofi-nccl` module with `module load aws-ofi-nccl`.
+    If the plugin is found correctly, running the application with `NCCL_DEBUG=INFO` should print:
+    ```console
+    nid006352:34610:34631 [0] NCCL INFO Using network AWS Libfabric
+    ```
+
+!!! warning "`NCCL_NET_PLUGIN="ofi"` with uenvs"
+    When using uenvs, do not set `NCCL_NET_PLUGIN="ofi"` instead of, or in addition to, `NCCL_NET="AWS Libfabric"`.
+    If you do, your application will fail to start since NCCL will:
+
+    1. fail to find the plugin because of the name of the shared library in the uenv, and
+    2. prefer `NCCL_NET_PLUGIN` over `NCCL_NET`, so it will fail to find the plugin even if `NCCL_NET="AWS Libfabric"` is correctly set.
+    
+    When both environment variables are set the error message, with `NCCL_DEBUG=WARN`, will look similar to when the plugin isn't available:
+    ```console
+    nid006365:179857:179897 [1] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+    ```
+    
+    With `NCCL_DEBUG=INFO`, NCCL will print:
+    ```console
+    nid006365:180142:180163 [0] NCCL INFO NET/Plugin: Could not find: ofi libnccl-net-ofi.so. Using internal network plugin.
+    ...
+    nid006365:180142:180163 [0] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+    ```
+    
+    If you only set `NCCL_NET="ofi"`, NCCL may silently fail to load the plugin but fall back to the default implementation.
