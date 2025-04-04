@@ -50,8 +50,8 @@ export OMPI_MCA_mtl="ofi" # (4)
     To use the LINKx provider, set the following, instead of `FI_PROVIDER=cxi`:
 
     ```bash
-    export FI_PROVIDER="lnx" # (1)
-    export FI_LNX_PROV_LINKS="shm+cxi" # (2)
+    export FI_PROVIDER="lnx" # (1)!
+    export FI_LNX_PROV_LINKS="shm+cxi" # (2)!
     ```
 
     1. Use the libfabric LINKx provider, to allow using different libfabric providers for inter- and intra-node communication.
