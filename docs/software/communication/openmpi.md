@@ -37,7 +37,7 @@ export OMPI_MCA_mtl="ofi" # (4)!
 
 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 2. Use the CXI (Slingshot) provider.
-3. Use anything except [UCX](https://openucx.org/documentation/) for [point-to-point communication](https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time).
+3. Use anything except [UCX](https://openucx.org/documentation/) for [point-to-point communication](https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time). The `^` signals that OpenMPI should exclude all listed components.
 4. Use libfabric for the [Matching Transport Layer](https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks).
 
 !!! info "CXI provider does all communication through the network interface cards (NICs)"
