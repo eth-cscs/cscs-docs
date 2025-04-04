@@ -140,11 +140,11 @@ ERROR: S3 error: 403 (SignatureDoesNotMatch)
 
 To fix this, it is necessary to edit the `.s3cfg` file, normally located in the user's home directory, and change the `signature_v2` setting to true.
 
-```
-~ > cat .s3cfg | grep signature_v2
+```console
+~ $ cat .s3cfg | grep signature_v2
 signature_v2 = True
  
-> s3cmd ls s3://test-bucket
+$ s3cmd ls s3://test-bucket
 2024-12-09 08:05           15  s3://test-bucket/file.txt
 ```
 

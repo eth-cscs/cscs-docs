@@ -50,8 +50,8 @@ Before starting, ensure that the following pre-requisites are satisfied
 
 !!! warning
     If you try to SSH to CSCS systems without setting up MFA, you will be prompted with permission denied error, for example:
-    ```
-    > ssh ela.cscs.ch
+    ```console
+    $ ssh ela.cscs.ch
     bobsmith@ela.cscs.ch: Permission denied (publickey).
     Connection closed by UNKNOWN port 65535
     ```

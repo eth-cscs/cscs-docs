@@ -92,9 +92,9 @@ uenv image find prgenv-nvfortran/24.11:v1
 
     The modules view will start the uenv, and make a set of modules available:
 
-    ```
-    > uenv start prgenv-nvfortran/24.11:v1 --view=nvfort,modules
-    > module avail
+    ```console
+    $ uenv start prgenv-nvfortran/24.11:v1 --view=nvfort,modules
+    $ module avail
     ---------------------------- /user-environment/modules ----------------------------
        aws-ofi-nccl/master    libtree/3.1.1           ninja/1.12.1
        cmake/3.30.5           lua/5.4.6               nvhpc/24.11

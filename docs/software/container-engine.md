@@ -50,13 +50,13 @@ Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-sear
     The above terminal snippet demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
     Click on the :fontawesome-solid-circle-plus: icon for information on each command.
 
-    ```bash
-    daint-ln002 > srun --environment=ubuntu --pty bash   # (1)
+    ```console
+    [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
 
-    nid005333 > pwd                                    # (2)
+    [nid005333]$ pwd                                    # (2)
     /capstor/scratch/cscs/<username>
 
-    nid005333 > cat /etc/os-release                    # (3)
+    [nid005333]$ cat /etc/os-release                    # (3)
     PRETTY_NAME="Ubuntu 24.04 LTS"
     NAME="Ubuntu"
     VERSION_ID="24.04"
@@ -71,8 +71,8 @@ Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-sear
     UBUNTU_CODENAME=noble
     LOGO=ubuntu-logo
 
-    nid005333 > exit                                  # (4)
-    daint-ln002 >
+    [nid005333]$ exit                                  # (4)
+    [daint-ln002]$
     ```
 
     1.  Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.

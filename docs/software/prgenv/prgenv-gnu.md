@@ -81,22 +81,22 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
     !!! example "test mpi compilers and python provided by prgenv-gnu/24.11"
-        ```bash
+        ```console
         # start using the default view
-        > uenv start --view=default prgenv-gnu/24.11:v1
+        $ uenv start --view=default prgenv-gnu/24.11:v1
 
         # the python executable provided by the uenv is the default, and is a recent version
-        > which python
+        $ which python
         /user-environment/env/default/bin/python
-        > python --version 
+        $ python --version 
         Python 3.12.5
 
         # the mpi compiler wrappers are also available
-        > which mpicc
+        $ which mpicc
         /user-environment/env/default/bin/mpicc
-        > mpicc --version
+        $ mpicc --version
         gcc (Spack GCC) 13.3.0
-        > gcc --version # the compiler wrapper uses the gcc provided by the uenv
+        $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
         gcc (Spack GCC) 13.3.0
         ```
 
@@ -106,9 +106,9 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
     No modules are loaded when a uenv starts, and have to be loaded individually using `module load`.
 
     !!! example "starting prgenv-gnu and listing the provided modules"
-        ```bash
-        > uenv start prgenv-gnu/24.11:v1 --view=modules
-        > module avail
+        ```console
+        $ uenv start prgenv-gnu/24.11:v1 --view=modules
+        $ module avail
             ---------------------------- /user-environment/modules ----------------------------
            aws-ofi-nccl/git.v1.9.2-aws_1.9.2    lua/5.4.6
            boost/1.86.0                         lz4/1.10.0
