@@ -12,7 +12,7 @@ With the container engine, the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] can be u
 Most uenvs, like [`prgenv-gnu`][ref-uenv-prgenv-gnu], also contain the NCCL plugin.
 When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin will be available in the environment.
 Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment.
-The environment variables described below must still be set to ensure that NCCL uses the plugin.
+The environment variables described below must be set to ensure that NCCL uses the plugin.
 
 While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL:
 
