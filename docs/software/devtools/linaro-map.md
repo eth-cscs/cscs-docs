@@ -7,8 +7,8 @@ In the first case, the user can set the profiling configuration using the GUI an
 In the latter (recommended) case, the user can use the MAP executable to launch the application they want to profile which will generate a report file that can then be opened from the locally installed [client](https://docs.linaroforge.com/latest/html/forge/forge/installing/mac_install.html).
 
 !!! note
-    Linaro Map is provided in the `linaro-forge` uenv.
-    Before using Map, please read the [`linaro-forge` documentation][ref-uenv-linaro], which explains how to download and set up the latest version and set it up.
+    Linaro MAP is provided in the `linaro-forge` [uenv][ref-uenv].
+    Before using MAP, please read the [`linaro-forge` uenv documentation][ref-uenv-linaro], which explains how to download and set up the latest version.
 
 ## Linaro Forge MAP
 

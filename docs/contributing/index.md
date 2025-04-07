@@ -13,20 +13,20 @@ We use the GitHub fork and pull request model for development:
 Clone your fork repository on your PC/laptop:
 ```bash
 # clone your fork of the repository
-> git clone git@github.com:${githubusername}/cscs-docs.git
-> cd cscs-docs
-> git switch -c 'fix/ssh-alias'
+git clone git@github.com:${githubusername}/cscs-docs.git
+cd cscs-docs
+git switch -c 'fix/ssh-alias'
 # ... make your edits ...
 # add and commit your changes
-> git add <files>
-> git commit -m 'update the ssh docs with aliases for all user lab vclusters'
-> git push origin 'fix/ssh-alias'
+git add <files>
+git commit -m 'update the ssh docs with aliases for all user lab vclusters'
+git push origin 'fix/ssh-alias'
 ```
 Then navigate to GitHub, and create a pull request.
 
 The `serve` script in the root path of the repository can be used to view the docs locally:`
-```
-> ./serve
+```bash
+./serve
 ...
 INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 ```
@@ -228,3 +228,56 @@ They stand out better from the main text, and can be collapsed by default if nee
     This note is collapsed, because it uses `???`.
     
 If an admonition is collapsed by default, it should have a title.
+
+### Code blocks
+
+Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
+The documentation uses [pygments](https://pygments.org) for highlighting.
+See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
+
+Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for interactive sessions with prompt-output pairs:
+
+=== "Markdown"
+
+    ````markdown
+    ```console title="Hello, world!"
+    $ echo "Hello, world!"
+    Hello, world!
+    ```
+    ````
+
+=== "Rendered"
+
+    ```console title="Hello, world!"
+    $ echo "Hello, world!"
+    Hello, world!
+    ```
+
+!!! warning
+    `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
+    The text will be rendered without highlighting.
+
+!!! warning
+    Use `$` as the prompt character, optionally preceded by text.
+    `>` as the prompt character will not be highlighted correctly.
+
+Note the use of `title=...`, which will give the code block a heading.
+
+!!! tip
+    Include a title whenever possible to describe what the code block does or is.
+
+If you want to display commands without output that can easily be copied, use `bash` as the language:
+
+=== "Markdown"
+
+    ````markdown
+    ```bash title="Hello, world!"
+    echo "Hello, world!"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```bash title="Hello, world!"
+    echo "Hello, world!"
+    ```

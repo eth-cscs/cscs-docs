@@ -19,10 +19,10 @@ Each environment contains a software stack, comprised of compilers, libraries, t
 
 After logging into an Alps cluster, you can quickly check the availability of uenv with the following commands:
 
-```terminal
-> uenv status
+```console
+$ uenv status
 there is no uenv loaded
-> uenv --version
+$ uenv --version
 7.0.0
 ```
 
@@ -126,8 +126,8 @@ Uenv for programming environments, tools and applications are provided by CSCS o
 The available uenv images are stored in a registry, that can be queried using the `uenv image find`  command:
 
 !!! example  "uenv image find"
-    ``` terminal
-    > uenv image find
+    ```console
+    $ uenv image find
     uenv                       arch  system  id                size(MB)  date
     cp2k/2024.1:v1             zen2  eiger   2a56f1df31a4c196   2,693    2024-07-01
     cp2k/2024.2:v1             zen2  eiger   f83e95328d654c0f   2,739    2024-08-23
@@ -157,22 +157,22 @@ The output above shows that there are 12 uenv (`prgenv-gnu`, `namd` , `cp2k` and
 
     To create a repo in the default location, use the following command:
 
-    ```terminal title="Create default uenv image repository"
-    > uenv repo create
+    ```bash title="Create default uenv image repository"
+    uenv repo create
     ```
 
 To use a uenv, it first has to be pulled from the registry to local storage where you can access it.
 For example, to use the `prgenv-gnu` uenv, use the uenv image pull command:
 
 !!! example "uenv image pull"
-    ```terminal
+    ```bash
     # The following commands have the same effect
 
     # method 1: pull using the name of the uenv
-    > uenv image pull prgenv-gnu/24.2:v1
+    uenv image pull prgenv-gnu/24.2:v1
 
     # method 2: pull using the id of the image
-    > uenv image pull 3ea1945046d884ee
+    uenv image pull 3ea1945046d884ee
     ```
 
 Some images can be large, over 10 GB, and it can take a while to download them from the registry.
@@ -180,8 +180,8 @@ Some images can be large, over 10 GB, and it can take a while to download them f
 To view all uenv that have been pulled, and are ready to use use the `uenv image ls` command:
 
 !!! example "listing downloaded uenv"
-    ```terminal
-    > uenv image ls
+    ```console
+    $ uenv image ls
     uenv                           arch   system  id                size(MB)  date
     editors/24.7:v2                gh200  daint   e7b0d930df729da5   1,270    2024-09-04
     gromacs/2024:v1                gh200  daint   b58e6406810279d5   3,658    2024-09-12
@@ -205,7 +205,7 @@ To be able to pull such images a token that authorizes access must be provided.
 Tokens are created by CSCS, and stored on SCRATCH in a file that only users who have access to the software can read.
 
 !!! example  "using a token to access VASP"
-    ```terminal
+    ```bash
     uenv image pull \
         --token=/capstor/scratch/cscs/bcumming/tokens/vasp6 \
         --username=vasp6 \
@@ -227,25 +227,25 @@ This is very useful for interactive sessions, for example if you want to work in
 !!! example "start an interactive shell to compile an application"
     Here we want to compile an MPI + CUDA application "affinity".
 
-    ```terminal
+    ```console
     # start the prgenv-gnu uenv, which provides MPI, cuda and CMake
     # use the "default" view, which will load all of the software in the uenv
-    > uenv start prgenv-gnu/24.11:v1 --view=default
+    $ uenv start prgenv-gnu/24.11:v1 --view=default
 
     # clone the software and set up the build directory
-    > git clone https://github.com/bcumming/affinity.git
-    > mkdir -p affinity/build
-    > cd affinity/build/
+    $ git clone https://github.com/bcumming/affinity.git
+    $ mkdir -p affinity/build
+    $ cd affinity/build/
 
     # configure the build with CMake, then call make to build
     # mpicc, mpic++ and cmake are all provided by the uenv
-    > CXX=mpic++ CC=mpicc cmake ..
-    > make -j
+    $ CXX=mpic++ CC=mpicc cmake ..
+    $ make -j
 
     # run the affinity executable on two nodes - note how the uenv is
     # automatically loaded by slurm on the compute nodes, because CUDA and MPI from
     # the uenv are required to run.
-    > srun -n2 -N2 ./affinity.cuda
+    $ srun -n2 -N2 ./affinity.cuda
     GPU affinity test for 2 MPI ranks
     rank      0 @ nid005636
      cores   : 0-287
@@ -261,7 +261,7 @@ This is very useful for interactive sessions, for example if you want to work in
      gpu   3 : GPU-e07d996e-4d67-c9f4-cf75-81cfd45a1ae1
 
     # finish the uenv session
-    > exit
+    $ exit
 
 
     ```
@@ -270,7 +270,7 @@ This is very useful for interactive sessions, for example if you want to work in
     `uenv start` starts a new shell, and by default it will use the default shell for the user.
     You can see the default shell by looking at the `$SHELL` environment variable.
     If you want to force a different shell:
-    ```
+    ```bash
     SHELL=`which zsh` uenv start ...
     ```
 
@@ -283,15 +283,15 @@ The basic syntax of uenv start is `uenv start image` where `image` is the uenv t
 The image can be a label, the hash/id of the uenv, or a file:
 
 !!! example "uenv start"
-    ```
+    ```console
     # start the image using the name of the uenv
-    > uenv start netcdf-tools/2024:v1
+    $ uenv start netcdf-tools/2024:v1
 
     # or use the unqique id of the uenv
-    > uenv start 499c886f2947538e
+    $ uenv start 499c886f2947538e
 
     # or provide the path to a squashfs file
-    > uenv start $SCRATCH/my-uenv/gromacs.squashfs
+    $ uenv start $SCRATCH/my-uenv/gromacs.squashfs
     ```
 
 
@@ -300,29 +300,29 @@ The image can be a label, the hash/id of the uenv, or a file:
     The squashfs image of a uenv is a directory that contains all of the software provided by the uenv, along with useful meta data.
     When you run `uenv start` (or `uenv run`, or use the `--uenv` flag with SLURM) the squashfs file is mounted at the mount location for the uenv, which is most often `/user-environment`.
 
-    ```
+    ```console
     # log into daint
-    > ssh daint.alps.cscs.ch
+    $ ssh daint.alps.cscs.ch
 
     # /user-environment is empty
-    > ls -l /user-environment
+    $ ls -l /user-environment
     total 0
 
     # start a uenv
-    > uenv start prgenv-nvfortran/24.11:v1
+    $ uenv start prgenv-nvfortran/24.11:v1
 
     # the uenv software is now available
-    > ls /user-environment/
+    $ ls /user-environment/
     bin  config  env  linux-sles15-neoverse_v2  meta  modules  repo
 
     # findmnt verifies that a squashfs image has been mounted
-    > findmnt /user-environment
+    $ findmnt /user-environment
     TARGET            SOURCE      FSTYPE   OPTIONS
     /user-environment /dev/loop25 squashfs ro,nosuid,nodev,relatime,errors=continue
 
     # end the session and verify that the uenv is not longer mounted
-    > exit
-    > ls -l /user-environment
+    $ exit
+    $ ls -l /user-environment
     total 0
     ```
 
@@ -337,16 +337,16 @@ Uenv images provide **views**, which will set environment variables that load th
 Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` and the SLURM plugin, documented below)
 
 !!! example "loading views"
-    ```terminal
+    ```console
     # activate the view named default in prgenv-gnu
-    > uenv start --view=default prgenv-gnu/24.11:v1
+    $ uenv start --view=default prgenv-gnu/24.11:v1
 
     # activate both the spack and modules views in prgenv-gnu using
     # a comma-separated list of view names
-    > uenv start --view=spack,modules prgenv-gnu/24.11:v1
+    $ uenv start --view=spack,modules prgenv-gnu/24.11:v1
 
     # when starting multiple uenv, you can disambiguate using uenvname:viewname
-    > uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors
+    $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors
     ```
 
 #### Modules
@@ -355,9 +355,9 @@ Most uenv provide the modules, that can be accessed using the `module` command.
 By default, the modules are not activated when a uenv is started, and need to be explicitly activated using the `module` view.
 
 !!! example "using the module view"
-    ```terminal
-    > uenv start prgenv-gnu/24.11:v1 --view=modules
-    > module avail
+    ```console
+    $ uenv start prgenv-gnu/24.11:v1 --view=modules
+    $ module avail
     ---------------------------- /user-environment/modules ----------------------------
        aws-ofi-nccl/git.v1.9.2-aws_1.9.2    lua/5.4.6
        boost/1.86.0                         lz4/1.10.0
@@ -373,13 +373,13 @@ By default, the modules are not activated when a uenv is started, and need to be
        kokkos-tools/develop                 superlu/5.3.0
        kokkos/4.4.01                        zlib-ng/2.2.1
        libtree/3.1.1
-    > module load cuda gcc cmake
-    > nvcc --version
+    $ module load cuda gcc cmake
+    $ nvcc --version
     nvcc: NVIDIA (R) Cuda compiler driver
     Cuda compilation tools, release 12.6, V12.6.77
-    > gcc --version
+    $ gcc --version
     gcc (Spack GCC) 13.3.0
-    > cmake --version
+    $ cmake --version
     cmake version 3.30.5
     ```
 
@@ -401,7 +401,7 @@ The `uenv run` command can be used to run an application or script in a uenv env
     `uenv run` is more generic - instead of running a shell in environment, it takes the executable and arguments to run in the shell.
     The following commands are equivalent:
 
-    ```terminal
+    ```console
     # start a new bash shell in prgenv-gnu
     uenv start prgenv-gnu/24.11
     # start a new bash shell in prgenv-gnu
@@ -410,27 +410,27 @@ The `uenv run` command can be used to run an application or script in a uenv env
 
 !!! example "running cmake"
     Call `cmake` to configure a build with the `default` view loaded
-    ```terminal
+    ```console
     # run a command
-    > uenv run prgenv-gnu/24.11:v1 --view=default -- cmake -DUSE_GPU=cuda ..
+    $ uenv run prgenv-gnu/24.11:v1 --view=default -- cmake -DUSE_GPU=cuda ..
     ```
 
 
 !!! example "running an application executable"
     Run the GROMACS executable from inside the `gromacs` uenv.
-    ```terminal
+    ```console
     # run an executable:
-    > uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi
+    $ uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi
     ```
 
 !!! example "running applications with different environments"
     `uenv run` is useful for running multiple applications or scripts in a pipeline or workflow, where each application has separate requirements.
     In this example the pre and post processing stages use `prgenv-gnu`, while the simulation stage uses the `gromacs` uenv.
-    ```terminal
+    ```console
     # run multiple applications, one after the other, that have different requirements
-    > uenv run --view=default prgenv-gnu/24.11:v1 -- ./pre-processing-script.sh
-    > uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi $gromacs_args
-    > uenv run --view=default prgenv-gnu/24.11:v1 -- ./post-processing-script.sh
+    $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./pre-processing-script.sh
+    $ uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi $gromacs_args
+    $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./post-processing-script.sh
     ```
 
 ## Building uenv

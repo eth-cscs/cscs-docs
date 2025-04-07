@@ -14,7 +14,7 @@ At CSCS the vast majority of users stick with the default `bash`: at the time of
 
     Run the following command after logging in:
 
-    ```terminal
+    ```console
     $ getent passwd | grep $USER
     bcumming:*:22008:1000:Benjamin Cumming, CSCS:/users/bcumming:/usr/local/bin/bash
     ```
