@@ -279,6 +279,26 @@ This is very useful for interactive sessions, for example if you want to work in
 
     If your are one of the handful of users using `tcsh` (C shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
 
+!!! warning "Failed to unshare the mount namespace"
+
+    If you get the following error message when starting a uenv:
+    ```console
+    $ uenv start linalg/24.11:v1
+    squashfs-mount: Failed to unshare the mount namespace: Operation not permitted
+    ```
+    you most likely already have a uenv mounted.
+    The `uenv status` command will report that you have a uenv loaded if that is the case:
+    ```console
+    $ uenv status
+    prgenv-gnu:/user-environment
+      GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
+      views:
+        spack: configure spack upstream
+        modules: activate modules
+        default:
+    ```
+    Unload the active uenv by exiting the current shell before loading the new uenv.
+
 The basic syntax of uenv start is `uenv start image` where `image` is the uenv to start.
 The image can be a label, the hash/id of the uenv, or a file:
 
