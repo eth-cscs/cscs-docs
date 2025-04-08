@@ -26,7 +26,7 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
 
 ## Running VASP
 
-### Running on the HPC platrofm
+### Running on the HPC platform
 A precompiled uenv containing VASP with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
 
