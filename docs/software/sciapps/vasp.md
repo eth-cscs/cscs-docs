@@ -32,7 +32,7 @@ Due to license restrictions, the VASP images are not directly accessible in the 
 
 For accessing VASP uenv images, please see the guide to [accessing restricted software][ref-uenv-restricted-software].
 
-To load the VASP user environment:
+To load the VASP uenv:
 ```bash
 uenv start vasp/v6.5.0:v1 --view=vasp
 ```
