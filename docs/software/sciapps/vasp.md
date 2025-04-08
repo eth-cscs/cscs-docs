@@ -95,7 +95,7 @@ export MPICH_GPU_SUPPORT_ENABLED=1
 srun ./mps-wrapper.sh vasp_std
 ```
 
-### Building from Source
+## Building VASP from source
 
 To build VASP from source, the `develop` view must first be loaded:
 ```
