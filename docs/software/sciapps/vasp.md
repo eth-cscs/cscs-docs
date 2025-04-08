@@ -46,7 +46,7 @@ Loading the uenv can also be directly done inside of a SLURM script.
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus-per-task=1
-#SBATCH --uenv=<VASP_UENV>
+#SBATCH --uenv=vasp/v6.5.0:v1
 #SBATCH --view=vasp
 #SBATCH --account=<ACCOUNT>
 #SBATCH --partition=normal
@@ -81,7 +81,7 @@ This script can be found at [NVIDIA GH200 GPU nodes: multiple ranks per GPU][ref
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
 #SBATCH --cpus-per-task=16
-#SBATCH --uenv=<VASP_UENV>
+#SBATCH --uenv=vasp/v6.5.0:v1
 #SBATCH --view=vasp
 #SBATCH --account=<ACCOUNT>
 #SBATCH --partition=normal
