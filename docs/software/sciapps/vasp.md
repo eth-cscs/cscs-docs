@@ -21,7 +21,7 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
     Therefore, access to precompiled `VASP.6` executables and library files will be available only to users who have already purchased a `VASP.6` license and upon request will become members of the CSCS unix group `vasp6`.
     
     To access VASP follow the [`Accessing Restricted Software`][ref-uenv-restricted-software] guide.
-    Please refer to the VASP web site for more information.
+    Please refer to the [VASP web site](https://www.vasp.at) for more information.
 
 
 ## Alps - GH200
