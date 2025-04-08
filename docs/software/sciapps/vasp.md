@@ -24,7 +24,8 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
 ### How to run
 A precompiled user environment containing VASP with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
-To access VASP uenv images, please follow this guide: [`Accessing Restricted Software`][ref-uenv-restricted-software].
+
+For accessing VASP uenv images, please follow this guide: [`Accessing Restricted Software`][ref-uenv-restricted-software].
 
 To load the VASP user environment:
 ```bash
@@ -49,7 +50,7 @@ Loading the uenv can also be directly done inside of a SLURM script.
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun --cpu-bind=socket vasp_std
+srun vasp_std
 ```
 
 !!! note
@@ -63,7 +64,7 @@ srun --cpu-bind=socket vasp_std
 
 ### Multiple Tasks per GPU
 Using more than one task per GPU is possible with VASP and may lead to better GPU utilization.
-However, VASP relies on [NCCL] for efficient communicationt, but falls back to MPI when using multiple tasks per GPU.
+However, VASP relies on [NCCL] for efficient communication, but falls back to MPI when using multiple tasks per GPU.
 In many cases, this drawback is the greater factor and it's best to use one task per GPU.
 
 To run with multiple tasks per GPU, a wrapper script is required to start a CUDA MPS service.
@@ -99,12 +100,12 @@ Note that shared libraries might not be found when executing vasp, if the makefi
 
 !!! warning
     The detection of MPI CUDA support does not work properly with Cray MPICH.
-    After compiling from source, it's also required to set export PMPI_GPU_AWARE=1 at runtime to disable the CUDA support check within VASP.
-    Alternatively, since version 6.5.0, the build option -DCRAY_MPICH can be added to disable the check at compile time.
+    After compiling from source, it's also required to set `export PMPI_GPU_AWARE=1` at runtime to disable the CUDA support check within VASP.
+    Alternatively, since version 6.5.0, the build option `-DCRAY_MPICH` can be added to disable the check at compile time.
     The provided precompiled binaries of VASP are patched and do not require special settings.
 
 
-Examples for makefiles set the necessary rpath and link paths on GH200:
+Examples for makefiles that set the necessary rpath and link options on GH200:
 
 
 ??? note "Makefile for v6.5.0"
