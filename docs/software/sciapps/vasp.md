@@ -103,7 +103,7 @@ uenv start vasp/v6.5.0:v1 --view=develop
 ```
 
 All required dependencies can now be found in `/user-environment/env/develop`.
-Note that shared libraries might not be found when executing vasp, if the makefile does not include additional rpath linking options or `LD_LIBRARY_PATH` has not been extended.
+Note that shared libraries might not be found when executing VASP, if the makefile does not include additional rpath linking options or `LD_LIBRARY_PATH` has not been extended.
 
 !!! warning
     The detection of MPI CUDA support does not work properly with Cray MPICH.
