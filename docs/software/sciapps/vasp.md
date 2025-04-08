@@ -18,7 +18,9 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
     CSCS cannot provide free access to the code and needs to inform VASP Software GmbH with an updated list of users.
     Once you have a license, submit a request on the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) (with a copy of your license) to be added to the `vasp6` unix group, which will grant access to the `vasp` uenv.
     Please refer to the VASP web site for more information about licensing.
-    Therefore, access to precompiled VASP.6 executables and library files will be available only to users who have already purchased a VASP.6 license and upon request will become members of the CSCS unix group vasp6.
+    Therefore, access to precompiled `VASP.6` executables and library files will be available only to users who have already purchased a `VASP.6` license and upon request will become members of the CSCS unix group `vasp6`.
+    
+    To access VASP follow the [`Accessing Restricted Software`][ref-uenv-restricted-software] guide.
     Please refer to the VASP web site for more information.
 
 
