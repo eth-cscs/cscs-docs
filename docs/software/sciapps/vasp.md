@@ -54,6 +54,7 @@ Loading the uenv can also be directly done inside of a SLURM script.
 #SBATCH --partition=normal
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export MPICH_GPU_SUPPORT_ENABLED=1
 
 srun vasp_std
 ```
@@ -89,6 +90,7 @@ This script can be found at [NVIDIA GH200 GPU nodes: multiple ranks per GPU][ref
 #SBATCH --partition=normal
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export MPICH_GPU_SUPPORT_ENABLED=1
 
 srun ./mps-wrapper.sh vasp_std
 ```
