@@ -1,7 +1,7 @@
 [](){#ref-uenv-vasp}
 # VASP
 
-The [Vienna Ab initio Simulation Package] (VASP) is a computer program for atomic scale materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics, from first principles.
+The Vienna Ab initio Simulation Package ([VASP]) is a computer program for atomic scale materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics, from first principles.
 
 VASP computes an approximate solution to the many-body Schrödinger equation, either within density functional theory (DFT), solving the Kohn-Sham equations, or within the Hartree-Fock (HF) approximation, solving the Roothaan equations.
 Hybrid functionals that mix the Hartree-Fock approach with density functional theory are implemented as well.
@@ -13,7 +13,6 @@ To determine the electronic groundstate, VASP makes use of efficient iterative m
 These are coupled to highly efficient Broyden and Pulay density mixing schemes to speed up the self-consistency cycle.
 
 
-
 !!! note "Licensing Terms and Conditions"
     Users are kindly asked to obtain their own license. CSCS cannot provide free access to the code and needs to inform VASP Software GmbH with an updated list of users.
     Therefore, access to precompiled VASP.6 executables and library files will be available only to users who have already purchased a VASP.6 license and upon request will become members of the CSCS unix group vasp6.
@@ -23,9 +22,9 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
 ## Alps - GH200
 
 ### How to run
-A precompiled user environment containing VASP with MPI, OpenMP, OpenACC and Wannier90 support is available.
+A precompiled user environment containing VASP with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
-To access VASP uenv images, please follow the following guide: [`Accessing Restricted Software`][ref-uenv-restricted-software].
+To access VASP uenv images, please follow this guide: [`Accessing Restricted Software`][ref-uenv-restricted-software].
 
 To load the VASP user environment:
 ```bash
@@ -107,8 +106,8 @@ Note that shared libraries might not be found when executing vasp, if the makefi
 
 Examples for makefiles set the necessary rpath and link paths on GH200:
 
-=== "v6.5.0"
 
+??? note "Makefile for v6.5.0"
     ```make
     # Default precompiler options
     CPP_OPTIONS = -DHOST=\"LinuxNV\" \
@@ -235,8 +234,7 @@ Examples for makefiles set the necessary rpath and link paths on GH200:
     ```
 
 
-=== "v6.4.3"
-
+??? note "Makefile for v6.4.3"
     ```make
     # Default precompiler options
     CPP_OPTIONS = -DHOST=\"LinuxNV\" \
@@ -364,7 +362,6 @@ Examples for makefiles set the necessary rpath and link paths on GH200:
 
 
 
-[Vienna Ab initio Simulation Package]: https://vasp.at/
+[VASP]: https://vasp.at/
 [NCCL]: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html
-
 
