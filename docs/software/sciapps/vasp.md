@@ -24,9 +24,9 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
     Please refer to the [VASP web site](https://www.vasp.at) for more information.
 
 
-## Alps - GH200
+## Running VASP
 
-### How to run
+### Running on the HPC platrofm
 A precompiled user environment containing VASP with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
 
