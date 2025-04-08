@@ -22,7 +22,7 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
 
 ## Alps - GH200
 
-## How to run
+### How to run
 A precompiled user environment containing VASP with MPI, OpenMP, OpenACC and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
 To access VASP uenv images, please follow the following guide: [`Accessing Restricted Software`][ref-uenv-restricted-software].
@@ -56,6 +56,10 @@ srun --cpu-bind=socket vasp_std
 !!! note
     It's recommended to use the SLURM option `--gpus-per-task=1`, since VASP may fail to properly assign ranks to GPUs when running on more than one node.
     This is not required when using the CUDA MPS wrapper for oversubscription of GPUs.
+
+!!! note
+    VASP relies on CUDA aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in SLURM scripts.
+
 
 
 ### Multiple Tasks per GPU

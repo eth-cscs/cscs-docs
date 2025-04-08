@@ -195,6 +195,7 @@ To view all uenv that have been pulled, and are ready to use use the `uenv image
     prgenv-nvfortran/24.11:v1      gh200  daint   d2afc254383cef20   8,703    2025-01-30
     ```
 
+[](){#ref-uenv-restricted-software}
 ### Accessing restricted software
 
 By default, uenv can be pulled by all users on a system, with no restrictions.
