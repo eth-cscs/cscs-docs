@@ -64,7 +64,7 @@ srun vasp_std
     This is not required when using the CUDA MPS wrapper for oversubscription of GPUs.
 
 !!! note
-    VASP relies on CUDA aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in SLURM scripts.
+    VASP relies on CUDA-aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in SLURM scripts.
 
 
 
