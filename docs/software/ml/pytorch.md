@@ -1,10 +1,8 @@
 [](){#ref-uenv-pytorch}
 # PyTorch
 
-The PyTorch software stack was designed with the intention of being able to run
-[Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training
-workloads out of the box. Thus, it comes with batteries included and does not
-just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
+The PyTorch software stack was designed with the intention of being able to run [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training workloads out of the box.
+Thus, it comes with batteries included and does not just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
 !!! note "uenv"
 
@@ -249,8 +247,7 @@ There are two ways to access the software provided by the uenv, once it has been
 
 === "the default view"
 
-    The simplest way to get started is to use the `default` file system view,
-    which automatically loads all of the packages when the uenv is started.
+    The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
     !!! example "test mpi compilers and python provided by pytorch/v2.6.0"
         ```console
@@ -278,9 +275,7 @@ There are two ways to access the software provided by the uenv, once it has been
 
 === "Spack"
 
-    The pytorch uenv can also be used as a base for building software with
-    Spack, because it provides compilers, MPI, Python and common packages like
-    HDF5.
+    The pytorch uenv can also be used as a base for building software with Spack, because it provides compilers, MPI, Python and common packages like HDF5.
 
     [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
 
@@ -315,17 +310,11 @@ Uenvs are read-only, and cannot be modified. However, it is possible to add Pyth
     6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
 
 !!! note
-    Python virtual environments can be slow on the parallel Lustre file system
-    due to the amount of small files and potentially many processes accessing
-    it. If this becomes a bottleneck, consider [squashing the
-    venv][ref-guides-storage-venv] into its own memory-mapped, read-only file
-    system to enhance scalability and reduce load times.
+    Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
+    If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
 
-Alternatively one can use the uenv as [upstream Spack
-instance][ref-building-uenv-spack] to to add both Python and non-Python
-packages. However, this workflow is more involved and intended for advanced
-Spack users.
-
+Alternatively one can use the uenv as [upstream Spack instance][ref-building-uenv-spack] to to add both Python and non-Python packages.
+However, this workflow is more involved and intended for advanced Spack users.
 
 ## Running PyTorch jobs with SLURM
 
@@ -337,7 +326,8 @@ Spack users.
     #SBATCH --ntasks-per-node=4
     #SBATCH --cpus-per-task=72
     #SBATCH --time=00:30:00
-    #SBATCH --uenv=pytorch/v2.6.0:/user-environment # (1)!
+    # (1)!
+    #SBATCH --uenv=pytorch/v2.6.0:/user-environment
     #SBATCH --view=default
 
     #################################
@@ -352,21 +342,22 @@ Spack users.
     export MASTER_PORT=6000
     export WORLD_SIZE=$SLURM_NPROCS
     export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
+    export TRITON_HOME=/dev/shm/ # (5)!
 
     #################################
     # MPICH environment variables   #
     #################################
-    export MPICH_GPU_SUPPORT_ENABLED=0 # (5)!
+    export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
 
     #################################
     # CUDA environment variables    #
     #################################
-    export CUDA_CACHE_DISABLE=1 # (6)!
+    export CUDA_CACHE_DISABLE=1 # (7)!
 
     ############################################
     # NCCL and Fabric environment variables    #
     ############################################
-    export NCCL_NET="AWS Libfabric" # (7)!
+    export NCCL_NET="AWS Libfabric" # (8)!
     export NCCL_NET_GDR_LEVEL=PHB
     export NCCL_CROSS_NIC=1
     export FI_CXI_DISABLE_HOST_REGISTER=1
@@ -375,8 +366,8 @@ Spack users.
     export FI_CXI_DEFAULT_TX_SIZE=32768
     export FI_CXI_RX_MATCH_MODE=software
 
-    # (8)!
     # (9)!
+    # (10)!
     srun bash -c "
         export RANK=\$SLURM_PROCID
         export LOCAL_RANK=\$SLURM_LOCALID
@@ -385,28 +376,19 @@ Spack users.
     "
     ```
 
-    1. The `--uenv` option is used to specify the uenv to use for the job. The
-       `--view=default` option is used to load all the packages provided by the
-       uenv.
+    1. The `--uenv` option is used to specify the uenv to use for the job.
+       The `--view=default` option is used to load all the packages provided by the uenv.
     2. Only set `OMP_NUM_THREADS` if you are using OpenMP in your code.
-    3. These variables are used by PyTorch to initialize the distributed
-       backend. The `MASTER_ADDR` and `MASTER_PORT` variables are used to
-       determine the address and port of the master node. Additionally we also
-       need `RANK` and `LOCAL_RANK` but these must be set per-process, see
-       below.
-    4. Enable more graceful exception handling, see [PyTorch
-       documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
-    5. Disable GPU support in MPICH, as it [can lead to
-       deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi)
-       when using together with nccl.
-    6. Avoid writing JITed binaries to the (distributed) file system, which
-       could lead to performance issues.
-    7. These variables should always be set for correctness and optimal
-       performance when using NCCL, see [the detailed
-       explanation][ref-communication-nccl].
+    3. These variables are used by PyTorch to initialize the distributed backend.
+       The `MASTER_ADDR` and `MASTER_PORT` variables are used to determine the address and port of the master node.
+       Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
+    4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
+    5. Set the Trition home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
+       This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it.
+    6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
+    6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
+    7. These variables should always be set for correctness and optimal performance when using NCCL, see [the detailed explanation][ref-communication-nccl].
     8. `RANK` and `LOCAL_RANK` are set per-process by the SLURM job launcher.
-    9. Activate the virtual environment created on top of the uenv (if any).
-       Please follow the guidelines for [python virtual environments with
-       uenv][ref-guides-storage-venv] to enhance scalability and reduce load
-       times. 
+    10. Activate the virtual environment created on top of the uenv (if any).
+       Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
     
