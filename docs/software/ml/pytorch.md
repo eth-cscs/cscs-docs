@@ -6,7 +6,6 @@ The PyTorch software stack was designed with the intention of being able to run
 workloads out of the box. Thus, it comes with batteries included and does not
 just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
-
 !!! note "uenv"
 
     [PyTorch][ref-uenv-pytorch] is provided via [uenv][ref-uenv].
