@@ -57,6 +57,9 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
+    - 'Machine Learning':
+      - software/ml/index.md
+      - 'PyTorch': software/ml/pytorch.md
     - 'Communication Libraries':
       - software/communication/index.md
       - 'Cray MPICH': software/communication/cray-mpich.md
