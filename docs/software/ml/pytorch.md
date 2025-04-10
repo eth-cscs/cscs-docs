@@ -7,7 +7,7 @@ workloads out of the box. Thus, it comes with batteries included and does not
 just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
 
-!!! note "uenvs"
+!!! note "uenv"
 
     [PyTorch][ref-uenv-pytorch] is provided via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
