@@ -280,7 +280,7 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The pytorch uenv can also be used as a base for building software with
     Spack, because it provides compilers, MPI, Python and common packages like
-    hdf5.
+    HDF5.
 
     [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
 
