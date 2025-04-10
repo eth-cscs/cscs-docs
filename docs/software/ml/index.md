@@ -1,8 +1,6 @@
 [](){#ref-software-ml}
 # Machine learning applications and frameworks
 
-## Overview
-
 CSCS supports a wide range of machine learning (ML) applications and frameworks on its systems.
 Most ML workloads are containerized to ensure portability, reproducibility, and ease of use across environments.
 
