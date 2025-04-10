@@ -6,7 +6,7 @@ Most ML workloads are containerized to ensure portability, reproducibility, and 
 
 Users can choose between running containers, using provided uenv software stacks, or building custom Python environments tailored to their needs.
 
-## Running Machine Learning Applications with Containers
+## Running machine learning applications with containers
 
 Containerization is the recommended approach for ML workloads on Alps, as it simplifies software management and maximizes compatibility with other systems.
 
@@ -18,7 +18,7 @@ Helpful references:
 * Running containers on Alps: [Container Engine Guide][ref-container-engine]
 * Building custom container images: [Container Build Guide][ref-build-containers]
 
-## Using Provided uenv Software Stacks
+## Using provided uenv software stacks
 
 Alternatively, CSCS provides pre-configured software stacks ([uenvs][ref-uenv]) that can serve as a starting point for machine learning projects.
 These environments provide optimized compilers, libraries, and selected ML frameworks.
@@ -33,7 +33,7 @@ See this [PyTorch venv example][ref-uenv-pytorch-venv] for details.
 !!! note
     While many Python packages provide pre-built binaries for common architectures, some may require building from source.
 
-## Building Custom Python Environments
+## Building custom Python environments
 
 Users may also choose to build entirely custom software stacks using Python package managers such as `pip` or `conda`.
 Most ML libraries are available via the [Python Package Index (PyPI)](https://pypi.org/).
