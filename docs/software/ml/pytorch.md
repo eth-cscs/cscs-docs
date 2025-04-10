@@ -320,7 +320,7 @@ Uenvs are read-only, and cannot be modified. However, it is possible to add Pyth
     due to the amount of small files and potentially many processes accessing
     it. If this becomes a bottleneck, consider [squashing the
     venv][ref-guides-storage-venv] into its own memory-mapped, read-only file
-    system.
+    system to enhance scalability and reduce load times.
 
 Alternatively one can use the uenv as [upstream Spack
 instance][ref-building-uenv-spack] to to add both Python and non-Python
