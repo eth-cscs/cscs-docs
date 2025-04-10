@@ -57,7 +57,7 @@ environment that already includes:
 
 * CUDA, cuDNN
 * MPI, NCCL
-* c/c++ compilers
+* C/C++ compilers
 
 This can be achieved either by:
 
