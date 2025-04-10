@@ -71,5 +71,4 @@ Project is per project - each project gets a project folder with project-specifi
 
 ## Guides and tutorials
 
-!!! todo
-    links to tutorials and guides for ML workflows
+Tutorials for finetuning and running inference of LLMs as well as training an LLM with Nanotron can be found in the [MLP Tutorials][ref-guides-mlp-tutorials] page.
