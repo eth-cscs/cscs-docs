@@ -1,5 +1,5 @@
 [](){#ref-software-ml}
-# Machine Learning Applications and Frameworks
+# Machine learning applications and frameworks
 
 ## Overview
 
