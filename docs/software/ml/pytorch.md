@@ -2,7 +2,7 @@
 # PyTorch
 
 The PyTorch software stack was designed with the intention of being able to run
-[Megatron-LM](https://github.com/NVIDIA/Megatron-LM) based pre-training
+[Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training
 workloads out of the box. Thus, it comes with batteries included and does not
 just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
