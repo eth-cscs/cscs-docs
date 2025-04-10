@@ -284,6 +284,7 @@ There are two ways to access the software provided by the uenv, once it has been
 
     [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
 
+[](){#ref-uenv-pytorch-venv}
 ## Adding Python packages on top of the uenv
 
 Uenvs are read-only, and cannot be modified. However, it is possible to add Python packages on top of the uenv using virtual environments.
