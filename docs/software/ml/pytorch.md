@@ -271,10 +271,10 @@ There are two ways to access the software provided by the uenv, once it has been
         $ exit # (4)!
         ```
 
-        1. start using the default view
-        2. the python executable provided by the uenv is the default, and is a recent version
-        3. the mpi compiler wrappers are also available
-        4. exit the uenv
+        1. Start using the default view.
+        2. The python executable provided by the uenv is the default, and is a recent version.
+        3. The MPI compiler wrappers are also available.
+        4. Exit the uenv.
 
 === "Spack"
 
