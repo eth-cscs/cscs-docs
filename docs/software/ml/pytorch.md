@@ -312,7 +312,7 @@ Uenvs are read-only, and cannot be modified. However, it is possible to add Pyth
 
 Alternatively one can use the uenv as [upstream Spack
 instance][ref-building-uenv-spack] to to add both Python and non-Python
-packages, however, this workflow is more involved and intended for advanced
+packages. However, this workflow is more involved and intended for advanced
 Spack users.
 
 
