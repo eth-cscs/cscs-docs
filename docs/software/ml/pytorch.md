@@ -407,3 +407,7 @@ Spack users.
        explanation][ref-communication-nccl].
     8. `RANK` and `LOCAL_RANK` are set per-process by the SLURM job launcher.
     9. Activate the virtual environment created on top of the uenv (if any).
+       Please follow the guidelines for [python virtual environments with
+       uenv][ref-guides-storage-venv] to enhance scalability and reduce load
+       times. 
+    
