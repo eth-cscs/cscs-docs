@@ -249,29 +249,28 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
-    !!! example "test mpi compilers and python provided by pytorch/v2.6.0"
-        ```console
-        $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
+    ```console title="Test mpi compilers and python provided by pytorch/v2.6.0"
+    $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
 
-        $ which python # (2)!
-        /user-environment/env/default/bin/python
-        $ python --version
-        Python 3.13.0
+    $ which python # (2)!
+    /user-environment/env/default/bin/python
+    $ python --version
+    Python 3.13.0
 
-        $ which mpicc # (3)!
-        /user-environment/env/default/bin/mpicc
-        $ mpicc --version
-        gcc (Spack GCC) 13.3.0
-        $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
-        gcc (Spack GCC) 13.3.0
+    $ which mpicc # (3)!
+    /user-environment/env/default/bin/mpicc
+    $ mpicc --version
+    gcc (Spack GCC) 13.3.0
+    $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
+    gcc (Spack GCC) 13.3.0
 
-        $ exit # (4)!
-        ```
+    $ exit # (4)!
+    ```
 
-        1. Start using the default view.
-        2. The python executable provided by the uenv is the default, and is a recent version.
-        3. The MPI compiler wrappers are also available.
-        4. Exit the uenv.
+    1. Start using the default view.
+    2. The python executable provided by the uenv is the default, and is a recent version.
+    3. The MPI compiler wrappers are also available.
+    4. Exit the uenv.
 
 === "Spack"
 
@@ -284,32 +283,31 @@ There are two ways to access the software provided by the uenv, once it has been
 
 Uenvs are read-only, and cannot be modified. However, it is possible to add Python packages on top of the uenv using virtual environments.
 
-!!! example "creating a virtual environment on top of the uenv"
-    ```console
-    $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
+```console title="Creating a virtual environment on top of the uenv"
+$ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
 
-    $ python -m venv ./my-venv # (2)!
+$ python -m venv ./my-venv # (2)!
 
-    $ source ./my-venv/bin/activate # (3)!
+$ source ./my-venv/bin/activate # (3)!
 
-    (my-venv) $ pip install <package> # (4)!
+(my-venv) $ pip install <package> # (4)!
 
-    (my-venv) $ deactivate # (5)!
+(my-venv) $ deactivate # (5)!
 
-    $ exit # (6)!
-    ```
+$ exit # (6)!
+```
 
-    1. The `default` view is recommended, as it loads all the packages provided by the uenv.
-       This is important for PyTorch to work correctly, as it relies on the CUDA and NCCL libraries provided by the uenv.
-    2. The virtual environment is created in the current working directory, and can be activated and deactivated like any other Python virtual environment.
-    3. Activating the virtual environment will override the Python executable provided by the uenv, and use the one from the virtual environment instead.
-       This is important to ensure that the packages installed in the virtual environment are used.
-    4. The virtual environment can be used to install any Python package.
-    5. The virtual environment can be deactivated using the `deactivate` command.
-       This will restore the original Python executable provided by the uenv.
-    6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
+1. The `default` view is recommended, as it loads all the packages provided by the uenv.
+   This is important for PyTorch to work correctly, as it relies on the CUDA and NCCL libraries provided by the uenv.
+2. The virtual environment is created in the current working directory, and can be activated and deactivated like any other Python virtual environment.
+3. Activating the virtual environment will override the Python executable provided by the uenv, and use the one from the virtual environment instead.
+   This is important to ensure that the packages installed in the virtual environment are used.
+4. The virtual environment can be used to install any Python package.
+5. The virtual environment can be deactivated using the `deactivate` command.
+   This will restore the original Python executable provided by the uenv.
+6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
 
-!!! note
+!!! note "Squashing the virtual environment"
     Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
     If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
 
@@ -318,80 +316,79 @@ However, this workflow is more involved and intended for advanced Spack users.
 
 ## Running PyTorch jobs with SLURM
 
-!!! example "slurm sbatch script"
-    ```bash
-    #!/bin/bash
-    #SBATCH --job-name=myjob
-    #SBATCH --nodes=1
-    #SBATCH --ntasks-per-node=4
-    #SBATCH --cpus-per-task=72
-    #SBATCH --time=00:30:00
-    # (1)!
-    #SBATCH --uenv=pytorch/v2.6.0:/user-environment
-    #SBATCH --view=default
+```bash title="slurm sbatch script"
+#!/bin/bash
+#SBATCH --job-name=myjob
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=72
+#SBATCH --time=00:30:00
+# (1)!
+#SBATCH --uenv=pytorch/v2.6.0:/user-environment
+#SBATCH --view=default
 
-    #################################
-    # OpenMP environment variables #
-    #################################
-    export OMP_NUM_THREADS=8 # (2)!
+#################################
+# OpenMP environment variables #
+#################################
+export OMP_NUM_THREADS=8 # (2)!
 
-    #################################
-    # PyTorch environment variables #
-    #################################
-    export MASTER_ADDR=$(hostname) # (3)!
-    export MASTER_PORT=6000
-    export WORLD_SIZE=$SLURM_NPROCS
-    export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
-    export TRITON_HOME=/dev/shm/ # (5)!
+#################################
+# PyTorch environment variables #
+#################################
+export MASTER_ADDR=$(hostname) # (3)!
+export MASTER_PORT=6000
+export WORLD_SIZE=$SLURM_NPROCS
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
+export TRITON_HOME=/dev/shm/ # (5)!
 
-    #################################
-    # MPICH environment variables   #
-    #################################
-    export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
+#################################
+# MPICH environment variables   #
+#################################
+export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
 
-    #################################
-    # CUDA environment variables    #
-    #################################
-    export CUDA_CACHE_DISABLE=1 # (7)!
+#################################
+# CUDA environment variables    #
+#################################
+export CUDA_CACHE_DISABLE=1 # (7)!
 
-    ############################################
-    # NCCL and Fabric environment variables    #
-    ############################################
-    export NCCL_NET="AWS Libfabric" # (8)!
-    export NCCL_NET_GDR_LEVEL=PHB
-    export NCCL_CROSS_NIC=1
-    export FI_CXI_DISABLE_HOST_REGISTER=1
-    export FI_MR_CACHE_MONITOR=userfaultfd
-    export FI_CXI_DEFAULT_CQ_SIZE=131072
-    export FI_CXI_DEFAULT_TX_SIZE=32768
-    export FI_CXI_RX_MATCH_MODE=software
+############################################
+# NCCL and Fabric environment variables    #
+############################################
+export NCCL_NET="AWS Libfabric" # (8)!
+export NCCL_NET_GDR_LEVEL=PHB
+export NCCL_CROSS_NIC=1
+export FI_CXI_DISABLE_HOST_REGISTER=1
+export FI_MR_CACHE_MONITOR=userfaultfd
+export FI_CXI_DEFAULT_CQ_SIZE=131072
+export FI_CXI_DEFAULT_TX_SIZE=32768
+export FI_CXI_RX_MATCH_MODE=software
 
-    # (9)!
-    # (10)!
-    srun bash -c "
-        export RANK=\$SLURM_PROCID
-        export LOCAL_RANK=\$SLURM_LOCALID
-        . ./my-venv/bin/activate
-        python myscript.py
-    "
-    ```
+# (9)!
+# (10)!
+srun bash -c "
+    export RANK=\$SLURM_PROCID
+    export LOCAL_RANK=\$SLURM_LOCALID
+    . ./my-venv/bin/activate
+    python myscript.py
+"
+```
 
-    1. The `--uenv` option is used to specify the uenv to use for the job.
-       The `--view=default` option is used to load all the packages provided by the uenv.
-    2. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
-       The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
-       The optimal number depends on the workload and should be determined by testing.
-       Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
-    3. These variables are used by PyTorch to initialize the distributed backend.
-       The `MASTER_ADDR` and `MASTER_PORT` variables are used to determine the address and port of the master node.
-       Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
-    4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
-    5. Set the Trition home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
-       This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it.
-    6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
-    6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
-    7. These variables should always be set for correctness and optimal performance when using NCCL, see [the detailed explanation][ref-communication-nccl].
-    8. `RANK` and `LOCAL_RANK` are set per-process by the SLURM job launcher.
-    10. Activate the virtual environment created on top of the uenv (if any).
-       Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
-    
+1. The `--uenv` option is used to specify the uenv to use for the job.
+   The `--view=default` option is used to load all the packages provided by the uenv.
+2. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+   The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
+   The optimal number depends on the workload and should be determined by testing.
+   Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
+3. These variables are used by PyTorch to initialize the distributed backend.
+   The `MASTER_ADDR` and `MASTER_PORT` variables are used to determine the address and port of the master node.
+   Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
+4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
+5. Set the Trition home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
+   This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it.
+6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
+6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
+7. These variables should always be set for correctness and optimal performance when using NCCL, see [the detailed explanation][ref-communication-nccl].
+8. `RANK` and `LOCAL_RANK` are set per-process by the SLURM job launcher.
+10. Activate the virtual environment created on top of the uenv (if any).
+   Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
+
