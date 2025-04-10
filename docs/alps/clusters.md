@@ -14,7 +14,7 @@ Clusters on Alps are provided as part of different [platforms][ref-alps-platform
 
     [:octicons-arrow-right-24: Clariden][ref-cluster-clariden]
 
-    Bristen is a small system with a100 nodes, used for **todo**
+    Bristen is a small system with A100 nodes used for data processing, development, x86 workloads and ML inference services.
 
     [:octicons-arrow-right-24: Bristen][ref-cluster-bristen]
 </div>

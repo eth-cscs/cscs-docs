@@ -76,12 +76,13 @@ There are two slurm partitions on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 1266       | -    | 24 hours |
-| `debug`  | 32         | 2    | 30 minutes |
+| `normal` | 1204       | -    | 24 hours |
+| `debug`  | 24         | 2    | 1.5 node-hours |
 | `xfer`   | 2          | 1    | 24 hours |
 
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
+* nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
 
 See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
