@@ -333,7 +333,7 @@ However, this workflow is more involved and intended for advanced Spack users.
     #################################
     # OpenMP environment variables #
     #################################
-    export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK  # (2)!
+    export OMP_NUM_THREADS=8 # (2)!
 
     #################################
     # PyTorch environment variables #
@@ -378,7 +378,10 @@ However, this workflow is more involved and intended for advanced Spack users.
 
     1. The `--uenv` option is used to specify the uenv to use for the job.
        The `--view=default` option is used to load all the packages provided by the uenv.
-    2. Only set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+    2. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+       The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
+       The optimal number depends on the workload and should be determined by testing.
+       Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
     3. These variables are used by PyTorch to initialize the distributed backend.
        The `MASTER_ADDR` and `MASTER_PORT` variables are used to determine the address and port of the master node.
        Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
