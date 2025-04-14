@@ -97,7 +97,7 @@ Expiration
 !!! warning
     All data will be deleted 3 months after the closure of the user account without further warning.
 
-## Store on Capstore
+## Store on Capstor
 
 The `/capstor/store` mount point of the Lustre file system `capstor` is intended for high-performance per-project storage on Alps. The mount point is accessible from the User Access Nodes (UANs) of Alps vClusters.
 

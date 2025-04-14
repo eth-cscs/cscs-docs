@@ -308,7 +308,7 @@ The image can be a label, the hash/id of the uenv, or a file:
     # start the image using the name of the uenv
     $ uenv start netcdf-tools/2024:v1
 
-    # or use the unqique id of the uenv
+    # or use the unique id of the uenv
     $ uenv start 499c886f2947538e
 
     # or provide the path to a squashfs file

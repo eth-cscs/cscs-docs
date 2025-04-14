@@ -134,7 +134,7 @@ spack -e $SCRATCH/qe-env config add packages:all:prefer:cuda_arch=90
 spack -e $SCRATCH/qe-env develop -p /path/to/your/QE-src quantum-espresso@=develop
 spack -e $SCRATCH/qe-env concretize -f
 ```
-Check the output of `spack concretize -f`. All dependencies should have been picked up from spack upstream, marked eiter by a green `[^]` or `[e]`.
+Check the output of `spack concretize -f`. All dependencies should have been picked up from spack upstream, marked either by a green `[^]` or `[e]`.
 Next we create a local filesystem view, this instructs spack to create symlinks for binaries and libraries in a local directory `view`.
 ```bash
 spack -e $SCRATCH/qe-env env view enable view
