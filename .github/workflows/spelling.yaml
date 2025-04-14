@@ -26,6 +26,6 @@ jobs:
           extra_dictionary_limit: 20
           extra_dictionaries:
             cspell:software-terms/dict/softwareTerms.txt
-            cspell:bash/bash-words.txt
-            cspell:companies/companies.txt
+            cspell:bash/dict/bash-words.txt
+            cspell:companies/dict/companies.txt
             cspell:filetypes/filetypes.txt
