@@ -275,7 +275,7 @@ The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from so
         Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable, if needed.
 
 
-    Build [Charm++] boundled with NAMD:
+    Build [Charm++] bundled with NAMD:
 
     ```bash
     tar -xvf charm-8.0.0.tar && cd charm-8.0.0
