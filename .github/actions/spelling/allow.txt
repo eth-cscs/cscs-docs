@@ -1,4 +1,5 @@
 ACFDT
+ACLs
 ALLFUNC
 AOCNMKPDXQ
 Admins
@@ -47,6 +48,7 @@ Dqd
 Dsca
 Dsysv
 Dtbdyn
+EDFs
 Ehrenfest
 Errigal
 FCL
@@ -113,6 +115,7 @@ OFL
 OFLAG
 OPENACC
 OPENMP
+OTPs
 PASC
 PBE
 PDUs
@@ -170,7 +173,9 @@ aiohttp
 aistor
 alh
 allowfullscreen
+amadonna
 amadonna amazonaws
+amazonaws
 amd
 amdcpu
 apps
@@ -300,6 +305,7 @@ gmx
 gomp
 google
 gpu
+gpus
 graphroot
 gromacs
 groundstate
@@ -346,6 +352,7 @@ ldconfig
 ldd
 ldl
 lexer
+lexers
 lfftw
 lhdf
 libfabric
@@ -474,6 +481,7 @@ podman
 posix
 precsion
 prgenv
+prgenvs
 prioritised
 prj
 proactively
@@ -549,6 +557,7 @@ stakeholders
 stdexec
 subfolders
 subtable
+subtables
 sucessfully
 supercomputing
 superfences
@@ -577,6 +586,7 @@ uarch
 ucc
 uenv
 uenvname
+uenvs
 uids
 uiuc
 ultrasoft
@@ -589,6 +599,7 @@ utc
 utf
 vasp
 vcluster
+vclusters
 vcq
 vectoradd
 velan
@@ -613,6 +624,7 @@ workaround
 workdir
 workflows
 xattr
+xattrs
 xcb
 xdgbase
 xfer
