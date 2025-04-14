@@ -2,7 +2,7 @@
 # uenv
 
 Uenv are user environments that provide scientific applications, libraries and tools.
-This page will explain how to find, dowload and use uenv on the command line, and how to enable them in SLURM jobs.
+This page will explain how to find, download and use uenv on the command line, and how to enable them in SLURM jobs.
 
 Uenv are typically application-specific, domain-specific or tool-specific - each uenv contains only what is required for the application or tools that it provides.
 

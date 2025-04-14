@@ -48,7 +48,7 @@ Binary applications are generally not portable, for example if you compile or in
 A common pattern for installing local software, for example some useful command line utilities like [ripgrep](https://github.com/BurntSushi/ripgrep), is to install them in `$HOME/.local/bin`.
 This approach won't work if the same home directory is mounted on two different clusters with different architectures: the version of ripgrep in our example would crash with `Exec format error` on one of the clusters.
 
-Care needs to be taken to store executables, configuration and data for different architecures in separate locations, and automatically configure the login environment to use the correct location when you log into different systems.
+Care needs to be taken to store executables, configuration and data for different architectures in separate locations, and automatically configure the login environment to use the correct location when you log into different systems.
 
 The following example:
 

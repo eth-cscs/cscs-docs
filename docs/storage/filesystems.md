@@ -102,7 +102,7 @@ Expiration
 The `/capstor/store` mount point of the Lustre file system `capstor` is intended for high-performance per-project storage on Alps. The mount point is accessible from the User Access Nodes (UANs) of Alps vClusters.
 
 !!! note
-    Capstore store is not yet mounted on Eiger.
+    Capstor store is not yet mounted on Eiger.
 
 !!! info
     `/capstor/store` is equivalent to the  `/project` and `/store` GPFS mounts on the old Daint system.

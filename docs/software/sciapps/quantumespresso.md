@@ -35,7 +35,7 @@ The following sbatch script can be used as a template.
 
     srun -u --cpu-bind=socket /user-environment/env/default/bin/pw.x < pw.in
     ```
-    Current observation is that best perfomance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu]. How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
+    Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu]. How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
 === "Eiger"
 

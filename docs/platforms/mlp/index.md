@@ -55,7 +55,7 @@ Scratch is per user - each user gets separate scratch path and quota.
 !!! warning "scratch cleanup policy"
     Files that have not been accessed in 30 days are automatically deleted.
 
-    **Scratch is not intended for permanant storage**: transfer files back to the capstor project storage after job runs.
+    **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
 
 !!! note
     There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`, however this is not reccomended for ML workloads for performance reasons.

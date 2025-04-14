@@ -7,4 +7,4 @@
     The CPE is not provided on the machine learning platform.
 
 !!! cwp
-    The CPE is not provided on the climage and weather platform
+    The CPE is not provided on the climate and weather platform

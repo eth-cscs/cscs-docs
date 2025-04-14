@@ -131,7 +131,7 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 
 1. Script to build the software stack.
 2. `git` clone of the required version of Spack.
-3. Spack onfiguration files for the software stack.
+3. Spack configuration files for the software stack.
 4. Information about the uenv that was used to run `uenv-spack`.
 5. Description of the software to build.
 6. Template [Spack environment file].

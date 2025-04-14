@@ -48,7 +48,7 @@ Currently, the following uenv are provided for the climate and weather community
 * `icon/25.1`
 * `climana/25.1`
 
-In adition to the climate and weather uenv, all of the 
+In addition to the climate and weather uenv, all of the
 
 ??? example "using uenv provided for other clusters"
     You can run uenv that were built for other Alps clusters using the `@` notation.

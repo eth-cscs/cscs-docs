@@ -94,7 +94,7 @@ If you don't already know how to obtain FirecREST credentials, you can find more
 
 1. **Default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches. The global configuration will apply to all pipelines that do not overwrite it explicitly.
 
-1. **Pipeline default**: Your first pipeline has the name `default`. Click on `Pipeline default` to see the pipeline setup details. The name can be chosen freely but it cannot contain whitespaces (a short descriptive name). Update the entry point, trusted users and CI-enabled branches.
+1. **Pipeline default**: Your first pipeline has the name `default`. Click on `Pipeline default` to see the pipeline setup details. The name can be chosen freely but it cannot contain whitespace (a short descriptive name). Update the entry point, trusted users and CI-enabled branches.
 
 1. **Submit your changes**
 
