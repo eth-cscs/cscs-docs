@@ -80,6 +80,7 @@ nav:
       #- 'Performance Analysis': software/devtools/perf/index.md
     - 'uenv': software/uenv.md
     - 'Container Engine': software/container-engine.md
+    - 'Unsupported Software': software/unsupported.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
