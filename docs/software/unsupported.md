@@ -1,7 +1,12 @@
 [](){ref-software-unsupported}
 # Unsupported Software
 
-There are some software packages that CSCS can't or won't provide directly for users, often for licensing reasons.
+This page documents frequently-requested applications that CSCS won't provide pre-built on Alps as [supported software][ref-support-apps].
+
+!!! warning "license terms"
+    Often it is impossible or difficult to provide software for licensing reasons.
+
+    Note that if users are asked to install licensed software because CSCS can't, it is the responsibility of users to ensure that the software is only available to them personally, or to members of their group who are also permitted by the license to access the software.
 
 ## Gaussian
 
@@ -11,5 +16,5 @@ The electronic structure modeling code [Gaussian](https://gaussian.com/) has lic
 
 CSCS does not have a license to provide [Matlab](https://www.mathworks.com/products/matlab.html) to users on Alps.
 
-Users or groups with valid licenses can install Matlab themselves.
+Users or groups with valid licenses can install Matlab themselves as [user software][ref-support-user-apps].
 Please ensure that you install the software in a location where only members of your group who are allowed to use Matlab can access it.
