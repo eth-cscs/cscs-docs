@@ -3,7 +3,7 @@
 
 This page documents frequently-requested applications that CSCS won't provide pre-built on Alps as [supported software][ref-support-apps].
 
-!!! warning "license terms"
+!!! warning "License terms"
     Often it is impossible or difficult to provide software for licensing reasons.
 
     Note that if users are asked to install licensed software because CSCS can't, it is the responsibility of users to ensure that the software is only available to them personally, or to members of their group who are also permitted by the license to access the software.
