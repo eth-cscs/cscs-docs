@@ -45,7 +45,8 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 <tr><th>Platform</th><th>Version</th><th>API Endpoint</th><th>Clusters</th></tr>
 <tr><td style="vertical-align: middle;" rowspan="2">HPC Platform</td><td>v1</td><td>https://api.cscs.ch/hpc/firecrest/v1</td><td style="vertical-align: middle;" rowspan="2"><a href="../../clusters/daint">Daint</a>, <a href="../../clusters/eiger">Eiger</a></td></tr>
 <tr>                                 <td>v2</td><td>https://api.cscs.ch/hpc/firecrest/v2</td></tr>
-<tr><td>ML Platform</td><td>v1</td><td>https://api.cscs.ch/ml/firecrest/v1</td><td style="vertical-align: middle;"><a href="../../clusters/bristen">Bristen</a>, <a href="../../clusters/clariden">Clariden</a></td></tr>
+<tr><td style="vertical-align: middle;" rowspan="2">ML Platform</td><td>v1</td><td>https://api.cscs.ch/ml/firecrest/v1</td><td style="vertical-align: middle;" rowspan="2"><a href="../../clusters/bristen">Bristen</a>, <a href="../../clusters/clariden">Clariden</a></td></tr>
+<tr>                                 <td>v2</td><td>https://api.cscs.ch/ml/firecrest/v2</td></tr>
 <tr><td style="vertical-align: middle;" rowspan="2">CW Platform</td><td>v1</td><td>https://api.cscs.ch/cw/firecrest/v1</td><td style="vertical-align: middle;" rowspan="2"><a href="../../clusters/santis">Santis</a></td></tr>
 <tr><td>v2</td><td>https://api.cscs.ch/cw/firecrest/v2</td></tr>
 </table>

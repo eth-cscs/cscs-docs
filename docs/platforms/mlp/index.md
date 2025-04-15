@@ -25,7 +25,7 @@ The main cluster provided by the MLP is Clariden, a large Grace-Hopper GPU syste
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: [__Bristen__][ref-cluster-bristen]
 
-    Bristen is a smaller system with [A100 GPU nodes][ref-alps-a100-node] for **todo**
+    Bristen is a smaller system with [A100 GPU nodes][ref-alps-a100-node] for data processing, development, x86 workloads and inference services.
 </div>
 
 [](){#ref-mlp-storage}
