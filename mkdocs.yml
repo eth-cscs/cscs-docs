@@ -97,7 +97,6 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
-    - 'Gordon Bell 2025': guides/gb2025.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
