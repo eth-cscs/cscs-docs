@@ -1,6 +1,118 @@
 [](){#ref-guides-storage}
 # Storage
 
+[](){#ref-guides-storage-sharing}
+## Sharing files and data
+
+Newly created user folders are not accessible by other groups or users on CSCS systems.
+Linux [Access Control Lists](https://www.redhat.com/en/blog/linux-access-control-lists) (ACLs) let you grant access to one or more groups or users.
+
+In traditional POSIX, access permissions are granted to `user/group/other` in mode `read`/`write`/`execute`.
+The permissions can be checked with the `-l`  option of the command `ls`.
+For instance, if `user1` owns the folder `test`, the output would be the following:
+
+```console title="Checking posix permissions with ls"
+$ ls -lahd test/
+drwxr-xr-x 2 user1 csstaff 4.0K Feb 23 13:46 test/
+```
+
+ACLs are an extension of these permissions to give one or more users or groups access to your data.
+The ACLs of the same `test` folder of `user1` can be shown with the command `getfacl`:
+
+```console title="Checking permissions with getfacl"
+$ getfacl test
+# file: test
+# owner: user1
+# group: csstaff
+user::rwx
+group::r-x
+other::r-x
+```
+
+The command `setfacl` is used to change ACLs for a file or directory.
+
+To add users or groups to read/write/execute on a selected file or folder, use the `-M,--modify-file` or `-m,--modify` flags to modify the ACL of a file or directory.
+
+!!! example "give user2 read+write access to test"
+    Where `test` is owned by `user1`.
+    ```console
+    $ setfacl -m user:user2:rw test/
+
+    $ getfacl test/
+    # file: test
+    # owner: user1
+    # group: csstaff
+    user::rwx
+    user:user2:rw
+    group::r-x
+    mask::rwx
+    other::r-x
+    ```
+
+The `-X,--remove-file` and  `-x,--remove` options will remove ACL entries.
+
+!!! example "remove user2 access to test"
+    This reverts the access that was granted in the previous example.
+    ```console
+    $ setfacl -x user:user2 test/
+
+    $ getfacl test/
+    # file: test
+    # owner: user1
+    # group: csstaff
+    user::rwx
+    group::r-x
+    mask::rwx
+    other::r-x
+    ```
+
+Access rights can also be granted recursively to a folder and its children (if they exist) using the option `-R,--recursive`.
+
+!!! note
+    This applies only to existing files - files added after this call won't inherit the permissions.
+
+!!! example "recursively grant user2 access to test and its contents"
+    ```console
+    $ setfacl -Rm user:user2 test
+
+    $ getfacl test/subdir
+    # file: test/subdir
+    # owner: user1
+    # group: csstaff
+    user::rwx
+    user:user2:rwx
+    group::---
+    group:csstaff:r-x
+    mask::rwx
+    other::---
+    ```
+
+To set up a default so all newly created folders and dirs inside or your desired path will inherit the permissions, use the `-d,--default` option.
+
+!!! example "recursively grant user2 access to test and its contents"
+    `user2` will have access to files created inside `test` after this call:
+
+    ```console
+    $ setfacl -dm user:user2:rw test/
+
+    $ getfacl test
+    # file: test
+    # owner: user1
+    # group: csstaff
+    user::rwx
+    group::r-x
+    mask::rwx
+    other::r-x
+    default:user::rwx
+    default:user:user2:rw
+    default:group::r-x
+    default:mask::rwx
+    default:other::r-x
+    ```
+
+!!! info
+    For more information read the setfacl man page: `man setfacl`.
+
 ## Many small files vs. HPC File Systems
 
 Workloads that read or create many small files are not well-suited to parallel file systems, which are designed for parallel and distributed I/O.
