@@ -24,7 +24,7 @@ The multi-node build works on multiple nodes and is based on [Charm++]'s MPI bac
 
 !!! warning "Eiger"
 
-    The single-node build is not available on [Eiger][ref-cluster-eiger]. You need to use the multi-node build on [Eiger].
+    The multi-node version is the only version of NAMD available on [Eiger][ref-cluster-eiger] - single-node is not provided.
 
 ## Single-node build
 
