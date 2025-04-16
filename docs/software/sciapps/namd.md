@@ -24,7 +24,7 @@ The multi-node build works on multiple nodes and is based on [Charm++]'s MPI bac
 
 !!! warning "Eiger"
 
-    The single-node build is not available on [Eiger][ref-eiger]. You need to use the multi-node build on [Eiger].
+    The single-node build is not available on [Eiger][ref-cluster-eiger]. You need to use the multi-node build on [Eiger].
 
 ## Single-node build
 
