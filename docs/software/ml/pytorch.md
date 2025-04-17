@@ -307,6 +307,7 @@ $ exit # (6)!
    This will restore the original Python executable provided by the uenv.
 6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
 
+
 !!! note "Squashing the virtual environment"
     Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
     If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
@@ -380,7 +381,7 @@ srun bash -c "
    The optimal number depends on the workload and should be determined by testing.
    Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
 3. These variables are used by PyTorch to initialize the distributed backend.
-   The `MASTER_ADDR` and `MASTER_PORT` variables are used to determine the address and port of the master node.
+   The `MASTER_ADDR`, `MASTER_PORT` and `WORLD_SIZE` variables are used to determine the address and port of the master node.
    Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
 4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
 5. Set the Trition home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.

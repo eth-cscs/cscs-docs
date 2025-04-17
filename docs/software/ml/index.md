@@ -10,8 +10,11 @@ Users can choose between running containers, using provided uenv software stacks
 
 Containerization is the recommended approach for ML workloads on Alps, as it simplifies software management and maximizes compatibility with other systems.
 
-* CSCS does not provide ready-to-use ML container images
-* Users are encouraged to build their own containers, starting from popular sources such as the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers)
+* Users are encouraged to build their own containers, starting from popular sources such as the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers), which offers a variety of pre-built images optimized for HPC and ML workloads.
+Examples include:
+    * [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch)
+    * [TensorFlow NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tensorflow)
+* For frequently changing dependencies, consider creating a virtual environment (venv) mounted into the container.
 
 Helpful references:
 
@@ -35,7 +38,7 @@ See this [PyTorch venv example][ref-uenv-pytorch-venv] for details.
 
 ## Building custom Python environments
 
-Users may also choose to build entirely custom software stacks using Python package managers such as `pip` or `conda`.
+Users may also choose to build entirely custom software stacks using Python package managers such as `uv` or `conda`.
 Most ML libraries are available via the [Python Package Index (PyPI)](https://pypi.org/).
 
 To ensure optimal performance on CSCS systems, we recommend starting from an environment that already includes:
@@ -46,6 +49,8 @@ To ensure optimal performance on CSCS systems, we recommend starting from an env
 
 This can be achieved either by:
 
-* Building a [custom container image][ref-build-containers] based on a suitable ML-ready base image.
-* Starting from a provided uenv (e.g., [PrgEnv GNU][ref-uenv-prgenv-gnu] or [PyTorch uenv][ref-uenv-pytorch]) and extending it with a virtual environment.
+* building a [custom container image][ref-build-containers] based on a suitable ML-ready base image,
+* or starting from a provided uenv (e.g., [PrgEnv GNU][ref-uenv-prgenv-gnu] or [PyTorch uenv][ref-uenv-pytorch]),
+
+and extending it with a virtual environment.
 
