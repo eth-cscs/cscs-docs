@@ -75,7 +75,7 @@ In these cases SLURM jobs must be configured to assign multiple ranks to a singl
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
-```bash
+```bash title="mps-wrapper.sh"
 #!/bin/bash
 # Example mps-wrapper.sh usage:
 # > srun [srun args] mps-wrapper.sh [cmd] [cmd args]
