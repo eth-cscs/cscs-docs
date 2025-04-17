@@ -1,0 +1,132 @@
+:root {
+  --md-admonition-icon--alps: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M256 32c12.5 0 24.1 6.4 30.8 17l216.6 345.4c5.6 8.9 8.6 19.2 8.6 29.7 0 30.9-25 55.9-55.9 55.9H55.9C25 480 0 455 0 424.1c0-10.5 3-20.8 8.6-29.7L225.2 49c6.6-10.6 18.3-17 30.8-17zm65 192-65-103.6-79.1 126.1 18.3 24.4c6.4 8.5 19.2 8.5 25.6 0l25.6-34.1c6-8.1 15.5-12.8 25.6-12.8h49z"/></svg>');
+--md-admonition-icon--digging: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M208 64a48 48 0 1 1 96 0 48 48 0 1 1-96 0M9.8 214.8c5.1-12.2 19.1-18 31.4-12.9l19.5 8.1 22.9-38.1C99.9 144.6 129.3 128 161 128c51.4 0 97 32.9 113.3 81.7l34.6 103.7 79.3 33.1 34.2-45.6c6.4-8.5 16.6-13.3 27.2-12.8s20.3 6.4 25.8 15.5l96 160c5.9 9.9 6.1 22.2.4 32.2S555.5 512 544 512H288c-11.1 0-21.4-5.7-27.2-15.2s-6.4-21.2-1.4-31.1l16-32c5.4-10.8 16.5-17.7 28.6-17.7h32l22.5-30L22.8 246.2c-12.2-5.1-18-19.1-12.9-31.4zm82.8 91.8 112 48c11.8 5 19.4 16.6 19.4 29.4v96c0 17.7-14.3 32-32 32s-32-14.3-32-32v-74.9l-60.6-26-37 111c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.3-40.4l48-144 11-33z"/></svg>');
+  --base-border-radius: 0.2rem;
+  --base-border-width: 0.05rem;
+}
+
+/* alps admonition */
+.md-typeset .admonition.alps,
+.md-typeset details.alps {
+  border-color: rgb(255, 51, 51);
+}
+.md-typeset .alps > .admonition-title,
+.md-typeset .alps > summary {
+  background-color: rgba(255, 51, 51, 0.1);
+}
+.md-typeset .alps > .admonition-title::before,
+.md-typeset .alps > summary::before {
+  background-color: rgb(255, 51, 51);
+  -webkit-mask-image: var(--md-admonition-icon--alps);
+          mask-image: var(--md-admonition-icon--alps);
+}
+
+/* change admonition */
+.md-typeset .admonition.change,
+.md-typeset details.change {
+  border-color: rgb(43, 155, 70);
+}
+.md-typeset .change > .admonition-title,
+.md-typeset .change > summary {
+  background-color: rgba(43, 155, 70, 0.1);
+}
+.md-typeset .change > .admonition-title::before,
+.md-typeset .change > summary::before {
+  background-color: rgb(43, 155, 70);
+  -webkit-mask-image: var(--md-admonition-icon--digging);
+          mask-image: var(--md-admonition-icon--digging);
+}
+
+/* todo admonition */
+.md-typeset .admonition.todo,
+.md-typeset details.todo {
+  border-color: rgb(255, 0, 0);
+}
+.md-typeset .todo > .admonition-title,
+.md-typeset .todo > summary {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+.md-typeset .todo > .admonition-title::before,
+.md-typeset .todo > summary::before {
+  background-color: rgb(255, 0, 0);
+  -webkit-mask-image: var(--md-admonition-icon--alps);
+          mask-image: var(--md-admonition-icon--alps);
+}
+
+.md-nav__item .md-nav__link--active {
+    font-weight: bold;
+}
+
+/* Light mode */
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #121417; /* Darker border for contrast */
+  background-color: #ffffff; /* Ensures light background */
+  color: #121417; /* Dark text for readability */
+}
+
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li:hover {
+  box-shadow: 0 0 0.5rem #010945; /* Dark blue shadow on hover */
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #bbbbbb; /* Lighter border for better contrast in dark mode */
+  background-color: #1a1a1a; /* Darker background to blend well */
+  color: #e0e0e0; /* Lighter text for readability */
+}
+
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
+  box-shadow: 0 0 0.5rem #79aaff; /* Softer, lighter blue glow on hover */
+}
+
+/* Table */
+.md-typeset table:not([class]) {
+  border-radius: var(--base-border-radius);
+  border-width: var(--base-border-width);
+  border-color: #121417;
+}
+
+/* code hilighting */
+
+/* light mode:  pale yellow background, solid black foreground */
+[data-md-color-scheme="default"] {
+  --md-code-bg-color: #fdfdfd;
+  --md-code-fg-color: #000000;
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] {
+  --md-code-bg-color: #1e1e1e;
+  --md-code-fg-color: #ffffff;
+}
+
+/* Light mode */
+[data-md-color-scheme="default"] .md-typeset pre {
+  border: 2px solid #b4b4b4;
+  border-radius: 2px;
+}
+
+[data-md-color-scheme="default"] .highlight span.filename {
+  border-left: 2px solid #b4b4b4;
+  border-right: 2px solid #b4b4b4;
+  border-top: 2px solid #b4b4b4;
+  border-radius: 2px;
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] .md-typeset pre {
+  border: 2px solid #707070;
+  border-radius: 2px;
+}
+
+[data-md-color-scheme="slate"] .highlight span.filename {
+  border-left: 2px solid #707070;
+  border-right: 2px solid #707070;
+  border-top: 2px solid #707070;
+  border-radius: 2px;
+}
+
