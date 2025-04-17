@@ -78,6 +78,7 @@ nav:
       - 'NVIDIA Nsight': software/devtools/nvidia-nsight.md
     - 'uenv': software/uenv.md
     - 'Container Engine': software/container-engine.md
+    - 'Unsupported Software': software/unsupported.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
@@ -96,7 +97,6 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
-    - 'Gordon Bell 2025': guides/gb2025.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
