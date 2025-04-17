@@ -1,4 +1,5 @@
-# UserLab Support Policy
+[](){#ref-support}
+# User Support Policy
 
 ## 1. User Support Policy
 
@@ -23,6 +24,7 @@ CSCS reserves the right to decline support for requests that fall outside the sc
 Support will be focused on ensuring that the resources are used in alignment with the approved objectives and goals.
 Requests that significantly deviate from the original proposal may not be accommodated.
 
+[](){#ref-support-user-apps}
 ## 3. User Applications
 
 User applications are those brought to CSCS systems by the users, whether they are developed by the users themselves or another third-party.
@@ -32,6 +34,7 @@ CSCS will provide guidance on deploying applications on our systems, including c
 While we can assist with infrastructure-related issues, we can not configure, optimize, debug, or fix the applications themselves.
 Users are responsible for resolving application-specific issues themselves or contacting the respective developers.
 
+[](){#ref-support-apps}
 ## 4. Officially Supported Applications
 
 CSCS offers a range of officially supported applications and their respective versions and configurations, which are packaged and released by CSCS or its supply partners.

@@ -7,10 +7,7 @@ Santis is an Alps cluster that provides GPU accelerators and file systems design
 
 ### Compute nodes
 
-Santis consists of around 600 [Grace-Hopper nodes][ref-alps-gh200-node].
-
-!!! note
-    In late March 2025 Santis was temporarily expanded to 1233 nodes for [Gordon Bell and HPL runs][ref-gb2025].
+Santis consists of around 430 [Grace-Hopper nodes][ref-alps-gh200-node].
 
 The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
@@ -19,7 +16,7 @@ You will be assigned to one of the four login nodes when you ssh onto the system
 
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 600 | 2,400      | 2,400 |
+| [gh200][ref-alps-gh200-node] | 430 | 1,720      | 1,720 |
 
 ### Storage and file systems
 

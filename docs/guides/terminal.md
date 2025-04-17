@@ -51,6 +51,7 @@ This approach won't work if the same home directory is mounted on two different 
 Care needs to be taken to store executables, configuration and data for different architecures in separate locations, and automatically configure the login environment to use the correct location when you log into different systems.
 
 The following example:
+
 * sets architecture-specific `bin` path for installing programs
 * sets architecture-specific paths for installing application data and configuration
 * selects the correct path by running `uname -m` when you log in to a cluster
