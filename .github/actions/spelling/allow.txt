@@ -55,7 +55,9 @@ MPICH
 MPS
 MeteoSwiss
 NAMD
+NICs
 NVIDIA
+NVMe
 OTP
 OTPs
 PASC
