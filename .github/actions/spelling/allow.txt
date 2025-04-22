@@ -2,6 +2,7 @@ ACLs
 ACR
 AMD
 AWS
+Alpstein
 Balfrin
 Broyden
 CFLAGS
@@ -11,6 +12,7 @@ COSMA
 CPE
 CPMD
 CSCS
+CWP
 CXI
 Capstor
 Ceph
@@ -24,6 +26,8 @@ ETHZ
 Ehrenfest
 Errigal
 FFT
+FirecREST
+Fock
 GAPW
 GCC
 GGA
@@ -34,12 +38,15 @@ GPUs
 GPW
 GROMACS
 GTL
+Gaussian
 Google
 HDD
+HPC
+HPCP
 HPE
 HSN
 Hartree
-Iopstor
+Iopsstor
 Jax
 Jira
 Keycloak
@@ -50,6 +57,8 @@ LUMI
 Libc
 Linaro
 Linux
+MFA
+MLP
 MNDO
 MPICH
 MPS
@@ -103,7 +112,9 @@ eiger
 filesystems
 groundstate
 inodes
+lexer
 libfabric
+multitenancy
 podman
 prioritised
 proactively
