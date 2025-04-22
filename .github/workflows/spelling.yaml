@@ -1,22 +1,17 @@
 name: Check Spelling
 
 on:
-  push:
+  pull_request:
 
 jobs:
   spelling:
     name: Check Spelling
     runs-on: ubuntu-latest
-    # if: ${{ contains(github.event_name, 'pull_request') || github.event_name == 'push' }}
-    # concurrency:
-    #   group: spelling-${{ github.event.pull_request.number || github.ref }}
-    #   # note: If you use only_check_changed_files, you do not want cancel-in-progress
-    #   cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
       - name: Check spelling
         id: spelling
-        uses: check-spelling/check-spelling@main
+        uses: check-spelling/check-spelling@v0.0.24
         with:
           check_file_names: 1
           post_comment: 0
