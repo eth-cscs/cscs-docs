@@ -26,7 +26,7 @@ ETHZ
 Ehrenfest
 Errigal
 FFT
-FirecREST
+firecrest
 Fock
 GAPW
 GCC

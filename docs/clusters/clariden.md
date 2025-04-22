@@ -102,7 +102,7 @@ See the SLURM documentation for instructions on how to run jobs on the [Grace-Ho
 
 ### FirecREST
 
-Clariden can also be accessed using [FircREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
+Clariden can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
 
 ## Maintenance and status
 
