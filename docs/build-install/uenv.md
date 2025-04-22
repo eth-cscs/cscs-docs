@@ -72,7 +72,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
 
 ??? warning "Upstream Spack version"
 
-    It is strongly recomended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
+    It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
 

@@ -32,7 +32,7 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
     [:octicons-arrow-right-24: Alps Overview](alps/index.md)
 
-    Get detailed information about the main components of the infrastructre
+    Get detailed information about the main components of the infrastructure
 
     [:octicons-arrow-right-24: Alps Clusters](alps/clusters.md)
 
