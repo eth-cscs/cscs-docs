@@ -200,7 +200,7 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 
 ### Headings are written in sentence case
 
-Use [title case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
+Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
 
 ### Avoid nesting headings too deep
 
