@@ -5,7 +5,7 @@ Alps has different storage attached, each with characteristics suited to differe
 HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
 These separate clusters are on the same Slingshot 11 network as the Alps.
 
-|              | Capstor                | IOPStor                | Vast                |
+|              | Capstor                | Iopsstor               | Vast                |
 |--------------|------------------------|------------------------|---------------------|
 | Model        | HPE ClusterStor E1000D | HPE ClusterStor E1000F | Vast                |
 | Type         | Lustre                 | Lustre                 | NFS                 |
@@ -22,11 +22,11 @@ These separate clusters are on the same Slingshot 11 network as the Alps.
 Capstor is the largest file system, for storing large amounts of input and output data.
 It is used to provide SCRATCH and STORE for different clusters - the precise details are platform-specific.
 
-[](){#ref-alps-iopstor}
-## iopstor
+[](){#ref-alps-iopsstor}
+## iopsstor
 
 !!! todo
-    small text explaining what iopstor is designed to be used for.
+    small text explaining what iopsstor is designed to be used for.
 
 [](){#ref-alps-vast}
 ## vast
@@ -34,7 +34,7 @@ It is used to provide SCRATCH and STORE for different clusters - the precise det
 The Vast storage is smaller capacity system that is designed for use as home folders.
 
 !!! todo
-    small text explaining what iopstor is designed to be used for.
+    small text explaining what iopsstor is designed to be used for.
 
 The mounts, and how they are used for SCRATCH, STORE, PROJECT, HOME would be in the [storage docs][ref-storage-fs]
 

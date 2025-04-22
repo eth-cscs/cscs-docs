@@ -14,7 +14,7 @@ CPMD
 CSCS
 CWP
 CXI
-Capstor
+capstor
 Ceph
 Containerfile
 DNS
@@ -46,7 +46,7 @@ HPCP
 HPE
 HSN
 Hartree
-Iopsstor
+iopsstor
 Jax
 Jira
 Keycloak
