@@ -71,7 +71,7 @@ nav:
       - build-install/index.md
       - 'uenv': build-install/uenv.md
       - 'Containers': build-install/containers.md
-      - 'Cray Programming Environment (CPE)': build-install/cpe.md
+      - 'Cray modules (CPE))': build-install/cpe.md
       - 'Python with pip': build-install/pip.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
