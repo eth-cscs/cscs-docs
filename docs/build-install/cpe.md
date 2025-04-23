@@ -28,7 +28,7 @@ Following the naming scheme from the output, you can spawn a container with
 ```
 srun --environment=cpe-cray-24.07 --pty bash
 ```
-Once the container starts up you can use the directly use the programming environment, because there will be modules loaded by default at startup.
+Once the container starts up you can directly use the programming environment, because there will be modules loaded by default at startup.
 ```
 [daint][anfink@daint-ln001 ~]$ srun -p debug --environment=cpe-gnu-24.07 --pty bash
 [daint][anfink@nid005417 /]$ module list
