@@ -1,6 +1,7 @@
 # Recognized as "Firec" and "REST" with the regular rules, so in patterns.txt
 # instead of allow.txt
 FirecREST
+RESTful
 
 # markdown figure
 ^!\[.*\]\(.*\)$

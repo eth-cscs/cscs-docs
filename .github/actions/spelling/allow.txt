@@ -80,7 +80,6 @@ Plesset
 Pulay
 RCCL
 RDMA
-RESTful
 ROCm
 RPA
 Roboto
