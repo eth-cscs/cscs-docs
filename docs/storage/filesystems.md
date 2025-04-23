@@ -1,16 +1,44 @@
 [](){#ref-storage-fs}
 # File Systems
 
-!!! todo
-    these are already out of date and need significant refactoring to be coherently linked to cluster definitions.
+The file system available on a [cluster][ref-alps-clusters] are determined by the cluster's [platform][ref-alps-platforms].
 
-CSCS supports different file systems, whose specifications are summarized in the table below:
+Broadly speaking, there are three types of file system:
 
+* store
+    * LUSTRE
+    * no clean up policy
+    * duration = lifetime of project + 3 months
+    * shared by users of a project
+    * quota is project-specific
+    * 2/6 Meta data servers - not so hot at many small files
+    * backups: every 24 hours check for modified files
+        * each new or modified file is copied to tape
+        * max three copies of a file are kept - the three most recent
+        * to restore a backed up file create an SD ticket with
+            * request to restor from backup
+            * the full file or path to restore
+            * the date to restore from: the most most recent backup older than the date will be provided
 
-Please build big software projects not fitting `$HOME` on `$PROJECT` instead.
-Since you should not run jobs from `$HOME` or `$PROJECT`, please copy the executables, libraries and data sets needed to run your simulations to `$SCRATCH` with the Slurm transfer queue.
+* scratch
+    * LUSTRE
+    * everybody gets the same amount (50 GB)
+    * user-specific
+    * cleanup policy is applied (see soft and hard quotas)
+    * 4/6 meta data servers
+    * no backups
 
-Users can also write temporary builds on `/dev/shm`, a filesystem using virtual memory rather than a persistent storage device: please note that files older than 24 hours will be deleted automatically.
+* Home
+    * Vast
+    * everybody gets the same amount
+    * user-specific
+    * no cleanup policy
+    * quota?
+    * backup:
+        * snapshots of the last 7 days are available in `HOME/.snapshot` (not visible to `ls`)
+        * tape storage is not available yet: will follow the "last three copies policy on STORE"
+
+Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
 
 [](){#ref-storage-quota}
 ## Quota
