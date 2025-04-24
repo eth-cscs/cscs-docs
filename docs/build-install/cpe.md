@@ -48,7 +48,7 @@ $ srun --environment=cpe-cray-24.07 --pty bash
 Once the container starts up you can directly use the programming environment, because there will be modules loaded by default at startup.
 
 ```console
-$ srun -p debug --environment=cpe-gnu-24.07 --pty bash
+$ srun -p debug --environment=cpe-cray-24.07 --pty bash
 $ module list
 
 Currently Loaded Modules:
