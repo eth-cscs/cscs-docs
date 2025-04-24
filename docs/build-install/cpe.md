@@ -96,12 +96,11 @@ $ module avail
 ----------------------------- /opt/cscs/modulefiles -----------------------------
    cuda/12.6 (L)
 
-
 $ CC --version
-g++-13 (SUSE Linux) 13.3.0
-Copyright (C) 2023 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Cray clang version 18.0.0  (0e4696aa65fa9549bd5e19c216678cc98185b0f7)
+Target: aarch64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/cray/pe/cce/18.0.0/cce-clang/aarch64/share/../bin
 ```
 
 The recommended way of using CPE in a container is to start the container, and use `$SCRATCH` and `$STORE` to interact with persistent data. Please remember that any data that is written to a directory that is not mounted from the host system will be lost, after the container stops.
