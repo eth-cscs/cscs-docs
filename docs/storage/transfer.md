@@ -41,7 +41,7 @@ Currently Globus provide the following mount points at CSCS:
 ## Internal Transfer
 
 The Slurm queue `xfer` is available on Alps clusters to address data transfers between internal CSCS file systems.
-The queue has been created to transfer files and folders from `/users`, `/capstor/store` or `/iopstor/store` to the `/capstor/scratch` and `/iopstor/scratch` file systems (stage-in) and vice versa (stage-out).
+The queue has been created to transfer files and folders from `/users`, `/capstor/store` or `/iopsstor/store` to the `/capstor/scratch` and `/iopsstor/scratch` file systems (stage-in) and vice versa (stage-out).
 Currently the following commands are available on the cluster supporting the queue xfer:
 
 ```

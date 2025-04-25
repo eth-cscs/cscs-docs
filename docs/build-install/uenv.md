@@ -72,7 +72,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
 
 ??? warning "Upstream Spack version"
 
-    It is strongly recomended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
+    It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
 
@@ -131,7 +131,7 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 
 1. Script to build the software stack.
 2. `git` clone of the required version of Spack.
-3. Spack onfiguration files for the software stack.
+3. Spack configuration files for the software stack.
 4. Information about the uenv that was used to run `uenv-spack`.
 5. Description of the software to build.
 6. Template [Spack environment file].

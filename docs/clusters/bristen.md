@@ -74,7 +74,7 @@ See the SLURM documentation for instructions on how to run jobs on the [Grace-Ho
 
 ### FirecREST
 
-Bristen can also be accessed using [FircREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
+Bristen can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
 
 ### Scheduled Maintenance
 

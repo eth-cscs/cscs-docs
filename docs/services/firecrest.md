@@ -3,9 +3,9 @@
 
 FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources, developed at CSCS.
 
-Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://github.com/eth-cscs/firecrest/tree/master/examples/CI-pipeline), [workflow managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools against HPC resources.
+Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://eth-cscs.github.io/firecrest-v2/use_cases/CI-pipeline/), [workflow managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools against HPC resources.
 
-Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://firecrest-ui-hpc.cscs.ch) and [applications](https://github.com/eth-cscs/firecrest/tree/master/examples/UI-client-credentials), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
+Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://my.hpcp.cscs.ch) and [applications](https://github.com/eth-cscs/firecrest/tree/master/examples/UI-client-credentials), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
 
 Users can make HTTP requests to perform the following operations:
 
@@ -17,18 +17,17 @@ Users can make HTTP requests to perform the following operations:
 
 Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
 
-Version 2 is faster, easier to use, and more efficient in resource management than its predecessor, therefore, if you are new to FirecREST start directly using **version 2** (if available for your platform).
+Version 2 is faster, easier to use, and more efficient in resource management than its predecessor, therefore, if you are new to FirecREST start directly using **version 2**.
 
-If you're using **version 1**, we recommend you to port your applications to use the new version.
+!!! warning "Deprecation notice"
+    If you're using **version 1**, we recommend you to port your applications to use the new version.
+    We will communicate soon the exact date of the decomission of version 1 (not before Quarter 4 of 2025).
 
 === "Version 2"
 
-    !!!Warning
-        Documentation for version 2 is still work in progress
-
     For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
 
-    Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/use) for detailed documentation.
+    Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/user_guide/) for detailed documentation.
 
 === "Version 1"
 
@@ -136,7 +135,7 @@ Back on the Subscription Management page, you can review your active subscriptio
 
 ![FirecREST subscription management](../images/firecrest/f7t-api-subscriptions-management.png)
 
-To use your Application to access FirecREST, follow the [API documentation](https://firecrest-docs.v1.svc.cscs.ch/).
+To use your Application to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
 
 ## Getting Started
 
@@ -444,14 +443,12 @@ A staging area is used for external transfers and downloading/uploading a file f
 
 ## Further Information
 
-* [FirecREST UI for HPC Platform](https://firecrest-ui-hpc.cscs.ch)
-* [FirecREST OpenAPI Specification Version 1](https://firecrest.readthedocs.io/en/latest/reference.html)
-* [FirecREST OpenAPI Specification Version 2](https://eth-cscs.github.io/firecrest-v2/openapi)
-* [FirecREST Docs Version 1](https://firecrest.readthedocs.io/)
-* [FirecREST Docs Version 2](https://eth-cscs.github.io/firecrest-v2)
-* [Documentation of pyFirecREST (v1/v2)](https://pyfirecrest.readthedocs.io/)
-* [FirecREST repository Version 1](https://github.com/eth-cscs/firecrest)
-* [FirecREST repository Version 2](https://github.com/eth-cscs/firecrest-v2)
+* [FirecREST UI for HPC Platform](https://my.hpcp.cscs.ch)
+* [FirecREST UI for ML Platform](https://my.mlp.cscs.ch)
+* [FirecREST OpenAPI Specification](https://eth-cscs.github.io/firecrest-v2/openapi)
+* [FirecREST Official Docs](https://eth-cscs.github.io/firecrest-v2)
+* [Documentation of pyFirecREST](https://pyfirecrest.readthedocs.io/)
+* [FirecREST repository](https://github.com/eth-cscs/firecrest-v2)
 * [What are JSON Web Tokens](https://jwt.io/introduction)
 * [Python Requests](https://requests.readthedocs.io/en/master/user/quickstart)
 * [Python Async API Calls](https://docs.aiohttp.org/en/stable/)

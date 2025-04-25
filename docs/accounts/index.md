@@ -9,7 +9,7 @@ To get an account you must be invited by a member of CSCS project adminstration 
     CSCS issues calls for proposals that are announced via the CSCS website and e-mails.
     More information about upcoming calls is available on [the CSCS web site](https://www.cscs.ch/user-lab/allocation-schemes).
 
-New PIs who have sucessfully applied for a preparatory project will receive an invitation from CSCS to get an account at CSCS.
+New PIs who have successfully applied for a preparatory project will receive an invitation from CSCS to get an account at CSCS.
 PIs can then invite members of their groups to join their project.
 
 !!! info
