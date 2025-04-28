@@ -1,3 +1,4 @@
+[](){#ref-cpe}
 # Cray Programming Environment (CPE)
 
 The Cray Programming Environment (CPE) is a suite of software: programming environments, compilers, libraries and tools.
