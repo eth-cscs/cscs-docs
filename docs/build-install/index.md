@@ -26,4 +26,4 @@ There are multiple ways to install Python software.
 
 ## Containers
 
-CSCS provides tools for building software in containers
+CSCS provides [Podman][ref-build-containers] for building software in containers
