@@ -120,6 +120,7 @@ prgenv
 proactively
 quickstart
 santis
+sbatch
 screenshot
 slurm
 smartphone
