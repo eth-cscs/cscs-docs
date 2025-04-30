@@ -282,7 +282,7 @@ The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from so
     env MPICXX=mpicxx ./build charm++ mpi-linux-arm8 smp --with-production -j 32
     ```
 
-    Finally, you can configure and build NAMD (with GPU accereration):
+    Finally, you can configure and build NAMD (with GPU acceleration):
 
     ```bash
     cd .. 
