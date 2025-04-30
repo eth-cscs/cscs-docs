@@ -28,7 +28,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
     information about the network.
 
     * Details about SlingShot 11.
-        * how many NICS per node
+        * how many NICs per node
         * raw feeds and speeds
     * Some OSU benchmark results.
     * GPU-aware communication

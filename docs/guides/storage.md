@@ -126,6 +126,7 @@ At first it can seem strange that a "high-performance" file system is significan
 
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
+[](){#ref-guides-storage-venv}
 ### Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.

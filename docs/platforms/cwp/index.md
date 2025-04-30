@@ -14,7 +14,7 @@ Project administrators (PIs and deputy PIs) of projects on the CWP can to invite
 
 This is performed using the [project management tool][ref-account-waldur]
 
-Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentification][ref-mfa] (MFA).
+Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
 ## Systems
 
@@ -62,7 +62,7 @@ Scratch is per user - each user gets separate scratch path and quota.
 !!! warning "scratch cleanup policy"
     Files that have not been accessed in 30 days are automatically deleted.
 
-    **Scratch is not intended for permanant storage**: transfer files back to the capstor project storage after job runs.
+    **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
 
 ### Project
 

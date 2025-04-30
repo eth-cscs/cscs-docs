@@ -36,7 +36,7 @@ There are three main file systems mounted on the MLP clusters Clariden and Brist
 | type |mount | filesystem |
 | -- | -- | -- |
 | Home | /users/$USER | [VAST][ref-alps-vast] |
-| Scratch | `/iopstor/scratch/cscs/$USER` | [Iopstor][ref-alps-iopstor] |
+| Scratch | `/iopsstor/scratch/cscs/$USER` | [Iopsstor][ref-alps-iopsstor] |
 | Project | `/capstor/store/cscs/swissai/<project>` | [Capstor][ref-alps-capstor] |
 
 ### Home
@@ -50,15 +50,15 @@ Scratch filesystems provide temporary storage for high-performance I/O for execu
 Use scratch to store datasets that will be accessed by jobs, and for job output.
 Scratch is per user - each user gets separate scratch path and quota.
 
-* The environment variable `SCRATCH=/iopstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
+* The environment variable `SCRATCH=/iopsstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
 
 !!! warning "scratch cleanup policy"
     Files that have not been accessed in 30 days are automatically deleted.
 
-    **Scratch is not intended for permanant storage**: transfer files back to the capstor project storage after job runs.
+    **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
 
 !!! note
-    There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`, however this is not reccomended for ML workloads for performance reasons.
+    There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`, however this is not recommended for ML workloads for performance reasons.
 
 ### Project
 

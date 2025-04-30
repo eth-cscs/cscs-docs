@@ -2,7 +2,7 @@
 # uenv
 
 Uenv are user environments that provide scientific applications, libraries and tools.
-This page will explain how to find, dowload and use uenv on the command line, and how to enable them in SLURM jobs.
+This page will explain how to find, download and use uenv on the command line, and how to enable them in SLURM jobs.
 
 Uenv are typically application-specific, domain-specific or tool-specific - each uenv contains only what is required for the application or tools that it provides.
 
@@ -308,7 +308,7 @@ The image can be a label, the hash/id of the uenv, or a file:
     # start the image using the name of the uenv
     $ uenv start netcdf-tools/2024:v1
 
-    # or use the unqique id of the uenv
+    # or use the unique id of the uenv
     $ uenv start 499c886f2947538e
 
     # or provide the path to a squashfs file

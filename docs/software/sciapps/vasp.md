@@ -195,7 +195,7 @@ Examples for makefiles that set the necessary rpath and link options on GH200:
     #OFLAG_IN   = -fast -Mwarperf
     #SOURCE_IN  := nonlr.o
 
-    # Software emulation of quadruple precsion (mandatory)
+    # Software emulation of quadruple precision (mandatory)
     QD         ?= $(NVROOT)/compilers/extras/qd
     LLIBS      += -L$(QD)/lib -lqdmod -lqd -Wl,-rpath,$(QD)/lib
     INCS       += -I$(QD)/include/qd
@@ -322,7 +322,7 @@ Examples for makefiles that set the necessary rpath and link options on GH200:
     #OFLAG_IN   = -fast -Mwarperf
     #SOURCE_IN  := nonlr.o
 
-    # Software emulation of quadruple precsion (mandatory)
+    # Software emulation of quadruple precision (mandatory)
     QD         ?= $(NVROOT)/compilers/extras/qd
     LLIBS      += -L$(QD)/lib -lqdmod -lqd -Wl,-rpath,$(QD)/lib
     INCS       += -I$(QD)/include/qd

@@ -16,7 +16,13 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
 
 -   :fontawesome-solid-layer-group: [__linalg__][ref-uenv-linalg]
 
-    Provides linear compilers, MPI and Python, along with algebra and mesh partitioning libraries for a broad range of use cases.
+    Provides compilers, MPI and Python, along with linear algebra and mesh partitioning libraries for a broad range of use cases.
+
+-   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe]
+
+    The Cray Programming Environment (CPE) is a suite of compilers, libraries and tools provided by HPE.
+
+    These are the "Cray Modules", familiar to users of old Piz Daint and other HPE/Cray clusters.
 
 </div>
 
