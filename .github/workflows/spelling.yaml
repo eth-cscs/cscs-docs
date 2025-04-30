@@ -15,10 +15,6 @@ jobs:
         # whole blocks (multi-line) from spell checking. See
         # https://github.com/check-spelling/check-spelling/commit/46c981b7c96b3777aff4fd711fc9a8f126121b04
         # for more details. 
-        # The given commit contains preliminary, unreleased, support for ignoring
-        # whole blocks (multi-line) from spell checking. See
-        # https://github.com/check-spelling/check-spelling/commit/46c981b7c96b3777aff4fd711fc9a8f126121b04
-        # for more details. 
         uses: check-spelling/check-spelling@46c981b7c96b3777aff4fd711fc9a8f126121b04
         with:
           check_file_names: 1
