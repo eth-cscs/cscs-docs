@@ -45,7 +45,7 @@ Copyright (c) 2023-2025 Linaro Limited. All rights reserved.
 Version: 24.1.2
 ```
 
-1. Sourcing the `activate` script instead of loading a view for the linaro-forge uenv allows to keep using the compilers from the prgenv-gnu uenv.
+1. Loading the `activate` script instead of loading a view for the linaro-forge uenv allows to keep using the compilers from the prgenv-gnu uenv.
 2. Test that everything has been mounted correctly by looking at `uenv status`.
    There will be warnings if there are problems.
 3. Check that the [DDT debugger][ref-devtools-ddt] is in the path.
