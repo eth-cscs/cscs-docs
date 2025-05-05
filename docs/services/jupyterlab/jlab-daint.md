@@ -79,4 +79,3 @@ Examples of notebooks with `ipcmagic` can be found [here](https://github.com/
 * [Jupyter](http://jupyter.org/)
 * [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)
 * [JupyterHub](https://jupyterhub.readthedocs.io/en/stable)
-
