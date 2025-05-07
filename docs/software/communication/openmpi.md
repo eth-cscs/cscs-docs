@@ -34,6 +34,7 @@ export PMIX_MCA_psec="native" # (1)!
 export FI_PROVIDER="cxi" # (2)!
 export OMPI_MCA_pml="^ucx" # (3)!
 export OMPI_MCA_mtl="ofi" # (4)!
+```
 
 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 2. Use the CXI (Slingshot) provider.
