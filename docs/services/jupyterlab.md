@@ -1,4 +1,4 @@
-[](){#ref-jlab-daint}
+[](){#ref-jlab}
 # JupyterLab
 
 ## Access and setup
