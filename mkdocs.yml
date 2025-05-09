@@ -86,6 +86,7 @@ nav:
     - services/index.md
     - 'FirecREST': services/firecrest.md
     - 'CI/CD': services/cicd.md
+    - 'JupyterLab': services/jupyterlab.md
   - 'Running Jobs':
     - running/index.md
     - 'slurm': running/slurm.md
