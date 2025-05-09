@@ -35,15 +35,35 @@ Alternatively, you can issue the following command directly in a notebook cell:�
 
 A kernel, in the context of Jupyter, is a program that runs the user code within the Jupyter notebooks. Jupyter kernels make it possible to access virtual environments, custom python installations like anaconda/miniconda or any custom python setting, from Jupyter notebooks.
 
-A kernel can be created from an active Python virtual environment with  `ipykernel` :
-
+Jupyter kernels are powered by [`ipykernel`](https://github.com/ipython/ipykernel).
+As a result, `ipykernel` must be installed in every environment that will be used as a kernel.
+That can be done with `pip install ipykernel`.
+A kernel can be created from an active Python virtual environment with the following commands
 
 ```console title="Create a Jupyter kernel"
 . /myenv/bin/activate
-python -m ipykernel install --user --name=<your_env_name> --display-name "Python (<your_env_name>)"
+python -m ipykernel install --user --name="<kernel-name>" --display-name="<kernel-name>"
 ```
 
-Jupyter kernels are powered by [`ipykernel`](https://github.com/ipython/ipykernel). As a result, `ipykernel` must be installed in every environment that will be used as a kernel. That could be done with `pip install ipykernel`.
+## Using Uenvs in JupyterLab
+
+In the JupyterHub Spawner Options form mentioned above, it's possible to pass an Uenv and a view.
+The Uenv will be mounted at `/user-environment`, and the specified view will be activated.
+
+If the Uenv includes the installation of a Python package, you will need to create a Jupyter kernel to make the package available in the notebooks.
+If `ipykernel` is not available in the Uenv, you can create a Python virtual environment in a terminal within JupyterLab and install it there
+
+```console
+cd $SCRATCH
+python -m venv uenv-pyenv --system-site-packages
+pip install ipykernel
+```
+
+Then with that virtual environment activated, you can run the command to create the Jupyter kernel.
+
+!!! warning "Using remote Uenvs for the first time."
+    If the Uenv is not present in the local repository, it will be automatically fetched.
+    As a result, JupyterLab may take slightly longer than usual to start.
 
 ## Ending your interactive session and logging out
 
