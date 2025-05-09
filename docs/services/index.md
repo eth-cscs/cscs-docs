@@ -13,7 +13,7 @@
 
     [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
--   :fontawesome-solid-mountain-sun: __JupyterLab__
+-   :simple-jupyter: __JupyterLab__
 
     JupyterLab is a feature-rich notebook authoring application and editing environment.
 
