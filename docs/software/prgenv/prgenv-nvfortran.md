@@ -64,7 +64,7 @@ uenv image find prgenv-nvfortran
 uenv image find prgenv-nvfortran@*
 
 # pull a version
-uenv image find prgenv-nvfortran/24.11:v1
+uenv image pull prgenv-nvfortran/24.11:v2
 ```
 
 === "the nvfort view"
