@@ -19,14 +19,15 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 
     ??? note "2025.1"
 
-        * The `cp2k@2025.1:v1` uenv has been removed  and replaced by `cp2k@2025.1:v2`
-          * The [DLA-Future] intrgration requires special care by the user and has therefore been moved to a separate `cp2k-dlaf` view
-          * There two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
+        * The `cp2k@2025.1:v1` uenv has been removed and replaced by `cp2k@2025.1:v2`
+          * The [DLA-Future] intrgration required special care by the user; without it, the performance is sub-optimal
+          * The DLA-Future integration has been moved to a separate `cp2k-dlaf` view
+          * The two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
           * Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
 
         * The default BLAS/LAPACK library on [Eiger][ref-cluster-eiger] is now [OpenBLAS] (changed from Intel oneAPI MKL, oneMKL)
           * Performance on some workloads is better and on others is comparable
-          * Uniformity across platforms 
+          * Brings uniformity across platforms 
 
 
 ## Dependencies
@@ -36,7 +37,7 @@ On our systems, CP2K is built with the following dependencies:
 * [COSMA]
 * [Cray MPICH]
 * [DBCSR]
-* [DLA-Future]
+* [DLA-Future] (from `cp2k@2025.1` onwards, only in `cp2k-dlaf` view)
 * [dftd4] (from `cp2k@2025.1` onwards)
 * [ELPA]
 * [FFTW]
@@ -424,7 +425,7 @@ See [manual.cp2k.org/CMake] for more details.
 
 ### DLA-Future
 
-The `cp2k/2025.1` uenv provides CP2K with [DLA-Future] support enabled.
+The `cp2k/2025.1:v2` uenv provides CP2K with [DLA-Future] support enabled, in the `cp2k-dlaf` view.
 The DLA-Future library is initialized even if you don't [explicitly ask to use it](https://manual.cp2k.org/trunk/technologies/eigensolvers/dlaf.html).
 This can lead to some surprising warnings and failures described below.
 
