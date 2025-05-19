@@ -20,14 +20,14 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     ??? note "2025.1"
 
         * The `cp2k@2025.1:v1` uenv has been removed and replaced by `cp2k@2025.1:v2`
-          * The [DLA-Future] intrgration required special care by the user; without it, the performance is sub-optimal
-          * The DLA-Future integration has been moved to a separate `cp2k-dlaf` view
-          * The two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
-          * Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
+           * The [DLA-Future] intrgration required special care by the user; without it, the performance is sub-optimal
+           * The DLA-Future integration has been moved to a separate `cp2k-dlaf` view
+           * The two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
+           * Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
 
         * The default BLAS/LAPACK library on [Eiger][ref-cluster-eiger] is now [OpenBLAS] (changed from Intel oneAPI MKL, oneMKL)
-          * Performance on some workloads is better and on others is comparable
-          * Brings uniformity across platforms 
+           * Performance on some workloads is better and on others is comparable
+           * Brings uniformity across platforms 
 
 
 ## Dependencies
