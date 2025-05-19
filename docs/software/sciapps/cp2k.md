@@ -15,6 +15,20 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     [CP2K] is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
+??? note "CHANGELOG"
+
+    ??? note "2025.1"
+
+        * The `cp2k@2025.1:v1` uenv has been removed  and replaced by `cp2k@2025.1:v2`
+          * The [DLA-Future] intrgration requires special care by the user and has therefore been moved to a separate `cp2k-dlaf` view
+          * There two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
+          * Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
+
+        * The default BLAS/LAPACK library on [Eiger][ref-cluster-eiger] is now [OpenBLAS] (changed from Intel oneAPI MKL, oneMKL)
+          * Performance on some workloads is better and on others is comparable
+          * Uniformity across platforms 
+
+
 ## Dependencies
 
 On our systems, CP2K is built with the following dependencies:
@@ -46,11 +60,6 @@ On our systems, CP2K is built with the following dependencies:
     Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`.
     On the HPC platform, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by
     default.
-
-!!! warning "BLAS/LAPACK on Eiger"
-    
-    On Eiger, the default BLAS/LAPACK library is Intel oneAPI MKL (oneMKL) until `cp2k@2024.3`. 
-    From `cp2k@2025.1` the default BLAS/LAPACK library is [OpenBLAS].
 
 ## Running CP2K
 
