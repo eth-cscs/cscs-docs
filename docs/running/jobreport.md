@@ -10,7 +10,7 @@ The second stage prints this information in a tabular form that can be inserted 
 
 ## Downloading the job summary report tool
 
-Precompiled binary for the `jobreport` utility can be obtained directly from the [repository](https://github.com/eth-cscs/alps-jobreport/releases) or via the command line:
+A precompiled binary for the `jobreport` utility can be obtained directly from the [repository](https://github.com/eth-cscs/alps-jobreport/releases) or via the command line:
 
 ```console
 $ wget https://github.com/eth-cscs/alps-jobreport/releases/download/v0.1/jobreport
