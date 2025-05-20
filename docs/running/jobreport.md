@@ -46,7 +46,7 @@ Arguments:
   COMMAND                           The command to run as the workload
 ```
 
-## Reported Information
+## Reported information
 
 The final output from `jobreport` is a table summarizing the most important details of how your application used the compute resources during its execution.
 The report is divided into two parts: a general summary and GPU specific values.
