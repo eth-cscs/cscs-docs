@@ -175,7 +175,7 @@ The job report generated contains sections for each `slurm` job step.
 #SBATCH --nodes=2
 
 srun ./jobreport -o report -- my_command_1
-srun ./jobreport -o report -- my_command_1
+srun ./jobreport -o report -- my_command_2
 
 srun --nodes=1 ./jobreport -o report -- my_command_3 &
 srun --nodes=1 ./jobreport -o report -- my_command_4 &
