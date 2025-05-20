@@ -134,7 +134,7 @@ GPU Specific Values
     If the application crashes or the job is killed by `slurm` prematurely, `jobreport` will not be able to write any output.
 
 !!! info "workaround known issue on macOS"
-    Currently, there is an issue when generating the report file via jobreport print on the macOS terminal:
+    Currently, there is an issue when generating the report file via `jobreport print` on the macOS terminal:
     
     ```console
     what(): locale::facet::_S_create_c_locale name not valid
