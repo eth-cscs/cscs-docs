@@ -133,7 +133,7 @@ GPU Specific Values
     The `jobreport` tool requires the application to complete successfully.
     If the application crashes or the job is killed by `slurm` prematurely, `jobreport` will not be able to write any output.
 
-!!! info "workaround known issue on macOS"
+!!! warning "workaround known issue on macOS"
     Currently, there is an issue when generating the report file via `jobreport print` on the macOS terminal:
     
     ```console
