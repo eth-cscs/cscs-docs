@@ -174,11 +174,11 @@ The job report generated contains sections for each `slurm` job step.
 #SBATCH -t 5:00
 #SBATCH --nodes=2
 
-srun ${JOBREPORT} -o report -- ${COMMAND}
-srun ${JOBREPORT} -o report -- ${COMMAND}
+srun ./jobreport -o report -- my_command_1
+srun ./jobreport -o report -- my_command_1
 
-srun --nodes=1 ./jobreport -o report -- my_command_1 &
-srun --nodes=1 ./jobreport -o report -- my_command_2 &
+srun --nodes=1 ./jobreport -o report -- my_command_3 &
+srun --nodes=1 ./jobreport -o report -- my_command_4 &
 
 wait
 ```
