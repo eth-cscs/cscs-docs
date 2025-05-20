@@ -8,7 +8,7 @@ The monitoring stage must be executed within a `slurm` environment.
 The information is recorded as `.csv` data within a directory  `jobreport_${SLURM_JOB_ID}` or a directory supplied on the command line.
 The second stage prints this information in a tabular form that can be inserted into a project proposal.
 
-## Downloading the job summary report
+## Downloading the job summary report tool
 
 Precompiled binary for the `jobreport` utility can be obtained directly from the [repository](https://github.com/eth-cscs/alps-jobreport/releases) or via the command line:
 
