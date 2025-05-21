@@ -9,10 +9,7 @@ The Climate and Weather Platform (CWP) provides compute, storage and support to 
 
 Project administrators (PIs and deputy PIs) of projects on the CWP can to invite users to join their project, before they can use the project's resources on Alps.
 
-!!! todo
-    This points to the Waldur solution - whether the [UMP][ref-account-ump] or [Waldur][ref-account-waldur] docs are linked depends on which is being used when these docs go live.
-
-This is performed using the [project management tool][ref-account-waldur]
+This is currently performed using the [project management tool][ref-account-ump].
 
 Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
