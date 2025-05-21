@@ -45,13 +45,13 @@ A kernel can be created from an active Python virtual environment with the follo
 python -m ipykernel install --user --name="<kernel-name>" --display-name="<kernel-name>"
 ```
 
-## Using Uenvs in JupyterLab
+## Using uenvs in JupyterLab
 
-In the JupyterHub Spawner Options form mentioned above, it's possible to pass an Uenv and a view.
-The Uenv will be mounted at `/user-environment`, and the specified view will be activated.
+In the JupyterHub Spawner Options form mentioned above, it's possible to pass an uenv and a view.
+The uenv will be mounted at `/user-environment`, and the specified view will be activated.
 
-If the Uenv includes the installation of a Python package, you will need to create a Jupyter kernel to make the package available in the notebooks.
-If `ipykernel` is not available in the Uenv, you can create a Python virtual environment in a terminal within JupyterLab and install it there
+If the uenv includes the installation of a Python package, you will need to create a Jupyter kernel to make the package available in the notebooks.
+If `ipykernel` is not available in the uenv, you can create a Python virtual environment in a terminal within JupyterLab and install it there
 
 ```console
 cd $SCRATCH
@@ -61,8 +61,8 @@ pip install ipykernel
 
 Then with that virtual environment activated, you can run the command to create the Jupyter kernel.
 
-!!! warning "Using remote Uenvs for the first time."
-    If the Uenv is not present in the local repository, it will be automatically fetched.
+!!! warning "Using remote uenv for the first time."
+    If the uenv is not present in the local repository, it will be automatically fetched.
     As a result, JupyterLab may take slightly longer than usual to start.
 
 ## Ending your interactive session and logging out
