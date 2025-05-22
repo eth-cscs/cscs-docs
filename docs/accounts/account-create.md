@@ -10,7 +10,7 @@ The email contains a URL that redirects you to the registration page:
 
 ![](../images/access/invitation.png)
 
-Clicking the "Create a new account" button will lead the user to the 2nd step where he needs to provide his personal information as shown below:
+Clicking the "Create a new account" button will lead the user to the second step where he needs to provide his personal information as shown below:
 
 ![](../images/access/registration-form.png)
 
