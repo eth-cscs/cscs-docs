@@ -6,7 +6,7 @@
 
 When the CSCS Account Manager, project PI or Deputy PI invites the users they will receive an invitation email if the invited user has an **existing** CSCS account then the user clicks on the URL from the email and log-in with a username, password, OTP, and accept the invitation **whereas** if the invited user is new then the user needs to follow the step-by-step instructions below to get an account
 
-The email contains a url that redirects you to the registratin page:
+The email contains a URL that redirects you to the registration page:
 
 ![](../images/access/invitation.png)
 
