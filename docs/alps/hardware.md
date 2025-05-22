@@ -63,7 +63,7 @@ There are 24 cabinets, in 4 rows with 6 cabinets per row:
     * a chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each node.
 * 2 nodes per blade
 
-Each node contains four Grace-Hopper modules and four corresponding network interface cards (NICS) per blade, as illustrated below:
+Each node contains four Grace-Hopper modules and four corresponding network interface cards (NICs) per blade, as illustrated below:
 
 ![](../images/alps/gh200-schematic.svg)
 
