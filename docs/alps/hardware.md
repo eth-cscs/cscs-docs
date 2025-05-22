@@ -38,7 +38,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
 
 Alps was installed in phases, starting with the installation of 1024 AMD Rome dual socket CPU nodes in 2020, through to the main installation of 2,688 Grace-Hopper nodes in 2024.
 
-There are currently four node types in Alps, with another becoming available in 2025:
+There are currently five node types in Alps:
 
 | type           | abbreviation  | blades | nodes | CPU sockets | GPU devices |
 | ----           | -------       | ------:| -----:| -----------:| -----------:|
@@ -68,9 +68,9 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
 
 ![](../images/alps/gh200-schematic.svg)
 
-??? info "node xnames"
+??? info "Node xname"
     There are two boards per blade with one node per board.
-    This is different to the `zen2` CPU-only nodes (used for example in Eiger) that had two nodes per board for a total of four nodes per blade.
+    This is different to the `zen2` CPU-only nodes (used for example in Eiger) that have two nodes per board for a total of four nodes per blade.
     As such, there are no `n1` nodes in the xname list, e.g.:
     ```
     x1100c0s6b0n0
