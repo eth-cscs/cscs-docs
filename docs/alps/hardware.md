@@ -51,6 +51,11 @@ There are currently four node types in Alps, with another becoming available in 
 [](){#ref-alps-gh200-node}
 ### NVIDIA GH200 GPU Nodes
 
+!!! under-construction
+    The description of the GH200 nodes is incomplete.
+
+    Let us know if there is missing information.
+
 There are 24 cabinets, in 4 rows with 6 cabinets per row:
 
 * 8 chassis per cabinet
