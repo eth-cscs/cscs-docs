@@ -52,16 +52,17 @@ There are currently four node types in Alps, with another becoming available in 
 ### NVIDIA GH200 GPU Nodes
 
 !!! under-construction
-    The description of the GH200 nodes is incomplete.
+    The description of the GH200 nodes is a work in progress.
+    We will add more detailed information soon.
+    Please [get in touch](https://github.com/eth-cscs/cscs-docs/issues) if there is information that you want to see here.
 
-    Let us know if there is missing information.
-
-There are 24 cabinets, in 4 rows with 6 cabinets per row:
-
+There are 24 cabinets, in 4 rows with 6 cabinets per row, and each cabinet contains 112 nodes (for a total of 448 GH200):
 * 8 chassis per cabinet
 * 7 blades per chassis
-    * a chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each node.
 * 2 nodes per blade
+
+!!! info "Why 7 blades per chassis?"
+    A chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each GPU.
 
 Each node contains four Grace-Hopper modules and four corresponding network interface cards (NICS) per blade, as illustrated below:
 
