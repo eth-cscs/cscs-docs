@@ -40,20 +40,37 @@ Alps was installed in phases, starting with the installation of 1024 AMD Rome du
 
 There are currently four node types in Alps, with another becoming available in 2025:
 
-| type           | blades | nodes | CPU sockets | GPU devices |
-| ----           | ------:| -----:| -----------:| -----------:|
-| NVIDIA GH200   | 1344   | 2688  | 10,752      | 10,752      |
-| AMD Rome       |  256   | 1024  |  2,048      | --          |
-| NVIDIA A100    |   72   |  144  |    144      | 576         |
-| AMD MI250x     |   12   |   24  |     24      |  96         |
-| AMD MI300A     |   64   |  128  |    512      | 512         |
+| type           | abbreviation  | blades | nodes | CPU sockets | GPU devices |
+| ----           | -------       | ------:| -----:| -----------:| -----------:|
+| NVIDIA GH200   | gh200         | 1344   | 2688  | 10,752      | 10,752      |
+| AMD Rome       | zen2          |  256   | 1024  |  2,048      | --          |
+| NVIDIA A100    | a100          |   72   |  144  |    144      | 576         |
+| AMD MI250x     | mi200         |   12   |   24  |     24      |  96         |
+| AMD MI300A     | mi300         |   64   |  128  |    512      | 512         |
 
 [](){#ref-alps-gh200-node}
 ### NVIDIA GH200 GPU Nodes
 
-!!! todo
+There are 24 cabinets, in 4 rows with 6 cabinets per row:
 
-Blanca Peak
+* 8 chassis per cabinet
+* 7 blades per chassis
+    * a chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each node.
+* 2 nodes per blade
+
+Each node contains four Grace-Hopper modules and four corresponding network interface cards (NICS) per blade, as illustrated below:
+
+![](../images/alps/gh200-schematic.svg)
+
+??? info "node xnames"
+    There are two boards per blade with one node per board.
+    This is different to the `zen2` CPU-only nodes (used for example in Eiger) that had two nodes per board for a total of four nodes per blade.
+    As such, there are no `n1` nodes in the xname list, e.g.:
+    ```
+    x1100c0s6b0n0
+    x1100c0s6b1n0
+    ```
+
 
 [](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
