@@ -22,6 +22,10 @@ The multi-node build works on multiple nodes and is based on [Charm++]'s MPI bac
 !!! note "Prefer the single-node build and exploit GPU-resident mode"
     Unless you have good reasons to use the multi-node build, we recommend using the single-node build with the GPU-resident mode.
 
+!!! warning "Eiger"
+
+    The multi-node version is the only version of NAMD available on [Eiger][ref-cluster-eiger] - single-node is not provided.
+
 ## Single-node build
 
 The single-node build provides the following views:
@@ -37,7 +41,7 @@ The following sbatch script shows how to run NAMD on a single node with 4 GPUs:
 #!/bin/bash
 #SBATCH --job-name="namd-example"
 #SBATCH --time=00:10:00
-#SBATCH --account=<ACCOUNT>
+#SBATCH --account=<ACCOUNT>          (6)
 #SBATCH --nodes=1                    (1)
 #SBATCH --ntasks-per-node=1          (2)
 #SBATCH --cpus-per-task=288
@@ -46,19 +50,17 @@ The following sbatch script shows how to run NAMD on a single node with 4 GPUs:
 #SBATCH --view=namd-single-node      (5)
 
 
-srun namd3 +p 29 +pmeps 5 +setcpuaffinity +devices 0,1,2,3 <NAMD_CONFIG_FILE>
+srun namd3 +p 29 +pmeps 5 +setcpuaffinity +devices 0,1,2,3 <NAMD_CONFIG_FILE> # (7)! 
 ```
 
 1. You can only use one node with the `single-node` build
 2. You can only use one task per node with the `single-node` build
 3. Make all GPUs visible to NAMD (by automatically setting `CUDA_VISIBLE_DEVICES=0,1,2,3`)
-4. Load the NAMD UENV (UENV name or path to the UENV)
+4. Load the NAMD UENV (UENV name or path to the UENV). Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
 5. Load the `namd-single-node` view
-
-* Change `<ACCOUNT>` to your project account
-* Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
-* Change `<NAMD_CONFIG_FILE>` to the name (or path) of the NAMD configuration file for your simulation 
-* Make sure you set `+p`, `+pmeps`, and other NAMD options optimally for your calculation
+6. Change `<ACCOUNT>` to your project account
+7. Make sure you set `+p`, `+pmeps`, and other NAMD options optimally for your calculation.
+   Change `<NAMD_CONFIG_FILE>` to the name (or path) of the NAMD configuration file for your simulation 
 
 ??? example "Scaling of STMV benchmark with GPU-resident mode from 1 to 4 GPUs"
 
@@ -205,52 +207,137 @@ The multi-node build provides the following views:
 !!! note "GPU-resident mode"
     The multi-node build based on [Charm++]'s MPI backend can't take advantage of the new GPU-resident mode. Unless you require the multi-node
     build or you can prove it is faster for your use case, we recommend using the single-node build with the GPU-resident mode.
+
+
+### Running NAMD on Eiger
+
+The following sbatch script shows how to run NAMD on Eiger:
+
+```bash
+#!/bin/bash -l
+#SBATCH --job-name=namd-test
+#SBATCH --time=00:30:00
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-core=1
+#SBATCH --ntasks-per-node=128
+#SBATCH --account=<ACCOUNT> (1)
+#SBATCH --hint=nomultithread
+#SBATCH --hint=exclusive
+#SBATCH --constraint=mc
+#SBATCH --uenv=namd/3.0:v1 (2)
+#SBATCH --view=namd (3)
+
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
+
+srun --cpu-bind=cores namd3 +setcpuaffinity ++ppn 4 <NAMD_CONFIG_FILE> # (4)!
+```
+
+1. Change `<ACCOUNT>` to your project account
+2. Load the NAMD UENV (UENV name or path to the UENV). Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
+3. Load the `namd` view
+4. Make sure you set `++ppn`, and other NAMD options optimally for your calculation.
+   Change `<NAMD_CONFIG_FILE>` to the name (or path) of the NAMD configuration file for your simulation 
+
     
 ### Building NAMD from source with Charm++'s MPI backend
 
 !!! warning "TCL Version"
-    According to the NAMD 3.0 release notes, TCL `8.6` is required. However, the source code for the `3.0` release still contains hard-coded
-    flags for TCL `8.5`. The UENV provides `tcl@8.6`, therefore you need to manually modify NAMD 3.0's `arch/Linux-ARM64.tcl` file as follows:
-    change `-ltcl8.5` to `-ltcl8.6` in the definition of the `TCLLIB` variable.
+    According to the NAMD 3.0 release notes, TCL `8.6` is required.
+    However, the source code for some (beta) releases still contains hard-coded flags for TCL `8.5`.
+    The UENV provides `tcl@8.6`, therefore you need to manually modify NAMD's `arch/Linux-<ARCH>.tcl` file:
+    change `-ltcl8.5` to `-ltcl8.6` in the definition of the `TCLLIB` variable, if needed.
 
 The [NAMD] `uenv` provides all the dependencies required to build [NAMD] from source. You can follow these steps to build [NAMD] from source:
 
-```bash
-export DEV_VIEW_NAME="develop"
-export PATH_TO_NAMD_SOURCE=<PATH_TO_NAMD_SOURCE>
+=== "gh200 build"
 
-# Start uenv and load develop view
-uenv start --view=${DEV_VIEW_NAME} <NAMD_UENV>
+    ```bash
+    export DEV_VIEW_NAME="develop"
+    export PATH_TO_NAMD_SOURCE=<PATH_TO_NAMD_SOURCE> # (1)!
 
-# Set variable VIEW_PATH to the view
-export DEV_VIEW_PATH=/user-environment/env/${DEV_VIEW_NAME}
+    # Start uenv and load develop view
+    uenv start --view=${DEV_VIEW_NAME} <NAMD_UENV> # (2)!
 
-cd ${PATH_TO_NAMD_SOURCE}
-```
+    # Set variable VIEW_PATH to the view
+    export DEV_VIEW_PATH=/user-environment/env/${DEV_VIEW_NAME}
 
-!!! info "Action required"
-    Modify the `<PATH_TO_NAMD_SOURCE>/arch/Linux-ARM64.tcl` file now.
-    Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable.
+    cd ${PATH_TO_NAMD_SOURCE}
+    ```
 
-```bash
-# Build bundled Charm++
-tar -xvf charm-8.0.0.tar && cd charm-8.0.0
-env MPICXX=mpicxx ./build charm++ mpi-linux-arm8 smp --with-production -j 32
+    1. Substitute `<PATH_TO_NAMD_SOURCE>` with the actual path to the NAMD source code
+    2. Substitute `<NAMD_UENV>` with the actual name (or path) of the NAMD UENV you want to use.
 
-# Configure NAMD build for GPU
-cd .. 
-./config Linux-ARM64-g++.cuda \
-    --charm-arch mpi-linux-arm8-smp --charm-base $PWD/charm-8.0.0 \
-    --with-tcl --tcl-prefix ${DEV_VIEW_PATH} \
-    --with-fftw --with-fftw3 --fftw-prefix ${DEV_VIEW_PATH} \
-    --cuda-gencode arch=compute_90,code=sm_90 --with-single-node-cuda --with-cuda --cuda-prefix ${DEV_VIEW_PATH}
-cd Linux-ARM64-g++.cuda && make -j 32
 
-# The namd3 executable (GPU-accelerated) will be built in the Linux-ARM64-g++.cuda directory
-```
+    !!! info "Action required"
+        Modify the `${PATH_TO_NAMD_SOURCE}/arch/Linux-ARM64.tcl` file now.
+        Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable, if needed.
 
-* Change `<PATH_TO_NAMD_SOURCE>` to the path where you have the NAMD source code
-* Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
+
+    Build [Charm++] bundled with NAMD:
+
+    ```bash
+    tar -xvf charm-8.0.0.tar && cd charm-8.0.0
+    env MPICXX=mpicxx ./build charm++ mpi-linux-arm8 smp --with-production -j 32
+    ```
+
+    Finally, you can configure and build NAMD (with GPU acceleration):
+
+    ```bash
+    cd .. 
+    ./config Linux-ARM64-g++.cuda \
+        --charm-arch mpi-linux-arm8-smp --charm-base $PWD/charm-8.0.0 \
+        --with-tcl --tcl-prefix ${DEV_VIEW_PATH} \
+        --with-fftw --with-fftw3 --fftw-prefix ${DEV_VIEW_PATH} \
+        --cuda-gencode arch=compute_90,code=sm_90 --with-single-node-cuda --with-cuda --cuda-prefix ${DEV_VIEW_PATH}
+    cd Linux-ARM64-g++.cuda && make -j 32
+    ```
+    
+    The `namd3` executable (GPU-accelerated) will be built in the `Linux-ARM64-g++.cuda` directory.
+
+=== "zen2 build"
+    
+    ```bash
+    export DEV_VIEW_NAME="develop"
+    export PATH_TO_NAMD_SOURCE=<PATH_TO_NAMD_SOURCE> # (1)!
+
+    # Start uenv and load develop view
+    uenv start --view=${DEV_VIEW_NAME} <NAMD_UENV> # (2)!
+
+    # Set variable VIEW_PATH to the view
+    export DEV_VIEW_PATH=/user-environment/env/${DEV_VIEW_NAME}
+
+    cd ${PATH_TO_NAMD_SOURCE}
+    ```
+
+    1. Substitute `<PATH_TO_NAMD_SOURCE>` with the actual path to the NAMD source code
+    2. Substitute `<NAMD_UENV>` with the actual name (or path) of the NAMD UENV you want to use.
+
+
+    !!! info "Action required"
+        Modify the `${PATH_TO_NAMD_SOURCE}/arch/Linux-x86_64.tcl` file now.
+        Change `-ltcl8.5` with `-ltcl8.6` in the definition of the `TCLLIB` variable, if needed.
+
+    Build [Charm++] bundled with NAMD:
+
+    ```bash
+    tar -xvf charm-8.0.0.tar && cd charm-8.0.0
+    env MPICXX=mpicxx ./build charm++ mpi-linux-x86_64 smp --with-production -j 32
+    ```
+
+    Finally, you can configure and build NAMD:
+
+    ```bash
+    cd .. 
+    ./config Linux-x86_64-g++ \
+        --charm-arch mpi-linux-x86_64-smp --charm-base $PWD/charm-8.0.0 \
+        --with-tcl --tcl-prefix ${DEV_VIEW_PATH} \
+        --with-fftw --with-fftw3 --fftw-prefix ${DEV_VIEW_PATH}
+    cd Linux-x86_64-g++ && make -j 32
+    ```
+
+    The `namd3` executable will be built in the `Linux-x86_64-g++` directory.
 
 To run NAMD, make sure you load the same UENV and view you used to build NAMD, and set the following variable:
 

@@ -10,6 +10,7 @@ CHARMM
 CHF
 COSMA
 CPE
+cpe
 CPMD
 CSCS
 CWP
@@ -115,9 +116,11 @@ libfabric
 multitenancy
 podman
 prioritised
+prgenv
 proactively
 quickstart
 santis
+sbatch
 screenshot
 slurm
 smartphone

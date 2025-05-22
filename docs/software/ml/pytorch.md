@@ -286,7 +286,7 @@ Uenvs are read-only, and cannot be modified. However, it is possible to add Pyth
 ```console title="Creating a virtual environment on top of the uenv"
 $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
 
-$ python -m venv ./my-venv # (2)!
+$ python -m venv --system-site-packages ./my-venv # (2)!
 
 $ source ./my-venv/bin/activate # (3)!
 

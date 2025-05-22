@@ -57,6 +57,7 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
+      - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'Machine Learning':
       - software/ml/index.md
       - 'PyTorch': software/ml/pytorch.md
@@ -70,8 +71,7 @@ nav:
     - 'Building and Installing software':
       - build-install/index.md
       - 'uenv': build-install/uenv.md
-      - 'Containers': build-install/containers.md
-      - 'Cray modules (CPE))': build-install/cpe.md
+      - 'containers (podman)': build-install/containers.md
       - 'Python with pip': build-install/pip.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
@@ -86,9 +86,11 @@ nav:
     - services/index.md
     - 'FirecREST': services/firecrest.md
     - 'CI/CD': services/cicd.md
+    - 'JupyterLab': services/jupyterlab.md
   - 'Running Jobs':
     - running/index.md
     - 'slurm': running/slurm.md
+    - 'Job report': running/jobreport.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
@@ -100,6 +102,11 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
+    - 'MLP Tutorials':
+      - guides/mlp_tutorials/index.md
+      - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
+      - 'LLM Finetuning': guides/mlp_tutorials/llm-finetuning.md
+      - 'LLM Training': guides/mlp_tutorials/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

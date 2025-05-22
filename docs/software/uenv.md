@@ -57,18 +57,15 @@ The name of the Alps cluster for which the uenv was built.
 
 The node type (microarchitecture) that the uenv is built for:
 
-| uarch | CPU | GPU | comment |
-| ----- | --- | --- | ------- |
-|[gh200]| 4 72-core NVIDIA Grace (`aarch64`) | 4 NVIDIA H100 GPUs | |
-|[zen2] | 2 64-core AMD Rome (`zen2`)        | - | used in Eiger|
-|[a100] | 1 64-core AMD Milan (`zen3`)       | 4 NVIDIA A100 GPUs | |
-|[mi200]| 1 64-core AMD Milan (`zen3`)       | 4 AMD Mi250x GPUs  | |
-| zen3  | 2 64-core AMD Milan (`zen3`)       | - | only in MCH system |
+| uarch                      | CPU | GPU | comment |
+| ----- | --- | --- | ------ |
+|[gh200][ref-alps-gh200-node]| 4 72-core NVIDIA Grace (`aarch64`) | 4 NVIDIA H100 GPUs | |
+|[zen2][ref-alps-zen2-node]  | 2 64-core AMD Rome (`zen2`)        | - | used in Eiger|
+|[a100][ref-alps-a100-node]  | 1 64-core AMD Milan (`zen3`)       | 4 NVIDIA A100 GPUs | |
+|[mi200][ref-alps-mi200-node]| 1 64-core AMD Milan (`zen3`)       | 4 AMD Mi250x GPUs  | |
+|[mi300][ref-alps-mi300-node]| 4 24-core AMD Genoa (`zen4`)       | 4 AMD Mi300 GPUs  | |
+| zen3                       | 2 64-core AMD Milan (`zen3`)       | - | only in MCH system |
 
-[gh200]: ../alps/hardware.md#nvidia-gh200-gpu-nodes
-[a100]: ../alps/hardware.md#nvidia-a100-gpu-nodes
-[zen2]: ../alps/hardware.md#amd-rome-cpu-nodes
-[mi200]: ../alps/hardware.md#amd-mi250x-gpu-nodes
 
 ### Using labels
 

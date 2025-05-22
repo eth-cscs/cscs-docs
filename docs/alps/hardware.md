@@ -51,28 +51,34 @@ There are currently four node types in Alps, with another becoming available in 
 [](){#ref-alps-gh200-node}
 ### NVIDIA GH200 GPU Nodes
 
-Perry Peak
+!!! todo
+
+Blanca Peak
 
 [](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
+
+!!! todo
 
 EX425
 
 [](){#ref-alps-a100-node}
 ### NVIDIA A100 GPU Nodes
 
+!!! todo
+
 Grizzly Peak
 
 [](){#ref-alps-mi200-node}
 ### AMD MI250x GPU Nodes
+
+!!! todo
 
 Bard Peak
 
 [](){#ref-alps-mi300-node}
 ### AMD MI300A GPU Nodes
 
+!!! todo
+
 Parry Peak
-
-!!! info "coming soon"
-    H1 2025
-

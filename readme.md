@@ -3,7 +3,7 @@
 The source CSCS documentation [docs.cscs.ch](httpa://docs.cscs.ch)
 
 > [!NOTE]
-> These docs are not currently work in progress, and are not hosted at `docs.cscs.ch`.
+> These docs are **work in progress**, and are not hosted at `docs.cscs.ch`.
 > They can be viewed at [eth-cscs.github.io/cscs-docs](https://eth-cscs.github.io/cscs-docs)
 
 ## Getting Started

@@ -8,13 +8,9 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
 <div class="grid cards" markdown>
 
-- :fontawesome-solid-earth-americas: __[uenv]__ – uenv provide isolated software environments for applications and developers.
-- :fontawesome-solid-earth-americas: __[CPE]__ – the Cray Programming Environment is provided as-is on Alps.
+- :fontawesome-solid-earth-americas: __[uenv][ref-uenv]__ – uenv provide isolated software environments for applications and developers.
 
 </div>
-
-  [uenv]: uenv.md
-  [CPE]: cpe.md
 
 ## Python
 
@@ -30,4 +26,4 @@ There are multiple ways to install Python software.
 
 ## Containers
 
-CSCS provides tools for building software in containers
+CSCS provides [Podman][ref-build-containers] for building software in containers

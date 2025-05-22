@@ -21,10 +21,10 @@ The Linaro [uenv][ref-uenv] is named `linaro-forge`, and the available versions 
     ```console
     $ uenv image find linaro-forge
     uenv                    arch   system  id                size(MB)  date
-    linaro-forge/24.1.1:v1  gh200  daint   e0e79f5c3e6a8ee0  365       2025-02-12
+    linaro-forge/24.1.2:v1  gh200  daint   b9c8487cf183a16a     365    2025-04-15
 
-    $ uenv image pull linaro-forge/24.1.1:v1
-    pulling e0e79f5c3e6a8ee0 100.00% --- 365/365 (0.00 MB/s)
+    $ uenv image pull linaro-forge/24.1.2:v1
+    pulling b9c8487cf183a16a 100.00% --- 365/365 (0.00 MB/s)
     ```
 
 This uenv is configured to be mounted in the `/user-tools` path so that they can be used alongside application and development uenv mounted at `/user-environment`.
@@ -33,32 +33,25 @@ When using alongside another uenv, start a uenv session with both uenv.
 In the following example, the `prgenv-gnu` and `linaro-forge` uenv will be mounted at `/user-environment` and `/user-tools`  respectively:
 
 ```console
-$ uenv start prgenv-gnu/24.11,linaro-forge/24.1.1 \
-    --view=prgenv-gnu:default,forge
+$ uenv start prgenv-gnu/24.11:v2,linaro-forge/24.1.2:v1 \
+    --view=prgenv-gnu:default # (1)!
+$ source /user-tools/activate
 
-$ uenv status # (1)!
+$ uenv status # (2)!
 
-$ ddt --version # (2)!
+$ ddt --version # (3)!
 Linaro DDT Part of Linaro Forge.
-Copyright (c) 2023-2024 Linaro Limited. All rights reserved.
-Version: 24.1.1
+Copyright (c) 2023-2025 Linaro Limited. All rights reserved.
+Version: 24.1.2
 ```
 
-1. Test that everything has been mounted correctly by looking at `uenv status`.
+1. Loading the `activate` script instead of loading a view for the linaro-forge uenv allows to keep using the compilers from the prgenv-gnu uenv.
+2. Test that everything has been mounted correctly by looking at `uenv status`.
    There will be warnings if there are problems.
-2. Check that the [DDT debugger][ref-devtools-ddt] is in the path.
+3. Check that the [DDT debugger][ref-devtools-ddt] is in the path.
 
 !!! note
     The `linaro-forge` uenv is always mounted at the `/user-tools` mount point, and a script `/user-tools/activate` is provided to load both ddt and map into your environment, without needing to use a view.
-
-    ```console
-    $ uenv start linaro-forge/14.1.1
-    $ source /user-tools/activate
-    $ ddt --version
-    Linaro DDT Part of Linaro Forge.
-    Copyright (c) 2023-2024 Linaro Limited. All rights reserved.
-    Version: 24.1.1
-    ```
 
 ### Install and configure the Linaro client on your local machine
 
@@ -73,7 +66,7 @@ It can be downloaded for a selection of operating systems.
         Mismatches between the client and the uenv version will lead to the following error when trying to establish a remote connection:
 
         ```
-        The local version of Linaro DDT (24.0.6) is not compatible with the remote version (24.1.1).
+        The local version of Linaro DDT (24.0.6) is not compatible with the remote version (24.1.2).
         ```
 
 The client can be configured to connect with the debug jobs running on [Alps][ref-alps], offering a better user experience compared to running with X11 forwarding.
@@ -88,7 +81,7 @@ First, start the client on your laptop:
         The path will change if you have installed a different version, or if it has been installed in a non-standard installation location.
 
     ```bash
-    $HOME/linaro/forge/24.1.1/bin/ddt
+    $HOME/linaro/forge/24.1.2/bin/ddt
     ```
 
 === "macOS"
@@ -99,7 +92,7 @@ First, start the client on your laptop:
         Please use the appropriate path and version for your installation.
 
     ```bash
-    open /Applications/Linaro\ Forge\ Client\ 24.1.1.app/
+    open /Applications/Linaro\ Forge\ Client\ 24.1.2.app/
     ```
 
 Next, configure a connection to the target system.
@@ -117,7 +110,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `daint`                                  |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@daint.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |    
+    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |    
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Santis"
@@ -132,7 +125,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `santis`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@santis.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Clariden"
@@ -147,7 +140,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `clariden`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@clariden.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Eiger"
@@ -162,7 +155,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `eiger`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@eiger.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.1:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 !!! tip
