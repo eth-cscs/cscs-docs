@@ -3,26 +3,39 @@
 
 The file systems available on a [cluster][ref-alps-clusters] are determined by the cluster's [platform][ref-alps-platforms].
 
-Broadly speaking, there are three types of file system:
-
-
-
-* Home
 
 Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
 
-## file systems
+Broadly speaking, there are three types of file system, tabulated below
+
+| file system                   |    backup  |  snapshot  |   cleanup   |    access |
+| ---------                     | ---------- | ---------- | ----------- | --------- |
+| [Home][ref-storage-home]      |    yes     |  yes       |    no       |   user    |
+| [Scratch][ref-storage-scratch]|    no      |  no        |    yes      |   user    |
+| [Store][ref-storage-store]    |    yes     |  no        |    no       |   project |
+
+## Backup and Snapshots
 
 
 
-| file system|    backup  |  snapshot  |   cleanup   |    access |
-| --------- | ---------- | ---------- | ----------- | --------- |
-| store     |    yes     |  no        |    no       |   project |
-| home      |    yes     |  yes       |    no       |   user    |
-| scratch   |    no      |  no        |    yes      |   user    |
+[](){#ref-storage-home}
+## Home
 
+The home filesystem is mounted on every cluser, and is referenced by the environment variable `$HOME`.
+Home is a relatively small storage for files such as source code or shell scripts and configuration files.
 
-### home
+!!! example "Home on Daint"
+    The home path for the user `$USER` is mounted at `/users/$USER`, for example the user `bcumming` on [Daint][ref-cluster-daint]:
+    ```console
+    $ ssh daint.alps.cscs.ch
+    $ echo $HOME
+    /users/bcumming
+    ```
+
+Home is provided by the [VAST][ref-alps-vast] filesystem.
+
+!!! warning "Backup is not yet available"
+    
 
 * Vast
 * everybody gets the same amount
@@ -33,7 +46,8 @@ Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB
     * snapshots of the last 7 days are available in `HOME/.snapshot` (not visible to `ls`)
     * tape storage is not available yet: will follow the "last three copies policy on STORE"
 
-### scratch
+[](){#ref-storage-scratch}
+## Scratch
 
 * LUSTRE
 * everybody gets the same amount (50 GB)
@@ -42,7 +56,15 @@ Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB
 * 4/6 meta data servers
 * no backups
 
-### store
+[](){#ref-storage-store}
+## Store
+
+A large, medium performance file system based on Lustre for sharing data within a project, and for medium term data storage.
+
+### Backups
+
+Data on store is backed up to tape every 24 hours, see 
+
 
 * LUSTRE
 * no clean up policy
@@ -58,7 +80,8 @@ Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB
         * the full file or path to restore
         * the date to restore from: the most most recent backup older than the date will be provided
 
-## quota
+[](){#ref-storage-quota}
+## Quota
 
 Storage quota is a maximum limit on available storage, with different quotas applied to.
 
@@ -67,18 +90,17 @@ Quota can apply to:
 * **capacity**: the total size of files.
 * **inodes**: the total number of files and directories.
 
-!!! note "what is an inode"
+??? note "What is an inode?"
     inodes are data structures that describe Linux file system objects like files and directories - every file and directory has a corresponding inode.
 
     Large inode counts degrade file system performance in multiple ways.
     For example, Lustre filesystems have separate metadata and data management.
     Excessive inode usage can overwhelm the metadata services, causing degradation across the filesystem.
 
-    !!! tip
-        Consider archiving folders with the tar command in order to keep low the number of files owned by users and groups.
+??? tip "Consider compressing paths to reduce inode usage"
+    Consider archiving folders that you are not actively using with the tar command in order to keep low the number of files owned by users and groups.
 
-    !!! tip
-        Consider compressing directories full of many small input files as squashfs images - which pack many files into a single file that can be mounted to access the contents efficiently.
+    Consider compressing directories full of many small input files as SquashFS images (see the following example of generating [SquashFS images][ref-guides-storage-venv] for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
 
 
 There are two types of quota:
@@ -88,13 +110,74 @@ There are two types of quota:
 * **Hard quotas** when exceeded no more files can be written.
 * **Soft quota** when exceeded there is a grace period for transfering or deleting files, before it will become a hard quota.
 
+### Checking quota
+
+You can check your storage quotas with the command quota on the front-end system ela (`ela.cscs.ch`) and the login nodes of [daint][ref-cluster-daint], [santis][ref-cluster-santis], [clariden][ref-cluster-clariden] and [eiger][ref-cluster-eiger].
+
+```console
+$ ssh user@ela.cscs.ch
+$ quota
 checking your quota
 
-## backups
+Retrieving data ...
 
-### backup
+User: user
+Usage data updated on: 2025-05-21 11:10:02
++------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+|                                             |        User quota       |          Proj quota         |         User files         |    Proj files    |             |
++------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+| Directory                          | FS     |   Used |    % |   Grace |   Used |    % | Quota limit |     Used |    % |    Grace |      Used |    % | Files limit |
++------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+| /iopsstor/scratch/cscs/user        | lustre |  32.0G |    - |       - |      - |    - |           - |     7746 |    - |        - |         - |    - |           - |
+| /capstor/users/cscs/user           | lustre |   3.2G |  6.4 |       - |      - |    - |       50.0G |    14471 |  2.9 |        - |         - |    - |      500000 |
+| /capstor/store/cscs/director2/g33  | lustre |   1.9T |  1.3 |       - |      - |    - |      150.0T |   146254 | 14.6 |        - |         - |    - |     1000000 |
+| /capstor/scratch/cscs/user         | lustre | 243.0G |  0.2 |       - |      - |    - |      150.0T |   336479 | 33.6 |        - |         - |    - |     1000000 |
+| /vast/users/cscs/user              | vast   |  11.7G | 23.3 | Unknown |      - |    - |       50.0G |    85014 | 17.0 |  Unknown |         - |    - |      500000 |
++------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+```
 
-### snapshot
+## Backup
+
+There are two methods for retaining backup copies of data on CSCS filesystems -- backup and snapshot -- documented below.
+
+### Backups
+
+Backups store copies of files on slow, high-capacity, tape storage.
+The backup process checks for modified or new files every 24 hours, and makes a copy on tape of every new or modified file.
+
+* up to three copies of a file are stored (the three most recent copies).
+
+!!! question "How do I restore from a backup?"
+    Open a [service desk](https://jira.cscs.ch/plugins/servlet/desk/site/global) ticket with "request type "Storage and Filesystems" to restore a file or directory.
+    The ticket must provide the following information:
+
+    * the **full path** to restore, e.g.:
+        * a file: `/capstor/scratch/cscs/userbob/software/data/images.tar.gz`;
+        * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
+    * the **date** to restore from:
+        * the most recent backup older than the date will be used.
+
+### Snapshots
+
+A snapshot is a full copy of a filesystem at a certain point in time, that can be accessed via a special hidden directory.
+Currently snapshots of the last 7 days are provided for the [Home][ref-storage-home] filesystem.
+
+!!! example "Accessing snapshots on Home"
+    The snapshots for [Home][ref-storage-home] are in the hidden `.snapshot` path in home (the path is not visible even to `ls -a`)
+    ```console
+    $ ls $HOME/.snapshot
+    big_catalog_2025-05-21_08_49_34_UTC
+    big_catalog_2025-05-21_09_19_34_UTC
+    users_2025-05-14_22_59_00_UTC
+    users_2025-05-15_22_59_00_UTC
+    users_2025-05-16_22_59_00_UTC
+    users_2025-05-17_22_59_00_UTC
+    users_2025-05-18_22_59_00_UTC
+    users_2025-05-19_22_59_00_UTC
+    users_2025-05-20_22_59_00_UTC
+    ```
+
+* snapshots of the last 7 days are available in `HOME/.snapshot` (not visible to `ls`)
 
 [](){#ref-storage-cleanup}
 ## cleanup policies
