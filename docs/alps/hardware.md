@@ -71,7 +71,6 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
     x1100c0s6b1n0
     ```
 
-
 [](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
 
@@ -95,6 +94,8 @@ Bard Peak
 
 [](){#ref-alps-mi300-node}
 ### AMD MI300A GPU Nodes
+
+![](../images/alps/mi300-schematic.svg)
 
 !!! todo
 
