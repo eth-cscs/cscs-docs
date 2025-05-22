@@ -38,7 +38,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
 
 Alps was installed in phases, starting with the installation of 1024 AMD Rome dual socket CPU nodes in 2020, through to the main installation of 2,688 Grace-Hopper nodes in 2024.
 
-There are currently four node types in Alps, with another becoming available in 2025:
+There are currently five node types in Alps:
 
 | type           | abbreviation  | blades | nodes | CPU sockets | GPU devices |
 | ----           | -------       | ------:| -----:| -----------:| -----------:|
