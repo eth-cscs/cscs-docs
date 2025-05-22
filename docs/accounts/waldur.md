@@ -17,7 +17,7 @@ After login to the portal, choose the corresponding organization in which the pr
 
 ![waldur-org](../images/access/waldur-organisation.png)
 
-In this example, The project was hosted by the CSCS organization, and say the project name is `csstaff_n`, From the organization dashboard navigate to Projects and click on `csstaff_n` Project
+In this example, the project was hosted by the CSCS organization and the project name is `csstaff_n`. From the organization dashboard navigate to Projects and click on the `csstaff_n` project
 
 ![waldur-proj](../images/access/waldur-project.png)
 
