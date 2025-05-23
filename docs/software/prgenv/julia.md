@@ -56,7 +56,7 @@ Start the image and activate the Julia[up] HPC setup by loading the following vi
 There is also a view `jupyter` available, which is required for [using Julia in JupyterHub][using-julia-in-jupyterhub].
 
 !!! info "Automatic installation of Juliaup and Julia"
-    The installation of `juliaup` and the latest `julia` version happens automatically the first time when `juliaup` is called.
+    The installation of `juliaup` and the latest `julia` version happens automatically the first time when `juliaup` is called:
     ```bash
         juliaup
     ```
