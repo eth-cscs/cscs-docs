@@ -229,6 +229,66 @@ They stand out better from the main text, and can be collapsed by default if nee
     
 If an admonition is collapsed by default, it should have a title.
 
+We provide some custom admonitions.
+
+#### Change
+
+For adding information about a change, originally designed for recording updates to clusters.
+
+=== "Rendered"
+    !!! change "2025-04-17"
+        * SLURM was upgraded to version 25.1.
+        * uenv was upgraded to v0.8
+
+    Old changes can be folded:
+
+    ??? change "2025-02-04"
+        * The new Scratch cleanup policy was implemented
+        * NVIDIA driver was updated
+
+=== "Markdown"
+    ```
+    !!! change "2025-04-17"
+        * SLURM was upgraded to version 25.1.
+        * uenv was upgraded to v0.8
+    ```
+
+    Old changes can be folded:
+
+    ```
+    ??? change "2025-02-04"
+        * The new Scratch cleanup policy was implemented
+        * NVIDIA driver was updated
+    ```
+
+#### Under construction
+
+For marking incomplete sections.
+
+=== "Rendered"
+    !!! under-construction
+        This is not finished yet!
+
+=== "Markdown"
+    ```
+    !!! under-construction
+        This is not finished yet!
+    ```
+
+#### Todo
+
+As a placeholder for documentation that needs to be written.
+
+=== "Rendered"
+    !!! todo
+        Add some common error messages and how to fix them.
+
+=== "Markdown"
+    ```
+    !!! todo
+        Add some common error messages and how to fix them.
+    ```
+
 ### Code blocks
 
 Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.

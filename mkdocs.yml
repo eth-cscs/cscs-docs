@@ -36,6 +36,7 @@ nav:
     - accounts/index.md
     - 'Account and Resources Management Tool': accounts/ump.md
     - 'Project and Resources Management Tool': accounts/waldur.md
+    - 'Creating a new account': accounts/account-create.md
   - 'Connecting to Alps':
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
