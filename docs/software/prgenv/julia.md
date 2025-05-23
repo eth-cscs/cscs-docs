@@ -27,10 +27,10 @@ The release schedule is not fixed; new versions will be released, when there is 
     * upgrading to `cuda@12.8` and `cray-mpich@8.1.30`
     
     !!! info "HPC key libraries included"
-        * MPI
-        * CUDA
-        * HDF5
-        * ADIOS
+        * cray-mpich/8.1.30
+        * cuda/12.8.0
+        * hdf5/1.14.5
+        * adios2/2.10.2
 
 ## How to use
 
