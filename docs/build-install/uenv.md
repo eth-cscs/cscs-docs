@@ -268,9 +268,9 @@ When a uenv is removed by CSCS staff, the following will happen:
 !!! danger "Local reporitory"
 
     The uenv is removed from the `deploy::` namespace in the global repository, so that users can no longer see it or
-    doenload it. However, if the uenv has already been pulled, it will still be available in the local user repository.
+    download it. However, if the uenv has already been pulled, it will still be available in the local user repository.
 
-    ??? tip
+    !!! tip
 
         Periodically check the changelog of your uenv of interst, and keep an eye on the [CSCS User Slack] workspace.
 
