@@ -80,7 +80,7 @@ The release schedule is not fixed, with new versions will be released roughly ev
         If you are [building software through spack on top of a uenv][ref-building-uenv-spack], be aware that the 25.06 uenv is based on a prerelease version of Spack that contains [many breaking changes](https://github.com/spack/spack/discussions/30634).
         Using a commit other than the one used to build the uenv will likely result in issues.
 
-    The key updates in version 25.06 compared to 24.7 are:
+    The key updates in version 25.06 compared to 24.11 are:
 
     * upgrading GCC to version 14 and CUDA to version 12.9
     * upgrading cray-mpich to version 8.1.32
