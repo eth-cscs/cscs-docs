@@ -71,7 +71,8 @@ Then with that virtual environment activated, you can run the command to create 
 Each time you start a JupyterHub server, you need to do the following in the JupyterHub Spawner Options form mentioned above:
 !!! important "pass a [`julia`][ref-uenv-julia] uenv and the view `jupyter`."
 
-At first time use of Julia within Jupyter, IJulia and one or more Julia kernel needs to be installed. Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems whith Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
+At first time use of Julia within Jupyter, IJulia and one or more Julia kernel needs to be installed. 
+Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems whith Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
 ```console
 install_ijulia
 ```
