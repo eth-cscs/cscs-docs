@@ -67,9 +67,6 @@ Steps:
 5. To complete the OTP registration process, please enter the 6 digit OTP from the authenticator app at the bottom of the the same QR code page. Optionally, you can input your device name where you imported the OTP seed by scanning the QR code
 6. On successful registration you will be logged into the CSCS web application that you accessed in step-1
 
-!!! todo
-    do we need the images from KB?
-
 ### Resetting the Authenticator
 
 In case users lose access to their mobile device/Authenticator OTP, users can reset their OTP by following the below self-service process.

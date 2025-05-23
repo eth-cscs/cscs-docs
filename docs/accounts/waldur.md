@@ -15,20 +15,17 @@ Navigate to the site project management portal [portal.cscs.ch](https://portal.c
 
 After login to the portal, choose the corresponding organization in which the project was created.
 
-!!! todo
-    screenshot
+![waldur-org](../images/access/waldur-organisation.png)
 
-In this example, The project was hosted by the CSCS organization, and say the project name is `csstaff_n`, From the organization dashboard navigate to Projects and click on `csstaff_n` Project
+In this example, the project was hosted by the CSCS organization and the project name is `csstaff_n`. From the organization dashboard navigate to Projects and click on the `csstaff_n` project
 
-!!! todo
-    screenshot
+![waldur-proj](../images/access/waldur-project.png)
 
 ## Invite users
 
 From the project dashboard, navigate to Team -> Invitations
 
-!!! todo
-    screenshot
+![waldur-proj](../images/access/waldur-invitations.png)
 
 !!! info
     Using both the web interface and bulk invitation, the following roles can be assigned in the tool:
@@ -39,14 +36,18 @@ From the project dashboard, navigate to Team -> Invitations
 
 === "invite individual users"
 
-    To invite a user, click on the "Invite Users" button on the right hand side of the tab.
+    To invite an individual user, click on the green "Invite Users" button on the right hand side of the tab.
 
-    !!! todo
-        screenshot
+    You will then be prompted to enter the invitee's email address and assign them a role (PI, deputy PI or member)
 
-    !!! todo
-        screenshot
+    ![waldur-proj](../images/access/waldur-email.png)
 
+    !!! note "Role definitions"
+        The Waldur tool uses the following labels for the roles:
+
+        * **Project administrator**: PI
+        * **Project manager**: deputy PI
+        * **Project member**: member
 
 === "bulk invite"
 
@@ -61,7 +62,7 @@ From the project dashboard, navigate to Team -> Invitations
     ```
 
 !!! note
-    An email will be sent to the invited user:
+    An email will be sent to invited users:
 
     * users who already have CSCS accounts should click on the link in the email they received, and authenticate against CSCS KeyCloak with username, password, and OTP to accept the invitation.
-    * new users should follow the procedure to create a CSCS account.
+    * new users should follow the procedure to [create a CSCS account][ref-account-create].

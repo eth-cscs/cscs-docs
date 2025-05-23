@@ -16,10 +16,11 @@ The naming scheme is `prgenv-gnu/<version>`, where `<version>` has the `YY.M[M]`
 
 The release schedule is not fixed, with new versions will be released roughly every 3-6 months, when there is a compelling reason to update.
 
-| version   | node types | system |
-|-----------|-----------|--------|
-| 24.7      | gh200, zen2 | daint, eiger, todi |
-| 24.11     | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
+| version            | node types        | system                                  |
+|--------------------|-------------------|-----------------------------------------|
+| 25.06 (prerelease) | gh200             | daint                                   |
+| 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
+| 24.7               | gh200, zen2       | daint, eiger, todi                      |
 
 === "24.11"
 
@@ -68,6 +69,24 @@ The release schedule is not fixed, with new versions will be released roughly ev
         * [netcdf-cxx@4.2](https://packages.spack.io/package.html?name=netcdf-cxx)
         * [netcdf-fortran@4.6.1](https://packages.spack.io/package.html?name=netcdf-fortran)
 
+=== "25.06"
+
+    !!! warning "Prerelease"
+        The `prgenv-gnu/25.06` uenv is currently available as a prerelease on [daint][ref-cluster-daint], and is subject to change before the final release.
+        Prereleases are tagged with `rcN` tags.
+        [Let us know][ref-get-in-touch] if you find issues with the uenv.
+
+    !!! warning "Unstable Spack version used for the uenv"
+        If you are [building software through spack on top of a uenv][ref-building-uenv-spack], be aware that the 25.06 uenv is based on a prerelease version of Spack that contains [many breaking changes](https://github.com/spack/spack/discussions/30634).
+        Using a commit other than the one used to build the uenv will likely result in issues.
+
+    The key updates in version 25.06 compared to 24.11 are:
+
+    * upgrading GCC to version 14 and CUDA to version 12.9
+    * upgrading cray-mpich to version 8.1.32
+
+    ??? info "all packages exposed via the `default` and `modules` views in `v1`"
+        !!! todo "The list of 25.06 package versions is yet to be finalized"
 
 [](){#ref-uenv-prgenv-gnu-how-to-use}
 ## How to use
