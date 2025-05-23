@@ -18,6 +18,10 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
 
     Provides compilers, MPI and Python, along with linear algebra and mesh partitioning libraries for a broad range of use cases.
 
+-   :fontawesome-solid-layer-group: [__julia__][ref-uenv-julia]
+
+    Provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally.
+
 -   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe]
 
     The Cray Programming Environment (CPE) is a suite of compilers, libraries and tools provided by HPE.

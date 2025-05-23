@@ -45,7 +45,7 @@ A kernel can be created from an active Python virtual environment with the follo
 python -m ipykernel install --user --name="<kernel-name>" --display-name="<kernel-name>"
 ```
 
-## Using uenvs in JupyterLab
+## Using uenvs in JupyterLab for Python
 
 In the JupyterHub Spawner Options form mentioned above, it's possible to pass an uenv and a view.
 The uenv will be mounted at `/user-environment`, and the specified view will be activated.
@@ -64,6 +64,28 @@ Then with that virtual environment activated, you can run the command to create 
 !!! warning "Using remote uenv for the first time."
     If the uenv is not present in the local repository, it will be automatically fetched.
     As a result, JupyterLab may take slightly longer than usual to start.
+
+
+## Using Julia in JupyterHub
+
+Each time you start a JupyterHub server, you need to do the following in the JupyterHub Spawner Options form mentioned above:
+!!! important "pass a [`julia`][ref-uenv-julia] uenv and the view `jupyter`."
+
+At first time use of Julia within Jupyter, IJulia and one or more Julia kernel needs to be installed. 
+Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems whith Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
+```console
+install_ijulia
+```
+
+You can install additional custom Julia kernels by typing the following in a shell:
+```console
+julia
+using IJulia
+installkernel(<args>) # type `? installkernel` to learn about valid `<args>`
+```
+
+!!! warning "First time use of Julia"
+    If you are using Julia for the first time at all, executing `install_ijulia` will automatically first trigger the installation of `juliaup` and the latest `julia` version (it is also triggered if you execute `juliaup` or `julia`).
 
 ## Ending your interactive session and logging out
 
