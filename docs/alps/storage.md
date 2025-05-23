@@ -17,19 +17,19 @@ These separate clusters are on the same Slingshot 11 network as the Alps.
 | file create/s| 374k                   | 214k                   | 97k                 |
 
 [](){#ref-alps-capstor}
-## capstor
+## Capstor
 
 Capstor is the largest file system, for storing large amounts of input and output data.
 It is used to provide SCRATCH and STORE for different clusters - the precise details are platform-specific.
 
 [](){#ref-alps-iopsstor}
-## iopsstor
+## Iopsstor
 
 !!! todo
     small text explaining what iopsstor is designed to be used for.
 
 [](){#ref-alps-vast}
-## vast
+## Vast
 
 The Vast storage is smaller capacity system that is designed for use as home folders.
 
