@@ -113,6 +113,8 @@ nav:
     - 'Slack Code of Conduct': policies/slack.md
   - 'Contributing':
     - contributing/index.md
+  - 'CSCS Documentation':
+    - 'uenv': cscsstaff/uenv.md
 
 theme:
   name: material

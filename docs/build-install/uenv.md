@@ -253,6 +253,27 @@ To use the installed software, you have the following options:
 * Activate the Spack view
 * `source <build-dir>/spack/share/spack/setup-env.sh` and then use Spack
 
+[](){#ref-uenv-removal}
+## Removal Policies
+
+From time to time, we might need to remove an uenv because of serious bugs in the uenv provides, or because of problems
+with the uenv itself.
+
+When a uenv is removed by CSCS staff, the following will happen:
+
+1. The documentation is updated to reflect the removal of the uenv. Documented uenvs have a changelog,
+   where the removal is documented, and the reasons for the removal are clearly stated,
+2. The uenv removal is announced in the appropriate [CSCS Users Slack] channel.
+
+!!! danger "Local reporitory"
+
+    The uenv is removed from the `deploy::` namespace in the global repository, so that users can no longer see it or
+    doenload it. However, if the uenv has already been pulled, it will still be available in the local user repository.
+
+    ??? tip
+
+        Periodically check the changelog of your uenv of interst, and keep an eye on the [CSCS User Slack] workspace.
+
 [Chaining Spack Installations]: https://spack.readthedocs.io/en/latest/chain.html
 [Spack]: https://spack.readthedocs.io/en/latest/
 [Spack Basic Usage]: https://spack.readthedocs.io/en/latest/basic_usage.html
@@ -263,3 +284,4 @@ To use the installed software, you have the following options:
 [spec]: https://spack.readthedocs.io/en/latest/basic_usage.html#sec-specs
 [specs]: https://spack.readthedocs.io/en/latest/basic_usage.html#sec-specs
 [Spack environment file]: https://spack.readthedocs.io/en/latest/environments.html
+[CSCS Users Slack]: https://cscs-users.slack.com/
