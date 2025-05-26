@@ -82,13 +82,12 @@ Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in
 [](){#ref-storage-scratch}
 ## Scratch
 
-The scratch file system is a fast workspace with temporary storage for use by jobs, with and emphasis on performance over reliability.
-All CSCS systems provide a scratch personal folder for users that can be accessed through the environment variable `$SCRATCH`.
+The scratch file system is a fast workspace tuned for use by parallel jobs, with and emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
+
+All users on Alps get their own scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
 
 !!! info "`$SCRATCH` on MLP points to Iopsstore"
-    All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
-
-    On the MLP systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
+    On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
     See the [MLP docs][ref-mlp-storage] for more information.
 
 ### Cleanup and Expiration
@@ -127,21 +126,21 @@ Space on Store is allocated per-project, with a path created for each project:
 * the capacity and inode limit is per-project, based on the initial resource request;
 * users have read and write access to the store paths for each project that they are a member of.
 
+!!! info
+    More information about how per-project paths are organised on store is available on the [Capstor][ref-alps-capstor-store] documentation.
+
 !!! warning "Avoid using store for jobs"
     Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
 
     Use the Scratch file systems, which are tuned for fast parallel I/O, for storing input and output for jobs.
 
-!!! todo
-    Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
-
 ### Cleanup and Expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on store, and the contents of are retained for three months after the project ends.
+There is no [cleanup policy][ref-storage-cleanup] on store, and the contents are retained for three months after the project ends.
 
 ### Quota
 
-Space on Store is allocated per-project, with a path is created for each project:
+Space on Store is allocated per-project, with a path created for each project:
 
 * the capacity and inode limit is per-project, based on the initial resource request;
 * users have read and write access to the store paths for each project that they are a member of.
@@ -156,7 +155,7 @@ Space on Store is allocated per-project, with a path is created for each project
 [](){#ref-storage-quota}
 ## Quota
 
-Storage quota is a limit on available storage, that is applied to:
+Storage quota is a limit on available storage applied to:
 
 * **capacity**: the total size of files;
 * and **inodes**: the total number of files and directories.
@@ -219,7 +218,7 @@ Usage data updated on: 2025-05-21 11:10:02
 +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
 ```
 
-The available capacity and used capacity is show for each file system that you have access to.
+The available capacity and used capacity is shown for each file system that you have access to.
 If you are in multiple projects, information for the [store][ref-storage-store] path for each project that you are a member of will be shown.
 In the example above, the user is in two projects, namely `g33` and `csstaff`.
 
@@ -275,7 +274,7 @@ A snapshot is a full copy of a file system at a certain point in time, that can 
 ## Cleanup policies
 
 The performance of Lustre file systems is affected by file system occupancy and the number of files.
-Ideally occupancy should not exceed 60%, with severe performance degradation for all users when occupancy exceeds 80% or there are too many small files.
+Ideally occupancy should not exceed 60%, with severe performance degradation for all users when occupancy exceeds 80% and when there are too many small files.
 
 File cleanup removes files that are not being used to ensure that occupancy and file counts do not affect file system performance.
 
@@ -305,8 +304,10 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 ??? question "My files are gone, but the directories are still there"
     When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
 
-!!! todo
-    FAQ question: [why did I run out of space](https://confluence.cscs.ch/spaces/KB/pages/278036496/Why+did+I+run+out+of+space+on+HOME)
+??? question "What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?"
+    You have run out of quota on the target file system.
+    Consider deleting unneeded files, or moving data to a different file system.
+    Specifcially, if you see this message when using [home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [store][ref-storage-store] path.
 
 !!! todo
     FAQ question: [writing with specific group access](https://confluence.cscs.ch/spaces/KB/pages/276955350/Writing+on+project+if+you+belong+to+more+than+one+group)
