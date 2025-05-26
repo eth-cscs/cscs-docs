@@ -58,6 +58,7 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
+      - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'Machine Learning':
       - software/ml/index.md
