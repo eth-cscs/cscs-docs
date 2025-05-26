@@ -133,6 +133,12 @@ GPU Specific Values
     The `jobreport` tool requires the application to complete successfully.
     If the application crashes or the job is killed by `slurm` prematurely, `jobreport` will not be able to write any output.
 
+!!! warning "Too many GPUs reported by `jobreport`"
+    If the job reporting utility reports more GPUs than you expect from the number of nodes requested by SLURM, you may be missing options to set the visible devices correctly for your job.
+    See the [GH200 SLURM documentation][ref-slurm-gh200] for examples on how to expose GPUs correctly in your job.
+    When oversubscribing ranks to GPUs, the utility will always report too many GPUs.
+    The utility does not combine data for the same GPU from different ranks.
+
 !!! warning "workaround known issue on macOS"
     Currently, there is an issue when generating the report file via `jobreport print` on the macOS terminal:
     
