@@ -1,9 +1,6 @@
 [](){#ref-storage-fs}
 # File Systems
 
-!!! todo
-    Spellcheck
-
 !!! note
     The different file systems provided on the Alps platforms and policies like quotas and backups are documented here.
     The file systems available on a [cluster][ref-alps-clusters] and the some policy details are determined by the [cluster][ref-alps-clusters]'s [platform][ref-alps-platforms].
@@ -41,7 +38,7 @@
 
 -   :fontawesome-solid-layer-group: __Quota__
 
-    Find out about limits to capacity and file counts, and how to your quota limits.
+    Find out about quota on capacity and file counts, and how to check your quota limits.
 
     [:octicons-arrow-right-24: Quota][ref-storage-quota]
 
@@ -127,13 +124,13 @@ Store is a large, medium-performance, storage on the [capstor][ref-alps-capstor]
 
 Space on Store is allocated per-project, with a path created for each project:
 
-* the capacity and inode limit is per-project, based on the initial resource request.
+* the capacity and inode limit is per-project, based on the initial resource request;
 * users have read and write access to the store paths for each project that they are a member of.
 
 !!! warning "Avoid using store for jobs"
     Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
 
-    Use the Scratch filesystems, which are tuned for fast parallel I/O, for storing input and output for jobs.
+    Use the Scratch file systems, which are tuned for fast parallel I/O, for storing input and output for jobs.
 
 !!! todo
     Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
@@ -146,7 +143,7 @@ There is no [cleanup policy][ref-storage-cleanup] on store, and the contents of 
 
 Space on Store is allocated per-project, with a path is created for each project:
 
-* the capacity and inode limit is per-project, based on the initial resource request.
+* the capacity and inode limit is per-project, based on the initial resource request;
 * users have read and write access to the store paths for each project that they are a member of.
 
 !!! info
@@ -172,7 +169,7 @@ Storage quota is a limit on available storage, that is applied to:
     Excessive inode usage can overwhelm the metadata services, causing degradation across the file system.
 
 !!! tip "Consider compressing paths to reduce inode usage"
-    Consider archiving folders that you are not actively using with the tar command to reduce used capacity and the the number of inodes.
+    Consider archiving folders that you are not actively using with the tar command to reduce used capacity and the number of inodes.
 
     Consider compressing directories full of many small input files as SquashFS images (see the following example of generating [SquashFS images][ref-guides-storage-venv] for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
 
@@ -188,7 +185,7 @@ There are two types of quota:
 
 [](){#ref-storage-quota-types}
 
-* **Soft quota** when exceeded there is a grace period for transfering or deleting files, before it will become a hard quota.
+* **Soft quota** when exceeded there is a grace period for transferring or deleting files, before it will become a hard quota.
 * **Hard quota** when exceeded no more files can be written.
 
 !!! todo
@@ -197,7 +194,7 @@ There are two types of quota:
 [](){#ref-storage-quota-cli}
 ### Checking quota
 
-You can check your storage quotas with the command quota on the front-end system ela (`ela.cscs.ch`) and the login nodes of [daint][ref-cluster-daint], [santis][ref-cluster-santis], [clariden][ref-cluster-clariden] and [eiger][ref-cluster-eiger].
+You can check your storage quotas with the command quota on the front-end system Ela (`ela.cscs.ch`) and the login nodes of [Daint][ref-cluster-daint], [Santis][ref-cluster-santis], [Clariden][ref-cluster-clariden] and [Eiger][ref-cluster-eiger].
 
 ```console
 $ ssh user@ela.cscs.ch
@@ -222,7 +219,7 @@ Usage data updated on: 2025-05-21 11:10:02
 +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
 ```
 
-The available capacity and used capacity is show for each filesystem that you have access to.
+The available capacity and used capacity is show for each file system that you have access to.
 If you are in multiple projects, information for the [store][ref-storage-store] path for each project that you are a member of will be shown.
 In the example above, the user is in two projects, namely `g33` and `csstaff`.
 
@@ -257,7 +254,7 @@ A snapshot is a full copy of a file system at a certain point in time, that can 
 
 
 !!! note "Where are snapshots available?"
-    Currently, only the [home][ref-storage-home] filesystem provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
+    Currently, only the [home][ref-storage-home] file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
 
 ??? example "Accessing snapshots on home"
     The snapshots for [Home][ref-storage-home] are in the hidden `.snapshot` path in home (the path is not visible even to `ls -a`)
@@ -293,9 +290,9 @@ A daily process removes files that have not been **accessed (either read or writ
     2025-05-23 16:27:40.580767016 +0200
     ```
 
-In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the filesystem:
+In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the file system:
 
-* **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove uneccesary data.
+* **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove unnecessary data.
 * **Occupancy ≥ 80%**: CSCS will start manually removing files and folders without further notice.
 
 !!! info "How do I ensure that important data is not purged?"
@@ -309,4 +306,9 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
     When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
 
 !!! todo
-    review KB FAQ for storage questions
+    FAQ question: [why did I run out of space](https://confluence.cscs.ch/spaces/KB/pages/278036496/Why+did+I+run+out+of+space+on+HOME)
+
+!!! todo
+    FAQ question: [writing with specific group access](https://confluence.cscs.ch/spaces/KB/pages/276955350/Writing+on+project+if+you+belong+to+more+than+one+group)
+
+
