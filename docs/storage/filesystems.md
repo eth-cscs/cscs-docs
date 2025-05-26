@@ -15,11 +15,15 @@
 
     There are three *types* of file system that provided on Alps clusters:
 
-    [:octicons-arrow-right-24: Home][ref-storage-home]
+    |                               |    [backups][ref-storage-backups]  |  [snapshot][ref-storage-snapshots]  |   [cleanup][ref-storage-cleanup]   |    access |
+    | ---------                     | ---------- | ---------- | ----------- | --------- |
+    | [Home][ref-storage-home]      |    yes     |  yes       |    no       |   user    |
+    | [Scratch][ref-storage-scratch]|    no      |  no        |    yes      |   user    |
+    | [Store][ref-storage-store]    |    yes     |  no        |    no       |   project |
 
-    [:octicons-arrow-right-24: Scratch][ref-storage-scratch]
+</div>
 
-    [:octicons-arrow-right-24: Store][ref-storage-store]
+<div class="grid cards" markdown>
 
 -   :fontawesome-solid-floppy-disk: __Backups__
 
@@ -49,23 +53,10 @@
 
 </div>
 
-!!! todo
-    Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
-
-!!! under-construction
-    Broadly speaking, there are three types of file system, tabulated below
-
-| file system                   |    backup  |  snapshot  |   cleanup   |    access |
-| ---------                     | ---------- | ---------- | ----------- | --------- |
-| [Home][ref-storage-home]      |    yes     |  yes       |    no       |   user    |
-| [Scratch][ref-storage-scratch]|    no      |  no        |    yes      |   user    |
-| [Store][ref-storage-store]    |    yes     |  no        |    no       |   project |
-
-
 [](){#ref-storage-home}
 ## Home
 
-The home file system is mounted on every cluser, and is referenced by the environment variable `$HOME`.
+The home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`.
 It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [VAST][ref-alps-vast] file system.
 
 !!! example "Home on Daint"
@@ -82,7 +73,7 @@ There is no [cleanup policy][ref-storage-cleanup] on home, and the contents of a
 
 ### Quota
 
-All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes.
+All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes in home.
 
 ### Backups
 
@@ -94,22 +85,23 @@ Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in
 [](){#ref-storage-scratch}
 ## Scratch
 
-!!! todo
-    The Scratch filesystem is designed for...
-
-    Add some context about performance tuning of this FS for it to meet the requirements
-
-    * 4/6 meta data servers
-
-All users on Alps get `/capstor/scratch/cscs/$USER` path, which is pointed to by the variable `$SCRATCH`.
+The scratch file system is a fast workspace with temporary storage for use by jobs, with and emphasis on performance over reliability.
+All CSCS systems provide a scratch personal folder for users that can be accessed through the environment variable `$SCRATCH`.
 
 !!! info "`$SCRATCH` on MLP points to Iopsstore"
+    All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
+
     On the MLP systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
     See the [MLP docs][ref-mlp-storage] for more information.
 
 ### Cleanup and Expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on home, and the contents of your are retained for three months after your last project finishes.
+The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
+
+* Files not accessed in the last 30 days are automatically deleted.
+* When capacity grows above:
+    * 60%: users are asked to start removing or archiving unneeded files
+    * 80%: CSCS will start removing files and paths without further notice.
 
 ### Quota
 
@@ -121,7 +113,7 @@ A [soft quota][ref-storage-quota-types] on is enforced on the Scratch file syste
 
 !!! important
     In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`][ref-storage-quota-cli].
-    Even if you are not close to the quota, please endevour to reduce usage wherever possible to improve user experience for everybody on the system.
+    Even if you are not close to the quota, please endeavor to reduce usage wherever possible to improve user experience for everybody on the system.
 
 ### Backups
 
@@ -131,22 +123,38 @@ Please ensure that you move important data to a file system with backups, for ex
 [](){#ref-storage-store}
 ## Store
 
-A large, medium performance file system based on Lustre for sharing data within a project, and for medium term data storage.
+Store is a large, medium-performance, storage on the [capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
 
-!!! under-construction
-    * LUSTRE
-    * 2/6 Meta data servers - not so hot at many small files
-    * path and quota is project-specific
-    * duration = lifetime of project + 3 months
-    * shared by users of a project
-    * no clean up policy
-    * backups: every 24 hours check for modified files
+Space on Store is allocated per-project, with a path created for each project:
+
+* the capacity and inode limit is per-project, based on the initial resource request.
+* users have read and write access to the store paths for each project that they are a member of.
+
+!!! warning "Avoid using store for jobs"
+    Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
+
+    Use the Scratch filesystems, which are tuned for fast parallel I/O, for storing input and output for jobs.
+
+!!! todo
+    Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
+
+### Cleanup and Expiration
+
+There is no [cleanup policy][ref-storage-cleanup] on store, and the contents of are retained for three months after the project ends.
+
+### Quota
+
+Space on Store is allocated per-project, with a path is created for each project:
+
+* the capacity and inode limit is per-project, based on the initial resource request.
+* users have read and write access to the store paths for each project that they are a member of.
+
+!!! info
+    You can check the quota on store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
 
 ### Backups
 
-!!! under-construction
-    Data on store is backed up to tape every 24 hours, see 
-
+[Backups][ref-storage-backups] are performed on store, with the three most recent copies of every file backed up to tape every 24 hours.
 
 [](){#ref-storage-quota}
 ## Quota
@@ -163,10 +171,18 @@ Storage quota is a limit on available storage, that is applied to:
     For example, Lustre file systems have separate metadata and data management.
     Excessive inode usage can overwhelm the metadata services, causing degradation across the file system.
 
-??? tip "Consider compressing paths to reduce inode usage"
-    Consider archiving folders that you are not actively using with the tar command in order to keep low the number of files owned by users and groups.
+!!! tip "Consider compressing paths to reduce inode usage"
+    Consider archiving folders that you are not actively using with the tar command to reduce used capacity and the the number of inodes.
 
     Consider compressing directories full of many small input files as SquashFS images (see the following example of generating [SquashFS images][ref-guides-storage-venv] for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
+
+!!! tip "Update file timestamps when unpacking tar files"
+    The default behavior of the `tar` command is to retain the access date of the original file when unpacking tar balls.
+    When unpacking on a file system with [cleanup policy][ref-storage-cleanup], use the `--touch` flag with `tar` to ensure that the files won't be cleaned up prematurely.
+    For example:
+    ```console
+    $ tar --touch -xvf data_archive.tgz
+    ```
 
 There are two types of quota:
 
@@ -257,7 +273,6 @@ A snapshot is a full copy of a file system at a certain point in time, that can 
     users_2025-05-19_22_59_00_UTC
     users_2025-05-20_22_59_00_UTC
     ```
-
 
 [](){#ref-storage-cleanup}
 ## Cleanup policies
