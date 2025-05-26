@@ -1,9 +1,12 @@
 [](){#ref-storage-fs}
 # File Systems
 
+!!! todo
+    Spellcheck
+
 !!! note
     The different file systems provided on the Alps platforms and policies like quotas and backups are documented here.
-    The file systems available on a [cluster][ref-alps-clusters] and the some policy details are determined by the cluster's [platform][ref-alps-platforms].
+    The file systems available on a [cluster][ref-alps-clusters] and the some policy details are determined by the [cluster][ref-alps-clusters]'s [platform][ref-alps-platforms].
     Please read the documentation for the clusters that you are working on after reviewing this documentation.
 
 <div class="grid cards" markdown>
@@ -46,10 +49,11 @@
 
 </div>
 
+!!! todo
+    Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
 
-Low level information about `/capstor/store/cscs/<customer>/<group_id>` from [KB](https://confluence.cscs.ch/spaces/KB/pages/879142656/capstor+store) can be put into a folded admonition.
-
-Broadly speaking, there are three types of file system, tabulated below
+!!! under-construction
+    Broadly speaking, there are three types of file system, tabulated below
 
 | file system                   |    backup  |  snapshot  |   cleanup   |    access |
 | ---------                     | ---------- | ---------- | ----------- | --------- |
@@ -74,7 +78,7 @@ It is a relatively small storage for files such as source code or shell scripts 
 
 ### Cleanup and Expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on home, and the contents of your are retained for three months after your last project finishes.
+There is no [cleanup policy][ref-storage-cleanup] on home, and the contents of are retained for three months after your last project finishes.
 
 ### Quota
 
@@ -84,17 +88,18 @@ All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes.
 
 Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in the hidden directory `$HOME/.snapshot`.
 
-!!! under-construction "Backup is not yet available"
+!!! under-construction "Backup is not yet available on home"
     [Backups][ref-storage-backups] to tape storage are currently being implemented for home directories.
 
 [](){#ref-storage-scratch}
 ## Scratch
 
-The Scratch filesystem is designed for...
+!!! todo
+    The Scratch filesystem is designed for...
 
-* LUSTRE
-* per-user
-* 4/6 meta data servers
+    Add some context about performance tuning of this FS for it to meet the requirements
+
+    * 4/6 meta data servers
 
 All users on Alps get `/capstor/scratch/cscs/$USER` path, which is pointed to by the variable `$SCRATCH`.
 
@@ -114,42 +119,34 @@ A [soft quota][ref-storage-quota-types] on is enforced on the Scratch file syste
 * 1 million inodes
 * grace period of two weeks
 
-There is no hard quota defined.
-
 !!! important
     In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`][ref-storage-quota-cli].
-    Even if you are not close to the quota, please endevour to reduce usage to improve user experience for everybody on the system.
+    Even if you are not close to the quota, please endevour to reduce usage wherever possible to improve user experience for everybody on the system.
 
 ### Backups
 
 There are no backups on Scratch.
-Please ensure that you move important data to a file system with backups, like [Store][ref-storage-store].
-
-
+Please ensure that you move important data to a file system with backups, for example [Store][ref-storage-store].
 
 [](){#ref-storage-store}
 ## Store
 
 A large, medium performance file system based on Lustre for sharing data within a project, and for medium term data storage.
 
+!!! under-construction
+    * LUSTRE
+    * 2/6 Meta data servers - not so hot at many small files
+    * path and quota is project-specific
+    * duration = lifetime of project + 3 months
+    * shared by users of a project
+    * no clean up policy
+    * backups: every 24 hours check for modified files
+
 ### Backups
 
-Data on store is backed up to tape every 24 hours, see 
+!!! under-construction
+    Data on store is backed up to tape every 24 hours, see 
 
-
-* LUSTRE
-* no clean up policy
-* duration = lifetime of project + 3 months
-* shared by users of a project
-* quota is project-specific
-* 2/6 Meta data servers - not so hot at many small files
-* backups: every 24 hours check for modified files
-    * each new or modified file is copied to tape
-    * max three copies of a file are kept - the three most recent
-    * to restore a backed up file create an SD ticket with
-        * request to restor from backup
-        * the full file or path to restore
-        * the date to restore from: the most most recent backup older than the date will be provided
 
 [](){#ref-storage-quota}
 ## Quota
@@ -211,7 +208,7 @@ Usage data updated on: 2025-05-21 11:10:02
 
 The available capacity and used capacity is show for each filesystem that you have access to.
 If you are in multiple projects, information for the [store][ref-storage-store] path for each project that you are a member of will be shown.
-In the example above, the user is in two projects `g33` and `csstaff`.
+In the example above, the user is in two projects, namely `g33` and `csstaff`.
 
 [](){#ref-storage-backup}
 ## Backup
@@ -227,11 +224,12 @@ The backup process checks for modified or new files every 24 hours, and makes a 
 * up to three copies of a file are stored (the three most recent copies).
 
 !!! question "How do I restore from a backup?"
-    Open a [service desk](https://jira.cscs.ch/plugins/servlet/desk/site/global) ticket with "request type "Storage and File systems" to restore a file or directory.
-    The ticket must provide the following information:
+    Open a [service desk](https://jira.cscs.ch/plugins/servlet/desk/site/global) ticket with *request type* "Storage and File systems" to restore a file or directory.
+
+    Please provide the following information in the request:
 
     * the **full path** to restore, e.g.:
-        * a file: `/capstor/scratch/cscs/userbob/software/data/images.tar.gz`;
+        * a file: `/capstor/scratch/cscs/userbob/software/data/results.tar.gz`
         * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
     * the **date** to restore from:
         * the most recent backup older than the date will be used.
@@ -269,7 +267,7 @@ Ideally occupancy should not exceed 60%, with severe performance degradation for
 
 File cleanup removes files that are not being used to ensure that occupancy and file counts do not affect file system performance.
 
-A daily process removes files that have not been accessed (either read or written) in the last 30 days.
+A daily process removes files that have not been **accessed (either read or written)** in the last 30 days.
 
 ??? example "How can I tell when a file was last accessed?"
     The access time of a file can be found using the `stat` command.
@@ -280,10 +278,10 @@ A daily process removes files that have not been accessed (either read or writte
     2025-05-23 16:27:40.580767016 +0200
     ```
 
-Furthermore, if occupancy exceeds the following limits:
+In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the filesystem:
 
-* **60%**: CSCS will ask users to take immediate action to remove uneccesary data.
-* **80%**: CSCS will start manually removing files and folders without further notice.
+* **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove uneccesary data.
+* **Occupancy ≥ 80%**: CSCS will start manually removing files and folders without further notice.
 
 !!! info "How do I ensure that important data is not purged?"
     File systems with cleanup, namely [Scratch][ref-storage-scratch], are not intended for long term storage.
@@ -294,3 +292,6 @@ Furthermore, if occupancy exceeds the following limits:
 
 ??? question "My files are gone, but the directories are still there"
     When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
+
+!!! todo
+    review KB FAQ for storage questions
