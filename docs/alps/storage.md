@@ -5,7 +5,7 @@
 
 Alps has different storage attached, each with characteristics suited to different workloads and use cases.
 HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
-These separate clusters are on the same Slingshot 11 network as the Alps.
+These separate clusters are on the same Slingshot 11 network as Alps.
 
 |              | Capstor                | Iopsstor               | Vast                |
 |--------------|------------------------|------------------------|---------------------|
