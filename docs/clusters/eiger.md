@@ -51,7 +51,7 @@ Eiger consists of 19 [AMD Epyc Rome][ref-alps-zen2-node] compute nodes.
 
 There is one login node, `eiger-ln010`. 
 
-[//]: # (You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.)
+[//]: # (TODO: You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.)
 
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|-----------------| ----------------- | ---------- |
