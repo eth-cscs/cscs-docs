@@ -83,7 +83,7 @@ Please refer to the [uenv documentation][ref-uenv] for detailed information on h
     * [Linaro Forge][ref-uenv-linaro]
 </div>
 
-[](){#ref-cluster-eiger-containers}
+[](){#ref-cluster-daint-containers}
 #### Containers
 
 Daint supports container workloads using the [container engine][ref-container-engine].
