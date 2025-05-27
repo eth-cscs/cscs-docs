@@ -187,7 +187,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 !!! change "2025-06-02 Early access phase"
     Early access phase is open
 
-??? change "2025-23-05 Creation of Eiger on Alps"
+??? change "2025-05-23 Creation of Eiger on Alps"
     Eiger is deployed as a vServices-enalbed cluster
 
 ### Known issues
