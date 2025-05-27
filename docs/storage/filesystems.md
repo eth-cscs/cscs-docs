@@ -53,44 +53,45 @@
 [](){#ref-storage-home}
 ## Home
 
-The home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`.
+The Home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`.
 It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [VAST][ref-alps-vast] file system.
 
 !!! example "Home on Daint"
-    The home path for the user `$USER` is mounted at `/users/$USER`, for example the user `bcumming` on [Daint][ref-cluster-daint]:
+    The Home path for the user `$USER` is mounted at `/users/$USER`.
+    For example, the user `bcumming` on [Daint][ref-cluster-daint]:
     ```console
     $ ssh daint.alps.cscs.ch
     $ echo $HOME
     /users/bcumming
     ```
 
-### Cleanup and Expiration
+### Cleanup and expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on home, and the contents of are retained for three months after your last project finishes.
+There is no [cleanup policy][ref-storage-cleanup] on Home, and the contents of are retained for three months after your last project finishes.
 
 ### Quota
 
-All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes in home.
+All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes in Home.
 
 ### Backups
 
 Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in the hidden directory `$HOME/.snapshot`.
 
-!!! under-construction "Backup is not yet available on home"
-    [Backups][ref-storage-backups] to tape storage are currently being implemented for home directories.
+!!! under-construction "Backup is not yet available on Home"
+    [Backups][ref-storage-backups] to tape storage are currently being implemented for Home directories.
 
 [](){#ref-storage-scratch}
 ## Scratch
 
-The scratch file system is a fast workspace tuned for use by parallel jobs, with and emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
+The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
 
-All users on Alps get their own scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
+All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
 
-!!! info "`$SCRATCH` on MLP points to Iopsstore"
+!!! info "`$SCRATCH` on MLP points to Iopsstor"
     On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
     See the [MLP docs][ref-mlp-storage] for more information.
 
-### Cleanup and Expiration
+### Cleanup and expiration
 
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
@@ -119,38 +120,38 @@ Please ensure that you move important data to a file system with backups, for ex
 [](){#ref-storage-store}
 ## Store
 
-Store is a large, medium-performance, storage on the [capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
+Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
 
 Space on Store is allocated per-project, with a path created for each project:
 
 * the capacity and inode limit is per-project, based on the initial resource request;
-* users have read and write access to the store paths for each project that they are a member of.
+* users have read and write access to the Store paths for each project that they are a member of.
 
 !!! info
-    More information about how per-project paths are organised on store is available on the [Capstor][ref-alps-capstor-store] documentation.
+    More information about how per-project paths are organised on Store is available on the [Capstor][ref-alps-capstor-store] documentation.
 
-!!! warning "Avoid using store for jobs"
+!!! warning "Avoid using Store for jobs"
     Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
 
     Use the Scratch file systems, which are tuned for fast parallel I/O, for storing input and output for jobs.
 
-### Cleanup and Expiration
+### Cleanup and expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on store, and the contents are retained for three months after the project ends.
+There is no [cleanup policy][ref-storage-cleanup] on Store, and the contents are retained for three months after the project ends.
 
 ### Quota
 
 Space on Store is allocated per-project, with a path created for each project:
 
 * the capacity and inode limit is per-project, based on the initial resource request;
-* users have read and write access to the store paths for each project that they are a member of.
+* users have read and write access to the Store paths for each project that they are a member of.
 
 !!! info
-    You can check the quota on store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
+    You can check the quota on Store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
 
 ### Backups
 
-[Backups][ref-storage-backups] are performed on store, with the three most recent copies of every file backed up to tape every 24 hours.
+[Backups][ref-storage-backups] are performed on Store, with the three most recent copies of every file backed up to tape every 24 hours.
 
 [](){#ref-storage-quota}
 ## Quota
@@ -219,7 +220,7 @@ Usage data updated on: 2025-05-21 11:10:02
 ```
 
 The available capacity and used capacity is shown for each file system that you have access to.
-If you are in multiple projects, information for the [store][ref-storage-store] path for each project that you are a member of will be shown.
+If you are in multiple projects, information for the [Store][ref-storage-store] path for each project that you are a member of will be shown.
 In the example above, the user is in two projects, namely `g33` and `csstaff`.
 
 [](){#ref-storage-backup}
@@ -253,10 +254,10 @@ A snapshot is a full copy of a file system at a certain point in time, that can 
 
 
 !!! note "Where are snapshots available?"
-    Currently, only the [home][ref-storage-home] file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
+    Currently, only the [Home][ref-storage-home] file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
 
-??? example "Accessing snapshots on home"
-    The snapshots for [Home][ref-storage-home] are in the hidden `.snapshot` path in home (the path is not visible even to `ls -a`)
+??? example "Accessing snapshots on Home"
+    The snapshots for [Home][ref-storage-home] are in the hidden `.snapshot` path in Home (the path is not visible even to `ls -a`)
     ```console
     $ ls $HOME/.snapshot
     big_catalog_2025-05-21_08_49_34_UTC
@@ -307,7 +308,7 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 ??? question "What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?"
     You have run out of quota on the target file system.
     Consider deleting unneeded files, or moving data to a different file system.
-    Specifcially, if you see this message when using [home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [store][ref-storage-store] path.
+    Specifcially, if you see this message when using [Home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [Store][ref-storage-store] path.
 
 !!! todo
     FAQ question: [writing with specific group access](https://confluence.cscs.ch/spaces/KB/pages/276955350/Writing+on+project+if+you+belong+to+more+than+one+group)

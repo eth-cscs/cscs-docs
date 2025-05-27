@@ -7,9 +7,9 @@ Alps has different storage attached, each with characteristics suited to differe
 HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
 These separate clusters are on the same Slingshot 11 network as Alps.
 
-|              | Capstor                | Iopsstor               | Vast                |
+|              | Capstor                | Iopsstor               | VAST                |
 |--------------|------------------------|------------------------|---------------------|
-| Model        | HPE ClusterStor E1000D | HPE ClusterStor E1000F | Vast                |
+| Model        | HPE ClusterStor E1000D | HPE ClusterStor E1000F | VAST                |
 | Type         | Lustre                 | Lustre                 | NFS                 |
 | Capacity     | 129 PB raw GridRAID    | 7.2 PB raw RAID 10     | 1 PB                |
 | Number of Drives | 8,480 16 TB HDD    | 240 * 30 TB NVMe SSD   | N/A                 |
@@ -22,10 +22,12 @@ These separate clusters are on the same Slingshot 11 network as Alps.
 !!! todo
     Information about Lustre. Meta data servers, etc.
 
-    * how many meta data servers on capstor and iopsstor
+    * how many meta data servers on Capstor and Iopsstor
     * how these are distributed between store/scratch
 
-    Also discuss how capstor and iopstor are used to provide both scratch / store / other file systems
+    Also discuss how Capstor and iopstor are used to provide both scratch / store / other file systems
+
+The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the [file system docs][ref-storage-fs].
 
 [](){#ref-alps-capstor}
 ## Capstor
@@ -75,21 +77,20 @@ Project paths are organised as follows:
     * They are also in the `vasp6` group, which users who have been granted access to the [VASP][ref-uenv-vasp] application.
 
 !!! info "The `$PROJECT` environment variable"
-    On some clusters, for example [Eiger][ref-cluster-eiger] and [Eiger][ref-cluster-daint], the project folder for your primary project can be accessed using the `$PROJECT` environment variable.
+    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Eiger][ref-cluster-daint], the project folder for your primary project can be accessed using the `$PROJECT` environment variable.
 
 [](){#ref-alps-iopsstor}
 ## Iopsstor
 
 !!! todo
-    small text explaining what iopsstor is designed to be used for.
+    small text explaining what Iopsstor is designed to be used for.
 
 [](){#ref-alps-vast}
-## Vast
+## VAST
 
-The Vast storage is smaller capacity system that is designed for use as home folders.
+The VAST storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
 
 !!! todo
-    small text explaining what iopsstor is designed to be used for.
+    small text explaining what Iopsstor is designed to be used for.
 
-The mounts, and how they are used for SCRATCH, STORE, PROJECT, HOME would be in the [storage docs][ref-storage-fs]
 
