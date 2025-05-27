@@ -3,7 +3,7 @@
 
 !!! note
     The different file systems provided on the Alps platforms and policies like quotas and backups are documented here.
-    The file systems available on a [cluster][ref-alps-clusters] and the some policy details are determined by the [cluster][ref-alps-clusters]'s [platform][ref-alps-platforms].
+    The file systems available on a [cluster][ref-alps-clusters] and policy details are determined by the [cluster][ref-alps-clusters]'s [platform][ref-alps-platforms].
     Please read the documentation for the clusters that you are working on after reviewing this documentation.
 
 <div class="grid cards" markdown>
