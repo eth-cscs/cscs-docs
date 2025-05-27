@@ -153,13 +153,14 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `normal` partition is for all production workloads.
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
-* the `low` partition is a low-priority partition, enabled for specific projects at specific times.  
+* the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
 | `normal` | 1266       | -    | 24 hours |
 | `debug`  | 32         | 1    | 30 minutes |
 | `xfer`   | 2          | 1    | 24 hours |
+| `low`    | 1266       | -    | 24 hours |
 
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
