@@ -157,10 +157,10 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 1266       | -    | 24 hours |
+| `normal` | unlim       | -    | 24 hours |
 | `debug`  | 32         | 1    | 30 minutes |
 | `xfer`   | 2          | 1    | 24 hours |
-| `low`    | 1266       | -    | 24 hours |
+| `low`    | unlim       | -    | 24 hours |
 
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
