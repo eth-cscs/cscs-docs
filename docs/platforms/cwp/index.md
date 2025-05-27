@@ -1,5 +1,5 @@
 [](){#ref-platform-cwp}
-# Climate and weather platform
+# Climate and Weather Platform
 
 The Climate and Weather Platform (CWP) provides compute, storage and support to the climate and weather modeling community in Switzerland.
 
@@ -9,7 +9,7 @@ The Climate and Weather Platform (CWP) provides compute, storage and support to 
 
 Project administrators (PIs and deputy PIs) of projects on the CWP can to invite users to join their project, before they can use the project's resources on Alps.
 
-This is currently performed using the [project management tool][ref-account-ump].
+This is currently performed using the [account and resource management tool][ref-account-ump].
 
 Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 

@@ -57,7 +57,7 @@ The command reports both disk space and the number of files for each filesystem/
 
 ## Cleaning Policy and Data Retention
 
-
+[](){#ref-storage-scratch}
 ## Scratch
 
 The scratch file system is designed for performance rather than reliability, as a fast workspace for temporary storage.
@@ -85,6 +85,7 @@ Keep also in mind that data on scratch are not backed up, therefore users are ad
 !!! note
     Do not use the `touch` command to prevent the cleaning policy from removing files, because this behaviour would deprive the community of a shared resource.
 
+[](){#ref-storage-home}
 ## Users
 
 Users are not supposed to run jobs from this filesystem because of the low performance. In fact the emphasis on the `/users` filesystem is reliability over performance: all home directories are backed up with GPFS snapshots and no cleaning policy is applied.
@@ -97,6 +98,7 @@ Expiration
 !!! warning
     All data will be deleted 3 months after the closure of the user account without further warning.
 
+[](){#ref-storage-store}
 ## Store on Capstor
 
 The `/capstor/store` mount point of the Lustre file system `capstor` is intended for high-performance per-project storage on Alps. The mount point is accessible from the User Access Nodes (UANs) of Alps vClusters.
