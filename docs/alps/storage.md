@@ -20,7 +20,7 @@ These separate clusters are on the same Slingshot 11 network as Alps.
 
 
 !!! todo
-    Information about LUSTER. Meta data servers, etc.
+    Information about Lustre. Meta data servers, etc.
 
     * how many meta data servcers on capstor and iopstor
     * how these are distributed between store/scratch
