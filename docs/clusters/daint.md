@@ -7,12 +7,12 @@ Daint is the main [HPC Platform][ref-platform-hpcp] cluster that provides comput
 
 ### Compute nodes
 
-Daint consists of around 793 [Grace-Hopper nodes][ref-alps-gh200-node].
+Daint consists of around 800-1000 [Grace-Hopper nodes][ref-alps-gh200-node].
 
-The number of nodes can change when nodes are added or removed from other clusters on Alps.
+The number of nodes can vary as nodes are added or removed from other clusters on Alps.
 
-There are four login nodes, labelled `daint-ln00[1-4]`.
-You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.
+There are four login nodes, `daint-ln00[1-4]`.
+You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|-----------------| ----------------- | ---------- |
@@ -51,7 +51,7 @@ Please refer to the [uenv documentation][ref-uenv] for detailed information on h
 
 -   :fontawesome-solid-layer-group: __Scientific Applications__
 
-    Provide the latest versions of scientific applications, tuned for Daint, and the tools required to build your own version of the applications.
+    Provide the latest versions of scientific applications, tuned for Daint, and the tools required to build your own versions of the applications.
 
      * [CP2K][ref-uenv-cp2k]
      * [GROMACS][ref-uenv-gromacs]
@@ -97,30 +97,31 @@ To build images, see the [guide to building container images on Alps][ref-build-
 
     CSCS will continue to support and update uenv and container engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
 
-    The CPE is still installed on Daint, however it will recieve no support or updates, and will be replaced with a container in a future update.
+    The CPE is still installed on Daint, however it will receive no support or updates, and will be replaced with a container in a future update.
 
 ## Running jobs on Daint
 
 ### Slurm
 
-Santis uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Daint uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor compute-intensive workloads.
 
-There are two [Slurm partitions][ref-slurm-partitions] on the system:
+There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
 * the `normal` partition is for all production workloads.
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
-* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
+* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
+* the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-!!! todo "Timmy: add definition of the low partition"
+
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 994        | -    | 24 hours |
-| `low`    | 994        | 2    | 24 hours |
+| `normal` | unlim        | -    | 24 hours |
 | `debug`  | 24         | 2    | 30 minutes |
 | `xfer`   | 2          | 1    | 24 hours |
+| `low`    | unlim        | -    | 24 hours |
 
-* nodes in the `normal` and `debug` partitions are not shared
+* nodes in the `normal` and `debug` (and `low`) partitions are not shared
 * nodes in the `xfer` partition can be shared
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
@@ -136,7 +137,7 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
 ### Scheduled maintenance
 
 !!! todo "move this to HPCP top level docs"
-    Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
+    Wednesday mornings 8:00-12:00 CET are reserved for periodic updates, with services potentially unavailable during this time frame. If the batch queues must be drained (for redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
 
     Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
 
