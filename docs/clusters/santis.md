@@ -76,7 +76,7 @@ It is also possible to use HPC containers on Santis:
 
 Santis uses [SLURM][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There are two slurm partitions on the system:
+There are two [SLURM partitions][ref-slurm-partitions] on the system:
 
 * the `normal` partition is for all production workloads.
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
@@ -93,20 +93,11 @@ There are two slurm partitions on the system:
 
 See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
-??? example "how to check the number of nodes on the system"
-    You can check the size of the system by running the following command in the terminal:
-    ```console
-    $ sinfo --format "| %20R | %10D | %10s | %10l | %10A |"
-    | PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |
-    | debug                | 32         | 1-2        | 30:00      | 3/29       |
-    | normal               | 1266       | 1-infinite | 1-00:00:00 | 812/371    |
-    | xfer                 | 2          | 1          | 1-00:00:00 | 1/1        |
-    ```
-    The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
-
 ### FirecREST
 
-Santis can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
+Santis can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
+
+!!! warning "The FirecREST v1 API is still available, but deprecated"
 
 ## Maintenance and status
 
