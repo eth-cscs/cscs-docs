@@ -67,7 +67,7 @@ It is a relatively small storage for files such as source code or shell scripts 
 
 ### Cleanup and expiration
 
-There is no [cleanup policy][ref-storage-cleanup] on Home, and the contents of are retained for three months after your last project finishes.
+There is no [cleanup policy][ref-storage-cleanup] on Home, and the contents are retained for three months after your last project finishes.
 
 ### Quota
 
@@ -102,7 +102,7 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
 
 ### Quota
 
-A [soft quota][ref-storage-quota-types] on is enforced on the Scratch file system, with a grace period to allow data transfer.
+A [soft quota][ref-storage-quota-types] is enforced on the Scratch file system, with a grace period to allow data transfer.
 
 Every user gets the following [quota][ref-storage-quota]:
 

@@ -5,7 +5,7 @@
 
 Alps has different storage attached, each with characteristics suited to different workloads and use cases.
 HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
-These separate clusters are on the same Slingshot 11 network as Alps.
+These separate storage clusters are on the same Slingshot 11 network as Alps.
 
 |              | Capstor                | Iopsstor               | VAST                |
 |--------------|------------------------|------------------------|---------------------|
@@ -70,7 +70,7 @@ Project paths are organised as follows:
     You can get a list of your groups using the `id` command in the terminal:
     ```console
     $ id $USER
-    uid=22008(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
+    uid=12345(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
     ```
     Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**. 
 
