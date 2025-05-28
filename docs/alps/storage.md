@@ -45,44 +45,8 @@ All users on Alps get their own scratch path on Alps, `/capstor/scratch/cscs/$US
 [](){#ref-alps-capstor-store}
 ### Store
 
-The Store mount point on Capstor provides stable storage with [backups][ref-storage-backups] and no [cleaning policy][ref-storage-cleanup].
+The [Store][ref-storage-store] mount point on Capstor provides stable storage with [backups][ref-storage-backups] and no [cleaning policy][ref-storage-cleanup].
 It is mounted on clusters at the `/capstor/store` mount point, with folders created for each project.
-
-To accomodate the different customers and projects on Alps, the directory structure is more complicated than the per-user paths on Scratch.
-Project paths are organised as follows:
-
-```
-/capstor/store/<tenant>/<customer>/<group_id>
-```
-
-!!! question "What are `tenant`, `customer` and `group_id` in this context?"
-
-    * **`tenant`**: there are currently two tenants, `cscs` and `mch`:
-        * the vast majority of projects are hosted by the `cscs` tenant.
-    * **`customer`**: refers to the contractual partner responsible for the project.
-       Examples of customers include:
-        * `userlab`: projects allocated in the CSCS User Lab through open calls. The majority of projects are hosted here, particularly on the [HPC platform][ref-platform-hpcp].
-        * `swissai`: most projects allocated on the [Machine Learning Platform][ref-platform-mlp].
-        * `2go`: projects allocated under the [CSCS2GO](https://2go.cscs.ch) scheme.
-    * **`group_id`**: refers to the linux group created for the project.
-
-    Users often are part of multiple projects, and by extension their associated `groupd_id` groups.
-    You can get a list of your groups using the `id` command in the terminal:
-    ```console
-    $ id $USER
-    uid=12345(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
-    ```
-    Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**. 
-
-!!! example "How do I find my primary project?"
-     In the terminal, use the following command to find your primary group:
-     ```console
-     $ id -gn $USER
-     g152
-     ```
-
-!!! info "The `$STORE` environment variable"
-    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint], the project folder for your primary project can be accessed using the `$STORE` environment variable.
 
 [](){#ref-alps-iopsstor}
 ## Iopsstor

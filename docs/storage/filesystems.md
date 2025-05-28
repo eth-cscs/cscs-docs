@@ -125,9 +125,37 @@ Please ensure that you move important data to a file system with backups, for ex
 Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
 
 Space on Store is allocated per-project, with a path created for each project.
+To accomodate the different customers and projects on Alps, the project paths are organised as follows:
 
-!!! info
-    More information about how per-project paths are organised on Store is available on the [Capstor][ref-alps-capstor-store] documentation.
+```
+/capstor/store/<tenant>/<customer>/<group_id>
+```
+
+* **`tenant`**: there are currently two tenants, `cscs` and `mch`:
+    * the vast majority of projects are hosted by the `cscs` tenant.
+* **`customer`**: refers to the contractual partner responsible for the project.
+   Examples of customers include:
+    * `userlab`: projects allocated in the CSCS User Lab through open calls. The majority of projects are hosted here, particularly on the [HPC platform][ref-platform-hpcp].
+    * `swissai`: most projects allocated on the [Machine Learning Platform][ref-platform-mlp].
+    * `2go`: projects allocated under the [CSCS2GO](https://2go.cscs.ch) scheme.
+* **`group_id`**: refers to the linux group created for the project.
+
+??? example "Which groups and projects am I a member of?"
+    Users often are part of multiple projects, and by extension their associated `groupd_id` groups.
+    You can get a list of your groups using the `id` command in the terminal:
+    ```console
+    $ id $USER
+    uid=12345(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
+    ```
+    Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**. 
+    In the terminal, use the following command to find your **primary group**:
+    ```console
+    $ id -gn $USER
+    g152
+    ```
+
+!!! info "The `$STORE` environment variable"
+    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint], the project folder for your primary project can be accessed using the `$STORE` environment variable.
 
 !!! warning "Avoid using Store for jobs"
     Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
@@ -140,13 +168,8 @@ There is no [cleanup policy][ref-storage-cleanup] on Store, and the contents are
 
 ### Quota
 
-Space on Store is allocated per-project, with a path created for each project:
-
-* the [quota][ref-storage-quota] limit is per-project, based on the initial resource request;
-* users have read and write access to the Store paths for each project that they are a member of.
-
-!!! info
-    You can check the quota on Store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
+Paths on Store is allocated per-project: a path is created for each project with a [quota][ref-storage-quota] based on the initial resource request.
+Users have read and write access to the Store paths for each project that they are a member of, and you can check the quota on Store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
 
 ### Backups
 
