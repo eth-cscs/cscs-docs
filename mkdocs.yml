@@ -23,15 +23,15 @@ nav:
     - 'Storage': alps/storage.md
     - 'Machine Learning Platform':
       - platforms/mlp/index.md
-      - 'clariden': clusters/clariden.md
-      - 'bristen': clusters/bristen.md
+      - 'Clariden': clusters/clariden.md
+      - 'Bristen': clusters/bristen.md
     - 'HPC Platform':
       - platforms/hpcp/index.md
-      - 'daint': clusters/daint.md
-      - 'eiger': clusters/eiger.md
+      - 'Daint': clusters/daint.md
+      - 'Eiger': clusters/eiger.md
     - 'Climate and Weather Platform':
       - platforms/cwp/index.md
-      - 'santis': clusters/santis.md
+      - 'Santis': clusters/santis.md
   - 'Accounts and Projects':
     - accounts/index.md
     - 'Account and Resources Management Tool': accounts/ump.md

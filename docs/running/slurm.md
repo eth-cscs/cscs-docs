@@ -16,6 +16,18 @@ At CSCS, SLURM is configured to accommodate the diverse range of node types avai
 
 Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs. For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently. SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
+!!! example "How to check the partitions and number of nodes therein?"
+    You can check the size of the system by running the following command in the terminal:
+    ```console
+    $ sinfo --format "| %20R | %10D | %10s | %10l | %10A |"
+    | PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |
+    | debug                | 32         | 1-2        | 30:00      | 3/29       |
+    | normal               | 1266       | 1-infinite | 1-00:00:00 | 812/371    |
+    | xfer                 | 2          | 1          | 1-00:00:00 | 1/1        |
+    ```
+    The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
+
+
 [](){#ref-slurm-partition-debug}
 ### Debug partition
 The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).

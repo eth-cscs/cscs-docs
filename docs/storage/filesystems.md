@@ -277,7 +277,6 @@ The backup process checks for modified or new files every 24 hours, and makes a 
 
 A snapshot is a full copy of a file system at a certain point in time, that can be accessed via a special hidden directory.
 
-
 !!! note "Where are snapshots available?"
     Currently, only the [Home][ref-storage-home] file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
 
