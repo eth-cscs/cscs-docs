@@ -7,17 +7,17 @@ A platform can consist of one or multiple [clusters][ref-alps-clusters], and its
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-mountain: __Machine Learning Platform__
-
-    The Machine Learning Platform (MLP) hosts ML and AI researchers.
-
-    [:octicons-arrow-right-24: MLP][ref-platform-mlp]
-
 -   :fontawesome-solid-mountain: __HPC Platform__
 
-    !!! todo
+    The HPC Platform (HPCP) provides services for the HPC community in Switzerland and abroad. The majority of compute cycles are provided to the [User Lab](https://www.cscs.ch/user-lab/overview) via peer-reviewed allocation schemes.
 
     [:octicons-arrow-right-24: HPCP][ref-platform-hpcp]
+
+-   :fontawesome-solid-mountain: __Machine Learning Platform__
+
+    The Machine Learning Platform (MLP) hosts ML and AI researchers, particularly the SwissAI initiative.
+
+    [:octicons-arrow-right-24: MLP][ref-platform-mlp]
 
 -   :fontawesome-solid-mountain: __Climate and Weather Platform__
 
