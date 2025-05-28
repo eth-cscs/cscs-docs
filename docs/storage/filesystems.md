@@ -315,6 +315,11 @@ A daily process removes files that have not been **accessed (either read or writ
     2025-05-23 16:27:40.580767016 +0200
     ```
 
+!!! warning "Do not artificially update the access time of files"
+    It is not allowed to automatically or artificially update the access time of files to avoid the cleanup policy, and CSCS scans for these activities.
+
+    Please move data to a file system that is suitable for persistant storage instead.
+
 In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the file system:
 
 * **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove unnecessary data.
