@@ -72,12 +72,17 @@ Project paths are organised as follows:
     $ id $USER
     uid=22008(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
     ```
-    Here the user `bobsmith` is in three projects, with the project `g152` being their **primary project** (which can also be determined using the `id -gn $USER`).
+    Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**. 
 
-    * They are also in the `vasp6` group, which users who have been granted access to the [VASP][ref-uenv-vasp] application.
+!!! example "How do I find my primary project?"
+     In the terminal, use the following command to find your primary group:
+     ```console
+     $ id -gn $USER
+     g152
+     ```
 
-!!! info "The `$PROJECT` environment variable"
-    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Eiger][ref-cluster-daint], the project folder for your primary project can be accessed using the `$PROJECT` environment variable.
+!!! info "The `$STORE` environment variable"
+    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint], the project folder for your primary project can be accessed using the `$STORE` environment variable.
 
 [](){#ref-alps-iopsstor}
 ## Iopsstor

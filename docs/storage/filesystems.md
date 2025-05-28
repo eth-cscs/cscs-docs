@@ -104,9 +104,11 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
 
 A [soft quota][ref-storage-quota-types] on is enforced on the Scratch file system, with a grace period to allow data transfer.
 
-* 150 TB of disk space
-* 1 million inodes
-* grace period of two weeks
+Every user gets the following [quota][ref-storage-quota]:
+
+* 150 TB of disk space;
+* 1 million inodes;
+* and a soft quota grace period of two weeks.
 
 !!! important
     In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`][ref-storage-quota-cli].
@@ -122,10 +124,7 @@ Please ensure that you move important data to a file system with backups, for ex
 
 Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
 
-Space on Store is allocated per-project, with a path created for each project:
-
-* the capacity and inode limit is per-project, based on the initial resource request;
-* users have read and write access to the Store paths for each project that they are a member of.
+Space on Store is allocated per-project, with a path created for each project.
 
 !!! info
     More information about how per-project paths are organised on Store is available on the [Capstor][ref-alps-capstor-store] documentation.
@@ -143,7 +142,7 @@ There is no [cleanup policy][ref-storage-cleanup] on Store, and the contents are
 
 Space on Store is allocated per-project, with a path created for each project:
 
-* the capacity and inode limit is per-project, based on the initial resource request;
+* the [quota][ref-storage-quota] limit is per-project, based on the initial resource request;
 * users have read and write access to the Store paths for each project that they are a member of.
 
 !!! info
@@ -194,39 +193,42 @@ There are two types of quota:
 [](){#ref-storage-quota-cli}
 ### Checking quota
 
-You can check your storage quotas with the command quota on the front-end system Ela (`ela.cscs.ch`) and the login nodes of [Daint][ref-cluster-daint], [Santis][ref-cluster-santis], [Clariden][ref-cluster-clariden] and [Eiger][ref-cluster-eiger].
+You can check your storage quotas with the command `quota` on the front-end system Ela (`ela.cscs.ch`) and the login nodes of [Daint][ref-cluster-daint], [Santis][ref-cluster-santis], [Clariden][ref-cluster-clariden] and [Eiger][ref-cluster-eiger].
 
-```console
-$ ssh user@ela.cscs.ch
-$ quota
-checking your quota
-
-Retrieving data ...
-
-User: user
-Usage data updated on: 2025-05-21 11:10:02
-+------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
-|                                             |        User quota       |          Proj quota         |         User files         |    Proj files    |             |
-+------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
-| Directory                          | FS     |   Used |    % |   Grace |   Used |    % | Quota limit |     Used |    % |    Grace |      Used |    % | Files limit |
-+------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
-| /iopsstor/scratch/cscs/user        | lustre |  32.0G |    - |       - |      - |    - |           - |     7746 |    - |        - |         - |    - |           - |
-| /capstor/users/cscs/user           | lustre |   3.2G |  6.4 |       - |      - |    - |       50.0G |    14471 |  2.9 |        - |         - |    - |      500000 |
-| /capstor/store/cscs/director2/g33  | lustre |   1.9T |  1.3 |       - |      - |    - |      150.0T |   146254 | 14.6 |        - |         - |    - |     1000000 |
-| /capstor/store/cscs/cscs/csstaff   | 263.9T | 88.0 |      - |    - |      300.0T | 18216778 | 91.1 |         - |    - |    20000000 |
-| /capstor/scratch/cscs/user         | lustre | 243.0G |  0.2 |       - |      - |    - |      150.0T |   336479 | 33.6 |        - |         - |    - |     1000000 |
-| /vast/users/cscs/user              | vast   |  11.7G | 23.3 | Unknown |      - |    - |       50.0G |    85014 | 17.0 |  Unknown |         - |    - |      500000 |
-+------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
-```
-
-The available capacity and used capacity is shown for each file system that you have access to.
+The tool shows available capacity and used capacity for each file system that you have access to.
 If you are in multiple projects, information for the [Store][ref-storage-store] path for each project that you are a member of will be shown.
-In the example above, the user is in two projects, namely `g33` and `csstaff`.
+
+??? example "Checking your quota on Ela"
+    ```console
+    $ ssh user@ela.cscs.ch
+    $ quota
+    checking your quota
+
+    Retrieving data ...
+
+    User: user
+    Usage data updated on: 2025-05-21 11:10:02
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    |                                             |        User quota       |          Proj quota         |         User files         |    Proj files    |             |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    | Directory                          | FS     |   Used |    % |   Grace |   Used |    % | Quota limit |     Used |    % |    Grace |      Used |    % | Files limit |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    | /iopsstor/scratch/cscs/user        | lustre |  32.0G |    - |       - |      - |    - |           - |     7746 |    - |        - |         - |    - |           - |
+    | /capstor/users/cscs/user           | lustre |   3.2G |  6.4 |       - |      - |    - |       50.0G |    14471 |  2.9 |        - |         - |    - |      500000 |
+    | /capstor/store/cscs/director2/g33  | lustre |   1.9T |  1.3 |       - |      - |    - |      150.0T |   146254 | 14.6 |        - |         - |    - |     1000000 |
+    | /capstor/store/cscs/cscs/csstaff   | 263.9T | 88.0 |      - |    - |      300.0T | 18216778 | 91.1 |         - |    - |    20000000 |
+    | /capstor/scratch/cscs/user         | lustre | 243.0G |  0.2 |       - |      - |    - |      150.0T |   336479 | 33.6 |        - |         - |    - |     1000000 |
+    | /vast/users/cscs/user              | vast   |  11.7G | 23.3 | Unknown |      - |    - |       50.0G |    85014 | 17.0 |  Unknown |         - |    - |      500000 |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    ```
+
+
+    Here the user is in two projects, namely `g33` and `csstaff`, for which the quota for their respective paths in `/capstor/store` are reported.
 
 [](){#ref-storage-backup}
 ## Backup
 
-There are two methods for retaining backup copies of data on CSCS file systems -- [backups][ref-storage-backups] and [snapshots][ref-storage-backups] -- documented below.
+There are two methods for retaining backup copies of data on CSCS file systems, namely [backups][ref-storage-backups] and [snapshots][ref-storage-backups].
 
 [](){#ref-storage-backups}
 ### Backups
@@ -295,12 +297,12 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 * **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove unnecessary data.
 * **Occupancy ≥ 80%**: CSCS will start manually removing files and folders without further notice.
 
-!!! info "How do I ensure that important data is not purged?"
+!!! info "How do I ensure that important data is not cleaned up?"
     File systems with cleanup, namely [Scratch][ref-storage-scratch], are not intended for long term storage.
     Copy the data to a file system designed for file storage that does not have a cleanup policy, for example [Store][ref-storage-store].
 
 [](){#ref-storage-troubleshooting}
-## Common Questions
+## Frequently asked questions
 
 ??? question "My files are gone, but the directories are still there"
     When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
