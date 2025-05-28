@@ -91,9 +91,6 @@ If you cannot find the information that you need in the documentation, help is a
 
 ## Tools and Services
 
-!!! todo
-    Provide some links to the "how" documentation here.
-
 <div class="grid cards" markdown>
 -   :fontawesome-solid-hammer: __Services__
 
@@ -101,10 +98,43 @@ If you cannot find the information that you need in the documentation, help is a
 
     [:octicons-arrow-right-24: Services Overview](services/index.md)
 
--   :fontawesome-solid-screwdriver-wrench: __Build and Install Software__
+    Learn about individual services
 
-    Guides on how to build and install software from source using uenv and containers
+    [:octicons-arrow-right-24: FirecREST API](services/firecrest.md)
 
-    [:octicons-arrow-right-24: Building and Installing Software](build-install/index.md)
+    [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
+
+    [:octicons-arrow-right-24: JupyterLab](services/jupyterlab.md)
+
+
+-   :fontawesome-solid-hammer: __Software__
+
+    CSCS provides applications, programming environments and tools.
+
+    [:octicons-arrow-right-24: Scientific applications](software/sciapps/index.md)
+
+    [:octicons-arrow-right-24: Programming environments](software/prgenv/index.md)
+
+    [:octicons-arrow-right-24: Development tools](software/devtools/index.md)
+
+    Find out how to use uenv and containers to access software
+
+    [:octicons-arrow-right-24: uenv](software/uenv.md)
+
+    [:octicons-arrow-right-24: Container engine](software/container-engine.md)
+
+
+-   :fontawesome-solid-screwdriver-wrench: __Data management and storage__
+
+    CSCS provides [data management and storage](storage/index.md) services
+
+    [:octicons-arrow-right-24: File systems](storage/filesystems.md)
+
+    [:octicons-arrow-right-24: Data transfer](storage/transfer.md)
+
+    [:octicons-arrow-right-24: Long term storage](storage/longterm.md)
+
+    [:octicons-arrow-right-24: Object storage](storage/object.md)
+
 </div>
 
