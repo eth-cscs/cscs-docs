@@ -2,8 +2,7 @@
 # Alps Storage
 
 Alps has different storage attached, each with characteristics suited to different workloads and use cases.
-HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
-These separate clusters are on the same Slingshot 11 network as the Alps.
+HPC storage is managed in separate clusters of nodes that host servers that manage the storage and the physical storage drives.
 
 |              | Capstor                | Iopsstor               | Vast                |
 |--------------|------------------------|------------------------|---------------------|
@@ -15,6 +14,8 @@ These separate clusters are on the same Slingshot 11 network as the Alps.
 | Write Speed  | 1.09 TB/s              | 393 GB/s               | 11 GB/s             |
 | IOPs         | 1.5M                   | 8.6M read, 24M write   | 200k read, 768k write |
 | file create/s| 374k                   | 214k                   | 97k                 |
+
+Capstor and Iopsstor are on the same Slingshot 11 network as the Alps.
 
 [](){#ref-alps-capstor}
 ## capstor
