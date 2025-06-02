@@ -1,3 +1,9 @@
+!!! info ""
+    This is the new CSCS documentation site, which replaces the [CSCS Knowledge Base](https://confluence.cscs.ch/display/KB).
+
+    The migration of old documentation is still not fully complete.
+    If you find documentation that is missing, please create a ticket on the documentation's [GitHub issue tracker](https://github.com/eth-cscs/cscs-docs/issues).
+
 # CSCS Documentation
 
 <div class="grid cards" markdown>
