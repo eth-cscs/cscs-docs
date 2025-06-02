@@ -19,25 +19,22 @@ HPC storage is provided by independent clusters, composed of servers and physica
 
 Capstor and Iopsstor are on the same Slingshot network as Alps, meanwhile VAST is on the CSCS Ethernet network.
 
-Capstor has 80 Object Storage Servers (OSS), and 6 Metadata Servers (MDS). 
-Two of of these Metadata servers are dedicated for Store, and the remaining four are dedicated for Scratch.
-
-Iopsstor has has 20 OSSs, and 2 MDSs. 
-
 The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the [file system docs][ref-storage-fs].
 
 [](){#ref-alps-capstor}
 ## Capstor
 
-Capstor is the largest file system, for storing large amounts of input and output data.
+Capstor is the largest file system, and it is meant for storing large amounts of input and output data.
 It is used to provide [scratch][ref-storage-scratch] and [store][ref-storage-store].
 
-!!! todo "add information about meta data services, and their distribution over scratch and store"
+Capstor has 80 Object Storage Servers (OSS), and 6 Metadata Servers (MDS). 
+Two of of these Metadata servers are dedicated for Store, and the remaining four are dedicated for Scratch.
 
 [](){#ref-alps-capstor-scratch}
 ### Scratch
 
 All users on Alps get their own scratch path on Alps, `/capstor/scratch/cscs/$USER`.
+Since Capstor OSSs are made of HDDs, Capstor is a storage well suited for jobs which perform large sequential and parallel read/write operations.
 
 [](){#ref-alps-capstor-store}
 ### Store
@@ -48,8 +45,11 @@ It is mounted on clusters at the `/capstor/store` mount point, with folders crea
 [](){#ref-alps-iopsstor}
 ## Iopsstor
 
-!!! todo
-    small text explaining what Iopsstor is designed to be used for.
+Iopsstor is a smaller filesystem compared to Capstor, but it leverages high-performance NVMe drives, which offer significantly better speed and responsiveness than traditional HDDs.
+It is primarily used as a scratch space, and it is optimized for IOPS-intensive workloads. 
+This makes it particularly well-suited for applications that involve frequent, random read and write operations within files.
+
+Iopsstor has has 20 OSSs, and 2 MDSs. 
 
 [](){#ref-alps-vast}
 ## VAST
@@ -57,6 +57,6 @@ It is mounted on clusters at the `/capstor/store` mount point, with folders crea
 The VAST storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
 
 !!! todo
-    small text explaining what Iopsstor is designed to be used for.
+    small text explaining what Vast is designed to be used for.
 
 
