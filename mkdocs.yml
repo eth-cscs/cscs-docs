@@ -85,6 +85,7 @@ nav:
       - 'Configuration': software/uenv/configure.md
       - 'Building uenv': software/uenv/build.md
       - 'Deploying uenv': software/uenv/deploy.md
+      - 'Release notes': software/uenv/release-notes.md
     - 'Container Engine': software/container-engine.md
     - 'Unsupported Software': software/unsupported.md
   - 'Services':

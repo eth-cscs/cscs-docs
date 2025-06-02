@@ -13,23 +13,29 @@ Each environment contains a software stack, comprised of compilers, libraries, t
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-layer-group: __Configuring uenv__
-
-    !!! todo
-
-    [:octicons-arrow-right-24: Configuring uenv][ref-uenv-configure]
-
 -   :fontawesome-solid-layer-group: __Building uenv__
 
-    !!! todo
+    More adventurous users can create their own uenv for personal use, and for other users in their team and community.
 
     [:octicons-arrow-right-24: Building uenv][ref-uenv-build]
 
+-   :fontawesome-solid-layer-group: __Configuring uenv__
+
+    Users can customize the behavior of uenv using a configuration file.
+
+    [:octicons-arrow-right-24: Configuring uenv][ref-uenv-configure]
+
 -   :fontawesome-solid-layer-group: __Deploying uenv__
 
-    !!! todo
+    Documentation on how CSCS deploys uenv images, that might also be of interest to users.
 
     [:octicons-arrow-right-24: Deploying uenv][ref-uenv-deploy]
+
+-   :fontawesome-solid-layer-group: __Release notes__
+
+    Release notes for the uenv tools (CLI and Slurm plugin).
+
+    [:octicons-arrow-right-24: Deploying uenv][ref-uenv-release-notes]
 
 </div>
 

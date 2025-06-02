@@ -160,13 +160,7 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
 
 !!! change "2025-04-30"
     ??? note "uenv is updated from v7.0.1 to v8.1.0"
-        * improved uenv view management
-        * automatic generation of default uenv repository the first time uenv is called
-        * configuration files
-        * bash completion
-        * relative paths can be used for referring to squashfs images
-        * support for `SLURM_UENV` and `SLURM_UENV_VIEW` environment variables (useful for using inside CI/CD pipelines)
-        * better error messages and small bug fixes 
+        [Release notes][ref-uenv-release-notes-v8.1.0]
 
     ??? note "Pyxis is upgraded from v24.5.0 to v24.5.3"
         * Added image caching for Enroot

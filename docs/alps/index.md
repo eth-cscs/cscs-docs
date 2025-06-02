@@ -19,9 +19,9 @@ Additionally, network segregation ensures secure and isolated communication, wit
 
 -   :fontawesome-solid-signs-post: __Clusters__
 
-    The resources on Alps are partitioned and configured into versatile software defined clusters (vClusters).
+    The resources on Alps are partitioned and configured into versatile software defined clusters.
 
-    [:octicons-arrow-right-24: Alps vClusters][ref-alps-clusters]
+    [:octicons-arrow-right-24: Alps Clusters][ref-alps-clusters]
 
 -   :fontawesome-solid-signs-post: __Hardware__
 

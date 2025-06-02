@@ -4,9 +4,7 @@
 [](){#ref-uenv-deploy-versions}
 ## Versioning and Labeling
 
-Uenv images have a _label_ of the following form:
-
-Uenv are referred to using **labels**, where a label has the following form
+Uenv images have a **label** of the following form:
 
 ```
 name/version:tag@system%uarch
@@ -74,6 +72,18 @@ The `namespace` is one of:
 * `deploy`: where uenv images are copied by CSCS staff when they are officially provided to users.
 * `service`: where the uenv [build service][ref-uenv-build] pushes images.
 
+!!! info "JFrog uenv registry"
+    The OCI container registry used to host uenv is on JFrog at [jfrog.svc.cscs.ch/artifactory/uenv/](https://jfrog.svc.cscs.ch/artifactory/uenv/).
+
+    The address used to refer uenv images is of the form
+    ```
+    https://jfrog.svc.cscs.ch/uenv/namespace/system/uarch/name/version:release
+    ```
+    For example:
+    ```
+    https://jfrog.svc.cscs.ch/uenv/deploy/eiger/zen2/cp2k:2024.1
+    ```
+
 ## uenv recipes and definitions
 
 The uenv recipes are maintained in a public GitHub repository: [eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv).
@@ -88,24 +98,25 @@ The `cluster` is specified when building and deploying the uenv, while the `rele
 ### Deployment Rules
 
 A recipe can be built for deployment on different vClusters, and for multiple targets.
+For example:
 
-??? example
-
-    * A multicore recipe could be built for `zen2` or `zen3` nodes
-    * A GROMACS recipe that is tuned for A100 GPUs can be built and deployed on any vCluster supporting the A100 architecture
+* A multicore recipe could be built for `zen2` or `zen3` nodes
+* A GROMACS recipe that is tuned for A100 GPUs can be built and deployed on any vCluster supporting the A100 architecture
 
 However, it is not desirable to build every recipe on every possible target system.
+For example:
 
-??? example 
+* An ICON development environment would only be deployed on the weather and climate platform
+* A GROMACS recipe would not be deployed on the weather and climate platrofm
+* Development builds only need to run on test and staging clusters
 
-    * An ICON development environment would only be deployed on the weather and climate platform
-    * A GROMACS recipe would not be deployed on the weather and climate platrofm
-    * Development builds only need to run on test and staging clusters
-
-A YAML file `config.yaml` is maintained in the [eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv) repository that maps
+A YAML file `config.yaml` is maintained in the [github.com/eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv/blob/main/config.yaml) repository that maps
 recipes to deployed versions on mucroarchitectures.
 
 ### Permissions
+
+!!! note "For CSCS staff"
+    This information applies only to CSCS staff.
 
 Deployment/deletion requires elevated permissions.
 Before you can modify the uenv registry, you need to set up credentials.
@@ -128,6 +139,9 @@ uenv image copy --token=${HOME}/.ssh/jfrog-token <SOURCE> <DESTINATION>
 
 ### Deploying a uenv
 
+!!! note "For CSCS staff"
+    This information applies only to CSCS staff.
+
 The CI/CD pipeline for [eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv) pushes images to the JFrog uenv registry in the `build::` namespace.
 
 Deploying a uenv copies the uenv imagre from the `build::` namespace to the `deploy::` namespace. The Squashfs image itself is not copied;
@@ -146,7 +160,7 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
     Deploy a uenv from `build::` using the ID of the image:
 
     ```bash
-    uenv image copy build::d2afc254383cef20 deploy::prgenv-nvfortran/24.11:v1
+    uenv image copy build::d2afc254383cef20 deploy::prgenv-nvfortran/24.11:v1@daint%gh200
     ```
 
 !!! example "Deploy Using Qualified Name"
@@ -176,32 +190,35 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
 To remove a uenv, you can use the `uenv` command line tool:
 
 ```bash
-uenv image remove --token=${HOME}/.ssh/jfrog-token deploy::<IMAGE>
+uenv image delete --token=${HOME}/.ssh/jfrog-token deploy::<IMAGE>
 ```
 
 !!! warning
 
-    Removing a uenv is disruptive. Please have a look at out [uenv removal policy][ref-uenv-removal] for more information.
+    Removing a uenv is disruptive.
+    Please have a look at out [uenv removal policy][ref-uenv-removal] for more information.
 
-## uenv Sources
+## Source code access
 
-Some source artifacts are stored in JFrog:
+Some source artifacts are stored in JFrog, including:
 
-* sorce code for software that can't be downloaded directly from the internet directly,
-* tar balls for custom software.
+* source code for software that can't be downloaded directly from the internet directly;
+* and tar balls for custom software.
 
 These artifacts are stored in a JFrog "generic repository" [uenv-sources].
 
-Each software package has a sub-directory and all image paths are lower case (e.g. `uenv-resources/namd`).
+Each software package has a sub-directory and all image paths are lower case (e.g. `uenv-sources/namd`).
 
 By default, all packages in [uenv-sources]  are anonymous read access
 to enable users to build uenv on vClusters without configuring access tokens.
 However,
 
 * access to some packages is restricted by applying access rules to the package path
-* e.g. access to uenv-sources/vasp is restricted to members of the vasp6 group
+* e.g. access to `uenv-sources/vasp` is restricted to members of the vasp6 group
 
-A CI/CD job has access to all of [iuenv-sources] resources.
+Permissons to acces restricted resources is set on a per-pipeline basis
+
+* For example, only the `alps-uenv` pipeline has access to the VASP source code, while the [`uenv build`][ref-uenv-build] pipeline does not.
 
 | Package | Access | Path | Notes | Contact |
 |---------|--------|------|-------| ------- |
@@ -211,8 +228,9 @@ A CI/CD job has access to all of [iuenv-sources] resources.
 | `vmd` | `uenv-sources-csstaff` | `uenv-sources/vmd` | VMD requires an account to download the source code | Alberto Invernizzi |
 
 [](){#ref-uenv-removal}
-## uenv deprecation and removal
+## Deprecation and removal of uenv
 
-!!! todo
+!!! todo "Finalise and document the deprecation process"
+
 
 [uenv-sources]: https://jfrog.svc.cscs.ch/artifactory/uenv-sources/
