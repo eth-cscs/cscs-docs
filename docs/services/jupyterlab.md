@@ -9,7 +9,7 @@ The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.c
 
 Once logged in, you will be redirected to the JupyterHub Spawner Options form, where typical job configuration options can be selected in order to allocate resources. These options might include the type and number of compute nodes, the wall time limit, and your project account.
 
-Single-node notebooks are launched in a dedicated queue, minimizing queueing time. For these notebooks, servers should be up and running within a few minutes. The maximum waiting time for a server to be running is 5 minutes, after which the job will be cancelled and you will be redirected back to the spawner options page. If your single-node server is not spawned within 5 minutes we encourage you to [contact us](ref-get-in-touch).
+Single-node notebooks are launched in a dedicated queue, minimizing queueing time. For these notebooks, servers should be up and running within a few minutes. The maximum waiting time for a server to be running is 5 minutes, after which the job will be cancelled and you will be redirected back to the spawner options page. If your single-node server is not spawned within 5 minutes we encourage you to [contact us][ref-get-in-touch].
 
 When resources are granted the page redirects to the JupyterLab session, where you can browse, open and execute notebooks on the compute nodes. A new notebook with a Python 3 kernel can be created with the menu `new` and then `Python 3` . Under `new` it is also possible to create new text files and folders, as well as to open a terminal session on the allocated compute node.
 

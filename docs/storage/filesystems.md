@@ -1,166 +1,345 @@
 [](){#ref-storage-fs}
 # File Systems
 
-!!! todo
-    these are already out of date and need significant refactoring to be coherently linked to cluster definitions.
-
-CSCS supports different file systems, whose specifications are summarized in the table below:
-
-
-Please build big software projects not fitting `$HOME` on `$PROJECT` instead.
-Since you should not run jobs from `$HOME` or `$PROJECT`, please copy the executables, libraries and data sets needed to run your simulations to `$SCRATCH` with the Slurm transfer queue.
-
-Users can also write temporary builds on `/dev/shm`, a filesystem using virtual memory rather than a persistent storage device: please note that files older than 24 hours will be deleted automatically.
-
-[](){#ref-storage-quota}
-## Quota
-
-You can check your storage quotas with the command quota on the front-end system ela (ela.cscs.ch) and the login nodes of [eiger][ref-cluster-eiger], [daint][ref-cluster-daint], [santis][ref-cluster-santis], and [clariden][ref-cluster-clariden].
-
-```bash
-$ quota
-Retrieving data ...
-
-User: testuser
-Usage data updated on: 2025-02-21 16:01:27
-+------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
-|                                    |  User quota  | Proj quota |             |   User files   |   Proj files   |             |
-+------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
-| Directory                          |   Used |   % |  Used |  % | Quota limit |     Used |   % |    Used |    % | Files limit |
-+------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
-| /iopsstor/scratch/cscs/testuser    |   4.0K |   - |     - |  - |           - |        1 |   - |       - |    - |           - |
-| /capstor/scratch/cscs/testuser     |   8.0K | 0.0 |     - |  - |      150.0T |        2 | 0.0 |       - |    - |     1000000 |
-| /users/testuser                    |  32.0K | 0.0 |     - |  - |       50.0G |       42 | 0.0 |       - |    - |      500000 |
-+------------------------------------+--------+-----+-------+----+-------------+----------+-----+---------+------+-------------+
-```
-
-Quotas apply to the total size of stored data, and in some cases to the number of [inodes](https://en.wikipedia.org/wiki/Inode), to the filesystems on Alps.
-The command reports both disk space and the number of files for each filesystem/directory.
-
-??? note "what is an inode"
-    inodes are data structures that describe Linux file system objects like files and directories - every file and directory has a corresponding inode.
-
-    Large inode counts degrade file system performance in multiple ways.
-    For example, Lustre filesystems have separate metadata and data management.
-    Excessive inode usage can overwhelm the metadata services, causing degradation across the filesystem.
-
-    !!! tip
-        Consider archiving folders with the tar command in order to keep low the number of files owned by users and groups.
-
-    !!! tip
-        Consider compressing directories full of many small input files as squashfs images - which pack many files into a single file that can be mounted to access the contents efficiently.
-
 !!! note
-    The size of the quota depends on the file system, platform and project.
+    The different file systems provided on the Alps platforms and policies like quotas and backups are documented here.
+    The file systems available on a [cluster][ref-alps-clusters] and policy details are determined by the [cluster][ref-alps-clusters]'s [platform][ref-alps-platforms].
+    Please read the documentation for the clusters that you are working on after reviewing this documentation.
 
-[](){#ref-storage-cleaning}
+<div class="grid cards" markdown>
 
-## Cleaning Policy and Data Retention
+-   :fontawesome-solid-hard-drive: __File Systems__
+
+    There are three *types* of file system that provided on Alps clusters:
+
+    |                               |    [backups][ref-storage-backups]  |  [snapshot][ref-storage-snapshots]  |   [cleanup][ref-storage-cleanup]   |    access |
+    | ---------                     | ---------- | ---------- | ----------- | --------- |
+    | [Home][ref-storage-home]      |    yes     |  yes       |    no       |   user    |
+    | [Scratch][ref-storage-scratch]|    no      |  no        |    yes      |   user    |
+    | [Store][ref-storage-store]    |    yes     |  no        |    no       |   project |
+
+</div>
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-floppy-disk: __Backups__
+
+    There are two forms of data [backup][ref-storage-backup] that are provided on some file systems.
+
+    [:octicons-arrow-right-24: Backups][ref-storage-backups]
+
+    [:octicons-arrow-right-24: Snapshots][ref-storage-snapshots]
+
+-   :fontawesome-solid-broom: __Cleanup__
+
+    Data retention policies and automatic cleanup of Scratch.
+
+    [:octicons-arrow-right-24: Cleanup policies][ref-storage-cleanup]
+
+-   :fontawesome-solid-layer-group: __Quota__
+
+    Find out about quota on capacity and file counts, and how to check your quota limits.
+
+    [:octicons-arrow-right-24: Quota][ref-storage-quota]
+
+-   :fontawesome-solid-circle-question: __Troubleshooting__
+
+    Answers to common issues and questions.
+
+    [:octicons-arrow-right-24: common questions][ref-storage-troubleshooting]
+
+</div>
+
+[](){#ref-storage-home}
+## Home
+
+The Home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`.
+It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [VAST][ref-alps-vast] file system.
+
+!!! example "Home on Daint"
+    The Home path for the user `$USER` is mounted at `/users/$USER`.
+    For example, the user `bcumming` on [Daint][ref-cluster-daint]:
+    ```console
+    $ ssh daint.alps.cscs.ch
+    $ echo $HOME
+    /users/bcumming
+    ```
+
+### Cleanup and expiration
+
+There is no [cleanup policy][ref-storage-cleanup] on Home, and the contents are retained for three months after your last project finishes.
+
+### Quota
+
+All users get a [quota][ref-storage-quota] of 50 GB and 500,000 inodes in Home.
+
+### Backups
+
+Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in the hidden directory `$HOME/.snapshot`.
+
+!!! under-construction "Backup is not yet available on Home"
+    [Backups][ref-storage-backups] to tape storage are currently being implemented for Home directories.
 
 [](){#ref-storage-scratch}
 ## Scratch
 
-The scratch file system is designed for performance rather than reliability, as a fast workspace for temporary storage.
-All CSCS systems provide a scratch personal folder for users that can be accessed through the environment variable `$SCRATCH`.
+The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
 
-Alps provides a Lustre scratch file system mounted on `/capstor/scratch/cscs`, while other clusters share the GPFS scratch file system under `/scratch/shared`.
+All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
 
-### Soft Quota
+!!! info "`$SCRATCH` on MLP points to Iopsstor"
+    On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
+    See the [MLP docs][ref-mlp-storage] for more information.
 
-No strict quotas are enforced on scratch, but the scratch file system on Alps (`/capstor/scratch/cscs`) has a soft quota on both disk occupancy and inodes (files and folders), with a grace period to allow data transfer.
-Note that when the grace time expires, the soft quotas will become hard limits if you are over quota, therefore you won’t be able to write any longer on your personal scratch folder.
+### Cleanup and expiration
 
-Alps (Eiger) users need to check their disk space and inodes usage with the command quota, that is available on the front end Ela and on Eiger User Access Nodes (UANs) as well. Currently the soft quotas are 150 TB disk space and 1 million inodes on Alps scratch file system, with a grace time of two weeks.
+The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
-### Cleaning Policy
-
-Please note that a cleaning policy is in place on scratch: all files older than 30 days will be deleted by a script that runs daily, so please ensure that you do not target this filesystem as a long term storage.
-Furthermore, kindly note that in order to avoid performance and stability issues on the scratch filesystem, if the occupancy grows above the critical limit of 60% we will be forced to ask you immediate action to remove unnecessary data: if the occupancy continues to grow and we reach 80%, we will then need to free up disk space manually removing files and folders without further notice.
-
-As a matter of fact, when the occupancy goes above 80% the Lustre filesystem shows a performance degradation that affects all users.
-The same applies with large numbers of small files, since the Lustre filesystem is not behaving ideally when dealing with high volumes of small files.
-
-Keep also in mind that data on scratch are not backed up, therefore users are advised to move valuable data to the /project filesystem or alternative storage facilities as soon as batch jobs are completed.
-
-!!! note
-    Do not use the `touch` command to prevent the cleaning policy from removing files, because this behaviour would deprive the community of a shared resource.
-
-[](){#ref-storage-home}
-## Users
-
-Users are not supposed to run jobs from this filesystem because of the low performance. In fact the emphasis on the `/users` filesystem is reliability over performance: all home directories are backed up with GPFS snapshots and no cleaning policy is applied.
+* Files not accessed in the last 30 days are automatically deleted.
+* When capacity grows above:
+    * 60%: users are asked to start removing or archiving unneeded files
+    * 80%: CSCS will start removing files and paths without further notice.
 
 ### Quota
 
-The $HOME environment variable points to the personal folder /users/<username>: please, keep in mind that you cannot exceed the 50 GB - 500 K files quota enforced on $HOME.
-Expiration
+A [soft quota][ref-storage-quota-types] is enforced on the Scratch file system, with a grace period to allow data transfer.
 
-!!! warning
-    All data will be deleted 3 months after the closure of the user account without further warning.
+Every user gets the following [quota][ref-storage-quota]:
+
+* 150 TB of disk space;
+* 1 million inodes;
+* and a soft quota grace period of two weeks.
+
+!!! important
+    In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`][ref-storage-quota-cli].
+    Even if you are not close to the quota, please endeavor to reduce usage wherever possible to improve user experience for everybody on the system.
+
+### Backups
+
+There are no backups on Scratch.
+Please ensure that you move important data to a file system with backups, for example [Store][ref-storage-store].
 
 [](){#ref-storage-store}
-## Store on Capstor
-
-The `/capstor/store` mount point of the Lustre file system `capstor` is intended for high-performance per-project storage on Alps. The mount point is accessible from the User Access Nodes (UANs) of Alps vClusters.
-
-!!! note
-    Capstor store is not yet mounted on Eiger.
-
-!!! info
-    `/capstor/store` is equivalent to the  `/project` and `/store` GPFS mounts on the old Daint system.
-
-The mount point features subfolders named after tenants and customers: on `daint.alps`, the only tenant currently available is CSCS, therefore all customer folders are located under the folder `/capstor/store/cscs` 
-
-* UserLab customers can access their project folder on daint.alps  with the `$PROJECT` environment variable, that targets the personal folder `/capstor/store/cscs/userlab/group_id/$USER`.
-* Please note that users need to create their own sub-folders under the project folder, as they are not created automatically.
-* Contractual partners will find their project folder under the corresponding contractual name listed in `/capstor/store/cscs`. For instance, EMPA users will have their projects listed under the `/capstor/store/cscs/empa` folder, and so on 
-
-Data on `/capstor/store` is backed up with no cleaning policy: it provides intermediate storage space for datasets, shared code or configuration scripts that need to be accessed from different vClusters.
-The performance of the Lustre file system (read and write) increases using larger files, therefore you should consider to archive small files with the tar utility.
-Quota
-
-### Quota
-
-Access to `/capstor/store` is granted to all users with a production or large development project upon request at the time of proposal submission: please note that applicants should justify the requested storage as well as they do for compute resources. Each group folder has a quota space allocated that allows maximum 1 M files and 150 TB of disk space at present.
-Expiration 
-
-!!! warning
-    All data will be deleted 3 months after the end of the project without further warning!
-
-## Project
-
-This is a shared - parallel file system based on the IBM GPFS software.
-It is accessible from the login nodes of all CSCS platforms using the native GPFS client through Infiniband or ethernet, however it is mounted read-only on the compute nodes of the Cray computing systems.
-
-!!! warning
-    Users are not allowed to run jobs from this file system because of the low performance. 
-
-The `$PROJECT` environment variable targets the personal folder `/project/<group_id>/$USER` on the GPFS: please note that users need to create their own sub-folders under the project folder, as they are not created automatically.
-Data is backed up with GPFS snapshots and no cleaning policy is applied: it provides intermediate storage space for datasets, shared code or configuration scripts that need to be accessed from different platforms.
-Read and write performance increase using larger files, therefore you should consider to archive small files with the tar utility.
-
-### Quota
-
-Access to `/project` is granted to all users with a production or large development project upon request at the time of proposal submission: please note that applicants should justify the requested storage as well as they do for compute resources.
-Each group folder has a quota space allocated that allows maximum 50 K files per TB of disk space.
-Expiration
-
-!!! warning
-    All data will be deleted 3 months after the end of the project without further warning.
-
 ## Store
 
-Users are NOT supposed to run jobs from this filesystem because of the low performance.
-This is a shared - parallel filesystem based on the IBM GPFS software.
-It is accessible from the login nodes of all CSCS platforms using the native GPFS client through Infiniband or ethernet, however it is mounted read-only on the compute nodes of the Cray computing systems.
+Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
 
-Data is backed up with GPFS snapshots and no cleaning policy is applied: it provides long term storage for large amount of datasets, code or scripts that need to be accessed from different platforms.
-It is also intended for large files: performance increases when using larger files, therefore you should consider archiving small files with the tar utility.
+Space on Store is allocated per-project, with a path created for each project.
+To accomodate the different customers and projects on Alps, the project paths are organised as follows:
+
+```
+/capstor/store/<tenant>/<customer>/<group_id>
+```
+
+* **`tenant`**: there are currently two tenants, `cscs` and `mch`:
+    * the vast majority of projects are hosted by the `cscs` tenant.
+* **`customer`**: refers to the contractual partner responsible for the project.
+   Examples of customers include:
+    * `userlab`: projects allocated in the CSCS User Lab through open calls. The majority of projects are hosted here, particularly on the [HPC platform][ref-platform-hpcp].
+    * `swissai`: most projects allocated on the [Machine Learning Platform][ref-platform-mlp].
+    * `2go`: projects allocated under the [CSCS2GO](https://2go.cscs.ch) scheme.
+* **`group_id`**: refers to the linux group created for the project.
+
+??? example "Which groups and projects am I a member of?"
+    Users often are part of multiple projects, and by extension their associated `groupd_id` groups.
+    You can get a list of your groups using the `id` command in the terminal:
+    ```console
+    $ id $USER
+    uid=12345(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
+    ```
+    Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**. 
+    In the terminal, use the following command to find your **primary group**:
+    ```console
+    $ id -gn $USER
+    g152
+    ```
+
+!!! info "The `$STORE` environment variable"
+    On some clusters, for example, [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint], the project folder for your primary project can be accessed using the `$STORE` environment variable.
+
+!!! warning "Avoid using Store for jobs"
+    Store is tuned for storing results and shared datasets, specifically it has fewer meta data servers assigned to it.
+
+    Use the Scratch file systems, which are tuned for fast parallel I/O, for storing input and output for jobs.
+
+### Cleanup and expiration
+
+There is no [cleanup policy][ref-storage-cleanup] on Store, and the contents are retained for three months after the project ends.
 
 ### Quota
 
-Access to /store can only be bought signing a contract with CSCS. Data and inode quotas are group based: the quota is enforced according to the signed contract, with maximum 50 K files per TB of disk space.
-Expiration
+Paths on Store is allocated per-project: a path is created for each project with a [quota][ref-storage-quota] based on the initial resource request.
+Users have read and write access to the Store paths for each project that they are a member of, and you can check the quota on Store for all of your projects using the [`quota`][ref-storage-quota-cli] tool.
 
-!!! warning
-    All data will be deleted 3 months after the end of the contract.
+### Backups
+
+[Backups][ref-storage-backups] are performed on Store, with the three most recent copies of every file backed up to tape every 24 hours.
+
+[](){#ref-storage-quota}
+## Quota
+
+Storage quota is a limit on available storage applied to:
+
+* **capacity**: the total size of files;
+* and **inodes**: the total number of files and directories.
+
+??? note "What is an inode?"
+    inodes are data structures that describe Linux file system objects like files and directories - every file and directory has a corresponding inode.
+
+    Large inode counts degrade file system performance in multiple ways.
+    For example, Lustre file systems have separate metadata and data management.
+    Excessive inode usage can overwhelm the metadata services, causing degradation across the file system.
+
+!!! tip "Consider compressing paths to reduce inode usage"
+    Consider archiving folders that you are not actively using with the tar command to reduce used capacity and the number of inodes.
+
+    Consider compressing directories full of many small input files as SquashFS images (see the following example of generating [SquashFS images][ref-guides-storage-venv] for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
+
+!!! tip "Update file timestamps when unpacking tar files"
+    The default behavior of the `tar` command is to retain the access date of the original file when unpacking tar balls.
+    When unpacking on a file system with [cleanup policy][ref-storage-cleanup], use the `--touch` flag with `tar` to ensure that the files won't be cleaned up prematurely.
+    For example:
+    ```console
+    $ tar --touch -xvf data_archive.tgz
+    ```
+
+There are two types of quota:
+
+[](){#ref-storage-quota-types}
+
+* **Soft quota** when exceeded there is a grace period for transferring or deleting files, before it will become a hard quota.
+* **Hard quota** when exceeded no more files can be written.
+
+!!! todo
+    Storage team: can you please provide better/more complete definitions of the hard and soft quotas.
+
+[](){#ref-storage-quota-cli}
+### Checking quota
+
+You can check your storage quotas with the command `quota` on the front-end system Ela (`ela.cscs.ch`) and the login nodes of [Daint][ref-cluster-daint], [Santis][ref-cluster-santis], [Clariden][ref-cluster-clariden] and [Eiger][ref-cluster-eiger].
+
+The tool shows available capacity and used capacity for each file system that you have access to.
+If you are in multiple projects, information for the [Store][ref-storage-store] path for each project that you are a member of will be shown.
+
+??? example "Checking your quota on Ela"
+    ```console
+    $ ssh user@ela.cscs.ch
+    $ quota
+    checking your quota
+
+    Retrieving data ...
+
+    User: user
+    Usage data updated on: 2025-05-21 11:10:02
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    |                                             |        User quota       |          Proj quota         |         User files         |    Proj files    |             |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    | Directory                          | FS     |   Used |    % |   Grace |   Used |    % | Quota limit |     Used |    % |    Grace |      Used |    % | Files limit |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    | /iopsstor/scratch/cscs/user        | lustre |  32.0G |    - |       - |      - |    - |           - |     7746 |    - |        - |         - |    - |           - |
+    | /capstor/users/cscs/user           | lustre |   3.2G |  6.4 |       - |      - |    - |       50.0G |    14471 |  2.9 |        - |         - |    - |      500000 |
+    | /capstor/store/cscs/director2/g33  | lustre |   1.9T |  1.3 |       - |      - |    - |      150.0T |   146254 | 14.6 |        - |         - |    - |     1000000 |
+    | /capstor/store/cscs/cscs/csstaff   | 263.9T | 88.0 |      - |    - |      300.0T | 18216778 | 91.1 |         - |    - |    20000000 |
+    | /capstor/scratch/cscs/user         | lustre | 243.0G |  0.2 |       - |      - |    - |      150.0T |   336479 | 33.6 |        - |         - |    - |     1000000 |
+    | /vast/users/cscs/user              | vast   |  11.7G | 23.3 | Unknown |      - |    - |       50.0G |    85014 | 17.0 |  Unknown |         - |    - |      500000 |
+    +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
+    ```
+
+
+    Here the user is in two projects, namely `g33` and `csstaff`, for which the quota for their respective paths in `/capstor/store` are reported.
+
+[](){#ref-storage-backup}
+## Backup
+
+There are two methods for retaining backup copies of data on CSCS file systems, namely [backups][ref-storage-backups] and [snapshots][ref-storage-backups].
+
+[](){#ref-storage-backups}
+### Backups
+
+Backups store copies of files on slow, high-capacity, tape storage.
+The backup process checks for modified or new files every 24 hours, and makes a copy on tape of every new or modified file.
+
+* up to three copies of a file are stored (the three most recent copies).
+
+!!! question "How do I restore from a backup?"
+    Open a [service desk](https://jira.cscs.ch/plugins/servlet/desk/site/global) ticket with *request type* "Storage and File systems" to restore a file or directory.
+
+    Please provide the following information in the request:
+
+    * the **full path** to restore, e.g.:
+        * a file: `/capstor/scratch/cscs/userbob/software/data/results.tar.gz`
+        * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
+    * the **date** to restore from:
+        * the most recent backup older than the date will be used.
+
+[](){#ref-storage-snapshots}
+### Snapshots
+
+A snapshot is a full copy of a file system at a certain point in time, that can be accessed via a special hidden directory.
+
+!!! note "Where are snapshots available?"
+    Currently, only the [Home][ref-storage-home] file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
+
+??? example "Accessing snapshots on Home"
+    The snapshots for [Home][ref-storage-home] are in the hidden `.snapshot` path in Home (the path is not visible even to `ls -a`)
+    ```console
+    $ ls $HOME/.snapshot
+    big_catalog_2025-05-21_08_49_34_UTC
+    big_catalog_2025-05-21_09_19_34_UTC
+    users_2025-05-14_22_59_00_UTC
+    users_2025-05-15_22_59_00_UTC
+    users_2025-05-16_22_59_00_UTC
+    users_2025-05-17_22_59_00_UTC
+    users_2025-05-18_22_59_00_UTC
+    users_2025-05-19_22_59_00_UTC
+    users_2025-05-20_22_59_00_UTC
+    ```
+
+[](){#ref-storage-cleanup}
+## Cleanup policies
+
+The performance of Lustre file systems is affected by file system occupancy and the number of files.
+Ideally occupancy should not exceed 60%, with severe performance degradation for all users when occupancy exceeds 80% and when there are too many small files.
+
+File cleanup removes files that are not being used to ensure that occupancy and file counts do not affect file system performance.
+
+A daily process removes files that have not been **accessed (either read or written)** in the last 30 days.
+
+??? example "How can I tell when a file was last accessed?"
+    The access time of a file can be found using the `stat` command.
+    For example, to get the access time of the file `./src/affinity.h`:
+
+    ```console
+    $ stat -c %x ./src/affinity.h
+    2025-05-23 16:27:40.580767016 +0200
+    ```
+
+!!! warning "Do not artificially update the access time of files"
+    It is not allowed to automatically or artificially update the access time of files to avoid the cleanup policy, and CSCS scans for these activities.
+
+    Please move data to a file system that is suitable for persistant storage instead.
+
+In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the file system:
+
+* **Occupancy ≥ 60%**: CSCS will ask users to take immediate action to remove unnecessary data.
+* **Occupancy ≥ 80%**: CSCS will start manually removing files and folders without further notice.
+
+!!! info "How do I ensure that important data is not cleaned up?"
+    File systems with cleanup, namely [Scratch][ref-storage-scratch], are not intended for long term storage.
+    Copy the data to a file system designed for file storage that does not have a cleanup policy, for example [Store][ref-storage-store].
+
+[](){#ref-storage-troubleshooting}
+## Frequently asked questions
+
+??? question "My files are gone, but the directories are still there"
+    When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
+
+??? question "What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?"
+    You have run out of quota on the target file system.
+    Consider deleting unneeded files, or moving data to a different file system.
+    Specifcially, if you see this message when using [Home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [Store][ref-storage-store] path.
+
+!!! todo
+    FAQ question: [writing with specific group access](https://confluence.cscs.ch/spaces/KB/pages/276955350/Writing+on+project+if+you+belong+to+more+than+one+group)
+
+
