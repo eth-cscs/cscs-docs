@@ -19,13 +19,10 @@ HPC storage is provided by independent clusters, composed of servers and physica
 
 Capstor and Iopsstor are on the same Slingshot network as Alps, meanwhile VAST is on the CSCS Ethernet network.
 
-!!! todo
-    Information about Lustre. Meta data servers, etc.
+Capstor has 80 Object Storage Servers (OSS), and 6 Metadata Servers (MDS). 
+Two of of these Metadata servers are dedicated for Store, and the remaining four are dedicated for Scratch.
 
-    * how many meta data servers on Capstor and Iopsstor
-    * how these are distributed between store/scratch
-
-    Also discuss how Capstor and iopstor are used to provide both scratch / store / other file systems
+Iopsstor has has 20 OSSs, and 2 MDSs. 
 
 The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the [file system docs][ref-storage-fs].
 
