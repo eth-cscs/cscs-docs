@@ -3,9 +3,8 @@
 
 !!! under-construction
 
-Alps has different storage attached, each with characteristics suited to different workloads and use cases.
-HPC storage is managed in a separate cluster of nodes that host servers that manage the storage and the physical storage drives.
-These separate storage clusters are on the same Slingshot 11 network as Alps.
+The Alps infrastructure offers multiple storage solutions, each with characteristics suited to different workloads and use cases.
+HPC storage is provided by independent clusters, composed of servers and physical storage drives.
 
 |              | Capstor                | Iopsstor               | VAST                |
 |--------------|------------------------|------------------------|---------------------|
@@ -18,6 +17,7 @@ These separate storage clusters are on the same Slingshot 11 network as Alps.
 | IOPs         | 1.5M                   | 8.6M read, 24M write   | 200k read, 768k write |
 | file create/s| 374k                   | 214k                   | 97k                 |
 
+Capstor and Iopsstor are on the same Slingshot network as Alps, meanwhile VAST is on the CSCS Ethernet network.
 
 !!! todo
     Information about Lustre. Meta data servers, etc.
