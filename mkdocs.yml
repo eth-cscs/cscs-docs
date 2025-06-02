@@ -1,6 +1,5 @@
 site_name: CSCS Documentation
-# TODO: change to https://docs.cscs.ch when the time comes
-site_url: https://eth-cscs.github.io/
+site_url: https://docs.cscs.ch/
 
 # provide a link to the docs in top RHS corner
 repo_url: https://github.com/eth-cscs/cscs-docs
