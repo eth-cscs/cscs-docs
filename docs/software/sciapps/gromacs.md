@@ -177,15 +177,16 @@ cmake \
 	-GMX_CUDA_TARGET_SM="90" \ # for the Hopper GPUs
 	-DGMX_SIMD=ARM_NEON_ASIMD \ # for the Grace CPUs
 	-DGMX_DOUBLE=off \ # turn on double precision only if useful
+	-DCMAKE_INSTALL_PREFIX=/custom/gromacs/install/path
 	..
 
 make
 make check
-sudo make install
-source /gromacs/install/path/bin/GMXRC
+make install
+source /custom/gromacs/install/path/bin/GMXRC
 ```
 
-1. Start the CP2K uenv and load the `develop` view (which provides all the necessary dependencies)
+1. Start the GROMACS uenv and load the `develop` view (which provides all the necessary dependencies)
 
 2. Go to the GROMACS source directory
 
