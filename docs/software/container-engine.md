@@ -511,24 +511,23 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
     com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
     ```
 
-    1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters.
+    1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
-For example, the following EDF enables the hook and uses it to mount the plugin in a CUDA 11 image:
 
-```bash
-image = "nvcr.io#nvidia/pytorch:22.12-py3"
-mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
-entrypoint = false
+!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11
+    ```bash
+    image = "nvcr.io#nvidia/pytorch:22.12-py3"
+    mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 
-[annotations]
-com.hooks.aws_ofi_nccl.enabled = "true"
-com.hooks.aws_ofi_nccl.variant = "cuda11"
-```
+    [annotations]
+    com.hooks.aws_ofi_nccl.enabled = "true"
+    com.hooks.aws_ofi_nccl.variant = "cuda11"
+    ```
 
 The AWS OFI NCCL hook also takes care of the following aspects:
 
