@@ -129,7 +129,7 @@ VERSION_ID="12"
 ```
 
 If an EDF is located in the [EDF search path][ref-ce-edf-search-path],
-`--environment` accepts the EDF filename **without the `.toml` extension**. For
+`--environment` also accepts the EDF filename without the `.toml` extension. For
 example:
 
 ```bash
@@ -166,14 +166,14 @@ result in unexpected behaviors.
     activated by default on most vClusters.
 
 [](){#ref-ce-edf-search-path}
-### The EDF search path
+### EDF search path
 
-By default, the EDFs for each user are looked up in `$HOME/.edf`.  The search
-path for EDFs can be controlled through the `EDF_PATH` environment variable.
-`EDF_PATH` must be a colon-separated list of absolute paths to directories
-where the CE looks for TOML files, similar to the `PATH` and L`D_LIBRARY_PATH`
-variables.  If a file is located in the search path, its name can be used in
-`--environment` options without the `.toml` extension, for example:
+By default, the EDFs for each user are looked up in `$HOME/.edf`. The default
+EDF search path can be changed through the `EDF_PATH` environment variable.
+`EDF_PATH` must be a colon-separated list of absolute paths to directories,
+where the CE searches each directory in order. If an EDF is located in the
+search path, its name can be used in the `--environment` option without the
+`.toml` extension. For example:
 
 ```bash
 $ ls ~/.edf
