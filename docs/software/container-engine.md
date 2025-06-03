@@ -414,6 +414,7 @@ Container hooks let you customize container behavior to fit system-specific need
 The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect.
 This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
 The hook leverages bind-mounting the custom host libfabric library into the container (in addition to all the required dependency libraries and devices as well).
+
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
 !!! note
