@@ -887,4 +887,4 @@ As a workaround, resetting the NCCL_NET variable to the correct value is effecti
 Mounting individual home directories (usually located on the `/users` filesystem) overrides the files created by the SSH hook in `${HOME}/.ssh`, including the one which includes the authorized key entered in the EDF through the corresponding annotation. In other words, when using the SSH hook and bind mounting the user's own home folder or the whole `/users`, it is necessary to authorize manually the desired key.
 
 It is generally NOT recommended to mount home folders inside containers, due to the risk of exposing personal data to programs inside the container.
-Defining a mount related to `/users` in the EDF should only be done when there is a specific reason to do so, or the container image being deployed is trusted.
+Defining a mount related to `/users` in the EDF should only be done when there is a specific reason to do so, and the container image being deployed is trusted.
