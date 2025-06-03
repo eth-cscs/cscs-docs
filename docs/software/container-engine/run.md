@@ -83,9 +83,7 @@ If an EDF is located in the search path, its name can be used in the `--environm
     ...
     ```
 
-## Image Management
-
-### Image cache
+## Using container images 
 
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached.
 A cached image would be preferred to pulling the image again in later usage.
@@ -100,6 +98,9 @@ To choose an alternative image store path (e.g., to use a directory owned by a g
 
 !!! note
     If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
+
+!!! note
+    Local container images are not cached. See the section below on how to use local images in EDF.
 
 ### Pulling images manually
 
