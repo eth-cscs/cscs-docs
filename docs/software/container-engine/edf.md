@@ -188,9 +188,9 @@ Environment variable expansion allows for dynamic substitution of environment va
  * *Undefined Variables*. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax ${VAR:-}, which evaluates to an empty string if VAR is undefined.
  * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, $${VAR} will render as the literal string ${VAR}.
  * *Limitations*
-    * Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments). Therefore, only environment variables from the host can be referenced.  
+    * Variables defined within the `[env]` EDF table cannot reference other entries from `[env]` tables in the same or other EDF files (e.g. the ones entered as base environments). Therefore, only environment variables from the host can be referenced.  
  * *Environment Variable Resolution Order*. The environment variables in containers are set based on the following order: 
-    * EDF env: Variable values as defined in EDF’s [env] table.
+    * EDF env: Variable values as defined in EDF’s `[env]` table.
     * Container Image: Variables defined in the container image's environment take precedence.
     * Host Environment: Environment variables defined in the host system.
 
