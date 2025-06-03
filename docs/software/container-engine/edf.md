@@ -183,10 +183,10 @@ OCI-like annotations for the container. For more details, refer to the [Annotati
 
 Environment variable expansion allows for dynamic substitution of environment variable values within the EDF (Environment Definition File). This capability applies across all configuration parameters in the EDF, providing flexibility in defining container environments.
 
- * *Syntax*. Use ${VAR} to reference an environment variable VAR. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
- * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, ${SCRATCH} can be used in mounts to reference a directory path.
+ * *Syntax*. Use `${VAR}` to reference an environment variable `VAR`. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
+ * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, `${SCRATCH}` can be used in mounts to reference a directory path.
  * *Undefined Variables*. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax ${VAR:-}, which evaluates to an empty string if VAR is undefined.
- * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, $${VAR} will render as the literal string ${VAR}.
+ * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, `$${VAR}` will render as the literal string `${VAR}`.
  * *Limitations*
     * Variables defined within the `[env]` EDF table cannot reference other entries from `[env]` tables in the same or other EDF files (e.g. the ones entered as base environments). Therefore, only environment variables from the host can be referenced.  
  * *Environment Variable Resolution Order*. The environment variables in containers are set based on the following order: 
