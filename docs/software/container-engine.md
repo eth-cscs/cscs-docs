@@ -517,7 +517,7 @@ Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfab
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
 
-!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11
+!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
     ```bash
     image = "nvcr.io#nvidia/pytorch:22.12-py3"
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
@@ -544,7 +544,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 
     1. Replace `<public-key>` with your SSH public key.
 
-!!! note
+!!! warning 
     The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
 
 The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container.
