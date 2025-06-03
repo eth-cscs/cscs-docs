@@ -27,7 +27,7 @@ The mounts, and how they are used for Scratch, Store, and Home file systems that
 Capstor is the largest file system, and it is meant for storing large amounts of input and output data.
 It is used to provide [scratch][ref-storage-scratch] and [store][ref-storage-store].
 
-Capstor has 80 Object Storage Servers (OSS), and 6 Metadata Servers (MDS). 
+Capstor has 80 Object Storage Servers ([OSS](https://wiki.lustre.org/Lustre_Object_Storage_Service_(OSS))), and 6 Metadata Servers ([MDS](https://wiki.lustre.org/Lustre_Metadata_Service_(MDS))). 
 Two of of these Metadata servers are dedicated for Store, and the remaining four are dedicated for Scratch.
 
 [](){#ref-alps-capstor-scratch}
