@@ -57,6 +57,6 @@ Iopsstor has has 20 OSSs, and 2 MDSs.
 The VAST storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
 
 !!! todo
-    small text explaining what Vast is designed to be used for.
+    small text explaining what VAST is designed to be used for.
 
 
