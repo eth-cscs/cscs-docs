@@ -336,7 +336,7 @@ GPU device files are always mounted in containers, and the NVIDIA driver user sp
 `NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
-!!! example "Cluster with 4 GH200 devices per node":
+!!! example "Cluster with 4 GH200 devices per node"
     ```bash
     $ cat <<EOF >cuda12.5.1.toml        # (1)
     > image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
