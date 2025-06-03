@@ -1,6 +1,4 @@
-## Known Issues
-
-### Compatibility with Alpine Linux
+## Compatibility with Alpine Linux
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
 
@@ -34,7 +32,7 @@ abc
 
 Notice the section `[annotations]` disabling Slurm and CXI hooks.
 
-### Using NCCL from remote SSH terminals
+## Using NCCL from remote SSH terminals
 
 We are aware of an issue when enabling both [the AWS OFI NCCL hook][ref-ce-aws-ofi-hook] and [the SSH hook][ref-ce-ssh-hook], and launching programs using NCCL from Bash sessions connected via SSH.
 The issue manifests with messages reporting `Error: network 'AWS Libfabric' not found`.
@@ -44,7 +42,7 @@ The script is translating the value of the `NCCL_NET` variable as `"'AWS Libfabr
 
 As a workaround, resetting the NCCL_NET variable to the correct value is effective in allowing NCCL to use the AWS OFI plugin and access the Slingshot network, e.g. `export NCCL_NET="AWS Libfabric"`.
 
-### Mounting home directories when using the SSH hook
+## Mounting home directories when using the SSH hook
 
 Mounting individual home directories (usually located on the `/users` filesystem) overrides the files created by the SSH hook in `${HOME}/.ssh`, including the one which includes the authorized key entered in the EDF through the corresponding annotation. In other words, when using the SSH hook and bind mounting the user's own home folder or the whole `/users`, it is necessary to authorize manually the desired key.
 
