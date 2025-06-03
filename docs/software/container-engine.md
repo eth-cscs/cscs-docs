@@ -195,19 +195,28 @@ ID=fedora
 
 ### Image cache
 
-!!! info
-    The image caching functionality is only available on the Bristen vCluster as technical preview.
+By default, images defined in the EDF as remote registry references (e.g. a
+Docker reference) are automatically pulled and locally cached. A cached image
+would be preferred to pulling the image again in later usage. 
 
-By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached. A cached image would be preferred to pulling the image again in later usage. 
+An image cache is automatically created at `.edf_imagestore` in the user's
+scratch folder (i.e., `${SCRATCH}/.edf_imagestore`), under which cached images
+are stored with the corresponding CPU architecture suffix (e.g., `x86` and
+`aarch64`). Cached images may be subject to the automatic cleaning policy of
+the scratch folder.
+ 
+Should users want to re-pull a cached image, they have to remove the
+corresponding image in the cache.
 
-An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `$SCRATCH/.edf_imagestore`), under which cached images are stored in a corresponding CPU architecture subfolder (e.g., `x86` and `aarch64`). Users should regularly remove unused cache images to limit the cache size.
-
-Should users want to re-pull a cached image, they have to remove the corresponding image in the cache.
-
-To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder.
+To choose an alternative image store path (e.g., to use a directory owned by a
+group and not to an individual user), users can specify an image cache path
+explicitly by defining the environment variable `EDF_IMAGESTORE`.
+`EDF_IMAGESTORE` must be an absolute path to an existing folder.
 
 !!! note
-    If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
+    If the CE cannot create a directory for the image cache, it operates in
+    cache-free mode, meaning that it pulls an ephemeral image before every
+    container launch and discards it upon termination.
 
 ### Pulling images manually
 
