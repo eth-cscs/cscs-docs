@@ -79,7 +79,7 @@ This runner will pull the image on the cluster Eiger and run the commands as spe
 While the procedure to enable CSCS CI for your repository consists of only a few steps outlined below, many of them require features in GitHub, GitLab or Bitbucket. The links in the text contain additional steps which may be needed.
 Some of those documents are non-trivial, especially if you do not have considerable background in the repository features. Plan sufficient time for the setup and contact a GitHub/GitLab/Bitbucket professional, if needed.
 
-1. **Register your project with CSCS**: The first step to use containerized CI/CD is to register your Git repository with CSCS. Please open an [Service Desk ticket](https://support.cscs.ch/) for this step. Once your project has been registered you will be provided with a webhook-secret.
+1. **Register your project with CSCS**: The first step to use containerized CI/CD is to register your Git repository with CSCS. Please open an [Service Desk ticket](https://support.cscs.ch/) and include which repository should be registered, and who should own the registration (by default it would be the requester). Once your project has been registered you will be provided with a webhook-secret.
 
 1. **Set up CI**: Head to the [CI overview page](https://cicd-ext-mw.cscs.ch/ci/overview), login with your CSCS credentials, and go to the newly registered project.
 
@@ -95,7 +95,7 @@ If you don't already know how to obtain FirecREST credentials, you can find more
 
 1. **Add notification token**: On the setup page you will also find the field `Notification token`. The token is live tested, and you will see a green checkmark when the token is valid and can be used by the CI. It is mandatory to add a token so that your Git repository will be notified about the status of the build jobs. You cannot save anything as long as the notification token is invalid. (Click on the small triangle to get further instructions)
 
-1. **Add webhook**: On the setup page you will find the `Setup webhook details` button. If you click on it you will see all the entries which have to be added to a new webhook in your Git repository. Follow the link given there to your repository, and add the webhook with the given entries.
+1. **Add webhook**: On the CI setup page you will find the `Setup webhook details` button (go to the [CI overview](https://cicd-ext-mw.cscs.ch), then the project, and there is a blue button with the text `Setup webhook details`). If you click on it you will see all the entries which have to be added to a new webhook in your Git repository. Follow the link given there to your repository, and add the webhook with the given entries.
 
 1. **Default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches. The global configuration will apply to all pipelines that do not overwrite it explicitly.
 
@@ -356,7 +356,7 @@ build base:
   stage: build_base
   before_script:
     - DOCKER_TAG=`cat ci/docker/Dockerfile.base | sha256sum - | head -c 16`
-    - export PERSIST_IMAGE_NAME=$CSCS_REGISTRY_IMAGE/base/my_base_image:$DOCKER_TAG
+    - export PERSIST_IMAGE_NAME=$CSCS_REGISTRY_PATH/base/my_base_image:$DOCKER_TAG
     - echo "BASE_IMAGE=$PERSIST_IMAGE_NAME" > build.env
   artifacts:
     reports:
