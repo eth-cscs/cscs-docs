@@ -1,7 +1,9 @@
 [](){#ref-ce-edf-reference}
-## EDF Reference
+# EDF Reference
 
 EDF files use the [TOML format](https://toml.io/en/). For details about the data types used by the different parameters, please refer to the [TOML spec webpage](https://toml.io/en/v1.0.0).
+
+## EDF fields
 
 In the following, the default value is none (i.e., the empty value of the corresponding type) if not specified.
 
@@ -177,7 +179,7 @@ OCI-like annotations for the container. For more details, refer to the [Annotati
 !!! note
     Environment variable expansion and relative paths expansion are only available on the Bristen vCluster as technical preview.
 
-### Environment Variable Expansion
+## Environment variable expansion
 
 Environment variable expansion allows for dynamic substitution of environment variable values within the EDF (Environment Definition File). This capability applies across all configuration parameters in the EDF, providing flexibility in defining container environments.
 
@@ -192,6 +194,6 @@ Environment variable expansion allows for dynamic substitution of environment va
      * Container Image: Variables defined in the container image's environment take precedence.
      * Host Environment: Environment variables defined in the host system.
 
-### Relative paths expansion
+## Relative paths expansion
 
 Relative filesystem paths can be used within EDF parameters, and will be expanded by the CE at runtime. The paths are interpreted as relative to the working directory of the process calling the CE, not to the location of the EDF file.
