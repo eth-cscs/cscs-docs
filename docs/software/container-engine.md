@@ -389,6 +389,19 @@ It is possible to use environment variables to control which capabilities of the
 Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
 For the full details about using these features, please refer to the official documentation: [Driver Capabilities](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#driver-capabilities), [Constraints](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#constraints).
 
+[](){#ref-ce-container-hooks}
+## Container Hooks
+
+Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
+
+ * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
+ * *Use for HPC*: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
+
+!!! info
+    This section outlines all hooks supported in production by the Container Engine.
+    However, specific Alps vClusters may support only a subset or use custom configurations.
+    For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
+
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
@@ -488,19 +501,6 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 !!! tip
     On most vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
     Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
-
-[](){#ref-ce-container-hooks}
-## Container Hooks
-
-Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
-
- * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
- * *Use for HPC*: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
-
-!!! info
-    This section outlines all hooks supported in production by the Container Engine.
-    However, specific Alps vClusters may support only a subset or use custom configurations.
-    For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
 
 [](){#ref-ce-aws-ofi-hook}
 ### AWS OFI NCCL Hook 
