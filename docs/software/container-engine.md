@@ -200,7 +200,7 @@ After the import is complete, images are available in Squashfs format in the cur
     image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
     ```
 
-    1. Assuming `example.toml` was already written at `${HOME}/.edf`. 
+    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
 
 !!! note
     It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them with the CE.
@@ -223,7 +223,7 @@ To use an image from a different registry, the corresponding registry URL has to
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
     ```
     
-    1. Assuming `example.toml` was already written at `${HOME}/.edf`. 
+    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
 
 !!! example "Using a third-party registry on the command line"
     ```bash
@@ -338,11 +338,7 @@ Such images are frequently used to containerize CUDA applications, either direct
 
 !!! example "Cluster with 4 GH200 devices per node"
     ```bash
-    $ cat <<EOF >cuda12.5.1.toml        # (1)
-    > image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
-    > EOF
-
-    $ cat cuda12.5.1.toml 
+    $ cat cuda12.5.1.toml       # (1)
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
 
     $ srun --environment=./cuda12.5.1.toml nvidia-smi
@@ -380,7 +376,7 @@ Such images are frequently used to containerize CUDA applications, either direct
     +------------------------------------------------------------------------------------+
     ```
 
-    1. Creating `cuda12.5.1.toml` on the current folder.
+    1. Assuming `cuda12.5.1.toml` is present the current folder. 
 
 It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
 Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
