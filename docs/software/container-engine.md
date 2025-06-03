@@ -51,18 +51,18 @@ $ srun --environment=ubuntu --pty bash
     Click on the :fontawesome-solid-circle-plus: icon for information on each command.
 
     ```console
-    [daint-ln002]$ srun --environment=ubuntu --pty bash   (1)
+    [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
 
-    [nid005333]$ pwd                                      (2)
+    [nid005333]$ pwd                                      # (2)
     /capstor/scratch/cscs/<username>
 
-    [nid005333]$ cat /etc/os-release                      (3)
+    [nid005333]$ cat /etc/os-release                      # (3)
     PRETTY_NAME="Ubuntu 24.04 LTS"
     NAME="Ubuntu"
     VERSION_ID="24.04"
     ...
 
-    [nid005333]$ exit                                    (4)
+    [nid005333]$ exit                                     # (4)
     [daint-ln002]$
     ```
 
@@ -199,7 +199,7 @@ After the import is complete, images are available in Squashfs format in the cur
     $ ls *.sqsh
     nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
 
-    $ cat ${HOME}/.edf/example.toml      (1)
+    $ cat ${HOME}/.edf/example.toml      # (1)
     image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
     ```
 
@@ -218,71 +218,78 @@ After the import is complete, images are available in Squashfs format in the cur
     Since [public IPs are a shared resource][ref-guides-internet-access] we recommend authenticating even for publicly available images.
     For example, [Docker Hub applies its rate limits per user when authenticated](https://docs.docker.com/docker-hub/usage/).
 
-To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator. For example:
+To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator:
 
-```bash
-# Usage within an EDF
-> cat $HOME/.edf/nvhpc-23.7.toml
-image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
+!!! example
+    ```bash
+    # Usage within an EDF
+    $ cat $HOME/.edf/nvhpc-23.7.toml
+    image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
 
-# Usage on the command line
-> srun enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
-```
+    # Usage on the command line
+    $ enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
+    ```
 
 To import images from private repositories, access credentials should be configured by individual users in the `$HOME/.config/enroot/.credentials` file, following the [netrc file format](https://everything.curl.dev/usingcurl/netrc).
-Using the `enroot import` documentation page as a reference, some examples could be:
+Using the `enroot import` documentation page as a reference:
 
-```bash
-# NVIDIA NGC catalog (both endpoints are required)
-machine nvcr.io login $oauthtoken password <token>
-machine authn.nvidia.com login $oauthtoken password <token>
+??? example "`netrc` example"
+    ```bash
+    # NVIDIA NGC catalog (both endpoints are required)
+    machine nvcr.io login $oauthtoken password <token>
+    machine authn.nvidia.com login $oauthtoken password <token>
 
-# DockerHub
-machine auth.docker.io login <login> password <password>
+    # DockerHub
+    machine auth.docker.io login <login> password <password>
 
-# Google Container Registry with OAuth
-machine gcr.io login oauth2accesstoken password $(gcloud auth print-access-token)
-# Google Container Registry with JSON
-machine gcr.io login _json_key password $(jq -c '.' $GOOGLE_APPLICATION_CREDENTIALS | sed 's/ /\\u0020/g')
+    # Google Container Registry with OAuth
+    machine gcr.io login oauth2accesstoken password $(gcloud auth print-access-token)
+    # Google Container Registry with JSON
+    machine gcr.io login _json_key password $(jq -c '.' $GOOGLE_APPLICATION_CREDENTIALS | sed 's/ /\\u0020/g')
 
-# Amazon Elastic Container Registry
-machine 12345.dkr.ecr.eu-west-2.amazonaws.com login AWS password $(aws ecr get-login-password --region eu-west-2)
+    # Amazon Elastic Container Registry
+    machine 12345.dkr.ecr.eu-west-2.amazonaws.com login AWS password $(aws ecr get-login-password --region eu-west-2)
 
-# Azure Container Registry with ACR refresh token
-machine myregistry.azurecr.io login 00000000-0000-0000-0000-000000000000 password $(az acr login --name myregistry --expose-token --query accessToken  | tr -d '"')
-# Azure Container Registry with ACR admin user
-machine myregistry.azurecr.io login myregistry password $(az acr credential show --name myregistry --subscription mysub --query passwords[0].value | tr -d '"')
+    # Azure Container Registry with ACR refresh token
+    machine myregistry.azurecr.io login 00000000-0000-0000-0000-000000000000 password $(az acr login --name myregistry --expose-token --query accessToken  | tr -d '"')
+    # Azure Container Registry with ACR admin user
+    machine myregistry.azurecr.io login myregistry password $(az acr credential show --name myregistry --subscription mysub --query passwords[0].value | tr -d '"')
 
-# Github.com Container Registry (GITHUB_TOKEN needs read:packages scope)
-machine ghcr.io login <username> password <GITHUB_TOKEN>
+    # Github.com Container Registry (GITHUB_TOKEN needs read:packages scope)
+    machine ghcr.io login <username> password <GITHUB_TOKEN>
 
-# GitLab Container Registry (GITLAB_TOKEN needs a scope with read access to the container registry)
-# GitLab instances often use different domains for the registry and the authentication service, respectively
-# Two separate credential entries are required in such cases, for example:
-# Gitlab.com
-machine registry.gitlab.com login <username> password <GITLAB TOKEN>
-machine gitlab.com login <username> password <GITLAB TOKEN>
+    # GitLab Container Registry (GITLAB_TOKEN needs a scope with read access to the container registry)
+    # GitLab instances often use different domains for the registry and the authentication service, respectively
+    # Two separate credential entries are required in such cases, for example:
+    # Gitlab.com
+    machine registry.gitlab.com login <username> password <GITLAB TOKEN>
+    machine gitlab.com login <username> password <GITLAB TOKEN>
 
-# ETH Zurich GitLab registry
-machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
-machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
-```
+    # ETH Zurich GitLab registry
+    machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
+    machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
+    ```
+
 [](){#ref-ce-annotations}
 ## Annotations
 
-Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations). Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
+Annotations define arbitrary metadata for containers in the form of key-value pairs.
+Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations).
+Annotation keys usually express a hierarchical namespace structure, with domains separated by "." (full stop) characters.
 
-As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the [SSH hook][ref-ce-ssh-hook] described below, the annotation `com.hooks.ssh.enabled` must be set to the string `true`.
+As annotations are often used to control hooks, they have a deep nesting level.
+For example, to execute the [SSH hook][ref-ce-ssh-hook] described below, the annotation `com.hooks.ssh.enabled` must be set to the string `true`.
 
-EDF files support setting annotations through the `annotations` table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
+EDF files support setting annotations through the `annotations` table.
+This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
- * Case: nest levels in the TOML key.
+!!! example "Nest levels in the TOML key"
     ```bash
     [annotations]
     com.hooks.ssh.enabled = "true"
     ```
 
- * Case: nest levels in the TOML table name.
+!!! example "Nest levels in the TOML table name"
     ```bash
     [annotations.com.hooks.ssh]
     enabled = "true"
