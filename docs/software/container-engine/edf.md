@@ -89,7 +89,7 @@ If true, run the entrypoint from the container image. Default: true.
 
 ### (BOOL) writable
 
-If false, the container filesystem is read-only. Default: false.
+If false, the container filesystem is read-only. Default: true.
 
 ??? example
     ```bash
