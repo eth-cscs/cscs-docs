@@ -186,13 +186,13 @@ Environment variable expansion allows for dynamic substitution of environment va
  * *Syntax*. Use ${VAR} to reference an environment variable VAR. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
  * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, ${SCRATCH} can be used in mounts to reference a directory path.
  * *Undefined Variables*. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax ${VAR:-}, which evaluates to an empty string if VAR is undefined.
- * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, $$${VAR} will render as the literal string ${VAR}.
+ * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, $${VAR} will render as the literal string ${VAR}.
  * *Limitations*
-    * Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments) . Therefore, only environment variables from the host or image can be referenced.
- * *Environment Variable Resolution Order*. The environment variables are resolved based on the following order:
-     * TOML env: Variable values as defined in EDF’s env.
-     * Container Image: Variables defined in the container image's environment take precedence.
-     * Host Environment: Environment variables defined in the host system.
+    * Variables defined within the [env] EDF table cannot reference other entries from [env] tables in the same or other EDF files (e.g. the ones entered as base environments). Therefore, only environment variables from the host can be referenced.  
+ * *Environment Variable Resolution Order*. The environment variables in containers are set based on the following order: 
+    * EDF env: Variable values as defined in EDF’s [env] table.
+    * Container Image: Variables defined in the container image's environment take precedence.
+    * Host Environment: Environment variables defined in the host system.
 
 ## Relative paths expansion
 
