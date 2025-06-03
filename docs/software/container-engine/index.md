@@ -44,8 +44,8 @@ Use Slurm in the cluster login node to start the environment above:
 $ srun --environment=ubuntu --pty bash
 ```
 
-The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
-Click on the :fontawesome-solid-circle-plus: icon for information on each command.
+The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option. 
+Notice that CE pulls the image automatically when the container starts.
 
 ```console
 [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
@@ -67,7 +67,3 @@ VERSION_ID="24.04"
 2.  Check the current folder (dubbed _the working directory_) is set to the user's scratch folder, as per EDF.
 3.  Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
 4.  Exiting the container (`exit`), returning to the login node.
-
-!!! note
-    CE pulls the image automatically when the container starts.
-
