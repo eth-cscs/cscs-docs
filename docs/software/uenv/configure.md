@@ -8,10 +8,10 @@ There is support for limited per-user configuration via a configuration file, wh
 
 Uenv is configured using a text configuration file.
 
-The location of the configuration file follows the [XDG base directory specification](https://specifications.freedesktop.org/basedir-spec/latest/).
+The location of the configuration file follows the [XDG base directory specification](https://specifications.freedesktop.org/basedir-spec/latest/), with the location defined as follows:
 
-* If the `XDG_CONFIG_HOME` environment variable is set, the `$XDG_CONFIG_HOME/uenv/config`.
-* Otherwise it defaults to `$HOME/.config/uenv/config`.
+* If the `XDG_CONFIG_HOME` environment variable is set, use `$XDG_CONFIG_HOME/uenv/config`.
+* Otherwise use the default location `$HOME/.config/uenv/config`.
 
 ### Syntax
 
@@ -29,7 +29,7 @@ Notes on the syntax:
 
 * keys are case-sensitive: `color` and `Color` are not equivalent.
 * all keys are lower case
-* white space is trimmed from keys and values, e.g.: `color = true` will be parsed as key=`color` and value=`true`.
+* white space is trimmed from keys and values, e.g.: `color = true` will be parsed as `key='color'` and `value='true'`.
 
 ### Options
 

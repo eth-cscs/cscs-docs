@@ -1,14 +1,15 @@
 [](){#ref-uenv-release-notes}
 # uenv releases notes
 
-The version of uenv deployed on the main [Alps clusters][ref-alps-clusters] is **v8.1.0**.
+The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v8.1.0**.
+You can check the version available on a specific system with the `uenv --version` command.
 
 [](){#ref-uenv-release-notes-v8.1.0}
 ## v8.1.0
 
 This version replaced v7.1.0 on Alps clusters.
 
-### features
+### Features
 
 * improved uenv view management
 * automatic generation of default uenv repository the first time uenv is called
@@ -18,7 +19,7 @@ This version replaced v7.1.0 on Alps clusters.
     * currently only support setting `color` and default uenv repo
 * support for `SLURM_UENV` and `SLURM_UENV_VIEW` environment variables for use inside CI/CD pipelines.
 
-### small fixes
+### Small fixes
 
 * better error messages and small bug fixes
 * relative paths can be used for referring to squashfs images

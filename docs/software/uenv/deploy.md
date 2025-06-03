@@ -26,17 +26,16 @@ The version of the uenv.
 
 The format of `version` depends on the specific uenv.
 Often they use the `yy.mm` format, though they may also use the version of the software being packaged.
-For example the `namd/3.0.1` uenv packages version 3.0.1 of the popular [NAMD](https://www.ks.uiuc.edu/Research/namd/) simulation tool.
+For example the [`namd/3.0`][ref-uenv-namd] uenv packages version 3.0 of the popular [NAMD](https://www.ks.uiuc.edu/Research/namd/) simulation tool.
 
 ### uenv tag
 
 Used to differentiate between _releases_ of a versioned uenv.
+Some examples of tags include:
 
-Some examples of tags include release candidates (`rc1`, `rc2`) and 
-
-* `rc1`, `rc2`: release candidates.
-* `v1`: a first release typically made after some release candidates.
-* `v2`: a second release, that might fix issues in the first release.
+* `rc1`, `rc2`: release candidates;
+* `v1`: a first release typically made after some release candidates;
+* `v2`: a second release, that fixes issues in `v1`
 
 ### uenv system
 
@@ -61,10 +60,10 @@ The node type (microarchitecture) that the uenv is built for.
 The following naming scheme is employed in the OCI container artifactory for uenv images:
 
 ```text
-namespace/system/uarch/name/version:release
+namespace/system/uarch/name/version:tag
 ```
 
-Where the fields `system`, `uarch`, `name`, `version` and `release` are defined above.
+Where the fields `system`, `uarch`, `name`, `version` and `tag` are defined above.
 
 The `namespace` is one of:
 
@@ -73,11 +72,11 @@ The `namespace` is one of:
 * `service`: where the uenv [build service][ref-uenv-build] pushes images.
 
 !!! info "JFrog uenv registry"
-    The OCI container registry used to host uenv is on JFrog at [jfrog.svc.cscs.ch/artifactory/uenv/](https://jfrog.svc.cscs.ch/artifactory/uenv/).
+    The OCI container registry used to host uenv is on JFrog, and can be browsed at [jfrog.svc.cscs.ch/artifactory/uenv/](https://jfrog.svc.cscs.ch/artifactory/uenv/) (you may have to log in with CSCS credentials from the a VPN/CSCS network).
 
-    The address used to refer uenv images is of the form
+    The address of individual uenv images is of the form
     ```
-    https://jfrog.svc.cscs.ch/uenv/namespace/system/uarch/name/version:release
+    https://jfrog.svc.cscs.ch/uenv/namespace/system/uarch/name/version:tag
     ```
     For example:
     ```
@@ -91,7 +90,7 @@ The uenv recipes are maintained in a public GitHub repository: [eth-cscs/alps-ue
 The recipes for each uenv version are stored in the `recipes` subdirectory. 
 Specific uenv recipes are stored in `recipes/name/version/uarch/`.
 
-The `cluster` is specified when building and deploying the uenv, while the `release` is specified when deploying the uenv.
+The `cluster` is specified when building and deploying the uenv, while the `tag` is specified when deploying the uenv.
 
 ## uenv Deployment
 
@@ -118,7 +117,7 @@ recipes to deployed versions on mucroarchitectures.
 !!! note "For CSCS staff"
     This information applies only to CSCS staff.
 
-Deployment/deletion requires elevated permissions.
+Deployment and deletion of uenv requires elevated permissions.
 Before you can modify the uenv registry, you need to set up credentials.
 
 * Your CSCS username needs to be added to the `uenv-admin` group on JFrog, and
@@ -144,7 +143,7 @@ uenv image copy --token=${HOME}/.ssh/jfrog-token <SOURCE> <DESTINATION>
 
 The CI/CD pipeline for [eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv) pushes images to the JFrog uenv registry in the `build::` namespace.
 
-Deploying a uenv copies the uenv imagre from the `build::` namespace to the `deploy::` namespace. The Squashfs image itself is not copied;
+Deploying a uenv copies the uenv image from the `build::` namespace to the `deploy::` namespace. The Squashfs image itself is not copied;
 a new tag for the uenv is created in the `deploy::` namespace.
 
 The deployment is performed using the `uenv` command line tool, as demonstrated below:
@@ -193,7 +192,7 @@ To remove a uenv, you can use the `uenv` command line tool:
 uenv image delete --token=${HOME}/.ssh/jfrog-token deploy::<IMAGE>
 ```
 
-!!! warning
+!!! danger
 
     Removing a uenv is disruptive.
     Please have a look at out [uenv removal policy][ref-uenv-removal] for more information.
