@@ -38,8 +38,6 @@ workdir = "/capstor/scratch/cscs/${USER}"
 !!! note
     Create `${HOME}/.edf` if the folder doesn't exist.
 
-### Running the environment
-
 Use Slurm in the cluster login node to start the environment above:
 
 ```bash
