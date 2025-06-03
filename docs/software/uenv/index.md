@@ -10,115 +10,66 @@ Each uenv is packaged in a single file (in the [Squashfs](https://docs.kernel.or
 
 Each environment contains a software stack, comprised of compilers, libraries, tools and scientific applications - built using Spack.
 
-!!! warning "uenv on Eiger and Balfrin"
-    
-    The uenv tool available on Eiger and Balfrin is a different version than the one described below. Some commands will be different.
-    Please refer to `uenv --help` for the correct usage.
 
-## Getting started
+<div class="grid cards" markdown>
 
-After logging into an Alps cluster, you can quickly check the availability of uenv with the following commands:
+-   :fontawesome-solid-layer-group: __Building uenv__
+
+    More adventurous users can create their own uenv for personal use, and for other users in their team and community.
+
+    [:octicons-arrow-right-24: Building uenv][ref-uenv-build]
+
+-   :fontawesome-solid-layer-group: __Configuring uenv__
+
+    Users can customize the behavior of uenv using a configuration file.
+
+    [:octicons-arrow-right-24: Configuring uenv][ref-uenv-configure]
+
+-   :fontawesome-solid-layer-group: __Deploying uenv__
+
+    Documentation on how CSCS deploys uenv images, that might also be of interest to users.
+
+    [:octicons-arrow-right-24: Deploying uenv][ref-uenv-deploy]
+
+-   :fontawesome-solid-layer-group: __Release notes__
+
+    Release notes for the uenv tools (CLI and Slurm plugin).
+
+    [:octicons-arrow-right-24: Deploying uenv][ref-uenv-release-notes]
+
+</div>
+
+## Before starting
+
+After logging into an [Alps cluster][ref-alps-clusters], you can quickly check the availability of uenv with the following commands:
 
 ```console
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-7.0.0
+8.1.0
 ```
 
-## uenv Labels
+On Alps clusters the most recent version 8.1.0 is installed.
 
-Uenv are referred to using **labels**, where a label has the following form `name/version:tag@system%uarch`, for example `prgenv-gnu/24.11:v2@todi%gh200`.
+??? warning "out of date uenv version on Eiger and Balfrin"
 
-#### `name`
+    The uenv tool available on Eiger and Balfrin is a different version than the one described below, and some commands will be different to those documented here.
 
-the name of the uenv. In this case `prgenv-gnu`.
+    !!! note
+        This note only applies to the current `eigen.cscs.ch` deployment.
 
-#### `version`
+        The new [`eigen.alps.cscs.ch`][ref-cluster-eiger] deployment has version 8.1.0 of uenv installed.
 
-The version of the uenv. The format of `version` depends on the specific uenv.
-Often they use the `yy.mm` format, though they may also use the version of the software being packaged.
-For example the `namd/3.0.1` uenv packages version 3.0.1 of the popular [NAMD](https://www.ks.uiuc.edu/Research/namd/) simulation tool.
-
-#### `tag`
-
-Used to differentiate between _releases_ of a versioned uenv. Some examples of tags include:
-
-* `rc1`, `rc2`: release candidates.
-* `v1`: a first release typically made after some release candidates.
-* `v2`: a second release, that might fix issues in the first release.
-
-#### `system`
-
-The name of the Alps cluster for which the uenv was built.
-
-[](){#ref-uenv-label-uarch}
-#### `uarch`
-
-The node type (microarchitecture) that the uenv is built for:
-
-| uarch                      | CPU | GPU | comment |
-| ----- | --- | --- | ------ |
-|[gh200][ref-alps-gh200-node]| 4 72-core NVIDIA Grace (`aarch64`) | 4 NVIDIA H100 GPUs | |
-|[zen2][ref-alps-zen2-node]  | 2 64-core AMD Rome (`zen2`)        | - | used in Eiger|
-|[a100][ref-alps-a100-node]  | 1 64-core AMD Milan (`zen3`)       | 4 NVIDIA A100 GPUs | |
-|[mi200][ref-alps-mi200-node]| 1 64-core AMD Milan (`zen3`)       | 4 AMD Mi250x GPUs  | |
-|[mi300][ref-alps-mi300-node]| 4 24-core AMD Genoa (`zen4`)       | 4 AMD Mi300 GPUs  | |
-| zen3                       | 2 64-core AMD Milan (`zen3`)       | - | only in MCH system |
-
-
-### Using labels
-
-The uenv command line has a flexible interface for filtering uenv by providing only part of the full label:
-
-```bash
-# search for all uenv on the current system that have the name prgenv-gnu
-uenv image find prgenv-gnu
-
-# search for all uenv with version 24.11
-uenv image find /24.11
-
-# search for all uenv with tag v1
-uenv image find :v1
-
-# search for a specific version
-uenv image find prgenv-gnu/24.11:v1
-```
-
-By default, the `uenv` filters results to uenv that were built on the current cluster.
-The name of the current cluster is always available via the `CLUSTER_NAME` environment variable.
-
-```bash
-# log into the eiger vCluster
-ssh eiger
-
-# this command will search for all prgenv-gnu uenv on _eiger_
-uenv image find prgenv-gnu
-
-# use @ to search on a specific system, e.g. on daint:
-uenv image find prgenv-gnu@daint
-
-# this can be used to search for all uenv on daint:
-uenv image find @daint
-
-# the '*' is a wildcard used meaning "all systems"
-# this will show all images on all systems
-# NOTE: the * character must be quoted in single quotes
-uenv image find @'*'
-
-# search for all images on Alps that were built for gh200 nodes.
-uenv image find @'*'%gh200
-```
-
-!!! note
-    The wild card `*` used for "all systems" must always be escaped in single quotes: `@'*'`.
+    Please refer to `uenv --help` for the correct usage on these systems.
 
 ## Finding uenv
 
 Uenv for programming environments, tools and applications are provided by CSCS on each Alps system.
 
 !!! info
-    The same uenv are not installed on every system. Instead uenv that are supported for the users of that platform are provided.
+    The same uenv are not installed on every system.
+    Instead uenv that are supported for the users of that platform are provided.
 
 The available uenv images are stored in a registry, that can be queried using the `uenv image find`  command:
 
@@ -144,13 +95,34 @@ The available uenv images are stored in a registry, that can be queried using th
     quantumespresso/v7.3.1:v1  zen2  eiger   61d1f21881a65578     864    2024-11-08
     ```
 
-The output above shows that there are 12 uenv (`prgenv-gnu`, `namd` , `cp2k` and `arbor`).
+The output above lists all of the uenv that are available on the current system ([Eiger][ref-cluster-eiger] in this case).
+The search can be refined by providing a [label][ref-uenv-labels].
+
+??? example "using labels to refine search"
+    ```bash
+    # find all uenv with name prgenv-gnu
+    uenv image find prgenv-gnu
+
+    # find all uenv with name and version prgenv-gnu/24.11
+    uenv image find prgenv-gnu/24.11
+
+    # find all uenv available for daint
+    uenv image find @daint
+
+    # find all prgenv-gnu uenv available on a cluster
+    uenv image find prgenv-gnu@daint
+
+    # find all uenv in the service namespace with name myenv
+    uenv image find service::myenv
+    ```
+
+!!! info
+    All uenv commands that take a [label][ref-uenv-labels] as an arguement use the same flexible syntax [label descriptions][ref-uenv-labels-examples].
 
 ## Downloading uenv
 
-!!! note
-    In order to pull uenv images, a local directory for storing the images must first be created,
-    otherwise you will receive an error message that the repository does not exist.
+??? note "Using uenv for the first time on Balfrin and Eiger"
+    With the old version of uenv installed on Balfrin and Eiger, before downloading your first image, a local directory for storing the images must first be created, otherwise you will receive an error message that the repository does not exist.
 
     To create a repo in the default location, use the following command:
 
@@ -211,7 +183,7 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
     ```
 
 !!! note
-    As of March 2025, the only restricted software is VASP.
+    As of June 2025, the only restricted software is VASP.
 
 !!! note
     Better token management is under development - tokens will be stored in a central location and will be easier to use.
@@ -272,12 +244,12 @@ This is very useful for interactive sessions, for example if you want to work in
     SHELL=`which zsh` uenv start ...
     ```
 
-!!! warning "C Shell / tcsh users"
+??? warning "C Shell / tcsh users"
     uenv is tested extensively with bash (the default shell), and zsh. C shell is not tested properly, and we will not make significant changes to uenv to maintain support for C shell.
 
     If your are one of the handful of users using `tcsh` (C shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
 
-!!! warning "Failed to unshare the mount namespace"
+??? warning "Failed to unshare the mount namespace"
 
     If you get the following error message when starting a uenv:
     ```console
@@ -451,51 +423,6 @@ The `uenv run` command can be used to run an application or script in a uenv env
     $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./post-processing-script.sh
     ```
 
-## Building uenv
-
-CSCS provides a build service for uenv that takes as its input a uenv recipe, and builds the uenv using the same pipeline used to build the officially supported uenv.
-
-The command takes two arguments:
-
-* `recipe`: the path to the recipe
-    * A uenv recipe is a description of the software to build in the uenv.
-      See the [stackinator documentation](https://eth-cscs.github.io/stackinator/recipes/) for more information.
-* `label`: the label to attach, of the form `name/version@system%uarch` where:
-    * `name` is the name, e.g. `prgenv-gnu`, `gromacs`, `vistools`.
-    * `version` is a version string, e.g. `24.11`, `v1.2`, `2025-rc2`
-    * `system` is the CSCS cluster to build on (e.g. `daint`, `santis`, `clariden`, `eiger`)
-    * `uarch` is the [micro-architecture][ref-uenv-label-uarch].
-
-!!! example "building a uenv"
-    Call the 
-    ```
-    uenv build $SCRATCH/recipes/myapp myapp/v3@daint%gh200
-    ```
-
-    The image will be built on `daint`.
-    The build tool gives you a url to a status page, that shows the progress of the build.
-    After a successful build, the uenv can be pulled:
-    ```
-    uenv image pull service::myapp/v3:1669479716
-    ```
-
-    Note that the image is given a unique numeric tag, that you can find on the status page for the build.
-
-!!! info
-    To use an existing uenv recipe as the starting point for a custom recipe, `uenv start` the uenv and take the contents of the `meta/recipe` path in the mounted image (this is the recipe that was used to build the uenv).
-
-All uenv built by `uenv build` are pushed into the `service` namespace, where they **can be accessed by all users logged in to CSCS**.
-This makes it easy to share your uenv with other users, by giving them the name, version and tag of the image.
-
-!!! warning
-    **If, for whatever reason, your uenv can not be made publicly available, do not use the build service.**
-
-!!! example "search user-built uenv"
-    To view all of the uenv on daint that have been built by the service:
-    ```
-    uenv image find service::@daint
-    ```
-
 [](){#ref-uenv-slurm}
 ## SLURM integration
 
@@ -598,3 +525,84 @@ echo "unset -f uenv" >> $HOME/.bashrc
 
 !!! warning
     Before uenv can be used, you need to log out then back in again and type `which uenv` to verify that uenv has been installed in your `$HOME` path.
+
+[](){#ref-uenv-labels}
+## uenv Labels
+
+Uenv are referred to using **labels**, where a label has the following form
+
+```
+name/version:tag@system%uarch
+```
+
+The different fields are described in the following table:
+
+| label | meaning |
+|-------|---------|
+| `uarch`   | node microarchitecture: one of `gh200`, `a100`, `zen2`, `mi200`, `mi300a`, `zen3`    |
+| `cluster` | name of the cluster, e.g. `daint`, `clariden`, `eiger` or `santis` |
+| `name`    | name of the uenv, e.g. `gromacs`, `prgenv-gnu`  |
+| `version` | version of the uenv: e.g. `v8.7`, `2025.01` |
+| `tag`     | a tag applied by CSCS     |
+
+!!! example "Example labels"
+    ??? note "`prgenv-gnu/24.11:v2@daint%gh200`"
+        The `prgenv-gnu` programming environment, built on [Daint][ref-cluster-daint] for the Grace-Hopper GH200 (`gh200`) architecture.
+
+        * the _version_ `24.11` refers to the version
+        * the _tag_ `v2` refers to a minor update to the uenv (e.g. a bug fix or addition of a new package).
+
+    ??? note "`cp2k/2025.1:v3@eiger%zen2`"
+        The uenv provides version 2025.1 of the CP2K simulation code, built for the AMD Rome (`zen2`) architecture of [Eiger][ref-cluster-eiger].
+
+        * the _version_ `2025.1` refers to the CP2K version [v2025.1](https://github.com/cp2k/cp2k/releases/tag/v2025.1)
+        * the _tag_ `v2` refers to a minor update by CSCS to the original `v1` version of the uenv that had a bug.
+
+For more information about the labeling scheme, see the [uenv deployment][ref-uenv-deploy-versions] docs.
+
+[](){#ref-uenv-labels-examples}
+### Using labels
+
+The uenv command line has a flexible interface for filtering uenv by providing only part of the full label:
+
+```bash
+# search for all uenv on the current system that have the name prgenv-gnu
+uenv image find prgenv-gnu
+
+# search for all uenv with version 24.11
+uenv image find /24.11
+
+# search for all uenv with tag v1
+uenv image find :v1
+
+# search for a specific version
+uenv image find prgenv-gnu/24.11:v1
+```
+
+By default, the `uenv` filters results to uenv that were built on the current cluster.
+The name of the current cluster is always available via the `CLUSTER_NAME` environment variable.
+
+```bash
+# log into the eiger vCluster
+ssh eiger
+
+# this command will search for all prgenv-gnu uenv on _eiger_
+uenv image find prgenv-gnu
+
+# use @ to search on a specific system, e.g. on daint:
+uenv image find prgenv-gnu@daint
+
+# this can be used to search for all uenv on daint:
+uenv image find @daint
+
+# the '*' is a wildcard used meaning "all systems"
+# this will show all images on all systems
+# NOTE: the * character must be quoted in single quotes
+uenv image find @'*'
+
+# search for all images on Alps that were built for gh200 nodes.
+uenv image find @'*'%gh200
+```
+
+!!! note
+    The wild card `*` used for "all systems" must always be escaped in single quotes: `@'*'`.

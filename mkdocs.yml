@@ -80,7 +80,12 @@ nav:
       - 'Using Linaro performance analysis tool': software/devtools/linaro-map.md
       - 'Using Linaro debugger': software/devtools/linaro-ddt.md
       - 'NVIDIA Nsight': software/devtools/nvidia-nsight.md
-    - 'uenv': software/uenv.md
+    - 'uenv':
+      - software/uenv/index.md
+      - 'Configuration': software/uenv/configure.md
+      - 'Building uenv': software/uenv/build.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Release notes': software/uenv/release-notes.md
     - 'Container Engine': software/container-engine.md
     - 'Unsupported Software': software/unsupported.md
   - 'Services':
