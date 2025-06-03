@@ -1,0 +1,272 @@
+[](){#ref-container-engine}
+# Container Engine
+
+The Container Engine (CE) toolset is designed to enable computing jobs to seamlessly run inside Linux application containers, thus providing support for containerized user environments.
+
+## Concept
+
+Containers effectively encapsulate a software stack; however, to be useful in HPC computing environments, they often require the customization of bind mounts, environment variables, working directories, hooks, plugins, etc. 
+To simplify this process, the Container Engine (CE) toolset supports the specification of user environments through Environment Definition Files.
+
+An Environment Definition File (EDF) is a text file in the [TOML format](https://toml.io/en/) that declaratively and prescriptively represents the creation of a computing environment based on a container image.
+Users can create their own custom environments and share, edit, or build upon already existing environments.
+
+The Container Engine (CE) toolset leverages its tight integration with the Slurm workload manager to parse EDFs directly from the command line or batch script and instantiate containerized user environments seamlessly and transparently.
+
+Through the EDF, container use cases can be abstracted to the point where end users perform their workflows as if they were operating natively on the computing system.
+
+**Key Benefits**
+
+ * *Freedom*: Container gives users full control of the user space. The user can decide what to install without involving a sysadmin.
+ * *Reproducibility*: Workloads consistently run in the same environment, ensuring uniformity across job experimental runs.
+ * *Portability*: The self-contained nature of containers simplifies the deployment across architecture-compatible HPC systems.
+ * *Seamless Access to HPC Resources*: CE facilitates native access to specialized HPC resources like GPUs, interconnects, and other system-specific tools crucial for performance.
+
+## Quick Start
+
+Let's set up a containerized Ubuntu 24.04 environment on the scratch folder (`${SCRATCH}`).
+Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default location of EDF files).
+A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference].
+
+```bash
+image = "library/ubuntu:24.04"
+mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
+workdir = "/capstor/scratch/cscs/${USER}"
+```
+
+
+!!! note
+    Create `${HOME}/.edf` if the folder doesn't exist.
+
+Use Slurm in the cluster login node to start the environment above:
+
+```bash
+$ srun --environment=ubuntu --pty bash
+```
+
+The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
+Click on the :fontawesome-solid-circle-plus: icon for information on each command.
+
+```console
+[daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
+
+[nid005333]$ pwd                                      # (2)
+/capstor/scratch/cscs/<username>
+
+[nid005333]$ cat /etc/os-release                      # (3)
+PRETTY_NAME="Ubuntu 24.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+...
+
+[nid005333]$ exit                                     # (4)
+[daint-ln002]$
+```
+
+1.  Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.
+2.  Check the current folder (dubbed _the working directory_) is set to the user's scratch folder, as per EDF.
+3.  Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
+4.  Exiting the container (`exit`), returning to the login node.
+
+!!! note
+    CE pulls the image automatically when the container starts.
+
+## Running containerized environments
+
+Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
+
+!!! example "Specifying EDF with an absolute path"
+    ```bash
+    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
+
+`--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
+A relative path should be prepended by `./`:
+
+!!! example "Specifying EDF with a relative path"
+    ```bash
+    $ ls
+    debian.toml
+
+    $ srun --environment=./debian.toml cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
+
+If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
+
+!!! example "Specifying EDF in the default search path"
+    ```bash
+    $ srun --environment=debian cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
+
+### Use from batch scripts
+
+The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
+
+!!! example "Adding `--environment` to `srun`"
+    ```bash
+    #!/bin/bash
+    #SBATCH --job-name=edf-example
+    ...
+
+    # Run job step
+    srun --environment=debian cat /etc/os-release
+    ```
+
+Alternatively, the `--environment` option can also be specified with an `#SBATCH` option.
+However, the support status is still **experimental** and may result in unexpected behaviors.
+
+!!! note
+    Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). 
+    The hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters.
+
+[](){#ref-ce-edf-search-path}
+### EDF search path
+
+By default, the EDFs for each user are looked up in `$HOME/.edf`.
+The default EDF search path can be changed through the `EDF_PATH` environment variable.
+`EDF_PATH` must be a colon-separated list of absolute paths to directories, where the CE searches each directory in order.
+If an EDF is located in the search path, its name can be used in the `--environment` option without the `.toml` extension.
+
+!!! example "Using `EDF_PATH` to control the default search path"
+    ```bash
+    $ ls ~/.edf
+    debian.toml
+
+    $ ls ~/example-project
+    fedora-env.toml
+
+    $ export EDF_PATH="$HOME/example-project"
+
+    $ srun --environment=fedora-env cat /etc/os-release
+    NAME="Fedora Linux"
+    VERSION="40 (Container Image)"
+    ID=fedora
+    ...
+    ```
+
+## Image Management
+
+### Image cache
+
+By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached.
+A cached image would be preferred to pulling the image again in later usage.
+
+An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`), under which cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`).
+Cached images may be subject to the automatic cleaning policy of the scratch folder.
+ 
+Should users want to re-pull a cached image, they have to remove the corresponding image in the cache.
+
+To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable `EDF_IMAGESTORE`.
+ `EDF_IMAGESTORE` must be an absolute path to an existing folder.
+
+!!! note
+    If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
+
+### Pulling images manually
+
+To work with images stored from the NGC Catalog, please refer also to the next section "Using images from third party registries and private repositories".
+
+To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF.
+To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to pull container images from OCI registries to the current directory.
+
+After the import is complete, images are available in Squashfs format in the current directory and can be used in EDFs:
+
+!!! example "Manually pulling an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image"
+    ```console
+    $ cd ${SCRATCH}
+    $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+    [INFO] Querying registry for permission grant
+    [INFO] Authenticating with user: <anonymous>
+    ...
+    Number of gids 1
+        root (0)
+
+    $ ls *.sqsh
+    nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
+
+    $ cat ${HOME}/.edf/example.toml      # (1)
+    image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
+    ```
+
+    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
+
+!!! note
+    It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them with the CE.
+
+[](){#ref-ce-third-party-private-registries}
+### Third-party and private registries
+
+[Docker Hub](https://hub.docker.com/) is the default registry from which remote images are imported.
+
+!!! warning "Registry rate limits"
+    Some registries will rate limit image pulls by IP address.
+    Since [public IPs are a shared resource][ref-guides-internet-access] we recommend authenticating even for publicly available images.
+    For example, [Docker Hub applies its rate limits per user when authenticated](https://docs.docker.com/docker-hub/usage/).
+
+To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator:
+
+!!! example "Using a third-party registry within an EDF"
+    ```bash
+    $ cat ${HOME}/.edf/example.toml    # (1)
+    image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
+    ```
+    
+    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
+
+!!! example "Using a third-party registry on the command line"
+    ```bash
+    $ enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
+    ```
+
+To import images from private repositories, access credentials should be configured by individual users in the `$HOME/.config/enroot/.credentials` file, following the [netrc file format](https://everything.curl.dev/usingcurl/netrc).
+Using the `enroot import` documentation page as a reference:
+
+??? example "`netrc` example"
+    ```bash
+    # NVIDIA NGC catalog (both endpoints are required)
+    machine nvcr.io login $oauthtoken password <token>
+    machine authn.nvidia.com login $oauthtoken password <token>
+
+    # DockerHub
+    machine auth.docker.io login <login> password <password>
+
+    # Google Container Registry with OAuth
+    machine gcr.io login oauth2accesstoken password $(gcloud auth print-access-token)
+    # Google Container Registry with JSON
+    machine gcr.io login _json_key password $(jq -c '.' $GOOGLE_APPLICATION_CREDENTIALS | sed 's/ /\\u0020/g')
+
+    # Amazon Elastic Container Registry
+    machine 12345.dkr.ecr.eu-west-2.amazonaws.com login AWS password $(aws ecr get-login-password --region eu-west-2)
+
+    # Azure Container Registry with ACR refresh token
+    machine myregistry.azurecr.io login 00000000-0000-0000-0000-000000000000 password $(az acr login --name myregistry --expose-token --query accessToken  | tr -d '"')
+    # Azure Container Registry with ACR admin user
+    machine myregistry.azurecr.io login myregistry password $(az acr credential show --name myregistry --subscription mysub --query passwords[0].value | tr -d '"')
+
+    # Github.com Container Registry (GITHUB_TOKEN needs read:packages scope)
+    machine ghcr.io login <username> password <GITHUB_TOKEN>
+
+    # GitLab Container Registry (GITLAB_TOKEN needs a scope with read access to the container registry)
+    # GitLab instances often use different domains for the registry and the authentication service, respectively
+    # Two separate credential entries are required in such cases, for example:
+    # Gitlab.com
+    machine registry.gitlab.com login <username> password <GITLAB TOKEN>
+    machine gitlab.com login <username> password <GITLAB TOKEN>
+
+    # ETH Zurich GitLab registry
+    machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
+    machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
+    ```
+
