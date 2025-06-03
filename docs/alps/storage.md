@@ -35,6 +35,7 @@ Two of of these Metadata servers are dedicated for Store, and the remaining four
 
 All users on Alps get their own scratch path on Alps, `/capstor/scratch/cscs/$USER`.
 Since Capstor OSSs are made of HDDs, Capstor is a storage well suited for jobs which perform large sequential and parallel read/write operations.
+See the [Scratch documentation][ref-storage-scratch] for more information.
 
 [](){#ref-alps-capstor-store}
 ### Store
