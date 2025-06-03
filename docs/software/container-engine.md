@@ -142,7 +142,8 @@ VERSION_ID="12"
 
 ### Use from batch scripts
 
-The recommended approach is to use `--environment` as part of the `srun` commands. For example, when launching job steps:
+The recommended approach is to use `--environment` as part of the Slurm command
+(e.g., `srun` or `salloc`). For example, when launching job steps:
 
 ```bash
 #!/bin/bash
@@ -153,10 +154,16 @@ The recommended approach is to use `--environment` as part of the `srun` command
 srun --environment=debian cat /etc/os-release
 ```
 
-The `--environment` option can also be used within batch scripts as an `#SBATCH` option, but the support status is **experimental** and may result in unexpected behaviors.
+Alternatively, the `--environment` option can also be specified with an
+`#SBATCH` option. However, the support status is still **experimental** and may
+result in unexpected behaviors.
 
 !!! note
-    Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). The hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters.
+    Specifying `--environment` with `#SBATCH` will put the entire batch script
+    inside the containerized environment, requiring the Slurm hook to use any
+    Slurm commands within the batch script (e.g., `srun` or `scontrol`). The 
+    hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and
+    activated by default on most vClusters.
 
 [](){#ref-ce-edf-search-path}
 ### The EDF search path
