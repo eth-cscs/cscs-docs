@@ -90,7 +90,7 @@ nav:
       - software/container-engine/index.md
       - 'Resource and hooks': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
-      - 'Known issues': software/container-engine/known-issues.md
+      - 'Known issues': software/container-engine/known-issue.md
     - 'Unsupported Software': software/unsupported.md
   - 'Services':
     - services/index.md

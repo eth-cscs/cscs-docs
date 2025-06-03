@@ -26,7 +26,7 @@ Through the EDF, container use cases can be abstracted to the point where end us
 
 Let's set up a containerized Ubuntu 24.04 environment on the scratch folder (`${SCRATCH}`).
 Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default location of EDF files).
-A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference].
+A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][./edf.md].
 
 ```bash
 image = "library/ubuntu:24.04"
@@ -269,4 +269,3 @@ Using the `enroot import` documentation page as a reference:
     machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
     machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
     ```
-
