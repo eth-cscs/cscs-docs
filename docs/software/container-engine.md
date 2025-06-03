@@ -78,7 +78,7 @@ $ srun --environment=ubuntu --pty bash
 
 Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
 
-!!! example
+!!! example "Specifying EDF with an absolute path"
     ```bash
     $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
     PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
@@ -90,7 +90,7 @@ Specifying the `--environment` option to the Slurm command (e.g., `srun` or `sal
 `--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
 A relative path should be prepended by `./`:
 
-!!! example
+!!! example "Specifying EDF with a relative path"
     ```bash
     $ ls
     debian.toml
@@ -104,7 +104,7 @@ A relative path should be prepended by `./`:
 
 If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
 
-!!! example
+!!! example "Specifying EDF in the default search path"
     ```bash
     $ srun --environment=debian cat /etc/os-release
     PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
@@ -117,7 +117,7 @@ If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--enviro
 
 The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
 
-!!! example
+!!! example "Adding `--environment` to `srun`"
     ```bash
     #!/bin/bash
     #SBATCH --job-name=edf-example
@@ -142,7 +142,7 @@ The default EDF search path can be changed through the `EDF_PATH` environment va
 `EDF_PATH` must be a colon-separated list of absolute paths to directories, where the CE searches each directory in order.
 If an EDF is located in the search path, its name can be used in the `--environment` option without the `.toml` extension.
 
-!!! example
+!!! example "Using `EDF_PATH` to control the default search path"
     ```bash
     $ ls ~/.edf
     debian.toml
@@ -220,13 +220,16 @@ After the import is complete, images are available in Squashfs format in the cur
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator:
 
-!!! example
+!!! example "Using a third-party registry within an EDF"
     ```bash
-    # Usage within an EDF
-    $ cat $HOME/.edf/nvhpc-23.7.toml
+    $ cat ${HOME}/.edf/example.toml    # (1)
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
+    ```
+    
+    1. Assuming `example.toml` was already written at `${HOME}/.edf`. 
 
-    # Usage on the command line
+!!! example "Using a third-party registry on the command line"
+    ```bash
     $ enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
     ```
 
@@ -295,27 +298,30 @@ This can be done in multiple ways in TOML: for example, both of the following us
     enabled = "true"
     ```
 
-To avoid mistakes, notice a few key features of TOML:
+??? note "Relevant details of the TOML format"
+     * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
 
- * All property assignments belong to the section immediately preceding them (the statement in square brackets), which defines the table they refer to.
- * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table `ssh` inside `hooks`, which in turn is inside `com`, which is inside `annotations`).
- * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
- * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
-    * Case 1 (valid):
+     * Tables, on the other hand, do not automatically belong to the tables declared before them; to nest tables, their name has to list their parents using the dot notations (so the previous example defines the table `ssh` inside `hooks`, which in turn is inside `com`, which is inside `annotations`).
+
+     * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
+
+     * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
+
+    !!! example "Valid usage"
         ```bash
         [annotations.com.hooks.ssh]
         authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
         enabled = "true"
         ```
 
-    * Case 2 (valid):
+    !!! example "Valid usage"
         ```bash
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
         com.hooks.ssh.enabled = "true"
         ```
 
-    * Case 3 (**invalid**):
+    !!! example "**Invalid** usage"
         ```bash
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
