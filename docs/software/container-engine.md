@@ -307,21 +307,21 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
      * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
 
-    !!! example "Valid usage"
+    !!! example ":white_check_mark: Valid usage"
         ```bash
         [annotations.com.hooks.ssh]
         authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
         enabled = "true"
         ```
 
-    !!! example "Valid usage"
+    !!! example ":white_check_mark: Valid usage"
         ```bash
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
         com.hooks.ssh.enabled = "true"
         ```
 
-    !!! example "**Invalid** usage"
+    !!! example ":x: Invalid usage"
         ```bash
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
