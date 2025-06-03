@@ -46,33 +46,32 @@ Use Slurm in the cluster login node to start the environment above:
 $ srun --environment=ubuntu --pty bash
 ```
 
-!!! example "Launching a containerized environment"
-    The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
-    Click on the :fontawesome-solid-circle-plus: icon for information on each command.
+The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option.
+Click on the :fontawesome-solid-circle-plus: icon for information on each command.
 
-    ```console
-    [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
+```console
+[daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
 
-    [nid005333]$ pwd                                      # (2)
-    /capstor/scratch/cscs/<username>
+[nid005333]$ pwd                                      # (2)
+/capstor/scratch/cscs/<username>
 
-    [nid005333]$ cat /etc/os-release                      # (3)
-    PRETTY_NAME="Ubuntu 24.04 LTS"
-    NAME="Ubuntu"
-    VERSION_ID="24.04"
-    ...
+[nid005333]$ cat /etc/os-release                      # (3)
+PRETTY_NAME="Ubuntu 24.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+...
 
-    [nid005333]$ exit                                     # (4)
-    [daint-ln002]$
-    ```
+[nid005333]$ exit                                     # (4)
+[daint-ln002]$
+```
 
-    1.  Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.
-    2.  Check the current folder (dubbed _the working directory_) is set to the user's scratch folder, as per EDF.
-    3.  Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
-    4.  Exiting the container (`exit`), returning to the login node.
+1.  Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.
+2.  Check the current folder (dubbed _the working directory_) is set to the user's scratch folder, as per EDF.
+3.  Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
+4.  Exiting the container (`exit`), returning to the login node.
 
-    !!! note
-        CE pulls the image automatically when the container starts.
+!!! note
+    CE pulls the image automatically when the container starts.
 
 ## Running containerized environments
 
