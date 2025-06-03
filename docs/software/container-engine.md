@@ -32,9 +32,10 @@ mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
 ```
 
-Note: Ensure that your `${USER}` environment variable is defined with your actual username.
+Save this file as `ubuntu.toml` file in `$HOME/.edf` directory (the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference]
 
-Save this file as `ubuntu.toml` file in `$HOME/.edf` directory (which is the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference]
+!!! note
+    Create `$HOME/.edf` if the folder doesn't exist.
 
 ### Running the environment
 
