@@ -181,69 +181,32 @@ To choose an alternative image store path (e.g., to use a directory owned by a g
 
 To work with images stored from the NGC Catalog, please refer also to the next section "Using images from third party registries and private repositories".
 
-To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF. To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to pull container images from OCI registries to the current directory.
+To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF.
+To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to pull container images from OCI registries to the current directory.
 
-For example, the command below pulls an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image.
+After the import is complete, images are available in Squashfs format in the current directory and can be used in EDFs:
 
-```bash
-$ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
-```
-
-??? example "Image import w/ full output"
-    ```bash
-    > srun enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+!!! example "Manually pulling an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image"
+    ```console
+    $ cd ${SCRATCH}
+    $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
     [INFO] Querying registry for permission grant
     [INFO] Authenticating with user: <anonymous>
-    [INFO] Authentication succeeded
-    [INFO] Fetching image manifest list
-    [INFO] Fetching image manifest
-    [INFO] Downloading 13 missing layers...
-    [INFO] Extracting image layers...
-    [INFO] Converting whiteouts...
-    [INFO] Creating squashfs filesystem...
-    Parallel mksquashfs: Using 64 processors
-    Creating 4.0 filesystem on /scratch/aistor/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh, block size 131072.
-
-    Exportable Squashfs 4.0 filesystem, zstd compressed, data block size 131072
-        uncompressed data, compressed metadata, compressed fragments,
-        compressed xattrs, compressed ids
-        duplicates are removed
-    Filesystem size 9492185.87 Kbytes (9269.71 Mbytes)
-        98.93% of uncompressed filesystem size (9594893.12 Kbytes)
-    Inode table size 128688 bytes (125.67 Kbytes)
-        17.47% of uncompressed inode table size (736832 bytes)
-    Directory table size 132328 bytes (129.23 Kbytes)
-        46.42% of uncompressed directory table size (285091 bytes)
-    Number of duplicate files found 1069
-    Number of inodes 13010
-    Number of files 10610
-    Number of fragments 896
-    Number of symbolic links  846
-    Number of device nodes 0
-    Number of fifo nodes 0
-    Number of socket nodes 0
-    Number of directories 1554
-    Number of ids (unique uids + gids) 1
-    Number of uids 1
-        root (0)
+    ...
     Number of gids 1
         root (0)
+
+    $ ls *.sqsh
+    nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
+
+    $ cat ${HOME}/.edf/example.toml      (1)
+    image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
     ```
 
-After the import is complete, images are available in Squashfs format in the current directory and can be used in EDFs, for example:
-
-```bash
-> ls -l *.sqsh
--rw-r--r-- 1 <username> csstaff 9720037376 Sep 11 14:46 nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
-
-> realpath nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh  /capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
-
-> cat $HOME/.edf/cudnn8.toml
-image = "/capstor/scratch/cscs/<username>/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
-```
+    1. Assuming `example.toml` was already written at `${HOME}/.edf`. 
 
 !!! note
-    It is recommended to save images in `/capstor/scratch/cscs/<username>` or its subdirectories before using them with the CE.
+    It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them with the CE.
 
 [](){#ref-ce-third-party-private-registries}
 ### Third-party and private registries
