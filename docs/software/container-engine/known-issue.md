@@ -36,7 +36,7 @@ Notice the section `[annotations]` disabling Slurm and CXI hooks.
 
 ### Using NCCL from remote SSH terminals
 
-We are aware of an issue when enabling both [the AWS OFI NCCL hook][ref-ce-aws-ofi-hook] and [the SSH hook][ref-ce-ssh-hook], and launching programs using NCCL from Bash sessions connected via SSH.
+We are aware of an issue when enabling both [the AWS OFI NCCL hook][software/container-engine/resource-hook.md#ref-ce-aws-ofi-hook] and [the SSH hook][software/container-engine/resource-hook.md#ref-ce-ssh-hook], and launching programs using NCCL from Bash sessions connected via SSH.
 The issue manifests with messages reporting `Error: network 'AWS Libfabric' not found`.
 
 In addition to setting up a server for remote connections, the SSH hook also performs actions intended to improve the user experience. One of these is creating a script to be loaded by Bash in order to propagate the container job environment variables when connecting through SSH.
