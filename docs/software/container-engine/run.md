@@ -104,8 +104,6 @@ To choose an alternative image store path (e.g., to use a directory owned by a g
 
 ### Pulling images manually
 
-To work with images stored from the NGC Catalog, please refer also to the next section "Using images from third party registries and private repositories".
-
 To bypass any caching behavior, users can manually pull an image and directly plug it into their EDF.
 To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to pull container images from OCI registries to the current directory.
 
