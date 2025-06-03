@@ -159,9 +159,43 @@ Protein atoms = 86,996  Lipid atoms = 867,784  Water atoms = 2,041,230  Ions = 1
 	- If the problem allows the integration step to take place on the GPU with `-update gpu`, that can lead to significant performance and scaling gains as it allows an even greater part of the computations to take place on the GPU.
 	- A single node of the GH200 cluster offers 4x CPU+GPU. For problems that can benefit from scaling beyond a single node, use the flag `export FI_CXI_RX_MATCH_MODE=software` in the SBATCH script. The best use of resources in terms of node-hours might be achieved on a single node for most simulations.
 
+### Building GROMACS from Source
+
+The [GROMACS] uenv provides all the dependencies required to build GROMACS from source, with several optional features enabled. This approach is particularly useful for deploying customized variants of GROMACS. You can follow these steps to build GROMACS from source:
+
+```bash
+uenv start --view=develop <GROMACS_UENV> # (1)!
+
+cd <PATH_TO_GROMACS_SOURCE> # (2)!
+
+mkdir build && cd build
+cmake \
+	-DCMAKE_C_COMPILER=gcc \
+	-DCMAKE_CXX_COMPILER=g++ \
+	-DGMX_MPI=on \
+	-DGMX_GPU=CUDA \
+	-GMX_CUDA_TARGET_SM="90" \ # for the Hopper GPUs
+	-DGMX_SIMD=ARM_NEON_ASIMD \ # for the Grace CPUs
+	-DGMX_DOUBLE=off \ # turn on double precision only if useful
+	-DCMAKE_INSTALL_PREFIX=/custom/gromacs/install/path
+	..
+
+make
+make check
+make install
+source /custom/gromacs/install/path/bin/GMXRC
+```
+
+1. Start the GROMACS uenv and load the `develop` view (which provides all the necessary dependencies)
+
+2. Go to the GROMACS source directory
+
+See [GROMACS Installation Guide] for more details, especially on special configurations.
+
 ## Further documentation 
 
 * [GROMACS Homepage][GROMACS]
 * [GROMACS Manual](https://manual.gromacs.org/2024.1/index.html)
 
 [GROMACS]: https://www.gromacs.org
+[GROMACS Installation Guide]: https://manual.gromacs.org/current/install-guide/index.html
