@@ -11,12 +11,7 @@ In the following, the default value is none (i.e., the empty value of the corres
 
 Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
-??? note
-     * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in `base_environment`. When evaluating `mounts` or `env` parameters, values from downstream EDFs are appended to inherited values.
-     * The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path][ref-ce-edf-search-path].
-     * This parameter can be a string if there is only one base environment.
-
-??? example
+!!! example
      * Single environment inheritance:
         ```bash
         base_environment = "common_env"
@@ -27,18 +22,16 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
         base_environment = ["common_env", "ml_pytorch_env1"]
         ```
 
+??? note
+     * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in `base_environment`. When evaluating `mounts` or `env` parameters, values from downstream EDFs are appended to inherited values.
+     * The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path][ref-ce-edf-search-path].
+     * This parameter can be a string if there is only one base environment.
+
 ### (STRING) image
 
 The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
-??? note
-     * The full format for remote references is `[USER@][REGISTRY#]IMAGE[:TAG]`.
-         * `[REGISTRY#]`: (optional) registry URL, followed by #. Default: Docker Hub.
-         * `IMAGE`: image name.
-         * `[:TAG]`: (optional) image tag name, preceded by :.
-     * The registry user can also be specified in the `$HOME/.config/enroot/.credentials` file.
-
-??? example
+!!! example
      * Reference of Ubuntu image in the Docker Hub registry (default registry)
         ```bash
         image = "library/ubuntu:24.04"
@@ -64,11 +57,18 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
         image = "/path/to/image.squashfs"
         ```
 
+??? note
+     * The full format for remote references is `[USER@][REGISTRY#]IMAGE[:TAG]`.
+         * `[REGISTRY#]`: (optional) registry URL, followed by #. Default: Docker Hub.
+         * `IMAGE`: image name.
+         * `[:TAG]`: (optional) image tag name, preceded by :.
+     * The registry user can also be specified in the `$HOME/.config/enroot/.credentials` file.
+
 ### (STRING) workdir
 
 Initial working directory when the container starts. Default: inherited from image.
 
-??? example
+!!! example
      * Workdir pointing to a user defined project path 
         ```bash
         workdir = "/home/user/projects"
@@ -82,7 +82,7 @@ Initial working directory when the container starts. Default: inherited from ima
 
 If true, run the entrypoint from the container image. Default: true.
 
-??? example
+!!! example
     ```bash
     entrypoint = false
     ```
@@ -91,7 +91,7 @@ If true, run the entrypoint from the container image. Default: true.
 
 If false, the container filesystem is read-only. Default: true.
 
-??? example
+!!! example
     ```bash
     writable = true
     ```
@@ -100,12 +100,7 @@ If false, the container filesystem is read-only. Default: true.
 
 List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
 
-??? note
-    * Mount flags are separated with a plus symbol, for example: `ro+private`.
-    * Optional flags from docker format or OCI (need reference)
-
-??? example
-
+!!! example
      * Literal fixed mount map
         ```bash
         mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
@@ -121,19 +116,15 @@ List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are option
         mounts = ["${SCRATCH}:/scratch"]
         ```
 
+??? note
+    * Mount flags are separated with a plus symbol, for example: `ro+private`.
+    * Optional flags from docker format or OCI (need reference)
 
 ### (TABLE) env
 
 Environment variables to set in the container. Null-string values will unset the variable. Default: inherited from the host and the image.
 
-??? note
-    * By default, containers inherit environment variables from the container image and the host environment, with variables from the image taking precedence.
-    * The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
-    * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
-
-
-??? example
-
+!!! example
      * Basic `env` block
         ```bash
         [env]
@@ -149,12 +140,16 @@ Environment variables to set in the container. Null-string values will unset the
         DEBUG = "true"
         ```
 
+??? note
+    * By default, containers inherit environment variables from the container image and the host environment, with variables from the image taking precedence.
+    * The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
+    * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
 
 ### (TABLE) annotations
 
 OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
 
-??? example
+!!! example
 
      * Disabling the CXI hook
         ```bash
