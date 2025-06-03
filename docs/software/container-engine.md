@@ -559,9 +559,6 @@ After the container starts, it is possible to get a remote shell inside the cont
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
 
-!!! note
-    The container must be **writable** (default) to use the SSH hook.
-
 !!! example "Logging into a sleeping container via SSH"
     * On the cluster
     ```bash
@@ -580,61 +577,68 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     ssh -p 15263 <host-of-container>
     ```
 
+!!! note
+    The container must be **writable** (default) to use the SSH hook.
+
 !!! info
-    In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available within the container.
+    In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available inside the container.
     This is required to send and establish the VS Code Server into the remote container.
 
 ### NVIDIA CUDA MPS Hook
 
+!!! note "Require annotation"
+    ```bash
+    com.hooks.nvidia_cuda_mps.enabled = "true"
+    ```
+
 On several Alps vClusters, NVIDIA GPUs by default operate in "Exclusive process" mode, that is, the CUDA driver is configured to allow only one process at a time to use a given GPU.
-For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time:
+For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time.
 
-```bash
-> nvidia-smi -L
-GPU 0: GH200 120GB (UUID: GPU-...)
-GPU 1: GH200 120GB (UUID: GPU-...)
-GPU 2: GH200 120GB (UUID: GPU-...)
-GPU 3: GH200 120GB (UUID: GPU-...)
+!!! example "Available GPUs and oversubscription error"
+    ```bash
+    $ nvidia-smi -L
+    GPU 0: GH200 120GB (UUID: GPU-...)
+    GPU 1: GH200 120GB (UUID: GPU-...)
+    GPU 2: GH200 120GB (UUID: GPU-...)
+    GPU 3: GH200 120GB (UUID: GPU-...)
 
-# This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog
-> cat $HOME/.edf/vectoradd-cuda.toml
-image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
+    $ cat ${HOME}/.edf/vectoradd-cuda.toml        # (1)
+    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
-# 4 processes run successfully
-> srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"
-Test PASSED
-Test PASSED
-Test PASSED
-Test PASSED
+    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)
+    Test PASSED
+    Test PASSED
+    Test PASSED
+    Test PASSED
 
-# More than 4 concurrent processes result in oversubscription errors
-> srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"
-Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
-srun: error: [...]
-[...]
-```
+    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (3)
+    Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
+    srun: error: ...
+    ```
+
+    1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
+    2. 4 processes run successfully.
+    3. More than 4 concurrent processes result in oversubscription errors.
 
 In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the [NVIDIA CUDA Multi-Process Service](https://docs.nvidia.com/deploy/mps/index.html) (or MPS, for short) must be started on the compute node.
 
 The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
 The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to the string `true`.
 
+!!! example "Using the CUDA MPS hook"
+    ```bash
+    $ cat vectoradd-cuda-mps.toml
+    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
+
+    [annotations]
+    com.hooks.nvidia_cuda_mps.enabled = "true"
+
+    $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
+    8
+    ```
+
 !!! note
-    To use the CUDA MPS hook, it is **required** to keep the container **writable**.
-
-The following is an example of using the NVIDIA CUDA MPS hook:
-
-```bash
-> cat $HOME/.edf/vectoradd-cuda-mps.toml
-image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
-writable = true
-
-[annotations]
-com.hooks.nvidia_cuda_mps.enabled = "true"
-
-> srun -t2 -N1 -n8 --environment=vectoradd-cuda-mps /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
-8
-```
+    The container must be **writable** (default) to use the CUDA MPS hook.
 
 !!! info
     When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
