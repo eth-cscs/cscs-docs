@@ -1,28 +1,49 @@
 [](){#ref-container-engine}
 # Container Engine
 
-The Container Engine (CE) toolset is designed to enable computing jobs to seamlessly run inside Linux application containers, thus providing support for containerized user environments.
+The Container Engine (CE) toolset is designed to enable computing jobs to
+seamlessly run inside Linux application containers, thus providing support for
+containerized user environments.
 
 ## Concept
 
-Containers effectively encapsulate a software stack; however, to be useful in HPC computing environments, they often require the customization of bind mounts, environment variables, working directories, hooks, plugins, etc. To simplify this process, the Container Engine (CE) toolset supports the specification of user environments through Environment Definition Files.
+Containers effectively encapsulate a software stack; however, to be useful in
+HPC computing environments, they often require the customization of bind
+mounts, environment variables, working directories, hooks, plugins, etc. To
+simplify this process, the Container Engine (CE) toolset supports the
+specification of user environments through Environment Definition Files.
 
-An Environment Definition File (EDF) is a text file in the [TOML format](https://toml.io/en/) that declaratively and prescriptively represents the creation of a computing environment based on a container image. Users can create their own custom environments and share, edit, or build upon already existing environments.
+An Environment Definition File (EDF) is a text file in the [TOML
+format](https://toml.io/en/) that declaratively and prescriptively represents
+the creation of a computing environment based on a container image. Users can
+create their own custom environments and share, edit, or build upon already
+existing environments.
 
-The Container Engine (CE) toolset leverages its tight integration with the Slurm workload manager to parse EDFs directly from the command line or batch script and instantiate containerized user environments seamlessly and transparently.
+The Container Engine (CE) toolset leverages its tight integration with the
+Slurm workload manager to parse EDFs directly from the command line or batch
+script and instantiate containerized user environments seamlessly and
+transparently.
 
-Through the EDF, container use cases can be abstracted to the point where end users perform their workflows as if they were operating natively on the computing system.
+Through the EDF, container use cases can be abstracted to the point where end
+users perform their workflows as if they were operating natively on the
+computing system.
 
 **Key Benefits**
 
- * *Freedom*: Container gives users full control of the user space. The user can decide what to install without involving a sysadmin.
- * *Reproducibility*: Workloads consistently run in the same environment, ensuring uniformity across job experimental runs.
- * *Portability*: The self-contained nature of containers simplifies the deployment across architecture-compatible HPC systems.
- * *Seamless Access to HPC Resources*: CE facilitates native access to specialized HPC resources like GPUs, interconnects, and other system-specific tools crucial for performance
+ * *Freedom*: Container gives users full control of the user space. The user
+   can decide what to install without involving a sysadmin.
+ * *Reproducibility*: Workloads consistently run in the same environment,
+   ensuring uniformity across job experimental runs.
+ * *Portability*: The self-contained nature of containers simplifies the
+   deployment across architecture-compatible HPC systems.
+ * *Seamless Access to HPC Resources*: CE facilitates native access to
+   specialized HPC resources like GPUs, interconnects, and other
+   system-specific tools crucial for performance
 
 ## Quick Start
 
-Let's set up a containerized Ubuntu 24.04 environment inside a scratch folder (`${SCRATCH}`).
+Let's set up a containerized Ubuntu 24.04 environment inside a scratch folder
+(`${SCRATCH}`).
 
 ### Example EDF
 
@@ -32,23 +53,25 @@ mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
 ```
 
-Save this file as `ubuntu.toml` file in `${HOME}/.edf` directory (the default location of EDF files). A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference]
+Save this file as `ubuntu.toml` file in `${HOME}/.edf` directory (the default
+location of EDF files). A more detailed explanation of each entry for the EDF
+can be seen in the [EDF reference][ref-ce-edf-reference]
 
 !!! note
     Create `${HOME}/.edf` if the folder doesn't exist.
 
 ### Running the environment
 
-Use Slurm in the cluster login node to start the Ubuntu environment that was just defined as follows:
+Use Slurm in the cluster login node to start the environment above:
 
 ```bash
 $ srun --environment=ubuntu --pty bash
 ```
 
-Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-search-path], the filename can be passed to the option without the file extension.
-
 !!! example "Launching a containerized environment"
-    The terminal snippet below demonstrates how to launch a containerized environment using Slurm with the `--environment` option. Click on the :fontawesome-solid-circle-plus: icon for information on each command.
+    The terminal snippet below demonstrates how to launch a containerized
+    environment using Slurm with the `--environment` option. Click on the
+    :fontawesome-solid-circle-plus: icon for information on each command.
 
     ```console
     [daint-ln002]$ srun --environment=ubuntu --pty bash   (1)
@@ -66,9 +89,12 @@ Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-sear
     [daint-ln002]$
     ```
 
-    1.  Starting an interactive shell session within the Ubuntu 24.04 container deployed on a compute node using `srun --environment=ubuntu --pty bash`.
-    2.  Check the current folder (dubbed _the working directory_) is set to the user's scratch folder, as per EDF.
-    3.  Show the OS version of your container (using `cat /etc/os-release`) based on Ubuntu 24.04 LTS.
+    1.  Starting an interactive shell session within the Ubuntu 24.04 container
+        deployed on a compute node using `srun --environment=ubuntu --pty bash`.
+    2.  Check the current folder (dubbed _the working directory_) is set to the
+        user's scratch folder, as per EDF.
+    3.  Show the OS version of your container (using `cat /etc/os-release`)
+        based on Ubuntu 24.04 LTS.
     4.  Exiting the container (`exit`), returning to the login node.
 
     !!! note
@@ -76,102 +102,86 @@ Since the `ubuntu.toml` file is located in the [EDF search path][ref-ce-edf-sear
 
 ## Running containerized environments
 
-A job is run in a containerized environment by passing the `--environment` option to the `srun` or `salloc` Slurm commands.
-The option takes a file path to the EDF describing the environment in which the job should be executed, for example:
+Specifying the `--environment` option to the Slurm command (e.g., `srun` or
+`salloc`) will make it run inside the EDF environment. For example: 
 
 ```bash
-> srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
 PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
 NAME="Debian GNU/Linux"
 VERSION_ID="12"
-VERSION="12 (bookworm)"
-VERSION_CODENAME=bookworm
-ID=debian
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support"
-BUG_REPORT_URL="https://bugs.debian.org/"
-
-`--environment` can be a relative path from the current working directory (i.e., where the Slurm command is entered). A relative path should be prepended by `./`. For example:
-
-> ls
-debian.toml
-> srun --environment=./debian.toml cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-VERSION="12 (bookworm)"
-VERSION_CODENAME=bookworm
-ID=debian
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support"
-BUG_REPORT_URL="https://bugs.debian.org/"
+...
 ```
 
-If a file is located in the [EDF search path][ref-ce-edf-search-path], the argument to the command line option can be just the environment name, that is the name of the file without the `.toml` extension, for example:
+`--environment` can be a relative path from the current working directory
+(i.e., where the Slurm command is executed). A relative path should be prepended
+by `./`. For example:
 
 ```bash
-> srun --environment=debian cat /etc/os-release
+$ ls
+debian.toml
+
+$ srun --environment=./debian.toml cat /etc/os-release
 PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
 NAME="Debian GNU/Linux"
 VERSION_ID="12"
-VERSION="12 (bookworm)"
-VERSION_CODENAME=bookworm
-ID=debian
-HOME_URL="https://www.debian.org/"
-SUPPORT_URL="https://www.debian.org/support"
-BUG_REPORT_URL="https://bugs.debian.org/"
+...
+```
+
+If an EDF is located in the [EDF search path][ref-ce-edf-search-path],
+`--environment` accepts the EDF filename **without the `.toml` extension**. For
+example:
+
+```bash
+$ srun --environment=debian cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+...
 ```
 
 ### Use from batch scripts
 
-In principle, the `--environment` option can also be used within batch scripts as an `#SBATCH` option.
-It is important to note that in such a case, all the contents of the script are executed within the containerized environment: the CE toolset gives access to the Slurm workload manager within containers via the Slurm hook, see section [Container Hooks][ref-ce-container-hooks] (controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters). Only with it, calls to Slurm commands (for example `srun` or `scontrol`) within the batch script will work.
+The recommended approach is to use `--environment` as part of the `srun` commands. For example, when launching job steps:
 
+```bash
+#!/bin/bash
+#SBATCH --job-name=edf-example
+...
 
-!!! tip
-    For the time being, if the script requires to invoke Slurm commands, the recommended approach is to use `--environment` as part of the commands, for example, when launching job steps the following slurm batch job:
+# Run job step
+srun --environment=debian cat /etc/os-release
+```
 
-    ```bash
-    #!/bin/bash -l
-    #SBATCH --job-name=edf-example
-    #SBATCH --time=0:01:00
-    #SBATCH --nodes=2
-    #SBATCH --ntasks-per-node=1
-    #SBATCH --partition=<vcluster>
-    #SBATCH --output=slurm-%x.out
+The `--environment` option can also be used within batch scripts as an `#SBATCH` option, but the support status is **experimental** and may result in unexpected behaviors.
 
-    # Run job step
-    srun --environment=debian cat /etc/os-release
-    ```
+!!! note
+    Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). The hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters.
 
 [](){#ref-ce-edf-search-path}
 ### The EDF search path
 
-By default, the EDFs for each user are looked up in `$HOME/.edf`.
-The search path for EDFs can be controlled through the `EDF_PATH` environment variable.
-`EDF_PATH` must be a colon-separated list of absolute paths to directories where the CE looks for TOML files, similar to the `PATH` and L`D_LIBRARY_PATH` variables.
-If a file is located in the search path, its name can be used in `--environment` options without the `.toml` extension, for example:
+By default, the EDFs for each user are looked up in `$HOME/.edf`.  The search
+path for EDFs can be controlled through the `EDF_PATH` environment variable.
+`EDF_PATH` must be a colon-separated list of absolute paths to directories
+where the CE looks for TOML files, similar to the `PATH` and L`D_LIBRARY_PATH`
+variables.  If a file is located in the search path, its name can be used in
+`--environment` options without the `.toml` extension, for example:
 
 ```bash
-> ls -l ~/.edf
-total 8
--rw-r--r-- 1 <username> csstaff  27 Sep  6 15:19 debian.toml
+$ ls ~/.edf
+debian.toml
 
-> ls -l ~/example-project/
-total 4
--rw-r-----+ 1 <username> csstaff 28 Oct 26 17:44 fedora-env.toml
+$ ls ~/example-project
+fedora-env.toml
 
-> export EDF_PATH=$HOME/example-project/
+$ export EDF_PATH="$HOME/example-project"
 
-> srun --environment=fedora-env cat /etc/os-release
+$ srun --environment=fedora-env cat /etc/os-release
 NAME="Fedora Linux"
 VERSION="40 (Container Image)"
 ID=fedora
-VERSION_ID=40
-VERSION_CODENAME=""
-PLATFORM_ID="platform:f40"
-PRETTY_NAME="Fedora Linux 40 (Container Image)"
-[...]
+...
 ```
 
 ## Image Management
