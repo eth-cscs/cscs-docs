@@ -63,7 +63,6 @@ On Alps clusters the most recent version 8.1.0 is installed.
 
     Please refer to `uenv --help` for the correct usage on these systems.
 
-
 ## Finding uenv
 
 Uenv for programming environments, tools and applications are provided by CSCS on each Alps system.
@@ -96,13 +95,34 @@ The available uenv images are stored in a registry, that can be queried using th
     quantumespresso/v7.3.1:v1  zen2  eiger   61d1f21881a65578     864    2024-11-08
     ```
 
-The output above shows that there are 12 uenv (`prgenv-gnu`, `namd` , `cp2k` and `arbor`).
+The output above lists all of the uenv that are available on the current system ([Eiger][ref-cluster-eiger] in this case).
+The search can be refined by providing a [label][ref-uenv-labels].
+
+??? example "using labels to refine search"
+    ```bash
+    # find all uenv with name prgenv-gnu
+    uenv image find prgenv-gnu
+
+    # find all uenv with name and version prgenv-gnu/24.11
+    uenv image find prgenv-gnu/24.11
+
+    # find all uenv available for daint
+    uenv image find @daint
+
+    # find all prgenv-gnu uenv available on a cluster
+    uenv image find prgenv-gnu@daint
+
+    # find all uenv in the service namespace with name myenv
+    uenv image find service::myenv
+    ```
+
+!!! info
+    All uenv commands that take a [label][ref-uenv-labels] as an arguement use the same flexible syntax [label descriptions][ref-uenv-labels-examples].
 
 ## Downloading uenv
 
-!!! note
-    In order to pull uenv images, a local directory for storing the images must first be created,
-    otherwise you will receive an error message that the repository does not exist.
+??? note "Using uenv for the first time on Balfrin and Eiger"
+    With the old version of uenv installed on Balfrin and Eiger, before downloading your first image, a local directory for storing the images must first be created, otherwise you will receive an error message that the repository does not exist.
 
     To create a repo in the default location, use the following command:
 
@@ -163,7 +183,7 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
     ```
 
 !!! note
-    As of March 2025, the only restricted software is VASP.
+    As of June 2025, the only restricted software is VASP.
 
 !!! note
     Better token management is under development - tokens will be stored in a central location and will be easier to use.
@@ -224,12 +244,12 @@ This is very useful for interactive sessions, for example if you want to work in
     SHELL=`which zsh` uenv start ...
     ```
 
-!!! warning "C Shell / tcsh users"
+??? warning "C Shell / tcsh users"
     uenv is tested extensively with bash (the default shell), and zsh. C shell is not tested properly, and we will not make significant changes to uenv to maintain support for C shell.
 
     If your are one of the handful of users using `tcsh` (C shell) and you want to use uenv, we strongly recommend creating a request at the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk) to change to either bash or zsh as your default.
 
-!!! warning "Failed to unshare the mount namespace"
+??? warning "Failed to unshare the mount namespace"
 
     If you get the following error message when starting a uenv:
     ```console
@@ -506,6 +526,7 @@ echo "unset -f uenv" >> $HOME/.bashrc
 !!! warning
     Before uenv can be used, you need to log out then back in again and type `which uenv` to verify that uenv has been installed in your `$HOME` path.
 
+[](){#ref-uenv-labels}
 ## uenv Labels
 
 Uenv are referred to using **labels**, where a label has the following form
@@ -524,7 +545,7 @@ The different fields are described in the following table:
 | `version` | version of the uenv: e.g. `v8.7`, `2025.01` |
 | `tag`     | a tag applied by CSCS     |
 
-!!! example
+!!! example "Example labels"
     ??? note "`prgenv-gnu/24.11:v2@daint%gh200`"
         The `prgenv-gnu` programming environment, built on [Daint][ref-cluster-daint] for the Grace-Hopper GH200 (`gh200`) architecture.
 
@@ -539,6 +560,7 @@ The different fields are described in the following table:
 
 For more information about the labeling scheme, see the [uenv deployment][ref-uenv-deploy-versions] docs.
 
+[](){#ref-uenv-labels-examples}
 ### Using labels
 
 The uenv command line has a flexible interface for filtering uenv by providing only part of the full label:
