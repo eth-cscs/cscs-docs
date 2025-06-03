@@ -538,38 +538,47 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
 
-The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container. It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
+!!! note "Required annotation"
+    ```bash
+    com.hooks.ssh.enabled = "true"
+    com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
+    ```
 
-The `com.hooks.ssh.authorize_ssh_key` annotation allows the authorization of a custom public SSH key for remote connections. The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate). After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
+    1. Replace `<public-key>` with your SSH public key.
+
+!!! note
+    The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
+
+The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container.
+While the container is running, it's possible to connect to it from a remote host using a private key matching the public one authorized in the EDF annotation.
+It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
+
+The `com.hooks.ssh.authorize_ssh_key` annotation allows the authorization of a custom public SSH key for remote connections.
+The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate).
+After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
 
 !!! note
-    To use the SSH hook, it is **required** to keep the container **writable**.
+    The container must be **writable** (default) to use the SSH hook.
 
-The following EDF file shows an example of enabling the SSH hook and authorizing a user-provided public key:
+!!! example "Logging into a sleeping container via SSH"
+    * On the cluster
+    ```bash
+    $ cat ubuntu-ssh.toml
+    image = "ubuntu:latest"
 
-```bash
-> cat $HOME/.edf/ubuntu-ssh.toml
-image = "ubuntu:latest"
-writable = true
+    [annotations]
+    com.hooks.ssh.enabled = "true"
+    com.hooks.ssh.authorize_ssh_key = "<public-key>"
 
-[annotations.com.hooks.ssh]
-enabled = "true"
-authorize_ssh_key = "<public key file>"
-```
+    $ srun --environment=./ubuntu-ssh.toml --pty sleep 30
+    ```
 
-Using the previous EDF, a container can be started as follows. Notice that the `--pty` option for the `srun` command is currently required in order for the hook to initialize properly:
-
-```bash
-> srun --environment=ubuntu-ssh --pty <command>
-```
-
-While the container is running, it's possible to connect to it from a remote host using a private key matching the public one authorized in the EDF annotation. For example, in a host where such private key is the default identity file, the following command could be used:
-
-```bash
-ssh -p 15263 <host-of-container>
-```
+    * On the remote shell
+    ```bash
+    ssh -p 15263 <host-of-container>
+    ```
 
 !!! info
     In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available within the container.
