@@ -17,7 +17,7 @@ HPC storage is provided by independent clusters, composed of servers and physica
 | IOPs         | 1.5M                   | 8.6M read, 24M write   | 200k read, 768k write |
 | file create/s| 374k                   | 214k                   | 97k                 |
 
-Capstor and Iopsstor are on the same Slingshot network as Alps, meanwhile VAST is on the CSCS Ethernet network.
+Capstor and Iopsstor are on the same Slingshot network as Alps, while VAST is on the CSCS Ethernet network.
 
 The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the [file system docs][ref-storage-fs].
 
