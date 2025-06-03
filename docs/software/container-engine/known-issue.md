@@ -23,10 +23,12 @@ $ cat alpine_workaround.toml
 image = "alpine:3.19"
 
 [annotations]
-com.hooks.slurm.enabled = "false"
 com.hooks.cxi.enabled = "false"
 
-$ srun -lN1 --environment=alpine_workaround.toml echo "abc"
+[env]
+ENROOT_SLURM_HOOK = "0"
+
+$ srun -lN1 --environment=./alpine_workaround.toml echo "abc"
 abc
 ```
 
