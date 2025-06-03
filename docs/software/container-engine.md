@@ -392,7 +392,13 @@ For the full details about using these features, please refer to the official do
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
-The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect. This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
+```bash
+[annotations]
+com.hooks.cxi.enabled = "true"
+```
+
+The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect.
+This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
 The hook leverages bind-mounting the custom host libfabric library into the container (in addition to all the required dependency libraries and devices as well).
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
@@ -402,81 +408,85 @@ If a libfabric library is already present in the container filesystem (for examp
 !!! note
     Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
 
-The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF, as shown in the following example:
+The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF.
 
-```bash
-# Without the CXI hook
-> cat $HOME/.edf/osu-mb.toml 
-image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
+??? example "Comparison between with and without the CXI hook"
+    * Without the CXI hook
 
-[annotations]
-com.hooks.cxi.enabled = "false"
+    ```bash
+    $ cat ${HOME}/.edf/osu-mb.toml 
+    image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
 
-> srun -N2 --mpi=pmi2 --environment=osu-mb ./osu_bw
-# OSU MPI Bandwidth Test v6.2
-# Size      Bandwidth (MB/s)
-1                       0.22
-2                       0.40
-4                       0.90
-8                       1.82
-16                      3.41
-32                      6.81
-64                     13.18
-128                    26.74
-256                    11.95
-512                    38.06
-1024                   39.65
-2048                   83.22
-4096                  156.14
-8192                  143.08
-16384                  53.78
-32768                 106.77
-65536                  49.88
-131072                871.86
-262144                780.97
-524288                694.58
-1048576               831.02
-2097152              1363.30
-4194304              1279.54
+    [annotations]
+    com.hooks.cxi.enabled = "false"
 
+    $ srun -N2 --mpi=pmi2 --environment=osu-mb ./osu_bw
+    # OSU MPI Bandwidth Test v6.2
+    # Size      Bandwidth (MB/s)
+    1                       0.22
+    2                       0.40
+    4                       0.90
+    8                       1.82
+    16                      3.41
+    32                      6.81
+    64                     13.18
+    128                    26.74
+    256                    11.95
+    512                    38.06
+    1024                   39.65
+    2048                   83.22
+    4096                  156.14
+    8192                  143.08
+    16384                  53.78
+    32768                 106.77
+    65536                  49.88
+    131072                871.86
+    262144                780.97
+    524288                694.58
+    1048576               831.02
+    2097152              1363.30
+    4194304              1279.54
+    ```
 
-# With the CXI hook enabling access to the Slingshot high-speed network
-> cat .edf/osu-mb-cxi.toml 
-image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
+    * With the CXI hook enabling access to the Slingshot high-speed network
 
-[annotations]
-com.hooks.cxi.enabled = "true"
+    ```bash
+    $ cat ${HOME}/.edf/osu-mb-cxi.toml 
+    image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
 
-> srun -N2 --mpi=pmi2 --environment=osu-mb-cxi ./osu_bw
-# OSU MPI Bandwidth Test v6.2
-# Size      Bandwidth (MB/s)
-1                       1.21
-2                       2.32
-4                       4.85
-8                       8.38
-16                     19.36
-32                     38.47
-64                     76.28
-128                   151.76
-256                   301.25
-512                   604.17
-1024                 1145.03
-2048                 2367.25
-4096                 4817.16
-8192                 8633.36
-16384               16971.18
-32768               18740.55
-65536               21978.65
-131072              22962.31
-262144              23436.78
-524288              23672.92
-1048576             23827.78
-2097152             23890.95
-4194304             23925.61
-```
+    [annotations]
+    com.hooks.cxi.enabled = "true"
+
+    $ srun -N2 --mpi=pmi2 --environment=osu-mb-cxi ./osu_bw
+    # OSU MPI Bandwidth Test v6.2
+    # Size      Bandwidth (MB/s)
+    1                       1.21
+    2                       2.32
+    4                       4.85
+    8                       8.38
+    16                     19.36
+    32                     38.47
+    64                     76.28
+    128                   151.76
+    256                   301.25
+    512                   604.17
+    1024                 1145.03
+    2048                 2367.25
+    4096                 4817.16
+    8192                 8633.36
+    16384               16971.18
+    32768               18740.55
+    65536               21978.65
+    131072              22962.31
+    262144              23436.78
+    524288              23672.92
+    1048576             23827.78
+    2097152             23890.95
+    4194304             23925.61
+    ```
 
 !!! tip
-    On several vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
+    On most vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
     Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
 [](){#ref-ce-container-hooks}
