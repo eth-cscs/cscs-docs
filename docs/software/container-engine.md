@@ -842,9 +842,10 @@ Relative filesystem paths can be used within EDF parameters, and will be expande
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
 
 ```bash
-> cat alpine.toml
-image = "alpine: *19"
-> srun -lN1 --environment=alpine.toml echo "abc"
+$ cat alpine.toml
+image = "alpine:3.19"
+
+$ srun -lN1 --environment=alpine.toml echo "abc"
 0: slurmstepd: error: pyxis: container start failed with error code: 1
 0: slurmstepd: error: pyxis: printing enroot log file:
 0: slurmstepd: error: pyxis:     [ERROR] Failed to refresh the dynamic linker cache
@@ -858,7 +859,7 @@ This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from
 
 ```bash
 $ cat alpine_workaround.toml
-image = "alpine: *19"
+image = "alpine:3.19"
 
 [annotations]
 com.hooks.slurm.enabled = "false"
