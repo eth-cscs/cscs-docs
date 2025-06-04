@@ -6,22 +6,20 @@ There are three ways to do so:
  1. **Through an absolute path**: an absolute path to EDF. 
 
     ```console
-    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+    $ srun --environment=${HOME}/.edf/ubuntu.toml echo "Hello"
     ```
 
  2. **Through a relative path**: a path relative from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
 
     ```console
-    $ srun --environment=./debian.toml cat /etc/os-release      # (x)
+    $ srun --environment=./.edf/ubuntu.toml echo "Hello"    # currently at ${HOME} 
     ```
-    x. Assuming `debian.toml` is in the current folder.
 
  3. **From EDF search paths**: the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
 
     ```console 
-    $ srun --environment=debian cat /etc/os-release             # (1)
+    $ srun --environment=ubuntu echo "Hello" 
     ```
-    1. Assuming `debian.toml` is in the EDF search path.
 
 ### Use from batch scripts
 
