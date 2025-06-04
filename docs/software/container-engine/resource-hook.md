@@ -11,13 +11,14 @@ For example, to execute the [SSH hook][ref-ce-ssh-hook] described below, the ann
 EDF files support setting annotations through the `annotations` table.
 This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
-!!! example "Nest levels in the TOML key"
+!!! example "TOML nest levels"
+    * In the TOML key
     ```console
     [annotations]
     com.hooks.ssh.enabled = "true"
     ```
 
-!!! example "Nest levels in the TOML table name"
+    * In the TOML table name
     ```console
     [annotations.com.hooks.ssh]
     enabled = "true"
