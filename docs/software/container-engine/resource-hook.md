@@ -234,7 +234,6 @@ Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfab
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
-    ```
 
 !!! tip
     It implicitly enables the [CXI hook][ref-ce-cxi-hook], therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
@@ -250,6 +249,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
     [annotations]
     com.hooks.aws_ofi_nccl.enabled = "true"
     com.hooks.aws_ofi_nccl.variant = "cuda11"
+    ```
 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
