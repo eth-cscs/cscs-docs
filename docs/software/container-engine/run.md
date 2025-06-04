@@ -25,7 +25,7 @@ There are three ways to do so:
 
 ### Use from batch scripts
 
-The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
+The supported approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
 
 !!! example "`srun` inside a batch script with EDF"
     ```bash
