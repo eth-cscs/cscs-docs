@@ -52,6 +52,7 @@ This can be done in multiple ways in TOML: for example, both of the following us
         [annotations.com.hooks.ssh]    # (1)
         enabled = "true"
         ```
+
         1. The `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections.
 
 ## Accessing native resources
