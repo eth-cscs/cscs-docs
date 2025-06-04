@@ -116,7 +116,7 @@ After the import is complete, images are available in Squashfs format in the cur
         ```
 
 !!! note
-    It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them.
+    It is recommended to save images in `${SCRATCH}` or its subdirectories before using them.
 
 [](){#ref-ce-third-party-private-registries}
 ### Third-party and private registries
