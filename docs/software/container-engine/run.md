@@ -33,7 +33,7 @@ The supported approach is to use `--environment` as part of the Slurm command (e
     ...
 
     # Run job step
-    srun --environment=debian cat /etc/os-release
+    srun --environment=ubuntu cat /etc/os-release
     ```
 
 Alternatively, the `--environment` option can also be specified with an `#SBATCH` option.
@@ -54,7 +54,7 @@ If an EDF is located in the search path, its name can be used in the `--environm
 !!! example "Using `EDF_PATH` to control the default search path"
     ```console
     $ ls ~/.edf
-    debian.toml
+    ubuntu.toml
 
     $ ls ~/example-project
     fedora-env.toml
@@ -93,6 +93,8 @@ To do so, users may execute `enroot import docker://[REGISTRY#]IMAGE[:TAG]` to p
 After the import is complete, images are available in Squashfs format in the current directory and can be used in EDFs:
 
 !!! example "Manually pulling an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image"
+    1. Pull the image.
+
     ```console
     $ cd ${SCRATCH}
     $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
@@ -104,12 +106,13 @@ After the import is complete, images are available in Squashfs format in the cur
 
     $ ls *.sqsh
     nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
-
-    $ cat ${HOME}/.edf/example.toml      # (1)
-    image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
     ```
 
-    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
+    2. Create an EDF referencing the pulled image.
+
+    ```bash
+    image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
+    ```
 
 !!! note
     It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them.
