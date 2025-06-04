@@ -36,7 +36,7 @@ Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):
     srun --environment=ubuntu cat /etc/os-release
     ```
 
-Alternatively, the `--environment` option can also be specified with an `#SBATCH` option, but the support status is still **experimental** and may result in unexpected behaviors.
+Specifying the `--environment` option with an `#SBATCH` option is **experimental** and such usage is discouraged as it may result in unexpected behaviors.
 
 !!! note
     Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). 
