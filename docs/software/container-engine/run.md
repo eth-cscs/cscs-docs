@@ -1,34 +1,34 @@
 ## Running containerized environments
 
-Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
+Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment.
+There are three ways to do so:
 
-```console
-$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
-```
+ 1. **Through an absolute path**: providing an absolute path to EDF. 
 
-`--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
-A relative path should be prepended by `./`:
+    ```console
+    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+    ```
 
-```console
-$ srun --environment=./debian.toml cat /etc/os-release      # (1)
-```
+ 2. **Through a relative path**: providing a relative path to EDF. The path is from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
 
-1. Assuming `debian.toml` is in the current folder.
+    ```console
+    $ srun --environment=./debian.toml cat /etc/os-release      # (1)
+    ```
+    1. Assuming `debian.toml` is in the current folder.
 
-If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
+ 3. **From EDF search paths**: providing the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
 
-```console 
-$ srun --environment=debian cat /etc/os-release             # (1)
-```
-
-1. Assuming `debian.toml` is in the EDF search path.
+    ```console 
+    $ srun --environment=debian cat /etc/os-release             # (1)
+    ```
+    1. Assuming `debian.toml` is in the EDF search path.
 
 ### Use from batch scripts
 
 The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
 
 !!! example "`srun` inside a batch script with EDF"
-    ```console
+    ```bash
     #!/bin/bash
     #SBATCH --job-name=edf-example
     #SBATCH --time=00:01:00
