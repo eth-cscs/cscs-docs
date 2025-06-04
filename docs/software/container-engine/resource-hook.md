@@ -12,13 +12,13 @@ EDF files support setting annotations through the `annotations` table.
 This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
 !!! example "Nest levels in the TOML key"
-    ```bash
+    ```console
     [annotations]
     com.hooks.ssh.enabled = "true"
     ```
 
 !!! example "Nest levels in the TOML table name"
-    ```bash
+    ```console
     [annotations.com.hooks.ssh]
     enabled = "true"
     ```
@@ -32,28 +32,25 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
      * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
 
-    !!! example ":white_check_mark: Valid usage"
-        ```bash
-        [annotations.com.hooks.ssh]
-        authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
-        enabled = "true"
-        ```
+    ```console title="Valid"
+    [annotations.com.hooks.ssh]
+    authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+    enabled = "true"
+    ```
 
-    !!! example ":white_check_mark: Valid usage"
-        ```bash
-        [annotations]
-        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
-        com.hooks.ssh.enabled = "true"
-        ```
+    ```console title="Valid"
+    [annotations]
+    com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+    com.hooks.ssh.enabled = "true"
+    ```
 
-    !!! example ":x: Invalid usage"
-        ```bash
-        [annotations]
-        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+    ```console {.text .error}
+    [annotations]
+    com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
 
-        [annotations.com.hooks.ssh]
-        enabled = "true"
-        ```
+    [annotations.com.hooks.ssh]
+    enabled = "true"
+    ```
 
 ## Accessing native resources
 
@@ -65,7 +62,7 @@ GPU device files are always mounted in containers, and the NVIDIA driver user sp
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
 !!! example "Cluster with 4 GH200 devices per node"
-    ```bash
+    ```console
     $ cat cuda12.5.1.toml       # (1)
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
 
@@ -131,7 +128,7 @@ Container hooks let you customize container behavior to fit system-specific need
     Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
 !!! note "Required annotation"
-    ```bash
+    ```console
     com.hooks.cxi.enabled = "true"
     ```
 
@@ -152,7 +149,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 ??? example "Comparison between with and without the CXI hook"
     * Without the CXI hook
 
-    ```bash
+    ```console
     $ cat ${HOME}/.edf/osu-mb.toml 
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
 
@@ -189,7 +186,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
     * With the CXI hook enabling access to the Slingshot high-speed network
 
-    ```bash
+    ```console
     $ cat ${HOME}/.edf/osu-mb-cxi.toml 
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
 
@@ -228,7 +225,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 ### AWS OFI NCCL Hook 
 
 !!! note "Required annotation"
-    ```bash
+    ```console
     com.hooks.aws_ofi_nccl.enabled = "true"
     com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
     ```
@@ -242,7 +239,7 @@ The Container Engine includes a hook program to inject the AWS OFI NCCL plugin i
 At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
 
 !!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
-    ```bash
+    ```console
     image = "nvcr.io#nvidia/pytorch:22.12-py3"
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 
@@ -261,7 +258,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 ### SSH Hook
 
 !!! note "Required annotation"
-    ```bash
+    ```console
     com.hooks.ssh.enabled = "true"
     com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
     ```
@@ -283,7 +280,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
 !!! example "Logging into a sleeping container via SSH"
     * On the cluster
-    ```bash
+    ```console
     $ cat ubuntu-ssh.toml
     image = "ubuntu:latest"
 
@@ -295,7 +292,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     ```
 
     * On the remote shell
-    ```bash
+    ```console
     ssh -p 15263 <host-of-container>
     ```
 
@@ -309,7 +306,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 ### NVIDIA CUDA MPS Hook
 
 !!! note "Require annotation"
-    ```bash
+    ```console
     com.hooks.nvidia_cuda_mps.enabled = "true"
     ```
 
@@ -317,7 +314,7 @@ On several Alps vClusters, NVIDIA GPUs by default operate in "Exclusive process"
 For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time.
 
 !!! example "Available GPUs and oversubscription error"
-    ```bash
+    ```console
     $ nvidia-smi -L
     GPU 0: GH200 120GB (UUID: GPU-...)
     GPU 1: GH200 120GB (UUID: GPU-...)
@@ -348,7 +345,7 @@ The Container Engine provides a hook to automatically manage the setup and remov
 The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to the string `true`.
 
 !!! example "Using the CUDA MPS hook"
-    ```bash
+    ```console
     $ cat vectoradd-cuda-mps.toml
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
