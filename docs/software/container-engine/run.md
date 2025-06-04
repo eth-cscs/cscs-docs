@@ -12,7 +12,7 @@ There are three ways to do so:
  2. **Through a relative path**: a path relative from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
 
     ```console
-    $ srun --environment=./.edf/ubuntu.toml echo "Hello"    # currently at ${HOME} 
+    $ srun --environment=./.edf/ubuntu.toml echo "Hello"    # currently at ${HOME}. 
     ```
 
  3. **From EDF search paths**: the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
