@@ -206,9 +206,6 @@ com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
 
 1. Replace `<public-key>` with your SSH public key.
 
-!!! warning 
-    The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
-
 The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container.
 While the container is running, it's possible to connect to it from a remote host using a private key matching the public one authorized in the EDF annotation.
 It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
@@ -218,6 +215,9 @@ The annotation value must be the absolute path to a text file containing the pub
 After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
+
+!!! warning 
+    The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
 
 !!! note
     The container must be **writable** (default) to use the SSH hook.
@@ -246,7 +246,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
 ### NVIDIA CUDA MPS Hook
 
-```bash title="Require annotation"
+```bash
 com.hooks.nvidia_cuda_mps.enabled = "true"
 ```
 
