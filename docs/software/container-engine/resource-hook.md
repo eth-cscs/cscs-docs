@@ -53,61 +53,6 @@ This can be done in multiple ways in TOML: for example, both of the following us
         enabled = "true"
         ```
 
-## Accessing native resources
-
-### NVIDIA GPUs
-
-The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
-GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
-`NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
-Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
-
-!!! example "Cluster with 4 GH200 devices per node"
-    ```console
-    $ cat cuda12.5.1.toml       # (1)
-    image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
-
-    $ srun --environment=./cuda12.5.1.toml nvidia-smi
-    Thu Oct 26 17:59:36 2023       
-    +------------------------------------------------------------------------------------+
-    | NVIDIA-SMI 535.129.03          Driver Version: 535.129.03   CUDA Version: 12.5     |
-    |--------------------------------------+----------------------+----------------------+
-    | GPU  Name              Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
-    | Fan  Temp   Perf       Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
-    |                                      |                      |               MIG M. |
-    |======================================+======================+======================|
-    |   0  GH200 120GB                 On  | 00000009:01:00.0 Off |                    0 |
-    | N/A   24C    P0           89W / 900W |     37MiB / 97871MiB |      0%   E. Process |
-    |                                      |                      |             Disabled |
-    +--------------------------------------+----------------------+----------------------+
-    |   1  GH200 120GB                 On  | 00000019:01:00.0 Off |                    0 |
-    | N/A   24C    P0           87W / 900W |     37MiB / 97871MiB |      0%   E. Process |
-    |                                      |                      |             Disabled |
-    +--------------------------------------+----------------------+----------------------+
-    |   2  GH200 120GB                 On  | 00000029:01:00.0 Off |                    0 |
-    | N/A   24C    P0           83W / 900W |     37MiB / 97871MiB |      0%   E. Process |
-    |                                      |                      |             Disabled |
-    +--------------------------------------+----------------------+----------------------+
-    |   3  GH200 120GB                 On  | 00000039:01:00.0 Off |                    0 |
-    | N/A   24C    P0           85W / 900W |     37MiB / 97871MiB |      0%   E. Process |
-    |                                      |                      |             Disabled |
-    +--------------------------------------+----------------------+----------------------+
-                                                                                             
-    +------------------------------------------------------------------------------------+
-    | Processes:                                                                         |
-    |  GPU   GI   CI        PID   Type   Process name                         GPU Memory |
-    |        ID   ID                                                          Usage      |
-    |====================================================================================|
-    |  No running processes found                                                        |
-    +------------------------------------------------------------------------------------+
-    ```
-
-    1. Assuming `cuda12.5.1.toml` is present the current folder. 
-
-It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
-Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
-For the full details about using these features, please refer to the official documentation: [Driver Capabilities](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#driver-capabilities), [Constraints](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#constraints).
-
 [](){#ref-ce-container-hooks}
 ## Container Hooks
 
@@ -356,3 +301,56 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
     2. 4 processes run successfully.
     3. More than 4 concurrent processes result in oversubscription errors.
+
+## Accessing  NVIDIA GPUs
+
+The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
+GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
+`NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
+Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
+
+!!! example "Cluster with 4 GH200 devices per node"
+    ```console
+    $ cat cuda12.5.1.toml       # (1)
+    image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
+
+    $ srun --environment=./cuda12.5.1.toml nvidia-smi
+    Thu Oct 26 17:59:36 2023       
+    +------------------------------------------------------------------------------------+
+    | NVIDIA-SMI 535.129.03          Driver Version: 535.129.03   CUDA Version: 12.5     |
+    |--------------------------------------+----------------------+----------------------+
+    | GPU  Name              Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+    | Fan  Temp   Perf       Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+    |                                      |                      |               MIG M. |
+    |======================================+======================+======================|
+    |   0  GH200 120GB                 On  | 00000009:01:00.0 Off |                    0 |
+    | N/A   24C    P0           89W / 900W |     37MiB / 97871MiB |      0%   E. Process |
+    |                                      |                      |             Disabled |
+    +--------------------------------------+----------------------+----------------------+
+    |   1  GH200 120GB                 On  | 00000019:01:00.0 Off |                    0 |
+    | N/A   24C    P0           87W / 900W |     37MiB / 97871MiB |      0%   E. Process |
+    |                                      |                      |             Disabled |
+    +--------------------------------------+----------------------+----------------------+
+    |   2  GH200 120GB                 On  | 00000029:01:00.0 Off |                    0 |
+    | N/A   24C    P0           83W / 900W |     37MiB / 97871MiB |      0%   E. Process |
+    |                                      |                      |             Disabled |
+    +--------------------------------------+----------------------+----------------------+
+    |   3  GH200 120GB                 On  | 00000039:01:00.0 Off |                    0 |
+    | N/A   24C    P0           85W / 900W |     37MiB / 97871MiB |      0%   E. Process |
+    |                                      |                      |             Disabled |
+    +--------------------------------------+----------------------+----------------------+
+                                                                                             
+    +------------------------------------------------------------------------------------+
+    | Processes:                                                                         |
+    |  GPU   GI   CI        PID   Type   Process name                         GPU Memory |
+    |        ID   ID                                                          Usage      |
+    |====================================================================================|
+    |  No running processes found                                                        |
+    +------------------------------------------------------------------------------------+
+    ```
+
+    1. Assuming `cuda12.5.1.toml` is present the current folder. 
+
+It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
+Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
+For the full details about using these features, please refer to the official documentation: [Driver Capabilities](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#driver-capabilities), [Constraints](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html#constraints).
