@@ -3,20 +3,20 @@
 Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment.
 There are three ways to do so:
 
- 1. **Through an absolute path**: providing an absolute path to EDF. 
+ 1. **Through an absolute path**: an absolute path to EDF. 
 
     ```console
     $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
     ```
 
- 2. **Through a relative path**: providing a relative path to EDF. The path is from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
+ 2. **Through a relative path**: a path relative from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
 
     ```console
     $ srun --environment=./debian.toml cat /etc/os-release      # (1)
     ```
     1. Assuming `debian.toml` is in the current folder.
 
- 3. **From EDF search paths**: providing the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
+ 3. **From EDF search paths**: the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
 
     ```console 
     $ srun --environment=debian cat /etc/os-release             # (1)
