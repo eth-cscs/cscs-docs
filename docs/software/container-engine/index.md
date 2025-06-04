@@ -29,6 +29,7 @@ Let's set up a containerized Ubuntu 24.04 environment on the scratch folder (`${
 ### Step 1. Create an environment 
 
 Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default location of EDF files).
+Create `${HOME}/.edf` if the folder doesn't exist.
 A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference].
 
 ```bash
@@ -36,9 +37,6 @@ image = "library/ubuntu:24.04"
 mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
 ```
-
-!!! note
-    Create `${HOME}/.edf` if the folder doesn't exist.
 
 ### Step 2. Launch a program 
 
