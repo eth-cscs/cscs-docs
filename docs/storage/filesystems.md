@@ -10,7 +10,7 @@
 
 -   :fontawesome-solid-hard-drive: __File Systems__
 
-    There are three *types* of file system that provided on Alps clusters:
+    There are three *types* of file system that are provided on Alps clusters:
 
     |                               |    [backups][ref-storage-backups]  |  [snapshot][ref-storage-snapshots]  |   [cleanup][ref-storage-cleanup]   |    access |
     | ---------                     | ---------- | ---------- | ----------- | --------- |
@@ -225,8 +225,6 @@ If you are in multiple projects, information for the [Store][ref-storage-store] 
     ```console
     $ ssh user@ela.cscs.ch
     $ quota
-    checking your quota
-
     Retrieving data ...
 
     User: user
@@ -332,7 +330,7 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 ## Frequently asked questions
 
 ??? question "My files are gone, but the directories are still there"
-    When the [cleanup policy][ref-storage-cleanup] is applied on LUSTRE file systems, the files are removed, but the directories remain.
+    When the [cleanup policy][ref-storage-cleanup] is applied on Lustre file systems, the files are removed, but the directories remain.
 
 ??? question "What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?"
     You have run out of quota on the target file system.
