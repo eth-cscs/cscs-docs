@@ -35,19 +35,19 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
         ```bash title="Valid"
         [annotations.com.hooks.ssh]
-        authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
         enabled = "true"
         ```
 
         ```bash title="Valid"
         [annotations]
-        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        com.hooks.ssh.authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
         com.hooks.ssh.enabled = "true"
         ```
 
         ```bash title="Invalid"
         [annotations]
-        com.hooks.ssh.authorize_ssh_key = "/capstor/scratch/cscs/<username>/tests/edf/authorized_keys"
+        com.hooks.ssh.authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
 
         [annotations.com.hooks.ssh]
         enabled = "true"
