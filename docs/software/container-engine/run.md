@@ -95,24 +95,24 @@ After the import is complete, images are available in Squashfs format in the cur
 !!! example "Manually pulling an `nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04` image"
     1. Pull the image.
 
-    ```console
-    $ cd ${SCRATCH}
-    $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
-    [INFO] Querying registry for permission grant
-    [INFO] Authenticating with user: <anonymous>
-    ...
-    Number of gids 1
-        root (0)
+        ```console
+        $ cd ${SCRATCH}
+        $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+        [INFO] Querying registry for permission grant
+        [INFO] Authenticating with user: <anonymous>
+        ...
+        Number of gids 1
+            root (0)
 
-    $ ls *.sqsh
-    nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
-    ```
+        $ ls *.sqsh
+        nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh
+        ```
 
     2. Create an EDF referencing the pulled image.
 
-    ```bash
-    image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
-    ```
+        ```bash
+        image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
+        ```
 
 !!! note
     It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them.
