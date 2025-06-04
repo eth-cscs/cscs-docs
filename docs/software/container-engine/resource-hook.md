@@ -130,10 +130,9 @@ Container hooks let you customize container behavior to fit system-specific need
     On most vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
     Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
 
-!!! note "Required annotation"
-    ```console
-    com.hooks.cxi.enabled = "true"
-    ```
+```bash title"Required annotation"
+com.hooks.cxi.enabled = "true"
+```
 
 The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect.
 This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
@@ -227,13 +226,12 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 [](){#ref-ce-aws-ofi-hook}
 ### AWS OFI NCCL Hook 
 
-!!! note "Required annotation"
-    ```console
-    com.hooks.aws_ofi_nccl.enabled = "true"
-    com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
-    ```
+```bash title="Required annotation"
+com.hooks.aws_ofi_nccl.enabled = "true"
+com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
+```
 
-    1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
+1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
@@ -260,13 +258,12 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
 
-!!! note "Required annotation"
-    ```console
-    com.hooks.ssh.enabled = "true"
-    com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
-    ```
+```bash title="Required annotation"
+com.hooks.ssh.enabled = "true"
+com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
+```
 
-    1. Replace `<public-key>` with your SSH public key.
+1. Replace `<public-key>` with your SSH public key.
 
 !!! warning 
     The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
