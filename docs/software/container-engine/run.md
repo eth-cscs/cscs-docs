@@ -12,9 +12,9 @@ There are three ways to do so:
  2. **Through a relative path**: a path relative from the current working directory (i.e., where the Slurm command is executed). Should be prepended by `./`.
 
     ```console
-    $ srun --environment=./debian.toml cat /etc/os-release      # (1)
+    $ srun --environment=./debian.toml cat /etc/os-release      # (x)
     ```
-    1. Assuming `debian.toml` is in the current folder.
+    x. Assuming `debian.toml` is in the current folder.
 
  3. **From EDF search paths**: the name of EDF in [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
 
