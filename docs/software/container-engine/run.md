@@ -2,14 +2,13 @@
 
 Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
 
-!!! example "Specifying EDF with an absolute path"
-    ```bash
-    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
-    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-    NAME="Debian GNU/Linux"
-    VERSION_ID="12"
-    ...
-    ```
+```bash title="Specifying EDF with an absolute path"
+$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+...
+```
 
 `--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
 A relative path should be prepended by `./`:
