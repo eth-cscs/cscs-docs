@@ -130,12 +130,8 @@ To use an image from a different registry, the corresponding registry URL has to
     * Within an EDF
 
     ```console
-    $ cat ${HOME}/.edf/example.toml    # (1)
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
     ```
-    
-    1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
-
 
     * On the command line
 
