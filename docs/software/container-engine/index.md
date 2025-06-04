@@ -15,7 +15,7 @@ The Container Engine (CE) toolset leverages its tight integration with the Slurm
 
 Through the EDF, container use cases can be abstracted to the point where end users perform their workflows as if they were operating natively on the computing system.
 
-**Key Benefits**
+## Benefits
 
  * *Freedom*: Container gives users full control of the user space. The user can decide what to install without involving a sysadmin.
  * *Reproducibility*: Workloads consistently run in the same environment, ensuring uniformity across job experimental runs.
