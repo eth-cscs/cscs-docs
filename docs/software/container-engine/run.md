@@ -129,7 +129,7 @@ To use an image from a different registry, the corresponding registry URL has to
 !!! example "Using a third-party registry"
     * Within an EDF
 
-    ```console
+    ```bash
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
     ```
 
