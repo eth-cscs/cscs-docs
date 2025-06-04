@@ -5,6 +5,8 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 ## EDF entries 
 
+If not specified, the default value is an empty value of the corresponding type.
+
 ### base_environment
 
 (ARRAY or STRING) Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
@@ -191,4 +193,6 @@ Environment variable expansion allows for dynamic substitution of environment va
 
 ## Relative paths expansion
 
-Relative filesystem paths can be used within EDF parameters, and will be expanded by the CE at runtime. The paths are interpreted as relative to the working directory of the process calling the CE, not to the location of the EDF file.
+Relative filesystem paths can be used within EDF parameters, and will be expanded by the CE at runtime. 
+The paths are interpreted as relative to the working directory of the process calling the CE, not to the location of the EDF file.
+Relative paths should be prepended by `./`.
