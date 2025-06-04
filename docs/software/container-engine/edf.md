@@ -5,8 +5,6 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 ## EDF entries 
 
-In the following, the default value is none (i.e., the empty value of the corresponding type) if not specified.
-
 ### base_environment
 
 (ARRAY or STRING) Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
@@ -120,9 +118,11 @@ In the following, the default value is none (i.e., the empty value of the corres
     * Mount flags are separated with a plus symbol, for example: `ro+private`.
     * Optional flags from docker format or OCI (need reference)
 
+## EDF tables
+
 ### env
 
-(TABLE) Environment variables to set in the container. Null-string values will unset the variable. Default: inherited from the host and the image.
+Environment variables to set in the container. Empty string values will unset the variable. Default: inherited from the host and the image.
 
 !!! example
      * Basic `env` block
@@ -147,7 +147,7 @@ In the following, the default value is none (i.e., the empty value of the corres
 
 ### annotations
 
-(TABLE) OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
+OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
 
 !!! example
 
