@@ -27,14 +27,16 @@ $ srun --environment=debian cat /etc/os-release             # (1)
 
 The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
 
-```console
-#!/bin/bash
-#SBATCH --job-name=edf-example
-...
+!!! example "`srun` inside a batch script with EDF"
+    ```console
+    #!/bin/bash
+    #SBATCH --job-name=edf-example
+    #SBATCH --time=00:01:00
+    ...
 
-# Run job step
-srun --environment=debian cat /etc/os-release
-```
+    # Run job step
+    srun --environment=debian cat /etc/os-release
+    ```
 
 Alternatively, the `--environment` option can also be specified with an `#SBATCH` option.
 However, the support status is still **experimental** and may result in unexpected behaviors.
