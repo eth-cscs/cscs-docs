@@ -45,7 +45,7 @@ Specifying the `--environment` option with an `#SBATCH` option is **experimental
 [](){#ref-ce-edf-search-path}
 ### EDF search path
 
-By default, the EDFs for each user are looked up in `$HOME/.edf`.
+By default, the EDFs for each user are looked up in `${HOME}/.edf`.
 The default EDF search path can be changed through the `EDF_PATH` environment variable.
 `EDF_PATH` must be a colon-separated list of absolute paths to directories, where the CE searches each directory in order.
 If an EDF is located in the search path, its name can be used in the `--environment` option without the `.toml` extension.
