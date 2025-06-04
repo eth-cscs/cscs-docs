@@ -97,6 +97,7 @@ After the import is complete, images are available in Squashfs format in the cur
 
         ```console
         $ cd ${SCRATCH}
+
         $ enroot import docker://nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
         [INFO] Querying registry for permission grant
         [INFO] Authenticating with user: <anonymous>
@@ -111,7 +112,7 @@ After the import is complete, images are available in Squashfs format in the cur
     2. Create an EDF referencing the pulled image.
 
         ```bash
-        image = "/capstor/scratch/cscs/${USER}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
+        image = "${SCRATCH}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
         ```
 
 !!! note
