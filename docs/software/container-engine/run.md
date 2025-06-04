@@ -2,40 +2,37 @@
 
 Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
 
-!!! example "EDF with an absolute path"
-    ```console
-    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
-    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-    NAME="Debian GNU/Linux"
-    VERSION_ID="12"
-    ...
-    ```
+```console
+$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+...
+```
 
 `--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
 A relative path should be prepended by `./`:
 
-!!! example "EDF with a relative path"
-    ```console
-    $ ls
-    debian.toml
+```console
+$ ls
+debian.toml
 
-    $ srun --environment=./debian.toml cat /etc/os-release
-    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-    NAME="Debian GNU/Linux"
-    VERSION_ID="12"
-    ...
-    ```
+$ srun --environment=./debian.toml cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+...
+```
 
 If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
 
-!!! example "EDF in the default search path"
-    ```console 
-    $ srun --environment=debian cat /etc/os-release
-    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-    NAME="Debian GNU/Linux"
-    VERSION_ID="12"
-    ...
-    ```
+```console 
+$ srun --environment=debian cat /etc/os-release
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+...
+```
 
 ### Use from batch scripts
 
