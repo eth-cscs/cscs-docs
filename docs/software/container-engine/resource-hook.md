@@ -234,15 +234,6 @@ Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfab
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
-
-!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
-    ```console
-    image = "nvcr.io#nvidia/pytorch:22.12-py3"
-    mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
-
-    [annotations]
-    com.hooks.aws_ofi_nccl.enabled = "true"
-    com.hooks.aws_ofi_nccl.variant = "cuda11"
     ```
 
 !!! tip
@@ -250,6 +241,15 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 
 !!! note
     It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the `NCCL_NET_PLUGIN` variable ([link](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-plugin)) is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
+
+!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
+    ```bash
+    image = "nvcr.io#nvidia/pytorch:22.12-py3"
+    mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
+
+    [annotations]
+    com.hooks.aws_ofi_nccl.enabled = "true"
+    com.hooks.aws_ofi_nccl.variant = "cuda11"
 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
@@ -308,7 +308,30 @@ com.hooks.nvidia_cuda_mps.enabled = "true"
 On several Alps vClusters, NVIDIA GPUs by default operate in "Exclusive process" mode, that is, the CUDA driver is configured to allow only one process at a time to use a given GPU.
 For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time.
 
-!!! example "Available GPUs and oversubscription error"
+In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the [NVIDIA CUDA Multi-Process Service](https://docs.nvidia.com/deploy/mps/index.html) (or MPS, for short) must be started on the compute node.
+
+The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
+The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to the string `true`.
+
+!!! tip 
+    When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
+
+!!! note
+    The container must be **writable** (default) to use the CUDA MPS hook.
+
+!!! example "Using the CUDA MPS hook"
+    ```console
+    $ cat vectoradd-cuda-mps.toml
+    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
+
+    [annotations]
+    com.hooks.nvidia_cuda_mps.enabled = "true"
+
+    $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
+    8
+    ```
+
+??? example "Available GPUs and oversubscription error"
     ```console
     $ nvidia-smi -L
     GPU 0: GH200 120GB (UUID: GPU-...)
@@ -333,26 +356,3 @@ For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
     2. 4 processes run successfully.
     3. More than 4 concurrent processes result in oversubscription errors.
-
-In order to run multiple processes concurrently on the same GPU (one example could be running multiple MPI ranks on the same device), the [NVIDIA CUDA Multi-Process Service](https://docs.nvidia.com/deploy/mps/index.html) (or MPS, for short) must be started on the compute node.
-
-The Container Engine provides a hook to automatically manage the setup and removal of the NVIDIA CUDA MPS components within containers.
-The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to the string `true`.
-
-!!! example "Using the CUDA MPS hook"
-    ```console
-    $ cat vectoradd-cuda-mps.toml
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
-
-    [annotations]
-    com.hooks.nvidia_cuda_mps.enabled = "true"
-
-    $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
-    8
-    ```
-
-!!! note
-    The container must be **writable** (default) to use the CUDA MPS hook.
-
-!!! info
-    When using the NVIDIA CUDA MPS hook it is not necessary to use other wrappers or scripts to manage the Multi-Process Service, as is documented for native jobs on some vClusters.
