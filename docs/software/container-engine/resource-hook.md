@@ -69,7 +69,7 @@ Container hooks let you customize container behavior to fit system-specific need
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
-```bash title="Required annotation"
+```bash
 com.hooks.cxi.enabled = "true"
 ```
 
@@ -167,7 +167,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 [](){#ref-ce-aws-ofi-hook}
 ### AWS OFI NCCL Hook 
 
-```bash title="Required annotation"
+```bash
 com.hooks.aws_ofi_nccl.enabled = "true"
 com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
 ```
@@ -199,7 +199,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
 
-```bash title="Required annotation"
+```bash
 com.hooks.ssh.enabled = "true"
 com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
 ```
