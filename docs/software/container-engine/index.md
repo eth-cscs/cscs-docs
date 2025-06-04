@@ -56,6 +56,7 @@ $ srun --environment=ubuntu --pty bash
 [compute-node]$ 
 ```
 
+!!! Example "Entering the environment on Daint"
     ```console
     [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
 
