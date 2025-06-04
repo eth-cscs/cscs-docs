@@ -31,7 +31,7 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
      * An assignment can implicitly define subtables if the key you assign is a dotted list. As a reference, see the examples made earlier in this section, where assigning a string to the `com.hooks.ssh.enabled` attribute within the `[annotations]` table is exactly equivalent to assigning to the `enabled` attribute within the `[annotations.com.hooks.ssh]` subtable.
 
-     * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, Case 3 in the example below is invalid because the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
+     * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, in the invalid example below, the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
 
         ```bash title="Valid"
         [annotations.com.hooks.ssh]
@@ -124,14 +124,9 @@ Container hooks let you customize container behavior to fit system-specific need
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
-!!! tip
-    On most vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
-    Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
-
-!!! note "Required annotation"
-    ```console
-    com.hooks.cxi.enabled = "true"
-    ```
+```bash title="Required annotation"
+com.hooks.cxi.enabled = "true"
+```
 
 The Container Engine provides a hook to allow containers relying on [libfabric](https://ofiwg.github.io/libfabric/) to leverage the HPE Slingshot 11 high-speed interconnect.
 This component is commonly referred to as the "CXI hook", taking its name from the CXI libfabric provider required to interface with Slingshot 11.
@@ -139,13 +134,15 @@ The hook leverages bind-mounting the custom host libfabric library into the cont
 
 If a libfabric library is already present in the container filesystem (for example, it's provided by the image), it is replaced with its host counterpart, otherwise the host libfabric is just added to the container.
 
-!!! note
-    Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-
-!!! note
-    Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
-
 The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which can be defined in the EDF.
+
+!!! tip
+    On most vClusters, the CXI hook for Slingshot connectivity is enabled implicitly by default or by other hooks.
+    Therefore, entering the enabling annotation in the EDF is unnecessary in many cases.
+
+!!! note
+    * Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
+    * Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
 
 ??? example "Comparison between with and without the CXI hook"
     * Without the CXI hook
@@ -225,13 +222,12 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 [](){#ref-ce-aws-ofi-hook}
 ### AWS OFI NCCL Hook 
 
-!!! note "Required annotation"
-    ```console
-    com.hooks.aws_ofi_nccl.enabled = "true"
-    com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
-    ```
+```bash title="Required annotation"
+com.hooks.aws_ofi_nccl.enabled = "true"
+com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
+```
 
-    1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
+1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
@@ -258,13 +254,12 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
 
-!!! note "Required annotation"
-    ```console
-    com.hooks.ssh.enabled = "true"
-    com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
-    ```
+```bash title="Required annotation"
+com.hooks.ssh.enabled = "true"
+com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
+```
 
-    1. Replace `<public-key>` with your SSH public key.
+1. Replace `<public-key>` with your SSH public key.
 
 !!! warning 
     The `srun` command launching an SSH-connectable container **should set the `--pty` option** in order for the hook to initialize properly.
@@ -278,6 +273,13 @@ The annotation value must be the absolute path to a text file containing the pub
 After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
+
+!!! note
+    The container must be **writable** (default) to use the SSH hook.
+
+!!! info
+    In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available inside the container.
+    This is required to send and establish the VS Code Server into the remote container.
 
 !!! example "Logging into a sleeping container via SSH"
     * On the cluster
@@ -297,19 +299,11 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     ssh -p 15263 <host-of-container>
     ```
 
-!!! note
-    The container must be **writable** (default) to use the SSH hook.
-
-!!! info
-    In order to establish connections through Visual Studio Code [Remote - SSH](https://code.visualstudio.com/docs/remote/ssh) extension, the `scp` program must be available inside the container.
-    This is required to send and establish the VS Code Server into the remote container.
-
 ### NVIDIA CUDA MPS Hook
 
-!!! note "Require annotation"
-    ```console
-    com.hooks.nvidia_cuda_mps.enabled = "true"
-    ```
+```bash title="Require annotation"
+com.hooks.nvidia_cuda_mps.enabled = "true"
+```
 
 On several Alps vClusters, NVIDIA GPUs by default operate in "Exclusive process" mode, that is, the CUDA driver is configured to allow only one process at a time to use a given GPU.
 For example, on a node with 4 GPUs, a maximum of 4 CUDA processes can run at the same time.
