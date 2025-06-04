@@ -4,35 +4,24 @@ Specifying the `--environment` option to the Slurm command (e.g., `srun` or `sal
 
 ```console
 $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
 ```
 
 `--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
 A relative path should be prepended by `./`:
 
 ```console
-$ ls
-debian.toml
-
-$ srun --environment=./debian.toml cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
+$ srun --environment=./debian.toml cat /etc/os-release      # (1)
 ```
+
+1. Assuming `debian.toml` is in the current folder.
 
 If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
 
 ```console 
-$ srun --environment=debian cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
+$ srun --environment=debian cat /etc/os-release             # (1)
 ```
+
+1. Assuming `debian.toml` is in the EDF search path.
 
 ### Use from batch scripts
 
@@ -146,6 +135,7 @@ To use an image from a different registry, the corresponding registry URL has to
     ```
     
     1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
+
 
     * On the command line
 
