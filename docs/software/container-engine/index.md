@@ -32,7 +32,7 @@ Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default 
 Create `${HOME}/.edf` if the folder doesn't exist.
 A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference].
 
-```console
+```bash
 image = "library/ubuntu:24.04"
 mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
