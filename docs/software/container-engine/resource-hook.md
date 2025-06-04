@@ -228,10 +228,8 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
 ```bash title="Required annotation"
 com.hooks.aws_ofi_nccl.enabled = "true"
-com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
+com.hooks.aws_ofi_nccl.variant = "cuda12" 
 ```
-
-1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
 The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
