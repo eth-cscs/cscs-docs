@@ -26,8 +26,8 @@ uenv build <recipe> <label>
     uenv build $SCRATCH/recipes/myapp myapp/v3@daint%gh200
     ```
 
-    The output of the above command will print a url that links to a status page, for you to follow the progress of the build.
-    After a successful build, the uenv can be pulled using an address from the status page:
+    The output of the above command will print a URL that links to a status page where you can follow the progress of the build.
+    After a successful build, the uenv can be pulled using a name from the status page:
 
     ```bash
     uenv image pull service::myapp/v3:1669479716

@@ -52,14 +52,14 @@ $ uenv --version
 
 On Alps clusters the most recent version 8.1.0 is installed.
 
-??? warning "out of date uenv version on Eiger and Balfrin"
+??? warning "Out of date uenv version on Eiger and Balfrin"
 
     The uenv tool available on Eiger and Balfrin is a different version than the one described below, and some commands will be different to those documented here.
 
     !!! note
         This note only applies to the current `eigen.cscs.ch` deployment.
 
-        The new [`eigen.alps.cscs.ch`][ref-cluster-eiger] deployment has version 8.1.0 of uenv installed.
+        The new [`eiger.alps.cscs.ch`][ref-cluster-eiger] deployment has version 8.1.0 of uenv installed.
 
     Please refer to `uenv --help` for the correct usage on these systems.
 
@@ -98,7 +98,7 @@ The available uenv images are stored in a registry, that can be queried using th
 The output above lists all of the uenv that are available on the current system ([Eiger][ref-cluster-eiger] in this case).
 The search can be refined by providing a [label][ref-uenv-labels].
 
-??? example "using labels to refine search"
+??? example "Using labels to refine search"
     ```bash
     # find all uenv with name prgenv-gnu
     uenv image find prgenv-gnu
@@ -117,7 +117,7 @@ The search can be refined by providing a [label][ref-uenv-labels].
     ```
 
 !!! info
-    All uenv commands that take a [label][ref-uenv-labels] as an arguement use the same flexible syntax [label descriptions][ref-uenv-labels-examples].
+    All uenv commands that take a [label][ref-uenv-labels] as an argument use the same flexible syntax [label descriptions][ref-uenv-labels-examples].
 
 ## Downloading uenv
 
@@ -527,7 +527,7 @@ echo "unset -f uenv" >> $HOME/.bashrc
     Before uenv can be used, you need to log out then back in again and type `which uenv` to verify that uenv has been installed in your `$HOME` path.
 
 [](){#ref-uenv-labels}
-## uenv Labels
+## uenv labels
 
 Uenv are referred to using **labels**, where a label has the following form
 

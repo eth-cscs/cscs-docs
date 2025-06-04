@@ -2,7 +2,7 @@
 # Deploying uenv
 
 [](){#ref-uenv-deploy-versions}
-## Versioning and Labeling
+## Versioning and labeling
 
 Uenv images have a **label** of the following form:
 
@@ -57,7 +57,7 @@ The node type (microarchitecture) that the uenv is built for.
 
 ## Registries
 
-The following naming scheme is employed in the OCI container artifactory for uenv images:
+The following naming scheme is employed in the OCI container registry for uenv images:
 
 ```text
 namespace/system/uarch/name/version:tag
@@ -92,11 +92,11 @@ Specific uenv recipes are stored in `recipes/name/version/uarch/`.
 
 The `cluster` is specified when building and deploying the uenv, while the `tag` is specified when deploying the uenv.
 
-## uenv Deployment
+## uenv deployment
 
-### Deployment Rules
+### Deployment rules
 
-A recipe can be built for deployment on different vClusters, and for multiple targets.
+A recipe can be built for deployment on different clusters, and for multiple targets.
 For example:
 
 * A multicore recipe could be built for `zen2` or `zen3` nodes
@@ -154,7 +154,7 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
 
 1. `<DESTINATION>` must be fully qualified.
 
-!!! example "Deploy Using Image ID"
+!!! example "Deploy using image ID"
     
     Deploy a uenv from `build::` using the ID of the image:
 
@@ -162,7 +162,7 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
     uenv image copy build::d2afc254383cef20 deploy::prgenv-nvfortran/24.11:v1@daint%gh200
     ```
 
-!!! example "Deploy Using Qualified Name"
+!!! example "Deploy using qualified name"
 
     Deploy a uenv using the qualified name:
 
@@ -174,7 +174,7 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
 
         The build image uses the CI/CD pipeline ID as the tag. You will need to choose an appropriate tag.
 
-!!! example "Deploy a uenv from One vCluster to Another"
+!!! example "Deploy a uenv from one cluster to another"
 
     You can also deploy a uenv from one vCluster to another.
     For example, if the `uenv` for `prgenv-gnu` has been deployed on `daint`,
