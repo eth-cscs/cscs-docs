@@ -38,15 +38,14 @@ VERSION_ID="12"
 
 The recommended approach is to use `--environment` as part of the Slurm command (e.g., `srun` or `salloc`):
 
-!!! example "Adding `--environment` to `srun`"
-    ```bash
-    #!/bin/bash
-    #SBATCH --job-name=edf-example
-    ...
+```console
+#!/bin/bash
+#SBATCH --job-name=edf-example
+...
 
-    # Run job step
-    srun --environment=debian cat /etc/os-release
-    ```
+# Run job step
+srun --environment=debian cat /etc/os-release
+```
 
 Alternatively, the `--environment` option can also be specified with an `#SBATCH` option.
 However, the support status is still **experimental** and may result in unexpected behaviors.
@@ -94,10 +93,8 @@ To choose an alternative image store path (e.g., to use a directory owned by a g
  `EDF_IMAGESTORE` must be an absolute path to an existing folder.
 
 !!! note
-    If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
-
-!!! note
-    Local container images are not cached. See the section below on how to use local images in EDF.
+    * If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
+    * Local container images are not cached. See the section below on how to use local images in EDF.
 
 ### Pulling images manually
 
@@ -126,7 +123,7 @@ After the import is complete, images are available in Squashfs format in the cur
     1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
 
 !!! note
-    It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them with the CE.
+    It is recommended to save images in `/capstor/scratch/cscs/${USER}` or its subdirectories before using them.
 
 [](){#ref-ce-third-party-private-registries}
 ### Third-party and private registries
@@ -140,7 +137,9 @@ After the import is complete, images are available in Squashfs format in the cur
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (#) as a separator:
 
-!!! example "Using a third-party registry within an EDF"
+!!! example "Using a third-party registry"
+    * Within an EDF
+
     ```bash
     $ cat ${HOME}/.edf/example.toml    # (1)
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
@@ -148,7 +147,8 @@ To use an image from a different registry, the corresponding registry URL has to
     
     1. Assuming `example.toml` is already written at `${HOME}/.edf`. 
 
-!!! example "Using a third-party registry on the command line"
+    * On the command line
+
     ```bash
     $ enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
     ```
