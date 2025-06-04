@@ -2,37 +2,40 @@
 
 Specifying the `--environment` option to the Slurm command (e.g., `srun` or `salloc`) will make it run inside the EDF environment: 
 
-```console title="EDF with an absolute path"
-$ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
-```
+!!! example "EDF with an absolute path"
+    ```console
+    $ srun --environment=$SCRATCH/edf/debian.toml cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
 
 `--environment` can be a relative path from the current working directory (i.e., where the Slurm command is executed). 
 A relative path should be prepended by `./`:
 
-```console title="EDF with a relative path"
-$ ls
-debian.toml
+!!! example "EDF with a relative path"
+    ```console
+    $ ls
+    debian.toml
 
-$ srun --environment=./debian.toml cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
-```
+    $ srun --environment=./debian.toml cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
 
 If an EDF is located in the [EDF search path][ref-ce-edf-search-path], `--environment` also accepts the EDF filename without the `.toml` extension:
 
-```console title="EDF in the default search path"
-$ srun --environment=debian cat /etc/os-release
-PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
-NAME="Debian GNU/Linux"
-VERSION_ID="12"
-...
-```
+!!! example "EDF in the default search path"
+    ```console 
+    $ srun --environment=debian cat /etc/os-release
+    PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+    NAME="Debian GNU/Linux"
+    VERSION_ID="12"
+    ...
+    ```
 
 ### Use from batch scripts
 
@@ -63,7 +66,7 @@ The default EDF search path can be changed through the `EDF_PATH` environment va
 If an EDF is located in the search path, its name can be used in the `--environment` option without the `.toml` extension.
 
 !!! example "Using `EDF_PATH` to control the default search path"
-    ```bash
+    ```console
     $ ls ~/.edf
     debian.toml
 
@@ -140,7 +143,7 @@ To use an image from a different registry, the corresponding registry URL has to
 !!! example "Using a third-party registry"
     * Within an EDF
 
-    ```bash
+    ```console
     $ cat ${HOME}/.edf/example.toml    # (1)
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
     ```
@@ -149,7 +152,7 @@ To use an image from a different registry, the corresponding registry URL has to
 
     * On the command line
 
-    ```bash
+    ```console
     $ enroot import docker://nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04
     ```
 
@@ -157,7 +160,7 @@ To import images from private repositories, access credentials should be configu
 Using the `enroot import` documentation page as a reference:
 
 ??? example "`netrc` example"
-    ```bash
+    ```console
     # NVIDIA NGC catalog (both endpoints are required)
     machine nvcr.io login $oauthtoken password <token>
     machine authn.nvidia.com login $oauthtoken password <token>

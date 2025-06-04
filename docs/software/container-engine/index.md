@@ -32,7 +32,7 @@ Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default 
 Create `${HOME}/.edf` if the folder doesn't exist.
 A more detailed explanation of each entry for the EDF can be seen in the [EDF reference][ref-ce-edf-reference].
 
-```bash
+```console
 image = "library/ubuntu:24.04"
 mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 workdir = "/capstor/scratch/cscs/${USER}"
@@ -44,19 +44,18 @@ Use Slurm on the login node to launch a program inside the environment.
 Notice that the environment (EDF) is specified with the `--environment` option. 
 CE pulls the image automatically when the container starts.
 
-```bash
+```console
 $ srun --environment=ubuntu echo "Hello" 
 Hello
 ```
 
 Or, use `--pty` to directly enter the environment.
 
-```bash
+```console
 $ srun --environment=ubuntu --pty bash
 [compute-node]$ 
 ```
 
-!!! example "Entering the environment on Daint"
     ```console
     [daint-ln002]$ srun --environment=ubuntu --pty bash   # (1)
 
