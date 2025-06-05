@@ -200,9 +200,6 @@ OCI-like annotations for the container. For more details, refer to the [Annotati
         com.hooks.ssh.enabled = "true"
         ```
 
-!!! note
-    Environment variable expansion and relative paths expansion are only available on the Bristen vCluster as technical preview.
-
 ## Environment variable expansion
 
 Environment variable expansion allows for dynamic substitution of environment variable values within the EDF (Environment Definition File). This capability applies across all configuration parameters in the EDF, providing flexibility in defining container environments.
