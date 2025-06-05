@@ -281,7 +281,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     ```
 
 ??? example "Available GPUs and oversubscription error"
-    ```toml title="EDF: ${HOME}/.edf/vectoradd-cuda.toml
+    ```toml title="EDF: ${EDF_PATH}/vectoradd-cuda.toml
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
     ```
 
@@ -316,11 +316,12 @@ GPU device files are always mounted in containers, and the NVIDIA driver user sp
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
 !!! example "Cluster with 4 GH200 devices per node"
-    ```console
-    $ cat cuda12.5.1.toml       # (1)
+    ```toml title="EDF: ${EDF_PATH}/cuda12.5.1.toml
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
+    ```
 
-    $ srun --environment=./cuda12.5.1.toml nvidia-smi
+    ```console
+    $ srun --environment=cuda12.5.1 nvidia-smi
     Thu Oct 26 17:59:36 2023       
     +------------------------------------------------------------------------------------+
     | NVIDIA-SMI 535.129.03          Driver Version: 535.129.03   CUDA Version: 12.5     |
@@ -354,8 +355,6 @@ Such images are frequently used to containerize CUDA applications, either direct
     |  No running processes found                                                        |
     +------------------------------------------------------------------------------------+
     ```
-
-    1. Assuming `cuda12.5.1.toml` is present the current folder. 
 
 It is possible to use environment variables to control which capabilities of the NVIDIA driver are enabled inside containers.
 Additionally, the NVIDIA Container Toolkit can enforce specific constraints for the container, for example, on versions of the CUDA runtime or driver, or on the architecture of the GPUs.
