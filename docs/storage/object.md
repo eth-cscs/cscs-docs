@@ -76,8 +76,8 @@ First, a bucket policy needs to be written:
 
 Then, it can be applied to the bucket:
 
-```bash
-> aws --profile=naret-testuser s3api put-bucket-policy \
+```console
+$ aws --profile=naret-testuser s3api put-bucket-policy \
       --bucket test-public-bucket --policy \
       file://test-public-bucket-anon-from-internet.json
 ```
