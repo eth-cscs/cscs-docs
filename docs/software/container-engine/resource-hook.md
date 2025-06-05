@@ -230,14 +230,15 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
 !!! example "Logging into a sleeping container via SSH"
     * On the cluster
-    ```console
-    $ cat ubuntu-ssh.toml
+    ```toml title="EDF: ${EDF_PATH}/ubuntu-ssh.toml"
     image = "ubuntu:latest"
 
     [annotations]
     com.hooks.ssh.enabled = "true"
     com.hooks.ssh.authorize_ssh_key = "<public-key>"
+    ```
 
+    ```console
     $ srun --environment=./ubuntu-ssh.toml --pty sleep 30
     ```
 
@@ -267,18 +268,25 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     The container must be **writable** (default) to use the CUDA MPS hook.
 
 !!! example "Using the CUDA MPS hook"
-    ```console
-    $ cat vectoradd-cuda-mps.toml
+    ```toml title="EDF: ${EDF_PATH}/vectoradd-cuda-mps.toml"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
     [annotations]
     com.hooks.nvidia_cuda_mps.enabled = "true"
+    ```
 
+    ```console
     $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
     8
     ```
 
 ??? example "Available GPUs and oversubscription error"
+    ```toml title="EDF: ${HOME}/.edf/vectoradd-cuda.toml
+    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
+    ```
+
+    1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
+
     ```console
     $ nvidia-smi -L
     GPU 0: GH200 120GB (UUID: GPU-...)
@@ -286,23 +294,19 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     GPU 2: GH200 120GB (UUID: GPU-...)
     GPU 3: GH200 120GB (UUID: GPU-...)
 
-    $ cat ${HOME}/.edf/vectoradd-cuda.toml        # (1)
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
-
-    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)
+    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (1)
     Test PASSED
     Test PASSED
     Test PASSED
     Test PASSED
 
-    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (3)
+    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)
     Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
     srun: error: ...
     ```
 
-    1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
-    2. 4 processes run successfully.
-    3. More than 4 concurrent processes result in oversubscription errors.
+    1. 4 processes run successfully.
+    2. More than 4 concurrent processes result in oversubscription errors.
 
 ## Accessing  NVIDIA GPUs
 
