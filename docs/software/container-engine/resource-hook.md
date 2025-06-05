@@ -13,13 +13,13 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
 !!! example "TOML nest levels"
     * In the TOML key
-    ```console
+    ```toml
     [annotations]
     com.hooks.ssh.enabled = "true"
     ```
 
     * In the TOML table name
-    ```console
+    ```toml
     [annotations.com.hooks.ssh]
     enabled = "true"
     ```
