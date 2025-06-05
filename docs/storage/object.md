@@ -22,8 +22,8 @@ CSCS offers a public cloud object storage service, based on the Ceph Object Gate
 
 The first step is to configure the profile:
 
-```bash
-> aws configure --profile naret-testuser
+```console
+$ aws configure --profile naret-testuser
 AWS Access Key ID [None]: [REDACTED]
 AWS Secret Access Key [None]: [REDACTED]
 Default region name [None]: cscs-zonegroup
@@ -42,8 +42,8 @@ s3 =
 
 #### Creating a pre-signed URL
 
-```bash
-> aws --profile=naret-testuser s3 presign s3://test-bucket/file.txt --expires-in 300
+```console
+$ aws --profile=naret-testuser s3 presign s3://test-bucket/file.txt --expires-in 300
  
 https://rgw.cscs.ch/test-bucket/file.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=IA6AOCNMKPDXQ0YNA3DP%2F20241209%2Fcscs-zonegroup%2Fs3%2Faws4_request&X-Amz-Date=20241209T080748Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=f2e2adb457f6fd43401124e4ea2650fba528e614ab661f9c05e2fa2e77691b5d
 ```
@@ -57,7 +57,7 @@ A more thorough explanation can be found in the [RGW documentation](https://docs
 First, a bucket policy needs to be written:
 
 ```json
-> cat test-public-bucket-anon-from-internet.json
+$ cat test-public-bucket-anon-from-internet.json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -84,8 +84,8 @@ $ aws --profile=naret-testuser s3api put-bucket-policy \
 
 At this point, the objects in test-public-bucket are accessible via direct links:
 
-```
-> s3cmd --configure
+```console
+$ s3cmd --configure
  
 Enter new values or accept defaults in brackets with Enter.
 Refer to user manual for detailed description of all options.
@@ -133,18 +133,18 @@ And then confirm.
 
 __IMPORTANT__: The configuration is not complete yet.
 
-```
-> s3cmd ls s3://test-bucket
+```console
+$ s3cmd ls s3://test-bucket
 ERROR: S3 error: 403 (SignatureDoesNotMatch)
 ```
 
 To fix this, it is necessary to edit the `.s3cfg` file, normally located in the user's home directory, and change the `signature_v2` setting to true.
 
-```
-> cat .s3cfg | grep signature_v2
+```console
+$ cat .s3cfg | grep signature_v2
 signature_v2 = True
  
-> s3cmd ls s3://test-bucket
+$ s3cmd ls s3://test-bucket
 2024-12-09 08:05           15  s3://test-bucket/file.txt
 ```
 
@@ -154,11 +154,7 @@ signature_v2 = True
 
 In order to be able to connect to the S3 endpoint using Cyberduck, a profile supporting path-style requests must be downloaded from [here](https://profiles.cyberduck.io/S3%20(Deprecated%20path%20style%20requests).cyberduckprofile) or copied from below.
 
-
-```bash
-> cat "S3 (Deprecated path style requests).cyberduckprofile"
-```
-```xml
+```xml title="S3 (Deprecated path style requests).cyberduckprofile"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
