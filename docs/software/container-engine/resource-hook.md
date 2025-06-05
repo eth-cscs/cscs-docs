@@ -267,7 +267,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     The container must be **writable** (default) to use the CUDA MPS hook.
 
 !!! example "Using the CUDA MPS hook"
-    ```toml title="EDF: ${EDF_PATH}/vectoradd-cuda-mps.toml"
+    ```toml title="EDF: `vectoradd-cuda-mps.toml` at `${EDF_PATH}`"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
     [annotations]
