@@ -111,7 +111,7 @@ After the import is complete, images are available in Squashfs format in the cur
 
     2. Create an EDF referencing the pulled image.
 
-        ```bash
+        ```toml
         image = "${SCRATCH}/nvidia+cuda+11.8.0-cudnn8-devel-ubuntu22.04.sqsh"
         ```
 
@@ -133,7 +133,7 @@ To use an image from a different registry, the corresponding registry URL has to
 !!! example "Using a third-party registry"
     * Within an EDF
 
-    ```bash
+    ```toml
     image = "nvcr.io#nvidia/nvhpc:23.7-runtime-cuda11.8-ubuntu22.04"
     ```
 
