@@ -241,7 +241,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     com.hooks.ssh.authorize_ssh_key = "<public-key>"
     ```
     ```console title="Command-line"
-    $ srun --environment=./ubuntu-ssh.toml --pty sleep 30
+    $ srun --environment=ubuntu-ssh --pty sleep 30
     ```
 
     * On the remote shell

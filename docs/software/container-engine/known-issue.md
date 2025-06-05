@@ -30,7 +30,7 @@ com.hooks.cxi.enabled = "false"
 [env]
 ENROOT_SLURM_HOOK = "0"
 
-$ srun -lN1 --environment=./alpine_workaround.toml echo "abc"
+$ srun -lN1 --environment=alpine_workaround echo "abc"
 abc
 ```
 
