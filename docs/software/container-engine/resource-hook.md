@@ -237,7 +237,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     com.hooks.ssh.enabled = "true"
     com.hooks.ssh.authorize_ssh_key = "<public-key>"
     ```
-    ```console
+    ```console title="Command-line"
     $ srun --environment=./ubuntu-ssh.toml --pty sleep 30
     ```
 
@@ -273,8 +273,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     [annotations]
     com.hooks.nvidia_cuda_mps.enabled = "true"
     ```
-
-    ```console
+    ```console title="Command-line"
     $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
     8
     ```
@@ -286,7 +285,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
 
-    ```console
+    ```console title="Command-line"
     $ nvidia-smi -L
     GPU 0: GH200 120GB (UUID: GPU-...)
     GPU 1: GH200 120GB (UUID: GPU-...)
