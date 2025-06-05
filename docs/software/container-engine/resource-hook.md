@@ -130,7 +130,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
     * With the CXI hook enabling access to the Slingshot high-speed network
 
-    ```toml title="EDF: ${EDF_PATH}/osu-mb-cxi.toml
+    ```toml title="EDF: ${EDF_PATH}/osu-mb-cxi.toml"
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
 
     [annotations]
@@ -237,7 +237,6 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     com.hooks.ssh.enabled = "true"
     com.hooks.ssh.authorize_ssh_key = "<public-key>"
     ```
-
     ```console
     $ srun --environment=./ubuntu-ssh.toml --pty sleep 30
     ```
