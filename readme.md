@@ -1,10 +1,6 @@
 # CSCS Documentation
 
-The source CSCS documentation [docs.cscs.ch](httpa://docs.cscs.ch)
-
-> [!NOTE]
-> These docs are **work in progress**, and are not hosted at `docs.cscs.ch`.
-> They can be viewed at [eth-cscs.github.io/cscs-docs](https://eth-cscs.github.io/cscs-docs)
+The source CSCS documentation [docs.cscs.ch](https://docs.cscs.ch)
 
 ## Getting Started
 
