@@ -170,7 +170,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
     ```
 
 [](){#ref-ce-aws-ofi-hook}
-### AWS OFI NCCL Hook 
+### AWS OFI NCCL hook 
 
 ```toml
 com.hooks.aws_ofi_nccl.enabled = "true"
@@ -202,7 +202,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
     ```
 
 [](){#ref-ce-ssh-hook}
-### SSH Hook
+### SSH hook
 
 ```toml
 com.hooks.ssh.enabled = "true"
@@ -249,7 +249,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     ssh -p 15263 <host-of-container>
     ```
 
-### NVIDIA CUDA MPS Hook
+### NVIDIA CUDA MPS hook
 
 ```toml
 com.hooks.nvidia_cuda_mps.enabled = "true"
