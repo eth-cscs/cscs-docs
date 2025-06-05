@@ -25,7 +25,7 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
         base_environment = ["common_env", "ml_pytorch_env1"]
         ```
 
-??? note
+!!! note
      * Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in `base_environment`. When evaluating `mounts` or `env` parameters, values from downstream EDFs are appended to inherited values.
      * The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path][ref-ce-edf-search-path].
      * This parameter can be a string if there is only one base environment.
@@ -65,7 +65,7 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
         image = "/path/to/image.squashfs"
         ```
 
-??? note
+!!! note
      * The full format for remote references is `[USER@][REGISTRY#]IMAGE[:TAG]`.
          * `[REGISTRY#]`: (optional) registry URL, followed by #. Default: Docker Hub.
          * `IMAGE`: image name.
@@ -144,7 +144,7 @@ List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are option
         mounts = ["${SCRATCH}:/scratch"]
         ```
 
-??? note
+!!! note
     * Mount flags are separated with a plus symbol, for example: `ro+private`.
     * Optional flags from docker format or OCI (need reference)
 
@@ -170,7 +170,7 @@ Environment variables to set in the container. Empty string values will unset th
         DEBUG = "true"
         ```
 
-??? note
+!!! note
     * By default, containers inherit environment variables from the container image and the host environment, with variables from the image taking precedence.
     * The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
     * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
