@@ -48,7 +48,7 @@ After downloading, copy the `code` executable to a location in your PATH, so tha
     export PATH=$HOME/.local/$(uname -m)/bin:$PATH
     ```
     The `uname -m` command will print `aarch64` or `x86_64`, according to the microarchitecture of the node it is run on.
-    
+
     Then create the path, and copy the `code` executable to the architecture-specific path:
     ```
     mkdir -p $HOME/.local/$(uname -m)/bin
@@ -157,7 +157,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
 ### Using with containers
 
-This will use CSCS's custom **Container Engine** which can easily pull a container from a registry like DockerHub. Same setup process as earlier with GitHub.
+This will use CSCS's **[Container Engine][ref-container-engine]**. Using this workflow, one can pull a container from a registry like DockerHub. Note that this process also requires that you have a GitHub account, with an authentication and authorization step as described earlier.
 
 #### TOML File with Image and Mount Paths
 
@@ -165,9 +165,12 @@ This will use CSCS's custom **Container Engine** which can easily pull a contain
 image = "nvcr.io#nvidia/pytorch:24.01-py3" # example of PyTorch NGC image
 writable = true
 mounts = ["/paths/on/scratch/or/home:path/on/the/container",
-      "/path/if/same/on/both"]
+          "/path/if/same/on/both"
+	      "/path/of/code/executable:/path/for/code/executable/in/container"]
 workdir = "default/working/dir/path"
 ```
+
+Ensure that the `code` executable is accessible in the container. Either it can be contained in the image, or one of the mounted folders should contain it.
 
 #### Launch Container & Tunnel
 
@@ -177,11 +180,9 @@ srun -N 1 --environment=/absolute/path/to/tomlfile.toml --pty bash
 
 start tunnel
 
-cd /path/to/code/executable
+cd path/for/code/executable/in/container
 ./code tunnel --name=$CLUSTER_NAME-tunnel
 ```
-
-
 
 ## Connecting via VSCode UI
 
