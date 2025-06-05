@@ -24,7 +24,7 @@ git push origin 'fix/ssh-alias'
 ```
 Then navigate to GitHub, and create a pull request.
 
-The `serve` script in the root path of the repository can be used to view the docs locally:`
+The `serve` script in the root path of the repository can be used to view the docs locally:
 ```bash
 ./serve
 ...
