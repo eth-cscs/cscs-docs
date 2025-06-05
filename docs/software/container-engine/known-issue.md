@@ -2,11 +2,12 @@
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
 
-```console
-$ cat alpine.toml
+```toml title="EDF: ${EDF_PATH}/alpine.toml"
 image = "alpine:3.19"
+```
 
-$ srun -lN1 --environment=alpine.toml echo "abc"
+```console
+$ srun -lN1 --environment=alpine echo "abc"
 0: slurmstepd: error: pyxis: container start failed with error code: 1
 0: slurmstepd: error: pyxis: printing enroot log file:
 0: slurmstepd: error: pyxis:     [ERROR] Failed to refresh the dynamic linker cache
@@ -18,10 +19,11 @@ $ srun -lN1 --environment=alpine.toml echo "abc"
 
 This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from Glibc) when they bind-mount host libraries inside containers; since Alpine Linux provides an alternative `ldconfig` (from Musl Libc), it does not work as intended by hooks. As a workaround, users may disable problematic hooks. For example,
 
-```console
-$ cat alpine_workaround.toml
+```toml title="EDF: ${EDF_PATH}/alpine_workaround.toml"
 image = "alpine:3.19"
+```
 
+```console
 [annotations]
 com.hooks.cxi.enabled = "false"
 
