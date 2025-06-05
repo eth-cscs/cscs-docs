@@ -32,12 +32,12 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
 
 ### `image`
 
- |             |                 |
- |-------------|-----------------|
- | **Type**    | string          |
- | **Default** | **(mandatory)** |
+ |             |        |
+ |-------------|--------|
+ | **Type**    | string |
+ | **Default** | `""`   |
 
-The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
+The container image to use. If empty, CE doesn't enter a container. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
 !!! example
      * Reference of Ubuntu image in the Docker Hub registry (default registry)
