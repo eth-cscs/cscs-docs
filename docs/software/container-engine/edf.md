@@ -7,8 +7,8 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 ### `base_environment`
 
- * Type: array or string
- * Default: `""`
+ | Type    | array or string |
+ | Default | `""`            |
 
 Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
@@ -30,8 +30,8 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
 
 ### `image`
 
- * Type: string
- * Default: **(mandatory)**
+ | Type    | string          |
+ | Default | **(mandatory)** |
 
 The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
@@ -70,8 +70,8 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
 
 ### `workdir`
 
- * Type: string
- * Default: (inherited from image)
+ | Type    | string                 |
+ | Default | (inherited from image) |
 
 Initial working directory when the container starts.
 
@@ -87,8 +87,8 @@ Initial working directory when the container starts.
 
 ### `entrypoint`
 
- * Type: bool
- * Default: `true`
+ | Type    | bool   |
+ | Default | `true` |
 
 If true, run the entrypoint from the container image.
 
@@ -99,8 +99,8 @@ If true, run the entrypoint from the container image.
 
 ### `writable`
 
- * Type: bool
- * Default: `true`
+ | Type    | bool   |
+ | Default | `true` |
 
 If false, the container filesystem is read-only.
 
@@ -111,8 +111,8 @@ If false, the container filesystem is read-only.
 
 ### `mounts`
 
- * Type: array
- * Default: `[]`
+ | Type    | array |
+ | Default | `[]`  |
 
 List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
 
@@ -140,9 +140,7 @@ List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are option
 
 ### `env`
 
- * Default: (inherited from the host and the image)
-
-Environment variables to set in the container. Empty string values will unset the variable.
+Environment variables to set in the container. Empty string values will unset the variable. Inherited from the host and the image by default.
 
 !!! example
      * Basic `env` block
@@ -166,8 +164,6 @@ Environment variables to set in the container. Empty string values will unset th
     * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
 
 ### `annotations`
-
- * Default: (none)
 
 OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
 
