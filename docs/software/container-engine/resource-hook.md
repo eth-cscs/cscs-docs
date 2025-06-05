@@ -273,8 +273,9 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     [annotations]
     com.hooks.nvidia_cuda_mps.enabled = "true"
     ```
+
     ```console title="Command-line"
-    $ srun -t2 -N1 -n8 --environment=./vectoradd-cuda-mps.toml /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
+    $ srun -t2 -N1 -n8 --environment=vectoradd-cuda-mps /cuda-samples/vectorAdd | grep "Test PASSED" | wc -l
     8
     ```
 
