@@ -56,8 +56,7 @@ A more thorough explanation can be found in the [RGW documentation](https://docs
 
 First, a bucket policy needs to be written:
 
-```json
-$ cat test-public-bucket-anon-from-internet.json
+```json title="test-public-bucket-anon-from-internet.json"
 {
   "Version": "2012-10-17",
   "Statement": [
