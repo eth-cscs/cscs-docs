@@ -5,7 +5,7 @@ A vCluster (versatile software-defined cluster) is a logical partition of the su
 
 ## Clusters on Alps
 
-Clusters on Alps are provided as part of different [platforms][ref-alps-platforms].
+Clusters on Alps are provided as part of different [platforms][ref-alps-platforms]. The following clusters are part of the platforms that are fully operated by CSCS.
 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: __Machine Learning Platform__
