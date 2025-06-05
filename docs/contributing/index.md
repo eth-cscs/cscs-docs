@@ -187,6 +187,9 @@ At the top of each page there is an "edit" icon :material-pencil:, which will op
 
 Once your changes are ready, click on the "Commit changes..." button in the top right hand corner of the editor, and add at least a description commit message.
 
+!!! tip
+    See [the GitLab official guide on editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) for a step-by-step walkthrough.
+
 !!! note
     You will need to keep the default option **Create a new branch for this commit and start a pull request**.
 

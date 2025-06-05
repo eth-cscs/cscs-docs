@@ -6,7 +6,7 @@ Its command-line interface (CLI) closely mirrors Docker’s, providing a consist
 
 ## Preliminary step: configuring Podman's storage
 
-The first step in order to use Podman on Alps is to create a valid Container Storage configuration file at `$HOME/.config/containers/storage.conf`, according to the following minimal template:
+The first step in order to use Podman on Alps is to create a valid Container Storage configuration file at `$HOME/.config/containers/storage.conf` (or `$XDG_CONFIG_HOME/containers/storage.conf`, if you have `$XDG_CONFIG_HOME` set), according to the following minimal template:
 
 ```toml
 [storage]
@@ -20,6 +20,14 @@ graphroot = "/dev/shm/$USER/root"
     `/dev/shm` is the mount point of a [tmpfs filesystem](https://www.kernel.org/doc/html/latest/filesystems/tmpfs.html#tmpfs) and is compatible with the user namespaces used by Podman.
     The limitation of this approach  is that container images created during a job allocation are deleted when the job ends.
     Therefore, the image needs to either be pushed to a container registry or imported by the Container Engine before the job allocation finishes.
+
+You can use
+
+```bash
+podman info | grep -A 2 "store:"
+```
+
+to check that the correct `storage.conf` file is used by Podman (`store:configFile` field).
 
 ## Building images with Podman
 
