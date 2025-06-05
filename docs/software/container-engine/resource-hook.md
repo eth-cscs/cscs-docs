@@ -66,6 +66,9 @@ Container hooks let you customize container behavior to fit system-specific need
     However, specific Alps vClusters may support only a subset or use custom configurations.
     For details about available features in individual vClusters, consult platform documentation or contact CSCS support.
 
+!!! note
+    In the examples below, EDF files are assumed to be at `${EDF_PATH}`.
+
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
@@ -92,14 +95,14 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 ??? example "Comparison between with and without the CXI hook"
     * Without the CXI hook
 
-    ```toml title="EDF: ${EDF_PATH}/osu-mb-wo-cxi.toml"
+    ```toml title="EDF: osu-mb-wo-cxi.toml"
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
 
     [annotations]
     com.hooks.cxi.enabled = "false"
     ```
 
-    ```console
+    ```console title="Command-line"
     $ srun -N2 --mpi=pmi2 --environment=osu-mb-wo-cxi ./osu_bw
     # OSU MPI Bandwidth Test v6.2
     # Size      Bandwidth (MB/s)
@@ -130,14 +133,14 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
     * With the CXI hook enabling access to the Slingshot high-speed network
 
-    ```toml title="EDF: ${EDF_PATH}/osu-mb-cxi.toml"
+    ```toml title="EDF: osu-mb-cxi.toml"
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
 
     [annotations]
     com.hooks.cxi.enabled = "true"
     ```
 
-    ```console
+    ```console title="Command-line"
     $ srun -N2 --mpi=pmi2 --environment=osu-mb-cxi ./osu_bw
     # OSU MPI Bandwidth Test v6.2
     # Size      Bandwidth (MB/s)
@@ -230,7 +233,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
 !!! example "Logging into a sleeping container via SSH"
     * On the cluster
-    ```toml title="EDF: ${EDF_PATH}/ubuntu-ssh.toml"
+    ```toml title="EDF: ubuntu-ssh.toml"
     image = "ubuntu:latest"
 
     [annotations]
@@ -267,7 +270,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     The container must be **writable** (default) to use the CUDA MPS hook.
 
 !!! example "Using the CUDA MPS hook"
-    ```toml title="EDF: `vectoradd-cuda-mps.toml` at `${EDF_PATH}`"
+    ```toml title="EDF: vectoradd-cuda-mps.toml"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
     [annotations]
@@ -280,7 +283,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     ```
 
 ??? example "Available GPUs and oversubscription error"
-    ```toml title="EDF: `vectoradd-cuda.toml` at `${EDF_PATH}`"
+    ```toml title="EDF: vectoradd-cuda.toml"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
     ```
 
@@ -315,7 +318,7 @@ GPU device files are always mounted in containers, and the NVIDIA driver user sp
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
 !!! example "Cluster with 4 GH200 devices per node"
-    ```toml title="EDF: `cuda12.5.1.toml` at `${EDF_PATH}`"
+    ```toml title="EDF: cuda12.5.1.toml"
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
     ```
 

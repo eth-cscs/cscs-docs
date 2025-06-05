@@ -2,7 +2,7 @@
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
 
-```toml title="EDF: `alpine.toml` at `${EDF_PATH}`"
+```toml title="EDF: alpine.toml"
 image = "alpine:3.19"
 ```
 
@@ -19,7 +19,7 @@ $ srun -lN1 --environment=alpine echo "abc"
 
 This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from Glibc) when they bind-mount host libraries inside containers; since Alpine Linux provides an alternative `ldconfig` (from Musl Libc), it does not work as intended by hooks. As a workaround, users may disable problematic hooks. For example,
 
-```toml title="EDF: `alpine_workaround.toml` at `${EDF_PATH}`"
+```toml title="EDF: alpine_workaround.toml"
 image = "alpine:3.19"
 ```
 
