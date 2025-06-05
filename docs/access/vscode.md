@@ -48,7 +48,7 @@ After downloading, copy the `code` executable to a location in your PATH, so tha
     export PATH=$HOME/.local/$(uname -m)/bin:$PATH
     ```
     The `uname -m` command will print `aarch64` or `x86_64`, according to the microarchitecture of the node it is run on.
-
+    
     Then create the path, and copy the `code` executable to the architecture-specific path:
     ```
     mkdir -p $HOME/.local/$(uname -m)/bin
@@ -82,9 +82,9 @@ Once you have finished registering the service with GitHub, in VSCode on your PC
      Tunnels
         Sign in to tunnels registered with GitHub
     ```
-
+    
     If you have not signed in to GitHub with VS Code editor, you will be redirected to the browser to sign in.
-
+    
     After signing in and authorizing VSCode, the open tunnel should be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
 
 ### Using with uenv
@@ -112,11 +112,6 @@ Once the tunnel is configured, you can access it from VSCode.
     If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below.
     Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage][ref-policies-fair-use] of Shared Resources policy.
 
-### Using with containers
-
-!!! todo
-    write a guide
-
 ### Running on a compute node
 
 If you plan to do computation using your VSCode, then you should first allocate resources on a compute node and set up your environment there.
@@ -132,7 +127,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     * `-t120` requests a 2 hour (120 minute) reservation
     * `-n1` requests a single rank - only one rank/process is required for VSCode
     * `--pty` allows forwarding of terminal I/O, required to sign in to Github
-
+    
     Once the job allocation is granted, you will be prompted to log into GitHub, the same as starting a session on the login node.
     If you don't want to use a uenv, the command is even simpler:
     ```
@@ -148,15 +143,45 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
     # start an interactive shell session
     srun -t120 -n1 --pty bash
-
+    
     # set up the environment before starting the tunnel
     uenv start prgenv-gnu/24.11:v1 --view=default
     code tunnel --name=$CLUSTER_NAME-tunnel
     ```
-
+    
     * `-t120` requests a 2 hour (120 minute) reservation
     * `-n1` requests a single rank - only one rank/process is required for VSCode
     * `--pty` allows forwarding of terminal I/O, for bash to work interactively
+
+
+
+### Using with containers
+
+This will use CSCS's custom **Container Engine** which can easily pull a container from a registry like DockerHub. Same setup process as earlier with GitHub.
+
+#### TOML File with Image and Mount Paths
+
+```toml
+image = "nvcr.io#nvidia/pytorch:24.01-py3" # example of PyTorch NGC image
+writable = true
+mounts = ["/paths/on/scratch/or/home:path/on/the/container",
+      "/path/if/same/on/both"]
+workdir = "default/working/dir/path"
+```
+
+#### Launch Container & Tunnel
+
+```bash
+# launch container on compute node
+srun -N 1 --environment=/absolute/path/to/tomlfile.toml --pty bash
+
+start tunnel
+
+cd /path/to/code/executable
+./code tunnel --name=$CLUSTER_NAME-tunnel
+```
+
+
 
 ## Connecting via VSCode UI
 
