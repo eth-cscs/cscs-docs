@@ -1,6 +1,6 @@
 # CSCS Documentation
 
-The source CSCS documentation [docs.cscs.ch](https://docs.cscs.ch)
+This repository contains the source code for CSCS' documentation hosted at [docs.cscs.ch](https://docs.cscs.ch)
 
 ## Getting Started
 
