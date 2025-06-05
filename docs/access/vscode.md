@@ -11,6 +11,8 @@ There are two ways to set up the connection:
 The main challenge with using VSCode is that the most convenient method for starting a remote session is to start a remote tunnel from the VS Code GUI.
 This approach starts a session in the standard login environment on that node, however this won't work if you want to be developing in a container, in a uenv, or on a compute node.
 
+This process is also demonstrated in a webinar on [Interactive computing on "Alps"](https://www.cscs.ch/publications/tutorials/2025/video-of-the-webinar-interactive-computing-on-alps). Video and slides accessible.
+
 ## Flexible method: remote server
 
 The most flexible method for connecting VSCode is to log in to the Alps system, set up your environment (start a container or uenv, start a session on a compute node), and start the remote server in that environment pre-configured.
@@ -157,7 +159,9 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
 ### Using with containers
 
-This will use CSCS's **[Container Engine][ref-container-engine]**. Using this workflow, one can pull a container from a registry like DockerHub. Note that this process also requires that you have a GitHub account, with an authentication and authorization step as described earlier.
+This will use CSCS's **[Container Engine][ref-container-engine]**. Using this workflow, one can pull a container from a registry like DockerHub. Note that this process also requires that you have a GitHub account, with an authentication and authorization step as described earlier. 
+
+This will also use the Remote Tunnel extension and the VS Code connected to the GitHub account (see above).
 
 #### TOML File with Image and Mount Paths
 
