@@ -21,15 +21,15 @@ This is because some hooks (e.g., Slurm and CXI hooks) leverage `ldconfig` (from
 
 ```toml title="EDF: alpine_workaround.toml"
 image = "alpine:3.19"
-```
 
-```console title="Command-line"
 [annotations]
 com.hooks.cxi.enabled = "false"
 
 [env]
 ENROOT_SLURM_HOOK = "0"
+```
 
+```console title="Command-line"
 $ srun -lN1 --environment=alpine_workaround echo "abc"
 abc
 ```
