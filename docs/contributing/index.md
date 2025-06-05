@@ -188,10 +188,9 @@ At the top of each page there is an "edit" icon :material-pencil:, which will op
 Once your changes are ready, click on the "Commit changes..." button in the top right hand corner of the editor, and add at least a description commit message.
 
 !!! note
-    You will need to keep the default option **Create a new branch for this commit and start a pull request**.
-
-    * if the change is small and you are CSCS staff, you can merge the PR immediately
-    * all other changes can be
+    Use the default option **Create a new branch for this commit and start a pull request**.
+    This allows others to review the change.
+    Even for trivial changes, opening a PR creates visibility that a small fix or change has been made.
 
 ## Style guide
 
