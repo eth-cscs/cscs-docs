@@ -76,7 +76,7 @@ First, a bucket policy needs to be written:
 
 Then, it can be applied to the bucket:
 
-```
+```bash
 > aws --profile=naret-testuser s3api put-bucket-policy \
       --bucket test-public-bucket --policy \
       file://test-public-bucket-anon-from-internet.json
@@ -140,11 +140,11 @@ ERROR: S3 error: 403 (SignatureDoesNotMatch)
 
 To fix this, it is necessary to edit the `.s3cfg` file, normally located in the user's home directory, and change the `signature_v2` setting to true.
 
-```console
-~ $ cat .s3cfg | grep signature_v2
+```
+> cat .s3cfg | grep signature_v2
 signature_v2 = True
  
-$ s3cmd ls s3://test-bucket
+> s3cmd ls s3://test-bucket
 2024-12-09 08:05           15  s3://test-bucket/file.txt
 ```
 
@@ -152,6 +152,37 @@ $ s3cmd ls s3://test-bucket
 
 #### Configuration
 
-In order to be able to connect to the S3 endpoint using Cyberduck, a profile supporting path-style requests must be downloaded from here.
+In order to be able to connect to the S3 endpoint using Cyberduck, a profile supporting path-style requests must be downloaded from [here](https://profiles.cyberduck.io/S3%20(Deprecated%20path%20style%20requests).cyberduckprofile) or copied from below.
+
+
+```bash
+> cat "S3 (Deprecated path style requests).cyberduckprofile"
+```
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Protocol</key>
+        <string>s3</string>
+        <key>Vendor</key>
+        <string>s3-path-style</string>
+        <key>Scheme</key>
+        <string>https</string>
+        <key>Description</key>
+        <string>S3 (Deprecated path style requests)</string>
+        <key>Hostname Configurable</key>
+        <true/>
+        <key>Port Configurable</key>
+        <true/>
+        <key>Username Configurable</key>
+        <true/>
+        <key>Properties</key>
+        <array>
+            <string>s3.bucket.virtualhost.disable=true</string>
+        </array>
+    </dict>
+</plist>
+```
 
 ![cyberduck](../images/storage/cyberduck.png)
