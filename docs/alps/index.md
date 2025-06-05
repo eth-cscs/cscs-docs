@@ -11,6 +11,8 @@ A key feature of Alps is multi-tenancy, where tenants are organizations, typical
 Tenants have privileged access to resource nodes, enabling them to deploy their own services and resource configurations.
 Additionally, network segregation ensures secure and isolated communication, with the option to connect to the tenant's private network.
 
+wombat soup by pablo.
+
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-signs-post: __Platforms__
