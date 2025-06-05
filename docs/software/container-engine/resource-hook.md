@@ -280,7 +280,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     ```
 
 ??? example "Available GPUs and oversubscription error"
-    ```toml title="EDF: ${EDF_PATH}/vectoradd-cuda.toml"
+    ```toml title="EDF: `vectoradd-cuda.toml` at `${EDF_PATH}`"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
     ```
 
@@ -315,7 +315,7 @@ GPU device files are always mounted in containers, and the NVIDIA driver user sp
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
 !!! example "Cluster with 4 GH200 devices per node"
-    ```toml title="EDF: ${EDF_PATH}/cuda12.5.1.toml"
+    ```toml title="EDF: `cuda12.5.1.toml` at `${EDF_PATH}`"
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
     ```
 
