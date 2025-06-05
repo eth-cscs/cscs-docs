@@ -322,7 +322,7 @@ Such images are frequently used to containerize CUDA applications, either direct
     image = "nvidia/cuda:12.5.1-devel-ubuntu24.04"
     ```
 
-    ```console
+    ```console title="Command-line"
     $ srun --environment=cuda12.5.1 nvidia-smi
     Thu Oct 26 17:59:36 2023       
     +------------------------------------------------------------------------------------+
