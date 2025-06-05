@@ -146,7 +146,6 @@ List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are option
 
 !!! note
     * Mount flags are separated with a plus symbol, for example: `ro+private`.
-    * Optional flags from docker format or OCI (need reference)
 
 ## EDF tables
 
