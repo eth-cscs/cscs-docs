@@ -33,19 +33,19 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
      * Attributes can be added to a table only in one place in the TOML file. In other words, each table must be defined in a single square bracket section. For example, in the invalid example below, the `ssh` table was doubly defined both in the `[annotations]` and in the `[annotations.com.hooks.ssh]` sections. See the [TOML format](https://toml.io/en/) spec for more details.
 
-        ```bash title="Valid"
+        ```toml title="Valid"
         [annotations.com.hooks.ssh]
         authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
         enabled = "true"
         ```
 
-        ```bash title="Valid"
+        ```toml title="Valid"
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
         com.hooks.ssh.enabled = "true"
         ```
 
-        ```bash title="Invalid"
+        ```toml title="Invalid"
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "${SCRATCH}/tests/edf/authorized_keys"
 
@@ -69,7 +69,7 @@ Container hooks let you customize container behavior to fit system-specific need
 [](){#ref-ce-cxi-hook}
 ### HPE Slingshot interconnect 
 
-```bash
+```toml
 com.hooks.cxi.enabled = "true"
 ```
 
@@ -167,7 +167,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 [](){#ref-ce-aws-ofi-hook}
 ### AWS OFI NCCL Hook 
 
-```bash
+```toml
 com.hooks.aws_ofi_nccl.enabled = "true"
 com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
 ```
@@ -187,7 +187,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
     It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the `NCCL_NET_PLUGIN` variable ([link](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-plugin)) is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
 
 !!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
-    ```bash
+    ```toml
     image = "nvcr.io#nvidia/pytorch:22.12-py3"
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 
@@ -199,7 +199,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 [](){#ref-ce-ssh-hook}
 ### SSH Hook
 
-```bash
+```toml
 com.hooks.ssh.enabled = "true"
 com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
 ```
@@ -246,7 +246,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
 ### NVIDIA CUDA MPS Hook
 
-```bash
+```toml
 com.hooks.nvidia_cuda_mps.enabled = "true"
 ```
 

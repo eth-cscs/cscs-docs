@@ -13,12 +13,12 @@ If not specified, the default value is an empty value of the corresponding type.
 
 !!! example
      * Single environment inheritance:
-        ```bash
+        ```toml
         base_environment = "common_env"
         ```
 
      * Multiple environment inheritance:
-        ```bash
+        ```toml
         base_environment = ["common_env", "ml_pytorch_env1"]
         ```
 
@@ -33,27 +33,27 @@ If not specified, the default value is an empty value of the corresponding type.
 
 !!! example
      * Reference of Ubuntu image in the Docker Hub registry (default registry)
-        ```bash
+        ```toml
         image = "library/ubuntu:24.04"
         ```
 
      * Explicit reference of Ubuntu image in the Docker Hub registry
-        ```bash
+        ```toml
         image = "docker.io#library/ubuntu:24.04"
         ```
 
      * Reference to PyTorch image from NVIDIA Container Registry (nvcr.io)
-        ```bash
+        ```toml
         image = "nvcr.io#nvidia/pytorch:22.12-py3"
         ```
 
      * Image from third-party quay.io registry
-        ```bash
+        ```toml
         image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
         ```
 
      * Reference to a manually pulled image stored in parallel FS
-        ```bash
+        ```toml
         image = "/path/to/image.squashfs"
         ```
 
@@ -70,11 +70,11 @@ If not specified, the default value is an empty value of the corresponding type.
 
 !!! example
      * Workdir pointing to a user defined project path 
-        ```bash
+        ```toml
         workdir = "/home/user/projects"
         ```
      * Workdir pointing to the `/tmp` directory
-        ```bash
+        ```toml
         workdir = "/tmp"
         ```
 
@@ -83,7 +83,7 @@ If not specified, the default value is an empty value of the corresponding type.
 (BOOL) If true, run the entrypoint from the container image. Default: true.
 
 !!! example
-    ```bash
+    ```toml
     entrypoint = false
     ```
 
@@ -92,7 +92,7 @@ If not specified, the default value is an empty value of the corresponding type.
 (BOOL) If false, the container filesystem is read-only. Default: true.
 
 !!! example
-    ```bash
+    ```toml
     writable = true
     ```
 
@@ -102,17 +102,17 @@ If not specified, the default value is an empty value of the corresponding type.
 
 !!! example
      * Literal fixed mount map
-        ```bash
+        ```toml
         mounts = ["/capstor/scratch/cscs/amadonna:/capstor/scratch/cscs/amadonna"]
         ```
 
      * Mapping path with `env` variable expansion
-        ```bash
+        ```toml
         mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
         ```
 
      * Mounting the scratch filesystem using a host environment variable
-        ```bash
+        ```toml
         mounts = ["${SCRATCH}:/scratch"]
         ```
 
@@ -128,14 +128,14 @@ Environment variables to set in the container. Empty string values will unset th
 
 !!! example
      * Basic `env` block
-        ```bash
+        ```toml
         [env]
         MY_RUN = "production",
         DEBUG = "false"
         ```
 
      * Use of environment variable expansion
-        ```bash
+        ```toml
         [env]
         MY_NODE = "${VAR_FROM_HOST}",
         PATH = "${PATH}:/custom/bin", 
@@ -154,20 +154,20 @@ OCI-like annotations for the container. For more details, refer to the [Annotati
 !!! example
 
      * Disabling the CXI hook
-        ```bash
+        ```toml
         [annotations]
         com.hooks.cxi.enabled = "false"
         ```
 
      * Control of SSH hook parameters via annotation and variable expansion
-        ```bash
+        ```toml
         [annotations.com.hooks.ssh]
         authorize_ssh_key = "/capstor/scratch/cscs/${USER}/tests/edf/authorized_keys"
         enabled = "true"
         ```
 
      * Alternative example for usage of annotation with fixed path
-        ```bash
+        ```toml
         [annotations]
         com.hooks.ssh.authorize_ssh_key = "/path/to/authorized_keys"
         com.hooks.ssh.enabled = "true"
