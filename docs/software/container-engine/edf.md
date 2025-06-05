@@ -1,5 +1,5 @@
 [](){#ref-ce-edf-reference}
-# EDF Reference
+# EDF reference
 
 EDF files use the [TOML format](https://toml.io/en/). For details about the data types used by the different parameters, please refer to the [TOML spec webpage](https://toml.io/en/v1.0.0).
 
