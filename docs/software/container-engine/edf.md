@@ -7,6 +7,8 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 ### `base_environment`
 
+ |         |                 |
+ |---------|-----------------|
  | Type    | array or string |
  | Default | `""`            |
 
@@ -30,6 +32,8 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
 
 ### `image`
 
+ |         |                 |
+ |---------|-----------------|
  | Type    | string          |
  | Default | **(mandatory)** |
 
@@ -70,6 +74,8 @@ The container image to use. Can reference a remote Docker/OCI registry or a loca
 
 ### `workdir`
 
+ |         |                        |
+ |---------|------------------------|
  | Type    | string                 |
  | Default | (inherited from image) |
 
@@ -87,6 +93,8 @@ Initial working directory when the container starts.
 
 ### `entrypoint`
 
+ |         |        |
+ |---------|--------|
  | Type    | bool   |
  | Default | `true` |
 
@@ -99,6 +107,8 @@ If true, run the entrypoint from the container image.
 
 ### `writable`
 
+ |         |        |
+ |---------|--------|
  | Type    | bool   |
  | Default | `true` |
 
@@ -111,6 +121,8 @@ If false, the container filesystem is read-only.
 
 ### `mounts`
 
+ |         |       |
+ |---------|-------|
  | Type    | array |
  | Default | `[]`  |
 
