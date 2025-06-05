@@ -7,7 +7,7 @@ EDF files use the [TOML format](https://toml.io/en/). For details about the data
 
 If not specified, the default value is an empty value of the corresponding type.
 
-### base_environment
+### `base_environment`
 
 (ARRAY or STRING) Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
@@ -27,7 +27,7 @@ If not specified, the default value is an empty value of the corresponding type.
      * The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path][ref-ce-edf-search-path].
      * This parameter can be a string if there is only one base environment.
 
-### image
+### `image`
 
 (STRING) The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
@@ -64,7 +64,7 @@ If not specified, the default value is an empty value of the corresponding type.
          * `[:TAG]`: (optional) image tag name, preceded by :.
      * The registry user can also be specified in the `$HOME/.config/enroot/.credentials` file.
 
-### workdir
+### `workdir`
 
 (STRING) Initial working directory when the container starts. Default: inherited from image.
 
@@ -78,7 +78,7 @@ If not specified, the default value is an empty value of the corresponding type.
         workdir = "/tmp"
         ```
 
-### entrypoint
+### `entrypoint`
 
 (BOOL) If true, run the entrypoint from the container image. Default: true.
 
@@ -87,7 +87,7 @@ If not specified, the default value is an empty value of the corresponding type.
     entrypoint = false
     ```
 
-### writable
+### `writable`
 
 (BOOL) If false, the container filesystem is read-only. Default: true.
 
@@ -96,7 +96,7 @@ If not specified, the default value is an empty value of the corresponding type.
     writable = true
     ```
 
-### mounts
+### `mounts`
 
 (ARRAY) List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
 
@@ -122,7 +122,7 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ## EDF tables
 
-### env
+### `env`
 
 Environment variables to set in the container. Empty string values will unset the variable. Default: inherited from the host and the image.
 
@@ -147,7 +147,7 @@ Environment variables to set in the container. Empty string values will unset th
     * The env table can be used to further customize the container environment by setting, modifying, or unsetting variables.
     * Values of the table entries must be strings. If an entry has a null value, the variable corresponding to the entry key is unset in the container.
 
-### annotations
+### `annotations`
 
 OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
 
