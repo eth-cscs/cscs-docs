@@ -9,7 +9,9 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `base_environment`
 
-(ARRAY or STRING) Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
+ * Type: array or string
+
+Ordered list of EDFs that this file inherits from. Parameters from listed environments are evaluated sequentially. Supports up to 10 levels of recursion.
 
 !!! example
      * Single environment inheritance:
@@ -29,7 +31,9 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `image`
 
-(STRING) The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
+ * Type: string
+
+The container image to use. Can reference a remote Docker/OCI registry or a local Squashfs file as a filesystem path.
 
 !!! example
      * Reference of Ubuntu image in the Docker Hub registry (default registry)
@@ -66,7 +70,10 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `workdir`
 
-(STRING) Initial working directory when the container starts. Default: inherited from image.
+ * Type: string
+ * Default: inherited from image
+
+Initial working directory when the container starts.
 
 !!! example
      * Workdir pointing to a user defined project path 
@@ -80,7 +87,10 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `entrypoint`
 
-(BOOL) If true, run the entrypoint from the container image. Default: true.
+ * Type: bool
+ * Default: `true`
+
+If true, run the entrypoint from the container image.
 
 !!! example
     ```toml
@@ -89,7 +99,10 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `writable`
 
-(BOOL) If false, the container filesystem is read-only. Default: true.
+ * Type: bool
+ * Type: `true`
+
+If false, the container filesystem is read-only.
 
 !!! example
     ```toml
@@ -98,7 +111,9 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `mounts`
 
-(ARRAY) List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
+ * Type: array
+
+List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
 
 !!! example
      * Literal fixed mount map
@@ -124,7 +139,9 @@ If not specified, the default value is an empty value of the corresponding type.
 
 ### `env`
 
-Environment variables to set in the container. Empty string values will unset the variable. Default: inherited from the host and the image.
+ * Default: inherited from the host and the image
+
+Environment variables to set in the container. Empty string values will unset the variable.
 
 !!! example
      * Basic `env` block
@@ -152,7 +169,6 @@ Environment variables to set in the container. Empty string values will unset th
 OCI-like annotations for the container. For more details, refer to the [Annotations][ref-ce-annotations] section.
 
 !!! example
-
      * Disabling the CXI hook
         ```toml
         [annotations]
