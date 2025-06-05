@@ -92,14 +92,15 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 ??? example "Comparison between with and without the CXI hook"
     * Without the CXI hook
 
-    ```console
-    $ cat ${HOME}/.edf/osu-mb.toml 
+    ```toml title="EDF: ${EDF_PATH}/osu-mb-wo-cxi.toml"
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04-arm64"
 
     [annotations]
     com.hooks.cxi.enabled = "false"
+    ```
 
-    $ srun -N2 --mpi=pmi2 --environment=osu-mb ./osu_bw
+    ```console
+    $ srun -N2 --mpi=pmi2 --environment=osu-mb-wo-cxi ./osu_bw
     # OSU MPI Bandwidth Test v6.2
     # Size      Bandwidth (MB/s)
     1                       0.22
@@ -129,13 +130,14 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
     * With the CXI hook enabling access to the Slingshot high-speed network
 
-    ```console
-    $ cat ${HOME}/.edf/osu-mb-cxi.toml 
+    ```toml title="EDF: ${EDF_PATH}/osu-mb-cxi.toml
     image = "quay.io#madeeks/osu-mb:6.2-mpich4.1-ubuntu22.04"
 
     [annotations]
     com.hooks.cxi.enabled = "true"
+    ```
 
+    ```console
     $ srun -N2 --mpi=pmi2 --environment=osu-mb-cxi ./osu_bw
     # OSU MPI Bandwidth Test v6.2
     # Size      Bandwidth (MB/s)
