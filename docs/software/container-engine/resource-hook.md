@@ -246,7 +246,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
 
     * On the remote shell
     ```console
-    ssh -p 15263 <host-of-container>
+    $ ssh -p 15263 <host-of-container>
     ```
 
 ### NVIDIA CUDA MPS hook
