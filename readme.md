@@ -4,6 +4,8 @@ This repository contains the source code for CSCS' documentation hosted at [docs
 
 ## Getting Started
 
+If you want to contribute to the documentation, please follow the [contributing](https://docs.cscs.ch/contributing) process.
+
 > [!IMPORTANT]
 > to run the serve script, you need to first install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
