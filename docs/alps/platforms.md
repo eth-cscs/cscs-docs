@@ -29,7 +29,7 @@ The following platforms are fully operated by CSCS:
 
 </div>
 
-In addition, the following platforms are jointly operated by different Swiss projects and institutes and CSCS. Software and policies are tailored depending on the use case, and are documented separately.
+The following platforms are jointly operated by different Swiss projects and institutes and CSCS. Software and policies are tailored depending on the use case, and are documented separately.
 
 
 <div class="grid cards" markdown>
@@ -39,7 +39,7 @@ In addition, the following platforms are jointly operated by different Swiss pro
     The Merlin resources are available to all PSI staff and external collaborators.
 
     [:octicons-arrow-right-24: Merlin](https://www.psi.ch/en/awi/the-merlin-hpc-cluster)
-    
+
 -   :fontawesome-solid-mountain: __Materials Cloud__
 
     Materials Cloud is built to enable the seamless sharing and dissemination of resources in computational materials science.
@@ -49,10 +49,10 @@ In addition, the following platforms are jointly operated by different Swiss pro
 -   :fontawesome-solid-mountain: __Numerical weather forecasting__
 
     MeteoSwiss uses a numerical weather forecasting model for the production of regional and local forecast products in the Alpine region.
-    
+
     [:octicons-arrow-right-24: NWP](https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html)
 
 </div>
 
-!!! todo
-    We need to add WLCG, CTA and SKA platforms in here as well, with their respective external (?) links
+!!! under-construction
+    Add the WLCG, CTA and SKA platforms in here as well, with their respective external links.
