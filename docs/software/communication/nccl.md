@@ -18,11 +18,20 @@ While the container engine sets these automatically when using the NCCL hook, th
 
 ```bash
 export NCCL_NET="AWS Libfabric" # (1)!
+export NCCL_CROSS_NIC=1
+export NCCL_NET_FORCE_FLUSH=1
 export NCCL_NET_GDR_LEVEL=PHB # (2)!
+export NCCL_SOCKET_IFNAME=hsn
 export FI_CXI_DEFAULT_CQ_SIZE=131072 # (3)!
 export FI_CXI_DEFAULT_TX_SIZE=32768
 export FI_CXI_DISABLE_HOST_REGISTER=1
-export FI_CXI_RX_MATCH_MODE=software
+export FI_CXI_RDZV_EAGER_SIZE=0
+export FI_CXI_RDZV_GET_MIN=0
+export FI_CXI_RDZV_THRESHOLD=0
+export FI_CXI_RX_MATCH_MODE=hardware
+export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=16777216
+export FI_MR_CACHE_MAX_COUNT=524288
+export FI_MR_CACHE_MAX_SIZE=-1
 export FI_MR_CACHE_MONITOR=userfaultfd
 export MPICH_GPU_SUPPORT_ENABLED=0 # (4)!
 ```
