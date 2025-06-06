@@ -108,6 +108,8 @@ If you cannot find the information that you need in the documentation, help is a
 
     [:octicons-arrow-right-24: FirecREST API](services/firecrest.md)
 
+    [:octicons-arrow-right-24: FirecREST UI](services/firecrest-ui.md)
+
     [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
 
     [:octicons-arrow-right-24: JupyterLab](services/jupyterlab.md)
