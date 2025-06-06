@@ -1,4 +1,4 @@
-[](){#ref-firecrest}
+[](){#ref-firecrest-ui}
 # FirecREST UI
 
 FirecREST UI is a web application designed to provide essential functionalities for interacting with [FirecREST API v2 backend](https://docs.cscs.ch/services/firecrest/).
