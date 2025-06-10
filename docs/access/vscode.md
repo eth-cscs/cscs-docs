@@ -11,7 +11,17 @@ There are two ways to set up the connection:
 The main challenge with using VSCode is that the most convenient method for starting a remote session is to start a remote tunnel from the VS Code GUI.
 This approach starts a session in the standard login environment on that node, however this won't work if you want to be developing in a container, in a uenv, or on a compute node.
 
-This process is also demonstrated in a webinar on [Interactive computing on "Alps"](https://www.cscs.ch/publications/tutorials/2025/video-of-the-webinar-interactive-computing-on-alps). Video and slides accessible.
+This process is also demonstrated in a webinar on [Interactive computing on "Alps"](https://www.cscs.ch/publications/tutorials/2025/video-of-the-webinar-interactive-computing-on-alps):
+
+<iframe width="100%"
+        height="315"
+        src="https://www.youtube.com/embed/cLVpJO_fE6I?si=bTmmsS_9QvTHpUqK&amp;start=2257"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+</iframe>
 
 ## Flexible method: remote server
 
@@ -84,9 +94,9 @@ Once you have finished registering the service with GitHub, in VSCode on your PC
      Tunnels
         Sign in to tunnels registered with GitHub
     ```
-    
+
     If you have not signed in to GitHub with VS Code editor, you will be redirected to the browser to sign in.
-    
+
     After signing in and authorizing VSCode, the open tunnel should be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
 
 ### Using with uenv
@@ -129,7 +139,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     * `-t120` requests a 2 hour (120 minute) reservation
     * `-n1` requests a single rank - only one rank/process is required for VSCode
     * `--pty` allows forwarding of terminal I/O, required to sign in to Github
-    
+
     Once the job allocation is granted, you will be prompted to log into GitHub, the same as starting a session on the login node.
     If you don't want to use a uenv, the command is even simpler:
     ```
@@ -145,40 +155,38 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
     # start an interactive shell session
     srun -t120 -n1 --pty bash
-    
+
     # set up the environment before starting the tunnel
     uenv start prgenv-gnu/24.11:v1 --view=default
     code tunnel --name=$CLUSTER_NAME-tunnel
     ```
-    
+
     * `-t120` requests a 2 hour (120 minute) reservation
     * `-n1` requests a single rank - only one rank/process is required for VSCode
     * `--pty` allows forwarding of terminal I/O, for bash to work interactively
 
-
-
 ### Using with containers
 
-This will use CSCS's **[Container Engine][ref-container-engine]**. Using this workflow, one can pull a container from a registry like DockerHub. Note that this process also requires that you have a GitHub account, with an authentication and authorization step as described earlier. 
+This will use CSCS's **[Container Engine][ref-container-engine]**.
+Using this workflow, one can pull a container from a registry like DockerHub.
+Note that this process also requires that you have a GitHub account, with an authentication and authorization step as described earlier.
 
 This will also use the Remote Tunnel extension and the VS Code connected to the GitHub account (see above).
 
-#### TOML File with Image and Mount Paths
-
-```toml
+```toml title="EDF file with image and mount paths"
 image = "nvcr.io#nvidia/pytorch:24.01-py3" # example of PyTorch NGC image
 writable = true
 mounts = ["/paths/on/scratch/or/home:path/on/the/container",
           "/path/if/same/on/both"
-	      "/path/of/code/executable:/path/for/code/executable/in/container"]
+          "/path/of/code/executable:/path/for/code/executable/in/container"]
 workdir = "default/working/dir/path"
 ```
 
-Ensure that the `code` executable is accessible in the container. Either it can be contained in the image, or one of the mounted folders should contain it.
+!!! note
+    Ensure that the `code` executable is accessible in the container.
+    It can either be contained in the image, or in one of the mounted folders.
 
-#### Launch Container & Tunnel
-
-```bash
+```bash title="Launch container and tunnel"
 # launch container on compute node
 srun -N 1 --environment=/absolute/path/to/tomlfile.toml --pty bash
 
@@ -192,6 +200,3 @@ cd path/for/code/executable/in/container
 
 !!! warning
     This approach is not recommended, because while it may be easier to connect via the VS Code UI, it is much more difficult to configure the connection so that you can use uenv, containers or compute nodes.
-
-!!! todo
-    Write the guide
