@@ -1,11 +1,15 @@
 [](){#ref-alps-clusters}
 # Alps Clusters
 
-A vCluster (versatile software-defined cluster) is a logical partition of the supercomputing resources where platform services are deployed. It serves as a dedicated environment supporting a specific platform. The composition of resources and services for each vCluster is defined in a configuration file used by an automated pipeline for deployment. Once deployed by CSCS, the vCluster becomes immutable.
+A vCluster (versatile software-defined cluster) is a logical partition of the supercomputing resources where platform services are deployed.
+It serves as a dedicated environment supporting a specific platform.
+The composition of resources and services for each vCluster is defined in a configuration file used by an automated pipeline for deployment.
+Once deployed by CSCS, the vCluster becomes immutable.
 
 ## Clusters on Alps
 
 Clusters on Alps are provided as part of different [platforms][ref-alps-platforms].
+The following clusters are part of the platforms that are fully operated by CSCS.
 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: __Machine Learning Platform__

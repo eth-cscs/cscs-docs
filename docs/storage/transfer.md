@@ -26,15 +26,9 @@ Currently Globus provide the following mount points at CSCS:
 
 | Mount Point | Description |
 |---|---|
-| `/scratch/snx3000` | old Daint scratch area |
-| `/store` | old Daint store area |
-| `/project` | old Daint project area |
-| `/users` | old Daint home directory |
-| `/scratch/shared` | old Scratch-Shared area ( old meteoswiss clusters ) |
 | `/iopsstor/scratch/cscs` | Mounted on Clariden |
 | `/capstor/scratch/cscs` | New Alps Daint scratch area |
 | `/capstor/store/cscs` | New Alps Daint store area |
-| `/capstor/users/cscs` | Home directory for Bristen/Scopi/Errigal |
 | `/vast/users/cscs` | New Alps vclusters home directory  ( Alps Daint and others ) |
 
 [](){#ref-data-xfer-internal}

@@ -86,7 +86,12 @@ nav:
       - 'Building uenv': software/uenv/build.md
       - 'Deploying uenv': software/uenv/deploy.md
       - 'Release notes': software/uenv/release-notes.md
-    - 'Container Engine': software/container-engine.md
+    - 'Container Engine': 
+      - software/container-engine/index.md
+      - 'Using container engine': software/container-engine/run.md
+      - 'Resource and hooks': software/container-engine/resource-hook.md
+      - 'EDF reference': software/container-engine/edf.md
+      - 'Known issues': software/container-engine/known-issue.md
     - 'Unsupported Software': software/unsupported.md
   - 'Services':
     - services/index.md

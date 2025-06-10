@@ -15,6 +15,7 @@ Clone your fork repository on your PC/laptop:
 # clone your fork of the repository
 git clone git@github.com:${githubusername}/cscs-docs.git
 cd cscs-docs
+# create a branch for your changes (here we are fixing the ssh docs)
 git switch -c 'fix/ssh-alias'
 # ... make your edits ...
 # add and commit your changes
