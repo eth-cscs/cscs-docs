@@ -2,7 +2,28 @@
 # SLURM
 
 CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) as its workload manager to efficiently schedule and manage jobs on Alps vClusters.
-SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster. It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
+SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster.
+It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-mountain-sun: __Running on nodes__
+
+    Specific guidance for configuring Slurm jobs on different node types.
+
+    [:octicons-arrow-right-24: GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
+
+    [:octicons-arrow-right-24: AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
+
+-   :fontawesome-solid-mountain-sun: __Node sharing__
+
+    Guides on how to effectively use all resouces on nodes by running more than one job per node.
+
+    [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
+
+    [:octicons-arrow-right-24: Multiple MPI jobs per node][ref-slurm-exclusive]
+
+</div>
 
 ## Accounting
 
@@ -148,3 +169,83 @@ The configuration that is optimal for your application may be different.
 
 !!! todo
     document how slurm is configured on AMD CPU nodes (e.g. eiger)
+
+[](){#ref-slurm-over-subscription}
+## Node over-subscription
+
+The nodes on Alps provide a lot of resources, particularly the GPU nodes that have 4 GPUs.
+For workflows and use cases with tasks that require only a subset of these resources, for example a simulation that only needs one GPU, allocating a whole node to run one task is a waste of resources.
+
+!!! example
+    A workflow that runs a single [GROMACS][ref-uenv-gromacs] simulation, that uses one GPU.
+
+    * The optimal use of resources would allocate one quarter of a node, and allow other jobs to access the other three GPUs.
+
+    A workflow that runs 100 independent [GROMACS][ref-uenv-gromacs] simulations, where each simulation requires two GPUs.
+
+    * The optimal use of resources would allocate 50 nodes, with two simulations run on each node.
+
+[](){#ref-slurm-sharing}
+### Node sharing
+
+!!! under-construction
+    Node sharing, whereby jobs can request part of the resources on a node, and multiple jobs can run on a node (possibly from different users) is _not currently available on Alps clusters_.
+
+    CSCS will support this feature on some Alps [clusters][ref-alps-clusters] in the near-medium future.
+
+[](){#ref-slurm-exclusive}
+### Running more than one MPI job per node
+
+The approach is to:
+
+1. first allocate all the resources on each node to the job;
+2. then subdivide those resources at each invocation of srun.
+
+If slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+
+First ensure that *all* resources are allocated to the whole job with the following preamble:
+
+```bash title="Slurm preamble on a GH200 node"
+#!/usr/bin/env bash
+#SBATCH --exclusive --mem=450G
+```
+
+* `--exclusive` allocates all the CPUs and GPUs;
+* `--mem=450G` most of allowable memory (there are 4 Grace CPUs with ~120 GB of memory on the node)
+
+!!! note
+    `--mem=0` can be used to allocate all memory on the node, however there is currently a configuration issue that causes this to fail.
+
+`--exclusive` has two different meanings depending on whether it's used in the job context (here) or in the job step context (srun). We need to use both.
+
+!!! todo "use [affinity](https://github.com/bcumming/affinity) for these examples"
+
+=== "single node"
+
+    !!! example "three jobs on one node"
+        ```bash
+        #!/usr/bin/env bash
+        #SBATCH --exclusive --mem=450G
+        #SBATCH -N1
+
+        srun -n1 --exclusive --gpus=2 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        srun -n1 --exclusive --gpus=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        srun -n1 --exclusive --gpus=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+
+        wait
+        ```
+
+=== "multi-node"
+
+    !!! example "three jobs on two nodes"
+        ```bash
+        #!/usr/bin/env bash
+        #SBATCH --exclusive --mem=450G
+        #SBATCH -N2
+
+        srun -N2 -n2 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        srun -N2 -n1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        srun -N2 -n1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+
+        wait
+        ```
