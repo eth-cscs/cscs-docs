@@ -5,12 +5,6 @@ name: Check Spelling
 on:
   push:
   pull_request_target:
-    branches:
-    - "**"
-    types:
-    - 'opened'
-    - 'reopened'
-    - 'synchronize'
   issue_comment:
     types:
     - 'created'
