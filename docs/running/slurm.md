@@ -7,7 +7,7 @@ It supports advanced scheduling policies, job dependencies, resource reservation
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-mountain-sun: __Running on nodes__
+-   :fontawesome-solid-mountain-sun: __Configuring jobs__
 
     Specific guidance for configuring Slurm jobs on different node types.
 
