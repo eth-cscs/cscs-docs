@@ -1,7 +1,7 @@
 [](){#ref-slurm}
-# SLURM
+# Slurm
 
-CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) as its workload manager to efficiently schedule and manage jobs on Alps vClusters.
+CSCS uses the [Slurm](https://slurm.schedmd.com/documentation.html) workload manager to efficiently schedule and manage jobs on Alps vClusters.
 SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster.
 It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
 
@@ -33,9 +33,13 @@ It supports advanced scheduling policies, job dependencies, resource reservation
 [](){#ref-slurm-partitions}
 ## Partitions
 
-At CSCS, SLURM is configured to accommodate the diverse range of node types available in our HPC clusters. These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs. Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
+At CSCS, Slurm is configured to accommodate the diverse range of node types available in our HPC clusters.
+These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
+Because of this heterogeneity, Slurm must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
-Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs. For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently. SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
+Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
+For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
+Slurm ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
 !!! example "How to check the partitions and number of nodes therein?"
     You can check the size of the system by running the following command in the terminal:
@@ -51,24 +55,26 @@ Each type of node has different resource constraints and capabilities, which SLU
 
 [](){#ref-slurm-partition-debug}
 ### Debug partition
-The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
+The Slurm `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
 
 [](){#ref-slurm-partition-normal}
 ### Normal partition
-This is the default partition, and will be used when you do not explicitly set a partition. This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
+This is the default partition, and will be used when you do not explicitly set a partition.
+This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
 
-The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
+The following sections will provide detailed guidance on how to use Slurm to request and manage CPU cores, memory, and GPUs in jobs.
+These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
 
-The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
+The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and Slurm job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
-[Configuring SLURM jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
+[Configuring Slurm jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
 Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process Service (MPS)] to oversubscribe GPUs with multiple ranks per GPU.
 
-The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
-See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific SLURM configurations.
+The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
+See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
@@ -84,7 +90,7 @@ See [Scientific Applications][ref-software-sciapps] for information about recomm
 [](){#ref-slurm-gh200-single-rank-per-gpu}
 ### One rank per GPU
 
-Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
+Configuring Slurm to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` Slurm flags.
 For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
 The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
@@ -104,7 +110,7 @@ Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, wh
 ### Multiple ranks per GPU
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
-In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
+In these cases Slurm jobs must be configured to assign multiple ranks to a single GPU.
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
@@ -167,8 +173,7 @@ The configuration that is optimal for your application may be different.
 [](){#ref-slurm-amdcpu}
 ## AMD CPU
 
-!!! todo
-    document how slurm is configured on AMD CPU nodes (e.g. eiger)
+!!! todo "document how Slurm is configured on AMD CPU nodes (e.g. [eiger][ref-cluster-eiger])"
 
 [](){#ref-slurm-over-subscription}
 ## Node over-subscription
