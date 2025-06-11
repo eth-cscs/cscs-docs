@@ -190,7 +190,7 @@ workdir = "default/working/dir/path"
 # launch container on compute node
 srun -N 1 --environment=/absolute/path/to/tomlfile.toml --pty bash
 
-start tunnel
+# start tunnel
 
 cd path/for/code/executable/in/container
 ./code tunnel --name=$CLUSTER_NAME-tunnel
