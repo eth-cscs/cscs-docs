@@ -355,14 +355,8 @@ export CUDA_CACHE_DISABLE=1 # (7)!
 ############################################
 # NCCL and Fabric environment variables    #
 ############################################
-export NCCL_NET="AWS Libfabric" # (8)!
-export NCCL_NET_GDR_LEVEL=PHB
-export NCCL_CROSS_NIC=1
-export FI_CXI_DISABLE_HOST_REGISTER=1
-export FI_MR_CACHE_MONITOR=userfaultfd
-export FI_CXI_DEFAULT_CQ_SIZE=131072
-export FI_CXI_DEFAULT_TX_SIZE=32768
-export FI_CXI_RX_MATCH_MODE=software
+# (8)!
+--8<-- "docs/software/communication/nccl_env_vars"
 
 # (9)!
 # (10)!

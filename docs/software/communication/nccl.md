@@ -17,20 +17,8 @@ The environment variables described below must be set to ensure that NCCL uses t
 While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL:
 
 ```bash
-export NCCL_NET="AWS Libfabric" # (1)!
-export NCCL_NET_GDR_LEVEL=PHB # (2)!
-export FI_CXI_DEFAULT_CQ_SIZE=131072 # (3)!
-export FI_CXI_DEFAULT_TX_SIZE=32768
-export FI_CXI_DISABLE_HOST_REGISTER=1
-export FI_CXI_RX_MATCH_MODE=software
-export FI_MR_CACHE_MONITOR=userfaultfd
-export MPICH_GPU_SUPPORT_ENABLED=0 # (4)!
+--8<-- "docs/software/communication/nccl_env_vars"
 ```
-
-1. This forces NCCL to use the libfabric plugin, enabling full use of the Slingshot network. If the plugin can not be found, applications will fail to start. With the default value, applications would instead fall back to e.g. TCP, which would be significantly slower than with the plugin. [More information about `NCCL_NET`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net).
-2. Use GPU Direct RDMA when GPU and NIC are on the same NUMA node. [More information about `NCCL_NET_GDR_LEVEL`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-gdr-level-formerly-nccl-ib-gdr-level).
-3. This and the other `FI` (libfabric) environment variables have been found to give the best performance on the Alps network across a wide range of applications. Specific applications may perform better with other values.
-4. Disable GPU-aware MPI explicitly, to avoid potential deadlocks between MPI and NCCL.
 
 !!! warning "Using NCCL with uenvs"
     The environment variables listed above are not set automatically when using uenvs.
