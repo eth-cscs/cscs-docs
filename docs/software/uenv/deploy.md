@@ -106,11 +106,11 @@ However, it is not desirable to build every recipe on every possible target syst
 For example:
 
 * An ICON development environment would only be deployed on the weather and climate platform
-* A GROMACS recipe would not be deployed on the weather and climate platrofm
+* A GROMACS recipe would not be deployed on the weather and climate platform
 * Development builds only need to run on test and staging clusters
 
 A YAML file `config.yaml` is maintained in the [github.com/eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv/blob/main/config.yaml) repository that maps
-recipes to deployed versions on mucroarchitectures.
+recipes to deployed versions on microarchitectures.
 
 ### Permissions
 
@@ -215,13 +215,13 @@ However,
 * access to some packages is restricted by applying access rules to the package path
 * e.g. access to `uenv-sources/vasp` is restricted to members of the vasp6 group
 
-Permissons to acces restricted resources is set on a per-pipeline basis
+Permissions to access restricted resources is set on a per-pipeline basis
 
 * For example, only the `alps-uenv` pipeline has access to the VASP source code, while the [`uenv build`][ref-uenv-build] pipeline does not.
 
 | Package | Access | Path | Notes | Contact |
 |---------|--------|------|-------| ------- |
-| `cray-mpich` | anonymous | `uenv-sources/cray-mpich` | `cray-mpich`, `cray-gtl`, `cray-pals`, `cray-mpi` | Simon Pintarelli, Benjamin Comming|
+| `cray-mpich` | anonymous | `uenv-sources/cray-mpich` | `cray-mpich`, `cray-gtl`, `cray-pals`, `cray-mpi` | Simon Pintarelli, Benjamin Cumming|
 | `namd` | `uenv-sources-csstaff` | `uenv-sources/namd` | NAMD requires an account to download the source code | Rocco Meli |
 | `vasp` | `vasp6`, `cscs-uenv-admin` | `uenv-sources/vasp` | VASP requires a paid license to access source | Simon Frasch |
 | `vmd` | `uenv-sources-csstaff` | `uenv-sources/vmd` | VMD requires an account to download the source code | Alberto Invernizzi |
