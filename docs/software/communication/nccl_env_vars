@@ -7,7 +7,7 @@
 export NCCL_NET="AWS Libfabric"
 # Use GPU Direct RDMA when GPU and NIC are on the same NUMA node. More
 # information about `NCCL_NET_GDR_LEVEL` can be found at
-# https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-gdr-level-formerly-nccl-ib-gdr-level).
+# https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-gdr-level-formerly-nccl-ib-gdr-level.
 export NCCL_NET_GDR_LEVEL=PHB
 export NCCL_CROSS_NIC=1
 # These `FI` (libfabric) environment variables have been found to give the best
