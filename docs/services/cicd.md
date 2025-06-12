@@ -2,7 +2,7 @@
 # Continuous Integration / Continuous Deployment (CI/CD)
 
 !!! warning
-    The CI/CD documention has not been fully ported from [the Knowledgebase](https://confluence.cscs.ch/x/UAXJMw).
+    The CI/CD documentation has not been fully ported from [the Knowledgebase](https://confluence.cscs.ch/x/UAXJMw).
     The information here is correct, but a lot of valuable information is still missing, please rather use at this
     moment the [old documentation](https://confluence.cscs.ch/x/UAXJMw)
 
