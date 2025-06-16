@@ -1,14 +1,14 @@
 [](){#ref-access-vscode}
-# Connecting with VSCode
+# Connecting with VS Code
 
 [Visual Studio Code](https://code.visualstudio.com/) provides flexible support for remote development.
-VSCode's [remote tunnel feature](https://code.visualstudio.com/docs/remote/tunnels) starts a server on a remote system, and connects the editor to this server.
+VS Code's [remote tunnel feature](https://code.visualstudio.com/docs/remote/tunnels) starts a server on a remote system, and connects the editor to this server.
 There are two ways to set up the connection:
 
 * using the code CLI: the most flexible method if using containers or uenv.
-* using the VSCode interface: VSCode will connect onto the system, download and start the server
+* using the VS Code interface: VS Code will connect onto the system, download and start the server
 
-The main challenge with using VSCode is that the most convenient method for starting a remote session is to start a remote tunnel from the VS Code GUI.
+The main challenge with using VS Code is that the most convenient method for starting a remote session is to start a remote tunnel from the VS Code GUI.
 This approach starts a session in the standard login environment on that node, however this won't work if you want to be developing in a container, in a uenv, or on a compute node.
 
 This process is also demonstrated in a webinar on [Interactive computing on "Alps"](https://www.cscs.ch/publications/tutorials/2025/video-of-the-webinar-interactive-computing-on-alps):
@@ -25,7 +25,7 @@ This process is also demonstrated in a webinar on [Interactive computing on "Alp
 
 ## Flexible method: remote server
 
-The most flexible method for connecting VSCode is to log in to the Alps system, set up your environment (start a container or uenv, start a session on a compute node), and start the remote server in that environment pre-configured.
+The most flexible method for connecting VS Code is to log in to the Alps system, set up your environment (start a container or uenv, start a session on a compute node), and start the remote server in that environment pre-configured.
 
 [](){#ref-vscode-install}
 ### Installing the server
@@ -116,13 +116,13 @@ $ code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
 !!! tip
-    Give the tunnel a unique name using the `--name` flag, which will later be listed on the VSCode UI.
+    Give the tunnel a unique name using the `--name` flag, which will later be listed on the VS Code UI.
 
 You will be requested to go to [github.com/login/device](https://github.com/login/device) and enter an 8-digit code.
-Once you have finished registering the service with GitHub, in VSCode on your PC/laptop open the "remote explorer" pane on the left hand side of the main window, and the connection will be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
+Once you have finished registering the service with GitHub, in VS Code on your PC/laptop open the "remote explorer" pane on the left hand side of the main window, and the connection will be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
 
 !!! note "First time setting up a remote service"
-    If this is the first time you have followed this procedure, you may have to sign in to GitHub in VSCode.
+    If this is the first time you have followed this procedure, you may have to sign in to GitHub in VS Code.
 
     Click on the Remote Explorer button on the left hand side, and then find the following option:
 
@@ -134,12 +134,12 @@ Once you have finished registering the service with GitHub, in VSCode on your PC
 
     If you have not signed in to GitHub with VS Code editor, you will be redirected to the browser to sign in.
 
-    After signing in and authorizing VSCode, the open tunnel should be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
+    After signing in and authorizing VS Code, the open tunnel should be visible under REMOTES (TUNNELS/SSH) -> Tunnels.
 
 [](){#ref-vscode-uenv}
 ### Using with uenv
 
-To use a uenv with VSCode, the uenv must be started before calling `code tunnel`.
+To use a uenv with VS Code, the uenv must be started before calling `code tunnel`.
 Log into the target system and start the uenv, then start the remote server, for example:
 ```
 # log into daint (this could be any other Alps cluster)
@@ -156,7 +156,7 @@ ssh daint
 uenv run --view=default prgenv-gnu/24.11:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
-Once the tunnel is configured, you can access it from VSCode.
+Once the tunnel is configured, you can access it from VS Code.
 
 !!! warning
     If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below.
@@ -165,7 +165,7 @@ Once the tunnel is configured, you can access it from VSCode.
 [](){#ref-vscode-compute-nodes}
 ### Running on a compute node
 
-If you plan to do computation using your VSCode, then you should first allocate resources on a compute node and set up your environment there.
+If you plan to do computation using your VS Code, then you should first allocate resources on a compute node and set up your environment there.
 
 !!! example "directly create the tunnel using srun"
     You can directly execute the `code tunnel` command using srun:
@@ -176,7 +176,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
 
     * `--uenv` and `--view` set up the uenv
     * `-t120` requests a 2 hour (120 minute) reservation
-    * `-n1` requests a single rank - only one rank/process is required for VSCode
+    * `-n1` requests a single rank - only one rank/process is required for VS Code
     * `--pty` allows forwarding of terminal I/O, required to sign in to Github
 
     Once the job allocation is granted, you will be prompted to log into GitHub, the same as starting a session on the login node.
@@ -201,7 +201,7 @@ If you plan to do computation using your VSCode, then you should first allocate 
     ```
 
     * `-t120` requests a 2 hour (120 minute) reservation
-    * `-n1` requests a single rank - only one rank/process is required for VSCode
+    * `-n1` requests a single rank - only one rank/process is required for VS Code
     * `--pty` allows forwarding of terminal I/O, for bash to work interactively
 
 [](){#ref-vscode-containers}
@@ -234,7 +234,7 @@ $ cd path/for/code/executable/in/container
 $ ./code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
-## Connecting via VSCode UI
+## Connecting via VS Code UI
 
 !!! warning
     This approach is not recommended, and is not supported by CSCS.
