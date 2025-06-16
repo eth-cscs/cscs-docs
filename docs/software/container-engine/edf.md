@@ -119,6 +119,7 @@ If false, the container filesystem is read-only.
     writable = true
     ```
 
+[](){#ref-ce-edf-reference-mounts}
 ### `mounts`
 
  |             |       |
