@@ -73,13 +73,9 @@ If an EDF is located in the search path, its name can be used in the `--environm
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached.
 A cached image would be preferred to pulling the image again in later usage.
 
-An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`), under which cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`).
-Cached images may be subject to the automatic cleaning policy of the scratch folder.
- 
-Should users want to re-pull a cached image, they have to remove the corresponding image in the cache.
+An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`). Cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`). Remove the cached image to force re-pull.
 
-To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable `EDF_IMAGESTORE`.
- `EDF_IMAGESTORE` must be an absolute path to an existing folder.
+An alternative image store path can be specify by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder. Image caching may also be disable by setting `EDF_IMAGESTORE` to `void` (currently only available on Daint and Santis).
 
 !!! note
     * If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
