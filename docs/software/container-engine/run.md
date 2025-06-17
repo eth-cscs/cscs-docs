@@ -182,3 +182,47 @@ Using the `enroot import` documentation page as a reference:
     machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
     machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
     ```
+
+## Working with storage
+
+Directories outside a container can be *mounted* inside a container so that the job inside the container can read/write on them. The directories to mount should be specified in EDF with `mounts`. 
+
+!!! example "Specifying directories to mount in EDF"
+    * Mount `${SCRATCH}` to `/scratch` inside the container
+
+    ```toml
+    mounts = ["${SCRATCH}:/scratch"]
+    ```
+
+    * Mount `${SCRATCH}` to `${SCRATCH}` inside the container
+
+    ```toml
+    mounts = ["${SCRATCH}:${SCRATCH}"]
+    ```
+
+    * Mount `${SCRATCH}` to `${SCRATCH}` and `${HOME}/data` to `${HOME}/data`
+
+    ```toml
+    mounts = ["${SCRATCH}:${SCRATCH}", "${HOME}/data:${HOME}/data"]
+    ```
+
+!!! note
+    The source (before `:`) should be present on the cluster: the destination (after `:`) doesn't have to be inside the container.
+
+See [the EDF reference][ref-ce-edf-reference] for the full specifiction of the `mounts` EDF entry.
+
+
+[](){#ref-ce-run-mounting-squashfs}
+### Mounting a SquashFS image
+
+!!! warning
+    This feature is only available on some vClusters (Daint and Santis, as of 17.06.2025).
+
+A SquashFS image, essentially being a compressed data archive, can also be mounted _as a directory_ so that the image contents are readable inside the container. For this, `:sqsh` should be appended after the destination.
+
+!!! example "Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`" 
+    ```toml
+    mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
+    ```
+
+This is particularly useful if a job should read _multiple_ data files _frequently_, which may cause severe file access overheads. Instead, it is recommended to pack data files into one data SquashFS image and mount it inside a container. See the *"magic phase"* in [this documentation](https://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html) for creating a SquashFS image.

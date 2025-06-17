@@ -127,7 +127,7 @@ If false, the container filesystem is read-only.
  | **Type**    | array |
  | **Default** | `[]`  |
 
-List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are optional and can include `ro`, `private`, etc.
+List of mounts in the format `SOURCE:DESTINATION[:FLAGS]`. By default, it performs bind mount unless the only flag is `sqsh`, in which it performs [a SquashFS mount][ref-ce-run-mounting-squashfs]. When bind mounting, the flags are forwarded to the system mount operation (e.g., `ro` or `private`).
 
 !!! example
      * Literal fixed mount map
@@ -143,6 +143,11 @@ List of bind mounts in the format `SOURCE:DESTINATION[:FLAGS]`. Flags are option
      * Mounting the scratch filesystem using a host environment variable
         ```toml
         mounts = ["${SCRATCH}:/scratch"]
+        ```
+
+     * Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`
+        ```toml
+        mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
         ```
 
 !!! note
