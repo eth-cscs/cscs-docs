@@ -43,7 +43,7 @@ To build the docs in a `site` sub-directory:
 ```
 
 !!! tip
-    If you've already created a fork repository, make sure to [keep it synced](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) to the main CSCS repository.
+    If you've already created a fork repository, make sure to [keep it synced](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) to the main CSCS repository before making further change.
 
 ## Review process
 
