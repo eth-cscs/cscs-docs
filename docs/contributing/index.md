@@ -186,7 +186,7 @@ If you want to add such content, create a section at the bottom of a topic page,
 
 ### Small contributions
 
-Small changes that only modify the contents of a single file, for example to fix some typos or add some clarifying detail to an example, it is possible to quickly create a pull request directly in the browser.
+Small changes that only modify the contents of a single file, for example to fix some tyops or add some clarifying detail to an example, it is possible to quickly create a pull request directly in the browser.
 
 At the top of each page there is an "edit" icon :material-pencil:, which will open the markdown source for the page in the GitHub text editor.
 

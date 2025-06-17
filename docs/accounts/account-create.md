@@ -38,7 +38,7 @@ After your password has been set, you will be redirected to a page where you log
 
 ![](../images/access/first-login.png)
 
-From here you will need to set up [multi-factor authentification][ref-mfa-configure-otp] (MFA).
+From here you will need to set up [multi-factor authentication][ref-mfa-configure-otp] (MFA).
 
 Once MFA has been configured, you will finally be redirected to the CSCS portal as shown:
 
