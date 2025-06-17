@@ -221,4 +221,4 @@ A SquashFS image, essentially being a compressed data archive, can also be mount
     mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
     ```
 
-This is particularly useful if a job should read _multiple_ data files _frequently_, which may cause severe file access overheads. Instead, it is recommended to pack data files into one data SquashFS image and mount it inside a container. See the *"magic phase"* in [this documentation](https://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html) for creating a SquashFS image.
+This is particularly useful if a job should read _multiple_ data files _frequently_, which may cause severe file access overheads. Instead, it is recommended to pack data files into one data SquashFS image and mount it inside a container. See the *"magic phrase"* in [this documentation](https://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html) for creating a SquashFS image.
