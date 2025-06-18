@@ -79,6 +79,13 @@ Cray MPICH may sometimes hang on larger runs.
 
 Performance may be negatively affected by this option.
 
+#### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
+
+The following environment variable can be set to disable gdrcopy:
+```bash
+export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
+```
+
 ### Resolved issues
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
