@@ -8,7 +8,7 @@ The HPC Platform (HPCP) provides compute, storage, and related services for the 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: [__Policies__][ref-policies]
 
-    New users are invited to read carefully the [CSCS Useer Policies][ref-policies].
+    New users are invited to read carefully the [CSCS User Policies][ref-policies].
 </div>
 
 ### Getting access
