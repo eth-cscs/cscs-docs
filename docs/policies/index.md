@@ -1,3 +1,5 @@
+[](){#ref-policies}
+
 # CSCS User Policies
 
 The CSCS [code of conduct](code-of-conduct.md) outlines the responsibilities and proper practices for the CSCS user community.
@@ -6,7 +8,7 @@ The [User Regulations](regulations.md) define the basic guidelines for the usage
 
 ## Computing Budget
 
-Compute time on Alps systems is accounted in node hours; computing time on CSCS systems that allow node sharing will be accounted in core hours.
+Compute time on Alps systems is measured in node hours. Currently, we only support exclusive node allocations. This means that even if you utilize only a portion of a node’s resources (e.g., a single GPU), your account will still be charged for the entire node.
 
 Please note that resources at CSCS are assigned over three-months windows
 
