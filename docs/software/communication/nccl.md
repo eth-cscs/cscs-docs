@@ -30,7 +30,7 @@ While the container engine sets these automatically when using the NCCL hook, th
     Note that this option may be set to `1` by default on some Alps clusters.
     See [the Cray MPICH documentation][ref-communication-cray-mpich] for more details on GPU-aware MPI with Cray MPICH.
 
-!!! warning "`invalid usage` error with `NCCL_NET="AWS Libfabric`"
+!!! warning "`invalid usage` error with `NCCL_NET="AWS Libfabric"`"
     If you are getting error messages such as:
     ```console
     nid006352: Test NCCL failure common.cu:958 'invalid usage (run with NCCL_DEBUG=WARN for details)
