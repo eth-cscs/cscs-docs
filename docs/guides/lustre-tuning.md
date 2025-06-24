@@ -23,3 +23,10 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     ```console
     lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
     ```
+
+## Iopsstor vs Capstor
+
+`iopsstor` uses SSD as OST, thus random access is quick, and the performance of the single OST is high. `capstor` on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
+
+!!! Note ML usage
+    model training normally has better performance if reading from iopsstor (random access), checkpoint can be done to capstor (very good for contiguous access)
