@@ -57,6 +57,7 @@ There are currently five node types in Alps:
     Please [get in touch](https://github.com/eth-cscs/cscs-docs/issues) if there is information that you want to see here.
 
 There are 24 cabinets, in 4 rows with 6 cabinets per row, and each cabinet contains 112 nodes (for a total of 448 GH200):
+
 * 8 chassis per cabinet
 * 7 blades per chassis
 * 2 nodes per blade
