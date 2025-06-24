@@ -9,6 +9,8 @@ SLURM is an open-source, highly scalable job scheduler that allocates computing 
 !!! todo
     document `--account`, `--constraint` and other generic flags.
 
+[Confluence link](https://confluence.cscs.ch/spaces/KB/pages/794296413/How+to+run+jobs+on+Eiger)
+
 [](){#ref-slurm-partitions}
 ## Partitions
 
@@ -27,7 +29,6 @@ Each type of node has different resource constraints and capabilities, which SLU
     ```
     The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 
-
 [](){#ref-slurm-partition-debug}
 ### Debug partition
 The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
@@ -37,6 +38,116 @@ The SLURM `debug` partition is useful for quick turnaround workflows. The partit
 This is the default partition, and will be used when you do not explicitly set a partition. This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
 
 The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
+
+## Affinity
+
+The following sections will document how to use Slurm on different compute nodes available on Alps.
+To demonstrate the effects different Slurm parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assinged to each MPI rank in a job, and which node they are run on.
+
+We strongly recommend using a tool like affinity to understand and test the Slurm configuration for jobs, because the behavior of Slurm is highly dependent on the system configuration.
+Parameters that worked on a different cluster -- or with a different Slurm version or configuration on the same cluster -- are not guaranteed to give the same results.
+
+It is straightforward to build the affinity tool to experiment with Slurm configurations.
+
+```console title="Compiling affinity"
+$ uenv start prgenv-gnu/24.11:v2 --view=default     #(1)
+$ git clone https://github.com/bcumming/affinity.git
+$ cd affinity; mkdir build; cd build;
+$ CC=gcc CXX=g++ cmake ..                           #(2)
+$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU=cuda       #(3)
+$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU=rocm       #(4)
+```
+
+1. Affinity can be built using [`prgenv-gnu`][ref-uenv-prgenv-gnu] on all clusters.
+
+2. By default affinity will build with MPI support and no GPU support: configure with no additional arguments on a CPU-only system like [Eiger][ref-cluster-eiger].
+
+3. Enable CUDA support on systems that provide NVIDIA GPUs.
+
+4. Enable ROCM support on systems that provide AMD GPUs.
+
+The build generates the following executables:
+
+* `affinity.omp`: tests thread affinity with no MPI (always built).
+* `affinity.mpi`: tests thread affinity with MPI (built by default).
+* `affinity.cuda`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU=cuda`).
+* `affinity.rocm`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU=rocm`).
+
+??? example "Testing CPU affinity"
+    Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
+    ```console
+    $ uenv start prgenv-gnu/24.11:v2 --view=default
+    $ srun -n8 -N2 -c72 ./affinity.mpi
+    affinity test for 8 MPI ranks
+    rank   0 @ nid006363: threads [ 0:71] -> cores [  0: 71]
+    rank   1 @ nid006363: threads [ 0:71] -> cores [ 72:143]
+    rank   2 @ nid006363: threads [ 0:71] -> cores [144:215]
+    rank   3 @ nid006363: threads [ 0:71] -> cores [216:287]
+    rank   4 @ nid006375: threads [ 0:71] -> cores [  0: 71]
+    rank   5 @ nid006375: threads [ 0:71] -> cores [ 72:143]
+    rank   6 @ nid006375: threads [ 0:71] -> cores [144:215]
+    rank   7 @ nid006375: threads [ 0:71] -> cores [216:287]
+    ```
+
+    In this example there are 8 MPI ranks:
+
+    * ranks `0:3` are on node `nid006363`;
+    * ranks `4:7` are on node `nid006375`;
+    * each rank has 72 threads numbered `0:71`;
+    * all threads on each rank have affinity with the same 72 cores;
+    * each rank gets 72 cores, e.g. rank 1 gets cores `72:143` on node `nid006363`.
+
+
+
+??? example "Testing GPU affinity"
+    Use `affinity.cuda` or `affinity.rocm` to test on GPU-enabled systems.
+
+    ```console
+    $ srun -n4 -N1 ./affinity.cuda                      #(1)
+    GPU affinity test for 4 MPI ranks
+    rank      0 @ nid005555
+     cores   : [0:7]
+     gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461
+     gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244
+     gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da
+     gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be
+    rank      1 @ nid005555
+     cores   : [72:79]
+     gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461
+     gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244
+     gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da
+     gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be
+    rank      2 @ nid005555
+     cores   : [144:151]
+     gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461
+     gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244
+     gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da
+     gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be
+    rank      3 @ nid005555
+     cores   : [216:223]
+     gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461
+     gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244
+     gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da
+     gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be
+    $ srun -n4 -N1 --gpus-per-task=1 ./affinity.cuda    #(2)
+    GPU affinity test for 4 MPI ranks
+    rank      0 @ nid005675
+     cores   : [0:7]
+     gpu   0 : GPU-a16a8dac-7661-a44b-c6f8-f783f6e812d3
+    rank      1 @ nid005675
+     cores   : [72:79]
+     gpu   0 : GPU-ca5160ac-2c1e-ff6c-9cec-e7ce5c9b2d09
+    rank      2 @ nid005675
+     cores   : [144:151]
+     gpu   0 : GPU-496a2216-8b3c-878e-e317-36e69af11161
+    rank      3 @ nid005675
+     cores   : [216:223]
+     gpu   0 : GPU-766e3b8b-fa19-1480-b02f-0dfd3f2c87ff
+    ```
+
+    1. Test GPU affinity: note how all 4 ranks see the same 4 GPUs.
+
+    2. Test GPU affinity: note how the `--gpus-per-task=1` parameter assings a unique GPU to each rank.
 
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
@@ -144,7 +255,8 @@ The configuration that is optimal for your application may be different.
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
 [](){#ref-slurm-amdcpu}
-## AMD CPU
+## AMD CPU Nodes
 
+Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger][ref-cluster-eiger] cluster provided by the [HPC Platform][ref-platform-hpcp].
 !!! todo
     document how slurm is configured on AMD CPU nodes (e.g. eiger)

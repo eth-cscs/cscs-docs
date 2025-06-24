@@ -40,13 +40,13 @@ Alps was installed in phases, starting with the installation of 1024 AMD Rome du
 
 There are currently five node types in Alps:
 
-| type           | abbreviation  | blades | nodes | CPU sockets | GPU devices |
-| ----           | -------       | ------:| -----:| -----------:| -----------:|
-| NVIDIA GH200   | gh200         | 1344   | 2688  | 10,752      | 10,752      |
-| AMD Rome       | zen2          |  256   | 1024  |  2,048      | --          |
-| NVIDIA A100    | a100          |   72   |  144  |    144      | 576         |
-| AMD MI250x     | mi200         |   12   |   24  |     24      |  96         |
-| AMD MI300A     | mi300         |   64   |  128  |    512      | 512         |
+| type                                | abbreviation  | blades | nodes | CPU sockets | GPU devices |
+| ----                                | -------       | ------:| -----:| -----------:| -----------:|
+| [NVIDIA GH200][ref-alps-gh200-node] | gh200         | 1344   | 2688  | 10,752      | 10,752      |
+| [AMD Rome][ref-alps-zen2-node]      | zen2          |  256   | 1024  |  2,048      | --          |
+| [NVIDIA A100][ref-alps-a100-node]   | a100          |   72   |  144  |    144      | 576         |
+| [AMD MI250x][ref-alps-mi200-node]   | mi200         |   12   |   24  |     24      |  96         |
+| [AMD MI300A][ref-alps-mi300-node]   | mi300         |   64   |  128  |    512      | 512         |
 
 [](){#ref-alps-gh200-node}
 ### NVIDIA GH200 GPU Nodes
@@ -81,6 +81,9 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
 ### AMD Rome CPU Nodes
 
 !!! todo
+    [confluence link 1](https://confluence.cscs.ch/spaces/KB/pages/850199545/Compute+node+configuration)
+
+    [confluence link 2](https://confluence.cscs.ch/spaces/KB/pages/850199543/CPU+configuration)
 
 EX425
 
