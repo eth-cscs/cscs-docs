@@ -4,19 +4,67 @@
 CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) as its workload manager to efficiently schedule and manage jobs on Alps vClusters.
 SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster. It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
 
-## Accounting
+## Accounts and resources
 
-!!! todo
-    document `--account`, `--constraint` and other generic flags.
+Slurm associates each job with a CSCS project in order to perform accounting.
+The project to use for accounting is specified using the `--account/-A` flag.
+If no job is specified, the primary project is used as the default.
 
-[Confluence link](https://confluence.cscs.ch/spaces/KB/pages/794296413/How+to+run+jobs+on+Eiger)
+??? example "Which projects am I a member of?"
+    Users often are part of multiple projects, and by extension their associated `groupd_id` groups.
+    You can get a list of your groups using the `id` command in the terminal:
+    ```console
+    $ id $USER
+    uid=12345(bobsmith) gid=32819(g152) groups=32819(g152),33119(g174),32336(vasp6)
+    ```
+    Here the user `bobsmith` is in three projects (`g152`, `g174` and `vasp6`), with the project `g152` being their **primary project**.
+
+??? example "What is my primary project?"
+    In the terminal, use the following command to find your **primary group**:
+    ```console
+    $ id -gn $USER
+    g152
+    ```
+
+```console title="Specifying the account on the command line"
+srun -A g123        -n4 -N1 ./run
+srun --account=g123 -n4 -N1 ./run
+sbatch --account=g123 ./job.sh
+```
+
+```bash title="Specifying the account in an sbatch script"
+#!/bin/bash
+
+#SBATCH --account=g123
+#SBATCH --job-name=example-%j
+#SBATCH --time=00:30:00
+#SBATCH --nodes=4
+...
+```
+
+!!! note
+    The flag `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
+
+## Prioritization and scheduling
+
+Job priorities are determined based on each project's resource usage relative to its quarterly allocation, as well as in comparison to other projects.
+An aging factor is also applied to each job in the queue to ensure fairness over time.
+
+Since users from various projects are continuously submitting jobs, the relative priority of jobs is dynamic and may change frequently.
+As a result, estimated start times are approximate and subject to change based on new job submissions.
+
+Additionally, short-duration jobs may be selected for backfilling — a process where the scheduler fills in available time slots while preparing to run a larger, higher-priority job.
 
 [](){#ref-slurm-partitions}
 ## Partitions
 
-At CSCS, SLURM is configured to accommodate the diverse range of node types available in our HPC clusters. These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs. Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
+At CSCS, SLURM is configured to accommodate the diverse range of node types available in our HPC clusters.
+These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
+Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
-Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs. For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently. SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
+Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs.
+For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
+SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
 !!! example "How to check the partitions and number of nodes therein?"
     You can check the size of the system by running the following command in the terminal:
@@ -165,9 +213,9 @@ See [Scientific Applications][ref-software-sciapps] for information about recomm
     The "default" mode is used to avoid issues with certain containers.
     Unlike "exclusive process" mode, "default" mode allows multiple processes to submit work to a single GPU simultaneously.
     This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
-    
+
     Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][ref-slurm-gh200-multi-rank-per-gpu] in these cases.
-    
+
     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
     If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
 
@@ -187,7 +235,7 @@ The examples below launch jobs on two nodes with four ranks per node using `sbat
 
 srun <application>
 ```
-    
+
 Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, which will lead to most applications using the first GPU on all ranks.
 
 [](){#ref-slurm-gh200-multi-rank-per-gpu}
@@ -258,5 +306,39 @@ The configuration that is optimal for your application may be different.
 ## AMD CPU Nodes
 
 Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger][ref-cluster-eiger] cluster provided by the [HPC Platform][ref-platform-hpcp].
-!!! todo
-    document how slurm is configured on AMD CPU nodes (e.g. eiger)
+
+For a detailed description of the node hardware, see the [AMD Rome node][ref-alps-zen2-node] hardware documentation.
+
+The typical Slurm workload that we want to schedule will distribute `NR` MPI ranks over nodes, with `NT` threads per .
+
+Each node has 128 cores: so we can reasonably expect to run a maximum of 128 MPI ranks per node.
+
+Each node has 2 sockets, and each socket contains 4 NUMA nodes.
+
+Each MPI rank is assigned a set of cores on a specific node - to get the best performance you want to follow some best practices:
+
+* don't spread MPI ranks across multiple sockets
+* and it might be advantageous to have 8 ranks per node, with 16 cores each - the sweet spot is application specific
+
+!! todo "table of basic flags nodes, cores-per-task, etc"
+
+Here we assign 64 cores to each, and observe that there are 128 "cores" (2 per core):
+```console title="One MPI rank per socket"
+$ OMP_NUM_THREADS=64 srun -n2 -N1 -c64 ./affinity.mpi
+```
+
+If you want only 64, consider the `--hint=nomultithreading` option.
+```console title="One MPI rank per socket"
+$ OMP_NUM_THREADS=64 srun -n2 -N1 -c64 --hint=nomultithreading ./affinity.mpi
+```
+
+```console title="One MPI rank per NUMA region"
+$ OMP_NUM_THREADS=64 srun -n16 -N1 -c8 ./affinity.mpi
+```
+
+In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
+This is often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
+
+```console title="One MPI rank per NUMA region"
+$ OMP_BIND_PROC=true OMP_NUM_THREADS=64 srun -n16 -N1 -c8 ./affinity.mpi
+```

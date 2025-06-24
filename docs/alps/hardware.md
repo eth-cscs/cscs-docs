@@ -80,19 +80,45 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
 [](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
 
-!!! todo
-    [confluence link 1](https://confluence.cscs.ch/spaces/KB/pages/850199545/Compute+node+configuration)
+These nodes have two [AMD Epyc 7742](https://en.wikichip.org/wiki/amd/epyc/7742) 64-core CPU sockets, and are used primarily for the [Eiger][ref-cluster-eiger] system. They come in two memory configurations:
 
-    [confluence link 2](https://confluence.cscs.ch/spaces/KB/pages/850199543/CPU+configuration)
+* *Standard-memory*:  256 GB in 16x16 GB DDR4 Dimms.
+* *Large-memory*:  512 GB in 16x32 GB DDR4 Dimms.
 
-EX425
+!!! note "Not all memory is available"
+    The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.
+
+    The amount of memory available to your job also depends on the number of MPI ranks per node -- each MPI rank has a memory overhead.
+
+A schematic of a *standard memory node* below illustrates the CPU cores and [NUMA nodes](https://www.kernel.org/doc/html/v4.18/vm/numa.html).(1)
+{.annotate}
+
+1. Obtained with the command `lstopo --no-caches --no-io --no-legend eiger-topo.png` on Eiger.
+
+![Screenshot](../images/slurm/eiger-topo.png)
+
+* The two sockets are labelled Package L#0 and Package L#1.
+* Each socket has 4 NUMA nodes, with 16 cores each, for a total of 64 cores per socket.
+
+Each core supports [simultaneous multi threading (SMT)](https://www.amd.com/en/blogs/2025/simultaneous-multithreading-driving-performance-a.html), whereby each core can execute two threads concurrently, which are presented as two PU per physical core.
+
+* The first PU on each core are numbered 0:63 on socket 0, and 64:127 on socket 1;
+* The second PU on each core are numbered 128:191 on socket 0, and 192:256 on socket 1.
+* Hence core `n` SMT
+
+
+Each node has two Slingshot 11 network interface cards (NICs), which are not illustrated on the diagram.
 
 [](){#ref-alps-a100-node}
 ### NVIDIA A100 GPU Nodes
 
-!!! todo
+The Grizzly Peak blades contain two nodes, where each node has:
 
-Grizzly Peak
+* One 64-core Zen3 CPU socket
+* 512 GB DDR4 Memory
+* 4 NVIDIA A100 GPUs with 80 GB HBM3 memory each
+    * The MCH system is the same, except the A100 have 96 GB of memory.
+* 4 NICs -- one per GPU.
 
 [](){#ref-alps-mi200-node}
 ### AMD MI250x GPU Nodes
