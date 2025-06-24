@@ -28,5 +28,5 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 
 `iopsstor` uses SSD as OST, thus random access is quick, and the performance of the single OST is high. `capstor` on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
 
-!!! Note ML usage
-    model training normally has better performance if reading from iopsstor (random access), checkpoint can be done to capstor (very good for contiguous access)
+!!! Note
+    ML model training normally has better performance if reading from iopsstor (random access, difficult to predict access pattern). Checkpoint can be done to capstor (very good for contiguous access).
