@@ -90,7 +90,7 @@ The following sections will provide detailed guidance on how to use SLURM to req
 ## Affinity
 
 The following sections will document how to use Slurm on different compute nodes available on Alps.
-To demonstrate the effects different Slurm parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assinged to each MPI rank in a job, and which node they are run on.
+To demonstrate the effects different Slurm parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assigned to each MPI rank in a job, and which node they are run on.
 
 We strongly recommend using a tool like affinity to understand and test the Slurm configuration for jobs, because the behavior of Slurm is highly dependent on the system configuration.
 Parameters that worked on a different cluster -- or with a different Slurm version or configuration on the same cluster -- are not guaranteed to give the same results.
@@ -127,14 +127,14 @@ The build generates the following executables:
     $ uenv start prgenv-gnu/24.11:v2 --view=default
     $ srun -n8 -N2 -c72 ./affinity.mpi
     affinity test for 8 MPI ranks
-    rank   0 @ nid006363: threads [ 0:71] -> cores [  0: 71]
-    rank   1 @ nid006363: threads [ 0:71] -> cores [ 72:143]
-    rank   2 @ nid006363: threads [ 0:71] -> cores [144:215]
-    rank   3 @ nid006363: threads [ 0:71] -> cores [216:287]
-    rank   4 @ nid006375: threads [ 0:71] -> cores [  0: 71]
-    rank   5 @ nid006375: threads [ 0:71] -> cores [ 72:143]
-    rank   6 @ nid006375: threads [ 0:71] -> cores [144:215]
-    rank   7 @ nid006375: threads [ 0:71] -> cores [216:287]
+    rank   0 @ nid006363: thread 0 -> cores [  0: 71]
+    rank   1 @ nid006363: thread 0 -> cores [ 72:143]
+    rank   2 @ nid006363: thread 0 -> cores [144:215]
+    rank   3 @ nid006363: thread 0 -> cores [216:287]
+    rank   4 @ nid006375: thread 0 -> cores [  0: 71]
+    rank   5 @ nid006375: thread 0 -> cores [ 72:143]
+    rank   6 @ nid006375: thread 0 -> cores [144:215]
+    rank   7 @ nid006375: thread 0 -> cores [216:287]
     ```
 
     In this example there are 8 MPI ranks:
@@ -306,39 +306,200 @@ The configuration that is optimal for your application may be different.
 ## AMD CPU Nodes
 
 Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger][ref-cluster-eiger] cluster provided by the [HPC Platform][ref-platform-hpcp].
-
 For a detailed description of the node hardware, see the [AMD Rome node][ref-alps-zen2-node] hardware documentation.
 
-The typical Slurm workload that we want to schedule will distribute `NR` MPI ranks over nodes, with `NT` threads per .
+??? info "Node description"
+    - The node has 2 x 64 core sockets
+    - Each socket is divided into 4 NUMA regions
+        - the 16 cores in each NUMA region have faster memory access to their of 32 GB
+    - Each core has two processing units (PUs)
 
-Each node has 128 cores: so we can reasonably expect to run a maximum of 128 MPI ranks per node.
+    ![Screenshot](../images/slurm/eiger-topo.png)
 
-Each node has 2 sockets, and each socket contains 4 NUMA nodes.
 
-Each MPI rank is assigned a set of cores on a specific node - to get the best performance you want to follow some best practices:
+Each MPI rank is assigned a set of cores on a node, and Slurm provides flags that can be used directly as flags to `srun`, or as arguments in an `sbatch` script.
+Here are some basic flags that we will use to distribute work.
 
-* don't spread MPI ranks across multiple sockets
-* and it might be advantageous to have 8 ranks per node, with 16 cores each - the sweet spot is application specific
+| flag  | meaning |
+| ----  | ------- |
+| `-n`, `--ntasks`    |  The total number of MPI ranks |
+| `-N`, `--nodes`     |  The total number of nodes |
+| `--ntasks-per-node` |  The total number of nodes |
+| `-c`, `--cpus-per-task` |  The number of cores to assign to each rank. |
+| `--hint=nomultithread`  |  Use only one PU per core |
 
-!! todo "table of basic flags nodes, cores-per-task, etc"
+!!! info "Slurm is highly configurable"
+    These are a subset of the most useful flags.
+    Call `srun --help` or `sbatch --help` to get a complete list of all the flags available on your target cluster.
+    Note that the exact set of flags available depends on the Slurm version, how Slurm was configured, and Slurm plugins.
 
-Here we assign 64 cores to each, and observe that there are 128 "cores" (2 per core):
+The first example assigns 2 MPI ranks per node, with 64 cores per rank, with the two PUs per core:
 ```console title="One MPI rank per socket"
-$ OMP_NUM_THREADS=64 srun -n2 -N1 -c64 ./affinity.mpi
+# one node
+$ srun -n2 -N1 -c64 ./affinity.mpi
+affinity test for 2 MPI ranks
+rank   0 @ nid002199: thread 0 -> cores [  0: 31,128:159]
+rank   1 @ nid002199: thread 0 -> cores [ 64: 95,192:223]
+
+# two nodes
+$ srun -n4 -N2 -c64 ./affinity.mpi
+affinity test for 4 MPI ranks
+rank   0 @ nid001512: thread 0 -> cores [  0: 31,128:159]
+rank   1 @ nid001512: thread 0 -> cores [ 64: 95,192:223]
+rank   2 @ nid001515: thread 0 -> cores [  0: 31,128:159]
+rank   3 @ nid001515: thread 0 -> cores [ 64: 95,192:223]
 ```
 
-If you want only 64, consider the `--hint=nomultithreading` option.
-```console title="One MPI rank per socket"
-$ OMP_NUM_THREADS=64 srun -n2 -N1 -c64 --hint=nomultithreading ./affinity.mpi
+!!! note
+    In the above example we use `--ntasks/-n` and `--nodes/-N`.
+    It is possible to achieve the same effect using `--nodes` and `--ntasks-per-node`, for example the following both give 8 ranks on 4 nodes:
+
+    ```bash
+    srun --nodes=4 --ntasks=8
+    srun --nodes=4 --ntasks-per-node=2
+    ```
+
+It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the `--hint=nomultithreading` option.
+```console title="One MPI rank per socket with 1 PU per core"
+$ srun -n2 -N1 -c64 --hint=nomultithread ./affinity.mpi
+affinity test for 2 MPI ranks
+rank   0 @ nid002199: thread 0 -> cores [  0: 63]
+rank   1 @ nid002199: thread 0 -> cores [ 64:127]
 ```
+
+!!! note "Always test"
+    The best configuration for performance is highly application specific, with no one-size-fits-all configuration.
+    Take the time to experiment with `--hint=nomultithread`.
+
+Memory on the node is divided into NUMA (non-uniform memory access) regions.
+The 256 GB of a standard-memory node are divided into 8 NUMA nodes of 32 GB, with 16 cores associated with each node:
+
+* memory access is optimal when all the cores of a rank are on the same NUMA node;
+* memory access to NUMA regions on the other socket are significantly slower.
+
+??? info "How to investigate the NUMA layout of a node"
+    Use the command `numactl -H`.
+
+    ```console
+    $ srun -n1 numactl -H
+    available: 8 nodes (0-7)
+    node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143
+    node 0 size: 63733 MB
+    node 0 free: 62780 MB
+    node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159
+    node 1 size: 64502 MB
+    node 1 free: 61774 MB
+    node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175
+    node 2 size: 64456 MB
+    node 2 free: 63385 MB
+    node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191
+    node 3 size: 64490 MB
+    node 3 free: 62613 MB
+    node 4 cpus: 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207
+    node 4 size: 64502 MB
+    node 4 free: 63897 MB
+    node 5 cpus: 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223
+    node 5 size: 64502 MB
+    node 5 free: 63769 MB
+    node 6 cpus: 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239
+    node 6 size: 64502 MB
+    node 6 free: 63870 MB
+    node 7 cpus: 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255
+    node 7 size: 64428 MB
+    node 7 free: 63712 MB
+    node distances:
+    node   0   1   2   3   4   5   6   7
+      0:  10  12  12  12  32  32  32  32
+      1:  12  10  12  12  32  32  32  32
+      2:  12  12  10  12  32  32  32  32
+      3:  12  12  12  10  32  32  32  32
+      4:  32  32  32  32  10  12  12  12
+      5:  32  32  32  32  12  10  12  12
+      6:  32  32  32  32  12  12  10  12
+      7:  32  32  32  32  12  12  12  10
+    ```
+    The `node distances` table shows that the cores have the fastest memory access to memory in their own region (`10`), and fast access (`12`) to NUMA regions on the same socket.
+    The cost of accessing memory of a NUMA node on the other socket is much higher (`32`).
+
+    Note that this command was run on a large-memory node that has 8 x 64 GB NUMA regions, for a total of 512 GB.
+
+The examples above placed one rank per socket, which is not optimal for NUMA access.
+To constrain 
+
+!!! Note "Always test"
+    It might still be optimal for applications that have high threading efficiency and benefit from using fewer MPI ranks to have one rank per socket or even one one rank per node.
+    Always test!
 
 ```console title="One MPI rank per NUMA region"
-$ OMP_NUM_THREADS=64 srun -n16 -N1 -c8 ./affinity.mpi
+$ srun -n8 -N1 -c16 --hint=nomultithread ./affinity.mpi
+affinity test for 8 MPI ranks
+rank   0 @ nid002199: thread 0 -> cores [  0: 15]
+rank   1 @ nid002199: thread 0 -> cores [ 64: 79]
+rank   2 @ nid002199: thread 0 -> cores [ 16: 31]
+rank   3 @ nid002199: thread 0 -> cores [ 80: 95]
+rank   4 @ nid002199: thread 0 -> cores [ 32: 47]
+rank   5 @ nid002199: thread 0 -> cores [ 96:111]
+rank   6 @ nid002199: thread 0 -> cores [ 48: 63]
+rank   7 @ nid002199: thread 0 -> cores [112:127]
 ```
 
 In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
-This is often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
+This often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
 
-```console title="One MPI rank per NUMA region"
-$ OMP_BIND_PROC=true OMP_NUM_THREADS=64 srun -n16 -N1 -c8 ./affinity.mpi
+### OpenMP
+
+The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assinged to each MPI rank.
+
+Use the `--omp` flag with `affinity.mpi` to get more detailed information about OpenMPI thread affinity.
+For example, four MPI ranks on one node with four cores and four OpenMP threads:
+
+```console title="No OpenMP binding"
+$ export OMP_NUM_THREADS=4
+$ srun -n4 -N1 -c4 --hint=nomultithread ./affinity.mpi --omp
+affinity test for 4 MPI ranks
+rank   0 @ nid001512: threads [0:3] -> cores [  0:  3]
+rank   1 @ nid001512: threads [0:3] -> cores [ 64: 67]
+rank   2 @ nid001512: threads [0:3] -> cores [  4:  7]
+rank   3 @ nid001512: threads [0:3] -> cores [ 68: 71]
 ```
+
+The status `threads [0:3] -> cores [  0:  3]` is shorthand "there are 4 OpenMP threads, and the OS can schedule them on cores 0, 1, 2 and 3".
+
+Allowing the OS to schedule threads is usually efficient, however to get the most you can try pinning threads to specific cores.
+The [`OMP_PROC_BIND`](https://www.openmp.org/spec-html/5.0/openmpse52.html) environment variable can be used to tune how OpenMP sets thread affinity.
+For example, `OMO_PROC_BIND=true` will give each thread exclusive affinity with a core:
+
+```console title="OMP_PROC_BIND=true"
+$ export OMP_NUM_THREADS=4
+$ export OMP_PROC_BIND=true
+$ srun -n4 -N1 -c4 --hint=nomultithread ./affinity.mpi --omp
+affinity test for 4 MPI ranks
+rank   0 @ nid001512
+  thread 0 -> core   0
+  thread 1 -> core   1
+  thread 2 -> core   2
+  thread 3 -> core   3
+rank   1 @ nid001512
+  thread 0 -> core  64
+  thread 1 -> core  65
+  thread 2 -> core  66
+  thread 3 -> core  67
+rank   2 @ nid001512
+  thread 0 -> core   4
+  thread 1 -> core   5
+  thread 2 -> core   6
+  thread 3 -> core   7
+rank   3 @ nid001512
+  thread 0 -> core  68
+  thread 1 -> core  69
+  thread 2 -> core  70
+  thread 3 -> core  71
+```
+
+!!! note
+    There are many OpenMP variables that can be used to fine tune affinity.
+    See the [OpenMP documentation](https://www.openmp.org/spec-html/5.0/openmpch6.html) for more information.
+
+!!! warning
+    The `OMP_*` environment variables only affect thread affinity of applications that use OpenMP for thread-level parallelism.
+    Other threading runtimes will be configured differently, and the `affinity.mpi` tool will only be able to show the set of cores assigned to the rank.

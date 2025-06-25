@@ -3,8 +3,8 @@
 
 Alps is a HPE Cray EX3000 system, a liquid cooled blade-based, high-density system.
 
-!!! todo
-    this is a skeleton - all of the details need to be filled in
+!!! under-construction
+    This page is a work in progress - contact us if you want us to prioritise documentation specific information that would be useful for your work.
 
 ## Alps Cabinets
 
@@ -100,12 +100,11 @@ A schematic of a *standard memory node* below illustrates the CPU cores and [NUM
 * The two sockets are labelled Package L#0 and Package L#1.
 * Each socket has 4 NUMA nodes, with 16 cores each, for a total of 64 cores per socket.
 
-Each core supports [simultaneous multi threading (SMT)](https://www.amd.com/en/blogs/2025/simultaneous-multithreading-driving-performance-a.html), whereby each core can execute two threads concurrently, which are presented as two PU per physical core.
+Each core supports [simultaneous multi threading (SMT)](https://www.amd.com/en/blogs/2025/simultaneous-multithreading-driving-performance-a.html), whereby each core can execute two threads concurrently, which are presented as two processing units (PU) per physical core:
 
-* The first PU on each core are numbered 0:63 on socket 0, and 64:127 on socket 1;
-* The second PU on each core are numbered 128:191 on socket 0, and 192:256 on socket 1.
-* Hence core `n` SMT
-
+* the first PU on each core are numbered 0:63 on socket 0, and 64:127 on socket 1;
+* the second PU on each core are numbered 128:191 on socket 0, and 192:256 on socket 1;
+* hence, core `n` has PUs `n` and `n+128`.
 
 Each node has two Slingshot 11 network interface cards (NICs), which are not illustrated on the diagram.
 
