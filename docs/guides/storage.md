@@ -119,7 +119,7 @@ To set up a default so all newly created folders and dirs inside or your desired
 
 As shown in the schema below
 
-![Lustre architecture](../../images/storage/lustre.png)
+![Lustre architecture](../images/storage/lustre.png)
 
 Lustre uses *metadata* servers to store and query metadata which is basically what is shown by `ls`: directory structure, file permission, modification dates,...
 Its performance is roughly the same on [Capstor][ref-alps-capstor] and [Iopsstor][ref-alps-iopsstor].
