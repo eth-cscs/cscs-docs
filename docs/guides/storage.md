@@ -116,25 +116,28 @@ To set up a default so all newly created folders and dirs inside or your desired
 [](){#ref-guides-storage-lustre}
 ## Lustre Tuning
 [Capstor][ref-alps-capstor] and [Iopsstor][ref-alps-iopsstor] are both [lustre](https://lustre.org) filesystem.
-Lustre is an open-source, parallel file system used in HPC systems.
+
 As shown in the schema below
 
 ![Lustre architecture](/images/storage/lustre.png)
 
-Lustre uses *metadata* servers to store and query metadata which is basically what is shown by `ls`: directory structure, file permission, modification dates,..
-This data is globally synchronized, which means that handling many small files is not especially suited for lustre, and the perfomrance of that part is similar on both Capstor and Iopsstor. The section below discusses [how to handle many small files][ref-guides-storage-small-files]
+Lustre uses *metadata* servers to store and query metadata which is basically what is shown by `ls`: directory structure, file permission, modification dates,...
+Its performance is roughly the same on [Capstor][ref-alps-capstor] and [Iopsstor][ref-alps-iopsstor].
+This data is globally synchronized, which means that handling many small files is not especially suited for Lustre, see the discussion on [how to handle many small files][ref-guides-storage-small-files].
 
 The data itself is subdivided in blocks of size `<blocksize>` and is stored by Object Storage Servers (OSS) in one or more Object Storage Targets (OST).
-The blocksize and number of OSTs to use is defined by the striping settings. A new file or directory ihnerits them from its parent directory. The `lfs getstripe <path>` command can be used to get information on the actual stripe settings. For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout. The simplest way to have the correct layout is to copy to a directory with the correct layout
+The blocksize and number of OSTs to use is defined by the striping settings.
+A new file or directory ihnerits them from its parent directory.
+The `lfs getstripe <path>` command can be used to get information on the actual stripe settings.
+For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout. The simplest way to have the correct layout is to copy to a directory with the correct layout
 
-A blocksize of 4MB gives good throughput, without being overly big, so it is a good choice when reading a file sequentially or in large chuncks, but if one reads shorter chuncks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
+A blocksize of 4MB gives good throughput, without being overly big, so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
 https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace
 
 !!! example "Settings for large files"
     ```console
     lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
     ```
-
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
 
@@ -145,17 +148,15 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 
 ### Iopsstor vs Capstor
 
-[Iopsstor][ref-alps-iopsstor] uses SSD as OST, thus random access is quick, and the performance of the single OST is high. [Capstor][ref-alps-capstor] on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
-
-!!! Note
-    ML model training normally has better performance if reading from iopsstor (random access, difficult to predict access pattern). Checkpoint can be done to capstor (very good for contiguous access).
+[Iopsstor][ref-alps-iopsstor] uses SSD as OST, thus random access is quick, and the performance of the single OST is high.
+[Capstor][ref-alps-capstor] on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger. See for example the [ML filesystem suitability][ref-mlp-storage-suitability].
 
 [](){#ref-guides-storage-small-files}
 ## Many small files vs. HPC File Systems
 
 Workloads that read or create many small files are not well-suited to parallel file systems, which are designed for parallel and distributed I/O.
 
-In some cases, and if enough memory is available it might be worth to unpack/repack the small files to local in memory filesystems like `/dev/shmem/$USER` or `/tmp`, which are *much* faster, or to use a squashfs filesystem that is stored as a single large file on lustre.
+In some cases, and if enough memory is available it might be worth to unpack/repack the small files to in-memory filesystems like `/dev/shm/$USER` or `/tmp`, which are *much* faster, or to use a squashfs filesystem that is stored as a single large file on Lustre.
 
 Workloads that do not play nicely with Lustre include:
 
