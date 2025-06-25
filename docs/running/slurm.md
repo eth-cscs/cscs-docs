@@ -145,8 +145,6 @@ The build generates the following executables:
     * all threads on each rank have affinity with the same 72 cores;
     * each rank gets 72 cores, e.g. rank 1 gets cores `72:143` on node `nid006363`.
 
-
-
 ??? example "Testing GPU affinity"
     Use `affinity.cuda` or `affinity.rocm` to test on GPU-enabled systems.
 
@@ -196,6 +194,22 @@ The build generates the following executables:
     1. Test GPU affinity: note how all 4 ranks see the same 4 GPUs.
 
     2. Test GPU affinity: note how the `--gpus-per-task=1` parameter assings a unique GPU to each rank.
+
+!!! info "Quick affinity checks"
+
+    The Slurm flag [`cpu-bind=verbose`](https://slurm.schedmd.com/srun.html#OPT_cpu-bind) prints information about MPI ranks and their thread affinity.
+
+    The mask it prints is not very readable, but it can be used with the `true` command to quickly test Slurm parameters without building the Affinity tool.
+
+    ```console title="hello"
+    $ srun --cpu-bind=verbose -c32 -n4 -N1 --hint=nomultithread -- true
+    cpu-bind=MASK - nid002156, task  0  0 [147694]: mask 0xffffffff set
+    cpu-bind=MASK - nid002156, task  1  1 [147695]: mask 0xffffffff0000000000000000 set
+    cpu-bind=MASK - nid002156, task  2  2 [147696]: mask 0xffffffff00000000 set
+    cpu-bind=MASK - nid002156, task  3  3 [147697]: mask 0xffffffff000000000000000000000000 set
+    ```
+
+    You can also check GPU affinity by inspecting the value of the `CUDA_VISIBLE_DEVICES` environment variable.
 
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
