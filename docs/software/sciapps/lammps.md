@@ -71,9 +71,7 @@ A development view is also provided, which contains all libraries and command-li
 
 ### Running LAMMPS with Kokkos on the HPC Platform
 
-To start  a job, two bash scripts are potentially required: a [SLURM] submission script, and a wrapper for `numactl` which sets up CPU and memory binding.
-
-The submission script is the following:
+To start a job, the following bash [SLURM] submission script is required:
 
 ```bash title="run_lammps_kokkos.sh"
 #!/bin/bash -l
@@ -81,9 +79,7 @@ The submission script is the following:
 #SBATCH --time=01:00:00 (1)
 #SBATCH --nodes=2                                                                        
 #SBATCH --ntasks-per-node=4  (2)
-#SBATCH --gpus-per-node=4
 #SBATCH --gpus-per-task=1
-#SBATCH --gpu-bind=per_task:1
 #SBATCH --account=<ACCOUNT> (3)
 #SBATCH --uenv=<LAMMPS_UENV>:/user-environment (4)
 #SBATCH --view=kokkos (5)
