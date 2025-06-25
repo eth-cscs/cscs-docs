@@ -197,7 +197,7 @@ The build generates the following executables:
 
 !!! info "Quick affinity checks"
 
-    The Slurm flag [`cpu-bind=verbose`](https://slurm.schedmd.com/srun.html#OPT_cpu-bind) prints information about MPI ranks and their thread affinity.
+    The Slurm flag [`--cpu-bind=verbose`](https://slurm.schedmd.com/srun.html#OPT_cpu-bind) prints information about MPI ranks and their thread affinity.
 
     The mask it prints is not very readable, but it can be used with the `true` command to quickly test Slurm parameters without building the Affinity tool.
 
