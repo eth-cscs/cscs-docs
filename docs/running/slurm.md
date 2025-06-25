@@ -43,7 +43,7 @@ sbatch --account=g123 ./job.sh
 ```
 
 !!! note
-    The flag `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
+    The flags `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
 
 ## Prioritization and scheduling
 
