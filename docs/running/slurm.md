@@ -27,9 +27,9 @@ If no job is specified, the primary project is used as the default.
     ```
 
 ```console title="Specifying the account on the command line"
-srun -A g123        -n4 -N1 ./run
-srun --account=g123 -n4 -N1 ./run
-sbatch --account=g123 ./job.sh
+$ srun -A g123        -n4 -N1 ./run
+$ srun --account=g123 -n4 -N1 ./run
+$ sbatch --account=g123 ./job.sh
 ```
 
 ```bash title="Specifying the account in an sbatch script"
