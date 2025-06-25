@@ -62,7 +62,7 @@ At CSCS, SLURM is configured to accommodate the diverse range of node types avai
 These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
 Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
-Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs.
+Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
 SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
