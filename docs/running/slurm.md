@@ -464,7 +464,7 @@ This often gives the best performance, however sometimes it is beneficial to bin
 
 The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assinged to each MPI rank.
 
-Use the `--omp` flag with `affinity.mpi` to get more detailed information about OpenMPI thread affinity.
+Use the `--omp` flag with `affinity.mpi` to get more detailed information about OpenMP thread affinity.
 For example, four MPI ranks on one node with four cores and four OpenMP threads:
 
 ```console title="No OpenMP binding"
