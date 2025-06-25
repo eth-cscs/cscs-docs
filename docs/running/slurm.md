@@ -64,7 +64,7 @@ Because of this heterogeneity, SLURM must be tailored to ensure efficient resour
 
 Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
-SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
+Slurm ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
 !!! example "How to check the partitions and number of nodes therein?"
     You can check the size of the system by running the following command in the terminal:
