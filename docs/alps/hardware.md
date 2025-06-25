@@ -82,8 +82,8 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
 
 These nodes have two [AMD Epyc 7742](https://en.wikichip.org/wiki/amd/epyc/7742) 64-core CPU sockets, and are used primarily for the [Eiger][ref-cluster-eiger] system. They come in two memory configurations:
 
-* *Standard-memory*:  256 GB in 16x16 GB DDR4 Dimms.
-* *Large-memory*:  512 GB in 16x32 GB DDR4 Dimms.
+* *Standard-memory*:  256 GB in 16x16 GB DDR4 DIMMs.
+* *Large-memory*:  512 GB in 16x32 GB DDR4 DIMMs.
 
 !!! note "Not all memory is available"
     The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.

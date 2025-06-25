@@ -43,7 +43,7 @@ sbatch --account=g123 ./job.sh
 ```
 
 !!! note
-    The flag `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
+    The flags `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
 
 ## Prioritization and scheduling
 
@@ -62,7 +62,7 @@ At CSCS, SLURM is configured to accommodate the diverse range of node types avai
 These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
 Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
-Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs.
+Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
 SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
@@ -317,7 +317,7 @@ The configuration that is optimal for your application may be different.
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
 [](){#ref-slurm-amdcpu}
-## AMD CPU Nodes
+## AMD CPU nodes
 
 Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger][ref-cluster-eiger] cluster provided by the [HPC Platform][ref-platform-hpcp].
 For a detailed description of the node hardware, see the [AMD Rome node][ref-alps-zen2-node] hardware documentation.
