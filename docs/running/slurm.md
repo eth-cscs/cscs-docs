@@ -437,12 +437,9 @@ The 256 GB of a standard-memory node are divided into 8 NUMA nodes of 32 GB, wit
 
     Note that this command was run on a large-memory node that has 8 x 64 GB NUMA regions, for a total of 512 GB.
 
-The examples above placed one rank per socket, which is not optimal for NUMA access.
-To constrain 
+The examples above placed one rank per socket, which is not optimal for NUMA access, because cores assigned to each rank are spread over the 4 NUMA nodes on the socket.
+To constrain tasks to NUMA nodes, use 16 cores per task:
 
-!!! Note "Always test"
-    It might still be optimal for applications that have high threading efficiency and benefit from using fewer MPI ranks to have one rank per socket or even one one rank per node.
-    Always test!
 
 ```console title="One MPI rank per NUMA region"
 $ srun -n8 -N1 -c16 --hint=nomultithread ./affinity.mpi
@@ -457,10 +454,14 @@ rank   6 @ nid002199: thread 0 -> cores [ 48: 63]
 rank   7 @ nid002199: thread 0 -> cores [112:127]
 ```
 
-In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
-This often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
+!!! Note "Always test"
+    It might still be optimal for applications that have high threading efficiency and benefit from using fewer MPI ranks to have one rank per socket or even one one rank per node.
+    Always test!
 
 ### OpenMP
+
+In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
+This often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
 
 The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assinged to each MPI rank.
 
