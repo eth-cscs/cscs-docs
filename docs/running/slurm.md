@@ -303,7 +303,7 @@ The configuration that is optimal for your application may be different.
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
 [](){#ref-slurm-amdcpu}
-## AMD CPU Nodes
+## AMD CPU nodes
 
 Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger][ref-cluster-eiger] cluster provided by the [HPC Platform][ref-platform-hpcp].
 For a detailed description of the node hardware, see the [AMD Rome node][ref-alps-zen2-node] hardware documentation.
