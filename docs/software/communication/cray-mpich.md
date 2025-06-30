@@ -92,8 +92,8 @@ export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
 
-??? info "The issue has been resolved on the 7th of October 2024 with a system
-    update" The issue was caused by a system misconfiguration.
+??? info "The issue has been resolved on the 7th of October 2024 with a system update"
+    The issue was caused by a system misconfiguration.
 
 When doing inter-node GPU-aware communication with Cray MPICH after the update on the 30th of September 2024 on Alps, applications will fail with:
 ```bash
