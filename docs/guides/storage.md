@@ -113,9 +113,51 @@ To set up a default so all newly created folders and dirs inside or your desired
 !!! info
     For more information read the setfacl man page: `man setfacl`.
 
+[](){#ref-guides-storage-lustre}
+## Lustre tuning
+[Capstor][ref-alps-capstor] and [Iopsstor][ref-alps-iopsstor] are both [Lustre](https://lustre.org) filesystem.
+
+![Lustre architecture](../images/storage/lustre.png)
+
+As shown in the schema above, Lustre uses *metadata* servers to store and query metadata, which is basically what is shown by `ls`: directory structure, file permission, and modification dates.
+Its performance is roughly the same on [Capstor][ref-alps-capstor] and [Iopsstor][ref-alps-iopsstor].
+This data is globally synchronized, which means Lustre is not well suited to handling many small files, see the discussion on [how to handle many small files][ref-guides-storage-small-files].
+
+The data itself is subdivided in blocks of size `<blocksize>` and is stored by Object Storage Servers (OSS) in one or more Object Storage Targets (OST).
+The blocksize and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories ihneriting them from their parent directory.
+The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path.
+For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
+The simplest way to have the correct layout is to copy to a directory with the correct layout
+
+!!! tip "A blocksize of 4MB gives good throughput, without being overly big..."
+    ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
+    See the [Lustre documentation](https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace) for more information.
+
+
+!!! example "Settings for large files"
+    ```console
+    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
+    ```
+Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
+With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
+
+!!! example "Good default settings"
+    ```console
+    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
+    ```
+
+### Iopsstor vs Capstor
+
+[Iopsstor][ref-alps-iopsstor] uses SSD as OST, thus random access is quick, and the performance of the single OST is high.
+[Capstor][ref-alps-capstor] on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
+See for example the [ML filesystem guide][ref-mlp-storage-suitability].
+
+[](){#ref-guides-storage-small-files}
 ## Many small files vs. HPC File Systems
 
 Workloads that read or create many small files are not well-suited to parallel file systems, which are designed for parallel and distributed I/O.
+
+In some cases, and if enough memory is available it might be worth to unpack/repack the small files to in-memory filesystems like `/dev/shm/$USER` or `/tmp`, which are *much* faster, or to use a squashfs filesystem that is stored as a single large file on Lustre.
 
 Workloads that do not play nicely with Lustre include:
 

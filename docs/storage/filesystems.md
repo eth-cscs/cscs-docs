@@ -84,6 +84,7 @@ Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in
 ## Scratch
 
 The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
+See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best performance out of the filesystem.
 
 All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
 
@@ -123,6 +124,7 @@ Please ensure that you move important data to a file system with backups, for ex
 ## Store
 
 Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
+See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best preformance out of the filesystem.
 
 Space on Store is allocated per-project, with a path created for each project.
 To accomodate the different customers and projects on Alps, the project paths are organised as follows:
