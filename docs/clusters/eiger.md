@@ -4,13 +4,11 @@
 Eiger is an Alps cluster that provides compute nodes and file systems designed to meet the needs of CPU-only workloads for the [HPC Platform][ref-platform-hpcp].
 
 !!! under-construction
-    This documentation is for `eiger.alps.cscs.ch` - an updated version of Eiger that will replace the existing `eiger.cscs.ch` cluster.
-    For help using the existing Eiger, see the [Eiger User Guide](https://confluence.cscs.ch/spaces/KB/pages/284426490/Alps+Eiger+User+Guide) on the legacy KB documentation site.
-
-    The target date for full deployment of the new Eiger is **July 1, 2025**.
+    This documentation is for the updated cluster `Eiger.Alps` reachable at `eiger.alps.cscs.ch`, that has replaced the former cluster as of June 30 2025.
+    The previous [Eiger User Guide](https://confluence.cscs.ch/spaces/KB/pages/284426490/Alps+Eiger+User+Guide) is still available on the legacy Knowledge Base.
 
 !!! change "Important changes"
-    The redeployment of `eiger.cscs.ch` as `eiger.alps.cscs.ch` introduces changes that may affect some users.
+    The redeployment of `eiger.cscs.ch` as `eiger.alps.cscs.ch` has introduced changes that may affect some users.
 
     ### Breaking changes
 
@@ -31,10 +29,10 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 
     ### Unimplemented features
 
-    !!! under-construction "FirecREST is not yet available"
-        [FirecREST][ref-firecrest] has not been configured on `eiger.alps` - it is still running on the old Eiger.
+    !!! under-construction "Jupyter and FirecREST is not yet available"
+        [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
 
-        **It will be deployed, and this documentation updated when it is.**
+        **They will be deployed as soon as possible and this documentation will be updated accordingly**
 
     ### Minor changes
 
@@ -44,18 +42,16 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 
 ### Compute nodes
 
-!!! under-construction
-    During this Early Access phase, there are 19 compute nodes for you to test and port your workflows to the new Eiger deployment. There is one compute node in the `debug` partition and one in the `xfer` partition for internal data transfer.  The remaining compute nodes will be moved from `eiger.cscs.ch` to `eiger.alps.cscs.ch` at a later date (provisionally, 1 July 2025).
-
-Eiger consists of 19 [AMD Epyc Rome][ref-alps-zen2-node] compute nodes. 
-
-There is one login node, `eiger-ln010`. 
-
-[//]: # (TODO: You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.)
-
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|-----------------| ----------------- | ---------- |
-| [zen2][ref-alps-zen2-node] | 19 | 38      | -          |
+Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time, therefore you might want to check them with the Slurm command `sinfo -s`.
+```
+PARTITION AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
+debug        up      30:00        0/12/0/12 nid[002236-002247]
+xfer         up 1-00:00:00          0/4/0/4 nid[002232-002235]
+prepost      up      30:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
+normal*      up 1-00:00:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
+low          up 1-00:00:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
+```
+Additionally, there are four login nodes with hostnames `eiger-ln00[1-4]`: . 
 
 ### Storage and file systems
 
@@ -148,31 +144,33 @@ To build images, see the [guide to building container images on Alps][ref-build-
 
 Eiger uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor workloads on compute nodes.
 
-There are four [Slurm partitions][ref-slurm-partitions] on the system:
+There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 
+* the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes
+* the `prepost` partition is meant for small high priority allocations up to 30 minutes, for pre- and post-processing jobs.
 * the `normal` partition is for all production workloads.
-* the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | unlim       | -    | 24 hours |
-| `debug`  | 32         | 1    | 30 minutes |
-| `xfer`   | 2          | 1    | 24 hours |
-| `low`    | unlim       | -    | 24 hours |
+| name | max nodes per job | time limit |
+| --   | | --                | -- |
+| `debug`  | 1    | 30 minutes |
+| `prepost`  | 1    | 30 minutes |
+| `normal` | -    | 24 hours |
+| `xfer`   | 1    | 24 hours |
+| `low`    | -    | 24 hours |
 
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
 
 See the Slurm documentation for instructions on how to run jobs on the [AMD CPU nodes][ref-slurm-amdcpu].
 
-### FirecREST
+### Jupyter and FirecREST
 
 !!! under-construction "FirecREST is not yet available"
-    [FirecREST][ref-firecrest] has not been configured on `eiger.alps` - it is still running on the old Eiger.
+    [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
 
-    **It will be deployed, and this documentation updated when it is.**
+    **They will be deployed as soon as possible and this documentation will be updated accordingly**
 
 ## Maintenance and status
 
@@ -184,12 +182,10 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-06-02 Early access phase"
+!!! change "2025-06-05 Early access phase"
     Early access phase is open
 
 ??? change "2025-05-23 Creation of Eiger on Alps"
-    Eiger is deployed as a vServices-enalbed cluster
+    Eiger is deployed as a vServices-enabled cluster
 
 ### Known issues
-
-
