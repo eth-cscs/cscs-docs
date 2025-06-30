@@ -81,7 +81,9 @@ Performance may be negatively affected by this option.
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
 
-The following environment variable can be set to disable gdrcopy:
+This error message is sometimes triggered by applications that use GPU Direct MPI calls when they trigger a bug in gdrcopy (a low-level library used to copy buffers between GPUs).
+Setting the following option will completely disable gdrcopy.
+Note that this has a performance impact for small message sizes, so it should only be enabled on a case-by-case basis.
 ```bash
 export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
 ```
@@ -90,8 +92,8 @@ export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
 
-??? info "The issue has been resolved on the 7th of October 2024 with a system update"
-    The issue was caused by a system misconfiguration.
+??? info "The issue has been resolved on the 7th of October 2024 with a system
+    update" The issue was caused by a system misconfiguration.
 
 When doing inter-node GPU-aware communication with Cray MPICH after the update on the 30th of September 2024 on Alps, applications will fail with:
 ```bash
