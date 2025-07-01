@@ -62,29 +62,34 @@ If the default base images do not meet your requirements, you can specify a cust
     mounts = [
         "/capstor", 
         "/iopsstor",
-        "/users/${USER}/.local/share/jupyter" # (1)!
+        "/users/${USER}/.local/share/jupyter", # (1)!
+        "/etc/slurm", # (2)!
+        "/usr/lib64/libslurm-uenv-mount.so",
+        "/etc/container_engine_pyxis.conf" # (3)!
     ]
 
-    workdir = "/capstor/scratch/cscs/${USER}" # (2)!
+    workdir = "/capstor/scratch/cscs/${USER}" # (4)!
 
     writable = true
 
     [annotations]
-    com.hooks.aws_ofi_nccl.enabled = "true" # (3)!
+    com.hooks.aws_ofi_nccl.enabled = "true" # (5)!
     com.hooks.aws_ofi_nccl.variant = "cuda12"
 
     [env]
-    CUDA_CACHE_DISABLE = "1" # (4)!
-    TORCH_NCCL_ASYNC_ERROR_HANDLING = "1" # (5)!
-    MPICH_GPU_SUPPORT_ENABLED = "0" # (6)!
+    CUDA_CACHE_DISABLE = "1" # (6)!
+    TORCH_NCCL_ASYNC_ERROR_HANDLING = "1" # (7)!
+    MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
     ```
     
     1. avoid mounting all of `$HOME` to avoid subtle issues with cached files, but mount Jupyter kernels
-    2. set working directory of Jupyter session (file browser root directory)
-    3. use environment settings for optimized communication 
-    4. disable CUDA JIT cache
-    5. async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
-    6. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
+    2. enable SLURM commands (together with two subsequent mounts)
+    3. currently only required on Daint and Santis, not on Clariden
+    4. set working directory of Jupyter session (file browser root directory)
+    5. use environment settings for optimized communication 
+    6. disable CUDA JIT cache
+    7. async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
+    8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 
 ??? tip "Accessing file systems with uenv"
     While Jupyter sessions with CE start in the directory specified with `workdir`, a uenv session always start in your `$HOME` folder. All non-hidden files and folders in `$HOME` are visible and accessible through the JupyterLab file browser. However, you can not browse directly to folders above `$HOME`. To enable access your `$SCRATCH` folder, it is therefore necessary to create a symbolic link to your `$SCRATCH` folder. This can be done by issuing the following command in a terminal from your `$HOME` directory:
@@ -126,7 +131,7 @@ python -m ipykernel install \
 
 The `<kernel-name>` can be replaced by a name specific to the base image/virtual environment.
 
-!!! bug "Python packages from uenv shadowing those in a virtual environment"
+??? bug "Python packages from uenv shadowing those in a virtual environment"
     When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the path being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
     ```bash
     export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
@@ -203,10 +208,10 @@ A popular approach to run multi-GPU ML workloads is with `accelerate` and `torch
 !torchrun --standalone --nproc_per_node=4 run_train.py ...
 ```
 
-!!! warning
+!!! warning "torchrun with virtual environments"
     When using a virtual environment on top of a base image with Pytorch, replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment.
     
-!!! note
+!!! note "Notebook structure"
     In none of these scenarios any significant memory allocations or background computations are performed on the main Jupyter process. Instead, the resources are kept available for the processes launched by `accelerate` or `torchrun`, respectively.
 
 Alternatively to using these launchers, it is also possible to use SLURM to obtain more control over resource mappings, e.g. by launching an overlapping SLURM step onto the same node used by the Jupyter process. An example with the container engine looks like this
