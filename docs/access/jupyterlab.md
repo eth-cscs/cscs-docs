@@ -33,7 +33,7 @@ A Jupyter session can be started with either a [uenv][ref-uenv] or a [container]
 !!! warning "Ending your interactive session and logging out"
     The Jupyter servers can be shut down through the Hub. To end a JupyterLab session, please select `Hub Control Panel` under the `File` menu and then `Stop My Server`. By contrast, clicking `Logout` will log you out of the server, but the server will continue to run until the Slurm job reaches its maximum wall time.
 
-If the default base images do not meet your requirements, you can specify a custom environment instead. For this purpose, you supply either a custom uenv image/view or CE TOML file under the section `Advanced options` before launching the session. The supported uenvs are compatible with the Jupyter service out of the box, whereas container images typically require the installation of some additional packages. 
+If the default base images do not meet your requirements, you can specify a custom environment instead. For this purpose, you supply either a custom uenv image/view or [container engine (CE)][ref-container-engine] TOML file under the section `Advanced options` before launching the session. The supported uenvs are compatible with the Jupyter service out of the box, whereas container images typically require the installation of some additional packages. 
 
 ??? "Example of a custom Pytorch container"
     A container image based on recent a NGC Pytorch release requires the installation of the following additional packages to be compatible with the Jupyter service:
