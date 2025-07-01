@@ -28,10 +28,10 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 
     ### Unimplemented features
 
-    !!! under-construction "Jupyter and FirecREST is not yet available"
-        [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
+    !!! under-construction "Jupyter is not yet available"
+        [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
 
-        **They will be deployed as soon as possible and this documentation will be updated accordingly**
+        **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
     ### Minor changes
 
@@ -161,9 +161,9 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 ### Jupyter and FirecREST
 
 !!! under-construction "FirecREST is not yet available"
-    [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
+    [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
 
-    **They will be deployed as soon as possible and this documentation will be updated accordingly**
+    **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
 ## Maintenance and status
 
