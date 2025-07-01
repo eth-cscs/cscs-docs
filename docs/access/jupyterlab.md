@@ -83,7 +83,7 @@ If the default base images do not meet your requirements, you can specify a cust
     ```
     
     1. Avoid mounting all of `$HOME` to avoid subtle issues with cached files, but mount Jupyter kernels
-    2. Enable SLURM commands (together with two subsequent mounts)
+    2. Enable Slurm commands (together with two subsequent mounts)
     3. Currently only required on Daint and Santis, not on Clariden
     4. Set working directory of Jupyter session (file browser root directory)
     5. Use environment settings for optimized communication 
@@ -215,7 +215,7 @@ A popular approach to run multi-GPU ML workloads is with `accelerate` and `torch
 !!! note "Notebook structure"
     In none of these scenarios any significant memory allocations or background computations are performed on the main Jupyter process. Instead, the resources are kept available for the processes launched by `accelerate` or `torchrun`, respectively.
 
-Alternatively to using these launchers, it is also possible to use SLURM to obtain more control over resource mappings, e.g. by launching an overlapping SLURM step onto the same node used by the Jupyter process. An example with the container engine looks like this:
+Alternatively to using these launchers, it is also possible to use Slurm to obtain more control over resource mappings, e.g. by launching an overlapping Slurm step onto the same node used by the Jupyter process. An example with the container engine looks like this:
 
 ```bash
 !srun --overlap -ul --environment /path/to/edf.toml \
@@ -226,7 +226,7 @@ Alternatively to using these launchers, it is also possible to use SLURM to obta
     python train.py ..."
 ```
 
-where `/path/to/edf.toml` should be replaced by the TOML file and `train.py` is a script using `torch.distributed` for distributed training. This can be further customized with extra SLURM options.
+where `/path/to/edf.toml` should be replaced by the TOML file and `train.py` is a script using `torch.distributed` for distributed training. This can be further customized with extra Slurm options.
 
 !!! warning "Concurrent usage of resources"
     Subtle bugs can occur when running multiple Jupyter notebooks concurrently that each assume access to the full node. Also, some notebooks may hold on to resources such as spawned child processes or allocated memory despite having completed. In this case, resources such as a GPU may still be busy, blocking another notebook from using it. Therefore, it is good practice to only keep one such notebook running that occupies the full node and restarting a kernel once a notebook has completed. If in doubt, system monitoring with `htop` and [nvdashboard](https://github.com/rapidsai/jupyterlab-nvdashboard) can be helpful for debugging.
