@@ -43,7 +43,7 @@ $ sbatch --account=g123 ./job.sh
 ```
 
 !!! note
-    The flags `--account` and `-Cmc` that were required on the old Eiger cluster are no longer required.
+    The flags `--account` and `-Cmc` that were required on the old [Eiger][ref-cluster-eiger] cluster are no longer required.
 
 ## Prioritization and scheduling
 
@@ -66,6 +66,7 @@ Each type of node has different resource constraints and capabilities, which Slu
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
 Slurm ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
+[](){#ref-slurm-partitions-nodecount}
 !!! example "How to check the partitions and number of nodes therein?"
     You can check the size of the system by running the following command in the terminal:
     ```console
