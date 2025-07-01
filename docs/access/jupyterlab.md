@@ -203,7 +203,7 @@ Examples of notebooks with `ipcmagic` can be found [here](https://github.com/
 
 While it is generally recommended to submit long-running machine learning training and inference jobs via `sbatch`, certain use cases can benefit from an interactive Jupyter environment.
 
-A popular approach to run multi-GPU ML workloads is with `accelerate` and `torchrun` as demonstrated in the [tutorials][ref-guides-mlp-tutorials]. In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][ref-mlp-llm-finetuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][ref-mlp-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
+A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://github.com/huggingface/accelerate) and [`torchrun`](https://docs.pytorch.org/docs/stable/elastic/run.html) as demonstrated in the [tutorials][ref-guides-mlp-tutorials]. In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][ref-mlp-llm-finetuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][ref-mlp-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
 
 ```bash
 !python -m torch.distributed.run --standalone --nproc_per_node=4 run_train.py ...
@@ -230,6 +230,13 @@ where `/path/to/edf.toml` should be replaced by the TOML file and `train.py` is 
 
 !!! warning "Concurrent usage of resources"
     Subtle bugs can occur when running multiple Jupyter notebooks concurrently that each assume access to the full node. Also, some notebooks may hold on to resources such as spawned child processes or allocated memory despite having completed. In this case, resources such as a GPU may still be busy, blocking another notebook from using it. Therefore, it is good practice to only keep one such notebook running that occupies the full node and restarting a kernel once a notebook has completed. If in doubt, system monitoring with `htop` and [nvdashboard](https://github.com/rapidsai/jupyterlab-nvdashboard) can be helpful for debugging.
+
+!!! warning "Multi-GPU training from a shared Jupyter process"
+    Running multi-GPU training workloads directly from the shared Jupyter process is generally not recommended due to potential inefficiencies and correctness issues (cf. the [Pytorch docs](https://docs.pytorch.org/docs/stable/notes/cuda.html#use-nn-parallel-distributeddataparallel-instead-of-multiprocessing-or-nn-dataparallel)). However, if you need it to e.g. reproduce existing results, it is possible to do so with utilities like `accelerate`'s `notebook_launcher` or [`transformers`](https://github.com/huggingface/transformers)' `Trainer` class. When using these in containers, you will currently need to unset the environment variables `RANK` and `LOCAL_RANK`, that is have the following in a cell at the top of the notebook:
+
+    ```python
+    import os; os.environ.pop("RANK"); os.environ.pop("LOCAL_RANK");
+    ```
 
 
 ## Further documentation
