@@ -56,9 +56,9 @@ The report is divided into two parts: a general summary and GPU specific values.
 | Field | Description |
 | ----- | ----------- |
 | Job Id | The Slurm job id |
-| Step Id | The slurm step id. A job step in SLURM is a subdivision of a job started with srun |
+| Step Id | The slurm step id. A job step in Slurm is a subdivision of a job started with srun |
 | User | The user account that submitted the job |
-| SLURM Account | The project account that will be billed |
+| Slurm Account | The project account that will be billed |
 | Start Time, End Time, Elapsed Time | The time the job started and ended, and how long it ran |
 | Number of Nodes | The number of nodes allocated to the job |
 | Number of GPUs | The number of GPUs allocated to the job |
@@ -95,7 +95,7 @@ Summary of Job Statistics
 +-----------------------------------------+-----------------------------------------+
 | User                                    | jpcoles                                 |
 +-----------------------------------------+-----------------------------------------+
-| SLURM Account                           | unknown_account                         |
+| Slurm Account                           | unknown_account                         |
 +-----------------------------------------+-----------------------------------------+
 | Start Time                              | 03-07-2024 15:32:24                     |
 +-----------------------------------------+-----------------------------------------+
@@ -134,8 +134,8 @@ GPU Specific Values
     If the application crashes or the job is killed by `slurm` prematurely, `jobreport` will not be able to write any output.
 
 !!! warning "Too many GPUs reported by `jobreport`"
-    If the job reporting utility reports more GPUs than you expect from the number of nodes requested by SLURM, you may be missing options to set the visible devices correctly for your job.
-    See the [GH200 SLURM documentation][ref-slurm-gh200] for examples on how to expose GPUs correctly in your job.
+    If the job reporting utility reports more GPUs than you expect from the number of nodes requested by Slurm, you may be missing options to set the visible devices correctly for your job.
+    See the [GH200 Slurm documentation][ref-slurm-gh200] for examples on how to expose GPUs correctly in your job.
     When oversubscribing ranks to GPUs, the utility will always report too many GPUs.
     The utility does not combine data for the same GPU from different ranks.
 
@@ -207,7 +207,7 @@ Summary of Job Statistics
 +-----------------------------------------+-----------------------------------------+
 | User                                    | jpcoles                                 |
 +-----------------------------------------+-----------------------------------------+
-| SLURM Account                           | unknown_account                         |
+| Slurm Account                           | unknown_account                         |
 +-----------------------------------------+-----------------------------------------+
 | Start Time                              | 03-07-2024 14:54:48                     |
 +-----------------------------------------+-----------------------------------------+

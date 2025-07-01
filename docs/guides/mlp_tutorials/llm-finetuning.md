@@ -78,20 +78,20 @@ accelerate launch --config_file trl/examples/accelerate_configs/multi_gpu.yaml \
 
 This script has quite a bit more content to unpack.
 We use HuggingFace accelerate to launch the fine-tuning process, so we need to make sure that accelerate understands which hardware is available and where.
-Setting this up will be useful in the long run because it means we can tell SLURM how much hardware to reserve, and this script will setup all the details for us.
+Setting this up will be useful in the long run because it means we can tell Slurm how much hardware to reserve, and this script will setup all the details for us.
 
 The cluster has four GH200 chips per compute node.
 We can make them accessible to scripts run through srun/sbatch via the option `--gpus-per-node=4`.
 Then, we calculate how many processes accelerate should launch.
 We want to map each GPU to a separate process, this should be four processes per node.
 We multiply this by the number of nodes to obtain the total number of processes.
-Next, we use some bash magic to extract the name of the head node from SLURM environment variables.
+Next, we use some bash magic to extract the name of the head node from Slurm environment variables.
 Accelerate expects one main node and launches tasks on the other nodes from this main node.
 Having sourced our python environment at the top of the script, we can then launch Gemma fine-tuning.
 The first four lines of the launch line are used to configure accelerate.
 Everything after that configures the `trl/examples/scripts/sft.py` Python script, which we use to train Gemma.
 
-Next, we also need to create a short SLURM batch script to launch our fine-tuning script:
+Next, we also need to create a short Slurm batch script to launch our fine-tuning script:
 
 ```bash title="fine-tune-sft.sbatch"
 #!/bin/bash

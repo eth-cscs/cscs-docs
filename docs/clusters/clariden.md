@@ -67,9 +67,9 @@ Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently deploy
 
 ## Running Jobs on Clariden
 
-### SLURM
+### Slurm
 
-Clariden uses [SLURM][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
 There are two slurm partitions on the system:
 
@@ -87,7 +87,7 @@ There are two slurm partitions on the system:
 * nodes in the `xfer` partition can be shared
 * nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
 
-See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ??? example "how to check the number of nodes on the system"
     You can check the size of the system by running the following command in the terminal:

@@ -35,7 +35,7 @@ This means that Cray MPICH will automatically be linked to the GTL library, whic
 
 In addition to linking to the GTL library, Cray MPICH must be configured to be GPU-aware at runtime by setting the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable.
 On some CSCS systems this option is set by default.
-See [this page][ref-slurm-gh200] for more information on configuring SLURM to use GPUs.
+See [this page][ref-slurm-gh200] for more information on configuring Slurm to use GPUs.
 
 !!! warning "Segmentation faults when trying to communicate GPU buffers without `MPICH_GPU_SUPPORT_ENABLED=1`"
     If you attempt to communicate GPU buffers through MPI without setting `MPICH_GPU_SUPPORT_ENABLED=1`, it will lead to segmentation faults, usually without any specific indication that it is the communication that fails.

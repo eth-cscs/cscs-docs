@@ -37,9 +37,9 @@ To load the VASP uenv:
 uenv start vasp/v6.5.0:v1 --view=vasp
 ```
 The `vasp_std` , `vasp_ncl`  and `vasp_gam`  executables are now available for use.
-Loading the uenv can also be directly done inside of a SLURM script.
+Loading the uenv can also be directly done inside of a Slurm script.
 
-```bash title="SLURM script for running VASP on a single node"
+```bash title="Slurm script for running VASP on a single node"
 #!/bin/bash -l
 
 #SBATCH --job-name=vasp
@@ -60,11 +60,11 @@ srun vasp_std
 ```
 
 !!! note
-    It's recommended to use the SLURM option `--gpus-per-task=1`, since VASP may fail to properly assign ranks to GPUs when running on more than one node.
+    It's recommended to use the Slurm option `--gpus-per-task=1`, since VASP may fail to properly assign ranks to GPUs when running on more than one node.
     This is not required when using the CUDA MPS wrapper for oversubscription of GPUs.
 
 !!! note
-    VASP relies on CUDA-aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in SLURM scripts.
+    VASP relies on CUDA-aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in Slurm scripts.
 
 
 
@@ -76,7 +76,7 @@ In many cases, this drawback is the greater factor and it's best to use one task
 To run with multiple tasks per GPU, a wrapper script is required to start a CUDA MPS service.
 This script can be found at [NVIDIA GH200 GPU nodes: multiple ranks per GPU][ref-slurm-gh200-multi-rank-per-gpu].
 
-```bash title="SLURM script for running VASP on a single node with two tasks per GPU"
+```bash title="Slurm script for running VASP on a single node with two tasks per GPU"
 #!/bin/bash -l
 
 #SBATCH --job-name=vasp
