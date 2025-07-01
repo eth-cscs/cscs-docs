@@ -1,7 +1,7 @@
 [](){#ref-slurm}
-# Slurm
+# SLURM
 
-CSCS uses the [Slurm](https://slurm.schedmd.com/documentation.html) workload manager to efficiently schedule and manage jobs on Alps vClusters.
+CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) workload manager to efficiently schedule and manage jobs on Alps vClusters.
 SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster.
 It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
 
@@ -11,7 +11,7 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
 -   :fontawesome-solid-mountain-sun: __Configuring jobs__
 
-    Specific guidance for configuring Slurm jobs on different node types.
+    Specific guidance for configuring SLURM jobs on different node types.
 
     [:octicons-arrow-right-24: GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
 
@@ -29,7 +29,7 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
 ## Accounts and resources
 
-Slurm associates each job with a CSCS project in order to perform accounting.
+SLURM associates each job with a CSCS project in order to perform accounting.
 The project to use for accounting is specified using the `--account/-A` flag.
 If no job is specified, the primary project is used as the default.
 
@@ -85,9 +85,9 @@ At CSCS, SLURM is configured to accommodate the diverse range of node types avai
 These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
 Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
-Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
+Each type of node has different resource constraints and capabilities, which SLURM takes into account when scheduling jobs.
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
-Slurm ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
+SLURM ensures that user jobs request and receive the appropriate resources while preventing conflicts or inefficient utilization.
 
 [](){#ref-slurm-partitions-nodecount}
 !!! example "How to check the partitions and number of nodes therein?"
@@ -103,25 +103,25 @@ Slurm ensures that user jobs request and receive the appropriate resources while
 
 [](){#ref-slurm-partition-debug}
 ### Debug partition
-The Slurm `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
+The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
 
 [](){#ref-slurm-partition-normal}
 ### Normal partition
 This is the default partition, and will be used when you do not explicitly set a partition.
 This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
 
-The following sections will provide detailed guidance on how to use Slurm to request and manage CPU cores, memory, and GPUs in jobs.
+The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs.
 These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
 ## Affinity
 
-The following sections will document how to use Slurm on different compute nodes available on Alps.
-To demonstrate the effects different Slurm parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assigned to each MPI rank in a job, and which node they are run on.
+The following sections will document how to use SLURM on different compute nodes available on Alps.
+To demonstrate the effects different SLURM parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assigned to each MPI rank in a job, and which node they are run on.
 
-We strongly recommend using a tool like affinity to understand and test the Slurm configuration for jobs, because the behavior of Slurm is highly dependent on the system configuration.
-Parameters that worked on a different cluster -- or with a different Slurm version or configuration on the same cluster -- are not guaranteed to give the same results.
+We strongly recommend using a tool like affinity to understand and test the SLURM configuration for jobs, because the behavior of SLURM is highly dependent on the system configuration.
+Parameters that worked on a different cluster -- or with a different SLURM version or configuration on the same cluster -- are not guaranteed to give the same results.
 
-It is straightforward to build the affinity tool to experiment with Slurm configurations.
+It is straightforward to build the affinity tool to experiment with SLURM configurations.
 
 ```console title="Compiling affinity"
 $ uenv start prgenv-gnu/24.11:v2 --view=default     #(1)
@@ -223,9 +223,9 @@ The build generates the following executables:
 
 !!! info "Quick affinity checks"
 
-    The Slurm flag [`--cpu-bind=verbose`](https://slurm.schedmd.com/srun.html#OPT_cpu-bind) prints information about MPI ranks and their thread affinity.
+    The SLURM flag [`--cpu-bind=verbose`](https://slurm.schedmd.com/srun.html#OPT_cpu-bind) prints information about MPI ranks and their thread affinity.
 
-    The mask it prints is not very readable, but it can be used with the `true` command to quickly test Slurm parameters without building the Affinity tool.
+    The mask it prints is not very readable, but it can be used with the `true` command to quickly test SLURM parameters without building the Affinity tool.
 
     ```console title="hello"
     $ srun --cpu-bind=verbose -c32 -n4 -N1 --hint=nomultithread -- true
@@ -240,13 +240,13 @@ The build generates the following executables:
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
 
-The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and Slurm job submissions must be configured appropriately to best make use of the resources.
+The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
-[Configuring Slurm jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
+[Configuring SLURM jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
 Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process Service (MPS)] to oversubscribe GPUs with multiple ranks per GPU.
 
-The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
-See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
+The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
+See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific SLURM configurations.
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
@@ -257,12 +257,12 @@ See [Scientific Applications][ref-software-sciapps] for information about recomm
     Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][ref-slurm-gh200-multi-rank-per-gpu] in these cases.
 
     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
-    If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
+    If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU.
 
 [](){#ref-slurm-gh200-single-rank-per-gpu}
 ### One rank per GPU
 
-Configuring Slurm to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` Slurm flags.
+Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
 For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
 The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
@@ -282,7 +282,7 @@ Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, wh
 ### Multiple ranks per GPU
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
-In these cases Slurm jobs must be configured to assign multiple ranks to a single GPU.
+In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
@@ -357,7 +357,7 @@ For a detailed description of the node hardware, see the [AMD Rome node][ref-alp
     ![Screenshot](../images/slurm/eiger-topo.png)
 
 
-Each MPI rank is assigned a set of cores on a node, and Slurm provides flags that can be used directly as flags to `srun`, or as arguments in an `sbatch` script.
+Each MPI rank is assigned a set of cores on a node, and SLURM provides flags that can be used directly as flags to `srun`, or as arguments in an `sbatch` script.
 Here are some basic flags that we will use to distribute work.
 
 | flag  | meaning |
@@ -368,10 +368,10 @@ Here are some basic flags that we will use to distribute work.
 | `-c`, `--cpus-per-task` |  The number of cores to assign to each rank. |
 | `--hint=nomultithread`  |  Use only one PU per core |
 
-!!! info "Slurm is highly configurable"
+!!! info "SLURM is highly configurable"
     These are a subset of the most useful flags.
     Call `srun --help` or `sbatch --help` to get a complete list of all the flags available on your target cluster.
-    Note that the exact set of flags available depends on the Slurm version, how Slurm was configured, and Slurm plugins.
+    Note that the exact set of flags available depends on the SLURM version, how SLURM was configured, and SLURM plugins.
 
 The first example assigns 2 MPI ranks per node, with 64 cores per rank, with the two PUs per core:
 ```console title="One MPI rank per socket"
@@ -578,12 +578,12 @@ The approach is to:
 1. first allocate all the resources on each node to the job;
 2. then subdivide those resources at each invocation of srun.
 
-If Slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+If SLURM believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
 This must be avoided.
 
 First ensure that *all* resources are allocated to the whole job with the following preamble:
 
-```bash title="Slurm preamble on a GH200 node"
+```bash title="SLURM preamble on a GH200 node"
 #!/usr/bin/env bash
 #SBATCH --exclusive --mem=450G
 ```
@@ -592,17 +592,17 @@ First ensure that *all* resources are allocated to the whole job with the follow
 * `--mem=450G` most of allowable memory (there are 4 Grace CPUs with ~120 GB of memory on the node)
 
 !!! note
-    `--mem=0` can generally be used to allocate all memory on the node but the Slurm configuration on clariden doesn't allow this.
+    `--mem=0` can generally be used to allocate all memory on the node but the SLURM configuration on clariden doesn't allow this.
 
-Next, launch your applications using `srun`, carefully subdividing resources for each job step. 
-The `--exclusive` flag must be used again, but note that its meaning differs in the context of `srun`. 
-Here, `--exclusive` ensures that only the resources explicitly requested for a given job step are reserved and allocated to it. 
-Without this flag, Slurm reserves all resources for the job step, even if it only allocates a subset -- effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
+Next, launch your applications using `srun`, carefully subdividing resources for each job step.
+The `--exclusive` flag must be used again, but note that its meaning differs in the context of `srun`.
+Here, `--exclusive` ensures that only the resources explicitly requested for a given job step are reserved and allocated to it.
+Without this flag, SLURM reserves all resources for the job step, even if it only allocates a subset -- effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
 
-Be sure to background each `srun` command with `&`, so that subsequent job steps start immediately without waiting for previous ones to finish. 
+Be sure to background each `srun` command with `&`, so that subsequent job steps start immediately without waiting for previous ones to finish.
 A final `wait` command ensures that your submission script does not exit until all job steps complete.
 
-Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restricting GPU access to only the devices assigned to that job step.
+SLURM will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restricting GPU access to only the devices assigned to that job step.
 
 !!! todo "use [affinity](https://github.com/bcumming/affinity) for these examples"
 
