@@ -56,7 +56,7 @@ The report is divided into two parts: a general summary and GPU specific values.
 | Field | Description |
 | ----- | ----------- |
 | Job Id | The Slurm job id |
-| Step Id | The slurm step id. A job step in Slurm is a subdivision of a job started with srun |
+| Step Id | The Slurm step id. A job step in Slurm is a subdivision of a job started with srun |
 | User | The user account that submitted the job |
 | Slurm Account | The project account that will be billed |
 | Start Time, End Time, Elapsed Time | The time the job started and ended, and how long it ran |
@@ -77,7 +77,7 @@ The report is divided into two parts: a general summary and GPU specific values.
 | SM Utilization % | The percentage of the process's lifetime during which Streaming Multiprocessors (SM) were executing a kernel |
 | Memory Utilization % | The percentage of process's lifetime during which global (device) memory was being read or written |
 
-## Example with slurm: srun
+## Example with Slurm: srun
 
 The simplest example to test `jobreport` is to run it with the sleep command.
 It is important to separate `jobreport` (and its options) and your command  with `--`.
@@ -155,7 +155,7 @@ GPU Specific Values
     4. Uncheck "Set locale environment variables on startup"
     5. Quit and reopen the terminal and try again. This should fix the issue.
 
-## Example with slurm: batch script
+## Example with Slurm: batch script
 
 The `jobreport` command can be used in a batch script
 The report printing, too, can be included in the script and does not need the `srun` command.

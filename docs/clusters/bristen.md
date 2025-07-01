@@ -12,7 +12,7 @@ Bristen consists of 32 A100 nodes [NVIDIA A100 nodes][ref-alps-a100-node]. The n
 |-----------|--------| ----------------- | ---------- |
 | [a100][ref-alps-a100-node] | 32 | 32 | 128 |
 
-Nodes are in the [`normal` slurm partition][ref-slurm-partition-normal].
+Nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal].
 
 ### Storage and file systems
 
@@ -48,7 +48,7 @@ Users are encouraged to use containers on Bristen.
 
 Bristen uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There is currently a single slurm partition on the system:
+There is currently a single Slurm partition on the system:
 
 * the `normal` partition is for all production workloads.
     + nodes in this partition are not shared.
