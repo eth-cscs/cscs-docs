@@ -176,7 +176,7 @@ MPI for Python provides bindings of the Message Passing Interface (MPI) standard
 
 MPI can be made available on Jupyter notebooks through [IPyParallel](https://github.com/ipython/ipyparallel). This is a Python package and collection of CLI scripts for controlling clusters for Jupyter: a set of servers that act as a cluster, called engines, is created and the code in the notebook's cells will be executed within them.
 
-We provide the python package [`ipcmagic`](https://github.com/eth-cscs/ipcluster_magic) to make easier the mangement of IPyParallel clusters. `ipcmagic` can be installed by the user with
+We provide the Python package [`ipcmagic`](https://github.com/eth-cscs/ipcluster_magic) to make easier the management of IPyParallel clusters. `ipcmagic` can be installed by the user with
 
 ```bash
 pip install ipcmagic-cscs
