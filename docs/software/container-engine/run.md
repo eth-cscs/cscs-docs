@@ -73,13 +73,9 @@ If an EDF is located in the search path, its name can be used in the `--environm
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached.
 A cached image would be preferred to pulling the image again in later usage.
 
-An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`), under which cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`).
-Cached images may be subject to the automatic cleaning policy of the scratch folder.
- 
-Should users want to re-pull a cached image, they have to remove the corresponding image in the cache.
+An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`). Cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`). Remove the cached image to force re-pull.
 
-To choose an alternative image store path (e.g., to use a directory owned by a group and not to an individual user), users can specify an image cache path explicitly by defining the environment variable `EDF_IMAGESTORE`.
- `EDF_IMAGESTORE` must be an absolute path to an existing folder.
+An alternative image store path can be specify by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder. Image caching may also be disable by setting `EDF_IMAGESTORE` to `void` (currently only available on Daint and Santis).
 
 !!! note
     * If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
@@ -182,3 +178,47 @@ Using the `enroot import` documentation page as a reference:
     machine registry.ethz.ch login <username> password <GITLAB_TOKEN>
     machine gitlab.ethz.ch login <username> password <GITLAB_TOKEN>  
     ```
+
+## Working with storage
+
+Directories outside a container can be *mounted* inside a container so that the job inside the container can read/write on them. The directories to mount should be specified in EDF with `mounts`. 
+
+!!! example "Specifying directories to mount in EDF"
+    * Mount `${SCRATCH}` to `/scratch` inside the container
+
+    ```toml
+    mounts = ["${SCRATCH}:/scratch"]
+    ```
+
+    * Mount `${SCRATCH}` to `${SCRATCH}` inside the container
+
+    ```toml
+    mounts = ["${SCRATCH}:${SCRATCH}"]
+    ```
+
+    * Mount `${SCRATCH}` to `${SCRATCH}` and `${HOME}/data` to `${HOME}/data`
+
+    ```toml
+    mounts = ["${SCRATCH}:${SCRATCH}", "${HOME}/data:${HOME}/data"]
+    ```
+
+!!! note
+    The source (before `:`) should be present on the cluster: the destination (after `:`) doesn't have to be inside the container.
+
+See [the EDF reference][ref-ce-edf-reference] for the full specifiction of the `mounts` EDF entry.
+
+
+[](){#ref-ce-run-mounting-squashfs}
+### Mounting a SquashFS image
+
+!!! warning
+    This feature is only available on some vClusters (Daint and Santis, as of 17.06.2025).
+
+A SquashFS image, essentially being a compressed data archive, can also be mounted _as a directory_ so that the image contents are readable inside the container. For this, `:sqsh` should be appended after the destination.
+
+!!! example "Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`" 
+    ```toml
+    mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
+    ```
+
+This is particularly useful if a job should read _multiple_ data files _frequently_, which may cause severe file access overheads. Instead, it is recommended to pack data files into one data SquashFS image and mount it inside a container. See the *"magic phrase"* in [this documentation](https://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html) for creating a SquashFS image.

@@ -5,6 +5,12 @@ The HPC Platform (HPCP) provides compute, storage, and related services for the 
 
 ## Getting Started
 
+<div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: [__Policies__][ref-policies]
+
+    New users are invited to read carefully the [CSCS User Policies][ref-policies].
+</div>
+
 ### Getting access
 
 Principal Investigators (PIs) and Deputy PIs can invite users to join their projects using the [account and resource management tool][ref-account-ump].

@@ -41,6 +41,10 @@ To build the docs in a `site` sub-directory:
 ```bash
 ./serve build
 ```
+
+!!! tip
+    If you've already created a fork repository, make sure to [keep it synced](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) to the main CSCS repository before making further change.
+
 ## Review process
 
 Documentation is owned by everybody - so don't be afraid to jump in and make changes or fixes where you see that there is something missing or outdated.
