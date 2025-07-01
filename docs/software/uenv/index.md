@@ -2,7 +2,7 @@
 # uenv
 
 Uenv are user environments that provide scientific applications, libraries and tools.
-This page will explain how to find, download and use uenv on the command line, and how to enable them in SLURM jobs.
+This page will explain how to find, download and use uenv on the command line, and how to enable them in Slurm jobs.
 
 Uenv are typically application-specific, domain-specific or tool-specific - each uenv contains only what is required for the application or tools that it provides.
 
@@ -288,7 +288,7 @@ The image can be a label, the hash/id of the uenv, or a file:
 ??? info "what does 'uenv start' actually do?" 
     uenv are [squashfs images](https://docs.kernel.org/filesystems/squashfs.html), which are a compressed file that contains a directory tree.
     The squashfs image of a uenv is a directory that contains all of the software provided by the uenv, along with useful meta data.
-    When you run `uenv start` (or `uenv run`, or use the `--uenv` flag with SLURM) the squashfs file is mounted at the mount location for the uenv, which is most often `/user-environment`.
+    When you run `uenv start` (or `uenv run`, or use the `--uenv` flag with Slurm) the squashfs file is mounted at the mount location for the uenv, which is most often `/user-environment`.
 
     ```console
     # log into daint
@@ -324,7 +324,7 @@ The image can be a label, the hash/id of the uenv, or a file:
 Running `uenv start $label` on its own will create a shell with the software at `/user-environment` or `/user-tools`, however no changes are made to environment variables like `$PATH`.
 
 Uenv images provide **views**, which will set environment variables that load the software into your environment.
-Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` and the SLURM plugin, documented below)
+Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` and the Slurm plugin, documented below)
 
 !!! example "loading views"
     ```console
@@ -424,9 +424,9 @@ The `uenv run` command can be used to run an application or script in a uenv env
     ```
 
 [](){#ref-uenv-slurm}
-## SLURM integration
+## Slurm integration
 
-The environment to load can be provided directly to SLURM via three arguments:
+The environment to load can be provided directly to Slurm via three arguments:
 
 * `--uenv`:  a comma-separated list of uenv to mount
 * `--view`:  a comma-separated list of views to load

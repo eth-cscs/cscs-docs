@@ -44,9 +44,9 @@ Users are encouraged to use containers on Bristen.
 
 ## Running Jobs on Bristen
 
-### SLURM
+### Slurm
 
-Bristen uses [SLURM][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Bristen uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
 There is currently a single slurm partition on the system:
 
@@ -58,7 +58,7 @@ There is currently a single slurm partition on the system:
 | `normal` | 32       | -    | 24 hours |
 
 <!--
-See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ??? example "how to check the number of nodes on the system"
     You can check the size of the system by running the following command in the terminal:
@@ -78,7 +78,7 @@ Bristen can also be accessed using [FirecREST][ref-firecrest] at the `https://ap
 
 ### Scheduled Maintenance
 
-Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
+Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window.
 
 Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
 
