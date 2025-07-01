@@ -82,13 +82,13 @@ If the default base images do not meet your requirements, you can specify a cust
     MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
     ```
     
-    1. avoid mounting all of `$HOME` to avoid subtle issues with cached files, but mount Jupyter kernels
-    2. enable SLURM commands (together with two subsequent mounts)
-    3. currently only required on Daint and Santis, not on Clariden
-    4. set working directory of Jupyter session (file browser root directory)
-    5. use environment settings for optimized communication 
-    6. disable CUDA JIT cache
-    7. async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
+    1. Avoid mounting all of `$HOME` to avoid subtle issues with cached files, but mount Jupyter kernels
+    2. Enable SLURM commands (together with two subsequent mounts)
+    3. Currently only required on Daint and Santis, not on Clariden
+    4. Set working directory of Jupyter session (file browser root directory)
+    5. Use environment settings for optimized communication 
+    6. Disable CUDA JIT cache
+    7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
     8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 
 ??? tip "Accessing file systems with uenv"
