@@ -26,6 +26,12 @@ This documentation guides users through the process of accessing CSCS systems an
 
     [:octicons-arrow-right-24: SSH][ref-ssh]
 
+-   :simple-jupyter: __JupyterLab__
+
+    JupyterLab is a feature-rich notebook authoring application and editing environment.
+
+    [:octicons-arrow-right-24: JupyterLab][ref-jlab]
+
 -   :fontawesome-solid-layer-group: __VSCode__
 
     How to connect VSCode IDE on your laptop with Alps
