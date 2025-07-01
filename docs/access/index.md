@@ -30,7 +30,7 @@ This documentation guides users through the process of accessing CSCS systems an
 
     JupyterLab is a feature-rich notebook authoring application and editing environment.
 
-    [:octicons-arrow-right-24: JupyterLab][ref-jlab]
+    [:octicons-arrow-right-24: JupyterLab][ref-jupyter]
 
 -   :fontawesome-solid-layer-group: __VSCode__
 

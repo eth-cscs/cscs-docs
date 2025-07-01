@@ -1,4 +1,4 @@
-[](){#ref-jlab}
+[](){#ref-jupyter}
 # JupyterLab
 
 ## Access and setup
@@ -21,7 +21,7 @@ When resources are granted the page redirects to the JupyterLab session, where y
     You can check your quota using the command `quota`.
 
 
-[](){#ref-jlab-runtime-environment}
+[](){#ref-jupyter-runtime-environment}
 ## Runtime environment
 
 A Jupyter session can be started with either a [uenv][ref-uenv] or a [container][ref-container-engine] as a base image. The JupyterHub Spawner form provides a set of default images such as the [prgenv-gnu][ref-uenv-prgenv-gnu] uenv or the [NGC Pytorch container][ref-software-ml] to choose from in a dropdown menu. When using uenv, the software stack will be mounted at `/user-environment`, and the specified view will be activated. For a container, the Jupyter session will launch inside the container filesystem with only a select set of paths mounted from the host. Once you have found a suitable option, you can start the session with `Launch JupyterLab`.
@@ -101,7 +101,7 @@ As a preliminary step to running any code in Jupyter notebooks, a kernel needs t
 
 ### Using Python in Jupyter
 
-For Python, the recommended setup consists of a uenv or container as a base image as described [above][ref-jlab-runtime-environment] that includes the stable dependencies of the software stack. Additional packages can be installed in a virtual environment _on top_ of the Python installation in the base image (mandatory for most uenvs). Having the base image loaded, such a virtual environment can be created with
+For Python, the recommended setup consists of a uenv or container as a base image as described [above][ref-jupyter-runtime-environment] that includes the stable dependencies of the software stack. Additional packages can be installed in a virtual environment _on top_ of the Python installation in the base image (mandatory for most uenvs). Having the base image loaded, such a virtual environment can be created with
 
 ```bash title="Create a virtual environment on top of a base image"
 python -m venv --system-site-packages venv-<base-image-version>
@@ -126,7 +126,7 @@ python -m ipykernel install \
 
 The `<kernel-name>` can be replaced by a name specific to the base image/virtual environment.
 
-!!! bug "Python packages from uenv shadowing those from a virtual environment"
+!!! bug "Python packages from uenv shadowing those in a virtual environment"
     When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the path being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
     ```bash
     export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
@@ -141,7 +141,7 @@ The `<kernel-name>` can be replaced by a name specific to the base image/virtual
 
 ### Using Julia in Jupyter
 
-To run Julia code in Jupyter notebooks, you can use the provided uenv for this language. In particular, you need to use the following in the JupyterHub Spawner `Advanced options` forms mentioned [above][ref-jlab-runtime-environment]:
+To run Julia code in Jupyter notebooks, you can use the provided uenv for this language. In particular, you need to use the following in the JupyterHub Spawner `Advanced options` forms mentioned [above][ref-jupyter-runtime-environment]:
 !!! important "pass a [`julia`][ref-uenv-julia] uenv and the view `jupyter`."
 
 When Julia is first used within Jupyter, IJulia and one or more Julia kernel need to be installed. 
