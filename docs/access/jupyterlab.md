@@ -3,18 +3,18 @@
 
 ## Access and setup
 
-The JupyterHub service enables the interactive execution of JupyterLab on [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] on a single compute node.
+The JupyterHub service enables the interactive execution of JupyterLab on [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] on compute nodes. 
 
-The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.ch/), [jupyter-clariden.cscs.ch](https://jupyter-clariden.cscs.ch/) and [jupyter-santis.cscs.ch](https://jupyter-clariden.cscs.ch/), respectively.
+The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.ch/), [jupyter-clariden.cscs.ch](https://jupyter-clariden.cscs.ch/) and [jupyter-santis.cscs.ch](https://jupyter-clariden.cscs.ch/), respectively. As the notebook servers are executed on compute nodes, you must have a project with compute resources available on the respective cluster. 
 
-Once logged in, you will be redirected to the JupyterHub Spawner Options form, where typical job configuration options can be selected in order to allocate resources. These options might include the type and number of compute nodes, the wall time limit, and your project account.
+Once logged in, you will be redirected to the JupyterHub Spawner Options form, where typical job configuration options can be selected. These options might include the type and number of compute nodes, the wall time limit, and your project account.
 
-Single-node notebooks are launched in a dedicated queue, minimizing queueing time. For these notebooks, servers should be up and running within a few minutes. The maximum waiting time for a server to be running is 5 minutes, after which the job will be cancelled and you will be redirected back to the spawner options page. If your single-node server is not spawned within 5 minutes we encourage you to [contact us][ref-get-in-touch].
+By default, JupyterLab servers are launched in a dedicated queue, which should ensure a start-up time of less than a few minutes. If your server is not running within 5 minutes we encourage you to first try the non-dedicated queue, and then [contact us][ref-get-in-touch].
 
 When resources are granted the page redirects to the JupyterLab session, where you can browse, open and execute notebooks on the compute nodes. A new notebook with a Python 3 kernel can be created with the menu `new` and then `Python 3` . Under `new` it is also possible to create new text files and folders, as well as to open a terminal session on the allocated compute node.
 
 !!! tip "Debugging"
-    The log file of a JupyterLab server session is saved on `$HOME` in a file named `slurm-<jobid>.out`. If you encounter problems with your JupyterLab session, the contents of this file can contain clues to debug the issue.
+    The log file of a JupyterLab server session is saved in `$HOME` in a file named `slurm-<jobid>.out`. If you encounter problems with your JupyterLab session, the contents of this file can contain clues to debug the issue.
 
 ??? warning "Unexpected error while saving file: disk I/O error."
     This error message indicates that you have run out of disk quota.
