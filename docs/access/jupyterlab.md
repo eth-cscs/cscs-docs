@@ -112,7 +112,7 @@ For Python, the recommended setup consists of a uenv or container as a base imag
 python -m venv --system-site-packages venv-<base-image-version>
 ```
 
-where `<base-image-version>` can be replaced by an identifier uniquely referring to the base image (such virtual environments are specific for the base image and non-portable).
+where `<base-image-version>` can be replaced by an identifier uniquely referring to the base image (such virtual environments are specific for the base image and are not portable).
 
 Jupyter kernels for Python are powered by [`ipykernel`](https://github.com/ipython/ipykernel).
 As a result, `ipykernel` must be installed in the target environment that will be used as a kernel. That can be done with `pip install ipykernel` (either as part of a Dockerfile or in an activated virtual environment on top of a uenv/container image).
