@@ -14,7 +14,7 @@ Single-node notebooks are launched in a dedicated queue, minimizing queueing tim
 When resources are granted the page redirects to the JupyterLab session, where you can browse, open and execute notebooks on the compute nodes. A new notebook with a Python 3 kernel can be created with the menu `new` and then `Python 3` . Under `new` it is also possible to create new text files and folders, as well as to open a terminal session on the allocated compute node.
 
 !!! tip "Debugging"
-    The log file of a JupyterLab server session is saved on `$HOME` in a file named `slurm-<jobid>.out`. If you encounter problems with your JupyterLab session, the contents of this file can be a good first clue to debug the issue.
+    The log file of a JupyterLab server session is saved on `$HOME` in a file named `slurm-<jobid>.out`. If you encounter problems with your JupyterLab session, the contents of this file can contain clues to debug the issue.
 
 ??? warning "Unexpected error while saving file: disk I/O error."
     This error message indicates that you have run out of disk quota.
