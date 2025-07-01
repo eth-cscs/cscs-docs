@@ -72,11 +72,11 @@ It is also possible to use HPC containers on Santis:
 
 ## Running jobs on Santis
 
-### SLURM
+### Slurm
 
-Santis uses [SLURM][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Santis uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There are two [SLURM partitions][ref-slurm-partitions] on the system:
+There are two [Slurm partitions][ref-slurm-partitions] on the system:
 
 * the `normal` partition is for all production workloads.
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
@@ -91,7 +91,7 @@ There are two [SLURM partitions][ref-slurm-partitions] on the system:
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
 
-See the SLURM documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ### FirecREST
 
