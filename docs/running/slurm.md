@@ -5,6 +5,8 @@ CSCS uses the [Slurm](https://slurm.schedmd.com/documentation.html) workload man
 SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster.
 It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
 
+Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html) for commonly used terminology and commands.
+
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-mountain-sun: __Configuring jobs__
@@ -199,14 +201,17 @@ For workflows and use cases with tasks that require only a subset of these resou
     CSCS will support this feature on some Alps [clusters][ref-alps-clusters] in the near-medium future.
 
 [](){#ref-slurm-exclusive}
-### Running more than one MPI job per node
+### Running more than one job step per node
+
+Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation.
 
 The approach is to:
 
 1. first allocate all the resources on each node to the job;
 2. then subdivide those resources at each invocation of srun.
 
-If slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+If Slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+This must be avoided.
 
 First ensure that *all* resources are allocated to the whole job with the following preamble:
 
@@ -215,13 +220,21 @@ First ensure that *all* resources are allocated to the whole job with the follow
 #SBATCH --exclusive --mem=450G
 ```
 
-* `--exclusive` allocates all the CPUs and GPUs;
+* `--exclusive` allocates all the CPUs and GPUs exclusively to this job;
 * `--mem=450G` most of allowable memory (there are 4 Grace CPUs with ~120 GB of memory on the node)
 
 !!! note
-    `--mem=0` can be used to allocate all memory on the node, however there is currently a configuration issue that causes this to fail.
+    `--mem=0` can generally be used to allocate all memory on the node but the Slurm configuration on clariden doesn't allow this.
 
-`--exclusive` has two different meanings depending on whether it's used in the job context (here) or in the job step context (srun). We need to use both.
+Next, launch your applications using `srun`, carefully subdividing resources for each job step. 
+The `--exclusive` flag must be used again, but note that its meaning differs in the context of `srun`. 
+Here, `--exclusive` ensures that only the resources explicitly requested for a given job step are reserved and allocated to it. 
+Without this flag, Slurm reserves all resources for the job step, even if it only allocates a subset -- effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
+
+Be sure to background each `srun` command with `&`, so that subsequent job steps start immediately without waiting for previous ones to finish. 
+A final `wait` command ensures that your submission script does not exit until all job steps complete.
+
+Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restricting GPU access to only the devices assigned to that job step.
 
 !!! todo "use [affinity](https://github.com/bcumming/affinity) for these examples"
 
@@ -233,12 +246,23 @@ First ensure that *all* resources are allocated to the whole job with the follow
         #SBATCH --exclusive --mem=450G
         #SBATCH -N1
 
-        srun -n1 --exclusive --gpus=2 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
-        srun -n1 --exclusive --gpus=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
-        srun -n1 --exclusive --gpus=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        CMD="echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=2 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
 
         wait
         ```
+
+        Output (exact output will vary):
+        ```
+        $ cat out-537506.*.log
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=2,3
+        ```
+
+
 
 === "multi-node"
 
@@ -248,9 +272,23 @@ First ensure that *all* resources are allocated to the whole job with the follow
         #SBATCH --exclusive --mem=450G
         #SBATCH -N2
 
-        srun -N2 -n2 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
-        srun -N2 -n1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
-        srun -N2 -n1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G  bash -c "echo JobStep:\${SLURM_STEP_ID}"
+        CMD="echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"
+        srun -N2 --ntasks-per-node=2 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}"
+        srun -N2 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}"
+        srun -N2 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}"
 
         wait
+        ```
+
+        Output (exact output will vary):
+        ```
+        $ cat out-537539.*.log
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:2 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:3 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:1 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:1 ProcID:1 CUDA_VISIBLE_DEVICES=2
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=2
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:2 ProcID:1 CUDA_VISIBLE_DEVICES=3
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
         ```
