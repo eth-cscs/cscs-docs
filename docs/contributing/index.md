@@ -244,7 +244,7 @@ For adding information about a change, originally designed for recording updates
 
 === "Rendered"
     !!! change "2025-04-17"
-        * SLURM was upgraded to version 25.1.
+        * Slurm was upgraded to version 25.1.
         * uenv was upgraded to v0.8
 
     Old changes can be folded:
@@ -256,7 +256,7 @@ For adding information about a change, originally designed for recording updates
 === "Markdown"
     ```
     !!! change "2025-04-17"
-        * SLURM was upgraded to version 25.1.
+        * Slurm was upgraded to version 25.1.
         * uenv was upgraded to v0.8
     ```
 

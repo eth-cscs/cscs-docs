@@ -62,9 +62,9 @@ This step is straightforward, just make the file `$HOME/.config/containers/stora
   mount_program = "/usr/bin/fuse-overlayfs-1.13"
 ```
 
-To build a container with Podman, we need to request a shell on a compute node from [SLURM][ref-slurm], pass the Dockerfile to Podman, and finally import the freshly built container using enroot.
-SLURM is a workload manager which distributes workloads on the cluster.
-Through SLURM, many people can use the supercomputer at the same time without interfering with one another in any way:
+To build a container with Podman, we need to request a shell on a compute node from [Slurm][ref-slurm], pass the Dockerfile to Podman, and finally import the freshly built container using enroot.
+Slurm is a workload manager which distributes workloads on the cluster.
+Through Slurm, many people can use the supercomputer at the same time without interfering with one another in any way:
 
 ```console
 $ srun -A <ACCOUNT> --pty bash
@@ -75,7 +75,7 @@ $ enroot import -x mount -o pytorch-24.01-py3-venv.sqsh podman://pytorch:24.01-p
 ```
 
 where you should replace `<ACCOUNT>` with your project account ID.
-At this point, you can exit the SLURM allocation by typing `exit`.
+At this point, you can exit the Slurm allocation by typing `exit`.
 You should be able to see a new squashfile next to your Dockerfile:
 
 ```console
@@ -161,8 +161,8 @@ $ pip install -U "huggingface_hub[cli]"
 $ HF_HOME=$SCRATCH/huggingface huggingface-cli login
 ```
 
-At this point, you can exit the SLURM allocation again by typing `exit`.
-If you `ls` the contents of the `gemma-inference` folder, you will see that the `gemma-venv` virtual environment folder persists outside of the SLURM job.
+At this point, you can exit the Slurm allocation again by typing `exit`.
+If you `ls` the contents of the `gemma-inference` folder, you will see that the `gemma-venv` virtual environment folder persists outside of the Slurm job.
 Keep in mind that this virtual environment won't actually work unless you're running something from inside the PyTorch container.
 This is because the virtual environment ultimately relies on the resources packaged inside the container.
 
@@ -196,8 +196,8 @@ There's nothing wrong with this approach per se, but consider that you might be 
 You'll want to document how you're calling Slurm, what commands you're running on the shell, and you might not want to (or might not be able to) keep a terminal open for the length of time the job might take.
 For this reason, it often makes sense to write a batch file, which enables you to document all these processes and run the Slurm job regardless of whether you're still connected to the cluster.
 
-Create a SLURM batch file `gemma-inference.sbatch` anywhere you like, for example in your home directory.
-The SLURM batch file should look like this:
+Create a Slurm batch file `gemma-inference.sbatch` anywhere you like, for example in your home directory.
+The Slurm batch file should look like this:
 
 ```bash title="gemma-inference.sbatch"
 #!/bin/bash
@@ -220,14 +220,14 @@ set -x
 python ./gemma-inference.py
 ```
 
-The first few lines of the batch script declare the shell we want to use to run this batch file and pass several options to the SLURM scheduler.
+The first few lines of the batch script declare the shell we want to use to run this batch file and pass several options to the Slurm scheduler.
 You can see that one of these options is one we used previously to load our EDF file.
 After this, we `cd` to our working directory, `source` our virtual environment and finally run our inference script.
 
 As an alternative to using the `#SBATCH --environment=gemma-pytorch` option you can also run the code in the above script wrapped into an `srun -A <ACCOUNT> -ul --environment=gemma-pytorch bash -c "..."` statement.
 The tutorial on nanotron e.g. uses this pattern in `run_tiny_llama.sh`.
 
-Once you've finished editing the batch file, you can save it and run it with SLURM:
+Once you've finished editing the batch file, you can save it and run it with Slurm:
 
 ```console
 $ sbatch ./gemma-inference.sbatch

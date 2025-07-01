@@ -66,11 +66,11 @@ Use `exit` to leave the user environment and return to the original shell.
 
 ### How to run
 
-To start a job, 2 bash scripts are required: a standard SLURM submission script, and a [wrapper to start the CUDA MPS daemon][ref-slurm-gh200-single-rank-per-gpu] (in order to have multiple MPI ranks per GPU).
+To start a job, 2 bash scripts are required: a standard Slurm submission script, and a [wrapper to start the CUDA MPS daemon][ref-slurm-gh200-single-rank-per-gpu] (in order to have multiple MPI ranks per GPU).
 
 The wrapper script above needs to be made executable with `chmod +x mps-wrapper.sh`.
  
-The SLURM submission script can be adapted from the template below to use the application and the `mps-wrapper.sh` in conjunction.
+The Slurm submission script can be adapted from the template below to use the application and the `mps-wrapper.sh` in conjunction.
 
 ```bash title="launch.sbatch"
 #!/bin/bash
@@ -106,7 +106,7 @@ This submission script is only representative. Users must run their input files 
 	- Each node has 4 Grace CPUs and 4 Hopper GPUs. When running 8 MPI ranks (meaning two per CPU), keep in mind to not ask for more than 32 OpenMP threads per rank. That way no more than 64 threads will be running on a single CPU.
 	- Try running both 64 OMP threads x 1 MPI rank and 32 OMP threads x 2 MPI ranks configurations for the test problems and pick the one giving better performance. While using multiple GPUs, the latter can be faster by 5-10%.
 	- `-update gpu` may not be possible for problems that require constraints on all atoms. In such cases, the update (integration) step will be performed on the CPU. This can lead to performance loss of at least 10% on a single GPU. Due to the overheads of additional data transfers on each step, this will also lead to lower scaling performance on multiple GPUs.
-	- When running on a single GPU, one can either configure the simulation with 1-2 MPI ranks with `-gpu_id` as `0`, or try running the simulation with a small number of parameters and let GROMACS run with defaults/inferred parameters with a command like the following in the SLURM script:
+	- When running on a single GPU, one can either configure the simulation with 1-2 MPI ranks with `-gpu_id` as `0`, or try running the simulation with a small number of parameters and let GROMACS run with defaults/inferred parameters with a command like the following in the Slurm script:
 	`srun ./mps-wrapper.sh -- gmx_mpi mdrun -s input.tpr -ntomp 64`
 	- Given the compute throughput of each Grace-Hopper module (single CPU+GPU), **for smaller-sized problems, it is possible that a single-GPU run is the fastest**. This may happen when the overheads of domain decomposition, communication and orchestration exceed the benefits of parallelism across multiple GPUs. In our test cases, a single Grace-Hopper module (1 CPU+GPU) has consistently shown a 6-8x performance speedup over a single node on Piz Daint (Intel Xeon Broadwell + P100).
 	- Try runs with and without specifying the GPU IDs explicitly with `-gpu_id 0123`. For the multi-node case, removing it might yield the best performance.

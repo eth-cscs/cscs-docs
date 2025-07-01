@@ -71,7 +71,7 @@ A development view is also provided, which contains all libraries and command-li
 
 ### Running LAMMPS with Kokkos on the HPC Platform
 
-To start a job, the following bash [SLURM] submission script is required:
+To start a job, the following bash [Slurm ] submission script is required:
 
 ```bash title="run_lammps_kokkos.sh"
 #!/bin/bash -l
@@ -321,4 +321,4 @@ If you'd like to extend the existing uenv with additional packages (or your own)
 [LAMMPS]: https://www.lammps.org
 [GNU Public License]: http://www.gnu.org/copyleft/gpl.html
 [uenv]: https://eth-cscs.github.io/cscs-docs/software/uenv
-[SLURM]: https://eth-cscs.github.io/cscs-docs/running/slurm
+[Slurm ]: https://eth-cscs.github.io/cscs-docs/running/slurm
