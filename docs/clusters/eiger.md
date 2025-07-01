@@ -3,11 +3,10 @@
 
 Eiger is an Alps cluster that provides compute nodes and file systems designed to meet the needs of CPU-only workloads for the [HPC Platform][ref-platform-hpcp].
 
-!!! under-construction
-    This documentation is for the updated cluster `Eiger.Alps` reachable at `eiger.alps.cscs.ch`, that has replaced the former cluster as of June 30 2025.
-    The previous [Eiger User Guide](https://confluence.cscs.ch/spaces/KB/pages/284426490/Alps+Eiger+User+Guide) is still available on the legacy Knowledge Base.
+!!! note
+    This documentation is for the updated cluster `Eiger.Alps` reachable at `eiger.alps.cscs.ch`, that replaced the former cluster as on July 1 2025.
 
-!!! change "Important changes"
+??? change "Important changes from Eiger"
     The redeployment of `eiger.cscs.ch` as `eiger.alps.cscs.ch` has introduced changes that may affect some users.
 
     ### Breaking changes
@@ -29,10 +28,10 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 
     ### Unimplemented features
 
-    !!! under-construction "Jupyter and FirecREST is not yet available"
-        [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
+    !!! under-construction "Jupyter is not yet available"
+        [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
 
-        **They will be deployed as soon as possible and this documentation will be updated accordingly**
+        **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
     ### Minor changes
 
@@ -42,16 +41,10 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 
 ### Compute nodes
 
-Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time, therefore you might want to check them with the Slurm command `sinfo -s`.
-```
-PARTITION AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
-debug        up      30:00        0/12/0/12 nid[002236-002247]
-xfer         up 1-00:00:00          0/4/0/4 nid[002232-002235]
-prepost      up      30:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
-normal*      up 1-00:00:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
-low          up 1-00:00:00      0/560/0/560 nid[001000-001023,001028-001031,001064-001127,001160-001191,001256-001267,001272-001287,001320-001447,001504-001539,001541-001543,001573-001599,001640-001767,001797-001799,001829-001831,002152-002231]
-```
-Additionally, there are four login nodes with hostnames `eiger-ln00[1-4]`: . 
+Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time.
+See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
+
+Additionally, there are four login nodes with hostnames `eiger-ln00[1-4]`.
 
 ### Storage and file systems
 
@@ -168,9 +161,9 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 ### Jupyter and FirecREST
 
 !!! under-construction "FirecREST is not yet available"
-    [Jupyter and FirecREST][ref-firecrest] have not been configured on `Eiger.Alps`.
+    [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
 
-    **They will be deployed as soon as possible and this documentation will be updated accordingly**
+    **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
 ## Maintenance and status
 

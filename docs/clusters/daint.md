@@ -10,6 +10,7 @@ Daint is the main [HPC Platform][ref-platform-hpcp] cluster that provides comput
 Daint consists of around 800-1000 [Grace-Hopper nodes][ref-alps-gh200-node].
 
 The number of nodes can vary as nodes are added or removed from other clusters on Alps.
+See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
 There are four login nodes, `daint-ln00[1-4]`.
 You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
@@ -111,8 +112,6 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
-
-
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
