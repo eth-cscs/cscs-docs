@@ -132,7 +132,7 @@ python -m ipykernel install \
 The `<kernel-name>` can be replaced by a name specific to the base image/virtual environment.
 
 ??? bug "Python packages from uenv shadowing those in a virtual environment"
-    When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the path being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
+    When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the uenv paths being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
     ```bash
     export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
     ```
@@ -142,6 +142,7 @@ The `<kernel-name>` can be replaced by a name specific to the base image/virtual
         ${VIRTUAL_ENV:+--env PATH $PATH --env VIRTUAL_ENV $VIRTUAL_ENV ${PYTHONPATH+--env PYTHONPATH $PYTHONPATH}} \
         --user --name="<kernel-name>"
     ```
+    It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv that you need to change for your application.
 
 
 ### Using Julia in Jupyter
@@ -205,7 +206,7 @@ While it is generally recommended to submit long-running machine learning traini
 A popular approach to run multi-GPU ML workloads is with `accelerate` and `torchrun` as demonstrated in the [tutorials][ref-guides-mlp-tutorials]. In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][ref-mlp-llm-finetuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][ref-mlp-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
 
 ```bash
-!torchrun --standalone --nproc_per_node=4 run_train.py ...
+!python -m torch.distributed.run --standalone --nproc_per_node=4 run_train.py ...
 ```
 
 !!! warning "torchrun with virtual environments"
