@@ -214,7 +214,7 @@ A popular approach to run multi-GPU ML workloads is with `accelerate` and `torch
 !!! note "Notebook structure"
     In none of these scenarios any significant memory allocations or background computations are performed on the main Jupyter process. Instead, the resources are kept available for the processes launched by `accelerate` or `torchrun`, respectively.
 
-Alternatively to using these launchers, it is also possible to use SLURM to obtain more control over resource mappings, e.g. by launching an overlapping SLURM step onto the same node used by the Jupyter process. An example with the container engine looks like this
+Alternatively to using these launchers, it is also possible to use SLURM to obtain more control over resource mappings, e.g. by launching an overlapping SLURM step onto the same node used by the Jupyter process. An example with the container engine looks like this:
 
 ```bash
 !srun --overlap -ul --environment /path/to/edf.toml \
