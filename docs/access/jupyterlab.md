@@ -3,7 +3,7 @@
 
 ## Access and setup
 
-The JupyterHub service enables the interactive execution of JupyterLab on [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] on compute nodes. 
+The JupyterHub service enables the interactive execution of JupyterLab on the compute nodes of [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis]. 
 
 The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.ch/), [jupyter-clariden.cscs.ch](https://jupyter-clariden.cscs.ch/) and [jupyter-santis.cscs.ch](https://jupyter-clariden.cscs.ch/), respectively. As the notebook servers are executed on compute nodes, you must have a project with compute resources available on the respective cluster. 
 
