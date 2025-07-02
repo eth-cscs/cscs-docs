@@ -337,7 +337,7 @@ export OMP_NUM_THREADS=8 # (2)!
 # PyTorch environment variables #
 #################################
 export MASTER_ADDR=$(hostname) # (3)!
-export MASTER_PORT=6000
+export MASTER_PORT=29500
 export WORLD_SIZE=$SLURM_NPROCS
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
 export TRITON_HOME=/dev/shm/ # (5)!
