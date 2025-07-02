@@ -22,7 +22,7 @@ OpenMPI is provided through a [uenv][ref-uenv] similar to [`prgenv-gnu`][ref-uen
 Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent.
 At runtime, some additional options must be set to correctly use the Slingshot network.
 
-First, when launching applications through slurm, [PMIx](https://pmix.github.com) must be used for application launching.
+First, when launching applications through Slurm, [PMIx](https://pmix.github.com) must be used for application launching.
 This is done with the `--mpi` flag of `srun`:
 ```bash
 srun --mpi=pmix ...

@@ -65,7 +65,7 @@ On our systems, CP2K is built with the following dependencies:
 
 ### Running on the HPC platform
 
-To start a job, two bash scripts are potentially required: a [slurm] submission script, and a wrapper to start the [CUDA
+To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
 MPS] daemon so that multiple MPI ranks can use the same GPU.
 
 ```bash title="run_cp2k.sh"
@@ -138,7 +138,7 @@ sbatch run_cp2k.sh
 
     Each GH200 node has 4 modules, each of them composed of a ARM Grace CPU with 72 cores and a H200 GPU directly
     attached to it. Please see [Alps hardware][ref-alps-hardware] for more information.
-    It is important that the number of MPI ranks passed to [slurm] with `--ntasks-per-node` is a multiple of 4.
+    It is important that the number of MPI ranks passed to [Slurm] with `--ntasks-per-node` is a multiple of 4.
 
     ??? note
 
@@ -524,5 +524,5 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [OpenBLAS]: http://www.openmathlib.org/OpenBLAS/
 [Intel MKL]: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
 [Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
-[slurm]: https://slurm.schedmd.com/
+[Slurm]: https://slurm.schedmd.com/
 [CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html

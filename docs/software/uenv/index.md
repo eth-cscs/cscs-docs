@@ -213,7 +213,7 @@ This is very useful for interactive sessions, for example if you want to work in
     $ make -j
 
     # run the affinity executable on two nodes - note how the uenv is
-    # automatically loaded by slurm on the compute nodes, because CUDA and MPI from
+    # automatically loaded by Slurm on the compute nodes, because CUDA and MPI from
     # the uenv are required to run.
     $ srun -n2 -N2 ./affinity.cuda
     GPU affinity test for 2 MPI ranks
