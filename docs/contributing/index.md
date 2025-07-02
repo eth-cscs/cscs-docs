@@ -1,3 +1,4 @@
+[](){#ref-contributing}
 # Contributing
 
 This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).

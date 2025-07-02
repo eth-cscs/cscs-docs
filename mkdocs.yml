@@ -72,8 +72,11 @@ nav:
     - 'Building and Installing software':
       - build-install/index.md
       - 'uenv': build-install/uenv.md
-      - 'containers (podman)': build-install/containers.md
+      - 'Containers (podman)': build-install/containers.md
       - 'Python with pip': build-install/pip.md
+      - 'Applications':
+        - build-install/applications/index.md
+        - 'WRF': build-install/applications/wrf.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
       - 'Linaro uenv': software/devtools/linaro-uenv.md
