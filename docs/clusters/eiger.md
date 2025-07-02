@@ -161,7 +161,7 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 ### Jupyter and FirecREST
 
 !!! under-construction "Jupyter is not yet available"
-    [Jupyter][ref-jlab] has not yet been configured on `Eiger.Alps`.
+    [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
 
     **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
