@@ -146,7 +146,7 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
 | name | max nodes per job | time limit |
-| --   | | --                | -- |
+| --   |  -- | -- |
 | `debug`  | 1    | 30 minutes |
 | `prepost`  | 1    | 30 minutes |
 | `normal` | -    | 24 hours |
@@ -160,8 +160,8 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 
 ### Jupyter and FirecREST
 
-!!! under-construction "FirecREST is not yet available"
-    [Jupyter][ref-jupyter] has not yet been configured on `Eiger.Alps`.
+!!! under-construction "Jupyter is not yet available"
+    [Jupyter][ref-jlab] has not yet been configured on `Eiger.Alps`.
 
     **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
@@ -171,7 +171,7 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 
 Wednesday mornings 8:00-12:00 CET are reserved for periodic updates, with services potentially unavailable during this time frame. If the batch queues must be drained (for redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
 
-Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, the [CSCS Status Page](https://status.cscs.ch) and the [#eiger channel](https://cscs-users.slack.com/archives/C08FBP55CG1) of the [CSCS User Slack][ref-get-in-touch].
 
 ### Change log
 

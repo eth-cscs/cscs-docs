@@ -14,7 +14,7 @@ The number of nodes can change when nodes are added or removed from other cluste
 |-----------|--------| ----------------- | ---------- |
 | [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
 
-Most nodes are in the [`normal` slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
+Most nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 
 ### Storage and file systems
 
@@ -71,7 +71,7 @@ Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently deploy
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There are two slurm partitions on the system:
+There are two Slurm partitions on the system:
 
 * the `normal` partition is for all production workloads.
 * the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.

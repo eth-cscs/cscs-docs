@@ -100,7 +100,7 @@ nav:
     - 'CI/CD': services/cicd.md
   - 'Running Jobs':
     - running/index.md
-    - 'slurm': running/slurm.md
+    - 'Slurm': running/slurm.md
     - 'Job report': running/jobreport.md
   - 'Data Management and Storage':
     - storage/index.md
