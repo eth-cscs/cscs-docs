@@ -72,7 +72,7 @@ Each time you start a JupyterHub server, you need to do the following in the Jup
 !!! important "pass a [`julia`][ref-uenv-julia] uenv and the view `jupyter`."
 
 At first time use of Julia within Jupyter, IJulia and one or more Julia kernel needs to be installed. 
-Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems whith Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
+Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems with Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
 ```console
 install_ijulia
 ```
@@ -97,7 +97,7 @@ MPI for Python provides bindings of the Message Passing Interface (MPI) standard
 
 MPI can be made available on Jupyter notebooks through [IPyParallel](https://github.com/ipython/ipyparallel). This is a Python package and collection of CLI scripts for controlling clusters for Jupyter: A set of servers that act as a cluster, called engines, is created and the code in the notebook's cells will be executed within them.
 
-We provide the python package [`ipcmagic`](https://github.com/eth-cscs/ipcluster_magic) to make easier the mangement of IPyParallel clusters. `ipcmagic` can be installed by the user with
+We provide the python package [`ipcmagic`](https://github.com/eth-cscs/ipcluster_magic) to make easier the management of IPyParallel clusters. `ipcmagic` can be installed by the user with
 
 ```bash
 pip install ipcmagic-cscs

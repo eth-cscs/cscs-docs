@@ -21,7 +21,7 @@ Version 2 is faster, easier to use, and more efficient in resource management th
 
 !!! warning "Deprecation notice"
     If you're using **version 1**, we recommend you to port your applications to use the new version.
-    We will communicate soon the exact date of the decomission of version 1 (not before Quarter 4 of 2025).
+    We will communicate soon the exact date of the decommissioning of version 1 (not before Quarter 4 of 2025).
 
 === "Version 2"
 
