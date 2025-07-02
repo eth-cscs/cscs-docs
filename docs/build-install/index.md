@@ -1,3 +1,4 @@
+[](){#ref-building}
 # Building and Installing Software
 
 CSCS provides commonly used software and tools on Alps, however many use cases will require first installing software on a system before you can start working.
