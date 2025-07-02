@@ -1,8 +1,31 @@
 [](){#ref-slurm}
-# SLURM
+# Slurm
 
-CSCS uses the [SLURM](https://slurm.schedmd.com/documentation.html) as its workload manager to efficiently schedule and manage jobs on Alps vClusters.
-SLURM is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster. It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
+CSCS uses the [Slurm](https://slurm.schedmd.com/documentation.html) workload manager to efficiently schedule and manage jobs on Alps vClusters.
+Slurm is an open-source, highly scalable job scheduler that allocates computing resources, queues user jobs, and optimizes workload distribution across the cluster.
+It supports advanced scheduling policies, job dependencies, resource reservations, and accounting, making it well-suited for high-performance computing environments.
+
+Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html) for commonly used terminology and commands.
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-mountain-sun: __Configuring jobs__
+
+    Specific guidance for configuring Slurm jobs on different node types.
+
+    [:octicons-arrow-right-24: GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
+
+    [:octicons-arrow-right-24: AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
+
+-   :fontawesome-solid-mountain-sun: __Node sharing__
+
+    Guides on how to effectively use all resouces on nodes by running more than one job per node.
+
+    [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
+
+    [:octicons-arrow-right-24: Multiple MPI jobs per node][ref-slurm-exclusive]
+
+</div>
 
 ## Accounts and resources
 
@@ -58,9 +81,9 @@ Additionally, short-duration jobs may be selected for backfilling — a process 
 [](){#ref-slurm-partitions}
 ## Partitions
 
-At CSCS, SLURM is configured to accommodate the diverse range of node types available in our HPC clusters.
+At CSCS, Slurm is configured to accommodate the diverse range of node types available in our HPC clusters.
 These nodes vary in architecture, including CPU-only nodes and nodes equipped with different types of GPUs.
-Because of this heterogeneity, SLURM must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
+Because of this heterogeneity, Slurm must be tailored to ensure efficient resource allocation, job scheduling, and workload management specific to each node type.
 
 Each type of node has different resource constraints and capabilities, which Slurm takes into account when scheduling jobs.
 For example, CPU-only nodes may have configurations optimized for multi-threaded CPU workloads, while GPU nodes require additional parameters to allocate GPU resources efficiently.
@@ -80,13 +103,15 @@ Slurm ensures that user jobs request and receive the appropriate resources while
 
 [](){#ref-slurm-partition-debug}
 ### Debug partition
-The SLURM `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
+The Slurm `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
 
 [](){#ref-slurm-partition-normal}
 ### Normal partition
-This is the default partition, and will be used when you do not explicitly set a partition. This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
+This is the default partition, and will be used when you do not explicitly set a partition.
+This is the correct choice for standard jobs. The maximum time is usually set to 24 hours (`sinfo -p normal` for timelimit), and the maximum nodes can be as much as nodes are available.
 
-The following sections will provide detailed guidance on how to use SLURM to request and manage CPU cores, memory, and GPUs in jobs. These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
+The following sections will provide detailed guidance on how to use Slurm to request and manage CPU cores, memory, and GPUs in jobs.
+These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
 ## Affinity
 
@@ -215,13 +240,13 @@ The build generates the following executables:
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
 
-The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and SLURM job submissions must be configured appropriately to best make use of the resources.
+The [GH200 nodes on Alps][ref-alps-gh200-node] have four GPUs per node, and Slurm job submissions must be configured appropriately to best make use of the resources.
 Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode.
-[Configuring SLURM jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
+[Configuring Slurm jobs to use a single GPU per rank][ref-slurm-gh200-single-rank-per-gpu] is also the most straightforward setup.
 Some applications perform badly with a single rank per GPU, and require use of [NVIDIA's Multi-Process Service (MPS)] to oversubscribe GPUs with multiple ranks per GPU.
 
-The best SLURM configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
-See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific SLURM configurations.
+The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
+See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
@@ -232,12 +257,12 @@ See [Scientific Applications][ref-software-sciapps] for information about recomm
     Some applications benefit from using multiple ranks per GPU. However, [MPS should be used][ref-slurm-gh200-multi-rank-per-gpu] in these cases.
 
     If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script.
-    If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU. 
+    If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU.
 
 [](){#ref-slurm-gh200-single-rank-per-gpu}
 ### One rank per GPU
 
-Configuring SLURM to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` SLURM flags.
+Configuring Slurm to use one GH200 GPU per rank is easiest done using the `--ntasks-per-node=4` and `--gpus-per-task=1` Slurm flags.
 For advanced users, using `--gpus-per-task` is equivalent to setting `CUDA_VISIBLE_DEVICES` to `SLURM_LOCALID`, assuming the job is using four ranks per node.
 The examples below launch jobs on two nodes with four ranks per node using `sbatch` and `srun`:
 
@@ -257,7 +282,7 @@ Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, wh
 ### Multiple ranks per GPU
 
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
-In these cases SLURM jobs must be configured to assign multiple ranks to a single GPU.
+In these cases Slurm jobs must be configured to assign multiple ranks to a single GPU.
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
 To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
@@ -519,3 +544,117 @@ rank   3 @ nid001512
 !!! warning
     The `OMP_*` environment variables only affect thread affinity of applications that use OpenMP for thread-level parallelism.
     Other threading runtimes will be configured differently, and the `affinity.mpi` tool will only be able to show the set of cores assigned to the rank.
+
+[](){#ref-slurm-over-subscription}
+## Node over-subscription
+
+The nodes on Alps provide a lot of resources, particularly the GPU nodes that have 4 GPUs.
+For workflows and use cases with tasks that require only a subset of these resources, for example a simulation that only needs one GPU, allocating a whole node to run one task is a waste of resources.
+
+!!! example
+    A workflow that runs a single [GROMACS][ref-uenv-gromacs] simulation, that uses one GPU.
+
+    * The optimal use of resources would allocate one quarter of a node, and allow other jobs to access the other three GPUs.
+
+    A workflow that runs 100 independent [GROMACS][ref-uenv-gromacs] simulations, where each simulation requires two GPUs.
+
+    * The optimal use of resources would allocate 50 nodes, with two simulations run on each node.
+
+[](){#ref-slurm-sharing}
+### Node sharing
+
+!!! under-construction
+    Node sharing, whereby jobs can request part of the resources on a node, and multiple jobs can run on a node (possibly from different users) is _not currently available on Alps clusters_.
+
+    CSCS will support this feature on some Alps [clusters][ref-alps-clusters] in the near-medium future.
+
+[](){#ref-slurm-exclusive}
+### Running more than one job step per node
+
+Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation.
+
+The approach is to:
+
+1. first allocate all the resources on each node to the job;
+2. then subdivide those resources at each invocation of srun.
+
+If Slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+This must be avoided.
+
+First ensure that *all* resources are allocated to the whole job with the following preamble:
+
+```bash title="Slurm preamble on a GH200 node"
+#!/usr/bin/env bash
+#SBATCH --exclusive --mem=450G
+```
+
+* `--exclusive` allocates all the CPUs and GPUs exclusively to this job;
+* `--mem=450G` most of allowable memory (there are 4 Grace CPUs with ~120 GB of memory on the node)
+
+!!! note
+    `--mem=0` can generally be used to allocate all memory on the node but the Slurm configuration on clariden doesn't allow this.
+
+Next, launch your applications using `srun`, carefully subdividing resources for each job step.
+The `--exclusive` flag must be used again, but note that its meaning differs in the context of `srun`.
+Here, `--exclusive` ensures that only the resources explicitly requested for a given job step are reserved and allocated to it.
+Without this flag, Slurm reserves all resources for the job step, even if it only allocates a subset -- effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
+
+Be sure to background each `srun` command with `&`, so that subsequent job steps start immediately without waiting for previous ones to finish.
+A final `wait` command ensures that your submission script does not exit until all job steps complete.
+
+Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restricting GPU access to only the devices assigned to that job step.
+
+=== "single node"
+
+    !!! example "Three jobs on one node"
+        ```bash
+        #!/usr/bin/env bash
+        #SBATCH --exclusive --mem=450G
+        #SBATCH -N1
+
+        CMD="echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=2 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N1 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+
+        wait
+        ```
+
+        Output (exact output will vary):
+        ```
+        $ cat out-537506.*.log
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=2,3
+        ```
+
+
+
+=== "multi-node"
+
+    !!! example "Three jobs on two nodes"
+        ```bash
+        #!/usr/bin/env bash
+        #SBATCH --exclusive --mem=450G
+        #SBATCH -N2
+
+        CMD="echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"
+        srun -N2 --ntasks-per-node=2 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N2 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+        srun -N2 --ntasks-per-node=1 --exclusive --gpus-per-task=1 --cpus-per-gpu=5 --mem=50G --output "out-%J.log"  bash -c "${CMD}" &
+
+        wait
+        ```
+
+        Output (exact output will vary):
+        ```
+        $ cat out-537539.*.log
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:2 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:3 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:1 CUDA_VISIBLE_DEVICES=1
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:1 ProcID:1 CUDA_VISIBLE_DEVICES=2
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=2
+        Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:2 ProcID:1 CUDA_VISIBLE_DEVICES=3
+        Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
+        ```
