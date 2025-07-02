@@ -604,11 +604,9 @@ A final `wait` command ensures that your submission script does not exit until a
 
 Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restricting GPU access to only the devices assigned to that job step.
 
-!!! todo "use [affinity](https://github.com/bcumming/affinity) for these examples"
-
 === "single node"
 
-    !!! example "three jobs on one node"
+    !!! example "Three jobs on one node"
         ```bash
         #!/usr/bin/env bash
         #SBATCH --exclusive --mem=450G
@@ -634,7 +632,7 @@ Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restri
 
 === "multi-node"
 
-    !!! example "three jobs on two nodes"
+    !!! example "Three jobs on two nodes"
         ```bash
         #!/usr/bin/env bash
         #SBATCH --exclusive --mem=450G
