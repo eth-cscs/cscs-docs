@@ -301,7 +301,7 @@ if [[ $SLURM_LOCALID -eq 0 ]]; then
 fi
 
 # Set CUDA device
-numa_nodes=$(hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+numa_nodes=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
 export CUDA_VISIBLE_DEVICES=$numa_nodes
 
 # Wait for MPS to start
