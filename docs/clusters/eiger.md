@@ -165,7 +165,7 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 
     **It will be deployed as soon as possible and this documentation will be updated accordingly**
 
-## Maintenance and Status
+## Maintenance and status
 
 ### Scheduled maintenance
 
