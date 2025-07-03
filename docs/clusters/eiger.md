@@ -160,7 +160,7 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 
 ### JupyterHub 
 
-A JupyterHub service for Eiger is available at `https://jupyter-eiger.cscs.ch.`.
+A JupyterHub service for Eiger is available at [https://jupyter-eiger.cscs.ch](https://jupyter-eiger.cscs.ch).
 
 ### FirecREST
 
