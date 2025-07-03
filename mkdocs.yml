@@ -41,6 +41,7 @@ nav:
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
+    - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Software':
     - software/index.md
@@ -97,7 +98,6 @@ nav:
     - services/index.md
     - 'FirecREST': services/firecrest.md
     - 'CI/CD': services/cicd.md
-    - 'JupyterLab': services/jupyterlab.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
