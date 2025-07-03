@@ -158,12 +158,15 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 
 See the Slurm documentation for instructions on how to run jobs on the [AMD CPU nodes][ref-slurm-amdcpu].
 
-### Jupyter and FirecREST
+### JupyterHub 
 
-!!! under-construction "Jupyter is not yet available"
-    [Jupyter][ref-jlab] has not yet been configured on `Eiger.Alps`.
+A JupyterHub service for Eiger is available at `https://jupyter-eiger.cscs.ch.`.
 
-    **It will be deployed as soon as possible and this documentation will be updated accordingly**
+### FirecREST
+
+Eiger can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
+
+!!! warning "The FirecREST v1 API is still available, but deprecated"
 
 ## Maintenance and status
 
