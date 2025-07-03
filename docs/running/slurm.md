@@ -300,8 +300,10 @@ if [[ $SLURM_LOCALID -eq 0 ]]; then
     CUDA_VISIBLE_DEVICES=0,1,2,3 nvidia-cuda-mps-control -d
 fi
 
-# Set CUDA device
-numa_nodes=$(hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+# Set CUDA device. Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA
+# nodes appearing in the list of CUDA devices. They start appearing in hwloc
+# version 2.11.
+numa_nodes=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
 export CUDA_VISIBLE_DEVICES=$numa_nodes
 
 # Wait for MPS to start
