@@ -187,18 +187,43 @@ Many variables exist during a pipeline run, they are documented at [Gitlab's pre
 Variables are exposed as environment variables during job execution, where the key is the environment variable's name.
 Additionally to CI variables available through Gitlab, there are a few CSCS specific variables:
 
-* `CSCS_REGISTRY` (value: `jfrog.svc.cscs.ch`)
-    * CSCS internal registry, preferred registry to store your container images
-* `CSCS_REGISTRY_PATH` (value: `jfrog.svc.cscs.ch/docker-ci-ext/<repository-id>`)
-    * The prefix path in the CSCS internal container image registry, to which your pipeline has write access. Within this prefix, you can choose any directory structure. Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network
-* `CSCS_CI_MW_URL` (value: `https://cicd-ext-mw.cscs.ch/ci`)
-    * The URL of the middleware, the orchestrator software
-* `CSCS_CI_DEFAULT_SLURM_ACCOUNT` (empty if not set on CI setup page)
-    * The project to which SLURM accounting will go to. It is set up on the CI setup page in the Admin section. It can be overwritten via SLURM_ACCOUNT for individual jobs
-- `CSCS_CI_ORIG_CLONE_URL` (public repositories: `https://github.com/my-org/my-project`, private repositories: `git@github.com:my-org/my-project`)
-    * Clone URL for git. This is needed for some implementation details of the gitlab-runner custom executor. This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project
-- `ARCH` (`x86_64` or `aarch64`)
-    This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
+### `CSCS_REGISTRY`
+value: `jfrog.svc.cscs.ch`
+
+CSCS internal registry, preferred registry to store your container images
+
+### `CSCS_REGISTRY_PATH`
+value: `jfrog.svc.cscs.ch/docker-ci-ext/<repository-id>`
+
+The prefix path in the CSCS internal container image registry, to which your pipeline has write access.
+Within this prefix, you can choose any directory structure.
+Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network
+
+### `CSCS_CI_MW_URL`
+value: `https://cicd-ext-mw.cscs.ch/ci`
+
+The URL of the middleware, the orchestrator software
+
+### `CSCS_CI_DEFAULT_SLURM_ACCOUNT`
+value: Configured on the CI setup page in the admin section `Firecrest Slurm Account`
+
+The project to which Slurm accounting will go to by default.
+It can be overwritten via `SLURM_ACCOUNT` for individual jobs.
+
+### `CSCS_CI_ORIG_CLONE_URL`
+value:
+
+* public repositories: HTTPS clone URL, e.g. `https://github.com/my-org/my-project`
+* private repositories: SSH clone URL, e.g. `git@github.com:my-org/my-project`
+
+Clone URL for git.
+This is needed for some implementation details of the gitlab-runner custom executor.
+This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.
+
+### `ARCH`
+value: `x86_64` or `aarch64`
+
+This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
 
 ## Containerized CI - best practices
 ###  Multi-architecture images
