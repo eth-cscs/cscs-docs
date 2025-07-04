@@ -52,16 +52,11 @@ $ uenv --version
 
 On Alps clusters the most recent version 8.1.0 is installed.
 
-??? warning "Out of date uenv version on Eiger and Balfrin"
+??? warning "Out of date uenv version Balfrin"
 
-    The uenv tool available on Eiger and Balfrin is a different version than the one described below, and some commands will be different to those documented here.
+    The uenv tool available on Balfrin is a different version than the one described below, and some commands will be different to those documented here.
 
-    !!! note
-        This note only applies to the current `eigen.cscs.ch` deployment.
-
-        The new [`eiger.alps.cscs.ch`][ref-cluster-eiger] deployment has version 8.1.0 of uenv installed.
-
-    Please refer to `uenv --help` for the correct usage on these systems.
+    Please refer to `uenv --help` for the correct usage on Balfrin.
 
 ## Finding uenv
 
@@ -121,8 +116,8 @@ The search can be refined by providing a [label][ref-uenv-labels].
 
 ## Downloading uenv
 
-??? note "Using uenv for the first time on Balfrin and Eiger"
-    With the old version of uenv installed on Balfrin and Eiger, before downloading your first image, a local directory for storing the images must first be created, otherwise you will receive an error message that the repository does not exist.
+??? warning "Using uenv for the first time on Balfrin"
+    With the old version of uenv installed on Balfrin, before downloading your first image, a local directory for storing the images must first be created, otherwise you will receive an error message that the repository does not exist.
 
     To create a repo in the default location, use the following command:
 
