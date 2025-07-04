@@ -47,9 +47,9 @@ build_job:
     DOCKERFILE: ci/docker/Dockerfile.build
 ```
 
-This adds a job named `build_job` to the stage `build`. This runner expects a Dockerfile as input, which is specified in the variable `DOCKERFILE`. The resulting container name is specified with the variable `PERSIST_IMAGE_NAME`, which has been defined already above, therefore it does not need to be explicitly mentioned in the `variables` block, again. There is further documentation of this runner at gitlab-runner-k8s-container-builder.
-!!! todo
-    link to runner specs
+This adds a job named `build_job` to the stage `build`. This runner expects a Dockerfile as input, which is specified in the variable `DOCKERFILE`.
+The resulting container name is specified with the variable `PERSIST_IMAGE_NAME`, which has been defined already above, therefore it does not need to be explicitly mentioned in the `variables` block, again.
+Further refinements can be found at the [reference documentation](#container-builder)
 
 ```yaml
 test_job:
@@ -63,9 +63,7 @@ test_job:
     SLURM_NTASKS: 2
 ```
 
-This block defines a test job. The job will be executed by the container-runner-eiger-zen2.
-!!! todo
-    link to runner
+This block defines a test job. The job will be executed by the [.container-runner-eiger-zen2](#container-runner).
 
 This runner will pull the image on the cluster Eiger and run the commands as specified in the `script` tag. In this example we are requesting 2 nodes with 1 task on each node, i.e. 2 tasks total. All [Slurm environment variables](https://slurm.schedmd.com/srun.html#SECTION_INPUT-ENVIRONMENT-VARIABLES) are supported. The commands will be running inside the container specified by the `image` tag.
 
