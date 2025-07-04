@@ -52,7 +52,7 @@ $ uenv --version
 
 On Alps clusters the most recent version 8.1.0 is installed.
 
-??? warning "Out of date uenv version Balfrin"
+??? warning "Out of date uenv version on Balfrin"
 
     The uenv tool available on Balfrin is a different version than the one described below, and some commands will be different to those documented here.
 
