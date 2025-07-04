@@ -78,6 +78,17 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
     x1100c0s6b1n0
     ```
 
+??? info "Core-to-core latency"
+    The core-to-core latency on a Grace CPU (collected using the [`core-to-core-latency`](https://github.com/nviennot/core-to-core-latency) program):
+
+    ![](../images/alps/grace-core-to-core-latency.svg)
+
+    The latencies between the first cores on each of the four Grace CPUs within a node:
+
+    ![](../images/alps/grace-core-to-core-latency-cross-socket.svg)
+
+    Note the significantly higher latencies compared to within a single Grace CPU.
+
 [](){#ref-alps-zen2-node}
 ### AMD Rome CPU Nodes
 
