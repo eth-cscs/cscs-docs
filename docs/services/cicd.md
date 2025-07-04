@@ -597,6 +597,59 @@ RUN apt-get -yqq update && apt-get -yqq upgrade \
  && rm -rf /var/lib/apt/lists/*
 ```
 
+### Manual container build
+It is possible to use CI's mechanisms to build a container image manually providing a `Dockerfile`, or even a full build context with a `Dockerfile`.
+For reproducibility one should aim to use a code versioning system like `git`, but for debugging a manual API call might not pollute the code history so much.
+
+To use the API endpoint you need to create API credentials (one time setup) using the developer portal. Please follow [this guide][ref-devportal].
+To be able to use manual API container builds you must subscribe your application to the `ciext-container-builder` API.
+
+After your application is created the tab `APIs` will appear at the top of the developer portal, which allows you to inspect the API for `ciext-container-builder`.
+The section `Documents` is very helpful as it contains the endpoint documentation for `/container/build POST`.
+Refer to the documentation there for all parameters.
+
+The endpoint can work in two different modes:
+
+1. Send just a Dockerfile
+1. Send a full build context as a tar.gz-archive and tell the API where the Dockerfile inside the tarball is.
+
+!!! info "Create access token"
+    To send any request to the API endpoint, we first need to create an access token, which can be done with the Consumer Key and Consumer secret.
+    ```console
+    $ ACCESS_TOKEN="$(curl  -u <your-consumer-key>:<your-consumer-secret> --silent -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token -d "grant_type=client_credentials" | jq -r '.access_token')"
+    ```
+    The token is stored in the variable ACCESS_TOKEN.
+    This token has only a short validity, so you need to create a fresh access token, whenever the current one becomes invalid (about 5 minutes validity).
+
+!!! info "Build from Dockerfile"
+    ```console
+    $ curl -H "Authorization: Bearer $ACCESS_TOKEN" --data-binary @path/to/Dockerfile "https://api.cscs.ch/ciext/v1/container/build?arch=x86_64"
+    ```
+    It is mandatory to specify for which architecture you want to build the container. Valid choices are:
+
+    * `x86_64` - Correct for all nodes that are not Grace-Hopper
+    * `aarch64` - ARM architecture - Correct for Grace-Hopper
+
+    The API call above sends the Dockerfile to the server, and the server will reply with a link, where you can see the build log.
+    The final container image will be pushed to JFrog, a CSCS internal container registry.
+    Once the container image is built, it can be pulled from any CSCS machine.
+
+    If you want to push the image to your Docker Hub account, you need to create a Docker Hub access token with write permissions, and then use the API call (similarly for other OCI registry providers)
+    ```
+    $ curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "X-Registry-Username <your-dockerhub-username>" -H "X-Registry-Password: <your-dockerhub-token>" --data-binary @path/to/Dockerfile "https://api.cscs.ch/ciext/v1/container/build?arch=x86_64&image=docker.io/<your-dockerhub-username>/my_image_name:latest"
+    ```
+
+!!! info "Build with code"
+    If you are using `COPY` or `ADD` statements in your Dockerfile, you will need to send the build context too.
+    To send a full archive the easiest is via the API call
+    ```console
+    $ tar -C path/to/build-context -czf - . | curl -H "Authorization: Bearer $ACCESS_TOKEN" --data-binary @- "https://api.cscs.ch/ciext/v1/container/build?arch=x86_64&dockerfile=relative/path/to/Dockerfile"
+    ```
+    This is similar to
+    ```console
+    $ docker build -f relative/path/to/Dockerfile .
+    ```
+
 ## CSCS CI specifics
 
 ### Restart CI jobs
