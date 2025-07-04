@@ -86,7 +86,128 @@ module load wrf
     /capstor/store/cscs/cscs/csstaff/wrf/build/store/linux-sles15-zen2/gcc-13.3.0/wrf-4.6.1-owj2dsfeslzkulaobdqbad4kh6ojh6n5/main/wrf.exe
     ```
 
-## Installing by hand
+## CRYOWRF
 
-The process for building by hand is more difficult -- so try the Spack approach first, before contacting us.
+
+[CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) is a coupled atmosphere-snow cover model with WRF acting as the atmospheric core and SNOWPACK acting as snow cover model.
+
+Building CRYOWRF is a two step process:
+
+1. build the SNOWPACK extension
+2. Build the bundled WRF
+
+!!! note
+    This workflow was developed in July 2025 using the most recent commit `8f83858f` of [CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) (commited in August 2023).
+
+    The code does not appear to be regularly updated, so we expect that it will slowly become more difficult to build as time passes.
+
+!!! warning "Eiger only"
+    This guide is for building on [Eiger][ref-cluster-eiger], which is an x86-based system.
+
+    Building on the Grace-Hopper clusters like [Daint][ref-cluster-daint] is 
+
+We use [`prgenv-gnu/24.11:v2`][ref-uenv-prgenv-gnu] [uenv][ref-uenv], which can be downloaded:
+
+```bash
+uenv image pull prgenv-gnu/24.11:v2
+```
+
+### Step 0: install required packages
+
+```
+mkdir $STORE/wrf
+cd $STORE/wrf
+export WRFPATH=$STORE/wrf
+```
+
+```
+uenv start prgenv-gnu/24.11:v2 --view=spack
+git clone https://github.com/eth-cscs/uenv-spack.git
+(cd uenv-spack && ./bootstrap)
+./uenv-spack/uenv-spack $PWD/dependencies --uarch=zen2 --specs=parallel-netcdf,jasper,libpng,zlib-ng
+
+cd dependencies
+./build
+```
+
+This step is performed once, and will install the software in `$WRFPATH/dependencies/view`
+
+Finish the uenv session:
+```
+exit
+```
+
+### Step 1: build SNOWPACK
+
+
+```
+uenv start prgenv-gnu/24.11:v2 --view=default
+```
+
+Clone the software
+
+```bash
+cd $WRFPATH
+git clone https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF.git
+cd CRYOWRF
+```
+
+!!! note
+    You don't need to load any modules: the `default` view will add everything to your environment.
+
+
+```
+export NETCDF=/user-environment/env/default
+export HDF5=/user-environment/env/default
+export PNETCDF=$WRFPATH/dependencies/view
+export WRF_EM_CORE=1
+export WRF_NMM_CORE=0
+export WRF_DA_CORE=0
+
+export WRF_CHEM=0
+export WRF_KPP=0
+
+export NETCDF4=1
+export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
+
+export JASPERLIB=WRFPATH/dependencies/view/lib64
+export JASPERINC=WRFPATH/dependencies/view/include
+
+export CC=mpicc
+export FC=mpifort
+export CXX=mpic++
+
+ulimit -s unlimited
+ulimit -c unlimited
+```
+
+clean and compile
+```
+./clean.sh
+./compiler_snow_libs.sh
+```
+
+
+### Step 2: build WRF
+
+The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to integrate the SNOWPACK extension build in step 1.
+
+```console
+$ cd  WRF
+$ clean -a
+$ ./configure.sh
+[choose option 35][nesting: choose option 1]
+```
+
+`configure.wrf`
+```
+SFC             =       gfortran
+SCC             =       gcc
+CCOMP           =       gcc
+DM_FC           =       mpif90
+DM_CC           =       mpicc
+FC              =       mpif90
+FCBASEOPTS      =       $(FCBASEOPTS_NO_G) $(FCDEBUG) -fallow-argument-mismatch -fallow-invalid-boz -g
+```
 
