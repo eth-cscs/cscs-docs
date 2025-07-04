@@ -55,7 +55,7 @@ This will take 30-60 minutes, while Spack builds some dependencies then WRF.
 ### Using the Spack installation
 
 The installation creates a module file in the `wrf/build` path, that you created.
-Let's assume you have installed it in the `$STORE` path for your project, add the following to the top of your sbatch script:
+Assuming you have installed it in the `$STORE` path for your project, add the following to the top of your sbatch script:
 
 ```bash
 #SBATCH --uenv=prgenv-gnu/24.11:v2
