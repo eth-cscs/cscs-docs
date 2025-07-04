@@ -41,7 +41,7 @@ $ uenv-spack/uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2 +chem
 ```
 
 !!! note
-    See the wrf Spack [package documentation](https://packages.spack.io/package.html?name=wrf) for information about options that can be enabled disabled.
+    See the wrf Spack [package documentation](https://packages.spack.io/package.html?name=wrf) for information about options that can be enabled or disabled.
 
 Finally, it is time to build the software:
 
