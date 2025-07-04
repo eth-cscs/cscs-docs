@@ -65,7 +65,7 @@ module load wrf
 ```
 
 !!! example "Modules installed by Spack"
-    Spack creates a module for ever
+    Spack creates a module for every installed package:
     ```console
     $ module use $STORE/wrf/build/modules
     $ module avail
