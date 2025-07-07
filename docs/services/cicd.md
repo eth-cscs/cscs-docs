@@ -244,50 +244,6 @@ It also can give you background for inquiring if and when something in the proce
 1. If the repository uses git submodules, `GIT_SUBMODULE_STRATEGY: recursive` has to be specified (see [GitLab documentation](https://docs.gitlab.com/ee/ci/git_submodules.html#use-git-submodules-in-cicd-jobs))
 1. The [container-builder](#container-builder), which has as input a Dockerfile (specified in the variable `DOCKERFILE`), will take this Dockerfile and execute something similar to `docker build -f $DOCKERFILE .`, where the [build context](#build-context) is the whole (recursively) cloned repository
 
-## CI variables
-
-Many variables exist during a pipeline run, they are documented at [Gitlab's predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).
-Variables are exposed as environment variables during job execution, where the key is the environment variable's name.
-Additionally to CI variables available through Gitlab, there are a few CSCS specific variables:
-
-### `CSCS_REGISTRY`
-value: `jfrog.svc.cscs.ch`
-
-CSCS internal registry, preferred registry to store your container images
-
-### `CSCS_REGISTRY_PATH`
-value: `jfrog.svc.cscs.ch/docker-ci-ext/<repository-id>`
-
-The prefix path in the CSCS internal container image registry, to which your pipeline has write access.
-Within this prefix, you can choose any directory structure.
-Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network
-
-### `CSCS_CI_MW_URL`
-value: `https://cicd-ext-mw.cscs.ch/ci`
-
-The URL of the middleware, the orchestrator software
-
-### `CSCS_CI_DEFAULT_SLURM_ACCOUNT`
-value: Configured on the CI setup page in the admin section `Firecrest Slurm Account`
-
-The project to which Slurm accounting will go to by default.
-It can be overwritten via `SLURM_ACCOUNT` for individual jobs.
-
-### `CSCS_CI_ORIG_CLONE_URL`
-value:
-
-* public repositories: HTTPS clone URL, e.g. `https://github.com/my-org/my-project`
-* private repositories: SSH clone URL, e.g. `git@github.com:my-org/my-project`
-
-Clone URL for git.
-This is needed for some implementation details of the gitlab-runner custom executor.
-This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.
-
-### `ARCH`
-value: `x86_64` or `aarch64`
-
-This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
-
 ## Containerized CI - best practices
 ###  Multi-architecture images
 
@@ -784,6 +740,51 @@ Below are known differences:
       forward:
         pipeline_variables: true
   ```
+
+## CI variables
+
+Many variables exist during a pipeline run, they are documented at [Gitlab's predefined variables](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).
+Variables are exposed as environment variables during job execution, where the key is the environment variable's name.
+Additionally to CI variables available through Gitlab, there are a few CSCS specific variables:
+
+### `CSCS_REGISTRY`
+value: `jfrog.svc.cscs.ch`
+
+CSCS internal registry, preferred registry to store your container images
+
+### `CSCS_REGISTRY_PATH`
+value: `jfrog.svc.cscs.ch/docker-ci-ext/<repository-id>`
+
+The prefix path in the CSCS internal container image registry, to which your pipeline has write access.
+Within this prefix, you can choose any directory structure.
+Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network
+
+### `CSCS_CI_MW_URL`
+value: `https://cicd-ext-mw.cscs.ch/ci`
+
+The URL of the middleware, the orchestrator software
+
+### `CSCS_CI_DEFAULT_SLURM_ACCOUNT`
+value: Configured on the CI setup page in the admin section `Firecrest Slurm Account`
+
+The project to which Slurm accounting will go to by default.
+It can be overwritten via `SLURM_ACCOUNT` for individual jobs.
+
+### `CSCS_CI_ORIG_CLONE_URL`
+value:
+
+* public repositories: HTTPS clone URL, e.g. `https://github.com/my-org/my-project`
+* private repositories: SSH clone URL, e.g. `git@github.com:my-org/my-project`
+
+Clone URL for git.
+This is needed for some implementation details of the gitlab-runner custom executor.
+This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.
+
+### `ARCH`
+value: `x86_64` or `aarch64`
+
+This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
+
 
 ## Runners reference
 !!! info
