@@ -20,7 +20,6 @@ When resources are granted the page redirects to the JupyterLab session, where y
     This error message indicates that you have run out of disk quota.
     You can check your quota using the command `quota`.
 
-
 [](){#ref-jupyter-runtime-environment}
 ## Runtime environment
 
