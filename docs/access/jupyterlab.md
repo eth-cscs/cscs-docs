@@ -96,7 +96,6 @@ If the default base images do not meet your requirements, you can specify a cust
     ln -s $SCRATCH $HOME/scratch
     ```
 
-
 ## Creating Jupyter kernels
 
 A kernel, in the context of Jupyter, is a program together with environment settings that runs the user code within Jupyter notebooks. In Python, Jupyter kernels make it possible to access the (system) Python installation of a uenv or container, that of a virtual environment (on top) or any other custom Python installations like Anaconda/Miniconda from Jupyter notebooks. Alternatively, a kernel can also be created for other programming languages such as Julia, allowing e.g. the execution of Julia code in notebook cells. 
