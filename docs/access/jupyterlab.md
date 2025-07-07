@@ -235,7 +235,6 @@ where `/path/to/edf.toml` should be replaced by the TOML file and `train.py` is 
     import os; os.environ.pop("RANK"); os.environ.pop("LOCAL_RANK");
     ```
 
-
 ## Further documentation
 
 * [Jupyter](http://jupyter.org/)
