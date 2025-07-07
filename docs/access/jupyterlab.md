@@ -142,7 +142,6 @@ The `<kernel-name>` can be replaced by a name specific to the base image/virtual
     ```
     It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv that you need to change for your application.
 
-
 ### Using Julia in Jupyter
 
 To run Julia code in Jupyter notebooks, you can use the provided uenv for this language. In particular, you need to use the following in the JupyterHub Spawner `Advanced options` forms mentioned [above][ref-jupyter-runtime-environment]:
