@@ -3,9 +3,9 @@
 
 ## Access and setup
 
-The JupyterHub service enables the interactive execution of JupyterLab on the compute nodes of [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis]. 
+The JupyterHub service enables the interactive execution of JupyterLab on the compute nodes of [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden], [Santis][ref-cluster-santis] and [Eiger][ref-cluster-eiger].
 
-The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.ch/), [jupyter-clariden.cscs.ch](https://jupyter-clariden.cscs.ch/) and [jupyter-santis.cscs.ch](https://jupyter-clariden.cscs.ch/), respectively. As the notebook servers are executed on compute nodes, you must have a project with compute resources available on the respective cluster. 
+The service is accessed at [jupyter-daint.cscs.ch](https://jupyter-daint.cscs.ch/), [jupyter-clariden.cscs.ch](https://jupyter-clariden.cscs.ch/), [jupyter-santis.cscs.ch](https://jupyter-clariden.cscs.ch/) and [jupyter-eiger.cscs.ch](https://jupyter-eiger.cscs.ch), respectively. As the notebook servers are executed on compute nodes, you must have a project with compute resources available on the respective cluster.
 
 Once logged in, you will be redirected to the JupyterHub Spawner Options form, where typical job configuration options can be selected. These options might include the type and number of compute nodes, the wall time limit, and your project account.
 

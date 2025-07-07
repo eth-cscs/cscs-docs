@@ -127,7 +127,7 @@ See the Slurm documentation for instructions on how to run jobs on the [Grace-Ho
 
 ### FirecREST
 
-Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
+Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
 
 !!! warning "The FirecREST v1 API is still available, but deprecated"
 
