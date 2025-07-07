@@ -839,12 +839,12 @@ The following runners are available:
 
 #### Variables
 ##### `DOCKERFILE`
-mandatory variable, example value: `ci/docker/Dockerfile`
+Mandatory variable, example value: `ci/docker/Dockerfile`
 
 Relative path in your repository to the Dockerfile recipe.
 
 ##### `PERSIST_IMAGE_NAME`
-mandatory variable, example value: `$CSCS_REGISTRY_PATH/subdirectory/my_image:$CI_COMMIT_SHORT_SHA`
+Mandatory variable, example value: `$CSCS_REGISTRY_PATH/subdirectory/my_image:$CI_COMMIT_SHORT_SHA`
 
 The path where to store the container image.
 CSCS provides a registry through the variable `CSCS_REGISTRY_PATH`.
@@ -854,13 +854,13 @@ A pipeline has read and write access to any path inside `$CSCS_REGISTRY_PATH`.
 See also [dependency management](#dependency-management) for common naming and [third party registry usage](#third-party-registries).
 
 ##### `CSCS_BUILD_IN_MEMORY`
-optional variable, default: `TRUE`
+Optional variable, default: `TRUE`
 
 Instruct the runner that the whole build process will build in memory.
 The default value is `TRUE`, and you should only set it to `FALSE` if you see your job failing due to out-of-memory errors.
 
 ##### `DOCKER_BUILD_ARGS`
-optional variable, example value: `["ARG1=val1", "ARG2=val2"]`
+Optional variable, example value: `["ARG1=val1", "ARG2=val2"]`
 
 This allows the usage of the keyword ARG  in your Dockerfile.
 The value must be a valid JSON array, where each entry is a string.
@@ -878,7 +878,7 @@ my job:
 ```
 
 ##### `CSCS_REBUILD_POLICY`
-optional variable, default: `if-not-exists`
+Optional variable, default: `if-not-exists`
 
 This variable can be:
 
@@ -891,19 +891,19 @@ This variable can be:
       See section [dependency management](#dependency-management).
 
 ##### `SECONDARY_REGISTRY`
-optional variable, example value: `docker.io/username/my_image:1.0`
+Optional variable, example value: `docker.io/username/my_image:1.0`
 
 Allows pushing also to `$SECONDARY_REGISTRY`, additionally to `$PERSIST_IMAGE_NAME`.
 The result image will pushed to both registries.
 
 ##### `SECONDARY_REGISTRY_USERNAME`
-optional variable
+Optional variable
 
 The username to push to `$SECONDARY_REGISTRY`.
 Mandatory when using `SECONDARY_REGISTRY`.
 
 ##### `SECONDARY_REGISTRY_PASSWORD`
-optional variable
+Optional variable
 
 The password/token to push to `$SECONDARY_REGISTRY`.
 Mandatory when using `SECONDARY_REGISTRY`
@@ -911,12 +911,12 @@ For security you should store a secret variable on the CI setup page, and forwar
 If possible do not use your password, but create an access token.
 
 ##### `CUSTOM_REGISTRY_USERNAME`
-optional variable
+Optional variable
 
 If `$PERSIST_IMAGE_NAME` is not inside the CSCS default registry, then you have to provide the credentials for pushing to the registry.
 
 ##### `CUSTOM_REGISTRY_PASSWORD`
-optional variable
+Optional variable
 
 If `$PERSIST_IMAGE_NAME` is not inside the CSCS default registry, then you have to provide the credentials for pushing to the registry.
 For security you should store a secret variable on the CI setup page, and forward it in the job yaml.
@@ -985,19 +985,19 @@ This tag is mandatory.
 
 #### Variables
 ##### `GIT_STRATEGY`
-optional variable, default is `none`
+Optional variable, default is `none`
 
 This is a [default Gitlab variable](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy), but mentioned here explicitly, because very often you do not need to clone the repository sourcecode when you run your containerized application.
 
 The default is `none`, and you must explicitly set it to `fetch`  or `clone`  to fetch the source code by the runner.
 
 ##### `CSCS_CUDA_MPS`
-optional variable, default is `NO`
+Optional variable, default is `NO`
 
 Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
 
 ##### `USE_MPI`
-optional variable, default is `AUTO`
+Optional variable, default is `AUTO`
 
 Enable running with MPI hooks enabled.
 This allows to inject the host MPI library inside the container runtime for native MPI speed.
@@ -1005,20 +1005,20 @@ This allows to inject the host MPI library inside the container runtime for nati
 This variable is optional and the default value is `AUTO` , where it is set to `YES`, if you run with more than 1 rank, otherwise `NO`.
 
 ##### `USE_NCCL`
-optional variable, default is empty
+Optional variable, default is empty
 
 Set to the [NCCL variant][ref-ce-aws-ofi-hook] that you would like to use (e.g. `cuda12`)
 This adds the annotations `aws_ofi_nccl.variant=<value>` and `aws_ofi_nccl.enabled=true`.
 
 ##### `EDF_APPEND`
-optional variable, default is empty
+Optional variable, default is empty
 
 This allows to append any user-defined additional EDF keys that are not yet controlled by explicit variables.
 
 In general you should prefer using the variables to enable/disable specific annotations.
 
 ##### `CSCS_ADDITIONAL_MOUNTS`
-optional variable, default is empty
+Optional variable, default is empty
 
 This allows mounting user defined host directories inside the container.
 The value must be a valid JSON array of strings, where each entry is of the form `<host-path>:<container-path>`.
@@ -1075,21 +1075,21 @@ A limit is the maximum that your job might be able to use if available, but the 
 
 #### Variables
 ##### `KUBERNETES_CPU_REQUEST`
-optional variable, default is 1
+Optional variable, default is 1
 
 Number of CPUs minimally needed to schedule this job.
 
 ##### `KUBERNETES_CPU_LIMIT`
-optional variable, default is 1
+Optional variable, default is 1
 Limit the job to use at most that many CPUs.
 
 ##### `KUBERNETES_MEMORY_REQUEST`
-optional variable, default is `1Gi`
+Optional variable, default is `1Gi`
 
 The amount of memory minimally needed to schedule the job.
 
 ##### `KUBERNETES_MEMORY_LIMIT`
-optional variable, default is `1Gi`
+Optional variable, default is `1Gi`
 
 Limit the job to use at most this much memory.
 You will get an OOM (out-of-memory) error, if you exceed the limit.
@@ -1136,24 +1136,24 @@ Additionally to the computed hash value, the uenv image will also be registered 
 
 #### Variables
 ##### `UENV_NAME`
-mandatory variable, default is empty
+Mandatory variable, default is empty
 
 The name of the uenv.
 Use alpha-numeric characters, dash (`-`), underscore (`_`), and dot (`.`).
 
 ##### `UENV_VERSION`
-mandatory variable, default is empty
+Mandatory variable, default is empty
 
 The version of the uenv.
 Use alpha-numeric characters, dash (`-`), underscore (`_`), and dot (`.`).
 
 ##### `UENV_RECIPE`
-mandatory variable, default is empty
+Mandatory variable, default is empty
 
 The relative path to the directory containing the recipe yaml files.
 
 ##### `UENV_TAG`
-optional variable, default is a computed hash
+Optional variable, default is a computed hash
 
 Set to an explicit tag, if you want to opt-out of the feature that a uenv is automatically rebuilt, when the contents of the recipe yaml files changes.
 Please keep in mind that a uenv is only rebuilt, when the full uenv name changes.
@@ -1195,12 +1195,12 @@ This tag is mandatory.
 
 #### Variables
 ##### `WITH_UENV_VIEW`
-optional variable, default is empty
+Optional variable, default is empty
 
 Loads the view of a uenv.
 
 ##### `CSCS_CUDA_MPS`
-optional variable, default is `NO`
+Optional variable, default is `NO`
 
 Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
 
@@ -1337,17 +1337,17 @@ This default can be overwritten, by providing a user-defined `script` tag in the
 
 #### Variables
 ##### `RFM_VERSION`
-optional variable, default is a recent version of ReFrame
+Optional variable, default is a recent version of ReFrame
 
 This reframe version will be installed and is available to the job.
 
 ##### `RFM_CONFIG`
-mandatory variable, default is empty
+Mandatory variable, default is empty
 
 The path to the config that is passed to `reframe` via `-C`.
 
 ##### `RFM_CHECKPATH`
-mandatory variable, default is empty
+Mandatory variable, default is empty
 
 The path to the checks that is passed to `reframe` through `-c`.
 
