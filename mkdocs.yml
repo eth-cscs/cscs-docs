@@ -119,6 +119,7 @@ nav:
       - 'LLM Finetuning': guides/mlp_tutorials/llm-finetuning.md
       - 'LLM Training': guides/mlp_tutorials/llm-nanotron-training.md
   - 'Kubernetes':
+    - 'Clusters': kubernetes/clusters.md
     - 'Kubernetes Upgrades': kubernetes/kubernetes-upgrades.md
     - 'Node OS Upgrades': kubernetes/node-upgrades.md
   - 'Policies':
