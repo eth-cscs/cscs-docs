@@ -165,7 +165,6 @@ installkernel(<args>) # (1)!
 !!! warning "First time use of Julia"
     If you are using Julia for the first time at all, executing `install_ijulia` will automatically first trigger the installation of `juliaup` and the latest `julia` version (it is also triggered if you execute `juliaup` or `julia`).
 
-
 ## Parallel computing
 
 ### MPI in the notebook via IPyParallel and MPI4Py
