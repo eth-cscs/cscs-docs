@@ -12,9 +12,9 @@ on:
 jobs:
   spelling:
     name: Check Spelling
-    # permissions:
+    permissions:
     #   contents: read
-    #   pull-requests: read
+      pull-requests: read
     #   actions: read
     #   security-events: write
     outputs:
