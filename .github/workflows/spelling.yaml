@@ -34,7 +34,6 @@ jobs:
         suppress_push_for_open_pull_request: ${{ github.actor != 'dependabot[bot]' && 1 }}
         checkout: true
         check_file_names: 0
-        spell_check_this: check-spelling/spell-check-this@prerelease
         post_comment: 1
         use_magic_file: 1
         warnings: bad-regex,binary-file,deprecated-feature,large-file,limited-references,no-newline-at-eof,noisy-file,non-alpha-in-dictionary,token-is-substring,unexpected-line-ending,whitespace-in-dictionary,minified-file,unsupported-configuration,no-files-to-check
@@ -60,5 +59,4 @@ jobs:
       uses: check-spelling/check-spelling@prerelease
       with:
         checkout: true
-        spell_check_this: check-spelling/spell-check-this@prerelease
         task: ${{ needs.spelling.outputs.followup }}
