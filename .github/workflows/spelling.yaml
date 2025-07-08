@@ -2,7 +2,7 @@ name: Check Spelling
 
 # Based on example in https://github.com/check-spelling/spell-check-this.
 on:
-  pull_request_target:
+  pull_request:
     branches: ['main']
   issue_comment:
     types:
