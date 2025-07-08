@@ -718,7 +718,7 @@ Private projects will always get as notification a link to the CSCS pipeline ove
 To view the CSCS pipeline overview for a public project and restart / cancel jobs, follow these steps:
 
 * Copy the web link of the CSCS CI status of your project and remove the from the link the `type=gitlab`.
-* Alternativily, assemble the link yourself, it has the form `https://cicd-ext-mw.cscs.ch/ci/pipeline/results/<repository_id>/<project_id>/<pipeline_nb>` (the IDs can be found on the Gitlab page of your mirror project).
+* Alternatively, assemble the link yourself, it has the form `https://cicd-ext-mw.cscs.ch/ci/pipeline/results/<repository_id>/<project_id>/<pipeline_nb>` (the IDs can be found on the Gitlab page of your mirror project).
 * Click on `Login to restart jobs` at the bottom right and login with your CSCS credentials
 * Click `Cancel running` or `Restart jobs` or cancel individual jobs (button next to job's name)
 * Everybody that has at least *Manager* access can restart / cancel jobs (access level is managed on the CI setup page in the Admin section)
@@ -783,7 +783,7 @@ This is the clone URL of the registered project, i.e. this is not the clone URL 
 ### `ARCH`
 value: `x86_64` or `aarch64`
 
-This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
+This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditional `x86_64` machine.
 
 
 ## Runners reference
@@ -819,7 +819,7 @@ Accepted variables are documented at [Slurm's srun man page](https://slurm.sched
 
 !!! Warning "SLURM_TIMELIMIT"
     Special attention should go the variable `SLURM_TIMELIMIT`, which sets the maximum time of your Slurm job.
-    You will be billed the nodehours that your CI jobs are spending on the cluster, i.e. you want to set the `SLURM_TIMELIMIT` to the maximum time that you expect the job to run.
+    You will be billed the node hours that your CI jobs are spending on the cluster, i.e. you want to set the `SLURM_TIMELIMIT` to the maximum time that you expect the job to run.
     You should also pay attention to wrap the value in quotes, because the gitlab-runner interprets the time differently than Slurm, when it is not wrapped in quotes, i.e. This is correct:
     ```
     SLURM_TIMELIMIT: "00:30:00"
@@ -867,7 +867,7 @@ The value must be a valid JSON array, where each entry is a string.
 
 It is almost always correct to wrap the full value in single-quotes.
 
-It is also possible to define the argument's values as an entry in `variables`, and then reference in `DOCKER_BUILD_ARGS` only the variables that you want to expose to the build process, i.e. sth like this:
+It is also possible to define the argument's values as an entry in `variables`, and then reference in `DOCKER_BUILD_ARGS` only the variables that you want to expose to the build process, i.e. something like this:
 ```yaml
 my job:
   extends: .container-builder-cscs-gh200
@@ -987,7 +987,7 @@ This tag is mandatory.
 ##### `GIT_STRATEGY`
 Optional variable, default is `none`
 
-This is a [default Gitlab variable](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy), but mentioned here explicitly, because very often you do not need to clone the repository sourcecode when you run your containerized application.
+This is a [default Gitlab variable](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy), but mentioned here explicitly, because very often you do not need to clone the repository source code when you run your containerized application.
 
 The default is `none`, and you must explicitly set it to `fetch`  or `clone`  to fetch the source code by the runner.
 
@@ -1323,7 +1323,7 @@ The easiest way to use the FirecREST scheduler of ReFrame is to use the configur
 In case you want to run ReFrame for a system that is not already available in this directory, please open a ticket to the Service Desk and we will add it or help you update one of the existing ones.
 
 Something you should be aware of when running with this scheduler is that ReFrame will not have direct access to the filesystem of the cluster so the stage directory will need to be kept in sync through FirecREST.
-It is recommended to try to clean the stage directory whenever possible with the [postrun_cmds](https://reframe-hpc.readthedocs.io/en/stable/regression_test_api.html#reframe.core.pipeline.RegressionTest.postrun_cmds) and [postbuild_cmds](https://reframe-hpc.readthedocs.io/en/stable/regression_test_api.html#reframe.core.pipeline.RegressionTest.postbuild_cmds) and to avoid [autodetection of the processor](https://reframe-hpc.readthedocs.io/en/stable/config_reference.html#config.systems.partitions.processor) in each run.
+It is recommended to try to clean the stage directory whenever possible with the [`postrun_cmds`](https://reframe-hpc.readthedocs.io/en/stable/regression_test_api.html#reframe.core.pipeline.RegressionTest.postrun_cmds) and [`postbuild_cmds`](https://reframe-hpc.readthedocs.io/en/stable/regression_test_api.html#reframe.core.pipeline.RegressionTest.postbuild_cmds) and to avoid [autodetection of the processor](https://reframe-hpc.readthedocs.io/en/stable/config_reference.html#config.systems.partitions.processor) in each run.
 Normally ReFrame stores these files in `~/.reframe/topology/{system}-{part}/processor.json`, but you get a "clean" runner every time.
 You could either add them in the configuration files or store the files in the first run and copy them to the right directory before ReFrame runs.
 

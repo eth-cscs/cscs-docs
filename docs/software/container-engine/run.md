@@ -205,7 +205,7 @@ Directories outside a container can be *mounted* inside a container so that the 
 !!! note
     The source (before `:`) should be present on the cluster: the destination (after `:`) doesn't have to be inside the container.
 
-See [the EDF reference][ref-ce-edf-reference] for the full specifiction of the `mounts` EDF entry.
+See [the EDF reference][ref-ce-edf-reference] for the full specification of the `mounts` EDF entry.
 
 
 [](){#ref-ce-run-mounting-squashfs}
