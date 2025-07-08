@@ -26,13 +26,6 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
         * The versions of compilers, `cray-mpich`, Python and libraries in uenv are up to date.
         * The scientific application uenv have up to date versions of the supported applications.
 
-    ### Unimplemented features
-
-    !!! under-construction "Jupyter is not yet available"
-        [Jupyter][ref-jlab] has not yet been configured on `Eiger.Alps`.
-
-        **It will be deployed as soon as possible and this documentation will be updated accordingly**
-
     ### Minor changes
 
     !!! change "Slurm is updated from version 23.02.6 to 24.05.4"
@@ -160,7 +153,7 @@ See the Slurm documentation for instructions on how to run jobs on the [AMD CPU 
 
 ### JupyterHub 
 
-A JupyterHub service for Eiger is available at [https://jupyter-eiger.cscs.ch](https://jupyter-eiger.cscs.ch).
+A [JupyterHub][ref-jupyter] service for Eiger is available at [https://jupyter-eiger.cscs.ch](https://jupyter-eiger.cscs.ch).
 
 ### FirecREST
 
