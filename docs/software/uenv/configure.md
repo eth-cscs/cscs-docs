@@ -55,6 +55,6 @@ By default, uenv will generate color output according to the following:
 The default repo location for downloaded uenv images.
 The repo is selected according to the following process:
 
-* if the `--repo` CLI arguement overrides 
+* if the `--repo` CLI argument is given, use that setting
 * else if `repo` is set in the config file, use that setting
 * else use the default value of `$SCRATCH/.uenv-images`

@@ -148,7 +148,7 @@ To run Julia code in Jupyter notebooks, you can use the provided uenv for this l
 !!! important "pass a [`julia`][ref-uenv-julia] uenv and the view `jupyter`."
 
 When Julia is first used within Jupyter, IJulia and one or more Julia kernel need to be installed. 
-Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems whith Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
+Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems with Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
 ```bash
 install_ijulia
 ```
