@@ -1,0 +1,61 @@
+name: Check Spelling
+
+# Based on example in https://github.com/check-spelling/spell-check-this.
+on:
+  push:
+    branches: ['main']
+  pull_request_target:
+    branches: ['main']
+    types: ['opened', 'reopened', 'synchronize']
+  issue_comment:
+    types: ['created']
+
+jobs:
+  spelling:
+    name: Check Spelling
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: read
+      security-events: write
+    outputs:
+      followup: ${{ steps.spelling.outputs.followup }}
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event_name, 'pull_request') || github.event_name == 'push' }}
+    concurrency:
+      group: spelling-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+    - name: check-spelling
+      id: spelling
+      uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      with:
+        suppress_push_for_open_pull_request: ${{ github.actor != 'dependabot[bot]' && 1 }}
+        checkout: true
+        check_file_names: 0
+        post_comment: 1
+        use_magic_file: 1
+        warnings: bad-regex,binary-file,deprecated-feature,large-file,limited-references,no-newline-at-eof,noisy-file,non-alpha-in-dictionary,token-is-substring,unexpected-line-ending,whitespace-in-dictionary,minified-file,unsupported-configuration,no-files-to-check
+        use_sarif: ${{ (!github.event.pull_request || (github.event.pull_request.head.repo.full_name == github.repository)) && 1 }}
+        extra_dictionary_limit: 20
+        extra_dictionaries:
+          cspell:software-terms/dict/softwareTerms.txt
+          cspell:bash/dict/bash-words.txt
+          cspell:companies/dict/companies.txt
+          cspell:filetypes/filetypes.txt
+
+  comment-pr:
+    name: Check Spelling Report (PR)
+    runs-on: ubuntu-latest
+    needs: spelling
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    if: (success() || failure()) && needs.spelling.outputs.followup && contains(github.event_name, 'pull_request')
+    steps:
+    - name: comment
+      uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      with:
+        checkout: true
+        task: ${{ needs.spelling.outputs.followup }}
