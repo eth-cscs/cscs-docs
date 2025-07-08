@@ -401,7 +401,7 @@ rank   3 @ nid001515: thread 0 -> cores [ 64: 95,192:223]
     srun --nodes=4 --ntasks-per-node=2
     ```
 
-It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the `--hint=nomultithreading` option.
+It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the `--hint=nomultithread` option.
 ```console title="One MPI rank per socket with 1 PU per core"
 $ srun -n2 -N1 -c64 --hint=nomultithread ./affinity.mpi
 affinity test for 2 MPI ranks
