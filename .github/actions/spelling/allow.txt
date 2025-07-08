@@ -107,6 +107,7 @@ cpe
 cscs
 cuda
 customised
+dcomex
 diagonalisation
 dockerhub
 dotenv
@@ -136,6 +137,7 @@ oom
 podman
 preinstalled
 prgenv
+prioritisation
 prioritised
 proactively
 pyfirecrest

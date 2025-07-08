@@ -580,7 +580,7 @@ The approach is to:
 1. first allocate all the resources on each node to the job;
 2. then subdivide those resources at each invocation of srun.
 
-If Slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+If Slurm believes that a request for resources (cores, GPUs, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
 This must be avoided.
 
 First ensure that *all* resources are allocated to the whole job with the following preamble:
