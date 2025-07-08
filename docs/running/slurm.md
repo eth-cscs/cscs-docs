@@ -19,7 +19,7 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
 -   :fontawesome-solid-mountain-sun: __Node sharing__
 
-    Guides on how to effectively use all resouces on nodes by running more than one job per node.
+    Guides on how to effectively use all resources on nodes by running more than one job per node.
 
     [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
 

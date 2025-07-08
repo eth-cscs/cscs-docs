@@ -783,7 +783,7 @@ This is the clone URL of the registered project, i.e. this is not the clone URL 
 ### `ARCH`
 value: `x86_64` or `aarch64`
 
-This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditinal `x86_64` machine.
+This is the architecture of the runner. It is either an ARM64 machine, i.e. `aarch64`, or a traditional `x86_64` machine.
 
 
 ## Runners reference
@@ -867,7 +867,7 @@ The value must be a valid JSON array, where each entry is a string.
 
 It is almost always correct to wrap the full value in single-quotes.
 
-It is also possible to define the argument's values as an entry in `variables`, and then reference in `DOCKER_BUILD_ARGS` only the variables that you want to expose to the build process, i.e. sth like this:
+It is also possible to define the argument's values as an entry in `variables`, and then reference in `DOCKER_BUILD_ARGS` only the variables that you want to expose to the build process, i.e. something like this:
 ```yaml
 my job:
   extends: .container-builder-cscs-gh200
@@ -987,7 +987,7 @@ This tag is mandatory.
 ##### `GIT_STRATEGY`
 Optional variable, default is `none`
 
-This is a [default Gitlab variable](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy), but mentioned here explicitly, because very often you do not need to clone the repository sourcecode when you run your containerized application.
+This is a [default Gitlab variable](https://docs.gitlab.com/ee/ci/runners/configure_runners.html#git-strategy), but mentioned here explicitly, because very often you do not need to clone the repository source code when you run your containerized application.
 
 The default is `none`, and you must explicitly set it to `fetch`  or `clone`  to fetch the source code by the runner.
 
