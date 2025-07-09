@@ -58,7 +58,7 @@ This can be done in multiple ways in TOML: for example, both of the following us
 
 Container hooks let you customize container behavior to fit system-specific needs, making them especially valuable for High-Performance Computing.
 
- * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's lifecycle.
+ * *What they do*: Hooks extend container runtime functionality by enabling custom actions during a container's life cycle.
  * *Use for HPC*: HPC systems rely on specialized hardware and fine-tuned software, unlike generic containers. Hooks bridge this gap by allowing containers to access these system-specific resources or enable custom features.
 
 !!! info

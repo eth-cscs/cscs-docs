@@ -37,7 +37,7 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
-Additionally, there are four login nodes with hostnames `eiger-ln00[1-4]`.
+Additionally, there are four login nodes with host names `eiger-ln00[1-4]`.
 
 ### Storage and file systems
 

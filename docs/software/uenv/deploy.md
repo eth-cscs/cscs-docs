@@ -127,7 +127,7 @@ Once you have the token, you can save it in a file.
 
 !!! danger
 
-    Save the token file somwhere safe, for example in `~/.ssh/jfrog-token`.
+    Save the token file somewhere safe, for example in `~/.ssh/jfrog-token`.
 
 
 The token file can be passed to the `uenv` command line tool using the `--token` option.
@@ -229,7 +229,7 @@ Permissions to access restricted resources is set on a per-pipeline basis
 [](){#ref-uenv-removal}
 ## Deprecation and removal of uenv
 
-!!! todo "Finalise and document the deprecation process"
+!!! todo "Finalize and document the deprecation process"
 
 
 [uenv-sources]: https://jfrog.svc.cscs.ch/artifactory/uenv-sources/
