@@ -5,9 +5,9 @@
 In this tutorial, we will build a container image to run nanotron training jobs.
 We will train a 109M parameter model with ~100M wikitext tokens as a proof of concept.
 
-### Prequisites 
+### Prerequisites 
 
-It is also recommended to follow the previous tutorials: [LLM Inference][ref-mlp-llm-inference-tutorial] and [LLM Finetuning][ref-mlp-llm-finetuning-tutorial], as this will build up from it.
+It is also recommended to follow the previous tutorials: [LLM Inference][ref-mlp-llm-inference-tutorial] and [LLM Fine-tuning][ref-mlp-llm-fine-tuning-tutorial], as this will build up from it.
 
 ### Set up Podman
 

@@ -1,8 +1,8 @@
-[](){#ref-mlp-llm-finetuning-tutorial}
+[](){#ref-mlp-llm-fine-tuning-tutorial}
 
-# LLM Finetuning Tutorial
+# LLM Fine-tuning Tutorial
 
-This tutorial will take the model from the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial and show you how to perform finetuning.
+This tutorial will take the model from the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial and show you how to perform fine-tuning.
 This means that we take the model and train it on some new custom data to change its behavior.
 
 To complete the tutorial, we set up some extra libraries that will help us to update the state of the machine learning model.
