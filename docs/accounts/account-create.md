@@ -16,7 +16,7 @@ Clicking the "Create a new account" button will lead the user to the second step
 
 After submitting personal information, users have to wait for CSCS to review and approve the submission.
 
-Once accepted, you will recieve an email with a link to set your password.
+Once accepted, you will receive an email with a link to set your password.
 
 ```title="Acceptance email"
 Dear John Doe,

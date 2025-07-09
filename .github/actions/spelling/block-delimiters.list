@@ -9,3 +9,7 @@
 # ignore indented code blocks
     ```
     ```
+
+# ignore embedded iframes
+<iframe
+</iframe>
