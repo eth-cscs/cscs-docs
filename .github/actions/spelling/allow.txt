@@ -121,6 +121,12 @@ gitlab
 gpu
 groundstate
 ijulia
+julia
+linalg
+linux
+nccl
+osts
+quantumespresso
 inodes
 iopsstor
 jfrog
@@ -202,3 +208,4 @@ xattr
 xattrs
 youtube
 zstd
+hdf

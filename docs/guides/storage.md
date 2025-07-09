@@ -111,7 +111,7 @@ To set up a default so all newly created folders and dirs inside or your desired
     ```
 
 !!! info
-    For more information read the setfacl man page: `man setfacl`.
+    For more information read the `setfacl` man page: `man setfacl`.
 
 [](){#ref-guides-storage-lustre}
 ## Lustre tuning
@@ -124,7 +124,7 @@ Its performance is roughly the same on [Capstor][ref-alps-capstor] and [Iopsstor
 This data is globally synchronized, which means Lustre is not well suited to handling many small files, see the discussion on [how to handle many small files][ref-guides-storage-small-files].
 
 The data itself is subdivided in blocks of size `<blocksize>` and is stored by Object Storage Servers (OSS) in one or more Object Storage Targets (OST).
-The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories ihneriting them from their parent directory.
+The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories inheriting them from their parent directory.
 The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path.
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
 The simplest way to have the correct layout is to copy to a directory with the correct layout

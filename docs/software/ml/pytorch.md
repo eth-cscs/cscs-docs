@@ -146,7 +146,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `util-macros` | 1.20.1 |
         | `valgrind` | 3.23.0 |
         | `xpmem` | 2.9.6 |
-        | `x`z | 5.4.6 |
+        | `xz` | 5.4.6 |
         | `yasm` | 1.3.0 |
         | `zlib-ng` | 2.2.1 |
         | `zstd` | 1.5.6 |
@@ -378,7 +378,7 @@ srun bash -c "
    The `MASTER_ADDR`, `MASTER_PORT` and `WORLD_SIZE` variables are used to determine the address and port of the master node.
    Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
 4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
-5. Set the Trition home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
+5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
    This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it.
 6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
 7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.

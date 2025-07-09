@@ -23,3 +23,6 @@ https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0
 # kebab-case and snake_case words
 [a-z]+-[a-z-]+
 [a-z]+_[a-z_]+
+
+# versions
+[0-9]+\.[.0-9]+(\+[0-9a-z]+)?
