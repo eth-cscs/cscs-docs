@@ -124,12 +124,12 @@ Its performance is roughly the same on [Capstor][ref-alps-capstor] and [Iopsstor
 This data is globally synchronized, which means Lustre is not well suited to handling many small files, see the discussion on [how to handle many small files][ref-guides-storage-small-files].
 
 The data itself is subdivided in blocks of size `<blocksize>` and is stored by Object Storage Servers (OSS) in one or more Object Storage Targets (OST).
-The blocksize and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories ihneriting them from their parent directory.
+The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories ihneriting them from their parent directory.
 The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path.
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
 The simplest way to have the correct layout is to copy to a directory with the correct layout
 
-!!! tip "A blocksize of 4MB gives good throughput, without being overly big..."
+!!! tip "A block size of 4MB gives good throughput, without being overly big..."
     ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
     See the [Lustre documentation](https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace) for more information.
 
@@ -149,7 +149,7 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 ### Iopsstor vs Capstor
 
 [Iopsstor][ref-alps-iopsstor] uses SSD as OST, thus random access is quick, and the performance of the single OST is high.
-[Capstor][ref-alps-capstor] on another hand uses harddisks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
+[Capstor][ref-alps-capstor] on another hand uses hard disks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
 See for example the [ML filesystem guide][ref-mlp-storage-suitability].
 
 [](){#ref-guides-storage-small-files}

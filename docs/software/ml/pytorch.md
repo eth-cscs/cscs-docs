@@ -383,7 +383,7 @@ srun bash -c "
 6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
 7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 8. These variables should always be set for correctness and optimal performance when using NCCL, see [the detailed explanation][ref-communication-nccl].
-9. `RANK` and `LOCAL_RANK` are set per-process by the Slurmjob launcher.
+9. `RANK` and `LOCAL_RANK` are set per-process by the Slurm job launcher.
 10. Activate the virtual environment created on top of the uenv (if any).
    Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
 

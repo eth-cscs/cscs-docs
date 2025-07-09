@@ -994,7 +994,7 @@ The default is `none`, and you must explicitly set it to `fetch`  or `clone`  to
 ##### `CSCS_CUDA_MPS`
 Optional variable, default is `NO`
 
-Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
+Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the same GPU.
 
 ##### `USE_MPI`
 Optional variable, default is `AUTO`
@@ -1202,7 +1202,7 @@ Loads the view of a uenv.
 ##### `CSCS_CUDA_MPS`
 Optional variable, default is `NO`
 
-Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
+Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the same GPU.
 
 #### Example jobs
 ```yaml
@@ -1405,8 +1405,7 @@ A couple of projects which use this CI setup.
 Please have a look there for more advanced usage:
 
 * [dcomex-framework](https://github.com/DComEX/dcomex-framework): entry point is `ci/prototype.yml`
-* [mars](https://bitbucket.org/zulianp/mars/src/development/): two pipelines, with entry points `ci/gitlab/cscs/gpu/gitlab-
-daint.yml` and `ci/gitlab/cscs/mc/gitlab-daint.yml`
+* [mars](https://bitbucket.org/zulianp/mars/src/development/): two pipelines, with entry points `ci/gitlab/cscs/gpu/gitlab-daint.yml` and `ci/gitlab/cscs/mc/gitlab-daint.yml`
 * [sparse_accumulation](https://github.com/lab-cosmo/sparse_accumulation): entry point is `ci/pipeline.yml`
 * [gt4py](https://github.com/GridTools/gt4py): entry point is `ci/cscs-ci.yml`
 * [SIRIUS](https://github.com/electronic-structure/SIRIUS): entry point is `ci/cscs-daint.yml`

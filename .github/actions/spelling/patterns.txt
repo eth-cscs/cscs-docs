@@ -1,18 +1,25 @@
-# Recognized as "Firec" and "REST" with the regular rules, so in patterns.txt
-# instead of allow.txt
+# Recognized as separate words (e.g. "Firec" and "REST") with the regular rules,
+# so in patterns.txt instead of allow.txt
 FirecREST
 RESTful
+IPyParallel
 
 # markdown figure
-^!\[.*\]\(.*\)$
+ ^!\[.*\]\(.*\)$
 
 # Most obvious URLs
 https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)
 
-# Markdown references (definition and use)
+# Markdown references and URLs (definition and use)
 ^\[\]\(\){#[a-z-]+}$
-\]\(#[a-z-]+\)
+\]\([^\s]+\)
 \]\[[a-z-]+\]
+
+# Markdown URLs
 
 # Inline code
 \`[^\`]+\`
+
+# kebab-case and snake_case words
+[a-z]+-[a-z-]+
+[a-z]+_[a-z_]+
