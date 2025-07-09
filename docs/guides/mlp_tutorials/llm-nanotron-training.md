@@ -229,7 +229,7 @@ srun -ul --environment=nanotron bash -c "
    --master-addr=\${MASTER_ADDR} \
    --master-port=\${MASTER_PORT} \
    --nnodes=\${SLURM_NNODES} \
-   --nproc-per-node=\${SLURM_GPUS_PER_TASK} \
+   --nproc-per-node=\${SLURM_GPUS_ON_NODE} \
   \"
 
   torchrun \${TORCHRUN_ARGS} run_train.py --config-file examples/config_tiny_llama_wikitext.yaml
