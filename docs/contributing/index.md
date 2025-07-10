@@ -125,18 +125,60 @@ The benefits of this approach are that the link won't break if
 
 ### Images
 
+> A picture is worth a thousand words
+
+We encourage the usege of images to improve clarity and understanding. You can use **screenshoots** or **diagrams**.
+
 Images are stored in the `docs/images` directory.
 
-* there are sub-directories in the `docs/images` path - create a new sub-directory for your images if appropriate
-* choose image and path names that make sense - `screenshot.png` is not a great file name. Neither is `PX-202502025-imgx.png`.
+* create a new sub-directory for your images if appropriate
+* choose a path and file name that hint what the image is about - neither `screenshot.png` nor `PX-202502025-imgx.png` are great names.
 
-!!! tip
-    When providing a screenshot, do you need to show the whole screen, or just part of one window?
+!!! warning
+    Keep the size of your images to a minimum because we want to keep an overall lightweight repository.
 
-    Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
 
-!!! tip
-    Do you need a screenshot, or can a text description also work?
+#### Screenshots
+
+Screenshots can help readers follow steps on guides. Think if you need to show the whole screen or just part of one window. Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
+
+Often, screenshots can quickly become obsolete, so you may want to complement (or maybe even replace) some with text descriptions.
+
+#### Diagrams
+
+Diagrams can help readers understand more abstract concepts like processes or architectures. We suggest you use [mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams). Such format makes diagrams easy to maintain and removes the need to commit image files in the repository.
+
+??? "Diagram Example"
+
+    === "Source"
+
+        ````text
+        ```mermaid
+        graph TD;
+            Image(Will image add value?);
+            Image--NO-->T(keep text only);
+            Image--YES-->SD(What image is needed?)
+            SD--Screenshoot-->S(keep it lean)
+            SD--Diagram-->D(keep it maintainable)
+            D--Default-->M(Mermaid)
+            D--Custom-->DR(Draw.io)
+        ```
+        ````
+
+    === "Rendered"
+
+        ```mermaid
+        graph TD;
+            Image(Will image add value?);
+            Image--NO-->T(keep text only);
+            Image--YES-->SD(What image is needed?)
+            SD--Screenshoot-->S(keep it lean)
+            SD--Diagram-->D(keep it maintainable)
+            D--Default-->M(Mermaid)
+            D--Custom-->DR(Draw.io)
+        ```
+
+If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www.drawio.com/). Make sure you export the png with the [source inside](https://www.drawio.com/doc/faq/export-to-png), typically a `file.drawio.png`, so it can be extended in the future as needed.
 
 ### Text formatting
 
