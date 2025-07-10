@@ -41,7 +41,7 @@ $ uenv-spack/uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2 +chem
 ```
 
 !!! note
-    See the wrf Spack [package documentation](https://packages.spack.io/package.html?name=wrf) for information about options that can be enabled disabled.
+    See the wrf Spack [package documentation](https://packages.spack.io/package.html?name=wrf) for information about options that can be enabled or disabled.
 
 Finally, it is time to build the software:
 
@@ -55,7 +55,7 @@ This will take 30-60 minutes, while Spack builds some dependencies then WRF.
 ### Using the Spack installation
 
 The installation creates a module file in the `wrf/build` path, that you created.
-Let's assume you have installed it in the `$STORE` path for your project, add the following to the top of your sbatch script:
+Assuming you have installed it in the `$STORE` path for your project, add the following to the top of your sbatch script:
 
 ```bash
 #SBATCH --uenv=prgenv-gnu/24.11:v2
@@ -65,7 +65,7 @@ module load wrf
 ```
 
 !!! example "Modules installed by Spack"
-    Spack creates a module for ever
+    Spack creates a module for every installed package:
     ```console
     $ module use $STORE/wrf/build/modules
     $ module avail
