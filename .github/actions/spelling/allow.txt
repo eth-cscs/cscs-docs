@@ -123,6 +123,7 @@ bytecode
 capstor
 chatbot
 clariden
+codeowners
 concretise
 concretizer
 containerised
@@ -255,6 +256,7 @@ santis
 sbatch
 scalapack
 screenshot
+screenshots
 slepc
 slurm
 smartphone
