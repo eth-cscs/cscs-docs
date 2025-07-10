@@ -18,7 +18,7 @@ Most nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal], wh
 
 ### Storage and file systems
 
-Clariden uses the [MLp filesystems and storage policies][ref-mlp-storage].
+Clariden uses the [MLP filesystems and storage policies][ref-mlp-storage].
 
 ## Getting started
 

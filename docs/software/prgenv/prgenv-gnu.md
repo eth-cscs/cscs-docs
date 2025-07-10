@@ -95,7 +95,7 @@ The environment is designed as a fairly minimal set of
 
 There are three ways to access the software provided by prgenv-gnu, once it has been started.
 
-=== "the default view"
+=== "the `default` view"
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
