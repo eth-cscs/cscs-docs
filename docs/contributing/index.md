@@ -7,7 +7,7 @@ This means that everybody, CSCS staff and the CSCS user community can contribute
 
 We use the GitHub fork and pull request model for development:
 
-* First create a fork of the [main GitHub repository](https://github.com/eth-cscs/cscs-docs).
+* First create a [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) of the [main GitHub repository](https://github.com/eth-cscs/cscs-docs).
 * Make all proposed changes in branches on your fork - don't make branches on the main repository (we reserve the right to block creating branches on the main repository).
 
 Clone your fork repository on your PC/laptop:
@@ -18,29 +18,39 @@ cd cscs-docs
 # create a branch for your changes (here we are fixing the ssh docs)
 git switch -c 'fix/ssh-alias'
 # ... make your edits ...
-# add and commit your changes
-git add <files>
-git commit -m 'update the ssh docs with aliases for all user lab vclusters'
-git push origin 'fix/ssh-alias'
 ```
-Then navigate to GitHub, and create a pull request.
 
-The `serve` script in the root path of the repository can be used to view the docs locally:
+Review your edits checking the [Guidelines](#guidelines) section below.
+
+!!! note
+    Note that a simple editor markdown preview may not render all the features of the documentation.
+
+To properly review the docs locally, the `serve` script in the root path of the repository can be used as shown below:
 ```bash
 ./serve
 ...
 INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 ```
-This generates the documentation locally, which can be viewed using a local link, which is `http://127.0.0.1:8000/` by default.
-The documentation will be rebuilt and the webpage reloaded when changed files are saved.
 
 !!! note
     To run the serve script, you need to first install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-To build the docs in a `site` sub-directory:
+You can now open your browser at the address shown above (`http://127.0.0.1:8000/`). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.
+
+Alternatively, you can build the docs in a `site` sub-directory and open `site/index.html` with your browser too.
+
 ```bash
 ./serve build
 ```
+
+After your first review, commit and push your changes
+```bash
+git add <files>
+git commit -m 'update the ssh docs with aliases for all user lab vclusters'
+git push origin 'fix/ssh-alias'
+```
+
+Then navigate to GitHub, and create a pull request.
 
 !!! tip
     If you've already created a fork repository, make sure to [keep it synced](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) to the main CSCS repository before making further change.
@@ -230,10 +240,10 @@ They stand out better from the main text, and can be collapsed by default if nee
 !!! example "Example one"
     This is an example.
     The title of the example uses [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case).
-    
+
 ??? note "Collapsed note"
     This note is collapsed, because it uses `???`.
-    
+
 If an admonition is collapsed by default, it should have a title.
 
 We provide some custom admonitions.
