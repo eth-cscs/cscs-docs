@@ -148,7 +148,7 @@ Often, screenshots can quickly become obsolete, so you may want to complement (o
 
 Diagrams can help readers understand more abstract concepts like processes or architectures. We suggest you use [mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams). Such format makes diagrams easy to maintain and removes the need to commit image files in the repository.
 
-??? "Diagram Example"
+??? "Example"
 
     === "Source"
 
