@@ -124,7 +124,7 @@ The following dependencies that are not provided by `prgenv-gnu` are required:
 * `jasper~shared`: used by WPS (`~shared` will build static libraries, required by WPS).
 * `zlib-ng` and `libpng`: used by WPS.
 
-Then follow the steups in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
+Then follow the steps in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
 
 ```bash
 # start the uenv with the spack view enabled

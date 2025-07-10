@@ -1,7 +1,7 @@
 [](){#ref-build-applications}
 # Application installation guides
 
-This is a collection of installation guides for commonly-used software that is not [officially supported softare][ref-software-sciapps].
+This is a collection of installation guides for commonly-used software that is not [officially supported software][ref-software-sciapps].
 
 !!! note "Contributions welcome!"
     The guides here are best effort, and may become out of date.
