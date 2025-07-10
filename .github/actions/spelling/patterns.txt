@@ -11,6 +11,9 @@ cuDNN
 Schrödinger
 GROningen
 Säntis
+ScaLAPACK
+VSCode
+aarch64
 
 # markdown figure
 !\[.*\]\(.*\)
@@ -37,4 +40,4 @@ https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0
 [A-Za-z-_]+@[0-9]+(\.[.0-9]+)?(\+[0-9a-z]+)?
 
 # img tag
-<img.*\/>
+<img.*/>

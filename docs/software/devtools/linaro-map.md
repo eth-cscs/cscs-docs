@@ -35,6 +35,8 @@ To see this we can click in the toolbar `Reports > View HTML Performance Report 
 
 This will look like the following:
 
+remove me, I'm just a trigger for the spell checker
+
 <center>
 <img src="https://raw.githubusercontent.com/iomaganaris/alps-uenv/refs/heads/linaro_map_docs_archive/docs/images/perf-report.png" width="300">
 </center>
