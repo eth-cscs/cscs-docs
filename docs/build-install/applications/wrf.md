@@ -178,6 +178,9 @@ Set the following environment variables:
 export NETCDF=/user-environment/env/default
 export HDF5=/user-environment/env/default
 export PNETCDF=$WRFDEPS/view
+export JASPERLIB=$WRFDEPS/view/lib64
+export JASPERINC=$WRFDEPS/view/include
+
 export WRF_EM_CORE=1
 export WRF_NMM_CORE=0
 export WRF_DA_CORE=0
@@ -188,9 +191,6 @@ export WRF_KPP=0
 export NETCDF4=1
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
-
-export JASPERLIB=$WRFDEPS/view/lib64
-export JASPERINC=$WRFDEPS/view/include
 
 export CC=mpicc
 export FC=mpifort
@@ -212,7 +212,7 @@ The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to 
 export SNOWLIBS=$WRFROOT/CRYOWRF/snpack_for_wrf
 cd $WRFROOT/CRYOWRF/WRF
 ./clean -a
-# [choose option 35][nesting: choose option 1] when prompted by configure
+# [choose option 34][nesting: choose option 1] when prompted by configure
 ./configure
 ```
 
@@ -265,12 +265,19 @@ build completed: Thu 10 Jul 2025 05:17:41 PM CEST
 
 ### Step 4: build WPS
 
-Using the same environment configured
+Using the same environment as above
 
-```
+```bash
+export WRFDEPS=$WRFROOT/dependencies
+
+export NETCDF=/user-environment/env/default
+export HDF5=/user-environment/env/default
+export PNETCDF=$WRFDEPS/view
+export JASPERLIB=$WRFDEPS/view/lib64
+export JASPERINC=$WRFDEPS/view/include
+
 cd $WRFROOT/CRYOWRF/WPS-4.2
-# choose option 2
-./configure
+./configure # choose option 1
 ```
 
 Update `configure.wps` as follows:
@@ -291,13 +298,6 @@ Note the arguments `-fallow-argument-mismatch -fallow-invalid-boz` added to `FFL
 Then compile:
 ```
 ./compile &> log_compile
-```
-
-The compilation output is captured in `log_compile`.
-On success, the log should have the message `Executables successfully built`:
-
-```console
-$ tail -n14 log_compile
 ```
 
 ### Running CRYOWRF
