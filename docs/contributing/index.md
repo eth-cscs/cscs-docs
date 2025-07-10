@@ -127,7 +127,7 @@ The benefits of this approach are that the link won't break if
 
 > A picture is worth a thousand words
 
-We encourage the usege of images to improve clarity and understanding. You can use **screenshoots** or **diagrams**.
+We encourage the usage of images to improve clarity and understanding. You can use **screenshots** or **diagrams**.
 
 Images are stored in the `docs/images` directory.
 
@@ -158,7 +158,7 @@ Diagrams can help readers understand more abstract concepts like processes or ar
             Image(Will image add value?);
             Image--NO-->T(keep text only);
             Image--YES-->SD(What image is needed?)
-            SD--Screenshoot-->S(keep it lean)
+            SD--Screenshot-->S(keep it lean)
             SD--Diagram-->D(keep it maintainable)
             D--Default-->M(Mermaid)
             D--Custom-->DR(Draw.io)
@@ -172,7 +172,7 @@ Diagrams can help readers understand more abstract concepts like processes or ar
             Image(Will image add value?);
             Image--NO-->T(keep text only);
             Image--YES-->SD(What image is needed?)
-            SD--Screenshoot-->S(keep it lean)
+            SD--Screenshot-->S(keep it lean)
             SD--Diagram-->D(keep it maintainable)
             D--Default-->M(Mermaid)
             D--Custom-->DR(Draw.io)
