@@ -89,7 +89,7 @@ See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get t
 All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
 
 !!! info "`$SCRATCH` on MLP points to Iopsstor"
-    On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopstore][ref-alps-iopsstor].
+    On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopsstor][ref-alps-iopsstor].
     See the [MLP docs][ref-mlp-storage] for more information.
 
 ### Cleanup and expiration
@@ -124,7 +124,7 @@ Please ensure that you move important data to a file system with backups, for ex
 ## Store
 
 Store is a large, medium-performance, storage on the [Capstor][ref-alps-capstor] Lustre file system for sharing data within a project, and for medium term data storage.
-See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best preformance out of the filesystem.
+See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best performance out of the filesystem.
 
 Space on Store is allocated per-project, with a path created for each project.
 To accomodate the different customers and projects on Alps, the project paths are organised as follows:
@@ -317,7 +317,7 @@ A daily process removes files that have not been **accessed (either read or writ
 !!! warning "Do not artificially update the access time of files"
     It is not allowed to automatically or artificially update the access time of files to avoid the cleanup policy, and CSCS scans for these activities.
 
-    Please move data to a file system that is suitable for persistant storage instead.
+    Please move data to a file system that is suitable for persistent storage instead.
 
 In addition to the automatic deletion of old files, if occupancy exceeds 60% the following steps are taken to maintain performance of the file system:
 
@@ -337,7 +337,7 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 ??? question "What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?"
     You have run out of quota on the target file system.
     Consider deleting unneeded files, or moving data to a different file system.
-    Specifcially, if you see this message when using [Home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [Store][ref-storage-store] path.
+    Specifically, if you see this message when using [Home][ref-storage-home], which has a relatively small 50 GB limit, consider moving the data to your project's [Store][ref-storage-store] path.
 
 !!! todo
     FAQ question: [writing with specific group access](https://confluence.cscs.ch/spaces/KB/pages/276955350/Writing+on+project+if+you+belong+to+more+than+one+group)

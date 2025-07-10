@@ -19,7 +19,7 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
 -   :fontawesome-solid-mountain-sun: __Node sharing__
 
-    Guides on how to effectively use all resouces on nodes by running more than one job per node.
+    Guides on how to effectively use all resources on nodes by running more than one job per node.
 
     [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
 
@@ -68,7 +68,7 @@ $ sbatch --account=g123 ./job.sh
 !!! note
     The flags `--account` and `-Cmc` that were required on the old [Eiger][ref-cluster-eiger] cluster are no longer required.
 
-## Prioritization and scheduling
+## Prioritisation and scheduling
 
 Job priorities are determined based on each project's resource usage relative to its quarterly allocation, as well as in comparison to other projects.
 An aging factor is also applied to each job in the queue to ensure fairness over time.
@@ -219,7 +219,7 @@ The build generates the following executables:
 
     1. Test GPU affinity: note how all 4 ranks see the same 4 GPUs.
 
-    2. Test GPU affinity: note how the `--gpus-per-task=1` parameter assings a unique GPU to each rank.
+    2. Test GPU affinity: note how the `--gpus-per-task=1` parameter assigns a unique GPU to each rank.
 
 !!! info "Quick affinity checks"
 
@@ -300,8 +300,10 @@ if [[ $SLURM_LOCALID -eq 0 ]]; then
     CUDA_VISIBLE_DEVICES=0,1,2,3 nvidia-cuda-mps-control -d
 fi
 
-# Set CUDA device
-numa_nodes=$(hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+# Set CUDA device. Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA
+# nodes appearing in the list of CUDA devices. They start appearing in hwloc
+# version 2.11.
+numa_nodes=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
 export CUDA_VISIBLE_DEVICES=$numa_nodes
 
 # Wait for MPS to start
@@ -399,7 +401,7 @@ rank   3 @ nid001515: thread 0 -> cores [ 64: 95,192:223]
     srun --nodes=4 --ntasks-per-node=2
     ```
 
-It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the `--hint=nomultithreading` option.
+It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the `--hint=nomultithread` option.
 ```console title="One MPI rank per socket with 1 PU per core"
 $ srun -n2 -N1 -c64 --hint=nomultithread ./affinity.mpi
 affinity test for 2 MPI ranks
@@ -489,7 +491,7 @@ rank   7 @ nid002199: thread 0 -> cores [112:127]
 In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
 This often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
 
-The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assinged to each MPI rank.
+The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assigned to each MPI rank.
 
 Use the `--omp` flag with `affinity.mpi` to get more detailed information about OpenMP thread affinity.
 For example, four MPI ranks on one node with four cores and four OpenMP threads:
@@ -578,7 +580,7 @@ The approach is to:
 1. first allocate all the resources on each node to the job;
 2. then subdivide those resources at each invocation of srun.
 
-If Slurm believes that a request for resources (cores, gpus, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
+If Slurm believes that a request for resources (cores, GPUs, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
 This must be avoided.
 
 First ensure that *all* resources are allocated to the whole job with the following preamble:

@@ -41,6 +41,7 @@ nav:
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
+    - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Software':
     - software/index.md
@@ -100,7 +101,6 @@ nav:
     - services/index.md
     - 'FirecREST': services/firecrest.md
     - 'CI/CD': services/cicd.md
-    - 'JupyterLab': services/jupyterlab.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
@@ -119,7 +119,7 @@ nav:
     - 'MLP Tutorials':
       - guides/mlp_tutorials/index.md
       - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
-      - 'LLM Finetuning': guides/mlp_tutorials/llm-finetuning.md
+      - 'LLM Fine-tuning': guides/mlp_tutorials/llm-finetuning.md
       - 'LLM Training': guides/mlp_tutorials/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md

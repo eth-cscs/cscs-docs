@@ -153,7 +153,3 @@ MPICH_GPU_SUPPORT_ENABLED=1 srun [...] $SCRATCH/qe-env/view/bin/pw.x < pw.in
 
 !!! warning
     The physical installation path is in `$SCRATCH/spack`, deleting this directory will leave the anonymous spack environment created in 3. with dangling symlinks.
-
-
-
-

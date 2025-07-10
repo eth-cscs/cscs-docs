@@ -1,8 +1,8 @@
 [](){#ref-mlp-llm-finetuning-tutorial}
 
-# LLM Finetuning Tutorial
+# LLM Fine-tuning Tutorial
 
-This tutorial will take the model from the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial and show you how to perform finetuning.
+This tutorial will take the model from the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial and show you how to perform fine-tuning.
 This means that we take the model and train it on some new custom data to change its behavior.
 
 To complete the tutorial, we set up some extra libraries that will help us to update the state of the machine learning model.
@@ -38,10 +38,10 @@ $ pip install -e ./trl   # install in editable mode
 
 When this step is complete, you can exit the shell by typing `exit`.
 
-### Finetune Gemma-7B
+### Fine-tune Gemma-7B
 
 t this point, we can set up a fine-tuning script and start training Gemma-7B.
-Use your favorite text editor to create the file `fine-tune-gemma.sh` just outside the trl and gemma-venv directories:
+Use your favorite text editor to create the file `fine-tune-gemma.sh` just outside the `trl` and `gemma-venv` directories:
 
 ```bash title="fine-tune-gemma.sh"
 #!/bin/bash
@@ -119,7 +119,7 @@ It should take about 10-15 minutes to fine-tune Gemma:
 $ sbatch --nodes=1 fine-tune-sft.sbatch
 ```
 
-### Compare finetuned Gemma against default Gemma
+### Compare fine-tuned Gemma against default Gemma
 
 We can reuse our python script from the first tutorial to do inference on the Gemma model that we just fine-tuned.
 Let's try out a different prompt in `gemma-inference.py`:

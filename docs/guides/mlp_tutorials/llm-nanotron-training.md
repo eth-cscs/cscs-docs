@@ -5,9 +5,9 @@
 In this tutorial, we will build a container image to run nanotron training jobs.
 We will train a 109M parameter model with ~100M wikitext tokens as a proof of concept.
 
-### Prequisites 
+### Prerequisites
 
-It is also recommended to follow the previous tutorials: [LLM Inference][ref-mlp-llm-inference-tutorial] and [LLM Finetuning][ref-mlp-llm-finetuning-tutorial], as this will build up from it.
+It is also recommended to follow the previous tutorials: [LLM Inference][ref-mlp-llm-inference-tutorial] and [LLM Fine-tuning][ref-mlp-llm-finetuning-tutorial], as this will build up from it.
 
 ### Set up Podman
 
@@ -61,7 +61,7 @@ Now exit the interactive session by running `exit`.
 
 ### Set up an EDF
 
-See the previous tutorial for context. In this case, the edf will be at `$HOME/.edf/nanotron.toml` and will have the following contents:
+See the previous tutorial for context. In this case, the EDF will be at `$HOME/.edf/nanotron.toml` and will have the following contents:
 
 ```toml title="$HOME/.edf/nanotron.toml"
 image = "/capstor/scratch/cscs/<USER>/container-image/nanotron/nanotron-v1.0.sqsh"
@@ -194,7 +194,7 @@ logging:
 
 This configuration file will train, as a proof of concept, a gpt-2-like (109M parameters) llama model with approximately 100M tokens of wikitext with settings `tp=4, dp=2, pp=1` (which means that it requires two nodes to train).
 This training job will require approximately 10 minutes to run.
-Now, create a batchfile in `$HOME/nanotron/run_tiny_llama.sh` with the contents:
+Now, create a batch file in `$HOME/nanotron/run_tiny_llama.sh` with the contents:
 
 ```bash title="$HOME/nanotron/run_tiny_llama.sh"
 #!/bin/bash
@@ -229,7 +229,7 @@ srun -ul --environment=nanotron bash -c "
    --master-addr=\${MASTER_ADDR} \
    --master-port=\${MASTER_PORT} \
    --nnodes=\${SLURM_NNODES} \
-   --nproc-per-node=\${SLURM_GPUS_PER_TASK} \
+   --nproc-per-node=\${SLURM_GPUS_ON_NODE} \
   \"
 
   torchrun \${TORCHRUN_ARGS} run_train.py --config-file examples/config_tiny_llama_wikitext.yaml

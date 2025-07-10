@@ -82,11 +82,11 @@ The container image to use. If empty, CE doesn't enter a container. Can referenc
 Initial working directory when the container starts.
 
 !!! example
-     * Workdir pointing to a user defined project path 
+     * Working directory pointing to a user defined project path 
         ```toml
         workdir = "/home/user/projects"
         ```
-     * Workdir pointing to the `/tmp` directory
+     * Working directory pointing to the `/tmp` directory
         ```toml
         workdir = "/tmp"
         ```
@@ -142,12 +142,17 @@ List of mounts in the format `SOURCE:DESTINATION[:FLAGS]`. By default, it perfor
 
      * Mounting the scratch filesystem using a host environment variable
         ```toml
-        mounts = ["${SCRATCH}:/scratch"]
+        mounts = ["${SCRATCH}:${SCRATCH}"]
         ```
 
      * Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`
         ```toml
         mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
+        ```
+
+     * Mounting multiple entities (the scratch filesystem and a SquashFS image)
+        ```toml
+        mounts = ["${SCRATCH}:${SCRATCH}", "${SCRATCH}/data.sqsh:/data:sqsh"]
         ```
 
 !!! note
@@ -210,7 +215,7 @@ OCI-like annotations for the container. For more details, refer to the [Annotati
 Environment variable expansion allows for dynamic substitution of environment variable values within the EDF (Environment Definition File). This capability applies across all configuration parameters in the EDF, providing flexibility in defining container environments.
 
  * *Syntax*. Use `${VAR}` to reference an environment variable `VAR`. The variable's value is resolved from the combined environment, which includes variables defined in the host and the container image, the later taking precedence.
- * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like mounts, workdir, image, etc. For example, `${SCRATCH}` can be used in mounts to reference a directory path.
+ * *Scope*. Variable expansion is supported across all EDF parameters. This includes EDF’s parameters like `mounts`, `workdir`, `image`, etc. For example, `${SCRATCH}` can be used in `mounts` to reference a directory path.
  * *Undefined Variables*. Referencing an undefined variable results in an error. To safely handle undefined variables, you can use the syntax `${VAR:-}`, which evaluates to an empty string if VAR is undefined.
  * *Preventing Expansion*. To prevent expansion, use double dollar signs $$. For example, `$${VAR}` will render as the literal string `${VAR}`.
  * *Limitations*

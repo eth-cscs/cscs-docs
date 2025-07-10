@@ -16,7 +16,7 @@ Clicking the "Create a new account" button will lead the user to the second step
 
 After submitting personal information, users have to wait for CSCS to review and approve the submission.
 
-Once accepted, you will recieve an email with a link to set your password.
+Once accepted, you will receive an email with a link to set your password.
 
 ```title="Acceptance email"
 Dear John Doe,
@@ -38,7 +38,7 @@ After your password has been set, you will be redirected to a page where you log
 
 ![](../images/access/first-login.png)
 
-From here you will need to set up [multi-factor authentification][ref-mfa-configure-otp] (MFA).
+From here you will need to set up [multi-factor authentication][ref-mfa-configure-otp] (MFA).
 
 Once MFA has been configured, you will finally be redirected to the CSCS portal as shown:
 

@@ -1,18 +1,43 @@
-# Recognized as "Firec" and "REST" with the regular rules, so in patterns.txt
-# instead of allow.txt
+# Recognized as separate words (e.g. "Firec" and "REST") with the regular rules,
+# so in patterns.txt instead of allow.txt
 FirecREST
 RESTful
+IPyParallel
+\`ENV\`ironment
+HECBioSim
+GmbH
+hEGFR
+cuDNN
+Schrödinger
+GROningen
+Säntis
+ScaLAPACK
+VSCode
+aarch64
 
 # markdown figure
-^!\[.*\]\(.*\)$
+!\[.*\]\(.*\)
 
 # Most obvious URLs
-https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)
+https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)
 
-# Markdown references (definition and use)
+# Markdown references and URLs (definition and use)
 ^\[\]\(\){#[a-z-]+}$
-\]\(#[a-z-]+\)
+\]\([^\s]+\)
 \]\[[a-z-]+\]
 
 # Inline code
 \`[^\`]+\`
+
+# kebab-case and snake_case words
+[a-z]+-[a-z-]+
+[a-z]+_[a-z_]+
+
+# versions
+[0-9]+\.[.0-9]+(\+[0-9a-z]+)?
+
+# software-name@version
+[A-Za-z-_]+@[0-9]+(\.[.0-9]+)?(\+[0-9a-z]+)?
+
+# img tag
+<img.*>

@@ -115,10 +115,10 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | unlim        | -    | 24 hours |
+| `normal` | unlimited  | -    | 24 hours |
 | `debug`  | 24         | 2    | 30 minutes |
 | `xfer`   | 2          | 1    | 24 hours |
-| `low`    | unlim        | -    | 24 hours |
+| `low`    | unlimited  | -    | 24 hours |
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
 * nodes in the `xfer` partition can be shared
@@ -127,7 +127,7 @@ See the Slurm documentation for instructions on how to run jobs on the [Grace-Ho
 
 ### FirecREST
 
-Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
+Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
 
 !!! warning "The FirecREST v1 API is still available, but deprecated"
 

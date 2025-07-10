@@ -53,7 +53,7 @@ Start the image and activate the Julia[up] HPC setup by loading the following vi
         uenv start julia/25.5:v1 --view=juliaup,modules
         ```
 
-There is also a view `jupyter` available, which is required for [using Julia in JupyterHub][using-julia-in-jupyterhub].
+There is also a view `jupyter` available, which is required for [using Julia in JupyterHub][using-julia-in-jupyter].
 
 !!! info "Automatic installation of Juliaup and Julia"
     The installation of `juliaup` and the latest `julia` version happens automatically the first time when `juliaup` is called:

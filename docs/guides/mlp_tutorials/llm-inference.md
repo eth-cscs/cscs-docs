@@ -12,7 +12,7 @@ The model we will be running is Google's [Gemma-7B](https://huggingface.co/googl
 
 ## Gemma-7B Inference using NGC PyTorch
 
-### Prequisites
+### Prerequisites
 
 This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML Platform][ref-platform-mlp].
 
@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y python3.10-venv && apt-get clean && rm 
 ```
 
 The first line specifies that we are working on top of an existing container.
-In this case we start `FROM`  an NGC PyTorch container.
+In this case we start `FROM` an NGC PyTorch container.
 Next, we set an `ENV`ironment variable that helps us run `apt-get` in the container.
 Finally, we `RUN` the package installer `apt-get` to install python virtual environments.
 This will let us install python packages later on without having to rebuild the container again and again.
@@ -76,14 +76,14 @@ $ enroot import -x mount -o pytorch-24.01-py3-venv.sqsh podman://pytorch:24.01-p
 
 where you should replace `<ACCOUNT>` with your project account ID.
 At this point, you can exit the Slurm allocation by typing `exit`.
-You should be able to see a new squashfile next to your Dockerfile:
+You should be able to see a new squashfs file next to your Dockerfile:
 
 ```console
 $ ls
 Dockerfile  pytorch-24.01-py3-ven.sqsh
 ```
 
-This squashfile is essentially a compressed container image, which can be run directly by the container engine.
+This squashfs file is essentially a compressed container image, which can be run directly by the container engine.
 We will use our freshly-built container `pytorch-24.01-py3-venv.sqsh` in the following steps to run a PyTorch script that loads the Google Gemma-7B model and performs some inference with it.
 
 ### Set up an EDF
@@ -109,7 +109,7 @@ Make sure to replace `<USER>` with your actual CSCS username.
 If you've decided to build the container somewhere else, make sure to supply the correct path to the `image` variable. 
 
 The `image` variable defines which container we want to load.
-This could either be a container from an online docker repository, like `nvcr.io/nvidia/pytorch:24.01-py3`, or in our case, a local squashfile which we built ourselves.
+This could either be a container from an online docker repository, like `nvcr.io/nvidia/pytorch:24.01-py3`, or in our case, a local squashfs file which we built ourselves.
 
 The `mounts` variable defines which directories we want to mount where in our container.
 In general, it's a good idea to use the scratch directory to store outputs from any scientific software.
@@ -278,7 +278,7 @@ Move on to the next tutorial or try the challenge.
 
 ### Challenge
 
-Using the same approach as in the latter half of step 4, use pip to install the package `nvitop`. This is a tool that shows you a concise real-time summary of GPU activity. Then, run Gemma and launch nvitop at the same time:
+Using the same approach as in the latter half of step 4, use pip to install the package `nvitop`. This is a tool that shows you a concise real-time summary of GPU activity. Then, run Gemma and launch `nvitop` at the same time:
 
 ```console
 (gemma-venv)$ python ./gemma-inference.py > ./gemma-output.log 2>&1 & nvitop
@@ -288,7 +288,7 @@ Note the use of bash `> ./gemma-output.log 2>&1` to hide any output from Python.
 Note also the use of the single ampersand `'&'` which backgrounds the first command and runs `nvitop` on top.
 
 After a moment, you will see your Python script spawn on all four GPUs, after which the GPU activity will increase a bit and then go back to idle.
-At this point, you can hit `q` to quite nvitop and you will find the output of your Python script in `./gemma-output.log`.
+At this point, you can hit `q` to quit `nvitop` and you will find the output of your Python script in `./gemma-output.log`.
 
 ### Collaborating in Git
 
