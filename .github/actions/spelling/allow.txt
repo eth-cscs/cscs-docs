@@ -106,7 +106,6 @@ Wannier
 XDG
 Zumsteinspitz
 aarch
-aarch64
 acfdt
 acl
 admin
@@ -123,6 +122,7 @@ bytecode
 capstor
 chatbot
 clariden
+codeowners
 concretise
 concretizer
 containerised
@@ -200,6 +200,7 @@ mkl
 mpi
 mps
 multitenancy
+nanoscale
 nanotron
 nccl
 netlib
