@@ -16,7 +16,7 @@ mkdir $STORE/wrf
 cd $STORE/wrf
 ```
 
-Then follow the steups in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`
+Then follow the steps in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git
@@ -97,7 +97,7 @@ Building CRYOWRF is a three step process:
 1. Build the bundled WRF
 
 !!! note
-    This workflow was developed in July 2025 using the most recent commit `8f83858f` of [CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) (commited in August 2023).
+    This workflow was developed in July 2025 using the most recent commit `8f83858f` of [CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) (committed in August 2023).
 
     It isn't very easy to install, and we have tried to streamline the process as much as possible, so take your time and follow the instructions closely.
 

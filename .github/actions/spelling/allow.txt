@@ -12,6 +12,7 @@ COSMA
 CPE
 cpe
 CPMD
+CRYOWRF
 CSCS
 CWP
 CXI
@@ -164,6 +165,8 @@ website
 wikipedia
 workaround
 workflows
+wrf
+WRF
 xattr
 xattrs
 youtube
