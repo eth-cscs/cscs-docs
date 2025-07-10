@@ -526,6 +526,3 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
 [Slurm]: https://slurm.schedmd.com/
 [CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
-
-
-remove me, I'm just a trigger for the spell checker

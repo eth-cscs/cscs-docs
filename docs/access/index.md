@@ -39,5 +39,3 @@ This documentation guides users through the process of accessing CSCS systems an
     [:octicons-arrow-right-24: SSH][ref-access-vscode]
 
 </div>
-
-remove me, I'm just a trigger for the spell checker
