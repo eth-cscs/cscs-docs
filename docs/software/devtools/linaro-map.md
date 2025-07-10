@@ -26,7 +26,7 @@ To open this file we can open the Linaro Forge Client on our local machine, navi
 
 After loading the report file we will be in the home of Linaro MAP.
 
-<img src="https://raw.githubusercontent.com/iomaganaris/alps-uenv/refs/heads/linaro_map_docs_archive/docs/images/map-home.png" width="800" />
+<img src="https://raw.githubusercontent.com/iomaganaris/alps-uenv/refs/heads/linaro_map_docs_archive/docs/images/map-home.png" width="800">
 
 ## Linaro Forge Performance Reports
 
