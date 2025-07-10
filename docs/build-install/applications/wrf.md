@@ -88,78 +88,96 @@ module load wrf
 
 ## CRYOWRF
 
-
 [CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) is a coupled atmosphere-snow cover model with WRF acting as the atmospheric core and SNOWPACK acting as snow cover model.
 
-Building CRYOWRF is a two step process:
+Building CRYOWRF is a three step process:
 
+1. install the dependencies like [`parallel-netcdf`](https://packages.spack.io/package.html?name=parallel-netcdf)
 1. build the SNOWPACK extension
-2. Build the bundled WRF
+1. Build the bundled WRF
 
 !!! note
     This workflow was developed in July 2025 using the most recent commit `8f83858f` of [CRYOWRF](https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF) (commited in August 2023).
 
-    The code does not appear to be regularly updated, so we expect that it will slowly become more difficult to build as time passes.
+    It isn't very easy to install, and we have tried to streamline the process as much as possible, so take your time and follow the instructions closely.
 
 !!! warning "Eiger only"
     This guide is for building on [Eiger][ref-cluster-eiger], which is an x86-based system.
 
     Building on the Grace-Hopper clusters like [Daint][ref-cluster-daint] is 
 
-We use [`prgenv-gnu/24.11:v2`][ref-uenv-prgenv-gnu] [uenv][ref-uenv], which can be downloaded:
+We use [`prgenv-gnu/24.11:v2`][ref-uenv-prgenv-gnu] [uenv][ref-uenv].
+
+### Step 1: install required packages
+
+The first step is to create an empty directory where everything will be installed.
+Here, we create it in your project's [Store][ref-storage-store] path, where the package can be accessed by all users in your project.
+```bash
+export WRFROOT=$STORE/wrf
+mkdir $WRFROOT
+cd $WRFROOT
+```
+
+The following dependencies that are not provided by `prgenv-gnu` are required:
+
+* `parallel-netcdf`: used by WRF.
+* `jasper~shared`: used by WPS (`~shared` will build static libraries, required by WPS).
+* `zlib-ng` and `libpng`: used by WPS.
+
+Then follow the steups in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
 
 ```bash
-uenv image pull prgenv-gnu/24.11:v2
-```
-
-### Step 0: install required packages
-
-```
-mkdir $STORE/wrf
-cd $STORE/wrf
-export WRFPATH=$STORE/wrf
-```
-
-```
+# start the uenv with the spack view enabled
 uenv start prgenv-gnu/24.11:v2 --view=spack
+
+# download and install uenv-spack
+cd $WRFROOT
 git clone https://github.com/eth-cscs/uenv-spack.git
 (cd uenv-spack && ./bootstrap)
-./uenv-spack/uenv-spack $PWD/dependencies --uarch=zen2 --specs=parallel-netcdf,jasper,libpng,zlib-ng
+```
 
-cd dependencies
+Now we configure and build the environment (the final "build" phase will take a while - 5-10 minutes typically)
+```bash
+export WRFDEPS=$WRFROOT/dependencies
+$WRFROOT/uenv-spack/uenv-spack $WRFDEPS --uarch=zen2 --specs='parallel-netcdf,jasper~shared,libpng,zlib-ng'
+cd $WRFDEPS
 ./build
 ```
 
-This step is performed once, and will install the software in `$WRFPATH/dependencies/view`
+Now the dependencies are installed, finish the uenv spack session:
 
-Finish the uenv session:
-```
+```bash
 exit
 ```
 
-### Step 1: build SNOWPACK
+!!! warning
+    This step is performed once, and will install the software in `$WRFDEPS`, where they can be used to build and run WRF.
 
+### Step 2: build SNOWPACK
+
+Use the `default` view of `prgenv-gnu` to build SNOWPACK, WRF and WPS:
 
 ```
+export WRFROOT=$STORE/wrf
 uenv start prgenv-gnu/24.11:v2 --view=default
-```
-
-Clone the software
-
-```bash
-cd $WRFPATH
-git clone https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF.git
-cd CRYOWRF
 ```
 
 !!! note
     You don't need to load any modules: the `default` view will add everything to your environment.
 
+First download the CRYOWRF software:
 
+```bash
+git clone https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF.git $WRFROOT/CRYOWRF
+cd $WRFROOT/CRYOWRF
 ```
+
+Set the following environment variables:
+
+```bash
 export NETCDF=/user-environment/env/default
 export HDF5=/user-environment/env/default
-export PNETCDF=$WRFPATH/dependencies/view
+export PNETCDF=$WRFDEPS/view
 export WRF_EM_CORE=1
 export WRF_NMM_CORE=0
 export WRF_DA_CORE=0
@@ -171,31 +189,28 @@ export NETCDF4=1
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
 
-export JASPERLIB=$WRFPATH/dependencies/view/lib64
-export JASPERINC=$WRFPATH/dependencies/view/include
+export JASPERLIB=$WRFDEPS/view/lib64
+export JASPERINC=$WRFDEPS/view/include
 
 export CC=mpicc
 export FC=mpifort
 export CXX=mpic++
-
-ulimit -s unlimited
-ulimit -c unlimited
 ```
 
-clean and compile
+Then compile SNOWPACK:
+
 ```
 ./clean.sh
 ./compiler_snow_libs.sh
 ```
 
+### Step 3: build WRF
 
-### Step 2: build WRF
+The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to integrate the SNOWPACK extension build in the previous step.
 
-The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to integrate the SNOWPACK extension build in step 1.
-
-```
-export SNOWLIBS=$WRFPATH/CRYOWRF/snpack_for_wrf
-cd  WRF
+```bash
+export SNOWLIBS=$WRFROOT/CRYOWRF/snpack_for_wrf
+cd $WRFROOT/CRYOWRF/WRF
 ./clean -a
 # [choose option 35][nesting: choose option 1] when prompted by configure
 ./configure
@@ -204,8 +219,9 @@ cd  WRF
 !!! info "Set `SNOWLIBS`"
     The `SNOWLIBS` environment variable needs to be set so that WRF can find the extension we compiled earlier.
 
-Make sure that the following lines are set in `configure.wrf`:
-```
+Open the configure.wrf file that was generated by calling `./configure`, and update the following lines:
+
+```bash
 SFC             =    gfortran
 SCC             =    gcc
 CCOMP           =    gcc
@@ -216,8 +232,88 @@ FCBASEOPTS      =    $(FCBASEOPTS_NO_G) $(FCDEBUG) -fallow-argument-mismatch -fa
 NETCDFPATH      =    /user-environment/env/default
 ```
 
-Now compile WRF :fingers-crossed:
+And apply the following "patch":
+```bash
+sed -i 's|hdf5hl|hdf5_hl|g' configure.wrf
+```
+
+Now compile WRF, which will take a while:
 
 ```
 ./compile em_real -j 64 &> log_compile
+```
+
+The compilation output is captured in `log_compile`.
+On success, the log should have the message `Executables successfully built`:
+
+```console
+$ tail -n14 log_compile
+
+==========================================================================
+build started:   Thu 10 Jul 2025 04:54:53 PM CEST
+build completed: Thu 10 Jul 2025 05:17:41 PM CEST
+
+--->                  Executables successfully built                  <---
+
+-rwxr-xr-x 1 bcumming csstaff 121952104 Jul 10 17:16 main/ndown.exe
+-rwxr-xr-x 1 bcumming csstaff 121728120 Jul 10 17:17 main/real.exe
+-rwxr-xr-x 1 bcumming csstaff 120519144 Jul 10 17:17 main/tc.exe
+-rwxr-xr-x 1 bcumming csstaff 141159472 Jul 10 17:14 main/wrf.exe
+
+==========================================================================
+```
+
+### Step 4: build WPS
+
+Using the same environment configured
+
+```
+cd $WRFROOT/CRYOWRF/WPS-4.2
+# choose option 2
+./configure
+```
+
+Update `configure.wps` as follows:
+```
+SFC                 = gfortran
+SCC                 = gcc
+DM_FC               = mpif90
+DM_CC               = mpicc
+FC                  = gfortran
+CC                  = gcc
+LD                  = $(FC)
+FFLAGS              = -ffree-form -O -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz
+F77FLAGS            = -ffixed-form -O -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz
+```
+
+Note the arguments `-fallow-argument-mismatch -fallow-invalid-boz` added to `FFLAGS` and `F77FLAGS`.
+
+Then compile:
+```
+./compile &> log_compile
+```
+
+The compilation output is captured in `log_compile`.
+On success, the log should have the message `Executables successfully built`:
+
+```console
+$ tail -n14 log_compile
+```
+
+### Running CRYOWRF
+
+Add the following to your SBATCH job script:
+```bash
+#SBATCH --uenv=prgenv-gnu/24.11:v2
+#SBATCH --view=default
+
+# set LD_LIBRARY_PATH to find the dependencies installed in step 1
+export WRFROOT=$STORE/wrf
+export WRFDEPS=$WRFROOT/dependencies
+export LD_LIBRARY_PATH=$WRFDEPS/view/lib:$WRFDEPS/view/lib64:$LD_LIBRARY_PATH
+
+# set other environment variables
+
+# then run wrf.exe
+wrf.exe
 ```
