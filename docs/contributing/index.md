@@ -57,12 +57,11 @@ Then navigate to GitHub, and create a pull request.
 
 ## Review process
 
-Documentation is owned by everybody - so don't be afraid to jump in and make changes or fixes where you see that there is something missing or outdated.
+Documentation is maintained by everybody - so don't be afraid to jump in and make changes or fixes where you see the need or the potential.
 
-If you plan to make large changes or contributions, please discuss them with the documentation owners beforehand, to make sure that the documentation will fit into the larger documentation structure.
+If you plan to make significantly large changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
 
-If the documentation that you write or update might affect multiple stakeholders, ping them for a review.
-If you don't get a timely reply, ask the documentation owners for a review or for permission to merge.
+If you think your documentation update could affect specific stakeholders, ping them for a review. The same applies if you are not getting get a timely reply for your pull request. You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
