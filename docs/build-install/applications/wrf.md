@@ -171,8 +171,8 @@ export NETCDF4=1
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
 
-export JASPERLIB=WRFPATH/dependencies/view/lib64
-export JASPERINC=WRFPATH/dependencies/view/include
+export JASPERLIB=$WRFPATH/dependencies/view/lib64
+export JASPERINC=$WRFPATH/dependencies/view/include
 
 export CC=mpicc
 export FC=mpifort
@@ -193,21 +193,31 @@ clean and compile
 
 The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to integrate the SNOWPACK extension build in step 1.
 
-```console
-$ cd  WRF
-$ clean -a
-$ ./configure.sh
-[choose option 35][nesting: choose option 1]
+```
+export SNOWLIBS=$WRFPATH/CRYOWRF/snpack_for_wrf
+cd  WRF
+./clean -a
+# [choose option 35][nesting: choose option 1] when prompted by configure
+./configure
 ```
 
-`configure.wrf`
+!!! info "Set `SNOWLIBS`"
+    The `SNOWLIBS` environment variable needs to be set so that WRF can find the extension we compiled earlier.
+
+Make sure that the following lines are set in `configure.wrf`:
 ```
-SFC             =       gfortran
-SCC             =       gcc
-CCOMP           =       gcc
-DM_FC           =       mpif90
-DM_CC           =       mpicc
-FC              =       mpif90
-FCBASEOPTS      =       $(FCBASEOPTS_NO_G) $(FCDEBUG) -fallow-argument-mismatch -fallow-invalid-boz -g
+SFC             =    gfortran
+SCC             =    gcc
+CCOMP           =    gcc
+DM_FC           =    mpif90
+DM_CC           =    mpicc
+FC              =    mpif90
+FCBASEOPTS      =    $(FCBASEOPTS_NO_G) $(FCDEBUG) -fallow-argument-mismatch -fallow-invalid-boz -g
+NETCDFPATH      =    /user-environment/env/default
 ```
 
+Now compile WRF :fingers-crossed:
+
+```
+./compile em_real -j 64 &> log_compile
+```
