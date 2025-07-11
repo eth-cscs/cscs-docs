@@ -463,7 +463,7 @@ If you want only specific artifacts in your job, you should have a look at [depe
 
 There is also a building block in the templates, name `.dynamic-image-name`, which you can use to get rid for most of the boilerplate.
 It is important to note that this building block will export the dynamic name under the hardcoded name `BASE_IMAGE` in the `dotenv` file.
-Additionally the variable `DOCKER_TAG`, which is the tag of the image is exported in the `dotenv` file.
+The variable `DOCKER_TAG`, containing the tag of the image, is also exported in the `dotenv` file.
 The jobs would look something like this:
 ```yaml
 build base:
