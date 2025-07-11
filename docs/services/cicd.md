@@ -487,7 +487,7 @@ build software:
 Have a look at the definition of the block `.dynamic-image-name` in the file [.ci-ext.yml](https://gitlab.com/cscs-ci/recipes/-/blob/master/templates/v2/.ci-ext.yml) for further notes.
 
 !!! example "GT4Py example"
-    An example using `.dynamic-image-name` in action can be found in the [gt4py repository](https://github.com/GridTools/gt4py/tree/main/ci)
+    An example using `.dynamic-image-name` in action can be found in the [gt4py repository](https://github.com/GridTools/gt4py/tree/main/ci).
 
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
