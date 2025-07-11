@@ -88,7 +88,7 @@ There are three files used to configure words that get ignored:
 - `.github/actions/spelling/block-delimiters.txt`:
   This file can be used to ignore words between begin- and end markers.
   For example, code blocks starting and ending with `` ``` `` are ignored from spell checking as they often contain unusual words not in dictionaries.
-  If adding words to `allow.txt` or `patterns.txt`, or ignoring blocks with `block-delimiters.list`, is not sufficient, you can as a last resort use the HTML comments `<!--begin no spell check-->` and `!--end no spell check-->` to ignore spell checking for a larger block of text.
+  If adding words to `allow.txt` or `patterns.txt`, or ignoring blocks with `block-delimiters.list`, is not sufficient, you can as a last resort use the HTML comments `<!--begin no spell check-->` and `<!--end no spell check-->` to ignore spell checking for a larger block of text.
   The comments will not be rendered in the final documentation.
 
 Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
