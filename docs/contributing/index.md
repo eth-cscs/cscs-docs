@@ -20,7 +20,7 @@ git switch -c 'fix/ssh-alias'
 # ... make your edits ...
 ```
 
-Review your edits checking the [Guidelines](#guidelines) section below.
+Review your edits checking the [Guidelines][ref-contributing-guidelines] section below.
 
 !!! note
     Note that a simple editor markdown preview may not render all the features of the documentation.
@@ -59,7 +59,7 @@ Then navigate to GitHub, and create a pull request.
 
 Documentation is maintained by everybody - so don't be afraid to jump in and make changes or fixes where you see the need or the potential.
 
-If you plan to make significantly large changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
+If you plan to make significant changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
 
 If you think your documentation update could affect specific stakeholders, ping them for a review. The same applies if you are not getting get a timely reply for your pull request. You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
 
