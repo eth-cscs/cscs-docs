@@ -74,7 +74,7 @@ There are three files used to configure words that get ignored:
 
 - `.github/actions/spelling/allow.txt`:
   This is the main file for whitelisting words.
-  Each line of the file contains a word that is ignored by the spellchecker.
+  Each line of the file contains a word that is ignored by the spell checker.
   All lowercase words are matched with any capitalization, while words containing at least one uppercase letter are matched with the given capitalization.
   Using the capitalized word is useful if you always want to ensure the same spelling, e.g. for names.
 <!--begin no spell check-->
