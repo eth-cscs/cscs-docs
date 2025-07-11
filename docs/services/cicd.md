@@ -463,6 +463,7 @@ If you want only specific artifacts in your job, you should have a look at [depe
 
 There is also a building block in the templates, name `.dynamic-image-name`, which you can use to get rid for most of the boilerplate.
 It is important to note that this building block will export the dynamic name under the hardcoded name `BASE_IMAGE` in the `dotenv` file.
+The variable `DOCKER_TAG`, containing the tag of the image, is also exported in the `dotenv` file.
 The jobs would look something like this:
 ```yaml
 build base:
@@ -484,6 +485,9 @@ build software:
 
 `build base` is using additionally the building block `.dynamic-image-name`, while `build software` is unchanged.
 Have a look at the definition of the block `.dynamic-image-name` in the file [.ci-ext.yml](https://gitlab.com/cscs-ci/recipes/-/blob/master/templates/v2/.ci-ext.yml) for further notes.
+
+!!! example "GT4Py example"
+    An example using `.dynamic-image-name` in action can be found in the [gt4py repository](https://github.com/GridTools/gt4py/tree/main/ci).
 
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
