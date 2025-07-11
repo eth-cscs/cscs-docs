@@ -326,7 +326,6 @@ wlcg
 workaround
 workflows
 wrf
-WRF
 xattr
 xattrs
 xcb
