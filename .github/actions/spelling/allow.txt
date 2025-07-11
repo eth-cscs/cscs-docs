@@ -106,7 +106,6 @@ Wannier
 XDG
 Zumsteinspitz
 aarch
-aarch64
 acfdt
 acl
 admin
@@ -201,6 +200,7 @@ mkl
 mpi
 mps
 multitenancy
+nanoscale
 nanotron
 nccl
 netlib

@@ -142,12 +142,17 @@ List of mounts in the format `SOURCE:DESTINATION[:FLAGS]`. By default, it perfor
 
      * Mounting the scratch filesystem using a host environment variable
         ```toml
-        mounts = ["${SCRATCH}:/scratch"]
+        mounts = ["${SCRATCH}:${SCRATCH}"]
         ```
 
      * Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`
         ```toml
         mounts = ["${SCRATCH}/data.sqsh:/data:sqsh"]
+        ```
+
+     * Mounting multiple entities (the scratch filesystem and a SquashFS image)
+        ```toml
+        mounts = ["${SCRATCH}:${SCRATCH}", "${SCRATCH}/data.sqsh:/data:sqsh"]
         ```
 
 !!! note
