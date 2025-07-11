@@ -118,6 +118,10 @@ nav:
       - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
       - 'LLM Fine-tuning': guides/mlp_tutorials/llm-finetuning.md
       - 'LLM Training': guides/mlp_tutorials/llm-nanotron-training.md
+  - 'Kubernetes':
+    - 'Clusters': kubernetes/clusters.md
+    - 'Kubernetes Upgrades': kubernetes/kubernetes-upgrades.md
+    - 'Node OS Upgrades': kubernetes/node-upgrades.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
