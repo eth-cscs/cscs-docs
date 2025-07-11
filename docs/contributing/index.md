@@ -37,12 +37,6 @@ INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 
 You can now open your browser at the address shown above (`http://127.0.0.1:8000/`). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.
 
-Alternatively, you can build the docs in a `site` sub-directory and open `site/index.html` with your browser too.
-
-```bash
-./serve build
-```
-
 After your first review, commit and push your changes
 ```bash
 git add <files>
@@ -67,6 +61,7 @@ If you think your documentation update could affect specific stakeholders, ping 
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
     We will start simple, and add more formality as needed.
 
+[](){#ref-contributing-guidelines}
 ## Guidelines
 
 ### Links
