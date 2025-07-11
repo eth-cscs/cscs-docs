@@ -55,7 +55,9 @@ Documentation is maintained by everybody - so don't be afraid to jump in and mak
 
 If you plan to make significant changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
 
-If you think your documentation update could affect specific stakeholders, ping them for a review. The same applies if you are not getting get a timely reply for your pull request. You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
+If you think your documentation update could affect specific stakeholders, ping them for a review.
+The same applies if you are not getting get a timely reply for your pull request.
+You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
@@ -93,11 +95,11 @@ Instead, we advocate adding unique references to sections.
 
 === "adding a reference"
 
-    Add a reference above the item, in this case we want to link to the section with the title `## The Fast Server`:
+    Add a reference above the item, in this case we want to link to the section with the title `## The fast server`:
 
     ```
-    [](){#ref-servers-fast}
-    ## Fast Server
+    [](){#ref-fast-server}
+    ## Fast server
     ```
 
     Use the `[](){#}` syntax to define the reference/anchor.
@@ -110,7 +112,7 @@ Instead, we advocate adding unique references to sections.
     In any other file in the project, use the `[][]` syntax to refer to the link (note that this link type uses square braces, instead of the usual parenthesis):
 
     ```
-    [the fast server][ref-servers-fast]
+    [the fast server][ref-fast-server]
     ```
 
 The benefits of this approach are that the link won't break if
@@ -239,7 +241,7 @@ At the top of each page there is an "edit" icon :material-pencil:, which will op
 Once your changes are ready, click on the "Commit changes..." button in the top right hand corner of the editor, and add at least a description commit message.
 
 !!! tip
-    See [the GitLab official guide on editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) for a step-by-step walkthrough.
+    See [the GitHub official guide on editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) for a step-by-step walkthrough.
 
 !!! note
     Use the default option **Create a new branch for this commit and start a pull request**.
