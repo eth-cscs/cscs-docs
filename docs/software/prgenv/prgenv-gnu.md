@@ -10,6 +10,7 @@ It is the go to programming environment on all systems and target node types, th
 
     The [`linalg`][ref-uenv-linalg] environment is similar to prgenv-gnu, with additional linear algebra and mesh partitioning algorithms.
 
+[](){#ref-uenv-prgenv-gnu-versioning}
 ## Versioning
 
 The naming scheme is `prgenv-gnu/<version>`, where `<version>` has the `YY.M[M]` format, for example November 2024 is `24.11`, and January 2025 would be `25.1`.
@@ -21,6 +22,15 @@ The release schedule is not fixed, with new versions will be released roughly ev
 | 25.06 (prerelease) | gh200             | daint                                   |
 | 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
 | 24.7               | gh200, zen2       | daint, eiger, todi                      |
+
+### Deprecation policy
+
+We will provide full support for 12 months after the uenv image is released, and remove the images when they are no longer being used or when system upgrades break their functionality on the system.
+
+* It is recommended to document how you compiled and set up your workflow using `prgenv-gnu` so that you can recreate it with future versions.
+* The 24.7 release is no longer supported and will be removed at the end of July 2025 - users are encouraged to update to 24.11 or later, before requesting support.
+
+### Versions
 
 === "24.11"
 
