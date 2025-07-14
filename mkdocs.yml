@@ -73,7 +73,7 @@ nav:
     - 'Building and Installing software':
       - build-install/index.md
       - 'uenv': build-install/uenv.md
-      - 'containers (podman)': build-install/containers.md
+      - 'Containers (podman)': build-install/containers.md
       - 'Python with pip': build-install/pip.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
@@ -93,7 +93,10 @@ nav:
       - 'Resource and hooks': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
-    - 'Unsupported Software': software/unsupported.md
+    - 'Unsupported Software':
+      - software/unsupported/index.md
+      - 'Matlab': build-install/applications/matlab.md
+      - 'WRF': build-install/applications/wrf.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
