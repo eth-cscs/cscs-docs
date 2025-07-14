@@ -249,7 +249,7 @@ The versioning section should provide the following information:
 * the support, update and deprecation policy for the uenv;
 * details about the currently deployed versions, changelogs and relevant information how to upgrade if appropriate.
 
-!!! example "Example deprecation policy"
+??? example "Example deprecation policy"
     A scientific application `sciapp` is released annually by the developers, and projects using the software on CSCS systems expect support for two years.
 
     * Release a new version annually and version with the year, for example `sciapp/2025` being the most recent version in 2025.
