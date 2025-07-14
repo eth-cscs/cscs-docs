@@ -23,6 +23,9 @@ git clone https://github.com/eth-cscs/uenv-spack.git
 (cd uenv-spack && ./bootstrap)
 ```
 
+!!! warning
+    Run the step of downloading and running the bootstrap script for `uenv-spack` _before_ starting a uenv.
+
 The [`prgenv-gnu`][ref-uenv-prgenv-gnu] uenv is suitable for building WRF.
 ```
 uenv start prgenv-gnu/24.11:v2 --view=spack
@@ -110,11 +113,45 @@ We use [`prgenv-gnu/24.11:v2`][ref-uenv-prgenv-gnu] [uenv][ref-uenv].
 
 ### Step 1: install required packages
 
+??? example "Full script"
+    Here is the full script for the steps described in this step.
+
+    ```bash
+    # the root directory under which all dependencies and WRF/CRYOWRF will be installed
+    export WRFROOT=$STORE/wrf
+    # the directory where we will install the dependencies of WRF/CRYOWRF/WPS
+    export WRFDEPS=$WRFROOT/dependencies
+
+    # assume that we are crating WRFROOT for the first time
+    mkdir $WRFROOT
+
+    # download and install uenv-spack
+    git clone https://github.com/eth-cscs/uenv-spack.git $WRFROOT/uenv-spack
+    (cd $WRFROOT/uenv-spack && ./bootstrap)
+
+    # start the uenv with the spack view enabled
+    # warning: bootstrap the uenv-spack tool _before_ starting the uenv
+    uenv start prgenv-gnu/24.11:v2 --view=spack
+
+    # configure the environment and build it
+    $WRFROOT/uenv-spack/uenv-spack $WRFDEPS --uarch=zen2 --specs='parallel-netcdf,jasper~shared,libpng,zlib-ng'
+    cd $WRFDEPS
+    ./build
+
+    # finish the session
+    exit
+    ```
+
 The first step is to create an empty directory where everything will be installed.
 Here, we create it in your project's [Store][ref-storage-store] path, where the package can be accessed by all users in your project.
 ```bash
+# the root directory under which all dependencies and WRF/CRYOWRF will be installed
 export WRFROOT=$STORE/wrf
+# the directory where we will install the dependencies of WRF/CRYOWRF/WPS
+export WRFDEPS=$WRFROOT/dependencies
+# assume that we are crating WRFROOT for the first time
 mkdir $WRFROOT
+
 cd $WRFROOT
 ```
 
@@ -127,18 +164,20 @@ The following dependencies that are not provided by `prgenv-gnu` are required:
 Then follow the steps in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
 
 ```bash
+# download and install uenv-spack
+git clone https://github.com/eth-cscs/uenv-spack.git $WRFROOT/uenv-spack
+(cd $WRFROOT/uenv-spack && ./bootstrap)
+```
+
+!!! warning
+    Run the step of downloading and running the bootstrap script for `uenv-spack` _before_ starting a uenv.
+
+Now we configure and build the environment, note that the final "build" phase will take a around 5-10 minutes.
+
+```bash
 # start the uenv with the spack view enabled
 uenv start prgenv-gnu/24.11:v2 --view=spack
 
-# download and install uenv-spack
-cd $WRFROOT
-git clone https://github.com/eth-cscs/uenv-spack.git
-(cd uenv-spack && ./bootstrap)
-```
-
-Now we configure and build the environment (the final "build" phase will take a while - 5-10 minutes typically)
-```bash
-export WRFDEPS=$WRFROOT/dependencies
 $WRFROOT/uenv-spack/uenv-spack $WRFDEPS --uarch=zen2 --specs='parallel-netcdf,jasper~shared,libpng,zlib-ng'
 cd $WRFDEPS
 ./build
@@ -150,15 +189,57 @@ Now the dependencies are installed, finish the uenv spack session:
 exit
 ```
 
-!!! warning
+!!! note
     This step is performed once, and will install the software in `$WRFDEPS`, where they can be used to build and run WRF.
 
 ### Step 2: build SNOWPACK
 
+??? example "Full script"
+    Here is the full script, that is described in detail in this step.
+
+    ```bash
+    uenv start --view-default prgenv-gnu/24.11:v2
+
+    # set the paths to match those used in Step 1
+    export WRFROOT=$STORE/wrf
+    export WRFDEPS=$WRFROOT/dependencies
+
+    git clone https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF.git $WRFROOT/CRYOWRF
+    cd $WRFROOT/CRYOWRF
+
+    export NETCDF=/user-environment/env/default
+    export HDF5=/user-environment/env/default
+    export PNETCDF=$WRFDEPS/view
+
+    export WRF_EM_CORE=1
+    export WRF_NMM_CORE=0
+    export WRF_DA_CORE=0
+
+    export WRF_CHEM=0
+    export WRF_KPP=0
+
+    export NETCDF4=1
+    export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+    export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
+
+    export CC=mpicc
+    export FC=mpifort
+    export CXX=mpic++
+
+    ./clean.sh
+    ./compiler_snow_libs.sh
+
+    # finish the session
+    exit
+    ```
+
 Use the `default` view of `prgenv-gnu` to build SNOWPACK, WRF and WPS:
 
 ```
+# set the paths to match those used in Step 1
 export WRFROOT=$STORE/wrf
+export WRFDEPS=$WRFROOT/dependencies
+
 uenv start prgenv-gnu/24.11:v2 --view=default
 ```
 
@@ -178,8 +259,6 @@ Set the following environment variables:
 export NETCDF=/user-environment/env/default
 export HDF5=/user-environment/env/default
 export PNETCDF=$WRFDEPS/view
-export JASPERLIB=$WRFDEPS/view/lib64
-export JASPERINC=$WRFDEPS/view/include
 
 export WRF_EM_CORE=1
 export WRF_NMM_CORE=0
@@ -204,7 +283,63 @@ Then compile SNOWPACK:
 ./compiler_snow_libs.sh
 ```
 
+
 ### Step 3: build WRF
+
+??? example "Full script"
+    Here is the full script, that is described in detail in this step.
+
+    ```bash
+    uenv start --view-default prgenv-gnu/24.11:v2
+
+    # set the paths to match those used in Step 1
+    export WRFROOT=$STORE/wrf
+    export WRFDEPS=$WRFROOT/dependencies
+
+    # required for the CRYOWRF build to find SNOWPACK built in step 1
+    export SNOWLIBS=$WRFROOT/CRYOWRF/snpack_for_wrf
+
+    # set variables used by the WRF build tool
+    export NETCDF=/user-environment/env/default
+    export HDF5=/user-environment/env/default
+    export PNETCDF=$WRFDEPS/view
+
+    export WRF_EM_CORE=1
+    export WRF_NMM_CORE=0
+    export WRF_DA_CORE=0
+
+    export WRF_CHEM=0
+    export WRF_KPP=0
+
+    export NETCDF4=1
+    export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+    export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
+
+    export CC=mpicc
+    export FC=mpifort
+    export CXX=mpic++
+
+    git clone https://gitlabext.wsl.ch/atmospheric-models/CRYOWRF.git $WRFROOT/CRYOWRF
+    cd $WRFROOT/CRYOWRF/WRF
+
+    ./clean -a
+    # [choose option 34][nesting: choose option 1] when prompted by configure
+    ./configure
+
+    # edit configure.wrf
+    vim configure.wrf
+    # SFC             =    gfortran
+    # SCC             =    gcc
+    # CCOMP           =    gcc
+    # DM_FC           =    mpif90
+    # DM_CC           =    mpicc
+    # FC              =    mpif90
+    # FCBASEOPTS      =    $(FCBASEOPTS_NO_G) $(FCDEBUG) -fallow-argument-mismatch -fallow-invalid-boz -g
+    # NETCDFPATH      =    /user-environment/env/default
+
+    sed -i 's|hdf5hl|hdf5_hl|g' configure.wrf
+    ./compile em_real -j 64 &> log_compile
+    ```
 
 The CRYOWRF repository includes a copy of WRF v4.2.1, that has been modified to integrate the SNOWPACK extension build in the previous step.
 
@@ -265,6 +400,46 @@ build completed: Thu 10 Jul 2025 05:17:41 PM CEST
 
 ### Step 4: build WPS
 
+??? example "Full script"
+    Here is the full script, that is described in detail in this step.
+
+    ```bash
+    uenv start --view-default prgenv-gnu/24.11:v2
+
+    # set the paths to match those used in Step 1
+    export WRFROOT=$STORE/wrf
+    export WRFDEPS=$WRFROOT/dependencies
+
+    # set variables used by the WRF build tool
+    export NETCDF=/user-environment/env/default
+    export HDF5=/user-environment/env/default
+    export PNETCDF=$WRFDEPS/view
+    export JASPERLIB=$WRFDEPS/view/lib64
+    export JASPERINC=$WRFDEPS/view/include
+
+    export CC=mpicc
+    export FC=mpifort
+    export CXX=mpic++
+
+    cd $WRFROOT/CRYOWRF/WPS-4.2
+    ./configure # choose option 1
+
+    # edit configure.wrf to ensure the following variables are set
+    vim ./configure.wrf
+
+    # SFC                 = gfortran
+    # SCC                 = gcc
+    # DM_FC               = mpif90
+    # DM_CC               = mpicc
+    # FC                  = gfortran
+    # CC                  = gcc
+    # LD                  = $(FC)
+    # FFLAGS              = -ffree-form -O -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz
+    # F77FLAGS            = -ffixed-form -O -fconvert=big-endian -frecord-marker=4 -fallow-argument-mismatch -fallow-invalid-boz
+
+    ./compile &> log_compile
+    ```
+
 Using the same environment as above
 
 ```bash
@@ -311,6 +486,18 @@ Add the following to your SBATCH job script:
 export WRFROOT=$STORE/wrf
 export WRFDEPS=$WRFROOT/dependencies
 export LD_LIBRARY_PATH=$WRFDEPS/view/lib:$WRFDEPS/view/lib64:$LD_LIBRARY_PATH
+
+# set WRF variables
+export WRF_EM_CORE=1
+export WRF_NMM_CORE=0
+export WRF_DA_CORE=0
+
+export WRF_CHEM=0
+export WRF_KPP=0
+
+export NETCDF4=1
+export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+export WRFIO_NCD_NO_LARGE_FILE_SUPPORT=0
 
 # set other environment variables
 
