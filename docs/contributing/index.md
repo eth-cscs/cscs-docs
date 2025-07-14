@@ -8,7 +8,7 @@ This means that everybody, CSCS staff and the CSCS user community can contribute
 
 We use the GitHub fork and pull request model for development:
 
-* First create a fork of the [main GitHub repository](https://github.com/eth-cscs/cscs-docs).
+* First create a [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) of the [main GitHub repository](https://github.com/eth-cscs/cscs-docs).
 * Make all proposed changes in branches on your fork - don't make branches on the main repository (we reserve the right to block creating branches on the main repository).
 
 Clone your fork repository on your PC/laptop:
@@ -19,46 +19,83 @@ cd cscs-docs
 # create a branch for your changes (here we are fixing the ssh docs)
 git switch -c 'fix/ssh-alias'
 # ... make your edits ...
-# add and commit your changes
-git add <files>
-git commit -m 'update the ssh docs with aliases for all user lab vclusters'
-git push origin 'fix/ssh-alias'
 ```
-Then navigate to GitHub, and create a pull request.
 
-The `serve` script in the root path of the repository can be used to view the docs locally:
+Review your edits checking the [Guidelines][ref-contributing-guidelines] section below.
+
+!!! note
+    Note that a simple editor markdown preview may not render all the features of the documentation.
+
+To properly review the docs locally, the `serve` script in the root path of the repository can be used as shown below:
 ```bash
 ./serve
 ...
 INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 ```
-This generates the documentation locally, which can be viewed using a local link, which is `http://127.0.0.1:8000/` by default.
-The documentation will be rebuilt and the webpage reloaded when changed files are saved.
 
 !!! note
     To run the serve script, you need to first install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-To build the docs in a `site` sub-directory:
+You can now open your browser at the address shown above (`http://127.0.0.1:8000/`). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.
+
+After your first review, commit and push your changes
 ```bash
-./serve build
+git add <files>
+git commit -m 'update the ssh docs with aliases for all user lab vclusters'
+git push origin 'fix/ssh-alias'
 ```
+
+Then navigate to GitHub, and create a pull request.
 
 !!! tip
     If you've already created a fork repository, make sure to [keep it synced](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) to the main CSCS repository before making further change.
 
 ## Review process
 
-Documentation is owned by everybody - so don't be afraid to jump in and make changes or fixes where you see that there is something missing or outdated.
+Documentation is maintained by everybody - so don't be afraid to jump in and make changes or fixes where you see the need or the potential.
 
-If you plan to make large changes or contributions, please discuss them with the documentation owners beforehand, to make sure that the documentation will fit into the larger documentation structure.
+If you plan to make significant changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
 
-If the documentation that you write or update might affect multiple stakeholders, ping them for a review.
-If you don't get a timely reply, ask the documentation owners for a review or for permission to merge.
+If you think your documentation update could affect specific stakeholders, ping them for a review.
+The same applies if you are not getting get a timely reply for your pull request.
+You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
     We will start simple, and add more formality as needed.
 
+### Spell checker
+
+A spell checker workflow runs on all PRs to help catch simple typos.
+If the spell checker finds words that it considers misspelled, it will add a comment like [this](https://github.com/eth-cscs/cscs-docs/pull/193#issuecomment-3056795496) to the PR, listing the words that it finds misspelled.
+
+The spell checker isn't always right and can be configured to ignore words.
+Most frequently technical terms, project names, etc. will not be in the dictionaries.
+There are three files used to configure words that get ignored:
+
+- `.github/actions/spelling/allow.txt`:
+  This is the main file for whitelisting words.
+  Each line of the file contains a word that is ignored by the spell checker.
+  All lowercase words are matched with any capitalization, while words containing at least one uppercase letter are matched with the given capitalization.
+  Using the capitalized word is useful if you always want to ensure the same spelling, e.g. for names.
+<!--begin no spell check-->
+- `.github/actions/spelling/patterns.txt`:
+  This file is used to ignore words that match a given regular expression.
+  This file is useful to ignore e.g. URLs or markdown references.
+  Words that have unusual capitalization may also need to be added to this file to make sure they are ignored.
+  For example, "FirecREST" is normally recognized as two words: "Firec" and "REST", and adding "FirecREST" to `allow.txt` will not ignore the word.
+  In this case it can be ignored by adding it to `patterns.txt`
+<!--end no spell check-->
+- `.github/actions/spelling/block-delimiters.txt`:
+  This file can be used to ignore words between begin- and end markers.
+  For example, code blocks starting and ending with `` ``` `` are ignored from spell checking as they often contain unusual words not in dictionaries.
+  If adding words to `allow.txt` or `patterns.txt`, or ignoring blocks with `block-delimiters.list`, is not sufficient, you can as a last resort use the HTML comments `<!--begin no spell check-->` and `<!--end no spell check-->` to ignore spell checking for a larger block of text.
+  The comments will not be rendered in the final documentation.
+
+Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
+Only markdown files under the `docs` directory are checked.
+
+[](){#ref-contributing-guidelines}
 ## Guidelines
 
 ### Links
@@ -90,11 +127,11 @@ Instead, we advocate adding unique references to sections.
 
 === "adding a reference"
 
-    Add a reference above the item, in this case we want to link to the section with the title `## The Fast Server`:
+    Add a reference above the item, in this case we want to link to the section with the title `## The fast server`:
 
     ```
-    [](){#ref-servers-fast}
-    ## Fast Server
+    [](){#ref-fast-server}
+    ## Fast server
     ```
 
     Use the `[](){#}` syntax to define the reference/anchor.
@@ -107,7 +144,7 @@ Instead, we advocate adding unique references to sections.
     In any other file in the project, use the `[][]` syntax to refer to the link (note that this link type uses square braces, instead of the usual parenthesis):
 
     ```
-    [the fast server][ref-servers-fast]
+    [the fast server][ref-fast-server]
     ```
 
 The benefits of this approach are that the link won't break if
@@ -117,18 +154,60 @@ The benefits of this approach are that the link won't break if
 
 ### Images
 
+> A picture is worth a thousand words
+
+We encourage the usage of images to improve clarity and understanding. You can use **screenshots** or **diagrams**.
+
 Images are stored in the `docs/images` directory.
 
-* there are sub-directories in the `docs/images` path - create a new sub-directory for your images if appropriate
-* choose image and path names that make sense - `screenshot.png` is not a great file name. Neither is `PX-202502025-imgx.png`.
+* create a new sub-directory for your images if appropriate
+* choose a path and file name that hint what the image is about - neither `screenshot.png` nor `PX-202502025-imgx.png` are great names.
 
-!!! tip
-    When providing a screenshot, do you need to show the whole screen, or just part of one window?
+!!! warning
+    Keep the size of your images to a minimum because we want to keep an overall lightweight repository.
 
-    Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
 
-!!! tip
-    Do you need a screenshot, or can a text description also work?
+#### Screenshots
+
+Screenshots can help readers follow steps on guides. Think if you need to show the whole screen or just part of one window. Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
+
+Often, screenshots can quickly become obsolete, so you may want to complement (or maybe even replace) some with text descriptions.
+
+#### Diagrams
+
+Diagrams can help readers understand more abstract concepts like processes or architectures. We suggest you use [mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams). Such format makes diagrams easy to maintain and removes the need to commit image files in the repository.
+
+??? "Example"
+
+    === "Source"
+
+        ````text
+        ```mermaid
+        graph TD;
+            Image(Will image add value?);
+            Image--NO-->T(keep text only);
+            Image--YES-->SD(What image is needed?)
+            SD--Screenshot-->S(keep it lean)
+            SD--Diagram-->D(keep it maintainable)
+            D--Default-->M(Mermaid)
+            D--Custom-->DR(Draw.io)
+        ```
+        ````
+
+    === "Rendered"
+
+        ```mermaid
+        graph TD;
+            Image(Will image add value?);
+            Image--NO-->T(keep text only);
+            Image--YES-->SD(What image is needed?)
+            SD--Screenshot-->S(keep it lean)
+            SD--Diagram-->D(keep it maintainable)
+            D--Default-->M(Mermaid)
+            D--Custom-->DR(Draw.io)
+        ```
+
+If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www.drawio.com/). Make sure you export the png with the [source inside](https://www.drawio.com/doc/faq/export-to-png), typically a `file.drawio.png`, so it can be extended in the future as needed.
 
 ### Text formatting
 
@@ -194,7 +273,7 @@ At the top of each page there is an "edit" icon :material-pencil:, which will op
 Once your changes are ready, click on the "Commit changes..." button in the top right hand corner of the editor, and add at least a description commit message.
 
 !!! tip
-    See [the GitLab official guide on editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) for a step-by-step walkthrough.
+    See [the GitHub official guide on editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) for a step-by-step walkthrough.
 
 !!! note
     Use the default option **Create a new branch for this commit and start a pull request**.
@@ -231,10 +310,10 @@ They stand out better from the main text, and can be collapsed by default if nee
 !!! example "Example one"
     This is an example.
     The title of the example uses [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case).
-    
+
 ??? note "Collapsed note"
     This note is collapsed, because it uses `???`.
-    
+
 If an admonition is collapsed by default, it should have a title.
 
 We provide some custom admonitions.

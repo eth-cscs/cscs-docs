@@ -258,6 +258,7 @@ santis
 sbatch
 scalapack
 screenshot
+screenshots
 slepc
 slurm
 smartphone

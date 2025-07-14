@@ -463,6 +463,7 @@ If you want only specific artifacts in your job, you should have a look at [depe
 
 There is also a building block in the templates, name `.dynamic-image-name`, which you can use to get rid for most of the boilerplate.
 It is important to note that this building block will export the dynamic name under the hardcoded name `BASE_IMAGE` in the `dotenv` file.
+The variable `DOCKER_TAG`, containing the tag of the image, is also exported in the `dotenv` file.
 The jobs would look something like this:
 ```yaml
 build base:
@@ -484,6 +485,9 @@ build software:
 
 `build base` is using additionally the building block `.dynamic-image-name`, while `build software` is unchanged.
 Have a look at the definition of the block `.dynamic-image-name` in the file [.ci-ext.yml](https://gitlab.com/cscs-ci/recipes/-/blob/master/templates/v2/.ci-ext.yml) for further notes.
+
+!!! example "GT4Py example"
+    An example using `.dynamic-image-name` in action can be found in the [gt4py repository](https://github.com/GridTools/gt4py/tree/main/ci).
 
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
@@ -1319,7 +1323,7 @@ This runner is a thin wrapper over the [f7t-controller](#f7t-controller).
 The machine where ReFrame is running does not have to be a powerful machine, hence it does not make sense to start the main ReFrame process from a compute node.
 It makes more sense to start the ReFrame process on a cloud machine and submit the compute jobs through FirecREST to the actual cluster.
 
-The easiest way to use the FirecREST scheduler of ReFrame is to use the configuration files that are provided in the alps branch of the [CSCS Reframe tests repository](https://github.com/eth-cscs/cscs-reframe-tests).
+The easiest way to use the FirecREST scheduler of ReFrame is to use the configuration files that are provided in the main branch of the [CSCS Reframe tests repository](https://github.com/eth-cscs/cscs-reframe-tests).
 In case you want to run ReFrame for a system that is not already available in this directory, please open a ticket to the Service Desk and we will add it or help you update one of the existing ones.
 
 Something you should be aware of when running with this scheduler is that ReFrame will not have direct access to the filesystem of the cluster so the stage directory will need to be kept in sync through FirecREST.
@@ -1327,7 +1331,7 @@ It is recommended to try to clean the stage directory whenever possible with the
 Normally ReFrame stores these files in `~/.reframe/topology/{system}-{part}/processor.json`, but you get a "clean" runner every time.
 You could either add them in the configuration files or store the files in the first run and copy them to the right directory before ReFrame runs.
 
-Finally, you can find some more information [in the repository](https://github.com/eth-cscs/cscs-reframe-tests/blob/alps/config/systems-firecrest/README.md).
+Finally, you can find some more information [in the repository](https://github.com/eth-cscs/cscs-reframe-tests/blob/main/config/systems-firecrest/README.md).
 
 The default command that is executed is
 ```console
@@ -1355,7 +1359,7 @@ The path to the checks that is passed to `reframe` through `-c`.
 ```yaml
 job:
   before_script:
-    - git clone -b alps https://github.com/eth-cscs/cscs-reframe-tests
+    - git clone https://github.com/eth-cscs/cscs-reframe-tests
     - pip install -r cscs-reframe-tests/config/utilities/requirements.txt
     - sed -i -e "s/account=csstaff/account=$CSCS_CI_DEFAULT_SLURM_ACCOUNT/" cscs-reframe-tests/config/systems-firecrest/eiger.py
   variables:
