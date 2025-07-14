@@ -238,7 +238,7 @@ While the frequency of updates and deprecation policy is defined by the uenv mai
 - [optional] tag pre-releases with `:rc1`, `:rc2`, etc
     - uenv tagged as release candidates are intended for early testing only, and can be removed at any point.
 - Tag `:v1` for the first official release.
-- [optional] release updated versions of uenv with tags ()`:v2`, `:v3`, ...) with patches and fixes.
+- [optional] release updated versions of uenv with tags (`:v2`, `:v3`, ...) with patches and fixes.
 - Remove old versions according to a deprecation policy.
 
 A uenv's release and support policy should be part of the uenv's documentation under the "Versioning" section, see [prgenv-gnu][ref-uenv-prgenv-gnu-versioning] for example.
