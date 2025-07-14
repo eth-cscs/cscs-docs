@@ -196,7 +196,7 @@ uenv image delete --token=${HOME}/.ssh/jfrog-token <NAMESPACE>::<IMAGE>
 !!! danger
 
     Removing a uenv that has been deployed (i.e. is in the `deploy::` namespace) is potentially disruptive for users.
-    Please see the [uenv lifecycle][ref-uenv-lifecycle] guide for more information.
+    Please see the [uenv life cycle][ref-uenv-lifecycle] guide for more information.
 
 ## Source code access
 
@@ -228,7 +228,7 @@ Permissions to access restricted resources is set on a per-pipeline basis
 | `vmd` | `uenv-sources-csstaff` | `uenv-sources/vmd` | VMD requires an account to download the source code | Alberto Invernizzi |
 
 [](){#ref-uenv-lifecycle}
-## uenv lifecycle
+## uenv life cycle
 
 Scientific applications and tools have different release cycles (e.g. annual, quarterly or irregular), and the communities that use them have different expectations (e.g. ML users expect tools released in the last 3 months, while some scientific communities value support for old versions of software).
 For this reason, there is not a universal release and deprecation schedule for supported applications and programming environments - how often to release, how long to provide support, and when to remove old versions is up to the maintainer of the uenv, based on their user's requirements and the overheads of maintaining old versions.
@@ -260,7 +260,7 @@ The versioning section should provide the following information:
         * `sciapp/2023`: provided "as is" for the first quarter of 2025 while users have the chance to upgrade.
     * If there is a major breaking change to the system that would require a large effort to continue providing last year's version, and would require users to also update their workflow, we might choose to encourage deprecate early and help users upgrade to the latest version.
 
-Generally speacking, uenv are removed (deleted from the `deploy::` namespace) under the following circumstances:
+Generally speaking, uenv are removed (deleted from the `deploy::` namespace) under the following circumstances:
 
 - when they are no longer supported as per the deprecation policy of the uenv;
 - when release candidates are superceded by a new release candidate or an official `:v1` release;

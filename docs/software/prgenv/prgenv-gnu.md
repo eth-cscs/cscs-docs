@@ -23,6 +23,15 @@ The release schedule is not fixed, with new versions will be released roughly ev
 | 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
 | 24.7               | gh200, zen2       | daint, eiger, todi                      |
 
+### Deprecation policy
+
+We will provide full support for 12 months after the uenv image is released, and remove the images when they are no longer being used or when system upgrades break their functionality on the system.
+
+* It is recommended to document how you compiled and set up your workflow using `prgenv-gnu` so that you can recreate it with future versions.
+* The 24.7 release is no longer supported and will be removed at the end of July 2025 - users are encouraged to update to 24.11 or later, before requesting support.
+
+### Versions
+
 === "24.11"
 
     The key updates in version 24.11:v1 from the 24.7 version were:
