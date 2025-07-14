@@ -12,7 +12,6 @@ COSMA
 CPE
 CPMD
 CRYOWRF
-CSCS
 CWP
 CXI
 Ceph
@@ -327,7 +326,6 @@ wlcg
 workaround
 workflows
 wrf
-WRF
 xattr
 xattrs
 xcb
