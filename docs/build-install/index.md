@@ -5,7 +5,7 @@ CSCS provides commonly used software and tools on Alps, however many use cases w
 
 <div class="grid cards" markdown>
 
-- :fontawesome-solid-earth-americas: __[Application guides][ref-build-applications]__ – guides on how to install commonly requested or difficult to install software.
+- :fontawesome-solid-earth-americas: __[Unsupported software][ref-software-installation-guides]__ – guides on how to install commonly requested or difficult to install software.
 
 </div>
 
