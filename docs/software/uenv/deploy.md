@@ -241,7 +241,7 @@ While the frequency of updates and deprecation policy is defined by the uenv mai
 - [optional] release updated versions of uenv with tags (`:v2`, `:v3`, ...) with patches and fixes.
 - Remove old versions according to a deprecation policy.
 
-A uenv's release and support policy should be part of the uenv's documentation under the "Versioning" section, see [prgenv-gnu][ref-uenv-prgenv-gnu-versioning] for example.
+A uenv's release and support policy is part of the uenv's documentation under the "Versioning" section, see [prgenv-gnu][ref-uenv-prgenv-gnu-versioning] for example.
 
 The versioning section should provide the following information:
 
