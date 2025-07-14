@@ -264,7 +264,7 @@ Generally speaking, uenv are removed (deleted from the `deploy::` namespace) und
 - when they are no longer supported as per the deprecation policy of the uenv;
 - when release candidates are superceded by a new release candidate or an official `:v1` release;
 - when a new tag of a `name/version` is deployed to replace a "broken" uenv:
-    - there might have been a critical issue affecting security, correctness or performance that means all users should update.
+    - there might have been a critical issue affecting security, correctness, or performance that means all users should update.
     - _do not_ remove uenv tags that continue to meet the needs of users (e.g. if a new tag was introduced to fix an issue that only affected specific users or use cases).
 
 [uenv-sources]: https://jfrog.svc.cscs.ch/artifactory/uenv-sources/
