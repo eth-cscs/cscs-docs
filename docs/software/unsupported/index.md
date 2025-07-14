@@ -5,11 +5,11 @@ This page documents frequently-requested applications that CSCS does not provide
 
 ## Prohibited applications
 
-The use of the following applications probited from use on CSCS systems.
+The use of the following applications prohibited from use on CSCS systems.
 
 | Software | Use | Reason Prohibited |
 | --- | --- | --- |
-| [Gaussian](https://gaussian.com/) | Electronic structure simulation | License terms probibit installation on CSCS systems |
+| [Gaussian](https://gaussian.com/) | Electronic structure simulation | License terms prohibit installation on CSCS systems |
 
 [](){#ref-software-installation-guides}
 ## Installation guides
