@@ -184,18 +184,19 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
     uenv image copy deploy::prgenv-gnu/24.11:v1@daint%gh200 deploy::prgenv-gny/24.11@santis%gh200
     ```
 
+[](){#ref-uenv-remove}
 ### Removing a uenv
 
 To remove a uenv, you can use the `uenv` command line tool:
 
 ```bash
-uenv image delete --token=${HOME}/.ssh/jfrog-token deploy::<IMAGE>
+uenv image delete --token=${HOME}/.ssh/jfrog-token <NAMESPACE>::<IMAGE>
 ```
 
 !!! danger
 
-    Removing a uenv is disruptive.
-    Please have a look at out [uenv removal policy][ref-uenv-removal] for more information.
+    Removing a uenv that has been deployed (i.e. is in the `deploy::` namespace) is potentially disruptive for users.
+    Please see the [uenv lifecycle][ref-uenv-lifecycle] guide for more information.
 
 ## Source code access
 
@@ -226,10 +227,45 @@ Permissions to access restricted resources is set on a per-pipeline basis
 | `vasp` | `vasp6`, `cscs-uenv-admin` | `uenv-sources/vasp` | VASP requires a paid license to access source | Simon Frasch |
 | `vmd` | `uenv-sources-csstaff` | `uenv-sources/vmd` | VMD requires an account to download the source code | Alberto Invernizzi |
 
-[](){#ref-uenv-removal}
-## Deprecation and removal of uenv
+[](){#ref-uenv-lifecycle}
+## uenv lifecycle
 
-!!! todo "Finalize and document the deprecation process"
+Scientific applications and tools have different release cycles (e.g. annual, quarterly or irregular), and the communities that use them have different expectations (e.g. ML users expect tools released in the last 3 months, while some scientific communities value support for old versions of software).
+For this reason, there is not a universal release and deprecation schedule for supported applications and programming environments - how often to release, how long to provide support, and when to remove old versions is up to the maintainer of the uenv, based on their user's requirements and the overheads of maintaining old versions.
 
+While the frequency of updates and deprecation policy is defined by the uenv maintainer, the following release cycle with tag names should be followed when possible:
+
+- [optional] tag pre-releases with `:rc1`, `:rc2`, etc
+    - uenv tagged as release candidates are intended for early testing only, and can be removed at any point.
+    - e.g. `prgenv-gnu/25.6:rc1` is released for users to do early testing and give feedback.
+- Tag `:v1` for the first official release.
+- [optional] release updated versions of uenv with tags ()`:v2`, `:v3`, ...) with patches and fixes.
+- Remove old versions according to a deprecation policy.
+
+A uenv's release and support policy should be part of the uenv's documentation under the "Versioning" section, see [prgenv-gnu][ref-uenv-prgenv-gnu-versioning] for example.
+
+The versioning section should provide the following information:
+
+* the release schedule;
+* the support, update and deprecation policy for the uenv;
+* details about the currently deployed versions, changelogs and relevant information how to upgrade if appropriate.
+
+!!! example "Example deprecation policy"
+    A scientific application `sciapp` is released annually by the developers, and projects using the software on CSCS systems expect support for two years.
+
+    * Release a new version annually and version with the year, for example `sciapp/2025` being the most recent version in 2025.
+    * CSCS provides full support for the current release, and partial support for old releases:
+        * `sciapp/2025`: provide updates and fixes with new tags, take feature requests, and respond to questions about usage and how to upgrade to this version.
+        * `sciapp/2024`: only support the most recent tag and only create new tags to fix breaking changes.
+        * `sciapp/2023`: provided "as is" for the first quarter of 2025 while users have the chance to upgrade.
+    * If there is a major breaking change to the system that would require a large effort to continue providing last year's version, and would require users to also update their workflow, we might choose to encourage deprecate early and help users upgrade to the latest version.
+
+Generally speacking, uenv are removed (deleted from the `deploy::` namespace) under the following circumstances:
+
+- when they are no longer supported as per the deprecation policy of the uenv;
+- when release candidates are superceded by a new release candidate or an official `:v1` release;
+- when a new tag of a `name/version` is deployed to replace a "broken" uenv:
+    - there might have been a critical issue affecting security, correctness or performance that means all users should update.
+    - _do not_ remove uenv tags that continue to meet the needs of users (e.g. if a new tag was introduced to fix an issue that only affected specific users or use cases).
 
 [uenv-sources]: https://jfrog.svc.cscs.ch/artifactory/uenv-sources/

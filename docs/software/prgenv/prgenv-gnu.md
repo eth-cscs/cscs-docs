@@ -10,6 +10,7 @@ It is the go to programming environment on all systems and target node types, th
 
     The [`linalg`][ref-uenv-linalg] environment is similar to prgenv-gnu, with additional linear algebra and mesh partitioning algorithms.
 
+[](){#ref-uenv-prgenv-gnu-versioning}
 ## Versioning
 
 The naming scheme is `prgenv-gnu/<version>`, where `<version>` has the `YY.M[M]` format, for example November 2024 is `24.11`, and January 2025 would be `25.1`.
