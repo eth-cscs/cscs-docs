@@ -32,3 +32,9 @@ The **impact of a Kubernetes upgrade can vary**, depending on the nature of the 
 - Upgrades are performed using safe, tested procedures with minimal risk to production workloads.
 - TDS clusters serve as a **canary environment**, allowing us to identify issues early.
 - All clusters are kept **aligned with supported Kubernetes versions**.
+
+## 💬 Questions?
+
+If you have any questions about upcoming Kubernetes upgrades or want help verifying your application’s readiness, please [contact the Network and Cloud team via Service Desk ticket][ref-get-in-touch].
+
+
