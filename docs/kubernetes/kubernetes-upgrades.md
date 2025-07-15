@@ -43,6 +43,6 @@ The **impact of a Kubernetes upgrade can vary**, depending on the nature of the 
 
 ## 💬 Questions?
 
-If you have any questions about upcoming Kubernetes upgrades or want help verifying your application’s readiness, please contact the Network and Cloud team via Service Desk ticket.
+If you have any questions about upcoming Kubernetes upgrades or want help verifying your application’s readiness, please [contact the Network and Cloud team via Service Desk ticket][ref-get-in-touch].
 
 Thank you for your support and collaboration in keeping our platform secure and reliable.
