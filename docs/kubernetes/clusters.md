@@ -60,7 +60,17 @@ To interact with the cluster, you need the `kubectl` CLI:
     - Run `kcscs list` to list the clusters you have access to
     - Run `kcscs get` to get the kubeconfig file for a specific cluster
 
-   - If you don't have a CSCS account, open a Service Desk ticket to ask support.
+
+- If you have a CSCS account and can access [Rancher](https://rancher.cscs.ch), download the kubeconfig for your cluster.
+  
+- If you have a CSCS account but can't access [Rancher](https://rancher.cscs.ch), request a local Rancher user and use the **kcscs** tool installed on **ela.cscs.ch** to obtain the kubeconfig:
+    - Download your SSH keys from [SSH Service](https://sshservice.cscs.ch)
+    - SSH to `ela.cscs.ch` using the downloaded SSH keys
+    - Run `kcscs login` and insert your Rancher local user credentials (Supplied by CSCS)
+    - Run `kcscs list` to list the clusters you have access to
+    - Run `kcscs get` to get the kubeconfig file for a specific cluster
+
+- If you don't have a CSCS account, open a Service Desk ticket to ask support.
 
 #### Store the kubeconfig file
 
