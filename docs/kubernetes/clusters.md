@@ -87,7 +87,8 @@ export KUBECONFIG=/home/user/kubeconfig.yaml
    kubectl get nodes
    ```
 
-> ⚠️ The kubeconfig file contains credentials. Keep it secure.
+!!! warning
+    The kubeconfig file contains credentials. Keep it secure.
 
 ---
 
