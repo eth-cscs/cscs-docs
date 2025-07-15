@@ -112,8 +112,8 @@ Automatically manages DNS entries for:
 kubectl annotate service nginx "external-dns.alpha.kubernetes.io/hostname=nginx.mycluster.tds.cscs.ch."
 ```
 
-> ✅ Use a valid name under the configured subdomain.  
-📄 [external-dns documentation](https://github.com/kubernetes-sigs/external-dns)
+!!! info "Use a valid name under the configured subdomain"
+    [external-dns documentation](https://github.com/kubernetes-sigs/external-dns)
 
 ---
 
