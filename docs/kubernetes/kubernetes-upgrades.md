@@ -2,8 +2,6 @@
 
 To maintain a secure, stable, and supported platform, we regularly upgrade our Kubernetes clusters. We use **[RKE2](https://docs.rke2.io/)** as our Kubernetes distribution.
 
----
-
 ## 🔄 Upgrade Flow
 
 - **Phased Rollout**:
@@ -14,8 +12,6 @@ To maintain a secure, stable, and supported platform, we regularly upgrade our K
   - Upgrades are not done on a strict calendar basis.
   - Timing may depend on compatibility with **other infrastructure components** (e.g., storage, CNI plugins, monitoring tools).
   - However, all clusters will be upgraded **before the current Kubernetes version reaches End of Life (EOL)**.
-
----
 
 ## ⚠️ Upgrade Impact
 
@@ -31,18 +27,8 @@ The **impact of a Kubernetes upgrade can vary**, depending on the nature of the 
 
 > 💡 Applications that follow cloud-native best practices (e.g., readiness probes, multiple replicas, graceful shutdown handling) are **less likely to be impacted** by upgrades.
 
----
-
 ## ✅ What You Can Expect
 
 - Upgrades are performed using safe, tested procedures with minimal risk to production workloads.
 - TDS clusters serve as a **canary environment**, allowing us to identify issues early.
 - All clusters are kept **aligned with supported Kubernetes versions**.
-
----
-
-## 💬 Questions?
-
-If you have any questions about upcoming Kubernetes upgrades or want help verifying your application’s readiness, please contact the Network and Cloud team via Service Desk ticket.
-
-Thank you for your support and collaboration in keeping our platform secure and reliable.

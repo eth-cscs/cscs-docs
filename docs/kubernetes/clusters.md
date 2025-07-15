@@ -2,16 +2,12 @@
 
 This document provides an overview of the Kubernetes clusters maintained by CSCS and offers step-by-step instructions for accessing and interacting with them.
 
----
-
 ## Architecture
 
 All Kubernetes clusters at CSCS are:
 
 - Managed using **[Rancher](https://www.rancher.com)**
 - Running **[RKE2 (Rancher Kubernetes Engine 2)](https://github.com/rancher/rke2)**
-
----
 
 ## Cluster Environments
 
@@ -21,8 +17,6 @@ Clusters are grouped into two main environments:
 - **PROD** – Production
 
 TDS clusters receive updates first. If no issues arise, the same updates are then applied to PROD clusters.
-
----
 
 ## Kubernetes API Access
 
@@ -39,8 +33,6 @@ You can access the Kubernetes API in two main ways:
 - API calls are securely proxied through Rancher.
 
 To check which method you are using, examine the `current-context` in your `kubeconfig` file.
-
----
 
 ## Cluster Access
 
@@ -79,15 +71,11 @@ export KUBECONFIG=/home/user/kubeconfig.yaml
 
 > ⚠️ The kubeconfig file contains credentials. Keep it secure.
 
----
-
 ## Pre-installed Applications
 
 All CSCS-provided clusters include a set of pre-installed tools and components, described below:
 
----
-
-### 📦 `ceph-csi`
+### `ceph-csi`
 
 Provides **dynamic persistent volume provisioning** via the Ceph Container Storage Interface.
 
@@ -98,9 +86,7 @@ Provides **dynamic persistent volume provisioning** via the Ceph Container Stora
 - `rbd-nvme` – RWO, backed by NVMe (high-performance workloads like databases)
 - `*-retain` – Same classes, but retain the volume after PVC deletion
 
----
-
-### 🌐 `external-dns`
+### `external-dns`
 
 Automatically manages DNS entries for:
 
@@ -115,9 +101,7 @@ kubectl annotate service nginx "external-dns.alpha.kubernetes.io/hostname=nginx.
 !!! info "Use a valid name under the configured subdomain"
     [external-dns documentation](https://github.com/kubernetes-sigs/external-dns)
 
----
-
-### 🔐 `cert-manager`
+### `cert-manager`
 
 Handles automatic issuance of TLS certificates from Let's Encrypt.
 
@@ -141,9 +125,7 @@ You can also issue certs automatically via Ingress annotations (see `ingress-ngi
 
 📄 [cert-manager documentation](https://cert-manager.io)
 
----
-
-### 📡 `metallb`
+### `metallb`
 
 Enables `LoadBalancer` service types by assigning public IPs.
 
@@ -151,9 +133,7 @@ Enables `LoadBalancer` service types by assigning public IPs.
 Prefer using `Ingress` unless you specifically need a `LoadBalancer`.  
 📄 [metallb documentation](https://metallb.universe.tf)
 
----
-
-### 🌍 `ingress-nginx`
+###  `ingress-nginx`
 
 Default Ingress controller with class `nginx`.  
 Supports automatic TLS via cert-manager annotations.
@@ -188,25 +168,19 @@ spec:
 📄 [NGINX Ingress Docs](https://docs.nginx.com/nginx-ingress-controller)  
 📄 [cert-manager Ingress Usage](https://cert-manager.io/docs/usage/ingress/)
 
----
-
-### 🔑 `external-secrets`
+### `external-secrets`
 
 Integrates with secret management tools like **HashiCorp Vault**.
 
 📄 [external-secrets documentation](https://external-secrets.io/)
 
----
-
-### 🔁 `kured`
+### `kured`
 
 Responsible for automatic node reboots (e.g., after kernel updates).
 
 📄 [kured documentation](https://kured.dev/)
 
----
-
-### 📊 Observability
+### Observability
 
 Includes:
 
