@@ -63,11 +63,14 @@ To interact with the cluster, you need the `kubectl` CLI:
    - If you don't have a CSCS account, open a Service Desk ticket to ask support.
 
 #### Store the kubeconfig file
-   ```bash
-   mv mykubeconfig.yaml ~/.kube/config
-   # or
-   export KUBECONFIG=/home/user/kubeconfig.yaml
-   ```
+
+```bash
+mv mykubeconfig.yaml ~/.kube/config
+```
+or
+```bash
+export KUBECONFIG=/home/user/kubeconfig.yaml
+```
 
 #### Test connectivity
    ```bash
