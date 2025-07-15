@@ -1,4 +1,3 @@
-
 # CSCS Kubernetes Clusters
 
 This document provides an overview of the Kubernetes clusters maintained by CSCS and offers step-by-step instructions for accessing and interacting with them.
