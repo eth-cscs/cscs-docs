@@ -50,7 +50,7 @@ To ensure optimal performance on CSCS systems, we recommend starting from an env
 This can be achieved either by:
 
 * building a [custom container image][ref-build-containers] based on a suitable ML-ready base image,
-* or starting from a provided uenv (e.g., [PrgEnv GNU][ref-uenv-prgenv-gnu] or [PyTorch uenv][ref-uenv-pytorch]),
+* or starting from a provided uenv (e.g., [`prgenv-gnu`][ref-uenv-prgenv-gnu] or [PyTorch uenv][ref-uenv-pytorch]),
 
 and extending it with a virtual environment.
 

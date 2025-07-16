@@ -67,9 +67,9 @@ uenv image find prgenv-nvfortran@*
 uenv image pull prgenv-nvfortran/24.11:v2
 ```
 
-=== "the nvfort view"
+=== "the `nvfort` view"
 
-    The nvfort view loads all of the packages into your environment (equivalent to loading all the modules at once):
+    The `nvfort` view loads all of the packages into your environment (equivalent to loading all the modules at once):
 
     ```bash
     uenv start prgenv-nvfortran/24.11:v1 --view=nvfort

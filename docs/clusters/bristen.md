@@ -16,7 +16,7 @@ Nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal].
 
 ### Storage and file systems
 
-Bristen uses the [MLp filesystems and storage policies][ref-mlp-storage].
+Bristen uses the [MLP filesystems and storage policies][ref-mlp-storage].
 
 ## Getting started
 

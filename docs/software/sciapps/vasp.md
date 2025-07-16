@@ -111,9 +111,7 @@ Note that shared libraries might not be found when executing VASP, if the makefi
     Alternatively, since version 6.5.0, the build option `-DCRAY_MPICH` can be added to disable the check at compile time.
     The provided precompiled binaries of VASP are patched and do not require special settings.
 
-
-Examples for makefiles that set the necessary rpath and link options on GH200:
-
+Examples for Makefiles that set the necessary rpath and link options on GH200:
 
 ??? note "Makefile for v6.5.0"
     ```make
