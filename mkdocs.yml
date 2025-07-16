@@ -98,6 +98,11 @@ nav:
     - services/index.md
     - 'FirecREST': services/firecrest.md
     - 'CI/CD': services/cicd.md
+    - 'Kubernetes':
+      - services/kubernetes/index.md
+      - 'Clusters': services/kubernetes/clusters.md
+      - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
+      - 'Node OS Updates': services/kubernetes/node-updates.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
@@ -118,10 +123,6 @@ nav:
       - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
       - 'LLM Finetuning': guides/mlp_tutorials/llm-finetuning.md
       - 'LLM Training': guides/mlp_tutorials/llm-nanotron-training.md
-  - 'Kubernetes':
-    - 'Clusters': kubernetes/clusters.md
-    - 'Kubernetes Upgrades': kubernetes/kubernetes-upgrades.md
-    - 'Node OS Upgrades': kubernetes/node-upgrades.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

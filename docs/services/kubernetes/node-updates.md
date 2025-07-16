@@ -1,3 +1,4 @@
+[](){#ref-kubernetes-node-updates}
 # Kubernetes Nodes OS Update Policy
 
 To ensure the **security** and **stability** of our infrastructure, CSCS will perform **monthly OS updates** on all nodes of our Kubernetes clusters.
@@ -10,7 +11,7 @@ To ensure the **security** and **stability** of our infrastructure, CSCS will pe
 
 These updates include important security patches and system updates for the operating systems of cluster nodes.
 
-> ⚠️ **Note:** Nodes will be **rebooted only if required** by the updates. If no reboot is necessary, nodes will remain in service without disruption.
+??? Note "Nodes will be rebooted only if required by the updates."
 
 ## 🚨 Urgent Security Patches
 
@@ -40,9 +41,6 @@ To avoid service disruption during node maintenance, applications **must be desi
   - **Stateless design** or resilient handling of state
   - Appropriate **resource requests and limits**
 
-> ❗ Applications that do not meet these requirements **may experience temporary disruption** during node reboots.
-
-## 👩‍💻 Need Help?
-
-If you have questions or need help preparing your applications for rolling node maintenance, please contact the Network and Cloud team via Service Desk ticket.
+!!! Warning
+    Applications that do not meet these requirements **may experience temporary disruption** during node reboots.
 

@@ -1,6 +1,7 @@
 * @bcumming @msimberg @RMeli
 docs/access/jupyterlab.md @rsarm
 docs/services/firecrest @jpdorsch @ekouts
+docs/services/kubernetes @eliaoggian
 docs/software/communication @Madeeks @msimberg
 docs/software/devtools/linaro @jgphpc
 docs/software/prgenv/linalg.md @finkandreas @msimberg
