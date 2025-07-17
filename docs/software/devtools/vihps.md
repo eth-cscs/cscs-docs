@@ -22,7 +22,7 @@ is a performance visualizer that allows to quickly study the program runtime beh
 ## [Cube and Scalasca](http://www.vi-hps.org/tools/scalasca.html)
 
 ![logo_scalasca](../../images/devtools/vihps/logo_scalasca.png){ width="5%"}
- support  the performance optimization of parallel programs with a collection of scalable trace-based tools for in-depth analyses of concurrent behavior. The analysis identifies potential performance bottlenecks - in particular those concerning communication and synchronization - and offers guidance in exploring their causes.
+ support the performance optimization of parallel programs with a collection of scalable trace-based tools for in-depth analyses of concurrent behavior. The analysis identifies potential performance bottlenecks - in particular those concerning communication and synchronization - and offers guidance in exploring their causes.
 
 ## Quickstart guide
 
