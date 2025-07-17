@@ -230,6 +230,7 @@ pme
 pmi
 pmix
 podman
+prgenv
 preinstalled
 prerelease
 prereleases
