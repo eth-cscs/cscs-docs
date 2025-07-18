@@ -613,7 +613,7 @@ module load ncview
 ```
 
 This will make custom modules available, and load `ncview`, every time you log in.
-It is not posible to do the equivalent with `uenv start`, for example:
+It is not possible to do the equivalent with `uenv start`, for example:
 ```bash title="~/.bashrc"
 # start the uenv that I always use
 uenv start prgenv-gnu/24.11:v2 --view=default
@@ -631,16 +631,16 @@ module load ncview
 
     Things are further complicated because if `uenv start` is executed inside `~/.bashrc`, the shell is not a tty shell.
 
-It is possible to create a custom command that will start a new shell with a uenv loaded, with additional customisations to the environment (e.g. loading modules and setting environment variables).
+It is possible to create a custom command that will start a new shell with a uenv loaded, with additional customizations to the environment (e.g. loading modules and setting environment variables).
 
-The first step is to create a script that performs the the customisation steps to perform once the uenv has been loaded.
+The first step is to create a script that performs the the customization steps to perform once the uenv has been loaded.
 Here is an example for an environment called `myenv`:
 
 ```bash title="~/.myenvrc"
 # always add this line
 source ~/.bashrc
 
-# then add customisation commands here
+# then add customization commands here
 module use $STORE/myenv/modules
 module load ncview
 export DATAPATH=$STORE/2025/data
@@ -652,7 +652,7 @@ Then create an alias in `~/.bashrc` for the `myenv` environment:
 alias myenv='uenv run prgenv-gnu/24.11:v2 --view=default -- bash --rcfile ~/.myenvrc'
 ```
 
-This alias uses `uenv run` to start a new bash shell that will apply the customisations in `~/.myenvrc` once the uenv has been loaded.
+This alias uses `uenv run` to start a new bash shell that will apply the customizations in `~/.myenvrc` once the uenv has been loaded.
 Then, the environment can be started with a single command once logged in.
 
 ```console
