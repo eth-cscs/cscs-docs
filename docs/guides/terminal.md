@@ -122,5 +122,3 @@ It is strongly recommended that customisation in `~/.bashrc` should be kept to t
         Can you please make a backup copy of my bashrc, i.e. `mv ~/.bashrc ~/.bashrc.back`,
         so that I can log in and fix the issue.
 
-* don't because you are locked into a single env
-* don't because reproducibility and getting help
