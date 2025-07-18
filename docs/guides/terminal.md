@@ -81,7 +81,7 @@ export PATH=$xdgbase/bin:$PATH
 
 The `~/.bashrc` in your home directory is executed __every time__ you log in, and there is no way to log in without executing it.
 
-It is strongly recommended that customisation in `~/.bashrc` should be kept to the bare minimum:
+It is strongly recommended that customization in `~/.bashrc` should be kept to the bare minimum:
 
 1. It sets a fixed set of environment options every time you log in, and all downstream scripts and Slurm batch jobs might assume that these commands have run, so that later modifications to `~/.bashrc` can break workflows in ways that are difficult to debug.
     * If a script or batch job requires environment modifications, implement them there.
