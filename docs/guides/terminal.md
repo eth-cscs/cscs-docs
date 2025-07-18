@@ -111,7 +111,7 @@ It is strongly recommended that customization in `~/.bashrc` should be kept to t
 
     If there is a critical error, like calling `exit`, the approach above won't work.
     In such cases, the only solution that doesn't require root permissions is to log in and hit `<ctrl-c>` during the log in.
-    With luck, this will cancel before the login process before `~/.bashrc` is executed, and you will be able to edit and fix `~/.bashrc`
+    With luck, this will cancel the login process before `~/.bashrc` is executed, and you will be able to edit and fix `~/.bashrc`.
     Note that you might have to try a few times to get the timing right.
 
     If this does not work, create a [service desk ticket][ref-get-in-touch] with the following message:
