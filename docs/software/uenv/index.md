@@ -601,3 +601,63 @@ uenv image find @'*'%gh200
 
 !!! note
     The wild card `*` used for "all systems" must always be escaped in single quotes: `@'*'`.
+
+## Custom environments
+
+It is common practice to add `module` commands to `~.bashrc`, for example
+```bash title="~/.bashrc"
+# make my custom modules available
+module use $STORE/myenv/modules
+# load the modules that I always want in the environment
+module load ncview
+```
+
+This will make custom modules available, and load `ncview`, every time you log in.
+It is not posible to do the equivalent with `uenv start`, for example:
+```bash title="~/.bashrc"
+# start the uenv that I always use
+uenv start prgenv-gnu/24.11:v2 --view=default
+# ERROR: the following lines will not be executed
+module use $STORE/myenv/modules
+module load ncview
+```
+
+!!! question "Why can't I use `uenv start` in `~/.bashrc`?"
+    The `module` command uses some "clever" tricks to modify the environment variables in your current shell.
+    For example, `module load ncview` will modify the value of environment variables like `PATH`, `LD_LIBRARY_PATH`, and `PKG_CONFIG_PATH`.
+
+    The `uenv start` command loads a uenv, and __starts a new shell__, ready for you to enter commands.
+    This means that lines in the `.bashrc` that follow the command are never executed.
+
+    Things are further complicated because if `uenv start` is executed inside `~/.bashrc`, the shell is not a tty shell.
+
+It is possible to create a custom command that will start a new shell with a uenv loaded, with additional customisations to the environment (e.g. loading modules and setting environment variables).
+
+The first step is to create a script that performs the the customisation steps to perform once the uenv has been loaded.
+Here is an example for an environment called `myenv`:
+
+```bash title="~/.myenvrc"
+# always add this line
+source ~/.bashrc
+
+# then add customisation commands here
+module use $STORE/myenv/modules
+module load ncview
+export DATAPATH=$STORE/2025/data
+```
+
+Then create an alias in `~/.bashrc` for the `myenv` environment:
+
+```bash title="~/.bashrc"
+alias myenv='uenv run prgenv-gnu/24.11:v2 --view=default -- bash --rcfile ~/.myenvrc'
+```
+
+This alias uses `uenv run` to start a new bash shell that will apply the customisations in `~/.myenvrc` once the uenv has been loaded.
+Then, the environment can be started with a single command once logged in.
+
+```console
+$ ssh eiger.cscs.ch
+$ myenv
+```
+
+The benefit of this approach is that you can create multiple environments, whereas modifying `.bashrc` will lock you into using the same environment every time you log in.
