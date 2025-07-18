@@ -602,7 +602,10 @@ uenv image find @'*'%gh200
 !!! note
     The wild card `*` used for "all systems" must always be escaped in single quotes: `@'*'`.
 
+[](){#ref-uenv-customenv}
 ## Custom environments
+
+!!! warning "[Keep bashrc clean][ref-guides-terminal-bashrc]"
 
 It is common practice to add `module` commands to `~.bashrc`, for example
 ```bash title="~/.bashrc"
