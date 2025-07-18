@@ -3,6 +3,7 @@ docs/access/jupyterlab.md @rsarm
 docs/services/firecrest @jpdorsch @ekouts
 docs/software/communication @Madeeks @msimberg
 docs/software/devtools/linaro @jgphpc
+docs/software/devtools/vihps @jgphpc
 docs/software/prgenv/linalg.md @finkandreas @msimberg
 docs/software/sciapps/cp2k.md @abussy @RMeli
 docs/software/sciapps/lammps.md @nickjbrowning
