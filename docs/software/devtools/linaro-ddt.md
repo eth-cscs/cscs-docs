@@ -38,7 +38,7 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode
     Click on `Manual launch`, set the number of processes to listen to, then wait for the Slurm job to start 
     (see the "on Alps" tab for how to start the Slurm job).
 
-    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/0.png" width="600" />
+    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/0.png" width="600">
 
 === "On Alps"
 
@@ -57,7 +57,7 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode
 ### Start debugging
 
 By default, DDT will pause execution on the call to `MPI_Init`:
-<img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/1.png" width="600" />
+<img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/1.png" width="600">
 
 There are two mechanisms for controlling program execution:
 
@@ -65,13 +65,13 @@ There are two mechanisms for controlling program execution:
 
     Breakpoint(s) can be set by clicking in the margin to the left of the line number:
 
-    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/3.png" width="600" />
+    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/3.png" width="600">
 
 === "Stop at"
 
     Execution can be paused in every CUDA kernel launch by activating the default breakpoints from the `Control` menu:
 
-    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/4.png" width="400" />
+    <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/4.png" width="400">
 
 
 ??? example  "Debugging with 128 GPUs"

@@ -1,10 +1,15 @@
+[](){#ref-building}
 # Building and Installing Software
 
 CSCS provides commonly used software and tools on Alps, however many use cases will require first installing software on a system before you can start working.
 
-Modern HPC applications and software stacks are often very complicated, and there is no one-size-fits-all method for building and installing them.
+<div class="grid cards" markdown>
 
-## Programming environments
+- :fontawesome-solid-earth-americas: __[Unsupported software][ref-software-installation-guides]__ – guides on how to install commonly requested or difficult to install software.
+
+</div>
+
+Modern HPC applications and software stacks are often very complicated, and there is no one-size-fits-all method for building and installing them.
 
 <div class="grid cards" markdown>
 
@@ -12,18 +17,15 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
 </div>
 
-## Python
-
-There are multiple ways to install Python software.
-
 <div class="grid cards" markdown>
 
-- :fontawesome-brands-python: __[pip]__ – create a virtual environment using python in a uenv
+- :fontawesome-brands-docker: __[Podman][ref-build-containers]__ – for building software in containers.
 
 </div>
 
-  [pip]: pip.md
+<div class="grid cards" markdown>
 
-## Containers
+- :fontawesome-brands-python: __[Python][ref-build-python]__ – create a virtual environment using python in a uenv.
 
-CSCS provides [Podman][ref-build-containers] for building software in containers
+</div>
+

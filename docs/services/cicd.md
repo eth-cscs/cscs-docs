@@ -216,19 +216,21 @@ It is the same thing.
 [](){#ref-cicd-pipeline-triggers-api}
 #### API call triggering
 - It is possible to trigger a pipeline via an API call
-- Create a file named `data.yaml`, with the content
-```yaml
-ref: main
-pipeline: pipeline_name
-variables:
-  MY_VARIABLE: some_value
-  ANOTHER_VAR: other_value
-```
-Send a POST request to the middleware
-```bash
-curl -X POST -u 'repository_id:webhook_secret' --data-binary @data.yaml https://cicd-ext-mw.cscs.ch/ci/pipeline/trigger
-```
-- replace repository_id and webhook_secret with your repository id and the webhook secret.
+- Create a file `data.yaml`, with the content
+    ```yaml title="data.yaml"
+    ref: main
+    pipeline: pipeline_name
+    variables:
+      MY_VARIABLE: some_value
+      ANOTHER_VAR: other_value
+    ```
+- Send a POST request to the middleware (replace `repository_id` and `webhook_secret`)
+    ```console
+    $ curl -X POST -u 'repository_id:webhook_secret' --data-binary @data.yaml https://cicd-ext-mw.cscs.ch/ci/pipeline/trigger
+    ```
+- To trigger a pull-request use `ref: 'pr:<pr-number>'`
+- To trigger a tag use `ref: 'tag:<tag-name>'`
+- To trigger on a specific commit SHA use `ref: 'sha:<commit-sha>'`
 
 ### Understanding the underlying workflow
 Typical users do not need to know the underlying workflow behind the scenes, so you can stop reading here.
@@ -463,6 +465,7 @@ If you want only specific artifacts in your job, you should have a look at [depe
 
 There is also a building block in the templates, name `.dynamic-image-name`, which you can use to get rid for most of the boilerplate.
 It is important to note that this building block will export the dynamic name under the hardcoded name `BASE_IMAGE` in the `dotenv` file.
+The variable `DOCKER_TAG`, containing the tag of the image, is also exported in the `dotenv` file.
 The jobs would look something like this:
 ```yaml
 build base:
@@ -484,6 +487,9 @@ build software:
 
 `build base` is using additionally the building block `.dynamic-image-name`, while `build software` is unchanged.
 Have a look at the definition of the block `.dynamic-image-name` in the file [.ci-ext.yml](https://gitlab.com/cscs-ci/recipes/-/blob/master/templates/v2/.ci-ext.yml) for further notes.
+
+!!! example "GT4Py example"
+    An example using `.dynamic-image-name` in action can be found in the [gt4py repository](https://github.com/GridTools/gt4py/tree/main/ci).
 
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
@@ -994,7 +1000,7 @@ The default is `none`, and you must explicitly set it to `fetch`  or `clone`  to
 ##### `CSCS_CUDA_MPS`
 Optional variable, default is `NO`
 
-Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
+Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the same GPU.
 
 ##### `USE_MPI`
 Optional variable, default is `AUTO`
@@ -1202,7 +1208,7 @@ Loads the view of a uenv.
 ##### `CSCS_CUDA_MPS`
 Optional variable, default is `NO`
 
-Enable running with nvidia-mps-server, which allows multiple ranks sharing the same GPU.
+Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the same GPU.
 
 #### Example jobs
 ```yaml
@@ -1319,7 +1325,7 @@ This runner is a thin wrapper over the [f7t-controller](#f7t-controller).
 The machine where ReFrame is running does not have to be a powerful machine, hence it does not make sense to start the main ReFrame process from a compute node.
 It makes more sense to start the ReFrame process on a cloud machine and submit the compute jobs through FirecREST to the actual cluster.
 
-The easiest way to use the FirecREST scheduler of ReFrame is to use the configuration files that are provided in the alps branch of the [CSCS Reframe tests repository](https://github.com/eth-cscs/cscs-reframe-tests).
+The easiest way to use the FirecREST scheduler of ReFrame is to use the configuration files that are provided in the main branch of the [CSCS Reframe tests repository](https://github.com/eth-cscs/cscs-reframe-tests).
 In case you want to run ReFrame for a system that is not already available in this directory, please open a ticket to the Service Desk and we will add it or help you update one of the existing ones.
 
 Something you should be aware of when running with this scheduler is that ReFrame will not have direct access to the filesystem of the cluster so the stage directory will need to be kept in sync through FirecREST.
@@ -1327,7 +1333,7 @@ It is recommended to try to clean the stage directory whenever possible with the
 Normally ReFrame stores these files in `~/.reframe/topology/{system}-{part}/processor.json`, but you get a "clean" runner every time.
 You could either add them in the configuration files or store the files in the first run and copy them to the right directory before ReFrame runs.
 
-Finally, you can find some more information [in the repository](https://github.com/eth-cscs/cscs-reframe-tests/blob/alps/config/systems-firecrest/README.md).
+Finally, you can find some more information [in the repository](https://github.com/eth-cscs/cscs-reframe-tests/blob/main/config/systems-firecrest/README.md).
 
 The default command that is executed is
 ```console
@@ -1355,7 +1361,7 @@ The path to the checks that is passed to `reframe` through `-c`.
 ```yaml
 job:
   before_script:
-    - git clone -b alps https://github.com/eth-cscs/cscs-reframe-tests
+    - git clone https://github.com/eth-cscs/cscs-reframe-tests
     - pip install -r cscs-reframe-tests/config/utilities/requirements.txt
     - sed -i -e "s/account=csstaff/account=$CSCS_CI_DEFAULT_SLURM_ACCOUNT/" cscs-reframe-tests/config/systems-firecrest/eiger.py
   variables:
@@ -1405,8 +1411,7 @@ A couple of projects which use this CI setup.
 Please have a look there for more advanced usage:
 
 * [dcomex-framework](https://github.com/DComEX/dcomex-framework): entry point is `ci/prototype.yml`
-* [mars](https://bitbucket.org/zulianp/mars/src/development/): two pipelines, with entry points `ci/gitlab/cscs/gpu/gitlab-
-daint.yml` and `ci/gitlab/cscs/mc/gitlab-daint.yml`
+* [mars](https://bitbucket.org/zulianp/mars/src/development/): two pipelines, with entry points `ci/gitlab/cscs/gpu/gitlab-daint.yml` and `ci/gitlab/cscs/mc/gitlab-daint.yml`
 * [sparse_accumulation](https://github.com/lab-cosmo/sparse_accumulation): entry point is `ci/pipeline.yml`
 * [gt4py](https://github.com/GridTools/gt4py): entry point is `ci/cscs-ci.yml`
 * [SIRIUS](https://github.com/electronic-structure/SIRIUS): entry point is `ci/cscs-daint.yml`

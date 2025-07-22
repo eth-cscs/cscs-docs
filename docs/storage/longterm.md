@@ -36,7 +36,7 @@ The PID handles use for the LTS service are the one provided by the [CSCS PID se
 As of 2021:
 
 * Users from the free User Lab program are entitled to use 2 TB of LTS storage quota (for 10 years) free of charge per project
-* Currently additional space can be purchased for CHF 600.- for each Terabyte (for 10 years)
+* Currently additional space can be purchased for CHF 600.- for each terabyte (for 10 years)
 
 ## Prerequisites
 

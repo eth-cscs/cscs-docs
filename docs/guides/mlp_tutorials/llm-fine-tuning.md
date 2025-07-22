@@ -42,10 +42,10 @@ $ pip install -e ./trl # (1)!
 
 When this step is complete, you can exit the shell by typing `exit`.
 
-### Finetune Gemma-7B
+### Fine-tune Gemma-7B
 
 At this point, we can set up a fine-tuning script and start training Gemma-7B.
-Use your favorite text editor to create the file `fine-tune-gemma.sh` just outside the trl and `venv-gemma-24.01` directories:
+Use your favorite text editor to create the file `fine-tune-gemma.sh` just outside the `trl` and `venv-gemma-24.01` directories:
 
 ```bash title="$SCRATCH/tutorials/gemma-7b/fine-tune-gemma.sh"
 #!/bin/bash

@@ -14,5 +14,9 @@ CSCS staff can also help users with performance analysis to optimise their workf
 * [Quantum ESPRESSO][ref-uenv-quantumespresso]
 * [VASP][ref-uenv-vasp]
 
-!!! warning "Unsupported Applications"
-    Please note that Amber and CPMD previously provided on the Piz Daint XC system are not provided by CSCS on Alps.
+## Other applications
+
+CSCS provides [tools and environments][ref-building] for installing applications that are not on the list of supported applications.
+
+!!! info
+    We are building guides for installing [popular applications][ref-software-installation-guides].

@@ -12,7 +12,7 @@ The model we will be running is Google's [Gemma-7B](https://huggingface.co/googl
 
 ## Gemma-7B Inference using NGC PyTorch
 
-### Prequisites
+### Prerequisites
 
 This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML Platform][ref-platform-mlp].
 
@@ -43,7 +43,7 @@ RUN apt-get update && \
 ```
 
 The first line specifies that we are working on top of an existing container.
-In this case we start `FROM`  an [NGC PyTorch container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch).
+In this case we start `FROM` an [NGC PyTorch container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch).
 Next, we set an environment variable with `ENV` that helps us run `apt-get` in the container.
 Finally, we `RUN` the package installer `apt-get` to install python virtual environments.
 This will let us install python packages later on without having to rebuild the container again and again.
@@ -109,14 +109,14 @@ podman://ngc-pytorch:24.01 # (2)!
 
 where you should replace `<ACCOUNT>` with your project account ID.
 At this point, you can exit the Slurm allocation by typing `exit`.
-You should be able to see a new squashfile in your container image directory:
+You should be able to see a new squashfs file in your container image directory:
 
 ```bash
 $ ls $SCRATCH/ce-images
 ngc-pytorch+24.01.sqsh
 ```
 
-This squashfile is essentially a compressed container image, which can be run directly by the container engine.
+This squashfs file is essentially a compressed container image, which can be run directly by the container engine.
 We will use our freshly-built container `ngc-pytorch+24.01.sqsh` in the following steps to run a PyTorch script that loads the Google Gemma-7B model and performs some inference with it.
 
 !!! note
@@ -165,7 +165,7 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 If you've decided to build the container somewhere else, make sure to supply the correct path to the `image` variable. 
 
 The `image` variable defines which container we want to load.
-This could either be a container from an online docker repository, like `nvcr.io/nvidia/pytorch:24.01-py3`, or in our case, a local squashfile which we built ourselves.
+This could either be a container from an online docker repository, like `nvcr.io/nvidia/pytorch:24.01-py3`, or in our case, a local squashfs file which we built ourselves.
 
 The `mounts` variable defines which directories we want to mount where in our container.
 In general, it's a good idea to use a directory under `/capstor/scratch` directory to store outputs from any scientific software as this filesystem is optimized for sequential write-operations as described in [Alps storage][ref-alps-storage]. This particularly applies to e.g. checkpoints from ML training, which we will see in the next tutorials (and there it matters also to apply good LUSTRE settings beforehand as for container images). In this tutorial, we will not generate a lot of output, but it's a good practice to stick to anyways.
@@ -367,7 +367,7 @@ Move on to the next tutorial or try the challenge.
 
 ### Challenge
 
-Using the same approach as in the latter half of step 4, use pip to install the package `nvitop`. This is a tool that shows you a concise real-time summary of GPU activity. Then, run Gemma and launch nvitop at the same time:
+Using the same approach as in the latter half of step 4, use pip to install the package `nvitop`. This is a tool that shows you a concise real-time summary of GPU activity. Then, run Gemma and launch `nvitop` at the same time:
 
 ```bash
 (venv-gemma-24.01)$ python gemma-inference.py > gemma-output.log 2>&1 & nvitop

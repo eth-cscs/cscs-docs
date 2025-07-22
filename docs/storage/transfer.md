@@ -26,10 +26,10 @@ Currently Globus provide the following mount points at CSCS:
 
 | Mount Point | Description |
 |---|---|
-| `/iopsstor/scratch/cscs` | Mounted on Clariden |
-| `/capstor/scratch/cscs` | New Alps Daint scratch area |
-| `/capstor/store/cscs` | New Alps Daint store area |
-| `/vast/users/cscs` | New Alps vclusters home directory  ( Alps Daint and others ) |
+| `/iopsstor/scratch/cscs` | [Iopsstor scratch][ref-alps-iopsstor] |
+| `/capstor/scratch/cscs` | [Capstor scratch][ref-alps-capstor] |
+| `/capstor/store/cscs` | [Store][ref-storage-store] |
+| `/vast/users/cscs` | [Home][ref-alps-vast] |
 
 [](){#ref-data-xfer-internal}
 ## Internal Transfer

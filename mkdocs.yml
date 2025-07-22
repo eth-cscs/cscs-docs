@@ -73,27 +73,32 @@ nav:
     - 'Building and Installing software':
       - build-install/index.md
       - 'uenv': build-install/uenv.md
-      - 'containers (podman)': build-install/containers.md
+      - 'Containers (podman)': build-install/containers.md
       - 'Python with pip': build-install/pip.md
-    - 'Debugging and Performance Analysis':
-      - software/devtools/index.md
-      - 'Linaro uenv': software/devtools/linaro-uenv.md
-      - 'Using Linaro performance analysis tool': software/devtools/linaro-map.md
-      - 'Using Linaro debugger': software/devtools/linaro-ddt.md
-      - 'NVIDIA Nsight': software/devtools/nvidia-nsight.md
     - 'uenv':
       - software/uenv/index.md
       - 'Configuration': software/uenv/configure.md
       - 'Building uenv': software/uenv/build.md
       - 'Deploying uenv': software/uenv/deploy.md
       - 'Release notes': software/uenv/release-notes.md
+    - 'Debugging and Performance Analysis':
+      - software/devtools/index.md
+      - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
+      - 'Using Linaro Forge':
+        - software/devtools/linaro-uenv.md
+        - 'Linaro performance analysis tool': software/devtools/linaro-map.md
+        - 'Linaro debugger': software/devtools/linaro-ddt.md
+      - 'Using Score-P/Scalasca': software/devtools/vihps.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using container engine': software/container-engine/run.md
       - 'Resource and hooks': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
-    - 'Unsupported Software': software/unsupported.md
+    - 'Unsupported Software':
+      - software/unsupported/index.md
+      - 'Matlab': build-install/applications/matlab.md
+      - 'WRF': build-install/applications/wrf.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
