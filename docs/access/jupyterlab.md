@@ -23,7 +23,7 @@ When resources are granted the page redirects to the JupyterLab session, where y
 [](){#ref-jupyter-runtime-environment}
 ## Runtime environment
 
-A Jupyter session can be started with either a [uenv][ref-uenv] or a [container][ref-container-engine] as a base image. The JupyterHub Spawner form provides a set of default images such as the [prgenv-gnu][ref-uenv-prgenv-gnu] uenv or the [NGC Pytorch container][ref-software-ml] to choose from in a dropdown menu. When using uenv, the software stack will be mounted at `/user-environment`, and the specified view will be activated. For a container, the Jupyter session will launch inside the container filesystem with only a select set of paths mounted from the host. Once you have found a suitable option, you can start the session with `Launch JupyterLab`.
+A Jupyter session can be started with either a [uenv][ref-uenv] or a [container][ref-container-engine] as a base image. The JupyterHub Spawner form provides a set of default images such as the [prgenv-gnu][ref-uenv-prgenv-gnu] uenv or the [NGC PyTorch container][ref-software-ml] to choose from in a dropdown menu. When using uenv, the software stack will be mounted at `/user-environment`, and the specified view will be activated. For a container, the Jupyter session will launch inside the container filesystem with only a select set of paths mounted from the host. Once you have found a suitable option, you can start the session with `Launch JupyterLab`.
 
 ??? info "Using remote uenv for the first time."
     If the uenv is not present in the local repository, it will be automatically fetched.
@@ -34,8 +34,8 @@ A Jupyter session can be started with either a [uenv][ref-uenv] or a [container]
 
 If the default base images do not meet your requirements, you can specify a custom environment instead. For this purpose, you supply either a custom uenv image/view or [container engine (CE)][ref-container-engine] TOML file under the section `Advanced options` before launching the session. The supported uenvs are compatible with the Jupyter service out of the box, whereas container images typically require the installation of some additional packages. 
 
-??? "Example of a custom Pytorch container"
-    A container image based on recent a NGC Pytorch release requires the installation of the following additional packages to be compatible with the Jupyter service:
+??? "Example of a custom PyTorch container"
+    A container image based on recent a NGC PyTorch release requires the installation of the following additional packages to be compatible with the Jupyter service:
 
     ```Dockerfile
     FROM nvcr.io/nvidia/pytorch:25.05-py3
@@ -206,7 +206,7 @@ A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://
 ```
 
 !!! warning "torchrun with virtual environments"
-    When using a virtual environment on top of a base image with Pytorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages not available. If not using virtual environments such as with a self-contained Pytorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
+    When using a virtual environment on top of a base image with PyTorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages not available. If not using virtual environments such as with a self-contained PyTorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
 
 !!! note "Notebook structure"
     In none of these scenarios any significant memory allocations or background computations are performed on the main Jupyter process. Instead, the resources are kept available for the processes launched by `accelerate` or `torchrun`, respectively.
@@ -216,19 +216,20 @@ Alternatively to using these launchers, it is also possible to use Slurm to obta
 ```bash
 !srun --overlap -ul --environment /path/to/edf.toml \
     --container-workdir $PWD -n 4 bash -c "\
+    . venv-<base-image-version>/bin/activate
     MASTER_ADDR=\$(scontrol show hostnames \$SLURM_JOB_NODELIST | head -n 1) \
     MASTER_PORT=29500 \
     RANK=\$SLURM_PROCID LOCAL_RANK=\$SLURM_LOCALID WORLD_SIZE=\$SLURM_NPROCS \
     python train.py ..."
 ```
 
-where `/path/to/edf.toml` should be replaced by the TOML file and `train.py` is a script using `torch.distributed` for distributed training. This can be further customized with extra Slurm options.
+where `/path/to/edf.toml` should be replaced by the TOML file and `venv-<base-image-version>` by the name of the virtual environment (if used). The script `train.py` is using `torch.distributed` for distributed training. This launch mechanism can be further customized with extra Slurm options.
 
 !!! warning "Concurrent usage of resources"
     Subtle bugs can occur when running multiple Jupyter notebooks concurrently that each assume access to the full node. Also, some notebooks may hold on to resources such as spawned child processes or allocated memory despite having completed. In this case, resources such as a GPU may still be busy, blocking another notebook from using it. Therefore, it is good practice to only keep one such notebook running that occupies the full node and restarting a kernel once a notebook has completed. If in doubt, system monitoring with `htop` and [nvdashboard](https://github.com/rapidsai/jupyterlab-nvdashboard) can be helpful for debugging.
 
 !!! warning "Multi-GPU training from a shared Jupyter process"
-    Running multi-GPU training workloads directly from the shared Jupyter process is generally not recommended due to potential inefficiencies and correctness issues (cf. the [Pytorch docs](https://docs.pytorch.org/docs/stable/notes/cuda.html#use-nn-parallel-distributeddataparallel-instead-of-multiprocessing-or-nn-dataparallel)). However, if you need it to e.g. reproduce existing results, it is possible to do so with utilities like `accelerate`'s `notebook_launcher` or [`transformers`](https://github.com/huggingface/transformers)' `Trainer` class. When using these in containers, you will currently need to unset the environment variables `RANK` and `LOCAL_RANK`, that is have the following in a cell at the top of the notebook:
+    Running multi-GPU training workloads directly from the shared Jupyter process is generally not recommended due to potential inefficiencies and correctness issues (cf. the [PyTorch docs](https://docs.pytorch.org/docs/stable/notes/cuda.html#use-nn-parallel-distributeddataparallel-instead-of-multiprocessing-or-nn-dataparallel)). However, if you need it to e.g. reproduce existing results, it is possible to do so with utilities like `accelerate`'s `notebook_launcher` or [`transformers`](https://github.com/huggingface/transformers)' `Trainer` class. When using these in containers, you will currently need to unset the environment variables `RANK` and `LOCAL_RANK`, that is have the following in a cell at the top of the notebook:
 
     ```python
     import os; os.environ.pop("RANK"); os.environ.pop("LOCAL_RANK");
