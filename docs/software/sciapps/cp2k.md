@@ -422,6 +422,20 @@ See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
 
+### Older uenv versions on Eiger
+
+After the migration to Eiger.Alps, calculations relying on older uenv versions (`2024.1:v1`, `2024.2:v1`, `2024.3:v1`) sometimes crash unexpectedly with a segmentation fault. The problem has been identify as coming from the `libxsmm` library, used as a backend in DBCSR. To avoid this issue, it is recommended to upgrade to a newer uenv.
+
+In case a specific `2024.x` version of CP2K is required, crashes can be avoided by switching to the `BLAS` backend of DBCSR. This can be done by adding the following in the `&GLOBAL` subsection of the input file:
+
+```bash
+&GLOBAL
+    &DBCSR
+        MM_DRIVER BLAS
+    &END DBCSR
+&END GLOBAL
+```
+
 ### DLA-Future
 
 The `cp2k/2025.1:v2` uenv provides CP2K with [DLA-Future] support enabled, in the `cp2k-dlaf` view.
