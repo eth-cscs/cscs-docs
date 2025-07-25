@@ -1,7 +1,7 @@
 [](){#ref-firecrest-ui}
-# FirecREST UI
+# FirecREST user interface
 
-FirecREST UI is a web application designed to provide essential functionalities for interacting with [FirecREST API v2 backend](https://docs.cscs.ch/services/firecrest/).
+FirecREST user interface (UI) is a web application designed to provide essential functionalities for interacting with [FirecREST API v2 backend][ref-firecrest].
 
 ## Features
 
@@ -12,44 +12,24 @@ FirecREST UI is a web application designed to provide essential functionalities 
 
 A description of the views and functionalities can be found [here](https://eth-cscs.github.io/firecrest-ui/documentation/).
 
-## FirecREST supported version
+## Supported version
 
 Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
 
-The FirecREST UI is available and runs on the FirecREST API v2 backend (v1 not supported).
+This web interface is available and runs on the FirecREST API v2 backend, v1 is not supported.
 
-## FirecREST UI Deployment on Alps
+## Alps platforms
 
-FirecREST UI is currently available on two [Alps platforms][ref-alps-platforms].
+FirecREST user interface is currently available on three [Alps platforms][ref-alps-platforms].
 
-<table>
-  <tr>
-    <th>Platform</th>
-    <th>UI URL</th>
-    <th>Clusters</th>
-  </tr>
-  <tr>
-    <td>HPC Platform</td>
-    <td>https://my.hpcp.cscs.ch/</td>
-    <td><a href="../../clusters/daint">Daint</a>, <a href="../../clusters/eiger">Eiger</a></td>
-  </tr>
-  <tr>
-    <td>ML Platform</td>
-    <td>https://my.mlp.cscs.ch/</td>
-    <td><a href="../../clusters/bristen">Bristen</a>, <a href="../../clusters/clariden">Clariden</a></td>
-  </tr>
-</table>
+| Platform       | URL               | Clusters                                                                 |
+|----------------|----------------------|--------------------------------------------------------------------------|
+| HPC Platform   | [https://my.hpcp.cscs.ch/](https://my.hpcp.cscs.ch/) | [Daint](../../clusters/daint), [Eiger](../../clusters/eiger)             |
+| ML Platform    | [https://my.mlp.cscs.ch/](https://my.mlp.cscs.ch/)  | [Bristen](../../clusters/bristen), [Clariden](../../clusters/clariden)  |
+| CW Platform    | [https://my.cwp.cscs.ch/](https://my.cwp.cscs.ch/)  | [Bristen](../../clusters/santis)  |
 
+## Further information
 
-## Further Information
-
-* [FirecREST Official Docs](https://eth-cscs.github.io/firecrest-ui/)
-* [FirecREST UI for HPC Platform](https://my.hpcp.cscs.ch)
-* [FirecREST UI for ML Platform](https://my.mlp.cscs.ch)
-* [FirecREST OpenAPI Specification](https://eth-cscs.github.io/firecrest-v2/openapi)
+* [FirecREST user interface Official Docs](https://eth-cscs.github.io/firecrest-ui/home/)
 * [FirecREST Official Docs](https://eth-cscs.github.io/firecrest-v2)
-* [Documentation of pyFirecREST](https://pyfirecrest.readthedocs.io/)
 * [FirecREST repository](https://github.com/eth-cscs/firecrest-v2)
-* [What are JSON Web Tokens](https://jwt.io/introduction)
-* [Python Requests](https://requests.readthedocs.io/en/master/user/quickstart)
-* [Python Async API Calls](https://docs.aiohttp.org/en/stable/)
