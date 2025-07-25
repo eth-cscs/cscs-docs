@@ -26,10 +26,9 @@ FirecREST user interface is currently available on three [Alps platforms][ref-al
 |----------------|----------------------|--------------------------------------------------------------------------|
 | HPC Platform   | [https://my.hpcp.cscs.ch/](https://my.hpcp.cscs.ch/) | [Daint](../../clusters/daint), [Eiger](../../clusters/eiger)             |
 | ML Platform    | [https://my.mlp.cscs.ch/](https://my.mlp.cscs.ch/)  | [Bristen](../../clusters/bristen), [Clariden](../../clusters/clariden)  |
-| CW Platform    | [https://my.cwp.cscs.ch/](https://my.cwp.cscs.ch/)  | [Bristen](../../clusters/santis)  |
+| CW Platform    | [https://my.cwp.cscs.ch/](https://my.cwp.cscs.ch/)  | [Santis](../../clusters/santis)  |
 
 ## Further information
 
-* [FirecREST user interface Official Docs](https://eth-cscs.github.io/firecrest-ui/home/)
-* [FirecREST Official Docs](https://eth-cscs.github.io/firecrest-v2)
-* [FirecREST repository](https://github.com/eth-cscs/firecrest-v2)
+* [FirecREST user interface doc](https://eth-cscs.github.io/firecrest-ui/home/)
+* [FirecREST doc](https://eth-cscs.github.io/firecrest-v2)
