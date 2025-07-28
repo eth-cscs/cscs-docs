@@ -105,7 +105,7 @@ podman://ngc-pytorch:24.01 # (2)!
 ```
 
 1. This builds the container image with the current working directory as the build context. The `Dockerfile` inside that directory is implicitly used as a recipe. If it is named differently use the `-f path/to/Dockerfile` option.  
-2. The newly built container image is imported and stored under $SCRATCH/ce-images.
+2. The newly built container image is imported and stored under `$SCRATCH/ce-images`.
 
 where you should replace `<ACCOUNT>` with your project account ID.
 At this point, you can exit the Slurm allocation by typing `exit`.
