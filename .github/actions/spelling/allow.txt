@@ -232,6 +232,17 @@ pmix
 podman
 prgenv
 preinstalled
+rke
+vms
+alpernetes
+kubeconfig
+ceph
+rwx
+rwo
+subdomain
+tls
+kured
+KUbernetes
 prerelease
 prereleases
 prgenv
