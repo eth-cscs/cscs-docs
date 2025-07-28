@@ -15,7 +15,7 @@ There are three ways to do so:
     $ srun --environment=./.edf/ubuntu.toml echo "Hello"    # from ${HOME}. 
     ```
 
- 3. **From EDF search paths**: the name of EDF in the [EDF search path][ref-ce-edf-search-path]. `--environment` also accepts the EDF filename without the `.toml` extension:
+ 3. **From EDF search paths**: the name of EDF in the [EDF search path][ref-ce-edf-search-path]. Notice that in this way, `--environment` accepts the EDF filename **without** the `.toml` extension.
 
     ```console 
     $ srun --environment=ubuntu echo "Hello" 

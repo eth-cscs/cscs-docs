@@ -216,19 +216,21 @@ It is the same thing.
 [](){#ref-cicd-pipeline-triggers-api}
 #### API call triggering
 - It is possible to trigger a pipeline via an API call
-- Create a file named `data.yaml`, with the content
-```yaml
-ref: main
-pipeline: pipeline_name
-variables:
-  MY_VARIABLE: some_value
-  ANOTHER_VAR: other_value
-```
-Send a POST request to the middleware
-```bash
-curl -X POST -u 'repository_id:webhook_secret' --data-binary @data.yaml https://cicd-ext-mw.cscs.ch/ci/pipeline/trigger
-```
-- replace repository_id and webhook_secret with your repository id and the webhook secret.
+- Create a file `data.yaml`, with the content
+    ```yaml title="data.yaml"
+    ref: main
+    pipeline: pipeline_name
+    variables:
+      MY_VARIABLE: some_value
+      ANOTHER_VAR: other_value
+    ```
+- Send a POST request to the middleware (replace `repository_id` and `webhook_secret`)
+    ```console
+    $ curl -X POST -u 'repository_id:webhook_secret' --data-binary @data.yaml https://cicd-ext-mw.cscs.ch/ci/pipeline/trigger
+    ```
+- To trigger a pull-request use `ref: 'pr:<pr-number>'`
+- To trigger a tag use `ref: 'tag:<tag-name>'`
+- To trigger on a specific commit SHA use `ref: 'sha:<commit-sha>'`
 
 ### Understanding the underlying workflow
 Typical users do not need to know the underlying workflow behind the scenes, so you can stop reading here.

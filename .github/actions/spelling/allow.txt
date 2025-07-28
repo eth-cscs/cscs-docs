@@ -347,3 +347,8 @@ xname
 xpmem
 youtube
 zstd
+HPS
+jobscript
+Scalasca
+tracefile
+Vampir

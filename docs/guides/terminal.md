@@ -8,26 +8,24 @@ This documentation is a collection of guides, hints, and tips for setting up you
 
 Every user has a shell that will be used when they log in, with [bash](https://www.gnu.org/software/bash/) as the default shell for new users at CSCS.
 
-At CSCS the vast majority of users stick with the default `bash`: at the time of writing, of over 1000 users on Daint, over 99% were using bash.
-
 !!! example "Which shell am I using?"
 
     Run the following command after logging in:
 
     ```console
-    $ getent passwd | grep $USER
-    bcumming:*:22008:1000:Benjamin Cumming, CSCS:/users/bcumming:/usr/local/bin/bash
+    $ echo $SHELL
+    /usr/local/bin/bash
     ```
-
-    The last entry in the output points to the shell of the user, in this case `/usr/local/bin/bash`.
 
 !!! tip
     If you would like to change your shell, for example to [zsh](https://www.zsh.org), you have to open a [service desk](https://jira.cscs.ch/plugins/servlet/desk) ticket to request the change. You can't make the change yourself.
 
 
 !!! warning
-    Because `bash` is used by all CSCS staff and the overwhelming majority of users, it is the best tested, and safest default.
-
+    If you are comfortable with another shell (like Zsh or Fish), you are welcome to switch.
+    Just keep in mind that some tools and instructions might not work the same way outside of `bash`.
+    Since our support and documentation are based on the default setup, using a different shell might make it harder to follow along or get help.
+    
     We strongly recommend against using cshell - tools like uenv are not tested against it.
 
 [](){#ref-guides-terminal-arch}
@@ -75,4 +73,50 @@ export PATH=$xdgbase/bin:$PATH
 
 !!! note "XDG what?"
     The [XDG base directory specification](https://specifications.freedesktop.org/basedir-spec/latest/) is used by most applications to determine where to look for configurations, and where to store data and temporary files.
+
+[](){#ref-guides-terminal-bashrc}
+## Modifying bashrc
+
+The `~/.bashrc` in your home directory is executed __every time__ you log in, and there is no way to log in without executing it.
+
+It is strongly recommended that customization in `~/.bashrc` should be kept to the bare minimum:
+
+1. It sets a fixed set of environment options every time you log in, and all downstream scripts and Slurm batch jobs might assume that these commands have run, so that later modifications to `~/.bashrc` can break workflows in ways that are difficult to debug.
+    * If a script or batch job requires environment modifications, implement them there.
+    * In other words, move the definition of environment used by a workflow to the workflow definition.
+1. It makes it difficult for CSCS to provide support, because it is difficult for support staff to reproduce your environment, and it can take a lot of back and forth before we determine that the root cause of an issue is a command in `~/.bashrc`.
+
+
+!!! warning "Do not call `module` in bashrc"
+    Calls to `module use` and `module load` in `~/.bashrc` is possible, however avoid it for the reasons above.
+    If there are module commands in your `~/.bashrc`, remember to provide a full copy of `~/.bashrc` with support tickets.
+
+!!! danger "Do not call `uenv` in bashrc"
+    The `uenv` command is designed for creating isolated environments, and calling it in `~/.bashrc` will not work as expected.
+    See the [uenv docs][ref-uenv-customenv] for more information about how to create bespoke uenv environments that can be started with a single command.
+
+??? note "Help, I broke bashrc!"
+    It is possible to add commands to bashrc that will stop you from being able to log in.
+    The author of these docs has done it more than once, after ignoring their own advice.
+
+    For example, if the command `exit` is added to `~/.bashrc` you will be logged out every time you log in.
+
+    The first thing to try is to execute a command that will back up `~/.bashrc`, and remove `~/.bashrc`:
+    ```bash
+    ssh eiger.cscs.ch 'bash --norc --noprofile -c "mv ~/.bashrc ~/.bashrc.back"'
+    ```
+    If this works, you can then log in normally, and edit the backup and copy it back to `~/.bashrc`.
+
+    If there is a critical error, like calling `exit`, the approach above won't work.
+    In such cases, the only solution that doesn't require root permissions is to log in and hit `<ctrl-c>` during the log in.
+    With luck, this will cancel the login process before `~/.bashrc` is executed, and you will be able to edit and fix `~/.bashrc`.
+    Note that you might have to try a few times to get the timing right.
+
+    If this does not work, create a [service desk ticket][ref-get-in-touch] with the following message:
+
+    !!! example "Help request"
+        My bashrc has been modified, and I can't log in any longer to `insert-system-name`.
+        My username is `insert-cscs-username`.
+        Can you please make a backup copy of my bashrc, i.e. `mv ~/.bashrc ~/.bashrc.back`,
+        so that I can log in and fix the issue.
 
