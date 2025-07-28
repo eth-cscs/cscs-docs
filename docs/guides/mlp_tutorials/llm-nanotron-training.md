@@ -341,7 +341,7 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
     - If instead of downloading a dataset from HuggingFace you want to re-use one managed by a colleague, please refer to the [storage guide][ref-guides-storage-sharing] for instructions on dataset sharing.
     - If you have a [wandb API key](https://docs.wandb.ai/guides/track/environment-variables/) and want to synchronize the training run, be sure to set the `WANDB_API_KEY` variable. Alternatively, `wandb` can write log data to the distributed filesystem with `WANDB_MODE=of​f​line` so that it can be uploaded with `wandb sync` (cf. [Weights & Biases docs](https://docs.wandb.ai/support/run_wandb_offline/)) after the training run has finished.
 
-!!! warning "torchrun with virtual environments"
+!!! warning "`torchrun` with virtual environments"
     When using a virtual environment on top of a base image with PyTorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages not available. If not using virtual environments such as with a self-contained PyTorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
 
 !!! note "Using srun instead of torchrun"
