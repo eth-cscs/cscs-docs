@@ -21,7 +21,7 @@ It explains how clusters are provisioned, maintained, and the policies in place 
 
 -   :fontawesome-solid-arrow-up-from-bracket: __Kubernetes Upgrades__
 
-    Kuberenetes Cluster upgrade policy (Kubernetes version upgrades)
+    Kubernetes Cluster upgrade policy (Kubernetes version upgrades)
 
     [:octicons-arrow-right-24: Kubernetes Upgrades][ref-kubernetes-clusters-upgrades]
 
