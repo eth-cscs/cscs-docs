@@ -206,7 +206,7 @@ A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://
 ```
 
 !!! warning "torchrun with virtual environments"
-    When using a virtual environment on top of a base image with PyTorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages not available. If not using virtual environments such as with a self-contained PyTorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
+    When using a virtual environment on top of a base image with PyTorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages will not available. If not using virtual environments such as with a self-contained PyTorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
 
 !!! note "Notebook structure"
     In none of these scenarios any significant memory allocations or background computations are performed on the main Jupyter process. Instead, the resources are kept available for the processes launched by `accelerate` or `torchrun`, respectively.
