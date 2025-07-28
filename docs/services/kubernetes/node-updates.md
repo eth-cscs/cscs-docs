@@ -3,7 +3,7 @@
 
 To ensure the **security** and **stability** of our infrastructure, CSCS will perform **monthly OS updates** on all nodes of our Kubernetes clusters.
 
-## 🔄 Maintenance Schedule
+## Maintenance Schedule
 
 - **Frequency**: Every **first week of the month**  
 - **Reboot Window**: **Monday to Friday**, between **09:00 and 15:00**  
@@ -13,7 +13,7 @@ These updates include important security patches and system updates for the oper
 
 ??? Note "Nodes will be rebooted only if required by the updates."
 
-## 🚨 Urgent Security Patches
+## Urgent Security Patches
 
 In the event of a **critical zero-day vulnerability**, we will apply patches and perform reboots (if required) **as soon as possible**, outside of the regular update schedule if needed.  
 
@@ -21,7 +21,7 @@ In the event of a **critical zero-day vulnerability**, we will apply patches and
 - Users will be notified ahead of time **when possible**.
 - Standard safety and rolling reboot practices will still be followed.
 
-## 🛠️ Reboot Management with Kured
+## Reboot Management with Kured
 
 We use [**Kured** (KUbernetes REboot Daemon)](https://github.com/kubereboot/kured) to safely automate the reboot process. Kured ensures that:
 
@@ -30,7 +30,7 @@ We use [**Kured** (KUbernetes REboot Daemon)](https://github.com/kubereboot/kure
 - Reboots occur **only during the defined window** 
 - Nodes are **cordoned**, **drained**, and **gracefully reintegrated** after reboot.
 
-## ✅ Application Requirements
+## Application Requirements
 
 To avoid service disruption during node maintenance, applications **must be designed for high availability**. Specifically:
 
