@@ -16,6 +16,13 @@ The model we will be running is Google's [Gemma-7B](https://huggingface.co/googl
 
 This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML Platform][ref-platform-mlp].
 
+For clarity, we prepend all shell commands with the hostname and any active Python virtual environment they are executed in. E.g. `clariden-lnXXX` refers to a login node on Clariden, while `nidYYYYYY` is a compute node (with placeholders for numeric values). The commands listed here are run on Clariden, but can be adapted slightly to run on other vClusters as well.
+
+!!! note
+     Login nodes are a shared environment for editing files, preparing and submitting SLURM jobs as well as inspecting logs. They are not intended for running significant data processing or compute work. Any memory- or compute-intensive work should instead be done on compute nodes.
+     
+     If you need to move data [externally][ref-data-xfer-external] or [internally][ref-data-xfer-internal], please follow the corresponding guides using Globus or the `xfer` queue, respectively.
+
 ### Build a modified NGC PyTorch Container
 
 In theory, we could just go ahead and use the vanilla container image to run some PyTorch code.
@@ -23,10 +30,10 @@ However, chances are that we will need some additional libraries or software.
 For this reason, we need to use some docker commands to build on top of what is provided by Nvidia.
 To do this, we create a new directory for recipes to build containers in our home directory and set up a [Dockerfile](https://docs.docker.com/reference/dockerfile/):
 
-```bash
-$ cd $SCRATCH
-$ mkdir -p tutorials/gemma-7b
-$ cd tutorials/gemma-7b
+```console
+[clariden-lnXXX]$ cd $SCRATCH
+[clariden-lnXXX]$ mkdir -p tutorials/gemma-7b
+[clariden-lnXXX]$ cd tutorials/gemma-7b
 ```
 
 Use your favorite text editor to create a file `Dockerfile` here. The Dockerfile should look like this:
@@ -82,9 +89,10 @@ This step is straightforward, just create the file in your home:
 
 Before building the container image, we create a dedicated directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
 
-```bash title="Container image directory with recommended LUSTRE settings"
-$ mkdir -p $SCRATCH/ce-images
-$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images # (1)!
+```console title="Container image directory with recommended LUSTRE settings"
+[clariden-lnXXX]$ mkdir -p $SCRATCH/ce-images
+[clariden-lnXXX]$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M \
+  $SCRATCH/ce-images # (1)!
 ```
 
 1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
@@ -94,13 +102,13 @@ Slurm is a workload manager which distributes workloads on the cluster.
 Through Slurm, many people can use the supercomputer at the same time without interfering with one another.
 
 
-```bash
-$ srun -A <ACCOUNT> --pty bash
-$ podman build -t ngc-pytorch:24.01 . # (1)!
+```console
+[clariden-lnXXX]$ srun -A <ACCOUNT> --pty bash
+[nidYYYYYY]$ podman build -t ngc-pytorch:24.01 . # (1)!
 # ... lots of output here ...
-$ enroot import -x mount \
--o $SCRATCH/ce-images/ngc-pytorch+24.01.sqsh \
-podman://ngc-pytorch:24.01 # (2)!
+[nidYYYYYY]$ enroot import -x mount \
+  -o $SCRATCH/ce-images/ngc-pytorch+24.01.sqsh \
+  podman://ngc-pytorch:24.01 # (2)!
 # ... more output here ...
 ```
 
@@ -111,8 +119,8 @@ where you should replace `<ACCOUNT>` with your project account ID.
 At this point, you can exit the Slurm allocation by typing `exit`.
 You should be able to see a new Squashfs file in your container image directory:
 
-```bash
-$ ls $SCRATCH/ce-images
+```console
+[clariden-lnXXX]$ ls $SCRATCH/ce-images
 ngc-pytorch+24.01.sqsh
 ```
 
@@ -122,8 +130,8 @@ We will use our freshly-built container `ngc-pytorch+24.01.sqsh` in the followin
 !!! note
     In order to import a container image from a registry without building additional layers on top of it, we can directly use `enroot` (without `podman`). This is useful in this tutorial if we want to use a more recent NGC PyTorch container that was released since `24.11`. Use the following syntax for importing the `25.06` release:
 
-    ```bash
-    enroot import -x mount \
+    ```console
+    [nidYYYYYY]$ enroot import -x mount \
       -o $SCRATCH/ce-images/ngc-pytorch+25.06.sqsh docker://nvcr.io#nvidia/pytorch:25.06-py3
     ```
 
@@ -179,16 +187,17 @@ This will be the first time we run our modified container.
 To run the container, we need allocate some compute resources using Slurm and launch a shell, just like we already did to build the container.
 This time, we also use the `--environment` option to specify that we want to launch the shell inside the container specified by our gemma-pytorch EDF file:
 
-```bash
-$ cd $SCRATCH/tutorials/gemma-7b
-$ srun -A <ACCOUNT> --environment=./ngc-pytorch-gemma-24.01.toml --pty bash
+```console
+[clariden-lnXXX]$ cd $SCRATCH/tutorials/gemma-7b
+[clariden-lnXXX]$ srun -A <ACCOUNT> \
+  --environment=./ngc-pytorch-gemma-24.01.toml --pty bash
 ```
 
 PyTorch is already setup in the container for us.
 We can verify this by asking pip for a list of installed packages:
 
-```bash
-$ python -m pip list | grep torch
+```console
+user@nidYYYYYY$ python -m pip list | grep torch
 pytorch-quantization      2.1.2
 torch                     2.2.0a0+81ea7a4
 torch-tensorrt            2.2.0a0
@@ -202,19 +211,19 @@ While it is best practice to install stable dependencies in the container image,
 The `--system-site-packages` option of the Python `venv` creation command ensures that we install packages _in addition_ to the existing packages and don't accidentally re-install a new version of PyTorch shadowing the one that has been put in place by Nvidia.
 Next, we activate the environment and use pip to install the two packages we need, `accelerate` and `transformers`:
 
-```bash
-$ python -m venv --system-site-packages venv-gemma-24.01
-$ source venv-gemma-24.01/bin/activate
-(venv-gemma-24.01)$ pip install \
-accelerate==0.30.1 transformers==4.38.1 huggingface_hub[cli]
+```console
+user@nidYYYYYY$ python -m venv --system-site-packages venv-gemma-24.01
+user@nidYYYYYY$ source venv-gemma-24.01/bin/activate
+(venv-gemma-24.01) user@nidYYYYYY$ pip install \
+  accelerate==0.30.1 transformers==4.38.1 huggingface_hub[cli]
 # ... pip output ...
 ```
 
 Before we move on to running the Gemma-7B model, we additionally need to make an account at [HuggingFace](https://huggingface.co), get an API token, and accept the [license agreement](https://huggingface.co/google/gemma-7b-it) for the [Gemma-7B](https://huggingface.co/google/gemma-7b) model. You can save the token to `$SCRATCH` using the huggingface-cli:
 
-```bash
-$ export HF_HOME=$SCRATCH/huggingface
-$ huggingface-cli login
+```console
+(venv-gemma-24.01) user@nidYYYYYY$ export HF_HOME=$SCRATCH/huggingface
+(venv-gemma-24.01) user@nidYYYYYY$ huggingface-cli login
 ```
 
 At this point, you can exit the Slurm allocation again by typing `exit`.
@@ -229,8 +238,9 @@ If you `ls` the contents of the `gemma-inference` folder, you will see that the 
 
 Since [`HF_HOME`](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome) will not only contain the API token, but also be the storage location for model, dataset and space caches of `huggingface_hub` (unless `HF_HUB_CACHE` is set), we also want to apply proper LUSTRE striping settings before it gets populated.
 
-```bash
-$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/huggingface
+```console
+[clariden-lnXXX]$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M \
+  $SCRATCH/huggingface
 ```
 
 ### Run Inference on Gemma-7B
@@ -302,8 +312,8 @@ The operations performed before the `srun` command resemble largely the operatio
 
 Once you've finished editing the batch file, you can save it and run it with Slurm:
 
-```bash
-$ sbatch submit-gemma-inference.sh
+```console
+[clariden-lnXXX]$ sbatch submit-gemma-inference.sh
 ```
 
 This command should just finish without any output and return you to your terminal.
@@ -314,8 +324,8 @@ Once your job finishes, you will find a file in the same directory you ran it fr
 For this tutorial, you should see something like the following:
 
 
-```bash
-$ cat logs/slurm-gemma-inference-543210.out
+```console
+[clariden-lnXXX]$ cat logs/slurm-gemma-inference-543210.out
 /capstor/scratch/cscs/user/gemma-inference/venv-gemma-24.01/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
   warnings.warn(
 Gemma's activation function should be approximate GeLU and not exact GeLU.
@@ -352,10 +362,11 @@ Move on to the next tutorial or try the challenge.
 !!! info "Collaborating in Git"
 
     In order to track and exchange your progress with colleagues, you can use standard `git` commands on the host, i.e. in the directory `$SCRATCH/tutorials/gemma-7b` run
-    ```bash
-    $ git init .
-    $ git remote add origin git@github.com:<github-username>/alps-mlp-tutorials-gemma-7b.git # (1)!
-    $ ... # git add/commit
+    ```console
+    [clariden-lnXXX]$ git init .
+    [clariden-lnXXX]$ git remote add origin \
+      git@github.com:<github-username>/alps-mlp-tutorials-gemma-7b.git # (1)!
+    [clariden-lnXXX]$ ... # git add/commit
     ```
 
     1. Use any alternative Git hosting service instead of Github
@@ -369,8 +380,9 @@ Move on to the next tutorial or try the challenge.
 
 Using the same approach as in the latter half of step 4, use pip to install the package `nvitop`. This is a tool that shows you a concise real-time summary of GPU activity. Then, run Gemma and launch `nvitop` at the same time:
 
-```bash
-(venv-gemma-24.01)$ python gemma-inference.py > gemma-output.log 2>&1 & nvitop
+```console
+(venv-gemma-24.01) user@nidYYYYYY$ python gemma-inference.py \
+  > gemma-output.log 2>&1 & nvitop
 ```
 
 Note the use of bash `> gemma-output.log 2>&1` to hide any output from Python.

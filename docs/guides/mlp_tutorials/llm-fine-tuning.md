@@ -22,20 +22,21 @@ First, we need to update our Python environment with some extra libraries to sup
 To do this, we can launch an interactive shell in the PyTorch container, just like we did in the previous tutorial.
 Then, we install `peft`:
 
-```bash
-$ cd $SCRATCH/tutorials/gemma-7b
-$ srun --environment=./ngc-pytorch-gemma-24.01.toml --pty bash
-$ source venv-gemma-24.01/bin/activate
-$ pip install peft==0.11.1
+```console
+[clariden-lnXXX]$ cd $SCRATCH/tutorials/gemma-7b
+[clariden-lnXXX]$ srun --environment=./ngc-pytorch-gemma-24.01.toml --pty bash
+user@nidYYYYYY$ source venv-gemma-24.01/bin/activate
+(venv-gemma-24.01) user@nidYYYYYY$ pip install peft==0.11.1
 ```
 
 Next, we also need to clone and install the `trl` Git repository so that we have access to the fine-tuning scripts in it.
 For this purpose, we will install the package in editable mode in the virtual environment.
 This makes it available in python scripts independent of the current working directory and without creating a redundant copy of the files.
 
-```bash
-$ git clone https://github.com/huggingface/trl -b v0.7.11
-$ pip install -e ./trl # (1)!
+```console
+(venv-gemma-24.01) user@nidYYYYYY$ git clone \
+  https://github.com/huggingface/trl -b v0.7.11
+(venv-gemma-24.01) user@nidYYYYYY$ pip install -e ./trl # (1)!
 ```
 
 1. Installs trl in editable mode
@@ -102,8 +103,8 @@ Everything after that configures the `trl/examples/scripts/sft.py` Python script
 
 Make this script executable with
 
-```bash
-$ chmod u+x $SCRATCH/tutorials/gemma-7b/fine-tune-gemma.sh
+```console
+[clariden-lnXXX]$ chmod u+x $SCRATCH/tutorials/gemma-7b/fine-tune-gemma.sh
 ```
 
 Next, we also need to create a short Slurm batch script to launch our fine-tuning script:
@@ -131,8 +132,8 @@ Now that we've setup a fine-tuning script and a Slurm batch script, we can launc
 We'll start out by launching it on two nodes.
 It should take about 10-15 minutes to fine-tune Gemma:
 
-```bash
-$ sbatch --nodes=1 submit-fine-tune-gemma.sh
+```console
+[clariden-lnXXX]$ sbatch --nodes=1 submit-fine-tune-gemma.sh
 ```
 
 ### Compare fine-tuned Gemma against default Gemma
@@ -146,8 +147,8 @@ input_text = "What are the 5 tallest mountains in the Swiss Alps?"
 
 We can run inference using our batch script from the previous tutorial:
 
-```bash
-$ sbatch submit-gemma-inference.sh
+```console
+[clariden-lnXXX]$ sbatch submit-gemma-inference.sh
 ```
 
 Inspecting the output should yield something like this:
@@ -168,7 +169,8 @@ the 5 tallest mountains in the Swiss Alps:
 Next, we can update the model line in our Python inference script to use the model that we just fine-tuned:
 
 ```python
-model = AutoModelForCausalLM.from_pretrained("gemma-fine-tuned-openassistant/checkpoint-400", device_map="auto")
+model = AutoModelForCausalLM.from_pretrained(
+    "gemma-fine-tuned-openassistant/checkpoint-400", device_map="auto")
 ```
 
 If we re-run inference, the output will be a bit more detailed and explanatory, similar to output we might expect from a helpful chatbot. One example looks like this:

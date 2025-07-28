@@ -25,9 +25,9 @@ If not already done as part of the [LLM Inference tutorial][ref-mlp-llm-inferenc
 
 Create a directory to store container images used with CE and configure it with [recommended LUSTRE settings][ref-guides-storage-lustre]:
 
-```bash title="Container image directory with recommended LUSTRE settings"
-$ mkdir -p $SCRATCH/ce-images
-$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images # (1)!
+```console title="Container image directory with recommended LUSTRE settings"
+[clariden-lnXXX]$ mkdir -p $SCRATCH/ce-images
+[clariden-lnXXX]$ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images # (1)!
 ```
 
 1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
@@ -92,11 +92,11 @@ RUN pip install \
 
 Then build and import the container.
 
-```bash
-$ cd $SCRATCH/tutorials/nanotron-pretrain
-$ podman build -f Dockerfile -t ngc-nanotron:24.04 .
-$ enroot import -x mount \
--o $SCRATCH/ce-images/ngc-nanotron+24.04.sqsh podman://ngc-nanotron:24.04  # (1)!
+```console
+[nidYYYYYY]$ cd $SCRATCH/tutorials/nanotron-pretrain
+[nidYYYYYY]$ podman build -f Dockerfile -t ngc-nanotron:24.04 .
+[nidYYYYYY]$ enroot import -x mount \
+  -o $SCRATCH/ce-images/ngc-nanotron+24.04.sqsh podman://ngc-nanotron:24.04  # (1)!
 ```
 
 1. We import container images into a canonical location under $SCRATCH.
@@ -156,23 +156,22 @@ Note that, if you built your container image elsewhere, you will need to modify 
 Now let's download nanotron.
 In the login node run:
 
-```bash
-$ cd $SCRATCH/tutorials/nanotron-pretrain
-$ git clone https://github.com/huggingface/nanotron.git
-$ cd nanotron
-$ git checkout 5f8a52b08b702e206f31f2660e4b6f22ac328c95  # (1)!
+```console
+[clariden-lnXXX]$ cd $SCRATCH/tutorials/nanotron-pretrain
+[clariden-lnXXX]$ git clone https://github.com/huggingface/nanotron.git
+[clariden-lnXXX]$ cd nanotron
+[clariden-lnXXX]$ git checkout 5f8a52b08b702e206f31f2660e4b6f22ac328c95  # (1)!
 ```
 
 1. This ensures the compatibility of nanotron with the following example. For general usage, there is no reason to stick to an outdated version of nanotron, though.
 
 We will install nanotron in a thin virtual environment on top of the container image built above. This proceeds as in the [LLM Inference][ref-mlp-llm-inference-tutorial].
 
-```bash
-$ srun  -A <ACCOUNT> --environment=./ngc-nanotron-24.04.toml --pty bash
-$ python -m venv --system-site-packages venv-24.04
-$ source venv-24.04/bin/activate
-$ cd nanotron/ && pip install -e .
-"
+```console
+[clariden-lnXXX]$ srun  -A <ACCOUNT> --environment=./ngc-nanotron-24.04.toml --pty bash
+user@nidYYYYYY$ python -m venv --system-site-packages venv-24.04
+user@nidYYYYYY$ source venv-24.04/bin/activate
+(venv-24.04) user@nidYYYYYY$ cd nanotron/ && pip install -e .
 ```
 
 This creates a virtual environment on top of this container image (`--system-site-packages` ensuring access to system-installed site-packages) and installs nanotron in editable mode inside it. Because all dependencies of nanotron are already installed in the Dockerfile, no extra libraries will be installed at this point.
@@ -344,7 +343,7 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
 !!! warning "`torchrun` with virtual environments"
     When using a virtual environment on top of a base image with PyTorch, always replace `torchrun` with `python -m torch.distributed.run` to pick up the correct Python environment. Otherwise, the system Python environment will be used and virtual environment packages not available. If not using virtual environments such as with a self-contained PyTorch container, `torchrun` is equivalent to `python -m torch.distributed.run`.
 
-!!! note "Using srun instead of torchrun"
+!!! note "Using srun instead of `torchrun`"
     In many cases, workloads launched with `torchrun` can equivalently be launched purely with SLURM by setting some extra environment variables for `torch.distributed`. This simplifies the overall setup. That is, the `srun` statement in the above `sbatch` script can be rewritten as
 
     ```bash title="$SCRATCH/tutorials/nanotron-pretrain/run_tiny_llama.sh"
@@ -388,13 +387,13 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
 Run:
 
 ```console
-$ sbatch run_tiny_llama.sh
+[clariden-lnXXX]$ sbatch run_tiny_llama.sh
 ```
 
 You can inspect if your job has been submitted successfully by running `squeue --me` and looking for your username. Once the run starts, there will be a new file under `logs/`. You can inspect the status of your run using:
 
 ```console
-$ tail -f logs/<logfile>
+[clariden-lnXXX]$ tail -f logs/<logfile>
 ```
 
 In the end, the checkpoints of the model will be saved in `checkpoints/`.
