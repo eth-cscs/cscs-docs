@@ -359,7 +359,7 @@ They inspire awe, forevermore.<eos>
 Congrats! You've run Google Gemma-7B inference on four GH200 chips simultaneously.
 Move on to the next tutorial or try the challenge.
 
-!!! info "Collaborating in Git"
+!!! info "Collaborating with Git"
 
     In order to track and exchange your progress with colleagues, you can use standard `git` commands on the host, i.e. in the directory `$SCRATCH/tutorials/gemma-7b` run
     ```console
