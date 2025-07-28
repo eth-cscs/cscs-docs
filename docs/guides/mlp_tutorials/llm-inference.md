@@ -27,7 +27,7 @@ For clarity, we prepend all shell commands with the hostname and any active Pyth
 
 In theory, we could just go ahead and use the vanilla container image to run some PyTorch code.
 However, chances are that we will need some additional libraries or software.
-For this reason, we need to use some docker commands to build on top of what is provided by Nvidia.
+For this reason, we need to build another image on top of the one provided by Nvidia.
 To do this, we create a new directory for recipes to build containers in our home directory and set up a [Dockerfile](https://docs.docker.com/reference/dockerfile/):
 
 ```console
