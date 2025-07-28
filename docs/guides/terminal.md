@@ -8,26 +8,24 @@ This documentation is a collection of guides, hints, and tips for setting up you
 
 Every user has a shell that will be used when they log in, with [bash](https://www.gnu.org/software/bash/) as the default shell for new users at CSCS.
 
-At CSCS the vast majority of users stick with the default `bash`: at the time of writing, of over 1000 users on Daint, over 99% were using bash.
-
 !!! example "Which shell am I using?"
 
     Run the following command after logging in:
 
     ```console
-    $ getent passwd | grep $USER
-    bcumming:*:22008:1000:Benjamin Cumming, CSCS:/users/bcumming:/usr/local/bin/bash
+    $ echo $SHELL
+    /usr/local/bin/bash
     ```
-
-    The last entry in the output points to the shell of the user, in this case `/usr/local/bin/bash`.
 
 !!! tip
     If you would like to change your shell, for example to [zsh](https://www.zsh.org), you have to open a [service desk](https://jira.cscs.ch/plugins/servlet/desk) ticket to request the change. You can't make the change yourself.
 
 
 !!! warning
-    Because `bash` is used by all CSCS staff and the overwhelming majority of users, it is the best tested, and safest default.
-
+    If you are comfortable with another shell (like Zsh or Fish), you are welcome to switch.
+    Just keep in mind that some tools and instructions might not work the same way outside of `bash`.
+    Since our support and documentation are based on the default setup, using a different shell might make it harder to follow along or get help.
+    
     We strongly recommend against using cshell - tools like uenv are not tested against it.
 
 [](){#ref-guides-terminal-arch}
