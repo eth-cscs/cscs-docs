@@ -22,7 +22,8 @@ Every user has a shell that will be used when they log in, with [bash](https://w
 
 
 !!! warning
-    If you are comfortable with another shell (like Zsh or Fish), you are welcome to switch. Just keep in mind that some tools and instructions might not work the same way outside of `bash`.
+    If you are comfortable with another shell (like Zsh or Fish), you are welcome to switch.
+    Just keep in mind that some tools and instructions might not work the same way outside of `bash`.
     Since our support and documentation are based on the default setup, using a different shell might make it harder to follow along or get help.
     
     We strongly recommend against using cshell - tools like uenv are not tested against it.
