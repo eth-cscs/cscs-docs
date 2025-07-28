@@ -373,7 +373,7 @@ Move on to the next tutorial or try the challenge.
 
     where you can replace `<github-username>` by the owner of the Github repository you want to push to.
 
-    Note that for reproducibility, it is recommended to always track the Dockerfile, EDF and your application code alongside in a Git repository.
+    Note that for reproducibility, it is recommended to always track the Dockerfile and EDF alongside your application code in a Git repository.
 
 
 ### Challenge
