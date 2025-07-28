@@ -120,7 +120,7 @@ This squashfs file is essentially a compressed container image, which can be run
 We will use our freshly-built container `ngc-pytorch+24.01.sqsh` in the following steps to run a PyTorch script that loads the Google Gemma-7B model and performs some inference with it.
 
 !!! note
-    In order to import a container image from a registry without building additional layers on top of it, we can directly use `enroot` (without `podman`). This is useful in this tutorial if we want to use a more recent NGC Pytorch container that was released since `24.11`. Use the following syntax for importing the `25.06` release:
+    In order to import a container image from a registry without building additional layers on top of it, we can directly use `enroot` (without `podman`). This is useful in this tutorial if we want to use a more recent NGC PyTorch container that was released since `24.11`. Use the following syntax for importing the `25.06` release:
 
     ```bash
     enroot import -x mount \
