@@ -7,4 +7,4 @@ In a [first tutorial][ref-mlp-llm-inference-tutorial], you will learn how to run
 
 Building on the first tutorial, in the [second tutorial][ref-mlp-llm-fine-tuning-tutorial] you will learn how to train (fine-tune) a LLM on multiple GPUs on a single node. For this purpose, you will use HuggingFace's `accelerate` and see best practices for dataset management.
 
-In the [third tutorial][ref-mlp-llm-nanotron-tutorial], you will apply the techniques from the previous tutorials to enable distributed (pre-)training of a model `nanotron` on multiple nodes. In particular, this tutorial makes use of model-parallelism and introduces the usage of `torchrun` to manage jobs on individual nodes.
+In the [third tutorial][ref-mlp-llm-nanotron-tutorial], you will apply the techniques from the previous tutorials to enable distributed (pre-)training of a model in `nanotron` on multiple nodes. In particular, this tutorial makes use of model-parallelism and introduces the usage of `torchrun` to manage jobs on individual nodes.
