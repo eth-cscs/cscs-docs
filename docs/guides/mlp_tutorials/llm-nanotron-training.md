@@ -333,7 +333,7 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
 
 1. Location for locally stored data (incl. token and cache for models/datasets/spaces if `HF_HUB_CACHE` is not set) from `huggingface_hub` (cf. [HuggingFace docs](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome).
 2. This setting is specifically required by nanotron. Note that this setting can lead to faulty Nsight Systems (`nsys`) profiles that do not show overlap of compute and communication when there actually is (e.g. observed in [this issue](https://github.com/NVIDIA/Megatron-LM/issues/1468)). The solution is to use a more recent version of `nsys`.
-3. Use `python -m torch.distributed.run` instead of `torchrun` with virtual environments
+3. Use `python -m torch.distributed.run` instead of `torchrun` with virtual environments.
 
 !!! note "A few comments"
     - The parts outside the srun command will be run on the first node of the Slurm allocation for this job. srun commands without further specifiers execute with the settings of the sbatch script (i.e. using all nodes allocated to the job). 
