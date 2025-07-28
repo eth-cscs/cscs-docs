@@ -178,7 +178,7 @@ $ cd nanotron/ && pip install -e .
 This creates a virtual environment on top of this container image (`--system-site-packages` ensuring access to system-installed site-packages) and installs nanotron in editable mode inside it. Because all dependencies of nanotron are already installed in the Dockerfile, no extra libraries will be installed at this point.
 
 !!! note
-    Jobs making use of this virtual environment will always need to activate it first (_inside_ the `srun`-command). 
+    Jobs making use of this virtual environment will always need to activate it first (_inside_ the `srun` command). 
 
 
 ## Preparing a Training Job
