@@ -225,7 +225,7 @@ If you `ls` the contents of the `gemma-inference` folder, you will see that the 
      
      * this virtual environment won't actually work unless you're running something from inside the PyTorch container.
     This is because the virtual environment ultimately relies on the resources packaged inside the container.
-     * every SLURM job making use of this virtual environment will need to activate it first (_inside_ the `srun`-command). 
+     * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
 
 Since [`HF_HOME`](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome) will not only contain the API token, but also be the storage location for model, dataset and space caches of `huggingface_hub` (unless `HF_HUB_CACHE` is set), we also want to apply proper LUSTRE striping settings before it gets populated.
 
