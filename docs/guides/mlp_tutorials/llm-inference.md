@@ -124,7 +124,7 @@ We will use our freshly-built container `ngc-pytorch+24.01.sqsh` in the followin
 
     ```bash
     enroot import -x mount \
-    -o $SCRATCH/ce-images/ngc-pytorch+25.06.sqsh docker://nvcr.io#nvidia/pytorch:25.06-py3
+      -o $SCRATCH/ce-images/ngc-pytorch+25.06.sqsh docker://nvcr.io#nvidia/pytorch:25.06-py3
     ```
 
 
