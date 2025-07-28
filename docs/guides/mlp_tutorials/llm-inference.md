@@ -109,7 +109,7 @@ podman://ngc-pytorch:24.01 # (2)!
 
 where you should replace `<ACCOUNT>` with your project account ID.
 At this point, you can exit the Slurm allocation by typing `exit`.
-You should be able to see a new squashfs file in your container image directory:
+You should be able to see a new Squashfs file in your container image directory:
 
 ```bash
 $ ls $SCRATCH/ce-images
