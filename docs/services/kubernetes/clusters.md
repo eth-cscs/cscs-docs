@@ -159,7 +159,7 @@ Enables `LoadBalancer` service types by assigning public IPs.
 
 !!! Warning "The public IP pool is limited. Prefer using `Ingress` unless you specifically need a `LoadBalancer` Service for TCP traffic."
 
-🔗 [metallb documentation](https://metallb.universe.tf)
+🔗 [MetalLB documentation](https://metallb.universe.tf)
 
 ###  `ingress-nginx`
 
