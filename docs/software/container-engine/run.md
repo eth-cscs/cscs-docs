@@ -21,6 +21,9 @@ There are three ways to do so:
     $ srun --environment=ubuntu echo "Hello" 
     ```
 
+!!! note "Shared container at the node-level"
+    For memory efficiency reasons, all Slurm tasks on an individual compute node share the same container, including its filesystem. As a consequence, any write operation to the container filesystem by one task will eventually become visible to all other tasks on the same node.
+
 ### Use from batch scripts
 
 Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):

@@ -246,7 +246,7 @@ If you are in multiple projects, information for the [Store][ref-storage-store] 
     ```
 
 
-    Here the user is in two projects, namely `g33` and `csstaff`, for which the quota for their respective paths in `/capstor/store` are reported.
+    Here the user is in two projects, namely `g33` and `csstaff`, for which the quota for their respective paths in `/capstor/store` are reported. Note that the path `/vast/users/cscs/user` is mounted at `/users/user` (i.e. `$HOME`) on Alps.
 
 [](){#ref-storage-backup}
 ## Backup
