@@ -381,6 +381,8 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
     "
     ```
 
+    Note that, the quoted block inside the `srun` command gets executed by each task separately, i.e. 4 times per node, but all tasks on a node share the _same_ container. This is different to the setup with `torchrun` where only one task executes the lines above the final `python` command. This is important to be aware of in order to avoid any accidental race condition (e.g. by writing to the container filesystem in one of these lines).
+
 
 ## Launch a Training Job
 
@@ -397,3 +399,12 @@ You can inspect if your job has been submitted successfully by running `squeue -
 ```
 
 In the end, the checkpoints of the model will be saved in `checkpoints/`.
+
+!!! note "Core dump files"
+    In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it can be useful to disable their creation by adding the line
+
+    ```bash
+    ulimit -c 0
+    ```
+
+    to the sbatch script.
