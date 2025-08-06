@@ -102,6 +102,7 @@ nav:
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
+    - 'FirecREST UI': services/firecrest-ui.md
     - 'CI/CD': services/cicd.md
     - 'Kubernetes':
       - services/kubernetes/index.md
