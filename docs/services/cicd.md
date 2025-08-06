@@ -1118,7 +1118,7 @@ job2:
     - ci/upload_code_coverage.sh
 ```
 
-### uenv-runner
+### uenv-builder
 This runner submits SLURM jobs through FirecREST.
 See the [comments below](#firecrest) and the [FirecREST documentation][ref-firecrest] for additional FirecREST information.
 
