@@ -112,6 +112,7 @@ nav:
     - running/index.md
     - 'Slurm': running/slurm.md
     - 'Job report': running/jobreport.md
+    - 'Known issues': running/known-issues.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
