@@ -66,6 +66,7 @@ nav:
     - 'Communication Libraries':
       - software/communication/index.md
       - 'Cray MPICH': software/communication/cray-mpich.md
+      - 'MPICH': software/communication/mpich.md
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
       - 'RCCL': software/communication/rccl.md
