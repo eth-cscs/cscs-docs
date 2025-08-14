@@ -87,6 +87,8 @@ They are explicit and building manually the necessary packages, however for prod
         && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential ca-certificates automake autoconf libtool make gdb strace wget python3 git gfortran \
         && rm -rf /var/lib/apt/lists/*
 
+    # When building on a machine without a GPU,
+    # during the build process on Daint the GPU driver and libraries are not imported into the build process
     RUN echo '/usr/local/cuda/lib64/stubs' > /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
 
     RUN git clone https://github.com/hpc/xpmem \
@@ -130,6 +132,7 @@ They are explicit and building manually the necessary packages, however for prod
         && cd .. \
         && rm -rf osu-micro-benchmarks-v${osu_version} osu-micro-benchmarks-v${osu_version}.tar.gz
 
+    # Get rid of the stubs libraries, because at runtime the CUDA driver and libraries will be available
     RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
     ```
 
