@@ -15,7 +15,7 @@ MPICH can be built inside containers, however for native Slingshot performance s
 To achieve native performance one needs to ensure to build MPICH with `libfabric` and `xpmem` support.
 Additionally, when building for GH200 nodes, one needs to ensure to build `libfabric` and `mpich` with CUDA support.
 
-At container runtime the [CXI hook][ref-ce-cxi-hook] will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system.
+At runtime, the container engine [CXI hook][ref-ce-cxi-hook] will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system.
 This will ensure native performance when doing MPI communication.
 
 These are example Dockerfiles that can be used on [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] to build a container image with MPICH and best communication performance.
