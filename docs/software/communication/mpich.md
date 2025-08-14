@@ -2,7 +2,7 @@
 # MPICH
 
 MPICH is an open-source MPI implementation actively developed in this [github repository](https://github.com/pmodels/mpich).
-It can be installed inside containers directly from the source code manually, but also using Spack as package manager can install it.
+It can be installed inside containers directly from the source code manually, or using Spack or similar package managers.
 
 ## MPICH inside containers
 MPICH can be built inside containers, however for native Slingshot performance special care has to be taken, to ensure that communication is optimal for all cases:
