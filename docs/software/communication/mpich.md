@@ -20,7 +20,7 @@ This will ensure native performance when doing MPI communication.
 
 These are example Dockerfiles that can be used on [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] to build a container image with MPICH and best communication performance.
 
-They are quite explicit and building manually the necessary packages, however for real-life one should fall back to Spack to do the building.
+They are explicit and building manually the necessary packages, however for production one can fall back to Spack to do the building.
 === "Dockerfile.cpu"
     ```Dockerfile
     FROM docker.io/ubuntu:24.04
