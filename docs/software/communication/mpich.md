@@ -8,7 +8,7 @@ It can be installed inside containers directly from the source code manually, bu
 MPICH can be built inside containers, however for native Slingshot performance special care has to be taken, to ensure that communication is optimal for all cases:
 
 * Intra-node communication (this is via shared memory, especially `xpmem`)
-* Inter-node communication (this should go through the openfabrics interface OFI)
+* Inter-node communication (this should go through the OpenFabrics Interface - OFI)
 * Host-to-Host memory communication
 * Device-to-Device memory communication
 
@@ -16,7 +16,7 @@ To achieve native performance one needs to ensure to build MPICH with `libfabric
 Additionally, when building for GH200 nodes one needs to ensure to build `libfabric` and `mpich` with `CUDA` support.
 
 At container runtime the [CXI hook][ref-ce-cxi-hook] will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system.
-This will ensure native peformance when doing MPI communication.
+This will ensure native performance when doing MPI communication.
 
 This are example Dockerfiles that can be used on `Eiger` and `Daint` to build a container image with MPICH and best communication performance.
 They are quite explicit and building manually the necessary packages, however for real-life one should fall back to Spack to do the building.
