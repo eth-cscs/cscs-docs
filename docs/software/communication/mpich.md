@@ -18,7 +18,8 @@ Additionally, when building for GH200 nodes one needs to ensure to build `libfab
 At container runtime the [CXI hook][ref-ce-cxi-hook] will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system.
 This will ensure native performance when doing MPI communication.
 
-This are example Dockerfiles that can be used on `Eiger` and `Daint` to build a container image with MPICH and best communication performance.
+These are example Dockerfiles that can be used on [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] to build a container image with MPICH and best communication performance.
+
 They are quite explicit and building manually the necessary packages, however for real-life one should fall back to Spack to do the building.
 === "Dockerfile.cpu"
     ```Dockerfile
