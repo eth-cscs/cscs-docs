@@ -12,7 +12,7 @@ MPICH can be built inside containers, however for native Slingshot performance s
 * Host-to-Host memory communication
 * Device-to-Device memory communication
 
-To achieve native performance one needs to ensure to build MPICH with `libfabric` and `xpmem` support.
+To achieve native performance MPICH must be built with both `libfabric` and `xpmem` support.
 Additionally, when building for GH200 nodes, one needs to ensure to build `libfabric` and `mpich` with CUDA support.
 
 At runtime, the container engine [CXI hook][ref-ce-cxi-hook] will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system.
