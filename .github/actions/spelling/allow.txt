@@ -74,6 +74,7 @@ NAMD
 NICs
 NVMe
 Nordend
+OpenFabrics
 OSS
 OSSs
 OTP
