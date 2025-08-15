@@ -111,7 +111,7 @@ To set up a default so all newly created folders and dirs inside or your desired
     ```
 
 !!! info
-    For more information read the `setfacl` man page: `man setfacl`.
+    For more information read the `setfacl` man page: [`man setfacl`](https://linux.die.net/man/1/setfacl).
 
 [](){#ref-guides-storage-lustre}
 ## Lustre tuning
@@ -127,7 +127,10 @@ The data itself is subdivided in blocks of size `<blocksize>` and is stored by O
 The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories inheriting them from their parent directory.
 The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path.
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
-The simplest way to have the correct layout is to copy to a directory with the correct layout
+
+Striping settings on a directory are only applied to files added after the command is run. 
+Existing files retain their original layout unless explicitly changed using `lfs migrate <striping settings>`, which takes the same arguments as `lfs setstripe`.
+The simplest way to have the correct layout is to copy to a directory with the correct layout.
 
 !!! tip "A block size of 4MB gives good throughput, without being overly big..."
     ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
@@ -135,6 +138,7 @@ The simplest way to have the correct layout is to copy to a directory with the c
 
 
 !!! example "Settings for large files"
+    *Remember:* Settings only apply to files added to the directory after this command.
     ```console
     lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
     ```
