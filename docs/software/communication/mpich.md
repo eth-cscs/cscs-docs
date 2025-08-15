@@ -5,7 +5,7 @@ MPICH is an open-source MPI implementation actively developed in this [github re
 It can be installed inside containers directly from the source code manually, or using Spack or similar package managers.
 
 ## MPICH inside containers
-MPICH can be built inside containers, however for native Slingshot performance special care has to be taken, to ensure that communication is optimal for all cases:
+MPICH can be built inside containers, however for native Slingshot performance special care has to be taken to ensure that communication is optimal for all cases:
 
 * Intra-node communication (this is via shared memory, especially `xpmem`)
 * Inter-node communication (this should go through the OpenFabrics Interface - OFI)
