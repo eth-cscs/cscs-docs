@@ -129,6 +129,7 @@ nav:
       - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
       - 'LLM Fine-tuning': guides/mlp_tutorials/llm-fine-tuning.md
       - 'LLM Pre-training': guides/mlp_tutorials/llm-nanotron-training.md
+    - 'Gordon Bell 2025': guides/gb25.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
