@@ -51,7 +51,7 @@ Scratch filesystems provide temporary storage for high-performance I/O for execu
 Use scratch to store datasets that will be accessed by jobs, and for job output.
 Scratch is per user - each user gets separate scratch path and quota.
 
-* The environment variable `SCRATCH=/iopsstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
+* The environment variable `SCRATCH=/iopsstor/scratch/cscs/$USER` is set automatically when you log into a system of the ML platform, and can be used as a shortcut to access scratch.
 * There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`.
 
 !!! warning "scratch cleanup policy"
