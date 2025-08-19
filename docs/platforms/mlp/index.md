@@ -91,4 +91,4 @@ Project is per project - each project gets a project folder with project-specifi
 
 ## Guides and tutorials
 
-Tutorials for fine-tuning and running inference of LLMs as well as training an LLM with Nanotron can be found in the [MLP Tutorials][ref-guides-mlp-tutorials] page.
+Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-software-ml-tutorials] under machine learning software.

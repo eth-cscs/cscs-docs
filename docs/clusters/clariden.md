@@ -65,6 +65,8 @@ Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently deploy
     uenv start namd/3.0:v3@daint
     ```
 
+For detailed instructions and best practices with ML frameworks, please refer to the dedicated pages under [ML software][ref-software-ml].
+
 ## Running Jobs on Clariden
 
 ### Slurm

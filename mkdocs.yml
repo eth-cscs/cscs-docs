@@ -62,6 +62,11 @@ nav:
       - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'Machine Learning':
       - software/ml/index.md
+      - 'Tutorials':
+        - software/ml/tutorials/index.md
+        - 'LLM Inference': software/ml/tutorials/llm-inference.md
+        - 'LLM Fine-tuning': software/ml/tutorials/llm-fine-tuning.md
+        - 'LLM Pre-training': software/ml/tutorials/llm-nanotron-training.md
       - 'PyTorch': software/ml/pytorch.md
     - 'Communication Libraries':
       - software/communication/index.md
@@ -125,11 +130,6 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
-    - 'MLP Tutorials':
-      - guides/mlp_tutorials/index.md
-      - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
-      - 'LLM Fine-tuning': guides/mlp_tutorials/llm-fine-tuning.md
-      - 'LLM Pre-training': guides/mlp_tutorials/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

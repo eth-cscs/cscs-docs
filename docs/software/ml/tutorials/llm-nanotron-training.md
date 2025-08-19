@@ -1,17 +1,20 @@
-[](){#ref-mlp-llm-nanotron-tutorial}
+[](){#software-ml-llm-nanotron-tutorial}
 
 # LLM Nanotron Pre-training Tutorial
 
 In this tutorial, we will build a container image to run multi-node training jobs with [nanotron](https://github.com/huggingface/nanotron).
 We will train a 109M parameter model with ~100M wikitext tokens as a proof of concept.
 
+!!! info
+    Note that while the concepts taught here for multi-node training with PyTorch are generally portable across frameworks, the current (August 2025) recommendation for users with a need for large-scale model-parallel training is to use `Megatron-LM` instead of `nanotron` due to significant performance advantages at scale. 
+
 ### Prerequisites 
 
-It is recommended to follow the previous two tutorials on [LLM Inference][ref-mlp-llm-inference-tutorial] and [LLM Fine-tuning][ref-mlp-llm-fine-tuning-tutorial] first, as this will build upon them.
+It is recommended to follow the previous two tutorials on [LLM Inference][software-ml-llm-inference-tutorial] and [LLM Fine-tuning][software-ml-llm-fine-tuning-tutorial] first, as this will build upon them.
 
 ### Set up Podman
 
-If not already done as part of the [LLM Inference tutorial][ref-mlp-llm-inference-tutorial], edit your podman configuration in `$HOME/.config/containers/storage.conf` as follows:
+If not already done as part of the [LLM Inference tutorial][software-ml-llm-inference-tutorial], edit your podman configuration in `$HOME/.config/containers/storage.conf` as follows:
 
 ```toml title="$HOME/.config/containers/storage.conf"
 [storage]
@@ -64,7 +67,7 @@ RUN pip install \
 ```
 
 !!! note "More recent NGC releases"
-    As discussed in the [LLM Inference tutorial][ref-mlp-llm-inference-tutorial], starting with the 24.11 release, NGC PyTorch no longer requires the installation of the Python venv module. Furthermore, FlashAttention and several other packages were integrated into the hosted image. However, as `nanotron` as of June 2025 still requires Python 3.10 (cf. this [issue](https://github.com/huggingface/nanotron/issues/217)), this example is restricted to NGC releases up to `24.10`.
+    As discussed in the [LLM Inference tutorial][software-ml-llm-inference-tutorial], starting with the 24.11 release, NGC PyTorch no longer requires the installation of the Python venv module. Furthermore, FlashAttention and several other packages were integrated into the hosted image. However, as `nanotron` as of June 2025 still requires Python 3.10 (cf. this [issue](https://github.com/huggingface/nanotron/issues/217)), this example is restricted to NGC releases up to `24.10`.
 
     ```dockerfile title="$SCRATCH/tutorials/nanotron-pretrain/Dockerfile"
     FROM nvcr.io/nvidia/pytorch:24.10-py3
@@ -165,7 +168,7 @@ In the login node run:
 
 1. This ensures the compatibility of nanotron with the following example. For general usage, there is no reason to stick to an outdated version of nanotron, though.
 
-We will install nanotron in a thin virtual environment on top of the container image built above. This proceeds as in the [LLM Inference][ref-mlp-llm-inference-tutorial].
+We will install nanotron in a thin virtual environment on top of the container image built above. This proceeds as in the [LLM Inference][software-ml-llm-inference-tutorial].
 
 ```console
 [clariden-lnXXX]$ srun  -A <ACCOUNT> --environment=./ngc-nanotron-24.04.toml --pty bash
@@ -336,7 +339,7 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
 
 !!! note "A few comments"
     - The parts outside the srun command will be run on the first node of the Slurm allocation for this job. srun commands without further specifiers execute with the settings of the sbatch script (i.e. using all nodes allocated to the job). 
-    - Note that we are setting `HF_HOME` to a directory in scratch. This is done to place the dataset downloaded from `huggingface_hub` in your scratch, instead of your home directory. The same applies to your HuggingFace token as well as any models/spaces unless `HF_HUB_CACHE` is set (cf. [HuggingFace docs](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome)). As discussed in the tutorial on [LLM Inference][ref-mlp-llm-inference-tutorial], it is good practice to apply the [recommended LUSTRE settings][ref-guides-storage-lustre] there.
+    - Note that we are setting `HF_HOME` to a directory in scratch. This is done to place the dataset downloaded from `huggingface_hub` in your scratch, instead of your home directory. The same applies to your HuggingFace token as well as any models/spaces unless `HF_HUB_CACHE` is set (cf. [HuggingFace docs](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome)). As discussed in the tutorial on [LLM Inference][software-ml-llm-inference-tutorial], it is good practice to apply the [recommended LUSTRE settings][ref-guides-storage-lustre] there.
     - If instead of downloading a dataset from HuggingFace you want to re-use one managed by a colleague, please refer to the [storage guide][ref-guides-storage-sharing] for instructions on dataset sharing.
     - If you have a [wandb API key](https://docs.wandb.ai/guides/track/environment-variables/) and want to synchronize the training run, be sure to set the `WANDB_API_KEY` variable. Alternatively, `wandb` can write log data to the distributed filesystem with `WANDB_MODE=of​f​line` so that it can be uploaded with `wandb sync` (cf. [Weights & Biases docs](https://docs.wandb.ai/support/run_wandb_offline/)) after the training run has finished.
 
