@@ -110,8 +110,6 @@ If you cannot find the information that you need in the documentation, help is a
 
     [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
 
-    [:octicons-arrow-right-24: HyperQueue (High Throughput Computing)](services/hyperqueue.md)
-
 
 -   :fontawesome-solid-hammer: __Software__
 
