@@ -25,16 +25,16 @@ $ curl api.ipify.org
 
 Alps is a an excellent machine to simulate, evaluate and analyze data, and communication within Alps is optimized. Communication with external services is often needed to set up a calculation or communicate results to others.
 
-To enable this CSCS has excellent connection (400Gbit/s) to SWITCH.ch, that provides internet services to the research and education infrastructure in Switzerland.
+To enable this CSCS has excellent connection (400GBit/s) to SWITCH.ch, that provides internet services to the research and education infrastructure in Switzerland.
 
-Still communication with external services is not the focus of CSCS, it is rather seen as a way to enable the use of our resources, so for example as explained below from Alps **you should not** put load on services (like websites) that do not expect it, for example through **scraping**.
+Still communication with external services is not the focus of CSCS, it is rather seen as a way to enable the use of our resources, so for example as explained below from Alps **you should not** put load on services (web sites,...) that do not expect it, for example through **scraping**.
 
 ### Shared resources
 
 If you need to heavily interact with external systems there are some caveats that you have to keep in mind, in general some resources are shared resources, and a single user should not monopolize their use.
 
 To avoid abuse there are measures in place at CSCS, on the transit networks, and on the remote systems, but these measures are often very blunt and would affect the CSCS as whole, so care should be taken to avoid triggering them.
-We have a good relationship with Switch, so if we trigger some of their failsafes (for example their anti-DDOS tools), they will contact us. Other might take action without telling us anything.
+We have a good relationship with Switch, so if we trigger some of their fail-safes (for example their anti-DDoS tools), they will contact us. Other might take action without telling us anything.
 
 For example a website might blacklist IPs, or whole subnets from CSCS, which would make the service unavailable for all other CSCS users too. Many sites use content delivery networks (CDN), like Cloudflare, Akamai, or similar, and if those blacklist the CSCS many users will be affected. In addition, once we are blacklisted, it's extremely difficult and long be able to get out of these blacklists.
 As far as we know, they don't publish the levels of the number of requests/queries per second that can trigger this kind of action, for some obvious reason that bad-intentioned people would stay just below this limit...
@@ -46,7 +46,7 @@ We do have protection in place for our public DNS server, but other DNS servers 
 On Alps currently we use an internal DNS, which is also used to resolve the different nodes in alps, and does not have special protections against abuse. For this reason **avoid scraping from Alps**, as it could lead to it being blacklisted.
 Resources outside Alps can do 100s of request per second without problems.
 
-Given the excellent connection of the CSCS network with SWITCH a sustained use of it can saturate the connection of a large provider (as google for example) with SWITCH, thus affecting almost any any user trying to query google from Switzerland.
+Given the excellent connection of the CSCS network with SWITCH a sustained use of it can saturate the connection of a large provider (as Google for example) with SWITCH, thus affecting almost any any user trying to query Google from Switzerland.
 
 ### Conclusions
 Before any large scale sustained use of external resources think carefully about the load you are putting on the CSCS, network and target, both in number of requests and size of the request.
