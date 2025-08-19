@@ -763,7 +763,7 @@ value: `jfrog.svc.cscs.ch/docker-ci-ext/<repository-id>`
 
 The prefix path in the CSCS internal container image registry, to which your pipeline has write access.
 Within this prefix, you can choose any directory structure.
-Images that are pushed to a path matching **/public/** , can be pulled by anybody within CSCS network
+Images that are pushed to a path matching `**/public/**`, can be pulled by anybody within CSCS network
 
 ### `CSCS_CI_MW_URL`
 value: `https://cicd-ext-mw.cscs.ch/ci`
