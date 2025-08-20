@@ -29,7 +29,7 @@ These steps are illustrated in the [machine learning platform tutorials][ref-sof
 
 ### Select the base image
 
-For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) give an overview on installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the [podman build guide][ref-build-containers].
+For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) give an overview of installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the [podman build guide][ref-build-containers].
 
 ### Define Container Runtime Environment
 
