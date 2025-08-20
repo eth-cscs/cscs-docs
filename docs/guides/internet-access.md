@@ -21,7 +21,14 @@ $ curl api.ipify.org
 ```
 
 [](){#ref-guides-internet-access-ext}
-## Guidelines on communicating with external services (web scraping, bulk downloads,…)
+## Communicating with external services
+
+!!! note
+    Examples of the type of external communication that can trigger problems include:
+
+    * web scraping;
+    * bulk downloads;
+    * pipelines constantly pulling the same image from DockerHub.
 
 Communication with external services from Alps is provided by a high-capacity 400 GBit/s connection to [SWITCH](https://www.switch.ch/en/network/ip-access).
 SWITCH provides internet services to the research and education infrastructure in Switzerland.
@@ -33,11 +40,12 @@ However, communication with external services is not the focus of CSCS, it is ra
 If you need to heavily interact with external systems there are some caveats that you have to keep in mind, in general some resources are shared resources, and a single user should not monopolize their use.
 
 To avoid abuse there are measures in place at CSCS, on the transit networks, and on the remote systems, but these measures are often very blunt and would affect the CSCS as whole, so care should be taken to avoid triggering them.
-We have a good relationship with SWITCH, so if we trigger some of their fail-safes (for example their anti-DDoS tools), they will contact us. Other might take action without telling us anything.
+We have a good relationship with SWITCH, so if we trigger some of their fail-safes (for example their anti-DDoS tools), they will contact us.
+External providers might take action, like blacklisting Alps, without warning or notification.
 
-For example a website might blacklist IPs, or whole subnets from CSCS, which would make the service unavailable for all other CSCS users too.
-Many sites use content delivery networks (CDN), like Cloudflare, Akamai, or similar, and if those blacklist the CSCS many users will be affected.
-In addition, once we are blacklisted, it's extremely difficult and long be able to get out of these blacklists.
+For example a website might blacklist IPs, or whole subnets from CSCS, rendering the service unavailable for **all CSCS users**.
+Many sites use content delivery networks (CDN), like Cloudflare, Akamai, or similar, and if those blacklist CSCS we would lose access to all content provided by those CDNs.
+In addition, once blacklisted, it is very difficult to get removed from the blacklist.
 
 !!! info
     Sites do not publish the number of requests/queries per second that trigger blacklisting, for some obvious reason that bad-intentioned people would stay just below this limit.
