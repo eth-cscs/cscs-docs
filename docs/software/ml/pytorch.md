@@ -184,7 +184,7 @@ For further details on execution logic, job monitoring and data management, plea
        #SBATCH -C thp_never&nvidia_vboost_enabled
        ```
 
-    * The argument `--ddp-bucket-size` controls the level of grouping of many small data-parallel communications into bigger ones and setting it to a high value such as can improve throughput (model-dependent, e.g. `10000000000`).
+    * The argument `--ddp-bucket-size` controls the level of grouping of many small data-parallel communications into bigger ones and setting it to a high value can improve throughput (model-dependent, e.g. `10000000000`).
 
     * If in doubt about communication performance with NCCL at scale, use [nccl-tests](https://github.com/NVIDIA/nccl-tests) with the relevant communication patterns to check if scaling behavior can be reproduced.
 
