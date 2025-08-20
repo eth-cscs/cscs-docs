@@ -11,7 +11,7 @@ While NGC provides an optimized build of PyTorch with many dependencies included
 Running PyTorch from a container ensures maximum portability, reproducibility, and ease of use across machines. This is achieved by 
 
 1. selecting an appropriate base image and customizing it in a Dockerfile
-2. define the container runtime environment in an EDF
+2. defining the container runtime environment in an EDF
 3. (optionally) extending by a virtual environment
 4. submitting jobs with CE in SLURM 
 
