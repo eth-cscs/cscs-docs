@@ -28,7 +28,6 @@ Fawzi
 Fock
 Foket
 GAPW
-GBit
 GGA
 GPFS
 GPG
