@@ -37,7 +37,7 @@ Having built and imported a container image with podman and enroot, the next ste
 
 Apart from this, there are specific features relevant for machine learning made available through [annotations][ref-ce-annotations], which customize the container at runtime.
 
-* When using NCCL inside the container, you want to include the [aws-ofi-nccl][ref-ce-aws-ofi-hook] plugin which enables the container to interface with the host's libfabric and, thus, make use of Alps Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
+* When using NCCL inside the container, include the [aws-ofi-nccl][ref-ce-aws-ofi-hook] plugin which enables the container to interface with the host's libfabric and, thus, use the Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
 * An [SSH annotation][ref-ce-ssh-hook] allows adding a light-weight SSH server to the container without the need to modify the container image
 
 A resulting example TOML file following best practices may look like
