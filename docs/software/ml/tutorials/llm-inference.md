@@ -165,8 +165,8 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 2. The path `/users` is not mounted since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
 4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin][ref-ce-aws-ofi-hook] with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
-5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with `NCCL_DEBUG_SUBSYS`.
-6. Disable CUDA JIT cache
+5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys).
+6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
 8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 

@@ -86,7 +86,7 @@ If the default base images do not meet your requirements, you can specify a cust
     3. Currently only required on Daint and Santis, not on Clariden
     4. Set working directory of Jupyter session (file browser root directory)
     5. Use environment settings for optimized communication 
-    6. Disable CUDA JIT cache
+    6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
     7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
     8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 

@@ -33,7 +33,7 @@ For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.co
 
 ### Define Container Runtime Environment
 
-Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted and a working directory to for the processes in the container to start in as in the [quickstart examples for CE][ref-container-engine].
+Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted from the host and a working directory for the process in the container to start in as in the [quickstart examples for CE][ref-container-engine].
 
 Apart from this, there are specific features relevant for machine learning made available through [annotations][ref-ce-annotations], which customize the container at runtime.
 
@@ -68,8 +68,8 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 2. The path `/users` is not mounted as a whole since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
 4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin][ref-ce-aws-ofi-hook]. While not strictly needed for single node workloads, it is good practice to keep it always on.
-5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with `NCCL_DEBUG_SUBSYS`.
-6. Disable CUDA JIT cache
+5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario. Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys).
+6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
 8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 
@@ -93,14 +93,15 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 
     1. Enable Slurm commands (together with two subsequent mounts)
 
-!!! note "Best practice for large-scale jobs"
+!!! note "Best practice for production jobs"
 
-    For stability and reproducibility, use self-contained containers for large scale jobs. Using code mounted from the distributed filesystem may leave compiled artefacts behind that can result in unintentional runtime errors when e.g. swapping the container image. In particular, it is recommended to avoid mounting all of `$HOME`, so that environments are properly isolated and e.g. the Triton cache (that by default ends up in `$HOME/.triton`) resides in an ephemeral location of the filesystem.
+    For stability and reproducibility, use self-contained containers for production jobs. Using code mounted from the distributed filesystem may leave compiled artefacts behind that can result in unintentional runtime errors when e.g. swapping the container image. In particular, it is recommended to avoid mounting all of `$HOME`, so that environments are properly isolated and e.g. the Triton cache (that by default ends up in `$HOME/.triton`) resides in an ephemeral location of the filesystem.
 
 !!! note "Collaborating in Git"
 
      For reproducibility, it is recommended to always track the Dockerfile, EDF and an optional virtual environment specification alongside your application code in a Git repository.
 
+[](){#ref-ce-pytorch-venv}
 ### (Optionally) extend container with virtual environment
 
 While production jobs should include as many dependencies as possible in the container image, during development it can be convenient to manage frequently changing packages in a virtual environment built on top of the container image. This can include both dependencies and actively developed packages (that can be installed in editable mode with `pip install -e .`).
@@ -186,28 +187,57 @@ For further details on execution logic, job monitoring and data management, plea
 
     * The argument `--ddp-bucket-size` controls the level of grouping of many small data-parallel communications into bigger ones and setting it to a high value can improve throughput (model-dependent, e.g. `10000000000`).
 
-    * If in doubt about communication performance with NCCL at scale, use [nccl-tests](https://github.com/NVIDIA/nccl-tests) with the relevant communication patterns to check if scaling behavior can be reproduced.
+    * If in doubt about communication performance with NCCL at scale, use the [`NCCL_DEBUG`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug) environment variable to validate that the aws-ofi-nccl plugin has been properly initialized and libfabric was recognized (further subsystems can be monitored with [`NCCL_DEBUG_SUBSYS`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys)). If the issue persists, use [nccl-tests](https://github.com/NVIDIA/nccl-tests) with the relevant communication patterns to check if the scaling behavior can be reproduced and contact CSCS support.
 
     Additionally, consider the **best practice for checkpointing and data management**:
 
-    * Following the advice on [filesystems][ref-storage-fs], write checkpoints (sequential write) to `/capstor/scratch` and place randomly accessed training data (many small random reads) on `/iopsstor/scratch`. Use the [data transfer instructions][ref-data-xfer] to move data to/from `/capstor/store`. Make sure to apply recommended [Lustre settings][ref-guides-storage-lustre] on all directories containing significant amount of data, including those containing container images and managed by other tools (e.g. the HuggingFace cache, see [`HF_HOME`](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome) in the [this tutorial][software-ml-llm-inference-tutorial]).
+    * Following the advice on [filesystems][ref-storage-fs], write checkpoints (sequential write) to `/capstor/scratch` and place randomly accessed training data (many small random reads) on `/iopsstor/scratch`. Use the [data transfer instructions][ref-data-xfer] to move data to/from `/capstor/store`. Make sure to apply recommended [Lustre settings][ref-guides-storage-lustre] on all directories containing significant amount of data, including those containing container images and managed by other tools (e.g. the HuggingFace cache, see [`HF_HOME`](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome) in the [this tutorial][software-ml-llm-inference-tutorial]). In case your workload continues to be limited by filesystem performance, contact CSCS support.
 
-    * Regularly adjust checkpoint writing intervals to the overhead induced by writing a checkpoint ($T_1$) and the mean time between job failures ($T_2$). As a first order approximation use a checkpointing interval of $\sqrt{2 T_1 T_2}$ (derived by [Young](https://doi.org/10.1145/361147.361115) and [Daly](https://doi.org/10.1016/j.future.2004.11.016)).
+    * Regularly adjust checkpoint writing intervals to the current overhead induced by writing a checkpoint ($T_1$) and mean time between job failures ($T_2$). As a first order approximation use a checkpointing interval of $\sqrt{2 T_1 T_2}$ (derived by [Young](https://doi.org/10.1145/361147.361115) and [Daly](https://doi.org/10.1016/j.future.2004.11.016)).
+
+    * Avoid activities that put excessive load on third party services (such as web scraping or bulk downloads) in line with the [guidelines on Internet Access on Alps][ref-guides-internet-access-ext].
 
     Adjust for **cluster availability**:
 
     * Submit your jobs with a Slurm time limit compatible with reservations (such as maintenance windows, cf. `scontrol show res`) to be able to get scheduled.
 
+??? info "Debugging segmentation faults"
+    Application crashes with segmentation faults can be investigated by inspecting core dump files that contain an image of the process memory at the time of the crash. For this purpose, you can load the core dump file with `cuda-gdb` installed in the container and look at the stack trace with `bt`. Note that in order to generate core dump files the line `ulimit -c 0` must be commented out in the above sbatch script.
+
+### Known Issues
+
+??? info "Errors hidden by failures in UCX signal handler"
+    Application errors may trigger the UCX signal handler in the NGC container, which has caused secondary failures in the past, shadowing the initial error trace. These secondary failures may be significantly harder to fix than the initial problem.
+    
+    An example is the following trace from the NGC PyTorch 25.01 with Megatron-LM:
+    ```console
+    640: [nid007306:244443:0:244443] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x455)
+    640: ==== backtrace (tid: 244443) ====
+    640:  0  /opt/hpcx/ucx/lib/libucs.so.0(ucs_handle_error+0x2cc) [0x4000d2b214dc]
+    640:  1  /opt/hpcx/ucx/lib/libucs.so.0(+0x3168c) [0x4000d2b2168c]
+    640:  2  /opt/hpcx/ucx/lib/libucs.so.0(+0x319b8) [0x4000d2b219b8]
+    640:  3  linux-vdso.so.1(__kernel_rt_sigreturn+0) [0x4000347707dc]
+    640:  4  /usr/local/cuda/lib64/libnvrtc.so.12.8.61(+0x935000) [0x400140a25000]
+    640:  5  [0x3d5c5e58]
+    640: =================================
+    srun: error: nid007306: task 640: Segmentation fault
+    srun: Terminating StepId=348680.1
+    ```
+    In this case, the segmentation fault in the UCX signal handler (`ucs_handle_error`) was due to a broken NVRTC in the container. However, to obtain the trace of the initial error (which was unrelated), it was necessary to disable the UCX signal handler by setting the following environment variable in the sbatch script:
+    ```bash
+    export UCX_HANDLE_ERRORS=none
+    ```
+
 
 [](){#ref-uenv-pytorch}
 ## Running PyTorch with a uenv
 
-The PyTorch software stack was designed with the intention of being able to run [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training workloads out of the box.
+The PyTorch uenv software stack was designed with the intention of being able to run [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training workloads out of the box.
 Thus, it comes with batteries included and does not just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
 !!! note "uenv"
 
-    [PyTorch][ref-uenv-pytorch] is provided via [uenv][ref-uenv].
+    The [PyTorch uenv][ref-uenv-pytorch] is provided via the tool [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
 ### Versioning
@@ -520,6 +550,12 @@ $ exit # (6)!
     ```
     It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv that you need to change for your application.
 
+!!! note
+    Keep in mind that
+
+     * this virtual environment is _specific_ to this particular uenv and won't actually work unless you are using it from inside this uenv - it relies on the resources packaged inside the uenv.
+     * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
+
 Alternatively one can use the uenv as [upstream Spack instance][ref-building-uenv-spack] to to add both Python and non-Python packages.
 However, this workflow is more involved and intended for advanced Spack users.
 
@@ -537,36 +573,40 @@ However, this workflow is more involved and intended for advanced Spack users.
 #SBATCH --uenv=pytorch/v2.6.0:/user-environment
 #SBATCH --view=default
 
+set -x
+
+ulimit -c 0 # (2)!
+
 #################################
 # OpenMP environment variables #
 #################################
-export OMP_NUM_THREADS=8 # (2)!
+export OMP_NUM_THREADS=8 # (3)!
 
 #################################
 # PyTorch environment variables #
 #################################
-export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (3)!
-export TRITON_HOME=/dev/shm/ # (4)!
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
+export TRITON_HOME=/dev/shm/ # (5)!
 
 #################################
 # MPICH environment variables   #
 #################################
-export MPICH_GPU_SUPPORT_ENABLED=0 # (5)!
+export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
 
 #################################
 # CUDA environment variables    #
 #################################
-export CUDA_CACHE_DISABLE=1 # (6)!
+export CUDA_CACHE_DISABLE=1 # (7)!
 
 ############################################
 # NCCL and Fabric environment variables    #
 ############################################
-# (7)!
+# (8)!
 --8<-- "docs/software/communication/nccl_env_vars"
 
-# (8)!
 # (9)!
-srun bash -c "
+# (10)!
+srun -ul bash -c "
     . ./venv-uenv-pt2.6-v1/bin/activate
 
 --8<-- "docs/software/ml/torch_distributed_env_vars"
@@ -576,19 +616,20 @@ srun bash -c "
 
 1. The `--uenv` option is used to specify the uenv to use for the job.
    The `--view=default` option is used to load all the packages provided by the uenv.
-2. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
+3. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
    The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
    The optimal number depends on the workload and should be determined by testing.
    Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
-3. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
-4. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
+4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
+5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
    This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it. Avoid this setting with the container engine as it may lead to errors related to mount settings of `/dev/shm` (use a filesystem path inside the container instead).
-5. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
-6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
-7. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation][ref-communication-nccl].
-8. Activate the virtual environment created on top of the uenv (if any).
+6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
+7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
+8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation][ref-communication-nccl].
+9. Activate the virtual environment created on top of the uenv (if any).
    Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
-9. The environment variables are used by PyTorch to initialize the distributed backend.
+10. The environment variables are used by PyTorch to initialize the distributed backend.
    The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node.
    Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.
 
