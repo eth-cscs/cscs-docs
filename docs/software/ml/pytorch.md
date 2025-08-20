@@ -27,7 +27,7 @@ These steps are illustrated in the [machine learning platform tutorials][ref-sof
     1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
 
 
-### Selecting the base image
+### Select the base image
 
 For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) give an overview on installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the [podman build guide][ref-build-containers].
 
