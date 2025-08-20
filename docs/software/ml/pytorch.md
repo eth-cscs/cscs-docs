@@ -35,7 +35,7 @@ For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.co
 
 Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted and a working directory to for the processes in the container to start in as in the [quickstart examples for CE][ref-container-engine].
 
-Besides this, there are specific features relevant for machine learning available through [annotations][ref-ce-annotations], which customize the container at runtime.
+Apart from this, there are specific features relevant for machine learning made available through [annotations][ref-ce-annotations], which customize the container at runtime.
 
 * When using NCCL inside the container, you want to include the [aws-ofi-nccl][ref-ce-aws-ofi-hook] plugin which enables the container to interface with the host's libfabric and, thus, make use of Alps Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
 * An [SSH annotation][ref-ce-ssh-hook] allows adding a light-weight SSH server to the container without the need to modify the container image
