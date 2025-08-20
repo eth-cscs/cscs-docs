@@ -67,7 +67,7 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 1. It is important to use curly braces for environment variables used in the EDF
 2. The path `/users` is not mounted as a whole since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
-4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin][ref-ce-aws-ofi-hook] with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
+4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin][ref-ce-aws-ofi-hook]. While not strictly needed for single node workloads, it is good practice to keep it always on.
 5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with `NCCL_DEBUG_SUBSYS`.
 6. Disable CUDA JIT cache
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
