@@ -17,7 +17,7 @@ graphroot = "/dev/shm/$USER/root"
 ```
 
 !!! warning
-    If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead.
+    If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead. See also [this guide][ref-guides-terminal-arch] for further information about XDG variables.
 
 !!! warning
     In the above configuration, `/dev/shm` is used to store the container images.
