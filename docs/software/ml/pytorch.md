@@ -12,7 +12,7 @@ Running PyTorch from a container ensures maximum portability, reproducibility, a
 
 1. selecting an appropriate base image and customizing it in a Dockerfile
 2. defining the container runtime environment in an EDF
-3. (optionally) extending by a virtual environment
+3. (optionally) extending with a virtual environment
 4. submitting jobs with CE in SLURM 
 
 These steps are illustrated in the [machine learning platform tutorials][ref-software-ml-tutorials] and the instructions detailed in the [podman build guide][ref-build-containers].
