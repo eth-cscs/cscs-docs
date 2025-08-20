@@ -56,7 +56,7 @@ In general, [`podman build`](https://docs.podman.io/en/stable/markdown/podman-bu
 
     1. Setting `NVIDIA_VISIBLE_DEVICES` in the environment is required specifically to run NGC containers with podman
 
-    replacing `<last-layer-hash>` by the actual hash output in the build job and interactively test the failing command.
+    replacing `<last-layer-hash>` with the actual hash output in the build job and interactively test the failing command.
 
 
 ## Importing images in the Container Engine
