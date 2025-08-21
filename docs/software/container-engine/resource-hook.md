@@ -171,7 +171,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
 !!! tip "How to check if the CXI provider is available"
 
-    You can check if the CXI provider is available using the following command
+    You can check if the CXI provider is available using `fi_info`
     (within the container):
 
     ```bash
