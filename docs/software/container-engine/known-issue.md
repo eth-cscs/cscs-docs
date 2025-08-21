@@ -52,3 +52,28 @@ Mounting individual home directories (usually located on the `/users` filesystem
 
 It is generally NOT recommended to mount home folders inside containers, due to the risk of exposing personal data to programs inside the container.
 Defining a mount related to `/users` in the EDF should only be done when there is a specific reason to do so, and the container image being deployed is trusted.
+
+[](){#ref-ce-why-no-sbatch-env}
+## Why `--environment` as `#SBATCH` is discouraged
+
+Due to how Slurm works, when using `--environment` as an `#SBATCH` option, the entire content of the SBATCH script is executed within a container created by the EDF file. This may cause several counterintuitive implications that can lead to subtle and hard-to-diagnose failures. The following are a few known issues associated with `--environment` in SBATCH.
+
+ - **Slurm availability in the container**: In some cases, CE does not inject essential Slurm components in containers, which result in crashes on basic Slurm operations (e.g., `srun`) inside the SBATCH script. Even if they were injected, it's not guaranteed to cover the complete feature set of Slurm.
+
+ - **The execution context is not the host system**: Since the entire SBATCH script runs inside a container (shaped with EDF), all commands in the script are affected by the environment defined by EDF. This primarily includes filesystem mounts, where any directories not explicitly mounted in EDF are invisible to all commands inside the SBATCH script.
+
+ - **Nested use of `--environment`**: `--environment` in the SBATCH script _and_ for a `srun` command results in entering the EDF environment twice, causing unexpected errors due to double-entering containers.
+
+For these reasons, we encourage using `--environment` for each `srun` as shown below.
+
+```bash
+#!/bin/bash
+#SBATCH --cpus-per-task=4
+...
+srun --environment=my_edf echo 'this'
+...
+srun --environment=my_edf echo 'that'
+...
+```
+
+As the use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, users should have a high level of proficiency and a full understanding of the risk to encounter cryptic behaviors. Should users encounter a problem while using `--environment` as `#SBATCH`, it's recommended to move `--environment` from `#SBATCH` to each `srun` and see if the problem disappears.
