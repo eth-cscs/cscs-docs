@@ -169,16 +169,16 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
     4194304             23925.61
     ```
 
-!!! tip "How to check if the CXI provider is working correctly"
+!!! tip "How to check if the CXI provider is available"
 
-    You can check if the CXI provider works correctly using the following command
+    You can check if the CXI provider is available using the following command
     (within the container):
 
     ```bash
     fi_info -p cxi
     ```
 
-    ??? example "CXI provider working"
+    ??? example "CXI provider available"
         ```console
         $ fi_info -p cxi
         provider: cxi
@@ -189,7 +189,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
             protocol: FI_PROTO_CXI
         ```
 
-    ??? example "CXI provider not working"
+    ??? example "CXI provider not available"
         ```console
         $ fi_info -p cxi
         fi_getinfo: -61 (No data available)
