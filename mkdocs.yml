@@ -82,6 +82,10 @@ nav:
       - 'Building uenv': software/uenv/build.md
       - 'Deploying uenv': software/uenv/deploy.md
       - 'Release notes': software/uenv/release-notes.md
+    - 'gssr':
+      - software/gssr/index.md
+      - 'Quickstart Guide': software/gssr/quickstart.md
+      - 'Container Guide': software/gssr/containers.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
       - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
