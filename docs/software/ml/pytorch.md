@@ -176,11 +176,11 @@ For further details on execution logic, job monitoring and data management, plea
     Use of `--environment` is currently only recommended for the `srun` command. 
 
 !!! note "Optimizing large-scale training jobs"
-    The following settings were established to **improve compute throughput** of LLM training in `Megatron-LM`:
+    The following settings were established to **improve compute throughput** of LLM training in [Megatron-LM](https://github.com/NVIDIA/Megatron-LM):
 
-    * Extensively evaluate all possible parallelization dimensions, including data-, tensor- and pipeline parallelism (including virtual pipeline parallelism) and more, when available. In `Megatron-LM`, avoid using the option '--defer-embedding-wgrad-compute` to defer the embedding gradient computation. Identify storage-related bottlenecks by isolating data loading/generation operations into a separate benchmark.
+    * Extensively evaluate all possible parallelization dimensions, including data-, tensor- and pipeline parallelism (including virtual pipeline parallelism) and more, when available. Identify storage-related bottlenecks by isolating data loading/generation operations into a separate benchmark.
 
-    * Disabling transparent huge pages and enabling the Nvidia [vboost](https://docs.nvidia.com/nemo-framework/user-guide/latest/performance/performance-guide.html#gpu-core-clock-optimization) feature has been observed to improve performance in large-scale LLM training in `Megatron-LM`. This can be achieved by adding these constraints to the sbatch script:
+    * Disabling transparent huge pages and enabling the Nvidia [vboost](https://docs.nvidia.com/nemo-framework/user-guide/latest/performance/performance-guide.html#gpu-core-clock-optimization) feature has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
        ```bash
        #SBATCH -C thp_never&nvidia_vboost_enabled
        ```
@@ -206,6 +206,8 @@ For further details on execution logic, job monitoring and data management, plea
 
 ### Known Issues
 
+The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) of every NGC PyTorch container contain a selected list of known issues.
+
 ??? info "Errors hidden by failures in UCX signal handler"
     Application errors may trigger the UCX signal handler in the NGC container, which has caused secondary failures in the past, shadowing the initial error trace. These secondary failures may be significantly harder to fix than the initial problem.
     
@@ -228,6 +230,8 @@ For further details on execution logic, job monitoring and data management, plea
     export UCX_HANDLE_ERRORS=none
     ```
 
+??? info "Avoid `--defer-embedding-wgrad-compute` in Megatron-LM"
+    In Megatron-LM, avoid using the option `--defer-embedding-wgrad-compute` to delay the embedding gradient computation as it can lead to an incorrect gradient norm that changes upon resuming at different scale.
 
 [](){#ref-uenv-pytorch}
 ## Running PyTorch with a uenv
