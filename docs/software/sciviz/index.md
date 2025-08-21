@@ -11,5 +11,5 @@ CSCS staff can also help users with performance tuning and ParaView Python code 
 
 CSCS provides [tools and environments][ref-building] for installing applications that are not on the list of supported applications.
 
-!!! info
+!!! under-construction
     We are building guides for installing [popular applications][ref-software-installation-guides].
