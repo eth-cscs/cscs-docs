@@ -169,16 +169,20 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
     4194304             23925.61
     ```
 
-!!! tip "How to check if the CXI provider is available"
+!!! tip "How to check the CXI provider works inside a container"
 
-    You can check if the CXI provider is available using `fi_info`
-    (within the container):
+    You might want to check if the CXI provider works inside a container,
+    i.e. that the CXI hook has been correctly applied.
+
+    You can check if the CXI provider is working using `fi_info`,
+    usually available alongside your `libfabric` installation,
+    within the container:
 
     ```bash
     fi_info -p cxi
     ```
 
-    ??? example "CXI provider available"
+    ??? example "CXI provider is working"
         ```console
         $ fi_info -p cxi
         provider: cxi
@@ -189,7 +193,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
             protocol: FI_PROTO_CXI
         ```
 
-    ??? example "CXI provider not available"
+    ??? example "CXI provider not working"
         ```console
         $ fi_info -p cxi
         fi_getinfo: -61 (No data available)
