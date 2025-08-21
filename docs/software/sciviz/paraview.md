@@ -50,88 +50,87 @@ A ParaView server can connect to a remote ParaView client installed on your desk
 You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster. The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
 
 !!! Example "XML code to add to your local ParaView settings"
-```console
-<Servers>
-  <Server name="Reverse-Connect-Daint.Alps" configuration="" resource="csrc://:11111" timeout="-1">
-    <CommandStartup>
-      <Options>
-        <Option name="MACHINE" label="remote cluster" save="true">
-          <String default="daint"/>
-        </Option>
-        <Option name="SSH_USER" label="SSH Username" save="true">
-          <String default="your-userid"/>
-        </Option>
-        <Option name="ACCOUNT" label="Account to be charged" save="true">
-          <String default="your-projectid"/>
-        </Option>
-        <Option name="RESERVATION" label="reservation name" save="true">
-          <Enumeration default="none">
-            <Entry value="" label="none"/>
-          </Enumeration>
-        </Option>
-        <Option name="SSH_CMD" label="SSH command" save="true">
-          <File default="/usr/bin/ssh"/>
-        </Option>
-        <Option name="REMOTESCRIPT" label="The remote script which generates the SLURM job" save="true">
-          <String default="/users/your-userid/rc-submit-pvserver.sh"/>
-        </Option>
-        <Option name="PVNodes" label="Number of cluster nodes" save="true">
-          <Range type="int" min="1" max="128" step="1" default="1"/>
-        </Option>
-        <Option name="PVTasks" label="Number of pvserver per node" save="true">
-          <Range type="int" min="1" max="4" step="1" default="4"/>
-        </Option>
-        <Option name="Queue" label="Queue" save="true">
-          <Enumeration default="normal">
-            <Entry value="normal" label="normal"/>
-            <Entry value="debug" label="debug"/>
-          </Enumeration>
-        </Option>
-        <Option name="MemxNode" label="MemxNode" save="true">
-          <Enumeration default="standard">
-            <Entry value="high" label="high"/>
-            <Entry value="standard" label="standard"/>
-          </Enumeration>
-        </Option>
-        <Option name="VERSION" label="VERSION ?" save="true">
-          <Enumeration default="5.13.2:v2">
-            <Entry value="5.13.2:v2" label="5.13.2:v2"/>
-          </Enumeration>
-        </Option>
-        <Option name="PV_SERVER_PORT" label="pvserver port" save="true">
-          <Range type="int" min="1024" max="65535" step="1" default="1100"/>
-        </Option>
-        <Option name="NUMMIN" label="job wall time" save="true">
-          <String default="00:29:59"/>
-        </Option>
-        <Option name="SESSIONID" label="Session id" save="true">
-          <String default="ParaViewServer"/>
-        </Option>
-      </Options>
-      <Command exec="$SSH_CMD$" delay="5" process_wait="0">
-        <Arguments>
-          <Argument value="-A"/>
-          <Argument value="-l"/>
-          <Argument value="$SSH_USER$"/>
-          <Argument value="-R"/>
-          <Argument value="$PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
-          <Argument value="$MACHINE$"/>
-          <Argument value="$REMOTESCRIPT$"/>
-          <Argument value="$SESSIONID$"/>
-          <Argument value="$NUMMIN$"/>
-          <Argument value="$PVNodes$"/>
-          <Argument value="$PVTasks$"/>
-          <Argument value="$PV_SERVER_PORT$"/>
-          <Argument value="$MACHINE$"/>
-          <Argument value="$VERSION$"/>
-          <Argument value="$Queue$"/>
-          <Argument value="$MemxNode$"/>
-          <Argument value="$ACCOUNT$"/>
-          <Argument value="$RESERVATION$;"/>
-          <Argument value="sleep"/>
-          <Argument value="6000"/>
-        </Arguments>
-      </Command>
-    </Comma
-</Servers>
-```
+    ```xml
+    <Servers>
+      <Server name="Reverse-Connect-Daint.Alps" configuration="" resource="csrc://:11111" timeout="-1">
+        <CommandStartup>
+          <Options>
+            <Option name="MACHINE" label="remote cluster" save="true">
+              <String default="daint"/>
+            </Option>
+            <Option name="SSH_USER" label="SSH Username" save="true">
+              <String default="your-userid"/>
+            </Option>
+            <Option name="ACCOUNT" label="Account to be charged" save="true">
+              <String default="your-projectid"/>
+            </Option>
+            <Option name="RESERVATION" label="reservation name" save="true">
+              <Enumeration default="none">
+                <Entry value="" label="none"/>
+              </Enumeration>
+            </Option>
+            <Option name="SSH_CMD" label="SSH command" save="true">
+              <File default="/usr/bin/ssh"/>
+            </Option>
+            <Option name="REMOTESCRIPT" label="The remote script which generates the SLURM job" save="true">
+              <String default="/users/your-userid/rc-submit-pvserver.sh"/>
+            </Option>
+            <Option name="PVNodes" label="Number of cluster nodes" save="true">
+              <Range type="int" min="1" max="128" step="1" default="1"/>
+            </Option>
+            <Option name="PVTasks" label="Number of pvserver per node" save="true">
+              <Range type="int" min="1" max="4" step="1" default="4"/>
+            </Option>
+            <Option name="Queue" label="Queue" save="true">
+              <Enumeration default="normal">
+                <Entry value="normal" label="normal"/>
+                <Entry value="debug" label="debug"/>
+              </Enumeration>
+            </Option>
+            <Option name="MemxNode" label="MemxNode" save="true">
+              <Enumeration default="standard">
+                <Entry value="high" label="high"/>
+                <Entry value="standard" label="standard"/>
+              </Enumeration>
+            </Option>
+            <Option name="VERSION" label="VERSION ?" save="true">
+              <Enumeration default="5.13.2:v2">
+                <Entry value="5.13.2:v2" label="5.13.2:v2"/>
+              </Enumeration>
+            </Option>
+            <Option name="PV_SERVER_PORT" label="pvserver port" save="true">
+              <Range type="int" min="1024" max="65535" step="1" default="1100"/>
+            </Option>
+            <Option name="NUMMIN" label="job wall time" save="true">
+              <String default="00:29:59"/>
+            </Option>
+            <Option name="SESSIONID" label="Session id" save="true">
+              <String default="ParaViewServer"/>
+            </Option>
+          </Options>
+          <Command exec="$SSH_CMD$" delay="5" process_wait="0">
+            <Arguments>
+              <Argument value="-A"/>
+              <Argument value="-l"/>
+              <Argument value="$SSH_USER$"/>
+              <Argument value="-R"/>
+              <Argument value="$PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
+              <Argument value="$MACHINE$"/>
+              <Argument value="$REMOTESCRIPT$"/>
+              <Argument value="$SESSIONID$"/>
+              <Argument value="$NUMMIN$"/>
+              <Argument value="$PVNodes$"/>
+              <Argument value="$PVTasks$"/>
+              <Argument value="$PV_SERVER_PORT$"/>
+              <Argument value="$MACHINE$"/>
+              <Argument value="$VERSION$"/>
+              <Argument value="$Queue$"/>
+              <Argument value="$MemxNode$"/>
+              <Argument value="$ACCOUNT$"/>
+              <Argument value="$RESERVATION$;"/>
+              <Argument value="sleep"/>
+              <Argument value="6000"/>
+            </Arguments>
+          </Command>
+    </Servers>
+    ```
