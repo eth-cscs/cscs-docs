@@ -96,6 +96,9 @@ nav:
       - 'Resource and hooks': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
+    - 'Scientific Visualization':
+      - software/sciviz/index.md
+      - 'ParaView': software/sciviz/paraview.md
     - 'Unsupported Software':
       - software/unsupported/index.md
       - 'Matlab': build-install/applications/matlab.md
