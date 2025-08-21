@@ -34,12 +34,12 @@ The following sbatch script can be used as a template.
 
     ```bash
     #SBATCH -N 1
-    #SBATCH --ntasks-per-node=144
+    #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
     #SBATCH --uenv=paraview/5.13.2:v2 --view=paraview
     #SBATCH --hint=nomultithread
 
-    srun --cpus-per-task=144 /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
+    srun --cpus-per-task=128 /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
     ```
 
 
