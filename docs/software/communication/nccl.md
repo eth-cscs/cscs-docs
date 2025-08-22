@@ -14,7 +14,7 @@ When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin wil
 Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment.
 The environment variables described below must be set to ensure that NCCL uses the plugin.
 
-While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL:
+While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL with uenv:
 
 ```bash
 --8<-- "docs/software/communication/nccl_env_vars"

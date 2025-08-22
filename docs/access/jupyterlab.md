@@ -86,7 +86,7 @@ If the default base images do not meet your requirements, you can specify a cust
     3. Currently only required on Daint and Santis, not on Clariden
     4. Set working directory of Jupyter session (file browser root directory)
     5. Use environment settings for optimized communication 
-    6. Disable CUDA JIT cache
+    6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
     7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
     8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
 
@@ -199,7 +199,9 @@ Examples of notebooks with `ipcmagic` can be found [here](https://github.com/
 
 While it is generally recommended to submit long-running machine learning training and inference jobs via `sbatch`, certain use cases can benefit from an interactive Jupyter environment.
 
-A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://github.com/huggingface/accelerate) and [`torchrun`](https://docs.pytorch.org/docs/stable/elastic/run.html) as demonstrated in the [tutorials][ref-guides-mlp-tutorials]. In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][ref-mlp-llm-fine-tuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][ref-mlp-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
+A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://github.com/huggingface/accelerate) and [`torchrun`](https://docs.pytorch.org/docs/stable/elastic/run.html) as demonstrated in the [tutorials][ref-tutorials-ml].
+In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][software-ml-llm-fine-tuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash).
+For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][software-ml-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
 
 ```bash
 !python -m torch.distributed.run --standalone --nproc_per_node=4 run_train.py ...
