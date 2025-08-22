@@ -77,7 +77,7 @@ To invoke `gssr`, you can do the following in your sbatch file.
 #SBATCH -t 1:00:00
 #SBATCH ...
 
-srun --environment=mycontainer bash -c 'gssr --wrap="python mycode.py"'
+srun --environment=mycontainer bash -c 'gssr --wrap="python abc.py"'
 
 ```
 
@@ -88,7 +88,7 @@ The `bash -c` requirement is to initialise the bash environment within your cont
 If no `gssr` is used, the `srun` command in your container should like that.:
 
 ```
-srun --environment=mycontainer bash -c 'python mycode.py'.
+srun --environment=mycontainer bash -c 'python abc.py'.
 ```
 
 Now you are ready to submit your sbatch file to slurm with `sbatch` command.
