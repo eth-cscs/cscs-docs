@@ -93,7 +93,7 @@ Piz
 Plesset
 Podladchikov
 Pulay
-Pypi
+PyPi
 RCCL
 RDMA
 ROCm

@@ -30,9 +30,9 @@ RUN pip install gssr
 # Install your application and dependencies as required
 ...
 ```
-As you can see from the above example, gssr can easily be installed with a `RUN pip install gssr` command. Your application and dependencies should be written where the `...` is.
+As you can see from the above example, gssr can easily be installed with a `RUN pip install gssr` command. 
 
-Once your `ContainerFile` is ready, you can build it on any Alps platform with the following commands to create a container with label `mycontainer`.
+Once your `ContainerFile` is ready, you can build it on any Alps platforms with the following commands to create a container with label `mycontainer`.
 
 ```bash
 srun -A {groupID} --pty bash
@@ -47,7 +47,7 @@ Now you should have a sqsh file of your container. Please note that you should r
 
 ## Create CSCS configuration for Container
 
-Now you only need to tell CSCS container engine solution where your container is and how you would like to run it. To do so, you will have to create a`{label}.toml` file in your `$HOME/.edf` directory.
+The next step is to tell CSCS container engine solution where your container is and how you would like to run it. To do so, you will have to create a`{label}.toml` file in your `$HOME/.edf` directory.
 
 ### Example of a `mycontainer.toml` file
 ```
@@ -95,11 +95,11 @@ Now you are ready to submit your sbatch file to slurm with `sbatch` command.
 
 ## Analyze the output
 
-Once your job successfully concluded. You should find a folder named `profile_out_{slurm_jobid}` where `gssr` json output is in. To generate output for analysis.
+Once your job successfully concluded, you should find a folder named `profile_out_{slurm_jobid}` where `gssr` json outputs are in.
 
-To do so, you can do so interactively within your container where `gssr` is installed.
+To analyze the outputs, you can do so interactively within any containers where `gssr` is installed, e.g., `mycontainer` we have in this guide.
 
-To get an interactive session of our container
+To get an interactive session of this container:
 
 ```
 srun -A groupname --environment=mycontainer --pty bash
