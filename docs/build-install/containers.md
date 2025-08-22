@@ -7,7 +7,7 @@ Its command-line interface (CLI) closely mirrors Docker’s, providing a consist
 [](){#ref-build-containers-configure-podman}
 ## Preliminary step: configuring Podman's storage
 
-The first step in order to use Podman on Alps is to create a valid Container Storage configuration file in your home according to the following minimal template:
+The first step in order to use Podman on Alps is to create a valid Container Storage configuration file in your home directory, according to the following minimal template:
 
 ```toml title="$HOME/.config/containers/storage.conf"
 [storage]
