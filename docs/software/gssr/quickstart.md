@@ -13,15 +13,15 @@
 
 To install directly from the source:
 
-    pip install git+https://github.com/eth-cscs/GPU-saturation-scorer.git
+    pip install git+https://github.com/eth-cscs/GPU-Saturation-Scorer.git
 
 To install from a specific branch, e.g. the development branch, from the source:
 
-    pip install git+https://github.com/eth-cscs/GPU-saturation-scorer.git@dev
+    pip install git+https://github.com/eth-cscs/GPU-Saturation-Scorer.git@dev
 
 To install a specific release tag, e.g. gssr-v0.3, from the source:
 
-    pip install git+https://github.com/eth-cscs/GPU-saturation-scorer.git@gssr-v0.3
+    pip install git+https://github.com/eth-cscs/GPU-Saturation-Scorer.git@gssr-v0.3
 
 ## Profile
 
