@@ -199,7 +199,7 @@ Examples of notebooks with `ipcmagic` can be found [here](https://github.com/
 
 While it is generally recommended to submit long-running machine learning training and inference jobs via `sbatch`, certain use cases can benefit from an interactive Jupyter environment.
 
-A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://github.com/huggingface/accelerate) and [`torchrun`](https://docs.pytorch.org/docs/stable/elastic/run.html) as demonstrated in the [tutorials][ref-software-ml-tutorials].
+A popular approach to run multi-GPU ML workloads is with [`accelerate`](https://github.com/huggingface/accelerate) and [`torchrun`](https://docs.pytorch.org/docs/stable/elastic/run.html) as demonstrated in the [tutorials][ref-tutorials-ml].
 In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial][software-ml-llm-fine-tuning-tutorial] can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash).
 For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial][software-ml-llm-nanotron-tutorial] to run on a single GH200 node using the following line in a Jupyter cell
 

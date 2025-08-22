@@ -6,7 +6,7 @@ Most ML workloads are containerized to ensure portability, reproducibility, and 
 
 Users can choose between running containers, using provided uenv software stacks, or building custom Python environments tailored to their needs.
 
-First time users are recommended to consult the [LLM tutorials][ref-software-ml-tutorials] to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples. 
+First time users are recommended to consult the [LLM tutorials][ref-tutorials-ml] to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples. 
 
 ## Running ML applications with containers (recommended)
 
@@ -28,7 +28,7 @@ Documented best practices are available for:
 
 Helpful references:
 
-* Introduction to concepts of the Machine Learning platform: [LLM tutorials][ref-software-ml-tutorials]
+* Introduction to concepts of the Machine Learning platform: [LLM tutorials][ref-tutorials-ml]
 * Running containers on Alps: [Container Engine Guide][ref-container-engine]
 * Building custom container images: [Container Build Guide][ref-build-containers]
 

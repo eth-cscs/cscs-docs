@@ -1,4 +1,4 @@
-[](){#ref-software-ml-tutorials}
+[](){#ref-tutorials-ml}
 # Machine Learning Platform Tutorials
 
 The LLM tutorials gradually introduce key concepts of the Machine Learning Platform in a series of hands-on examples. A particular focus is on the [Container Engine][ref-container-engine] for managing the runtime environment.

@@ -15,7 +15,8 @@ Running PyTorch from a container ensures maximum portability, reproducibility, a
 3. (optionally) extending with a virtual environment
 4. submitting jobs with CE in SLURM 
 
-These steps are illustrated in the [machine learning platform tutorials][ref-software-ml-tutorials] and the instructions detailed in the [podman build guide][ref-build-containers].
+!!! example
+    These steps are illustrated in the [machine learning tutorials][ref-tutorials-ml] and the instructions detailed in the [podman build guide][ref-build-containers].
 
 !!! info "Preliminary steps"
     Before proceeding with the next steps, make sure you have storage for podman configured as in the [build guide][ref-build-containers-configure-podman] and make sure to apply [recommended Lustre settings][ref-guides-storage-lustre] to every directory (e.g. `$SCRATCH/ce-images`) dedicated to container images before importing them with enroot. This is necessary to guarantee good filesystem performance.
