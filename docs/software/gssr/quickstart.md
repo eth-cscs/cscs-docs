@@ -3,7 +3,7 @@
 
 ## Installation
 
-### From Pypi 
+### From PyPi 
 
 `gssr` can be easily installed as follows.:
 
