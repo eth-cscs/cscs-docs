@@ -17,7 +17,8 @@ graphroot = "/dev/shm/$USER/root"
 ```
 
 !!! warning
-    If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead. See also [this guide][ref-guides-terminal-arch] for further information about XDG variables.
+    If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead.
+    See the [terminal user guide][ref-guides-terminal-arch] for further information about XDG variables.
 
 !!! warning
     In the above configuration, `/dev/shm` is used to store the container images.
@@ -64,15 +65,9 @@ In general, [`podman build`](https://docs.podman.io/en/stable/markdown/podman-bu
 An image built using Podman can be easily imported as a squashfs archive in order to be used with our Container Engine solution.
 It is important to keep in mind that the import has to take place in the same job allocation where the image creation took place, otherwise the image is lost due to the temporary nature of `/dev/shm`.
 
-!!! warning "Preliminary configuration: Lustre settings for container images"
-    Since container images are large files and the filesystem is a shared resource, you need to configure the target directory according to [best practices for Lustre][ref-guides-storage-lustre] before importing the container image so it will be properly distributed across storage nodes.
-
-    ```bash
-    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <path to image directory> # (1)!
-    ```
-
-    1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
-
+!!! info "Preliminary configuration: Lustre settings for container images"
+    Container images are stored in a single [SquashFS]() file, that is typically between 1-20 GB in size (particularly for large ML containers).
+    To ensure good performance for jobs on multiple nodes, take the time to configure the target directory using `lfs setstripe` according to [best practices for Lustre][ref-guides-storage-lustre] before importing the container image, or using `lfs migrate` to fix files that are already imported.
 
 To import the image:
 

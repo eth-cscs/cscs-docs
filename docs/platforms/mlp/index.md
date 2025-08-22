@@ -3,6 +3,13 @@
 
 The Machine Learning Platform (MLP) provides compute, storage and expertise to the machine learning and AI community in Switzerland, with the main user being the [Swiss AI Initiative](https://www.swiss-ai.org/).
 
+<div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: [__Tutorials__][ref-software-ml-tutorials]
+
+    Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-software-ml-tutorials].
+
+</div>
+
 ## Getting started
 
 ### Getting access
@@ -89,6 +96,3 @@ Project is per project - each project gets a project folder with project-specifi
 * hard limits on capacity and inodes prevent users from writing to project if the quota is reached - you can check quota and available space by running the [`quota`][ref-storage-quota] command on a login node or ela 
 * it is not recommended to write directly to the project path from jobs.
 
-## Guides and tutorials
-
-Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-software-ml-tutorials].
