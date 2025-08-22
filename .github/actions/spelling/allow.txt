@@ -16,6 +16,7 @@ CWP
 CXI
 Ceph
 Containerfile
+DCGM
 DNS
 Dockerfiles
 Dufourspitze
@@ -92,6 +93,7 @@ Piz
 Plesset
 Podladchikov
 Pulay
+Pypi
 RCCL
 RDMA
 ROCm
@@ -166,7 +168,9 @@ gpu
 gromos
 groundstate
 gsl
+gssr
 hdf
+heatmaps
 hotmail
 huggingface
 hwloc
@@ -203,6 +207,7 @@ mkl
 mpi
 mps
 multitenancy
+mycontainer
 nanoscale
 nanotron
 nccl
@@ -241,6 +246,7 @@ kubeconfig
 ceph
 rwx
 rwo
+sqsh
 subdomain
 tls
 kured

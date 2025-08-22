@@ -105,7 +105,7 @@ To get an interactive session of our container
 srun -A groupname --environment=mycontainer --pty bash
 cd {directory where the gssr output data is generated}
 ```
-Alternatively, you can install `gssr` locally and copy the `profile_out_{slurm_jobid}` to your computer and visualise it locally.
+Alternatively, you can install `gssr` locally and copy the `profile_out_{slurm_jobid}` to your computer and visualize it locally.
 
 #### Metric Output
 The profiled output can be analysed as follows.:
