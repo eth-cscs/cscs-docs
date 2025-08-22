@@ -126,7 +126,7 @@ user@nidYYYYYY$ source venv-ngc-pt-25.06/bin/activate # (3)!
 The changes made to the virtual environment will outlive the container as they are persisted on the distributed filesystem.
 
 !!! note
-    Keep in mind that
+    Keep in mind that:
 
      * this virtual environment is _specific_ to this particular container and won't actually work unless you are using it from inside this container - it relies on the resources packaged inside the container.
      * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 

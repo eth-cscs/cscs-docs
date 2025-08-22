@@ -2,7 +2,7 @@
 # Machine learning applications and frameworks
 
 CSCS supports a wide range of machine learning (ML) applications and frameworks on its systems.
-Most ML workloads are containerized to ensure portability, reproducibility, and ease of use across machines.
+Most ML workloads are containerized to ensure portability, reproducibility, and ease of use across systems.
 
 Users can choose between running containers, using provided uenv software stacks, or building custom Python environments tailored to their needs.
 
