@@ -56,7 +56,8 @@ Defining a mount related to `/users` in the EDF should only be done when there i
 [](){#ref-ce-why-no-sbatch-env}
 ## Why `--environment` as `#SBATCH` is discouraged
 
-Due to how Slurm works, when using `--environment` as an `#SBATCH` option, the entire content of the SBATCH script is executed within a container created by the EDF file. This may cause several counterintuitive implications that can lead to subtle and hard-to-diagnose failures. The following are a few known issues associated with `--environment` in SBATCH.
+Due to how Slurm works, when using `--environment` as an `#SBATCH` option, the entire contents of the SBATCH script is executed within a container created by the EDF file.
+This can lead to subtle and hard-to-diagnose failures, some of which are described below.
 
  - **Slurm availability in the container**: In some cases, CE does not inject essential Slurm components in containers, which result in crashes on basic Slurm operations (e.g., `srun`) inside the SBATCH script. Even if they were injected, it's not guaranteed to cover the complete feature set of Slurm.
 
