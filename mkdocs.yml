@@ -62,11 +62,6 @@ nav:
       - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'Machine Learning':
       - software/ml/index.md
-      - 'Tutorials':
-        - software/ml/tutorials/index.md
-        - 'LLM Inference': software/ml/tutorials/llm-inference.md
-        - 'LLM Fine-tuning': software/ml/tutorials/llm-fine-tuning.md
-        - 'LLM Pre-training': software/ml/tutorials/llm-nanotron-training.md
       - 'PyTorch': software/ml/pytorch.md
     - 'Communication Libraries':
       - software/communication/index.md
@@ -131,6 +126,13 @@ nav:
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
     - 'Gordon Bell 2025': guides/gb25.md
+  - 'Tutorials':
+    - tutorials/index.md
+    - 'Machine Learning':
+        - tutorials/ml/index.md
+        - 'LLM Inference': tutorials/ml/llm-inference.md
+        - 'LLM Fine-tuning': tutorials/ml/llm-fine-tuning.md
+        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
