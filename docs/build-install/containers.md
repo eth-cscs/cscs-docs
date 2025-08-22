@@ -4,16 +4,21 @@
 Building OCI container images on Alps vClusters is supported through [Podman](https://podman.io/), an open-source container engine that adheres to OCI standards and supports rootless containers by leveraging Linux [user namespaces](https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html).
 Its command-line interface (CLI) closely mirrors Docker’s, providing a consistent and familiar experience for users of established container tools.
 
+[](){#ref-build-containers-configure-podman}
 ## Preliminary step: configuring Podman's storage
 
-The first step in order to use Podman on Alps is to create a valid Container Storage configuration file at `$HOME/.config/containers/storage.conf` (or `$XDG_CONFIG_HOME/containers/storage.conf`, if you have `$XDG_CONFIG_HOME` set), according to the following minimal template:
+The first step in order to use Podman on Alps is to create a valid Container Storage configuration file in your home directory, according to the following minimal template:
 
-```toml
+```toml title="$HOME/.config/containers/storage.conf"
 [storage]
 driver = "overlay"
 runroot = "/dev/shm/$USER/runroot"
 graphroot = "/dev/shm/$USER/root"
 ```
+
+!!! warning
+    If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead.
+    See the [terminal user guide][ref-guides-terminal-arch] for further information about XDG variables.
 
 !!! warning
     In the above configuration, `/dev/shm` is used to store the container images.
@@ -43,10 +48,26 @@ podman build -t <image:tag> .
 
 In general, [`podman build`](https://docs.podman.io/en/stable/markdown/podman-build.1.html) follows the Docker options convention.
 
+!!! info "Debugging the container build"
+    If the container build fails, you can run an interactive shell using the image from the last successfully built layer with
+
+    ```bash
+    podman run -it --rm -e NVIDIA_VISIBLE_DEVICES=void <last-layer-hash> bash # (1)!
+    ```
+
+    1. Setting `NVIDIA_VISIBLE_DEVICES` in the environment is required specifically to run NGC containers with podman
+
+    replacing `<last-layer-hash>` with the actual hash output in the build job and interactively test the failing command.
+
+
 ## Importing images in the Container Engine
 
 An image built using Podman can be easily imported as a squashfs archive in order to be used with our Container Engine solution.
 It is important to keep in mind that the import has to take place in the same job allocation where the image creation took place, otherwise the image is lost due to the temporary nature of `/dev/shm`.
+
+!!! info "Preliminary configuration: Lustre settings for container images"
+    Container images are stored in a single [SquashFS]() file, that is typically between 1-20 GB in size (particularly for large ML containers).
+    To ensure good performance for jobs on multiple nodes, take the time to configure the target directory using `lfs setstripe` according to [best practices for Lustre][ref-guides-storage-lustre] before importing the container image, or using `lfs migrate` to fix files that are already imported.
 
 To import the image:
 
@@ -62,7 +83,6 @@ image = "/<path to image directory>/<image_name.sqsh>"
 mounts = ["/capstor/scratch/cscs/<username>:/capstor/scratch/cscs/<username>"]
 workdir = "/capstor/scratch/cscs/<username>"
 ```
-
 ## Pushing Images to a Container Registry
 
 In order to push an image to a container registry, you first need to follow three steps:

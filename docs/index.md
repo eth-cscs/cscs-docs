@@ -1,9 +1,3 @@
-!!! info ""
-    This is the new CSCS documentation site, which replaces the [CSCS Knowledge Base](https://confluence.cscs.ch/display/KB).
-
-    The migration of old documentation is still not fully complete.
-    If you find documentation that is missing, please create a ticket on the documentation's [GitHub issue tracker](https://github.com/eth-cscs/cscs-docs/issues).
-
 # CSCS Documentation
 
 <div class="grid cards" markdown>
@@ -66,32 +60,26 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
 </div>
 
-[](){#ref-get-in-touch}
-## Get in Touch
+## Tutorials and Guides
 
-If you cannot find the information that you need in the documentation, help is available.
-
-<div class="grid cards" markdown>
-
--   :fontawesome-solid-headset: __Get Help__
-
-    Contact the CSCS Service Desk for help.
-
-    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
-
--   :fontawesome-regular-comments: __Chat__
-
-    Discuss Alps with other users and CSCS staff on Slack.
-
-    [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
+Learn by doing with our guides and tutorials.
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-hammer: __Contribute__
+-   :fontawesome-solid-layer-group: __Tutorials__
 
-    The source for the documentation is hosted on GitHub.
+    Hands on tutorials that show how to implement workflows on Alps.
 
-    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
-</div>
+    [:octicons-arrow-right-24: Machine Learning][ref-tutorials-ml]
+
+-   :fontawesome-solid-mountain-sun: __Guides__
+
+    Guides with practical advice, hints and tips for key topics.
+
+    [:octicons-arrow-right-24: Using storage effectively][ref-guides-storage]
+
+    [:octicons-arrow-right-24: Accessing internet and external services][ref-guides-internet-access]
+
+    [:octicons-arrow-right-24: Using and configuring the terminal][ref-guides-terminal]
 
 </div>
 
@@ -139,6 +127,35 @@ If you cannot find the information that you need in the documentation, help is a
     [:octicons-arrow-right-24: Long term storage](storage/longterm.md)
 
     [:octicons-arrow-right-24: Object storage](storage/object.md)
+
+</div>
+
+[](){#ref-get-in-touch}
+## Get in Touch
+
+If you cannot find the information that you need in the documentation, help is available.
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-headset: __Get Help__
+
+    Contact the CSCS Service Desk for help.
+
+    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
+
+-   :fontawesome-regular-comments: __Chat__
+
+    Discuss Alps with other users and CSCS staff on Slack.
+
+    [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
+
+<div class="grid cards" markdown>
+-   :fontawesome-solid-hammer: __Contribute__
+
+    The source for the documentation is hosted on GitHub.
+
+    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
+</div>
 
 </div>
 

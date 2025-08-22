@@ -128,12 +128,14 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
-    - 'MLP Tutorials':
-      - guides/mlp_tutorials/index.md
-      - 'LLM Inference': guides/mlp_tutorials/llm-inference.md
-      - 'LLM Fine-tuning': guides/mlp_tutorials/llm-fine-tuning.md
-      - 'LLM Pre-training': guides/mlp_tutorials/llm-nanotron-training.md
     - 'Gordon Bell 2025': guides/gb25.md
+  - 'Tutorials':
+    - tutorials/index.md
+    - 'Machine Learning':
+        - tutorials/ml/index.md
+        - 'LLM Inference': tutorials/ml/llm-inference.md
+        - 'LLM Fine-tuning': tutorials/ml/llm-fine-tuning.md
+        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
