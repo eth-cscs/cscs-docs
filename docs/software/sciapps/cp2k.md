@@ -66,7 +66,7 @@ On our systems, CP2K is built with the following dependencies:
 
 ## Running CP2K
 
-### Running on the HPC platform
+### Running on GH200 nodes
 
 To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
 MPS] daemon so that multiple MPI ranks can use the same GPU.
