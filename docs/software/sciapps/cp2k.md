@@ -54,20 +54,19 @@ On our systems, CP2K is built with the following dependencies:
 
 !!! note "GPU-aware MPI"
     [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
-    On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
-    default.
+    On [Daint][ref-cluster-daint], `MPICH_GPU_SUPPORT_ENABLED=1` is set by default.
 
 !!! note "CUDA cache path for JIT compilation"
     [DBCSR] uses JIT compilation for CUDA kernels.
     The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation.
     Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`.
-    On the HPC platform, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by
-    default.
+    On [Daint][ref-cluster-daint], `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by default.
 
 ## Running CP2K
 
-### Running on GH200 nodes
+### Running on Daint
 
+[Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
 To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
 MPS] daemon so that multiple MPI ranks can use the same GPU.
 
@@ -107,10 +106,10 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
    `SLURM_CPUS_PER_TASK`.
 
 5. [DBCSR] relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead.
-   This is set by default on the HPC platform, but it's set here explicitly as it's essential to avoid performance degradation.
+   This is set by default on [Daint][ref-cluster-daint], but it's set here explicitly as it's essential to avoid performance degradation.
 
 6. CP2K's dependencies use GPU-aware MPI, which requires enabling support at runtime.
-   This is set by default on the HPC platform, but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
+   This is set by default on [Daint][ref-cluster-daint], but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
 
 
 * Change <ACCOUNT> to your project account name
