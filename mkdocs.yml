@@ -82,10 +82,6 @@ nav:
       - 'Building uenv': software/uenv/build.md
       - 'Deploying uenv': software/uenv/deploy.md
       - 'Release notes': software/uenv/release-notes.md
-    - 'gssr':
-      - software/gssr/index.md
-      - 'Quickstart Guide': software/gssr/quickstart.md
-      - 'Container Guide': software/gssr/containers.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
       - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -94,6 +90,10 @@ nav:
         - 'Linaro performance analysis tool': software/devtools/linaro-map.md
         - 'Linaro debugger': software/devtools/linaro-ddt.md
       - 'Using Score-P/Scalasca': software/devtools/vihps.md
+      - 'GPU Saturation Scorer (gssr)': 
+        - software/devtools/gssr/index.md
+        - 'Quickstart Guide': software/devtools/gssr/quickstart.md
+        - 'Container Guide': software/devtools/gssr/containers.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using container engine': software/container-engine/run.md

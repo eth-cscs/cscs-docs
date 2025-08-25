@@ -31,3 +31,4 @@ In this section we introduce the various performance analysis solutions availabl
 * [NVIDIA Nsight Developer Tools][ref-devtools-nsight]
 * [Linaro Forge MAP][ref-devtools-map]
 * [VI-HPS Tools][ref-devtools-vihps]
+* [gssr][ref-gssr-overview]

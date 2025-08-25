@@ -1,8 +1,6 @@
 [](){#ref-gssr-containers}
 # gssr - Containers Guide
 
-CSCS highly recommends that all users leverage on container solutions on our Alps platforms so as to flexibly configure any required user environments of their choice within the containers. Users thus have maximum flexibility as they are not tied to any specific operating systems and/or software stacks.
-
 The following guide will explain how to install and use `gssr` within a container.
 
 Most CSCS users leverage on the base containers with pre-installed CUDA from Nvidia. As such, in the following documentation, we will use a PyTorch base container as an example. 
@@ -36,14 +34,16 @@ Once your `ContainerFile` is ready, you can build it on any Alps platforms with 
 
 ```bash
 srun -A {groupID} --pty bash
-# Once you have an interactive session, use podman command to build your container
+# Once you have an interactive session, use podman command to build the 
+# container
 # -v is to mount the fast storage on Alps into the container. 
 podman build -v $SCRATCH:$SCRATCH -t mycontainer:0.1 .
-# Export the container from the podman's cache to a local sqshfs file with enroot
+# Export the container from the podman's cache to a local squashFS file with 
+# enroot
 enroot import -x mount -o mycontainer.sqsh podman://local:mycontainer:0.1
 ```
 
-Now you should have a sqsh file of your container. Please note that you should replace `mycontainer` label to any other label of your choice. The version `0.1` can also be omitted or replaced with another version as required. 
+Now you should have a squashFS file of your container. Please note that you should replace `mycontainer` label to any other label of your choice. The version `0.1` can also be omitted or replaced with another version as required. 
 
 ## Create CSCS configuration for Container
 
@@ -51,7 +51,7 @@ The next step is to tell CSCS container engine solution where your container is 
 
 ### Example of a `mycontainer.toml` file
 ```
-image = "/capstor/scratch/cscs/username/directoryWhereYourContainerIs/mycontainer.sqsh"
+image = "/capstor/scratch/cscs/username/{yourDir}/mycontainer.sqsh"
 mounts = ["/capstor/scratch/cscs/username:/capstor/scratch/cscs/username"]
 workdir = "/capstor/scratch/cscs/username"
 writable = true

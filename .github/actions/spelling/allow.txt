@@ -246,7 +246,6 @@ kubeconfig
 ceph
 rwx
 rwo
-sqsh
 subdomain
 tls
 kured
