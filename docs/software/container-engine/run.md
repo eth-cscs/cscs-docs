@@ -42,9 +42,8 @@ Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):
 Specifying the `--environment` option with an `#SBATCH` option is **experimental**. 
 Such usage is discouraged as it may result in unexpected behaviors.
 
-!!! note
-    Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). 
-    The hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters.
+!!! warning 
+    The use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, and it may result in several **counterintuitive, hard-to-diagnose failures**. See [Why `--environment` as `#SBATCH` is discouraged][ref-ce-why-no-sbatch-env] for details.
 
 [](){#ref-ce-edf-search-path}
 ### EDF search path
