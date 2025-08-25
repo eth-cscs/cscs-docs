@@ -348,7 +348,7 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
 
-* Change <ACCOUNT> to your project account name
+* Change `<ACCOUNT>` to your project account name
 * Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
 * Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
 * Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
