@@ -115,6 +115,7 @@ nav:
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
+    - 'HyperQueue': running/hyperqueue.md
     - 'Job report': running/jobreport.md
     - 'Known issues': running/known-issues.md
   - 'Data Management and Storage':
