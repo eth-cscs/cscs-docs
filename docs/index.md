@@ -1,10 +1,7 @@
 # CSCS Documentation
 
 <div class="grid cards" markdown>
--    Visit the CSCS status site for the status of Alps systems, and the latest announcements.
-
-
-    [:octicons-arrow-right-24: status.cscs.ch](https://status.cscs.ch/)
+-   <p style="text-align:center">Visit <a href="https://status.cscs.ch/">status.cscs.ch</a> for the status of Alps systems, and the latest announcements.</p>
 </div>
 
 The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities
