@@ -56,8 +56,8 @@ CSCS provides a catalogue of software on Alps, include scientific applications, 
 
 </div>
 
-!!! note "If your sofwtare is not officially supported"
-    We also provide guides on how to build and install software that that is not in the list of officailly provided and supported list above.
+!!! note "If your software is not officially supported"
+    We also provide guides on how to build and install software that that is not in the list of officially provided and supported list above.
 
     [:octicons-arrow-right-24: Building containers][ref-software-scivis]
 
