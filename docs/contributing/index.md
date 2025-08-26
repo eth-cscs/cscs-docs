@@ -4,6 +4,42 @@
 This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
 This means that everybody, CSCS staff and the CSCS user community can contribute to the documentation.
 
+## Before starting
+
+The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewd and merged as quickly as possible.
+
+??? question "Who are the core team?"
+    The docs core team are:
+
+    * Ben Cumming (@bcumming);
+    * Mikael Simberg (@msimberg);
+    * and Rocco Meli (@RMeli).
+
+    We are volunteers for this role, who care about the quality of CSCS documentation!
+
+!!! tip "Before contributing"
+    Please read the [guidelines][] and [style guide][] before making any contribution.
+    Consistency and common practices make it easier for users to read and navigate the documentation, and these guides are directed towards this.
+    We try to strike a balance between following the guidelines and letting authors write in a style that is comfortable for them.
+
+    To speed up the merge process and avoid lengthy style discussions, we reserve the right to make changes to pull requests to bring it into line with the guidelines.
+    The core team will also update pages when they are out of date or when the style guidelines change.
+!!! tip "Before making large contributions"
+    If you plan to make large changes, like adding documentation for a new tool/service or refactoring existing documentation, __reach out to the core team__ before starting.
+
+    This will mean that the changes are consistent with other parts of the documentation, streamline the review process, and to avoid misunderstandings.
+
+### Code owners
+
+Many sections have individual staff that follow them.
+This is codified in the [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS) file in the repository.
+The code owners are notified when there is a change to their pages, and can review the changes.
+
+If you want to follow changes to a page or section, add your name to the CODEOWNERS.
+
+!!! note
+    Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.
+
 ## Getting started
 
 We use the GitHub fork and pull request model for development:
@@ -172,6 +208,17 @@ Images are stored in the `docs/images` directory.
 Screenshots can help readers follow steps on guides. Think if you need to show the whole screen or just part of one window. Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
 
 Often, screenshots can quickly become obsolete, so you may want to complement (or maybe even replace) some with text descriptions.
+
+!!! tip
+    Screen shots take up space in the git repository.
+
+    It might be "only a few hundred kilobytes" for a picture, but over the lifetime of the git repository this adds up to slow down source code cloning and CI/CD pipelines.
+
+!!! tip
+    Avoid using screen shots that do not directly contribute to the documentation.
+
+    For example, showing a screen shot with markers that are used to explain non-trivial steps that a user should follow is good documentation.
+    On the other hand, a screenshot that says "this is a screenshot of the tool" adds no value, and draws the readers attention away from documentation.
 
 #### Diagrams
 
