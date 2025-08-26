@@ -6,7 +6,7 @@ This means that everybody, CSCS staff and the CSCS user community can contribute
 
 ## Before starting
 
-The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewd and merged as quickly as possible.
+The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewed and merged as quickly as possible.
 
 ??? question "Who are the core team?"
     The docs core team are:
