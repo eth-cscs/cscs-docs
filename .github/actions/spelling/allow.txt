@@ -293,6 +293,7 @@ subtables
 supercomputing
 superlu
 sysadmin
+simberg
 tarball
 tcl
 tcsh

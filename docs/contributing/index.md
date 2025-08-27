@@ -4,6 +4,51 @@
 This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
 This means that everybody, CSCS staff and the CSCS user community can contribute to the documentation.
 
+## Making suggestions or small changes
+
+If you have a suggestion, comment or small change to make when reading the documentation, there are three ways to reach out.
+
+1.  **Edit the page inline**: click on the :material-pencil: icon on the top right hand corner of each page, and make the change inline. When you click "commit", and create a pull request, which will then be reviewed by the CSCS docs team.
+1.  **Create a GitHub issue**: create an issue on the [issue page](https://github.com/eth-cscs/cscs-docs/issues) on the GitHub repository.
+1.  **Create a CSCS service desk ticket**: create a ticket on the CSCS service desk.
+    This is useful if you don't have a GitHub account, or would prefer not to use Github.
+
+## Before starting
+
+The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewed and merged as quickly as possible.
+
+??? question "Who are the core team?"
+    The docs core team are:
+
+    * Ben Cumming (@bcumming);
+    * Mikael Simberg (@msimberg);
+    * and Rocco Meli (@RMeli).
+
+    We are volunteers for this role, who care about the quality of CSCS documentation!
+
+!!! tip "Before contributing"
+    Please read the [guidelines][] and [style guide][] before making any contribution.
+    Consistency and common practices make it easier for users to read and navigate the documentation, make it easier for regular contributors to write, and avoid style debates.
+    We try to strike a balance between following the guidelines and letting authors write in a style that is comfortable for them.
+
+    To speed up the merge process and avoid lengthy style discussions, we reserve the right to make changes to pull requests to bring it into line with the guidelines.
+    The core team will also update pages when they are out of date or when the style guidelines change.
+!!! tip "Before making large contributions"
+    If you plan to make large changes, like adding documentation for a new tool/service or refactoring existing documentation, __reach out to the core team__ before starting.
+
+    This will mean that the changes are consistent with other parts of the documentation, streamline the review process, and to avoid misunderstandings.
+
+### Code owners
+
+Many sections have individual staff that follow them.
+This is codified in the [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS) file in the repository.
+The code owners are notified when there is a change to their pages, and can review the changes.
+
+If you want to follow changes to a page or section, add your name to the CODEOWNERS.
+
+!!! note
+    Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.
+
 ## Getting started
 
 We use the GitHub fork and pull request model for development:
@@ -52,18 +97,22 @@ Then navigate to GitHub, and create a pull request.
 
 ## Review process
 
-Documentation is maintained by everybody - so don't be afraid to jump in and make changes or fixes where you see the need or the potential.
+After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
+A temporary "TDS" copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://docs.tds.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
-If you plan to make significant changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
+To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
+The PR will automatically be updated, the spell checker will run again, and the TDS documentation site will be rebuilt.
 
-If you think your documentation update could affect specific stakeholders, ping them for a review.
-The same applies if you are not getting get a timely reply for your pull request.
-You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
+!!! tip
+    If you think your documentation update could affect specific stakeholders, ping them for a review.
+    You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
+    If they don't reply in a timely manner, reach out to the core docs team to expedite the process.
 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
     We will start simple, and add more formality as needed.
 
+[](){#ref-contributing-spelling}
 ### Spell checker
 
 A spell checker workflow runs on all PRs to help catch simple typos.
@@ -172,6 +221,17 @@ Images are stored in the `docs/images` directory.
 Screenshots can help readers follow steps on guides. Think if you need to show the whole screen or just part of one window. Cropping the image will decrease file size, and might also draw the readers attention to the most relevant information.
 
 Often, screenshots can quickly become obsolete, so you may want to complement (or maybe even replace) some with text descriptions.
+
+!!! tip
+    Screen shots take up space in the git repository.
+
+    It might be "only a few hundred kilobytes" for a picture, but over the lifetime of the git repository this adds up to slow down source code cloning and CI/CD pipelines.
+
+!!! tip
+    Avoid using screen shots that do not directly contribute to the documentation.
+
+    For example, showing a screen shot with markers that are used to explain non-trivial steps that a user should follow is good documentation.
+    On the other hand, a screenshot that says "this is a screenshot of the tool" adds no value, and draws the readers attention away from documentation.
 
 #### Diagrams
 
