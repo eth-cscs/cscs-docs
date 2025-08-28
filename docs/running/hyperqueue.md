@@ -80,7 +80,7 @@ echo "Everything done!"
 
 To submit this job, use `sbatch`:
 ```bash
-$ sbatch job.sh
+sbatch job.sh
 ```
 
 [](){#ref-hyperqueue-example-script-advanced}
@@ -153,13 +153,13 @@ echo "Everything done!"
 
 To submit a new job, use `sbatch`:
 ```bash
-$ sbatch job.sh
+sbatch job.sh
 ```
 
 If the job fails for any reason, you can resubmit it and tell HyperQueue to pick up where it left off by passing the original Slurm job ID as an argument:
 
 ```bash
-$ sbatch job.sh <job-id>
+sbatch job.sh <job-id>
 ```
 
 The script will detect the argument, load the journal file from the previous run, and only execute the tasks that haven't been completed.
