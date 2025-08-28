@@ -4,7 +4,7 @@
     GREASY is not supported at CSCS anymore. We recommend using HyperQueue instead.
 
 [HyperQueue](https://it4innovations.github.io/hyperqueue/stable/) is a meta-scheduler designed for high-throughput computing on high-performance computing (HPC) clusters.
-It addresses the inefficiency of using traditional schedulers like SLURM for a large number of small, short-lived tasks by allowing you to bundle them into a single, larger SLURM job.
+It addresses the inefficiency of using traditional schedulers like Slurm for a large number of small, short-lived tasks by allowing you to bundle them into a single, larger Slurm job.
 This approach minimizes scheduling overhead and improves resource utilization.
 
 By using a meta-scheduler like HyperQueue, you get fine-grained control over your tasks within the allocated resources of a single batch job.
@@ -42,8 +42,8 @@ echo "$(date): end task ${HQ_TASK_ID}: $(hostname) CUDA_VISIBLE_DEVICES=${CUDA_V
 ```
 
 [](){#ref-hyperqueue-example-script-simple}
-### Simple SLURM batch job script
-Next, create a SLURM batch script that will launch the HyperQueue server and workers, submit your tasks, wait for the tasks to finish, and then shut everything down.
+### Simple Slurm batch job script
+Next, create a Slurm batch script that will launch the HyperQueue server and workers, submit your tasks, wait for the tasks to finish, and then shut everything down.
 
 ```bash title="job.sh"
 #!/usr/local/bin/bash
@@ -83,7 +83,7 @@ $ sbatch job.sh
 ```
 
 [](){#ref-hyperqueue-example-script-advanced}
-### More robust SLURM batch job script
+### More robust Slurm batch job script
 A powerful feature of HyperQueue is the ability to resume a job that was interrupted, for example, by reaching a time limit or a node failure.
 You can achieve this by using a journal file to save the state of your tasks.
 By adding a journal file, HyperQueue can track which tasks were completed and which are still pending.
@@ -113,7 +113,7 @@ else
     export JOURNAL=~/.hq-journal-${SLURM_JOBID}
 fi
 
-# Ensure each SLURM job has its own HyperQueue server directory
+# Ensure each Slurm job has its own HyperQueue server directory
 export HQ_SERVER_DIR=~/.hq-server-${SLURM_JOBID}
 
 # Start the HyperQueue server with the journal file
@@ -155,7 +155,7 @@ To submit a new job, use `sbatch`:
 $ sbatch job.sh
 ```
 
-If the job fails for any reason, you can resubmit it and tell HyperQueue to pick up where it left off by passing the original SLURM job ID as an argument:
+If the job fails for any reason, you can resubmit it and tell HyperQueue to pick up where it left off by passing the original Slurm job ID as an argument:
 
 ```bash
 $ sbatch job.sh <job-id>
