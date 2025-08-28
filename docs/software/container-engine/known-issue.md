@@ -56,25 +56,12 @@ Defining a mount related to `/users` in the EDF should only be done when there i
 [](){#ref-ce-why-no-sbatch-env}
 ## Why `--environment` as `#SBATCH` is discouraged
 
-Due to how Slurm works, when using `--environment` as an `#SBATCH` option, the entire contents of the SBATCH script is executed within a container created by the EDF file.
-This can lead to subtle and hard-to-diagnose failures, some of which are described below.
+The use of `--environment` as `#SBATCH` is known to cause **unexpected behaviors** and is exclusively reserved for highly customized workflows. This is because `--environment` as `#SBATCH` puts the entire SBATCH script in a container from the EDF file. The following are a few known associated issues.
 
- - **Slurm availability in the container**: In some cases, CE does not inject essential Slurm components in containers, which result in crashes on basic Slurm operations (e.g., `srun`) inside the SBATCH script. Even if they were injected, it's not guaranteed to cover the complete feature set of Slurm.
+ - **Slurm availability in a container**: Either Slurm components are not completely injected inside a container, or injected Slurm components do not function properly.
 
- - **The execution context is not the host system**: Since the entire SBATCH script runs inside a container (shaped with EDF), all commands in the script are affected by the environment defined by EDF. This primarily includes filesystem mounts, where any directories not explicitly mounted in EDF are invisible to all commands inside the SBATCH script.
+ - **Non-host execution context**: Since the SBATCH script runs inside a container, most host resources are inaccessible by default unless EDF explicitly exposes them. Affected resources include: filesystems, devices, system resources, container hooks, etc.
 
- - **Nested use of `--environment`**: `--environment` in the SBATCH script _and_ for a `srun` command results in entering the EDF environment twice, causing unexpected errors due to double-entering containers.
+ - **Nested use of `--environment`**: running `srun --environment` in `#SBATCH --environment` results in double-entering EDF containers, causing unexpected errors in the underlying container runtime.
 
-For these reasons, we encourage using `--environment` for each `srun` as shown below.
-
-```bash
-#!/bin/bash
-#SBATCH --cpus-per-task=4
-...
-srun --environment=my_edf echo 'this'
-...
-srun --environment=my_edf echo 'that'
-...
-```
-
-As the use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, users should have a high level of proficiency and a full understanding of the risk to encounter cryptic behaviors. Should users encounter a problem while using `--environment` as `#SBATCH`, it's recommended to move `--environment` from `#SBATCH` to each `srun` and see if the problem disappears.
+To avoid any unexpected confusion, users are advised **not** to use `--environment` as `#SBATCH`. If users encounter a problem while using this, it's recommended to move `--environment` from `#SBATCH` to each `srun` and see if the problem disappears.

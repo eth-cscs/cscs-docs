@@ -34,10 +34,24 @@ Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):
     #SBATCH --job-name=edf-example
     #SBATCH --time=00:01:00
     ...
-
-    # Run job step
     srun --environment=ubuntu cat /etc/os-release
     ```
+
+Multiple Slurm commands may have different EDF environments; this is useful when a single environment is not feasible due to the compatibility issues between programs.
+
+!!! example "`srun`s with different EDFs"
+    ```bash
+    #!/bin/bash
+    #SBATCH --job-name=edf-example
+    #SBATCH --time=00:01:00
+    ...
+    srun --environment=env1 ... # (1)! 
+    ...
+    srun --environment=env2 ... # (2)!
+    ```
+    
+    1. Assuming `env1.toml` is at `EDF_PATH`. See [EDF search path][ref-ce-edf-search-path] below.
+    2. Assuming `env2.toml` is at `EDF_PATH`. See [EDF search path][ref-ce-edf-search-path] below.
 
 Specifying the `--environment` option with an `#SBATCH` option is **experimental**. 
 Such usage is discouraged as it may result in unexpected behaviors.
