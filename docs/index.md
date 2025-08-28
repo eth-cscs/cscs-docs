@@ -1,27 +1,30 @@
 # CSCS Documentation
 
-<div class="grid cards" markdown>
--   <p style="text-align:center">Visit <a href="https://status.cscs.ch/">status.cscs.ch</a> for the status of Alps systems, and the latest announcements.</p>
-</div>
-
-The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities
+The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities.
+A good spot to get started is with the documentation for the platform that your project is running on.
 
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-layer-group: __Platforms__
 
     Projects at CSCS are granted access to [clusters][ref-alps-clusters], which are managed by platforms.
-    Start by finding the platform for the cluster that you want to use.
+
+    [:octicons-arrow-right-24: HPC Platform (__Daint__, __Eiger__)][ref-platform-hpcp]
+
+    [:octicons-arrow-right-24: Machine Learning Platform (__Clariden__)][ref-platform-mlp]
+
+    [:octicons-arrow-right-24: Climate and Weather Platform (__Santis__)][ref-platform-cwp]
+
+    For an overview of the different platforms:
 
     [:octicons-arrow-right-24: Platforms overview][ref-alps-platforms]
 
-    Go straight to the documentation for the platform that hosts your project:
+</div>
 
-    [:octicons-arrow-right-24: HPC Platform (Daint, Eiger)][ref-platform-hpcp]
+Alps is a general-purpose compute and data Research Infrastructure (RI) open to the broad community of researchers in Switzerland and the rest of the world.
+Find out more about Alps...
 
-    [:octicons-arrow-right-24: Machine Learning Platform (Clariden)][ref-platform-mlp]
-
-    [:octicons-arrow-right-24: Climate and Weather Platform (Santis)][ref-platform-cwp]
+<div class="grid cards" markdown>
 
 -   :fontawesome-solid-mountain-sun: __Alps__
 
@@ -37,25 +40,12 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
     [:octicons-arrow-right-24: Alps Storage](alps/storage.md)
 
--   :fontawesome-solid-layer-group: __Accounts and Projects__
-
-    The first step is to get an account and a project
-
-    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
-
--   :fontawesome-solid-key: __Logging In__
-
-    Once you have an account, you can set up multi factor authentication
-
-    [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
-
-    Then access CSCS services
-
-    [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
-
-    [:octicons-arrow-right-24: Using SSH][ref-ssh]
-
 </div>
+
+<div class="grid cards" markdown>
+-   <p style="text-align:center">Visit <a href="https://status.cscs.ch/">status.cscs.ch</a> for the status of Alps systems, and the latest announcements.</p>
+</div>
+
 
 ## Tutorials and Guides
 

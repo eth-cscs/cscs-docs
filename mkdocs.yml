@@ -43,6 +43,44 @@ nav:
     - 'SSH': access/ssh.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
+  - 'Running Jobs':
+    - running/index.md
+    - 'Slurm': running/slurm.md
+    - 'Job report': running/jobreport.md
+    - 'Known issues': running/known-issues.md
+  - 'Machine Learning':
+    - ml/index.md
+    - 'PyTorch': software/ml/pytorch.md
+    - 'Tuntorials':
+      - ml/tutorials/index.md
+      - 'LLM Inference': ml/tutorials/llm-inference.md
+      - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
+      - 'LLM Pre-training': ml/tutorials/llm-nanotron-training.md
+    - 'Data management': ml/data.md
+    - 'Tuning and optimization': ml/tuning.md
+    - 'Inference Workflows': ml/inference.md
+  - 'Software Deployment':
+    - software-deployment/index.md
+    - 'uenv':
+      - software/uenv/index.md
+      - 'Configuration': software/uenv/configure.md
+      - 'Building uenv': software/uenv/build.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Release notes': software/uenv/release-notes.md
+    - 'Container Engine': 
+      - software/container-engine/index.md
+      - 'Using container engine': software/container-engine/run.md
+      - 'Resource and hooks': software/container-engine/resource-hook.md
+      - 'EDF reference': software/container-engine/edf.md
+      - 'Known issues': software/container-engine/known-issue.md
+    - 'Building software':
+      - build-install/index.md
+      - 'uenv': build-install/uenv.md
+      - 'Containers (podman)': build-install/containers.md
+    - 'Community codes':
+      - build-install/applications/index.md
+      - 'Matlab': build-install/applications/matlab.md
+      - 'WRF': build-install/applications/wrf.md
   - 'Software':
     - software/index.md
     - 'Scientific Applications':
@@ -60,9 +98,6 @@ nav:
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
-    - 'Machine Learning':
-      - software/ml/index.md
-      - 'PyTorch': software/ml/pytorch.md
     - 'Communication Libraries':
       - software/communication/index.md
       - 'Cray MPICH': software/communication/cray-mpich.md
@@ -71,17 +106,6 @@ nav:
       - 'NCCL': software/communication/nccl.md
       - 'RCCL': software/communication/rccl.md
       - 'libfabric': software/communication/libfabric.md
-    - 'Building and Installing software':
-      - build-install/index.md
-      - 'uenv': build-install/uenv.md
-      - 'Containers (podman)': build-install/containers.md
-      - 'Python with pip': build-install/pip.md
-    - 'uenv':
-      - software/uenv/index.md
-      - 'Configuration': software/uenv/configure.md
-      - 'Building uenv': software/uenv/build.md
-      - 'Deploying uenv': software/uenv/deploy.md
-      - 'Release notes': software/uenv/release-notes.md
     - 'Debugging and Performance Analysis':
       - software/devtools/index.md
       - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -90,19 +114,10 @@ nav:
         - 'Linaro performance analysis tool': software/devtools/linaro-map.md
         - 'Linaro debugger': software/devtools/linaro-ddt.md
       - 'Using Score-P/Scalasca': software/devtools/vihps.md
-    - 'Container Engine': 
-      - software/container-engine/index.md
-      - 'Using container engine': software/container-engine/run.md
-      - 'Resource and hooks': software/container-engine/resource-hook.md
-      - 'EDF reference': software/container-engine/edf.md
-      - 'Known issues': software/container-engine/known-issue.md
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Unsupported Software':
-      - software/unsupported/index.md
-      - 'Matlab': build-install/applications/matlab.md
-      - 'WRF': build-install/applications/wrf.md
+    - 'Unsupported Software': software/unsupported.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
@@ -112,11 +127,6 @@ nav:
       - 'Clusters': services/kubernetes/clusters.md
       - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
       - 'Node OS Updates': services/kubernetes/node-updates.md
-  - 'Running Jobs':
-    - running/index.md
-    - 'Slurm': running/slurm.md
-    - 'Job report': running/jobreport.md
-    - 'Known issues': running/known-issues.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
@@ -129,13 +139,6 @@ nav:
     - 'Storage': guides/storage.md
     - 'Using the terminal': guides/terminal.md
     - 'Gordon Bell 2025': guides/gb25.md
-  - 'Tutorials':
-    - tutorials/index.md
-    - 'Machine Learning':
-        - tutorials/ml/index.md
-        - 'LLM Inference': tutorials/ml/llm-inference.md
-        - 'LLM Fine-tuning': tutorials/ml/llm-fine-tuning.md
-        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
