@@ -1,5 +1,8 @@
 [](){#ref-hyperqueue}
 # HyperQueue
+!!! info "GREASY"
+    GREASY is not supported at CSCS anymore. We recommend using HyperQueue instead.
+
 [HyperQueue](https://it4innovations.github.io/hyperqueue/stable/) is a meta-scheduler designed for high-throughput computing on high-performance computing (HPC) clusters.
 It addresses the inefficiency of using traditional schedulers like SLURM for a large number of small, short-lived tasks by allowing you to bundle them into a single, larger SLURM job.
 This approach minimizes scheduling overhead and improves resource utilization.
