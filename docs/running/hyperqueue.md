@@ -12,21 +12,10 @@ It's especially useful for workflows that involve numerous tasks, each requiring
 
 [](){#ref-hyperqueue-setup}
 ## Setup
-Before you can use HyperQueue, you'll need to download it. No installation is needed as it is a statically linked binary with no external dependencies. Here’s how to set it up in your home directory:
-
-```bash
-$ cd ~/bin
-$ wget https://github.com/It4innovations/hyperqueue/releases/download/v0.23.0/hq-v0.23.0-linux-arm64-linux.tar.gz
-$ tar -zxf hq-v0.23.0-linux-arm64-linux.tar.gz
-$ rm hq-v0.23.0-linux-arm64-linux.tar.gz
-```
-
-To make the `hq` command available in your current session, add it to your `PATH` environment variable:
-
-```bash
-$ export PATH=~/bin:$PATH
-```
-You can also add this line to your `~/.bashrc` or `~/.bash_profile` to make the change permanent.
+Before you can use HyperQueue, you'll need to download it.
+No installation is needed as it is a statically linked binary with no external dependencies.
+You can download the latest version from the [official site](https://it4innovations.github.io/hyperqueue/stable/installation/).
+Because there are different architectures on Alps (ARM and x86_64), we recommend unpacking the binary in `$HOME/.local/<arch>/bin`, as described [here][ref-guides-terminal-arch].
 
 [](){#ref-hyperqueue-example}
 ## Example workflow
