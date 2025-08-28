@@ -37,7 +37,7 @@ Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):
     srun --environment=ubuntu cat /etc/os-release
     ```
 
-Multiple Slurm commands may have different EDF environments; this is useful when a single environment is not feasible due to the compatibility issues between programs.
+Multiple Slurm commands may have different EDF environments; this is useful when a single environment is not feasible due to compatibility issues or keep EDF files modular.
 
 !!! example "`srun`s with different EDFs"
     ```bash
