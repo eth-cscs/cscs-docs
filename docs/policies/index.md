@@ -6,7 +6,9 @@ The CSCS [code of conduct](code-of-conduct.md) outlines the responsibilities and
 
 The [User Regulations](regulations.md) define the basic guidelines for the usage of CSCS computing resources. The right to access CSCS resources may be revoked to whoever breaches any of the user regulations.
 
-## Computing Budget
+The [User Support Policies](support.md), the [Slack Code of Conduct](slack.md) and the [Scheduled Maintenance and System Unavailability Policies](maintenance.md) provide additional information on support services, the regulations of the Users Slack space and the scheduled maintenance events.
+
+## Resource Allocation Policies 
 
 Compute time on Alps systems is measured in node hours. Currently, we only support exclusive node allocations. This means that even if you utilize only a portion of a node’s resources (e.g., a single GPU), your account will still be charged for the entire node.
 
@@ -18,7 +20,7 @@ Please note that resources at CSCS are assigned over three-months windows
 
 ## Data Retention Policies
 
-Data belonging to active projects in the filesystems /users, /project, /store are under backup. There is no backup for data under the scratch filesystem, therefore no data recovery is possible in case of accidental loss or for data deleted due to the cleaning policy implemented on this filesystem.
+Data belonging to active projects in the filesystems `/users` and `/capstor/store` are under backup. There is no backup for data under the scratch filesystem, therefore no data recovery is possible in case of accidental loss or for data deleted due to the cleaning policy implemented on this filesystem.
 
 Please note that the long term storage service is granted as long as your project is active, and the data will be removed without further notice 3 months after the expiration of the project: please check the applicable filesystem policies for the grace period granted after the expiration of the project.
 
