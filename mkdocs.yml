@@ -141,8 +141,9 @@ nav:
     - policies/index.md
     - 'User Regulations': policies/regulations.md
     - 'Code of Conduct': policies/code-of-conduct.md
-    - 'UserLab Support Policy': policies/support.md
+    - 'User Support Policies': policies/support.md
     - 'Slack Code of Conduct': policies/slack.md
+    - 'Scheduled Maintenance and System Unavailability Policies': policies/maintenance.md
   - 'Contributing':
     - contributing/index.md
 
