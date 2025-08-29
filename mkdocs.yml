@@ -90,6 +90,10 @@ nav:
         - 'Linaro performance analysis tool': software/devtools/linaro-map.md
         - 'Linaro debugger': software/devtools/linaro-ddt.md
       - 'Using Score-P/Scalasca': software/devtools/vihps.md
+      - 'GPU Saturation Scorer (gssr)': 
+        - software/devtools/gssr/index.md
+        - 'Quickstart Guide': software/devtools/gssr/quickstart.md
+        - 'Container Guide': software/devtools/gssr/containers.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using container engine': software/container-engine/run.md
