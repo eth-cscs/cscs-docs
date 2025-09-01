@@ -109,7 +109,6 @@ UANs
 UserLab
 Wannier
 XDG
-WSO
 Zumsteinspitz
 aarch
 acfdt
