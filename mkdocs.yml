@@ -51,7 +51,7 @@ nav:
   - 'Machine Learning':
     - ml/index.md
     - 'PyTorch': software/ml/pytorch.md
-    - 'Tuntorials':
+    - 'Tutorials':
       - ml/tutorials/index.md
       - 'LLM Inference': ml/tutorials/llm-inference.md
       - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
