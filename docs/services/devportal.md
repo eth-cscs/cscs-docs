@@ -20,7 +20,7 @@ Examples of automated access to HPC resources are:
 
 An **application** (or "*client application*" or "*client*") is a software created by users that consumes the resources exposed by an API.
 
-At CSCS, it requires [OIDC/OAuth2 access tokens](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4) to authenticate againts an [Identity Provider](#identity-provider-idp) (IdP) in order to access the protected resources.
+At CSCS, it requires [OIDC/OAuth2 access tokens](https://datatracker.ietf.org/doc/html/rfc6749#section-1.4) to authenticate against an [Identity Provider](#identity-provider-idp) (IdP) in order to access the protected resources.
 
 An application *consumes* API resources by *subscribing* to the API. At CSCS, applications can be subscribed to multiple APIs.
 
@@ -30,10 +30,10 @@ An **identity provider** is an entity that authenticates an application and allo
 
 ### Production Keys
 
-Applications must identify againts the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
+Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
 
 !!!warning
-    The pair Consumer Key and Secret represents a personal credential to access CSCS resources, therefore can't be shared and must be stored securelly (i.e.: not exposed in public repositories, forums, documentation, etc)
+    The pair Consumer Key and Secret represents a personal credential to access CSCS resources, therefore can't be shared and must be stored securely (i.e.: not exposed in public repositories, forums, documentation, etc)
 
 ## Getting started
 
@@ -113,7 +113,7 @@ To do this, go to the `Production Keys` view of the desired application and clic
 To regenerate the keys, refer back to the [Configuring Production Keys](#configuring-production-keys) section.
 
 !!!info
-    After reseting the credentials, you will need to reconfigure your software(s) to use the new keys
+    After resetting the credentials, you will need to reconfigure your software(s) to use the new keys
 
 ### Remove your application
 
@@ -136,7 +136,7 @@ The information exposed in the overview view is:
 * Documentation of the API (OpenAPI reference, SDK tools, etc)
 * Community information (Public repository, slack channel)
 * Contact information (developers and business)
-* Bussines plans (amount of requests per minute that are allowed in the API subscription)
+* Business plans (amount of requests per minute that are allowed in the API subscription)
 * Applications owned by the user that are subscribed to the API
 
 
