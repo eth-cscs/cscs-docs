@@ -76,6 +76,8 @@ NICs
 NVMe
 Nordend
 OpenFabrics
+OAuth2
+OIDC
 OSS
 OSSs
 OTP
@@ -107,6 +109,7 @@ UANs
 UserLab
 Wannier
 XDG
+WSO2
 Zumsteinspitz
 aarch
 acfdt
