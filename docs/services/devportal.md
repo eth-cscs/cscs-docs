@@ -7,7 +7,7 @@ The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to mana
 
 ### API
 
-An **API** is an interface exposed by CSCS to their users to allow them accessing protected resources (computing, storage, accounting data, etc) in an automated fashion.
+An **API** is an interface exposed by CSCS to their users to allow them accessing protected resources (computing, storage, accounting data, etc.) in an automated fashion.
 
 Examples of automated access to HPC resources are:
 
@@ -32,7 +32,7 @@ An **identity provider** is an entity that authenticates an application and allo
 
 Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
 
-!!!warning
+!!! warning
     The pair Consumer Key and Secret represents a personal credential to access CSCS resources, therefore can't be shared and must be stored securely (i.e.: not exposed in public repositories, forums, documentation, etc)
 
 ## Getting started
@@ -41,7 +41,7 @@ Start by browsing to [developer.cscs.ch](https://developer.cscs.ch), then sign i
 
 Once logged in, you will see a list of APIs that are available to your user.
 
-!!! Warning
+!!! warning
     You might not see version 1 or version 2 of some APIs. You will be able to see all the versions when you *subscribe* your Application to the API.
 
 ### Creating an Application

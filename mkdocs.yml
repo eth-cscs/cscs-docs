@@ -105,8 +105,8 @@ nav:
       - 'WRF': build-install/applications/wrf.md
   - 'Services':
     - services/index.md
-    - 'FirecREST': services/firecrest.md
     - 'Developer Portal': services/devportal.md
+    - 'FirecREST': services/firecrest.md    
     - 'CI/CD': services/cicd.md
     - 'Kubernetes':
       - services/kubernetes/index.md
