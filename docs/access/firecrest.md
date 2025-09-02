@@ -5,7 +5,7 @@ FirecREST is a RESTful API for programmatically accessing High-Performance Compu
 
 Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://eth-cscs.github.io/firecrest-v2/use_cases/CI-pipeline/), [workflow orchestrators](https://eth-cscs.github.io/firecrest-v2/use_cases/workflow-orchestrator/), and other tools against HPC resources.
 
-Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://my.hpcp.cscs.ch) and [web UI applications](https://eth-cscs.github.io/firecrest-v2/use_cases/UI-client-credentials/), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
+Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://eth-cscs.github.io/firecrest-ui/home/) and [web UI applications](https://eth-cscs.github.io/firecrest-v2/use_cases/UI-client-credentials/), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
 
 Users can make HTTP requests to perform the following operations:
 
