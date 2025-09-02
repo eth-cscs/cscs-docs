@@ -55,9 +55,8 @@ To create a new application, click on the `ADD NEW APPLICATION` button at the to
 ![Create New App](../images/services/devportal-create-new-app.png)
 
 Complete the mandatory fields (marked with `*`) and make sure to give the application a unique name and select the number of requests per minute.
-When finished, click on the `SAVE` button.
 
-![Complete New App](../images/services/devportal-complete-new-app.png)
+When finished, click on the `SAVE` button.
 
 !!! note
     On your first login you will find the `DefaultApplication` which is created by default
@@ -106,9 +105,7 @@ It's a good practice to rotate or regenerate the production keys of your applica
 
 To do this, go to the `Production Keys` view of the desired application and click on the button `REMOVE KEYS`:
 
-![Devportal reset keys](../images/services/devportal-regenerate-keys-01.png)
-
-![Devportal reset keys confirm](../images/services/devportal-regenerate-keys-02.png)
+![Devportal reset keys](../images/services/devportal-regenerate-keys.png)
 
 To regenerate the keys, refer back to the [Configuring Production Keys](#configuring-production-keys) section.
 
@@ -117,9 +114,7 @@ To regenerate the keys, refer back to the [Configuring Production Keys](#configu
 
 ### Remove your application
 
-To delete your application (which means removing all subscriptions and production keys), refer to the Application view and click on the `DELETE` button in the top-right corner:
-
-![Devportal remove app](../images/services/devportal-remove-app.png)
+To delete your application (which means removing all subscriptions and production keys), refer to the Application view and click on the `DELETE` button in the top-right corner.
 
 [](){#ref-devportal-api-info}
 ## View information of APIs
