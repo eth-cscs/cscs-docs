@@ -41,6 +41,7 @@ nav:
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
+    - 'FirecREST': access/firecrest.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Software':
@@ -105,7 +106,7 @@ nav:
       - 'WRF': build-install/applications/wrf.md
   - 'Services':
     - services/index.md
-    - 'FirecREST': services/firecrest.md
+    - 'Developer Portal': services/devportal.md
     - 'CI/CD': services/cicd.md
     - 'Kubernetes':
       - services/kubernetes/index.md

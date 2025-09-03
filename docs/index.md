@@ -55,6 +55,8 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
     [:octicons-arrow-right-24: Using SSH][ref-ssh]
 
+    [:octicons-arrow-right-24: FirecREST API][ref-firecrest]
+
 </div>
 
 ## Tutorials and Guides
@@ -91,7 +93,7 @@ Learn by doing with our guides and tutorials.
 
     Learn about individual services
 
-    [:octicons-arrow-right-24: FirecREST API](services/firecrest.md)
+    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
     [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
 

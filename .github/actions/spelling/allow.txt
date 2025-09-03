@@ -76,6 +76,8 @@ NICs
 NVMe
 Nordend
 OpenFabrics
+OAuth
+OIDC
 OSS
 OSSs
 OTP
