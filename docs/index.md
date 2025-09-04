@@ -40,6 +40,26 @@ Find out more about Alps...
 
     [:octicons-arrow-right-24: Alps Storage](alps/storage.md)
 
+-   :fontawesome-solid-layer-group: __Accounts and Projects__
+
+    The first step is to get an account and a project
+
+    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
+
+-   :fontawesome-solid-key: __Logging In__
+
+    Once you have an account, you can set up multi factor authentication
+
+    [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
+
+    Then access CSCS services
+
+    [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
+
+    [:octicons-arrow-right-24: Using SSH][ref-ssh]
+
+    [:octicons-arrow-right-24: FirecREST API][ref-firecrest]
+
 </div>
 
 <div class="grid cards" markdown>
@@ -81,7 +101,7 @@ Learn by doing with our guides and tutorials.
 
     Learn about individual services
 
-    [:octicons-arrow-right-24: FirecREST API](services/firecrest.md)
+    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
     [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
 

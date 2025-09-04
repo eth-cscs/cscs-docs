@@ -17,9 +17,3 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
 </div>
 
-<div class="grid cards" markdown>
-
-- :fontawesome-solid-earth-americas: __[Community codes][ref-software-installation-guides]__ – guides on how to install commonly requested or difficult to install software.
-
-</div>
-

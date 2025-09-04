@@ -36,11 +36,12 @@ nav:
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
+    - 'FirecREST': access/firecrest.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Environments':
     - software-deployment/index.md
-    - 'Using the terminal': guides/terminal.md
+    - 'Getting started in the terminal': guides/terminal.md
     - 'uenv':
       - software/uenv/index.md
       - 'Configuration': software/uenv/configure.md
@@ -75,7 +76,7 @@ nav:
       - 'NCCL': software/communication/nccl.md
       - 'RCCL': software/communication/rccl.md
       - 'libfabric': software/communication/libfabric.md
-  - 'Software and Frameworks':
+  - 'Applications and Frameworks':
     - software/index.md
     - 'Scientific Applications':
       - software/sciapps/index.md
@@ -94,16 +95,15 @@ nav:
         - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
         - 'LLM Pre-training': ml/tutorials/llm-nanotron-training.md
       - 'Data management': ml/data.md
-    - 'Tuning and optimization': ml/tuning.md
-    - 'Inference Workflows': ml/inference.md
-    - 'Community codes':
-      - build-install/applications/index.md
-      - 'Matlab': build-install/applications/matlab.md
-      - 'WRF': build-install/applications/wrf.md
+    - 'Climate and Weather':
+       - 'WRF': software/cw/wrf.md
+    - 'Commercial software':
+      - software/commercial/index.md
+      - 'Matlab': software/commercial/matlab.md
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Unsupported Software': software/unsupported.md
+    - 'Prohibited Software': software/unsupported.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md
     - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -115,23 +115,24 @@ nav:
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
+    - 'HyperQueue': running/hyperqueue.md
     - 'Job report': running/jobreport.md
     - 'Known issues': running/known-issues.md
-  - 'Services':
-    - services/index.md
-    - 'FirecREST': services/firecrest.md
-    - 'CI/CD': services/cicd.md
-    - 'Kubernetes':
-      - services/kubernetes/index.md
-      - 'Clusters': services/kubernetes/clusters.md
-      - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
-      - 'Node OS Updates': services/kubernetes/node-updates.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
     - 'Data Transfer': storage/transfer.md
     - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
+  - 'Services':
+    - services/index.md
+    - 'Developer Portal': services/devportal.md
+    - 'CI/CD': services/cicd.md
+    - 'Kubernetes':
+      - services/kubernetes/index.md
+      - 'Clusters': services/kubernetes/clusters.md
+      - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
+      - 'Node OS Updates': services/kubernetes/node-updates.md
   - 'Accounts and Projects':
     - accounts/index.md
     - 'Account and Resources Management Tool': accounts/ump.md
@@ -146,8 +147,9 @@ nav:
     - policies/index.md
     - 'User Regulations': policies/regulations.md
     - 'Code of Conduct': policies/code-of-conduct.md
-    - 'UserLab Support Policy': policies/support.md
+    - 'User Support Policies': policies/support.md
     - 'Slack Code of Conduct': policies/slack.md
+    - 'Scheduled Maintenance and System Unavailability Policies': policies/maintenance.md
   - 'Contributing':
     - contributing/index.md
 
