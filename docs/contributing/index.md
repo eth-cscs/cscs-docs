@@ -497,3 +497,20 @@ However, if you believe it's beneficial to actually repeat the content, consider
 Snippets allow including the contents of a text file in multiple places of the documentation.
 
 For example, the recommended NCCL environment variables are defined in a text file (`docs/software/commuinication/nccl_env_vars`) and included on multiple pages because it's essential that users of NCCL notice and use the environment variables.
+
+Snippets are included with `--8<-- path/to/snippet`.
+For example, to include the recommended NCCL environment variables, do the following:
+
+=== "Markdown"
+
+    ````markdown
+    ```bash
+    ;--8<-- "docs/software/communication/nccl_env_vars"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```bash title="Recommended NCCL environment variables"
+    --8<-- "docs/software/communication/nccl_env_vars"
+    ```
