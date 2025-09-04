@@ -31,11 +31,6 @@ nav:
     - 'Climate and Weather Platform':
       - platforms/cwp/index.md
       - 'Santis': clusters/santis.md
-  - 'Accounts and Projects':
-    - accounts/index.md
-    - 'Account and Resources Management Tool': accounts/ump.md
-    - 'Project and Resources Management Tool': accounts/waldur.md
-    - 'Creating a new account': accounts/account-create.md
   - 'Connecting to Alps':
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
@@ -43,24 +38,9 @@ nav:
     - 'SSH': access/ssh.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
-  - 'Running Jobs':
-    - running/index.md
-    - 'Slurm': running/slurm.md
-    - 'Job report': running/jobreport.md
-    - 'Known issues': running/known-issues.md
-  - 'Machine Learning':
-    - ml/index.md
-    - 'PyTorch': software/ml/pytorch.md
-    - 'Tutorials':
-      - ml/tutorials/index.md
-      - 'LLM Inference': ml/tutorials/llm-inference.md
-      - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
-      - 'LLM Pre-training': ml/tutorials/llm-nanotron-training.md
-    - 'Data management': ml/data.md
-    - 'Tuning and optimization': ml/tuning.md
-    - 'Inference Workflows': ml/inference.md
-  - 'Software Deployment':
+  - 'Environments':
     - software-deployment/index.md
+    - 'Using the terminal': guides/terminal.md
     - 'uenv':
       - software/uenv/index.md
       - 'Configuration': software/uenv/configure.md
@@ -73,15 +53,29 @@ nav:
       - 'Resource and hooks': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
-    - 'Building software':
-      - build-install/index.md
+  - 'Building and Installing Software':
+    - build-install/index.md
+    - 'Programming Environments':
+      - software/prgenv/index.md
+      - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
+      - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
+      - 'linalg': software/prgenv/linalg.md
+      - 'julia': software/prgenv/julia.md
+      - 'Cray modules (CPE)': software/prgenv/cpe.md
+    - 'How to build software':
       - 'uenv': build-install/uenv.md
-      - 'Containers (podman)': build-install/containers.md
-    - 'Community codes':
-      - build-install/applications/index.md
-      - 'Matlab': build-install/applications/matlab.md
-      - 'WRF': build-install/applications/wrf.md
-  - 'Software':
+    - 'Packaging and Deployment':
+      - 'Creating uenv': software/uenv/build.md
+      - 'Creating Containers with podman': build-install/containers.md
+    - 'Communication Libraries':
+      - software/communication/index.md
+      - 'Cray MPICH': software/communication/cray-mpich.md
+      - 'MPICH': software/communication/mpich.md
+      - 'OpenMPI': software/communication/openmpi.md
+      - 'NCCL': software/communication/nccl.md
+      - 'RCCL': software/communication/rccl.md
+      - 'libfabric': software/communication/libfabric.md
+  - 'Software and Frameworks':
     - software/index.md
     - 'Scientific Applications':
       - software/sciapps/index.md
@@ -91,33 +85,38 @@ nav:
       - 'NAMD': software/sciapps/namd.md
       - 'Quantum ESPRESSO': software/sciapps/quantumespresso.md
       - 'VASP': software/sciapps/vasp.md
-    - 'Programming Environments':
-      - software/prgenv/index.md
-      - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
-      - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
-      - 'linalg': software/prgenv/linalg.md
-      - 'julia': software/prgenv/julia.md
-      - 'Cray modules (CPE)': software/prgenv/cpe.md
-    - 'Communication Libraries':
-      - software/communication/index.md
-      - 'Cray MPICH': software/communication/cray-mpich.md
-      - 'MPICH': software/communication/mpich.md
-      - 'OpenMPI': software/communication/openmpi.md
-      - 'NCCL': software/communication/nccl.md
-      - 'RCCL': software/communication/rccl.md
-      - 'libfabric': software/communication/libfabric.md
-    - 'Debugging and Performance Analysis':
-      - software/devtools/index.md
-      - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
-      - 'Using Linaro Forge':
-        - software/devtools/linaro-uenv.md
-        - 'Linaro performance analysis tool': software/devtools/linaro-map.md
-        - 'Linaro debugger': software/devtools/linaro-ddt.md
-      - 'Using Score-P/Scalasca': software/devtools/vihps.md
+    - 'Machine Learning':
+      - ml/index.md
+      - 'PyTorch': software/ml/pytorch.md
+      - 'Tutorials':
+        - ml/tutorials/index.md
+        - 'LLM Inference': ml/tutorials/llm-inference.md
+        - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
+        - 'LLM Pre-training': ml/tutorials/llm-nanotron-training.md
+      - 'Data management': ml/data.md
+    - 'Tuning and optimization': ml/tuning.md
+    - 'Inference Workflows': ml/inference.md
+    - 'Community codes':
+      - build-install/applications/index.md
+      - 'Matlab': build-install/applications/matlab.md
+      - 'WRF': build-install/applications/wrf.md
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
     - 'Unsupported Software': software/unsupported.md
+  - 'Debugging and Performance Analysis':
+    - software/devtools/index.md
+    - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
+    - 'Using Linaro Forge':
+      - software/devtools/linaro-uenv.md
+      - 'Linaro performance analysis tool': software/devtools/linaro-map.md
+      - 'Linaro debugger': software/devtools/linaro-ddt.md
+    - 'Using Score-P/Scalasca': software/devtools/vihps.md
+  - 'Running Jobs':
+    - running/index.md
+    - 'Slurm': running/slurm.md
+    - 'Job report': running/jobreport.md
+    - 'Known issues': running/known-issues.md
   - 'Services':
     - services/index.md
     - 'FirecREST': services/firecrest.md
@@ -133,11 +132,15 @@ nav:
     - 'Data Transfer': storage/transfer.md
     - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
+  - 'Accounts and Projects':
+    - accounts/index.md
+    - 'Account and Resources Management Tool': accounts/ump.md
+    - 'Project and Resources Management Tool': accounts/waldur.md
+    - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
-    - 'Using the terminal': guides/terminal.md
     - 'Gordon Bell 2025': guides/gb25.md
   - 'Policies':
     - policies/index.md
