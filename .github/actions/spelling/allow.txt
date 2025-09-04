@@ -106,6 +106,7 @@ Scopi
 Signalkuppe
 TOTP
 UANs
+UIs
 UserLab
 Wannier
 XDG
@@ -212,6 +213,7 @@ netlib
 netrc
 nql
 nsight
+nsys
 numa
 nvcr
 nvdashboard
@@ -341,6 +343,7 @@ wikipedia
 wikitext
 wlcg
 workaround
+workarounds
 workflows
 wrf
 xattr
