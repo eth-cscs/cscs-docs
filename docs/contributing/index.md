@@ -489,6 +489,32 @@ If you want to display commands without output that can easily be copied, use `b
     echo "Hello, world!"
     ```
 
+### Avoiding repetition using snippets
+
+It can be useful to repeat information on different pages to increase visibility for users.
+If possible, prefer linking to a primary section describing a topic instead of fully repeating text on different pages.
+However, if you believe it's beneficial to actually repeat the content, consider using [snippets](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/) to avoid repeated information getting out of sync on different pages.
+Snippets allow including the contents of a text file in multiple places of the documentation.
+
+For example, the recommended NCCL environment variables are defined in a text file [`docs/software/commuinication/nccl_env_vars`](https://github.com/eth-cscs/cscs-docs/blob/main/docs/software/communication/nccl_env_vars) and included on multiple pages because it's essential that users of NCCL notice and use the environment variables.
+
+Snippets are included with `--8<-- path/to/snippet`.
+For example, to include the recommended NCCL environment variables, do the following:
+
+=== "Markdown"
+
+    ````markdown
+    ```bash
+    ;--8<-- "docs/software/communication/nccl_env_vars"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```bash title="Recommended NCCL environment variables"
+    --8<-- "docs/software/communication/nccl_env_vars"
+    ```
+
 ## Documentation structure
 
 Here we describe a high-level overview of the documentation layout and organisation.
