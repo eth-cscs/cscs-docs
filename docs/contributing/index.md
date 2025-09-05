@@ -533,7 +533,7 @@ Note that the directory layout, where markdown files are stored in the repositor
 All tutorials are stored in the `/docs/tutorials` directory.
 Currently we only have ML tutorials in `/docs/tutorials/ml`.
 
-There is no top level "Tutorials" section, instead tutorial content can be include directly in the docs where most appropriate.
+There is no top level "Tutorials" section, instead tutorial content can be included directly in the docs where most appropriate.
 The ML tutorials, for example, are alongside the PyTorch documentation in the Applications and Frameworks material.
 
 !!! note "rationale"
