@@ -1,4 +1,4 @@
-[](){#ref-software-unsupported}
+[](){#ref-software-prohibited}
 # Prohibited software
 
 The use of the following applications prohibited from use on CSCS systems.
