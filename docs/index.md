@@ -1,6 +1,6 @@
 # CSCS Documentation
 
-The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities.
+The Alps Research Infrastructure hosts multiple platforms and clusters targeting different communities.
 A good spot to get started is with the documentation for the platform that your project is running on.
 
 <div class="grid cards" markdown>
