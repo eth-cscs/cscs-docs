@@ -11,7 +11,7 @@ A good spot to get started is with the documentation for the platform that your 
 
     [:octicons-arrow-right-24: HPC Platform (__Daint__, __Eiger__)][ref-platform-hpcp]
 
-    [:octicons-arrow-right-24: Machine Learning Platform (__Clariden__)][ref-platform-mlp]
+    [:octicons-arrow-right-24: Machine Learning Platform (__Clariden__, __Bristen__)][ref-platform-mlp]
 
     [:octicons-arrow-right-24: Climate and Weather Platform (__Santis__)][ref-platform-cwp]
 
