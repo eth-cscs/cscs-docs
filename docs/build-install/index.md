@@ -10,6 +10,8 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
     Programming environments are your first option if you want to install an application (and its dependencies) from source, or set up a Python/Julia environment.
 
+    CSCS provides the following uenv:
+
     [:octicons-arrow-right-24: prgenv-gnu][ref-uenv-prgenv-gnu]
 
     [:octicons-arrow-right-24: prgenv-nvfortran][ref-uenv-prgenv-nvfortran]
@@ -17,6 +19,8 @@ Modern HPC applications and software stacks are often very complicated, and ther
     [:octicons-arrow-right-24: linalg][ref-uenv-linalg]
 
     [:octicons-arrow-right-24: julia][ref-uenv-julia]
+
+    And containers are used to deploy:
 
     [:octicons-arrow-right-24: Cray Programming Environment][ref-cpe]
 

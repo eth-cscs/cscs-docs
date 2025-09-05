@@ -31,7 +31,7 @@ This part of the documentation will give guidance on how to set up your shell, a
 </div>
 
 
-!!! todo "links to programming environments"
-    Provide links to programming environments, software and Frameworks (which are in a different top level section).
+CSCS provides ready to use environments in uenv and containers:
 
-    This helps with discoverability.
+* [Programming environments][ref-software-prgenvs];
+* [Applications and software][ref-software].
