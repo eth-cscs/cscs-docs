@@ -77,6 +77,12 @@ Cray MPICH may sometimes hang on larger runs.
     export FI_MR_CACHE_MONITOR=disabled
     ```
 
+    The option
+    ```bash
+    export FI_MR_CACHE_MONITOR=userfaultfd
+    ```
+    may also avoid hangs, and typically performs better than completely disabling the cache monitor.
+
 Performance may be negatively affected by this option.
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
@@ -87,6 +93,22 @@ Note that this has a performance impact for small message sizes, so it should on
 ```bash
 export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
 ```
+
+[](){#ref-communication-cray-mpich-slow-intranode}
+#### Slow intra-node host communication with Cray MPICH
+
+Cray MPICH can perform badly when doing intra-node CPU-CPU memory communication.
+
+!!! info "Workaround"
+    In some situations Cray MPICH can perform better when communication is done over the NICs, even within a node.
+    To force Cray MPICH to use NICs for all communication, set:
+
+    ```bash
+    export MPIR_CVAR_NO_LOCAL=1
+    ```
+
+    Whenever possible, prefer using GPU-GPU communication instead of CPU-CPU communication.
+    It can even be beneficial to transfer data to the GPU only for the communication even if the buffer originally is in CPU memory.
 
 ### Resolved issues
 
