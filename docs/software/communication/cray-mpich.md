@@ -110,15 +110,6 @@ Cray MPICH can perform badly when doing intra-node CPU-CPU memory communication.
     Whenever possible, prefer using GPU-GPU communication instead of CPU-CPU communication.
     It can even be beneficial to transfer data to the GPU only for the communication even if the buffer originally is in CPU memory.
 
-#### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
-
-This error message is sometimes triggered by applications that use GPU Direct MPI calls when they trigger a bug in gdrcopy (a low-level library used to copy buffers between GPUs).
-Setting the following option will completely disable gdrcopy.
-Note that this has a performance impact for small message sizes, so it should only be enabled on a case-by-case basis.
-```bash
-export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
-```
-
 ### Resolved issues
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
