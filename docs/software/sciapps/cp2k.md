@@ -1,6 +1,10 @@
 [](){#ref-uenv-cp2k}
 # CP2K
 
+!!! info ""
+    CP2K is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [CP2K] is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid
 state, liquid, molecular, periodic, material, crystal, and biological systems.
 

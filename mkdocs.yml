@@ -31,11 +31,6 @@ nav:
     - 'Climate and Weather Platform':
       - platforms/cwp/index.md
       - 'Santis': clusters/santis.md
-  - 'Accounts and Projects':
-    - accounts/index.md
-    - 'Account and Resources Management Tool': accounts/ump.md
-    - 'Project and Resources Management Tool': accounts/waldur.md
-    - 'Creating a new account': accounts/account-create.md
   - 'Connecting to Alps':
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
@@ -44,7 +39,41 @@ nav:
     - 'FirecREST': access/firecrest.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
-  - 'Software':
+  - 'Running Jobs':
+    - running/index.md
+    - 'Slurm': running/slurm.md
+    - 'HyperQueue': running/hyperqueue.md
+    - 'Known issues': running/known-issues.md
+  - 'Environments':
+    - environments/index.md
+    - 'Getting started in the terminal': guides/terminal.md
+    - 'uenv':
+      - software/uenv/index.md
+      - 'Configuration': software/uenv/configure.md
+      - 'Building uenv': software/uenv/build.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Release notes': software/uenv/release-notes.md
+    - 'Container Engine': 
+      - software/container-engine/index.md
+      - 'Using container engine': software/container-engine/run.md
+      - 'Resource and hooks': software/container-engine/resource-hook.md
+      - 'EDF reference': software/container-engine/edf.md
+      - 'Known issues': software/container-engine/known-issue.md
+  - 'Building and Installing Software':
+    - build-install/index.md
+    - 'Programming Environments':
+      - software/prgenv/index.md
+      - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
+      - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
+      - 'linalg': software/prgenv/linalg.md
+      - 'julia': software/prgenv/julia.md
+      - 'Cray modules (CPE)': software/prgenv/cpe.md
+    - 'How to build software':
+      - 'uenv': build-install/uenv.md
+    - 'Packaging and Deployment':
+      - 'Creating uenv': software/uenv/build.md
+      - 'Creating Containers with podman': build-install/containers.md
+  - 'Applications and Frameworks':
     - software/index.md
     - 'Scientific Applications':
       - software/sciapps/index.md
@@ -54,16 +83,17 @@ nav:
       - 'NAMD': software/sciapps/namd.md
       - 'Quantum ESPRESSO': software/sciapps/quantumespresso.md
       - 'VASP': software/sciapps/vasp.md
-    - 'Programming Environments':
-      - software/prgenv/index.md
-      - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
-      - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
-      - 'linalg': software/prgenv/linalg.md
-      - 'julia': software/prgenv/julia.md
-      - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'Machine Learning':
       - software/ml/index.md
       - 'PyTorch': software/ml/pytorch.md
+      - 'Tutorials':
+        - tutorials/ml/index.md
+        - 'LLM Inference':    tutorials/ml/llm-inference.md
+        - 'LLM Fine-tuning':  tutorials/ml/llm-fine-tuning.md
+        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
+    - 'Climate and Weather':
+      - software/cw/index.md
+      - 'WRF': software/cw/wrf.md
     - 'Communication Libraries':
       - software/communication/index.md
       - 'Cray MPICH': software/communication/cray-mpich.md
@@ -72,38 +102,28 @@ nav:
       - 'NCCL': software/communication/nccl.md
       - 'RCCL': software/communication/rccl.md
       - 'libfabric': software/communication/libfabric.md
-    - 'Building and Installing software':
-      - build-install/index.md
-      - 'uenv': build-install/uenv.md
-      - 'Containers (podman)': build-install/containers.md
-      - 'Python with pip': build-install/pip.md
-    - 'uenv':
-      - software/uenv/index.md
-      - 'Configuration': software/uenv/configure.md
-      - 'Building uenv': software/uenv/build.md
-      - 'Deploying uenv': software/uenv/deploy.md
-      - 'Release notes': software/uenv/release-notes.md
-    - 'Debugging and Performance Analysis':
-      - software/devtools/index.md
-      - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
-      - 'Using Linaro Forge':
-        - software/devtools/linaro-uenv.md
-        - 'Linaro performance analysis tool': software/devtools/linaro-map.md
-        - 'Linaro debugger': software/devtools/linaro-ddt.md
-      - 'Using Score-P/Scalasca': software/devtools/vihps.md
-    - 'Container Engine': 
-      - software/container-engine/index.md
-      - 'Using container engine': software/container-engine/run.md
-      - 'Resource and hooks': software/container-engine/resource-hook.md
-      - 'EDF reference': software/container-engine/edf.md
-      - 'Known issues': software/container-engine/known-issue.md
+    - 'Commercial software':
+      - software/commercial/index.md
+      - 'Matlab': software/commercial/matlab.md
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Unsupported Software':
-      - software/unsupported/index.md
-      - 'Matlab': build-install/applications/matlab.md
-      - 'WRF': build-install/applications/wrf.md
+    - 'Prohibited Software': software/unsupported.md
+  - 'Debugging and Performance Analysis':
+    - software/devtools/index.md
+    - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
+    - 'Using Linaro Forge':
+      - software/devtools/linaro-uenv.md
+      - 'Linaro performance analysis tool': software/devtools/linaro-map.md
+      - 'Linaro debugger': software/devtools/linaro-ddt.md
+    - 'Using Score-P/Scalasca': software/devtools/vihps.md
+    - 'Job report': running/jobreport.md
+  - 'Data Management and Storage':
+    - storage/index.md
+    - 'File Systems': storage/filesystems.md
+    - 'Data Transfer': storage/transfer.md
+    - 'Long Term Storage': storage/longterm.md
+    - 'Object Storage': storage/object.md
   - 'Services':
     - services/index.md
     - 'Developer Portal': services/devportal.md
@@ -113,31 +133,16 @@ nav:
       - 'Clusters': services/kubernetes/clusters.md
       - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
       - 'Node OS Updates': services/kubernetes/node-updates.md
-  - 'Running Jobs':
-    - running/index.md
-    - 'Slurm': running/slurm.md
-    - 'HyperQueue': running/hyperqueue.md
-    - 'Job report': running/jobreport.md
-    - 'Known issues': running/known-issues.md
-  - 'Data Management and Storage':
-    - storage/index.md
-    - 'File Systems': storage/filesystems.md
-    - 'Data Transfer': storage/transfer.md
-    - 'Long Term Storage': storage/longterm.md
-    - 'Object Storage': storage/object.md
+  - 'Accounts and Projects':
+    - accounts/index.md
+    - 'Account and Resources Management Tool': accounts/ump.md
+    - 'Project and Resources Management Tool': accounts/waldur.md
+    - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
-    - 'Using the terminal': guides/terminal.md
     - 'Gordon Bell 2025': guides/gb25.md
-  - 'Tutorials':
-    - tutorials/index.md
-    - 'Machine Learning':
-        - tutorials/ml/index.md
-        - 'LLM Inference': tutorials/ml/llm-inference.md
-        - 'LLM Fine-tuning': tutorials/ml/llm-fine-tuning.md
-        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

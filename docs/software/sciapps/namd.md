@@ -1,6 +1,10 @@
 [](){#ref-uenv-namd}
 # NAMD
 
+!!! info ""
+    NAMD is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [NAMD] is a parallel molecular dynamics code based on [Charm++], designed for high-performance simulations of large biomolecular systems.
 
 !!! danger "Licensing Terms and Conditions"

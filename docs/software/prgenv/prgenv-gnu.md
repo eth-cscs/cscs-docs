@@ -185,5 +185,5 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
 
     The gnu programming environment is a very good base for building software with Spack, because it provides compilers, MPI, Python and common packages like hdf5.
 
-    [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
+    [Check out the guide for using Spack with uenv][ref-build-uenv-spack].
 

@@ -372,7 +372,7 @@ By default, the modules are not activated when a uenv is started, and need to be
 
 uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies.
 No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv.
-For more information, see our guide on building software with [Spack and uenv][ref-building-uenv-spack].
+For more information, see our guide on building software with [Spack and uenv][ref-build-uenv-spack].
 
 [](){#ref-uenv-run}
 ## Running a uenv

@@ -1,5 +1,9 @@
-[](){#ref-software-ml-pytorch}
+[](){#ref-software-pytorch}
 # PyTorch
+
+!!! info ""
+    PyTorch is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
 
 PyTorch is available both as a container with the [Container Engine (CE)][ref-container-engine] and a [uenv][ref-uenv] software stack. The best choice for your use case depends on the amount of control required over the lower level libraries.
 
@@ -512,7 +516,7 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The pytorch uenv can also be used as a base for building software with Spack, because it provides compilers, MPI, Python and common packages like HDF5.
 
-    [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
+    [Check out the guide for using Spack with uenv][ref-build-uenv-spack].
 
 [](){#ref-uenv-pytorch-venv}
 ### Adding Python packages on top of the uenv
@@ -561,7 +565,7 @@ $ exit # (6)!
      * this virtual environment is _specific_ to this particular uenv and won't actually work unless you are using it from inside this uenv - it relies on the resources packaged inside the uenv.
      * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
 
-Alternatively one can use the uenv as [upstream Spack instance][ref-building-uenv-spack] to to add both Python and non-Python packages.
+Alternatively one can use the uenv as [upstream Spack instance][ref-build-uenv-spack] to to add both Python and non-Python packages.
 However, this workflow is more involved and intended for advanced Spack users.
 
 ### Running PyTorch jobs with Slurm

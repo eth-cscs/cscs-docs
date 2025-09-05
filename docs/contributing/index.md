@@ -514,3 +514,27 @@ For example, to include the recommended NCCL environment variables, do the follo
     ```bash title="Recommended NCCL environment variables"
     --8<-- "docs/software/communication/nccl_env_vars"
     ```
+
+## Documentation structure
+
+Here we describe a high-level overview of the documentation layout and organisation.
+
+!!! under-construction
+    This section is mostly incomplete, and will be expanded over time.
+
+Note that the directory layout, where markdown files are stored in the repository, does not strictly reflect the section of the documentation where the content is displayed because:
+
+* the URL of a page is decided by its location in the directory tree, not in the table of contents.
+  If a page is moved in the ToC, we are conservative about moving the file, so that urls don't break.
+* pages can be included in multiple locations in the ToC (not a feature that we use very often).
+
+### Tutorials
+
+All tutorials are stored in the `/docs/tutorials` directory.
+Currently we only have ML tutorials in `/docs/tutorials/ml`.
+
+There is no top level "Tutorials" section, instead tutorial content can be included directly in the docs where most appropriate.
+The ML tutorials, for example, are alongside the PyTorch documentation in the Applications and Frameworks material.
+
+!!! note "rationale"
+    Group all tutorial content together in the directory structure so that the url of specific tutorials won't change when they are moved around.
