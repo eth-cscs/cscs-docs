@@ -17,7 +17,7 @@ This part of the documentation will give guidance on how to set up your shell, a
 
 -   :fontawesome-solid-layer-group: __Setting up your development and simulation environments__
 
-    CSCS provides two ways to acess software, and create the environment used to develop and run.
+    CSCS provides two ways to access software, and create the environment used to develop and run.
 
     Scientific HPC workloads are a good fit for uenv -- a tool developed by CSCS to deliver scientific software stacks on Alps.
 
