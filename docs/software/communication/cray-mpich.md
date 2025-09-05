@@ -77,6 +77,12 @@ Cray MPICH may sometimes hang on larger runs.
     export FI_MR_CACHE_MONITOR=disabled
     ```
 
+    The option
+    ```bash
+    export FI_MR_CACHE_MONITOR=userfaultfd
+    ```
+    may also avoid hangs, and typically performs better than completely disabling the cache monitor.
+
 Performance may be negatively affected by this option.
 
 #### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
