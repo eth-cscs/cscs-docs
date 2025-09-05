@@ -1,6 +1,10 @@
 [](){#ref-uenv-vasp}
 # VASP
 
+!!! info ""
+    VASP is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 The Vienna Ab initio Simulation Package ([VASP]) is a computer program for atomic scale materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics, from first principles.
 
 VASP computes an approximate solution to the many-body Schrödinger equation, either within density functional theory (DFT), solving the Kohn-Sham equations, or within the Hartree-Fock (HF) approximation, solving the Roothaan equations.

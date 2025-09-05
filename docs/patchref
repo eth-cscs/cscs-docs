@@ -3,7 +3,12 @@
 
 value=$1
 patch=$2
+echo "replacing $value in"
 for f in $(rg "$value" -l)
 do
-    sed -i '' 's|$value|$patch|g' $f
+    echo " $f"
+done
+for f in $(rg "$value" -l)
+do
+    sed -i '' "s|$value|$patch|g" $f
 done

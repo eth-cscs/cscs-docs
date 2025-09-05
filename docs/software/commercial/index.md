@@ -1,7 +1,7 @@
 [](){#ref-software-commercial}
 # Commercial software
 
-This is a collection of installation guides for commonly requested commercial software that is not on CSCS list of [officially supported software][ref-software-sciapps].
+This is a collection of installation guides for commonly requested commercial software.
 
 * [Matlab][ref-software-matlab]
 

@@ -87,7 +87,7 @@ We will provide full support for 12 months after the uenv image is released, and
         [Let us know][ref-get-in-touch] if you find issues with the uenv.
 
     !!! warning "Unstable Spack version used for the uenv"
-        If you are [building software through spack on top of a uenv][ref-building-uenv-spack], be aware that the 25.06 uenv is based on a prerelease version of Spack that contains [many breaking changes](https://github.com/spack/spack/discussions/30634).
+        If you are [building software through spack on top of a uenv][ref-build-uenv-spack], be aware that the 25.06 uenv is based on a prerelease version of Spack that contains [many breaking changes](https://github.com/spack/spack/discussions/30634).
         Using a commit other than the one used to build the uenv will likely result in issues.
 
     The key updates in version 25.06 compared to 24.11 are:
@@ -159,5 +159,5 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
 
     The gnu programming environment is a very good base for building software with Spack, because it provides compilers, MPI, Python and common packages like hdf5.
 
-    [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
+    [Check out the guide for using Spack with uenv][ref-build-uenv-spack].
 

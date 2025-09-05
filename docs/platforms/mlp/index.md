@@ -12,7 +12,7 @@ The Machine Learning Platform (MLP) provides compute, storage and expertise to t
 
     Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-tutorials-ml].
 
-    Check out the [PyTorch documentation][ref-software-ml-pytorch] for information about how to run PyTorch.
+    Check out the [PyTorch documentation][ref-software-pytorch] for information about how to run PyTorch.
 
 </div>
 

@@ -1,4 +1,4 @@
-[](){#ref-software-overview}
+[](){#ref-software}
 # Applications and frameworks
 
 This section documents the most widely-used applications and frameworks on Alps.
@@ -7,7 +7,7 @@ This section documents the most widely-used applications and frameworks on Alps.
 ## Supported software
 
 CSCS provides a catalogue of [__supported software__][ref-support-apps]: applications, frameworks and tools that CSCS provide  and support on Alps.
-All other software can be installed by users as []
+All other software can be installed by users as [user software][ref-support-user-apps].
 
 These pages provided documentation for all supported software, and installation guides for selected applications that are frequently requested, particularly if they are challenging to install.
 
@@ -42,7 +42,7 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-robot: [__Machine Learning__][ref-software-ml]
 
-    [:octicons-arrow-right-24: PyTorch][ref-software-ml-pytorch]
+    [:octicons-arrow-right-24: PyTorch][ref-software-pytorch]
 
     To learn more about how to use PyTorch on Alps:
 
@@ -50,9 +50,15 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-earth-oceania: [__Climate and Weather__][ref-software-climate]
 
-    Coming soon!
-
     [:octicons-arrow-right-24: WRF and CryoWRF][ref-software-wrf]
+
+-   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]
+
+    [:octicons-arrow-right-24: Paraview][ref-uenv-paraview]
+
+-   :fontawesome-solid-brush: [__Commercial Software__][ref-software-commercial]
+
+    [:octicons-arrow-right-24: Matlab][ref-software-matlab]
 
 </div>
 

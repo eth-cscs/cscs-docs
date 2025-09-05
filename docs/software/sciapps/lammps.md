@@ -1,6 +1,10 @@
 [](){#ref-uenv-lammps}
 # LAMMPS
 
+!!! info ""
+    LAMMPS is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [LAMMPS] is a classical molecular dynamics code that models an ensemble of particles in a liquid, solid, or gaseous state.
 It can model atomic, polymeric, biological, metallic, granular, and coarse-grained systems using a variety of force fields and boundary conditions. 
 The current version of LAMMPS is written in C++.
