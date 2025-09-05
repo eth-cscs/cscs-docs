@@ -1,0 +1,9 @@
+# to replace all instances of ref-index-page with ref-index
+#  patchref ref-index-page ref-index
+
+value=$1
+patch=$2
+for f in $(rg "$value" -l)
+do
+    sed -i '' 's|$value|$patch|g' $f
+done

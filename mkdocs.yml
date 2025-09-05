@@ -68,14 +68,6 @@ nav:
     - 'Packaging and Deployment':
       - 'Creating uenv': software/uenv/build.md
       - 'Creating Containers with podman': build-install/containers.md
-    - 'Communication Libraries':
-      - software/communication/index.md
-      - 'Cray MPICH': software/communication/cray-mpich.md
-      - 'MPICH': software/communication/mpich.md
-      - 'OpenMPI': software/communication/openmpi.md
-      - 'NCCL': software/communication/nccl.md
-      - 'RCCL': software/communication/rccl.md
-      - 'libfabric': software/communication/libfabric.md
   - 'Applications and Frameworks':
     - software/index.md
     - 'Scientific Applications':
@@ -87,16 +79,24 @@ nav:
       - 'Quantum ESPRESSO': software/sciapps/quantumespresso.md
       - 'VASP': software/sciapps/vasp.md
     - 'Machine Learning':
-      - ml/index.md
+      - software/ml/index.md
       - 'PyTorch': software/ml/pytorch.md
       - 'Tutorials':
-        - ml/tutorials/index.md
-        - 'LLM Inference': ml/tutorials/llm-inference.md
-        - 'LLM Fine-tuning': ml/tutorials/llm-fine-tuning.md
-        - 'LLM Pre-training': ml/tutorials/llm-nanotron-training.md
-      - 'Data management': ml/data.md
+        - tutorials/ml/index.md
+        - 'LLM Inference':    tutorials/ml/llm-inference.md
+        - 'LLM Fine-tuning':  tutorials/ml/llm-fine-tuning.md
+        - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
-       - 'WRF': software/cw/wrf.md
+      - software/cw/index.md
+      - 'WRF': software/cw/wrf.md
+    - 'Communication Libraries':
+      - software/communication/index.md
+      - 'Cray MPICH': software/communication/cray-mpich.md
+      - 'MPICH': software/communication/mpich.md
+      - 'OpenMPI': software/communication/openmpi.md
+      - 'NCCL': software/communication/nccl.md
+      - 'RCCL': software/communication/rccl.md
+      - 'libfabric': software/communication/libfabric.md
     - 'Commercial software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md

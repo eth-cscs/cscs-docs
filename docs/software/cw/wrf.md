@@ -1,4 +1,4 @@
-[](){#ref-software-packages-wrf}
+[](){#ref-software-wrf}
 # WRF
 
 [The Weather Research & Forecasting Model](https://www.mmm.ucar.edu/models/wrf) (WRF) is a numerical weather prediction system designed for both atmospheric research and weather forecasting.
