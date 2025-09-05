@@ -230,6 +230,7 @@ opls
 osts
 osu
 papi
+paraview
 parmetis
 petsc
 pme

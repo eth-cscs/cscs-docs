@@ -50,7 +50,7 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-earth-oceania: [__Climate and Weather__][ref-software-climate]
 
-    [:octicons-arrow-right-24: WRF and CryoWRF][ref-software-wrf]
+    [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
 
 -   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]
 

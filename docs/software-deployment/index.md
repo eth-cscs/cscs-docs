@@ -19,7 +19,7 @@ This part of the documentation will give guidance on how to set up your shell, a
 
     CSCS provides two ways to acess software, and create the environment used to develop and run.
 
-    Scientitic HPC workloads are a good fit for uenv -- a tool developed by CSCS to deliver scientific software stacks on Alps.
+    Scientific HPC workloads are a good fit for uenv -- a tool developed by CSCS to deliver scientific software stacks on Alps.
 
     [:octicons-arrow-right-24: uenv][ref-uenv]
 
@@ -32,6 +32,6 @@ This part of the documentation will give guidance on how to set up your shell, a
 
 
 !!! todo "links to programming environments"
-    Provide links to programming environements, software and Frameworks (which are in a different top level section).
+    Provide links to programming environments, software and Frameworks (which are in a different top level section).
 
     This helps with discoverability.
