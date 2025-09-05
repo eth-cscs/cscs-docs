@@ -83,7 +83,7 @@ If the default base images do not meet your requirements, you can specify a cust
     
     1. Avoid mounting all of `$HOME` to avoid subtle issues with cached files, but mount Jupyter kernels
     2. Enable Slurm commands (together with two subsequent mounts)
-    3. Currently only required on Daint and Santis, not on Clariden
+    3. Required only for Daint and Santis; Do not use on Clariden
     4. Set working directory of Jupyter session (file browser root directory)
     5. Use environment settings for optimized communication 
     6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
