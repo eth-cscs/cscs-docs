@@ -1,8 +1,8 @@
-[](){#ref-mlp-llm-fine-tuning-tutorial}
+[](){#software-ml-llm-fine-tuning-tutorial}
 
 # LLM Fine-tuning Tutorial
 
-This tutorial will take the model from the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial and show you how to perform fine-tuning.
+This tutorial will take the model from the [LLM Inference][software-ml-llm-inference-tutorial] tutorial and show you how to perform fine-tuning.
 This means that we take the model and train it on some new custom data to change its behavior.
 
 To complete the tutorial, we set up some extra libraries that will help us to update the state of the machine learning model.
@@ -12,7 +12,7 @@ We also write a script that will allow us to unlock more of the performance offe
 
 ### Prerequisites
 
-This tutorial assumes you've already successfully completed the [LLM Inference][ref-mlp-llm-inference-tutorial] tutorial.
+This tutorial assumes you've already successfully completed the [LLM Inference][software-ml-llm-inference-tutorial] tutorial.
 For fine-tuning Gemma, we will rely on the NGC PyTorch container and the libraries we've already installed in the Python virtual environment used previously.
 
 ### Set up TRL
@@ -97,7 +97,7 @@ The first four lines of the launch line are used to configure `accelerate`.
 Everything after that configures the `trl/examples/scripts/sft.py` Python script, which we use to train Gemma.
 
 !!! note "Dataset management and sharing"
-    For datasets, recommended LUSTRE settings should be used as illustrated in the tutorial on [LLM Inference][ref-mlp-llm-inference-tutorial]. As they have been set there for `HF_HOME`, which `huggingface_hub` uses for its dataset cache, they don't need to be re-applied here.
+    For datasets, recommended LUSTRE settings should be used as illustrated in the tutorial on [LLM Inference][software-ml-llm-inference-tutorial]. As they have been set there for `HF_HOME`, which `huggingface_hub` uses for its dataset cache, they don't need to be re-applied here.
 
     To enable your colleagues to use also use your datasets, please refer to the [storage guide][ref-guides-storage-sharing].
 

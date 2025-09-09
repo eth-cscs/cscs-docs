@@ -3,9 +3,9 @@
 
 FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources, developed at CSCS.
 
-Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://eth-cscs.github.io/firecrest-v2/use_cases/CI-pipeline/), [workflow managers](https://github.com/eth-cscs/firecrest/tree/master/examples/airflow-operators), and other tools against HPC resources.
+Users can make use of FirecREST to automate access to HPC, enabling [CI/CD pipelines](https://eth-cscs.github.io/firecrest-v2/use_cases/CI-pipeline/), [workflow orchestrators](https://eth-cscs.github.io/firecrest-v2/use_cases/workflow-orchestrator/), and other tools against HPC resources.
 
-Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://my.hpcp.cscs.ch) and [applications](https://github.com/eth-cscs/firecrest/tree/master/examples/UI-client-credentials), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
+Additionally, scientific platform developers can integrate FirecREST into [web-enabled portals](https://eth-cscs.github.io/firecrest-ui/home/) and [web UI applications](https://eth-cscs.github.io/firecrest-v2/use_cases/UI-client-credentials/), allowing them to securely access authenticated and authorized CSCS services such as job submission and data transfer on HPC systems.
 
 Users can make HTTP requests to perform the following operations:
 
@@ -55,7 +55,7 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 
 ### Clients and access tokens
 
-For authenticating requests to FirecREST, **client applications** use an **access token** instead of directly using the user's credentials.
+For authenticating requests to FirecREST, [client applications][ref-devportal-application] use an **access token** instead of directly using the user's credentials.
 The access token is a signed JSON Web Token ([JWT](https://jwt.io/introduction)) which contains user information and is only valid for a short time (5 minutes).
 Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
 
@@ -65,77 +65,14 @@ Every client has a client ID (Consumer Key) and a secret (Consumer Secret) that 
     ```
     curl -s -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
          --data "grant_type=client_credentials" \
-         --data "client_id=<your_client>" \
-         --data "client_secret=<your_secret>"
+         --data "client_id=<client_id>" \
+         --data "client_secret=<client_secret>"
     ```
 
 You can manage your client application on the [CSCS Developer Portal][ref-devportal].
 
-[](){#ref-devportal}
-### CSCS Developer Portal
 
-The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage subscriptions to an API at CSCS (such as FirecREST v1/v2).
-
-Start by browsing to [developer.cscs.ch](https://developer.cscs.ch), then sign in by clicking the "SIGN-IN" button on the top right hand corner of the page.
-
-Once logged in, you will see a list of APIs that are available to your user.
-
-!!! Warning
-    You might not see version 1 or version 2 of some API. You will be able to see all the versions when you *subscribe* your Application to the API.
-
-### Creating an Application
-
-Click on the "Applications" button at the top of the screen to manage your Applications.
-
-![FirecREST Main Page](../images/firecrest/f7t-apis.png)
-
-To create a new application, click on the "ADD NEW APPLICATION" button at the top of the Applications page, and complete the mandatory fields (marked with `*`).
-Make sure to give the application a unique name and select the number of requests per minute.
-When finished, click on the "Save" button.
-
-!!! note
-    To subscribe to an API you need at least one application, for which it is possible to use the DefaultApplication.
-
-!!! note
-    The quota of requests per minute will be shared by all subscribers to the Application over all APIs.
-
-### Configuring Production Keys
-
-Once the Application is created, create the Production Keys (`Client ID` and `Client Secret`) by clicking on "Production Keys" 
-
-![FirecREST production keys](../images/firecrest/f7t-keys.png)
-
-
-Use this if this is your first FirecREST application, or if you wish to create new keys.
-
-* click on the "Generate Keys" button at the bottom of the page
-
-![FirecREST existing keys](../images/firecrest/f7t-generate-keys.png)
-
-Once the keys are generated, you will see the pair "Consumer Key" and "Consumer Secret".
-
-![FirecREST keys](../images/firecrest/f7t-keys-overview.png)
-
-!!! warning
-    Store this pair of credentials securely, these are the access keys to your resources at CSCS.
-
-### Subscribe to an API
-
-Once you have set up your Application, is time to subscribe it to an API.
-
-To do so:
-
-* (8a) click on the "Subscriptions" option on the left panel
-* (8b) click the :fontawesome-solid-circle-plus: "Subscribe APIS" button
-* (8c) choose the API you want to subscribe to by clicking the "Subscribe" button
-
-![FirecREST subscriptions](../images/firecrest/f7t-api-subscriptions.png)
-
-Back on the Subscription Management page, you can review your active subscriptions and APIs that your Application has access to.
-
-![FirecREST subscription management](../images/firecrest/f7t-api-subscriptions-management.png)
-
-To use your Application to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
+To use your client credentials to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
 
 ## Getting Started
 
@@ -443,8 +380,9 @@ A staging area is used for external transfers and downloading/uploading a file f
 
 ## Further Information
 
-* [FirecREST UI for HPC Platform](https://my.hpcp.cscs.ch)
-* [FirecREST UI for ML Platform](https://my.mlp.cscs.ch)
+* [HPC Platform Dashboard](https://my.hpcp.cscs.ch)
+* [ML Platform Dashboard](https://my.mlp.cscs.ch)
+* [C&W Platform Dashboard](https://my.cwp.cscs.ch)
 * [FirecREST OpenAPI Specification](https://eth-cscs.github.io/firecrest-v2/openapi)
 * [FirecREST Official Docs](https://eth-cscs.github.io/firecrest-v2)
 * [Documentation of pyFirecREST](https://pyfirecrest.readthedocs.io/)

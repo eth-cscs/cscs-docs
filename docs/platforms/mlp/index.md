@@ -5,10 +5,21 @@ The Machine Learning Platform (MLP) provides compute, storage and expertise to t
 
 ## Getting started
 
+<div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: __ML Guides__
+
+    For an overview of how to use common machine learning software, tools and workflows, read our [machine learning documentation][ref-software-ml].
+
+    Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-tutorials-ml].
+
+    Check out the [PyTorch documentation][ref-software-pytorch] for information about how to run PyTorch.
+
+</div>
+
 ### Getting access
 
 Project administrators (PIs and deputy PIs) of projects on the MLP can to invite users to join their project, before they can use the project's resources on Alps.
-This is performed using the [project management tool][ref-account-waldur]
+This is performed using the [project management tool][ref-account-waldur].
 
 Once invited to a project, you will receive an email, which you need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
@@ -89,6 +100,3 @@ Project is per project - each project gets a project folder with project-specifi
 * hard limits on capacity and inodes prevent users from writing to project if the quota is reached - you can check quota and available space by running the [`quota`][ref-storage-quota] command on a login node or ela 
 * it is not recommended to write directly to the project path from jobs.
 
-## Guides and tutorials
-
-Tutorials for fine-tuning and running inference of LLMs as well as training an LLM with Nanotron can be found in the [MLP Tutorials][ref-guides-mlp-tutorials] page.

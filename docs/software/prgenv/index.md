@@ -5,24 +5,24 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-layer-group: [__prgenv-gnu__][ref-uenv-prgenv-gnu]
+-   :fontawesome-solid-layer-group: [__prgenv-gnu__][ref-uenv-prgenv-gnu] uenv
 
     Provides compilers, MPI, tools and libraries built around the GNU compiler toolchain.
     It is the go to programming environment on all systems and target node types, that is it is the first that you should try out when starting to compile an application or create a python virtual environment.
 
--   :fontawesome-solid-layer-group: [__prgenv-nvfortran__][ref-uenv-prgenv-nvfortran]
+-   :fontawesome-solid-layer-group: [__prgenv-nvfortran__][ref-uenv-prgenv-nvfortran] uenv
 
     Provides a set of tools and libraries for building applications that need the NVIDIA Fortran compiler, commonly required for OpenACC and CUDA-Fortran applications.
 
--   :fontawesome-solid-layer-group: [__linalg__][ref-uenv-linalg]
+-   :fontawesome-solid-layer-group: [__linalg__][ref-uenv-linalg] uenv
 
     Provides compilers, MPI and Python, along with linear algebra and mesh partitioning libraries for a broad range of use cases.
 
--   :fontawesome-solid-layer-group: [__julia__][ref-uenv-julia]
+-   :fontawesome-solid-layer-group: [__julia__][ref-uenv-julia] uenv
 
     Provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally.
 
--   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe]
+-   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe] containers
 
     The Cray Programming Environment (CPE) is a suite of compilers, libraries and tools provided by HPE.
 

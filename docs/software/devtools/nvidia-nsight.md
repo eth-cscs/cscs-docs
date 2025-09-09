@@ -26,6 +26,10 @@ As a sampling profiler, it can be easily used to profile applications written in
 ### Known Issues and Common Problems
 
 ??? warning "CrashReporter: Qt initialization failed, Failed to load Qt platform plugin: xcb"
+    !!! info "This workaround is not needed for uenvs that provide `xcb-util-cursor`"
+        Uenvs that provide the `xcb-util-cursor` package don't require this workaround anymore.
+        Starting with 25.6, the [`prgenv-gnu`][ref-uenv-prgenv-gnu] provides `xcb-util-cursor`.
+
     While we recommend using `ncu` instead of `ncu-ui`, it is possible to use X11 to launch ncu-ui.
     However, this will fail with the following error message: `Failed to load Qt platform plugin: "xcb"`.
 

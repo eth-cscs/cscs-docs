@@ -98,7 +98,7 @@ To build images, see the [guide to building container images on Alps][ref-build-
 
     CSCS will continue to support and update uenv and container engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
 
-    The CPE is still installed on Daint, however it will receive no support or updates, and will be replaced with a container in a future update.
+    The CPE is still installed on Daint, however it will receive no support or updates, and will be [replaced with a container][ref-cpe] in a future update.
 
 ## Running jobs on Daint
 

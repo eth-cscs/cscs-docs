@@ -1,36 +1,30 @@
-!!! info ""
-    This is the new CSCS documentation site, which replaces the [CSCS Knowledge Base](https://confluence.cscs.ch/display/KB).
-
-    The migration of old documentation is still not fully complete.
-    If you find documentation that is missing, please create a ticket on the documentation's [GitHub issue tracker](https://github.com/eth-cscs/cscs-docs/issues).
-
 # CSCS Documentation
 
-<div class="grid cards" markdown>
--    Visit the CSCS status site for the status of Alps systems, and the latest announcements.
-
-
-    [:octicons-arrow-right-24: status.cscs.ch](https://status.cscs.ch/)
-</div>
-
-The Alps Research infrastructure hosts multiple platforms and clusters targeting different communities
+The Alps Research Infrastructure hosts multiple platforms and clusters targeting different communities.
+A good spot to get started is with the documentation for the platform that your project is running on.
 
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-layer-group: __Platforms__
 
     Projects at CSCS are granted access to [clusters][ref-alps-clusters], which are managed by platforms.
-    Start by finding the platform for the cluster that you want to use.
+
+    [:octicons-arrow-right-24: HPC Platform (__Daint__, __Eiger__)][ref-platform-hpcp]
+
+    [:octicons-arrow-right-24: Machine Learning Platform (__Clariden__, __Bristen__)][ref-platform-mlp]
+
+    [:octicons-arrow-right-24: Climate and Weather Platform (__Santis__)][ref-platform-cwp]
+
+    For an overview of the different platforms:
 
     [:octicons-arrow-right-24: Platforms overview][ref-alps-platforms]
 
-    Go straight to the documentation for the platform that hosts your project:
+</div>
 
-    [:octicons-arrow-right-24: HPC Platform (Daint, Eiger)][ref-platform-hpcp]
+Alps is a general-purpose compute and data Research Infrastructure (RI) open to the broad community of researchers in Switzerland and the rest of the world.
+Find out more about Alps...
 
-    [:octicons-arrow-right-24: Machine Learning Platform (Clariden)][ref-platform-mlp]
-
-    [:octicons-arrow-right-24: Climate and Weather Platform (Santis)][ref-platform-cwp]
+<div class="grid cards" markdown>
 
 -   :fontawesome-solid-mountain-sun: __Alps__
 
@@ -46,52 +40,54 @@ The Alps Research infrastructure hosts multiple platforms and clusters targeting
 
     [:octicons-arrow-right-24: Alps Storage](alps/storage.md)
 
--   :fontawesome-solid-layer-group: __Accounts and Projects__
-
-    The first step is to get an account and a project
-
-    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
-
 -   :fontawesome-solid-key: __Logging In__
 
-    Once you have an account, you can set up multi factor authentication
+    Once you have an account, you can set up multi factor authentication:
 
     [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
 
-    Then access CSCS services
+    Then access CSCS services:
 
     [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
 
     [:octicons-arrow-right-24: Using SSH][ref-ssh]
 
+    [:octicons-arrow-right-24: FirecREST API][ref-firecrest]
+
 </div>
-
-[](){#ref-get-in-touch}
-## Get in Touch
-
-If you cannot find the information that you need in the documentation, help is available.
-
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-headset: __Get Help__
+-   :fontawesome-solid-layer-group: __Accounts and Projects__
 
-    Contact the CSCS Service Desk for help.
+    If you are a new user, or working on a project for the first time:
 
-    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
+    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
 
--   :fontawesome-regular-comments: __Chat__
-
-    Discuss Alps with other users and CSCS staff on Slack.
-
-    [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
+</div>
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-hammer: __Contribute__
-
-    The source for the documentation is hosted on GitHub.
-
-    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
+-   <p style="text-align:center">Visit <a href="https://status.cscs.ch/">status.cscs.ch</a> for the status of Alps systems, and the latest announcements.</p>
 </div>
+
+
+## Tutorials and Guides
+
+Learn by doing with our guides and tutorials.
+
+<div class="grid cards" markdown>
+-   :fontawesome-solid-layer-group: __Tutorials__
+
+    Hands on tutorials that show how to implement workflows on Alps.
+
+    [:octicons-arrow-right-24: Machine Learning][ref-tutorials-ml]
+
+-   :fontawesome-solid-mountain-sun: __Guides__
+
+    Guides with practical advice, hints and tips for key topics.
+
+    [:octicons-arrow-right-24: Using storage effectively][ref-guides-storage]
+
+    [:octicons-arrow-right-24: Accessing internet and external services][ref-guides-internet-access]
 
 </div>
 
@@ -106,7 +102,7 @@ If you cannot find the information that you need in the documentation, help is a
 
     Learn about individual services
 
-    [:octicons-arrow-right-24: FirecREST API](services/firecrest.md)
+    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
     [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
 
@@ -139,6 +135,35 @@ If you cannot find the information that you need in the documentation, help is a
     [:octicons-arrow-right-24: Long term storage](storage/longterm.md)
 
     [:octicons-arrow-right-24: Object storage](storage/object.md)
+
+</div>
+
+[](){#ref-get-in-touch}
+## Get in Touch
+
+If you cannot find the information that you need in the documentation, help is available.
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-headset: __Get Help__
+
+    Contact the CSCS Service Desk for help.
+
+    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
+
+-   :fontawesome-regular-comments: __Chat__
+
+    Discuss Alps with other users and CSCS staff on Slack.
+
+    [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
+
+<div class="grid cards" markdown>
+-   :fontawesome-solid-hammer: __Contribute__
+
+    The source for the documentation is hosted on GitHub.
+
+    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
+</div>
 
 </div>
 

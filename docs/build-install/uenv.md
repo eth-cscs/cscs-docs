@@ -1,4 +1,4 @@
-[](){#ref-building-uenv}
+[](){#ref-build-uenv}
 # Building with uenv
 
 Uenv are user environments that provide scientific applications, libraries and tools on [Alps][ref-alps]. 
@@ -7,7 +7,7 @@ This article explains how to use them to build software.
 For more documentation on how to find, download and use uenv in your workflow,
 see the [uenv documentation][ref-uenv].
 
-[](){#ref-building-uenv-spack}
+[](){#ref-build-uenv-spack}
 ## Building software using Spack
 
 Each uenv is tightly coupled with [Spack] and can be used as an upstream [Spack] instance, because
