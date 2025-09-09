@@ -13,7 +13,7 @@ As such, in the following documentation, we will use a PyTorch base container as
 The most commonly used Nvidia container used on Alps is the [Nvidia's PyTorch container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch). Typically the latest version is preferred for the most up-to-date functionalities of PyTorch.
 
 #### Example: Preparing a Nvidia PyTorch ContainerFile  
-```
+```dockerfile
 FROM --platform=linux/arm64 nvcr.io/nvidia/pytorch:25.08-py3
 
 ENV DEBIAN_FRONTEND=noninteractive
