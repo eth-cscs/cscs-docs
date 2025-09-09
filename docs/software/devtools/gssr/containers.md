@@ -117,5 +117,5 @@ The profiled output can be analysed as follows.:
 
     gssr analyze -i ./profile_out --report
 
-A/Multiple PDF report(s) will be generated.
+At least one PDF report will be generated.
 
