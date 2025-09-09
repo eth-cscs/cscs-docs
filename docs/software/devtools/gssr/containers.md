@@ -3,7 +3,8 @@
 
 The following guide will explain how to install and use `gssr` within a container.
 
-Most CSCS users leverage on the base containers with pre-installed CUDA from Nvidia. As such, in the following documentation, we will use a PyTorch base container as an example. 
+Most CSCS users leverage on the base containers with pre-installed CUDA from Nvidia.
+As such, in the following documentation, we will use a PyTorch base container as an example. 
 
 ## Preparing a container with `gssr`
 
