@@ -1,4 +1,6 @@
 JAX
+NPZ
 nvitop
 NVRTC
 placeholders
+Zarr
