@@ -20,6 +20,8 @@ While the container engine sets these automatically when using the NCCL hook, th
 --8<-- "docs/software/communication/nccl_env_vars"
 ```
 
+[_Demystifying NCCL: An In-depth Analysis of GPU Communication Protocols and Algorithms_](https://arxiv.org/abs/2507.04786v2) contains detailed information about NCCL algorithms and protocols, which can be helpful for deciding if your application could benefit from an alternative configuration.
+
 !!! warning "Using NCCL with uenvs"
     The environment variables listed above are not set automatically when using uenvs.
 

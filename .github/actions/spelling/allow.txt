@@ -140,6 +140,7 @@ customised
 cyberduck
 dbcsr
 dcomex
+demystifying
 dftb
 dftd
 diagonalisation
