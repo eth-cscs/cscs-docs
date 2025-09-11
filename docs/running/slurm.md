@@ -119,7 +119,7 @@ The following sections will document how to use Slurm on different compute nodes
 To demonstrate the effects different Slurm parameters, we will use a little command line tool [affinity](https://github.com/bcumming/affinity) that prints the CPU cores and GPUs that are assigned to each MPI rank in a job, and which node they are run on.
 
 We strongly recommend using a tool like affinity to understand and test the Slurm configuration for jobs, because the behavior of Slurm is highly dependent on the system configuration.
-Parameters that worked on a different cluster -- or with a different Slurm version or configuration on the same cluster -- are not guaranteed to give the same results.
+Parameters that worked on a different cluster---or with a different Slurm version or configuration on the same cluster---are not guaranteed to give the same results.
 
 It is straightforward to build the affinity tool to experiment with Slurm configurations.
 
@@ -488,7 +488,7 @@ rank   7 @ nid002199: thread 0 -> cores [112:127]
 
 ### OpenMP
 
-In the above examples all threads on each -- we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
+In the above examples all threads on each---we are effectively allowing the OS to schedule the threads on the available set of cores as it sees fit.
 This often gives the best performance, however sometimes it is beneficial to bind threads to explicit cores.
 
 The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assigned to each MPI rank.
@@ -599,7 +599,7 @@ First ensure that *all* resources are allocated to the whole job with the follow
 Next, launch your applications using `srun`, carefully subdividing resources for each job step.
 The `--exclusive` flag must be used again, but note that its meaning differs in the context of `srun`.
 Here, `--exclusive` ensures that only the resources explicitly requested for a given job step are reserved and allocated to it.
-Without this flag, Slurm reserves all resources for the job step, even if it only allocates a subset -- effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
+Without this flag, Slurm reserves all resources for the job step, even if it only allocates a subset---effectively blocking further parallel `srun` invocations from accessing unrequested but needed resources.
 
 Be sure to background each `srun` command with `&`, so that subsequent job steps start immediately without waiting for previous ones to finish.
 A final `wait` command ensures that your submission script does not exit until all job steps complete.

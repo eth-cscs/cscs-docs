@@ -35,7 +35,7 @@ The [`prgenv-gnu`][ref-uenv-prgenv-gnu] uenv is suitable for building WRF.
 ```
 uenv start prgenv-gnu/24.11:v2 --view=spack
 ```
-In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing -- check the `prgenv-gnu` [guide][ref-uenv-prgenv-gnu] for the latest version.
+In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing---check the `prgenv-gnu` [guide][ref-uenv-prgenv-gnu] for the latest version.
 
 ```bash
 # build the latest version provided by the version of Spack used by prgenv-gnu
