@@ -246,7 +246,10 @@ Compared to the original, upstream Pyxis code, the following user-facing differe
 !!! note
     As of September 10th, 2025, these items apply only to the Clariden and Santis vClusters.
 
-* **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and
-`SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container's environment. This behavior has been **disabled** by default. The remapping can be reactivated by setting the [annotation][ref-ce-annotations] `com.pyxis.pytorch_remap_vars="true"` in the EDF.
+* **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and `SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container's environment.
+  This behavior has been **disabled** by default.
+  The remapping can be reactivated by setting the [annotation][ref-ce-annotations] `com.pyxis.pytorch_remap_vars="true"` in the EDF.
 
-* **Logging container entrypoint output through EDF annotation:** by default, Pyxis hides the output of the container's entrypoint, if the latter is used. To make the entrypoint output printed on the stdout stream of the Slurm job, upstream Pyxis provides the `--container-entrypoint-log` CLI option for `srun`. In the Pyxis version used by the Container Engine, entrypoint output printing can also be enabled by setting the [annotation][ref-ce-annotations] `com.pyxis.entrypoint_log="true"` in the EDF.
+* **Logging container entrypoint output through EDF annotation:** by default, Pyxis hides the output of the container's entrypoint, if the latter is used.
+  To make the entrypoint output printed on the stdout stream of the Slurm job, upstream Pyxis provides the `--container-entrypoint-log` CLI option for `srun`.
+  In the Pyxis version used by the Container Engine, entrypoint output printing can also be enabled by setting the [annotation][ref-ce-annotations] `com.pyxis.entrypoint_log="true"` in the EDF.
