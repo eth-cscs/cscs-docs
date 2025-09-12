@@ -118,6 +118,10 @@ nav:
       - 'Linaro debugger': software/devtools/linaro-ddt.md
     - 'Using Score-P/Scalasca': software/devtools/vihps.md
     - 'Job report': running/jobreport.md
+    - 'GPU Saturation Scorer (gssr)': 
+      - software/devtools/gssr/index.md
+      - 'Quickstart Guide': software/devtools/gssr/quickstart.md
+      - 'Container Guide': software/devtools/gssr/containers.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
