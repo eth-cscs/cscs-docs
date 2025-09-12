@@ -67,3 +67,51 @@ While the container engine sets these automatically when using the NCCL hook, th
     ```
     
     If you only set `NCCL_NET="ofi"`, NCCL may silently fail to load the plugin but fall back to the default implementation.
+
+## Expected performance
+
+This section covers the expected performance behavior of the [NCCL Tests benchmark](https://github.com/NVIDIA/nccl-tests) suite on Alps.
+This information can be used as a reference for comparing with application behavior.
+The [NCCL Stack Constellation Benchmarks](https://github.com/jpcoles-cscs/nccl-stack-constellation-benchmarks) can be used to reproduce this information and also build and run the tests within a user's own environment.
+
+=== "NCCL v2.26"
+    === "Plots"
+        [Download PDF](nccl-assets/nccl-plots-226.pdf)
+        ![NCCL v2.26 benchmark performance](nccl-assets/nccl-plots-226.png)
+    === "Environment Settings"
+        [Download settings](nccl-assets/config_v226.sh)
+        ```bash
+        --8<-- "docs/software/communication/nccl-assets/config_v226.sh"
+        ```
+    === "Tuner parameters"
+        [Download parameters](nccl-assets/nccl_tuner_v226.conf)
+        ```
+        --8<-- "docs/software/communication/nccl-assets/nccl_tuner_v226.conf"
+        ```
+
+=== "NCCL v2.27"
+=== "NCCL v2.28"
+
+## NCCL Tuner Plugin
+
+NCCL has internal logic to choose the most performant communication algorithm given collective, message size, number of ranks, and other system characteristics.
+This logic has been optimized for the infiniband network and can perform suboptimally on the Slinghshot network of Alps.
+
+To achieve best results, it is necessary to use the NCCL Tuner Plugin along side a tuner configuration file.
+A modified tuner plugin for Alps is included in a [forked version of NCCL](https://github.com/jpcoles-cscs/nccl).
+The forked repository is only needed for building the tuner and is compatible with versions of NCCL >= 2.24 that support the `ncclTunerPlugin_v4` data structure.
+CSCS has prepared example configuration files for use in these benchmarks and can be used as a reference point for application-specific tuning.
+
+To use the CSCS tuner, first download, build, and copy the library to a preferred location:
+```console
+git clone --branch 2.27.7-1-cscs-tuner git@github.com:jpcoles-cscs/nccl.git nccl-tuner-cscs/nccl
+cd nccl-tuner-cscs/nccl/ext-tuner/example
+make
+cp libnccl-tuner-example.so $INSTALL_DIR/libnccl-tuner-cscs.so
+```
+Then point NCCL to the tuner library:
+```bash
+export NCCL_TUNER_PLUGIN=$INSTALL_DIR/libnccl-tuner-cscs.so
+```
+
+
