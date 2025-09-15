@@ -42,6 +42,8 @@ We will provide full support for 12 months after the uenv image is released, and
 
     The spack version used to build the packages was also upgraded to 1.0.
 
+    v2 of the uenv fixes the `modules` view, where `gcc` was missing in v1.
+
     ??? info "all packages exposed via the `default` and `modules` views in `v1`"
         * [aws-ofi-nccl@1.16.0](https://packages.spack.io/package.html?name=aws-ofi-nccl)
         * [boost@1.88.0](https://packages.spack.io/package.html?name=boost)
