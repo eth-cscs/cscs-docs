@@ -1,3 +1,17 @@
+## Buffer overflow errors with long command strings
+
+We are aware of an issue, as of the system update on 10th September 2025, which is causing a buffer overflow error and abrupt termination of jobs using the CE when entering very long strings as the command to execute in the Slurm job step.
+
+The issue presents itself with a error message similar to the following:
+
+```bash
+srun: error: nid001309: task 0: Aborted
+*** buffer overflow detected ***: terminated
+```
+
+We have identified the nature of the problem and are working towards deploying a fix.
+
+
 ## Compatibility with Alpine Linux
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
