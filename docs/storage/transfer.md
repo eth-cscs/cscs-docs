@@ -43,6 +43,7 @@ cp
 mv
 rm
 rsync
+rclone
 ```
 
 You can adjust the Slurm batch script below to transfer your input data on `$SCRATCH`, setting the variable command to the unix command that you intend to use, choosing from the list given above:
