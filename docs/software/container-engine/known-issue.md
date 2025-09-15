@@ -1,3 +1,9 @@
+## Buffer overflow errors with long command strings
+
+We are aware of an issue which is causing a buffer overflow error and abrupt termination of jobs using the CE when entering very long strings as the command to execute in the Slurm job step.
+
+We are actively investigating and we'll provide an update shortly.
+
 ## Compatibility with Alpine Linux
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
