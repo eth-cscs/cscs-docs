@@ -6,7 +6,22 @@ Most ML workloads are containerized to ensure portability, reproducibility, and 
 
 Users can choose between running containers, using provided uenv software stacks, or building custom Python environments tailored to their needs.
 
-First time users are recommended to consult the [LLM tutorials][ref-tutorials-ml] to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples. 
+First time users are recommended to consult the [LLM tutorials][ref-tutorials-ml] to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples.
+
+## Optimizing Data Loading for Machine Learning
+
+Efficient data management is essential for scalable machine learning workloads. Before beginning ML training, ensure your data access strategy maximizes throughput and minimizes impact on shared filesystems.
+
+Key recommendations:
+
+- **Avoid reading many small files or random small chunks from large files.** Instead, structure your datasets so that each access reads large, contiguous blocks of data, of at least 100MB per read request.
+- **Use formats designed for efficient sequential access.** For computer vision, formats like [TFRecords](https://www.tensorflow.org/tutorials/load_data/tfrecord) or [WebDataset](https://github.com/webdataset/webdataset) are commonly used. For other modalities, [HDF5](https://www.h5py.org/), [Zarr](https://zarr.readthedocs.io/), or even simple formats like a single NPZ file per training step can be effective — provided the data is chunked to match your reading pattern and that the chunks are large enough.
+- **Customize data packaging for your model.** Preprocessing and chunking data to fit the specific variables required by your ML model can improve performance, but may require creating a tailored copy of the dataset.
+- **Monitor your data loading performance.** The most reliable metric is the raw throughput of your dataloader (without the training model). However, be aware that this does not fully capture the impact on the shared filesystem.
+
+Optimizing data access not only improves training speed but also reduces contention on shared storage resources, benefiting all users.
+
+For detailed information on storage options and best practices for managing data on CSCS systems, refer to the [Storage Guide][ref-guides-storage].
 
 ## Running ML applications with containers (recommended)
 
