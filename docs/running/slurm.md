@@ -128,8 +128,8 @@ $ uenv start prgenv-gnu/24.11:v2 --view=default     #(1)
 $ git clone https://github.com/bcumming/affinity.git
 $ cd affinity; mkdir build; cd build;
 $ CC=gcc CXX=g++ cmake ..                           #(2)
-$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU=cuda       #(3)
-$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU=rocm       #(4)
+$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU_BACKEND=cuda       #(3)
+$ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU_BACKEND=rocm       #(4)
 ```
 
 1. Affinity can be built using [`prgenv-gnu`][ref-uenv-prgenv-gnu] on all clusters.
@@ -144,8 +144,8 @@ The build generates the following executables:
 
 * `affinity.omp`: tests thread affinity with no MPI (always built).
 * `affinity.mpi`: tests thread affinity with MPI (built by default).
-* `affinity.cuda`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU=cuda`).
-* `affinity.rocm`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU=rocm`).
+* `affinity.cuda`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU_BACKEND=cuda`).
+* `affinity.rocm`: tests thread and GPU affinity with MPI (built with `-DAFFINITY_GPU_BACKEND=rocm`).
 
 ??? example "Testing CPU affinity"
     Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
