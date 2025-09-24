@@ -93,16 +93,16 @@ Initial working directory when the container starts.
 
 ### `entrypoint`
 
- |             |        |
- |-------------|--------|
- | **Type**    | bool   |
- | **Default** | `true` |
+ |             |         |
+ |-------------|---------|
+ | **Type**    | bool    |
+ | **Default** | `false` |
 
 If true, run the entrypoint from the container image.
 
 !!! example
     ```toml
-    entrypoint = false
+    entrypoint = true
     ```
 
 ### `writable`
