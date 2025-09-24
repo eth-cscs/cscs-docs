@@ -10,4 +10,4 @@ Building on the first tutorial, in the [second tutorial][software-ml-llm-fine-tu
 In the [third tutorial][software-ml-llm-nanotron-tutorial], you will apply the techniques from the previous tutorials to enable distributed (pre-)training of a model in `nanotron` on multiple nodes. In particular, this tutorial makes use of model-parallelism and introduces the usage of `torchrun` to manage jobs on individual nodes.
 
 !!! note
-    The focus for these tutorials is on introducing concepts of the Machine Learning Platform. As such, they do not necessarily discuss the latest advancements or steps required to obtain maximum performance. For this purpose, consult the framework-specific pages, such as the one for [PyTorch][ref-software-ml-pytorch]. 
+    The focus for these tutorials is on introducing concepts of the Machine Learning Platform. As such, they do not necessarily discuss the latest advancements or steps required to obtain maximum performance. For this purpose, consult the framework-specific pages, such as the one for [PyTorch][ref-software-pytorch]. 

@@ -7,11 +7,11 @@
 
     [:octicons-arrow-right-24: CI/CD][ref-cicd]
 
--   :fontawesome-solid-mountain-sun: __FirecREST__
+-   :material-garage-variant-lock: __Developer Portal__
 
-    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
+    Enables CSCS users to create and manage subscriptions to an API.
 
-    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
+    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
 -   :fontawesome-solid-dharmachakra: __Kubernetes__
 

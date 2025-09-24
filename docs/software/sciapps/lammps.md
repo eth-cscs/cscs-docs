@@ -1,6 +1,10 @@
 [](){#ref-uenv-lammps}
 # LAMMPS
 
+!!! info ""
+    LAMMPS is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [LAMMPS] is a classical molecular dynamics code that models an ensemble of particles in a liquid, solid, or gaseous state.
 It can model atomic, polymeric, biological, metallic, granular, and coarse-grained systems using a variety of force fields and boundary conditions. 
 The current version of LAMMPS is written in C++.
@@ -69,9 +73,10 @@ A development view is also provided, which contains all libraries and command-li
     uenv start --view develop-gpu lammps/2024:v2
     ```
 
-### Running LAMMPS with Kokkos on the HPC Platform
+### Running LAMMPS with Kokkos on Daint
 
-To start a job, the following bash [Slurm ] submission script is required:
+[Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
+To start a job, the following bash [Slurm] submission script is required:
 
 ```bash title="run_lammps_kokkos.sh"
 #!/bin/bash -l
@@ -150,7 +155,7 @@ sbatch run_lammps_kokkos.sh
     run             $t
     ```
 
-### Running LAMMPS + GPU on the HPC Platform
+### Running LAMMPS + GPU on Daint
 
 To start a job, two bash scripts are required: a [Slurm][ref-slurm] submission script, and a wrapper for [CUDA MPS][ref-slurm-gh200-multi-rank-per-gpu].
 
@@ -257,7 +262,7 @@ srun --cpu-bind=cores lmp -k on t $OMP_NUM_THREADS -sf kk -in lj_kokkos.in
 5. Change `<LAMMPS_UENV>` to the name (or path) of the LAMMPS uenv you want to use.
 6. Enable the `kokkos` uenv view.
 
-Note that the same input file `lj_kokkos.in` can be used as with running LAMMPS with Kokkos on the HPC Platform.
+Note that the same input file `lj_kokkos.in` can be used as with running LAMMPS with Kokkos on [Daint][ref-cluster-daint].
 
 ### Building LAMMPS from source
 

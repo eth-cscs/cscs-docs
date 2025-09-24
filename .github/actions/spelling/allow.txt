@@ -76,6 +76,8 @@ NICs
 NVMe
 Nordend
 OpenFabrics
+OAuth
+OIDC
 OSS
 OSSs
 OTP
@@ -104,6 +106,7 @@ Scopi
 Signalkuppe
 TOTP
 UANs
+UIs
 UserLab
 Wannier
 XDG
@@ -137,6 +140,7 @@ customised
 cyberduck
 dbcsr
 dcomex
+demystifying
 dftb
 dftd
 diagonalisation
@@ -210,6 +214,7 @@ netlib
 netrc
 nql
 nsight
+nsys
 numa
 nvcr
 nvdashboard
@@ -226,6 +231,7 @@ opls
 osts
 osu
 papi
+paraview
 parmetis
 petsc
 pme
@@ -293,6 +299,7 @@ subtables
 supercomputing
 superlu
 sysadmin
+simberg
 tarball
 tcl
 tcsh
@@ -338,6 +345,7 @@ wikipedia
 wikitext
 wlcg
 workaround
+workarounds
 workflows
 wrf
 xattr
@@ -354,3 +362,4 @@ jobscript
 Scalasca
 tracefile
 Vampir
+XAmz

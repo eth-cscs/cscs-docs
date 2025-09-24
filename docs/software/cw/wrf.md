@@ -1,5 +1,10 @@
-[](){#ref-software-packages-wrf}
+[](){#ref-software-wrf}
 # WRF
+
+!!! warning ""
+    WRF is [user software][ref-support-user-apps] on Alps.
+    This guide is provided based on our experiences helping users -- however we can't provide the same level of support as we do for [supported software][ref-support-apps].
+    See the [main applications page][ref-software] for more information.
 
 [The Weather Research & Forecasting Model](https://www.mmm.ucar.edu/models/wrf) (WRF) is a numerical weather prediction system designed for both atmospheric research and weather forecasting.
 
@@ -7,7 +12,7 @@ It is used for CPU-only simulation on [Eiger][ref-cluster-eiger], for which this
 
 ## Using Spack
 
-Spack provides the [wrf](https://packages.spack.io/package.html?name=wrf) package, which we can install using the [uenv-spack][ref-building-uenv-spack] tool.
+Spack provides the [wrf](https://packages.spack.io/package.html?name=wrf) package, which we can install using the [uenv-spack][ref-build-uenv-spack] tool.
 
 First create a working directory where you will install the software.
 Here, we create it in your project's [Store][ref-storage-store] path, where the package can be accessed by all users in your project.
@@ -16,7 +21,7 @@ mkdir $STORE/wrf
 cd $STORE/wrf
 ```
 
-Then follow the steps in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`
+Then follow the steps in the [uenv-spack][ref-build-uenv-spack] guide to install `uenv-spack`
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git
@@ -30,7 +35,7 @@ The [`prgenv-gnu`][ref-uenv-prgenv-gnu] uenv is suitable for building WRF.
 ```
 uenv start prgenv-gnu/24.11:v2 --view=spack
 ```
-In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing -- check the `prgenv-gnu` [guide][ref-uenv-prgenv-gnu] for the latest version.
+In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing---check the `prgenv-gnu` [guide][ref-uenv-prgenv-gnu] for the latest version.
 
 ```bash
 # build the latest version provided by the version of Spack used by prgenv-gnu
@@ -161,7 +166,7 @@ The following dependencies that are not provided by `prgenv-gnu` are required:
 * `jasper~shared`: used by WPS (`~shared` will build static libraries, required by WPS).
 * `zlib-ng` and `libpng`: used by WPS.
 
-Then follow the steps in the [uenv-spack][ref-building-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
+Then follow the steps in the [uenv-spack][ref-build-uenv-spack] guide to install `uenv-spack`, which will be used to install the dependencies
 
 ```bash
 # download and install uenv-spack

@@ -18,6 +18,16 @@ CSCS offers a public cloud object storage service, based on the Ceph Object Gate
 
 ### AWS CLI
 
+!!! bug "XAmzContentSHA256Mismatch error"
+    Due to an incompatibility between newer versions of the AWS CLI and Ceph `18.2.4`, you may see an error like `XAmzContentSHA256Mismatch`. 
+    
+    This can be worked around by either pinning the AWS CLI to an older version (`< 2.23.0`), or exporting the following environment variables:
+
+    ```console
+    export AWS_REQUEST_CHECKSUM_CALCULATION=when_required
+    export AWS_RESPONSE_CHECKSUM_VALIDATION=when_required
+    ```
+
 #### Configuration
 
 The first step is to configure the profile:

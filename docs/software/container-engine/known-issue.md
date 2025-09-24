@@ -1,3 +1,17 @@
+## Buffer overflow errors with long command strings
+
+We are aware of an issue, as of the system update on 10th September 2025, which is causing a buffer overflow error and abrupt termination of jobs using the CE when entering very long strings as the command to execute in the Slurm job step.
+
+The issue presents itself with a error message similar to the following:
+
+```bash
+srun: error: nid001309: task 0: Aborted
+*** buffer overflow detected ***: terminated
+```
+
+We have identified the nature of the problem and are working towards deploying a fix.
+
+
 ## Compatibility with Alpine Linux
 
 Alpine Linux is incompatible with some hooks, causing errors when used with Slurm. For example,
@@ -52,3 +66,16 @@ Mounting individual home directories (usually located on the `/users` filesystem
 
 It is generally NOT recommended to mount home folders inside containers, due to the risk of exposing personal data to programs inside the container.
 Defining a mount related to `/users` in the EDF should only be done when there is a specific reason to do so, and the container image being deployed is trusted.
+
+[](){#ref-ce-why-no-sbatch-env}
+## Why `--environment` as `#SBATCH` is discouraged
+
+The use of `--environment` as `#SBATCH` is known to cause **unexpected behaviors** and is exclusively reserved for highly customized workflows. This is because `--environment` as `#SBATCH` puts the entire SBATCH script in a container from the EDF file. The following are a few known associated issues.
+
+ - **Slurm availability in a container**: Either Slurm components are not completely injected inside a container, or injected Slurm components do not function properly.
+
+ - **Non-host execution context**: Since the SBATCH script runs inside a container, most host resources are inaccessible by default unless EDF explicitly exposes them. Affected resources include: filesystems, devices, system resources, container hooks, etc.
+
+ - **Nested use of `--environment`**: running `srun --environment` in `#SBATCH --environment` results in double-entering EDF containers, causing unexpected errors in the underlying container runtime.
+
+To avoid any unexpected confusion, users are advised **not** to use `--environment` as `#SBATCH`. If users encounter a problem while using this, it's recommended to move `--environment` from `#SBATCH` to each `srun` and see if the problem disappears.

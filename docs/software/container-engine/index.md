@@ -34,8 +34,8 @@ A more detailed explanation of each entry for the EDF can be seen in the [EDF r
 
 ```toml
 image = "library/ubuntu:24.04"
-mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
-workdir = "/capstor/scratch/cscs/${USER}"
+mounts = ["${SCRATCH}:${SCRATCH}"]
+workdir = "${SCRATCH}"
 ```
 
 ### Step 2. Launch a program 

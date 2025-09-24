@@ -34,17 +34,30 @@ Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):
     #SBATCH --job-name=edf-example
     #SBATCH --time=00:01:00
     ...
-
-    # Run job step
     srun --environment=ubuntu cat /etc/os-release
     ```
+
+Multiple Slurm commands may have different EDF environments; this is useful when a single environment is not feasible due to compatibility issues or keep EDF files modular.
+
+!!! example "`srun`s with different EDFs"
+    ```bash
+    #!/bin/bash
+    #SBATCH --job-name=edf-example
+    #SBATCH --time=00:01:00
+    ...
+    srun --environment=env1 ... # (1)! 
+    ...
+    srun --environment=env2 ... # (2)!
+    ```
+    
+    1. Assuming `env1.toml` is at `EDF_PATH`. See [EDF search path][ref-ce-edf-search-path] below.
+    2. Assuming `env2.toml` is at `EDF_PATH`. See [EDF search path][ref-ce-edf-search-path] below.
 
 Specifying the `--environment` option with an `#SBATCH` option is **experimental**. 
 Such usage is discouraged as it may result in unexpected behaviors.
 
-!!! note
-    Specifying `--environment` with `#SBATCH` will put the entire batch script inside the containerized environment, requiring the Slurm hook to use any Slurm commands within the batch script (e.g., `srun` or `scontrol`). 
-    The hook is controlled by the `ENROOT_SLURM_HOOK` environment variable and activated by default on most vClusters.
+!!! warning 
+    The use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, and it may result in several **counterintuitive, hard-to-diagnose failures**. See [Why `--environment` as `#SBATCH` is discouraged][ref-ce-why-no-sbatch-env] for details.
 
 [](){#ref-ce-edf-search-path}
 ### EDF search path
@@ -71,14 +84,14 @@ If an EDF is located in the search path, its name can be used in the `--environm
     ...
     ```
 
-## Using container images 
+## Managing container images
 
 By default, images defined in the EDF as remote registry references (e.g. a Docker reference) are automatically pulled and locally cached.
 A cached image would be preferred to pulling the image again in later usage.
 
 An image cache is automatically created at `.edf_imagestore` in the user's scratch folder (i.e., `${SCRATCH}/.edf_imagestore`). Cached images are stored with the corresponding CPU architecture suffix (e.g., `x86` and `aarch64`). Remove the cached image to force re-pull.
 
-An alternative image store path can be specify by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder. Image caching may also be disable by setting `EDF_IMAGESTORE` to `void` (currently only available on Daint and Santis).
+An alternative image store path can be specify by defining the environment variable `EDF_IMAGESTORE`. `EDF_IMAGESTORE` must be an absolute path to an existing folder. Image caching may also be disable by setting `EDF_IMAGESTORE` to `void`.
 
 !!! note
     * If the CE cannot create a directory for the image cache, it operates in cache-free mode, meaning that it pulls an ephemeral image before every container launch and discards it upon termination.
@@ -214,9 +227,6 @@ See [the EDF reference][ref-ce-edf-reference] for the full specification of the 
 [](){#ref-ce-run-mounting-squashfs}
 ### Mounting a SquashFS image
 
-!!! warning
-    This feature is only available on some vClusters (Daint and Santis, as of 17.06.2025).
-
 A SquashFS image, essentially being a compressed data archive, can also be mounted _as a directory_ so that the image contents are readable inside the container. For this, `:sqsh` should be appended after the destination.
 
 !!! example "Mounting a SquashFS image `${SCRATCH}/data.sqsh` to `/data`" 
@@ -225,3 +235,21 @@ A SquashFS image, essentially being a compressed data archive, can also be mount
     ```
 
 This is particularly useful if a job should read _multiple_ data files _frequently_, which may cause severe file access overheads. Instead, it is recommended to pack data files into one data SquashFS image and mount it inside a container. See the *"magic phrase"* in [this documentation](https://tldp.org/HOWTO/SquashFS-HOWTO/creatingandusing.html) for creating a SquashFS image.
+
+
+## Differences from upstream Pyxis
+
+The Container Engine currently uses a customized version of [NVIDIA Pyxis](https://github.com/NVIDIA/pyxis) to integrate containers with Slurm.
+
+Compared to the original, upstream Pyxis code, the following user-facing differences should be noted:
+
+!!! note
+    As of September 10th, 2025, these items apply only to the Clariden and Santis vClusters.
+
+* **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and `SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container's environment.
+  This behavior has been **disabled** by default.
+  The remapping can be reactivated by setting the [annotation][ref-ce-annotations] `com.pyxis.pytorch_remap_vars="true"` in the EDF.
+
+* **Logging container entrypoint output through EDF annotation:** by default, Pyxis hides the output of the container's entrypoint, if the latter is used.
+  To make the entrypoint output printed on the stdout stream of the Slurm job, upstream Pyxis provides the `--container-entrypoint-log` CLI option for `srun`.
+  In the Pyxis version used by the Container Engine, entrypoint output printing can also be enabled by setting the [annotation][ref-ce-annotations] `com.pyxis.entrypoint_log="true"` in the EDF.

@@ -239,14 +239,15 @@ com.hooks.ssh.enabled = "true"
 com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
 ```
 
-1. Replace `<public-key>` with your SSH public key.
+1. Replace `<public-key>` with the path to your SSH public key file.
 
 The SSH hook runs a lightweight, statically-linked SSH server (a build of [Dropbear](https://matt.ucc.asn.au/dropbear/dropbear.html)) inside the container.
 While the container is running, it's possible to connect to it from a remote host using a private key matching the public one authorized in the EDF annotation.
 It can be useful to add SSH connectivity to containers (for example, enabling remote debugging) without bundling an SSH server into the container image or creating ad-hoc image variants for such purposes.
 
 The `com.hooks.ssh.authorize_ssh_key` annotation allows the authorization of a custom public SSH key for remote connections.
-The annotation value must be the absolute path to a text file containing the public key (just the public key without any extra signature/certificate).
+The annotation value must be the absolute path to a *text file* containing the public key (just the public key without any extra signature/certificate).
+The annotation value should not be the public SSH key itself.
 After the container starts, it is possible to get a remote shell inside the container by connecting with SSH to the listening port.
 
 By default, the server started by the SSH hook listens to port 15263, but this setting can be controlled through the `com.hooks.ssh.port` annotation in the EDF.
@@ -312,7 +313,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     8
     ```
 
-??? example "Available GPUs and oversubscription error"
+??? example "Available GPUs and oversubscription error *without* the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda.toml"
     image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
     ```

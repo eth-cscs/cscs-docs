@@ -67,7 +67,7 @@ The Store (or Project) file system is provided as a space to store datasets, cod
 The environment variable `$STORE` can be used as a shortcut to access the Store folder of your primary project.
 
 Hard limits on the amount of data and number of files (inodes) will prevent you from writing to [Store][ref-storage-store] if your quotas are exceeded.
-You can check how much data and inodes you are consuming -- and their respective quotas -- by running the [`quota`][ref-storage-quota] command on a login node.
+You can check how much data and inodes you are consuming---and their respective quotas---by running the [`quota`][ref-storage-quota] command on a login node.
 
 !!! warning
     It is not recommended to write directly to the `$STORE` path from batch jobs. 

@@ -26,6 +26,12 @@ This documentation guides users through the process of accessing CSCS systems an
 
     [:octicons-arrow-right-24: SSH][ref-ssh]
 
+-   :material-fire-circle: __FirecREST__
+
+    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
+
+    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
+
 -   :simple-jupyter: __JupyterLab__
 
     JupyterLab is a feature-rich notebook authoring application and editing environment.

@@ -3,21 +3,23 @@
 
 The Machine Learning Platform (MLP) provides compute, storage and expertise to the machine learning and AI community in Switzerland, with the main user being the [Swiss AI Initiative](https://www.swiss-ai.org/).
 
+## Getting started
+
 <div class="grid cards" markdown>
--   :fontawesome-solid-mountain: [__Tutorials__][ref-tutorials-ml]
+-   :fontawesome-solid-mountain: __ML Guides__
+
+    For an overview of how to use common machine learning software, tools and workflows, read our [machine learning documentation][ref-software-ml].
 
     Tutorials on how to set up and configure a machine learning environment in order to run LLM workloads such as inference, fine-tuning and multi-node training can be found in the [tutorials section][ref-tutorials-ml].
 
-    Also check out the [PyTorch documentation][ref-software-ml-pytorch] for information about how to run PyTorch.
+    Check out the [PyTorch documentation][ref-software-pytorch] for information about how to run PyTorch.
 
 </div>
-
-## Getting started
 
 ### Getting access
 
 Project administrators (PIs and deputy PIs) of projects on the MLP can to invite users to join their project, before they can use the project's resources on Alps.
-This is performed using the [project management tool][ref-account-waldur]
+This is performed using the [project management tool][ref-account-waldur].
 
 Once invited to a project, you will receive an email, which you need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 

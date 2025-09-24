@@ -1,4 +1,4 @@
-[](){#ref-software-packages-matlab}
+[](){#ref-software-matlab}
 # Matlab
 
 CSCS does not have a license to provide [Matlab](https://www.mathworks.com/products/matlab.html) to users on Alps.
