@@ -198,7 +198,7 @@ you can provide it as an argument to `uenv-spack`:
 
 ### Build the software
 
-Once specs have been added to `spack.yaml`, you can build the image using the `build` script that was generated in `<build-dir>`:
+Once specs have been added to `spack.yaml`, you can build the image using the `build` script that was generated in `<build-path>`:
 
 ```bash
 ./build
@@ -216,11 +216,11 @@ The build step generates multiple outputs, described below.
 
 ### Installed packages
 
-The packages built by Spack are installed in `<build-dir>/store`.
+The packages built by Spack are installed in `<build-path>/store`.
 
 ### Spack view
 
-A Spack view is generated in `<build-dir>/view`.
+A Spack view is generated in `<build-path>/view`.
 
 ### Modules
 
@@ -229,7 +229,7 @@ Module files are generated in the `module` sub-directory of the `<build-path>`
 To use them, add them to the module environment
 
 ```bash
-module use <build-dir>/modules # (1)!
+module use <build-path>/modules # (1)!
 module avail # (2)!
 ```
 
@@ -237,7 +237,7 @@ module avail # (2)!
 2. Check that the modules are available.
 
 !!! note
-    The generation of modules can be customised by editing the `<build-dir>/config/user/modules.yaml` file _before_ running `build`.
+    The generation of modules can be customised by editing the `<build-path>/config/user/modules.yaml` file _before_ running `build`.
     See the [Spack modules] documentation.
 
 ### Use the software
@@ -254,7 +254,7 @@ To use the installed software, you have the following options:
 
 * Loading modules
 * Activate the Spack view
-* `source <build-dir>/spack/share/spack/setup-env.sh` and then use Spack
+* `source <build-path>/spack/share/spack/setup-env.sh` and then use Spack
 
 [Chaining Spack Installations]: https://spack.readthedocs.io/en/latest/chain.html
 [Spack]: https://spack.readthedocs.io/en/latest/
