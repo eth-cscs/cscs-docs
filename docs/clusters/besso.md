@@ -1,10 +1,8 @@
 [](){#ref-cluster-besso}
 # Besso
 
-Besso is an Alps cluster that provides development resources for porting software for selected customers.
-
-!!! note
-    Besso is a small system for development work for selected customers.
+Besso is a small Alps cluster that provides development resources for porting software for selected customers.
+It is provided as is, without the same level of support as the main platform clusters.
 
 ### Storage and file systems
 

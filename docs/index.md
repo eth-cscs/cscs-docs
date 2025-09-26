@@ -30,15 +30,15 @@ Find out more about Alps...
 
     Learn more about the Alps research infrastructure
 
-    [:octicons-arrow-right-24: Alps Overview](alps/index.md)
+    [:octicons-arrow-right-24: Alps Overview][ref-alps]
 
     Get detailed information about the main components of the infrastructure
 
-    [:octicons-arrow-right-24: Alps Clusters](alps/clusters.md)
+    [:octicons-arrow-right-24: Alps Clusters][ref-alps-clusters]
 
-    [:octicons-arrow-right-24: Alps Hardware](alps/hardware.md)
+    [:octicons-arrow-right-24: Alps Hardware][ref-alps-hardware]
 
-    [:octicons-arrow-right-24: Alps Storage](alps/storage.md)
+    [:octicons-arrow-right-24: Alps Storage][ref-alps-storage]
 
 -   :fontawesome-solid-key: __Logging In__
 
