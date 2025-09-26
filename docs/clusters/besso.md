@@ -32,17 +32,9 @@ To connect to Besso via SSH, first refer to the [ssh guide][ref-ssh].
 [](){#ref-cluster-besso-uenv}
 #### uenv
 
-CSCS does not provide officialy supported applications on Besso.
-Basic programming environments are provided for the a100 and mi200 node types.
+Besso is a development and testing system, for which CSCS does not provide supported applications.
 
-<div class="grid cards" markdown>
-
--    :fontawesome-solid-layer-group: __Programming Environments__
-
-    Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
-
-    * [prgenv-gnu][ref-uenv-prgenv-gnu]
-</div>
+Instead, the [prgenv-gnu][ref-uenv-prgenv-gnu] programming environment is provided for the both the [a100][ref-alps-a100-node] and [mi200][ref-alps-mi200-node] node types.
 
 [](){#ref-cluster-besso-containers}
 #### Containers

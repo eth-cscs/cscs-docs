@@ -48,7 +48,7 @@ The following clusters are part of the platforms that are fully operated by CSCS
 <div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: __Porting and Development__
 
-    Besso is a small system for selected customers to do code portina and development with AMD and NVIDIA GPUs.
+    Besso is a small system used by some partners for development and porting with AMD and NVIDIA GPUs.
 
     [:octicons-arrow-right-24: Besso][ref-cluster-besso]
 </div>
