@@ -48,6 +48,6 @@ If you encounter issues or have suggestions, please [let us know][ref-get-in-tou
 
 ## Further information
 
-* [HPC Console doc](https://eth-cscs.github.io/firecrest-ui/home/)
-* [Github Repo](https://github.com/eth-cscs/firecrest-ui)
-* [FirecREST doc](https://eth-cscs.github.io/firecrest-v2)
+* [FirecREST UI documentation](https://eth-cscs.github.io/firecrest-ui)
+* [FirecREST UI repository](https://github.com/eth-cscs/firecrest-ui)
+* [FirecREST documentation](https://eth-cscs.github.io/firecrest-v2)
