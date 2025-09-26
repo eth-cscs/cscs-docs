@@ -44,7 +44,7 @@ HPC console is currently available on three [Alps platforms][ref-alps-platforms]
 ## Feedback
 
 We welcome your feedback to help us improve HPC Console.
-If you encounter issues or have suggestions, please let us know via our [Service Desk](https://jira.cscs.ch/plugins/servlet/desk).
+If you encounter issues or have suggestions, please [let us know][ref-get-in-touch].
 
 ## Further information
 
