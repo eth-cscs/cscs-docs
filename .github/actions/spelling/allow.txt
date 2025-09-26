@@ -25,6 +25,7 @@ Ehrenfest
 Errigal
 FFT
 Fawzi
+Firefox
 Fock
 Foket
 GAPW
