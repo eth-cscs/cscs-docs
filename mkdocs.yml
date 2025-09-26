@@ -37,6 +37,7 @@ nav:
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
     - 'FirecREST': access/firecrest.md
+    - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Running Jobs':
