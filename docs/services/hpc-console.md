@@ -6,7 +6,6 @@ HPC Console is a web application that provides users with a modern web-based env
 
 ## Features
 
-- A modern web interface built on FirecREST API functionalities.
 - A dashboard offering an overview of configured clusters and their statuses.
 - A dedicated view for creating and monitoring jobs.
 - A file navigator with basic file management functionalities, including upload and download features.
