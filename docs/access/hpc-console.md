@@ -1,7 +1,6 @@
 [](){#hpc-console}
 # HPC Console
 
-HPC Console is a web application designed to provide essential functionalities for interacting with [FirecREST API v2 backend][ref-firecrest].
 HPC Console is a web application that provides users with a modern web-based environment to interact with HPC resources such as clusters, job schedulers, and filesystems.
 
 ## Features
