@@ -6,13 +6,6 @@ HPC Console is a web application that provides users with a modern web-based env
 
 ## Features
 
-- A dashboard offering an overview of configured clusters and their statuses.
-- A dedicated view for creating and monitoring jobs.
-- A file navigator with basic file management functionalities, including upload and download features.
-
-A description of the views and functionalities can be found [here](https://eth-cscs.github.io/firecrest-ui/documentation/).
-
-## Views overview
 
 - Dashboard – shows cluster availability and basic system status.
 - Jobs – allows creating, submitting, and monitoring jobs. Users can provide job name, script, and resource requirements.
