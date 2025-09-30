@@ -59,12 +59,13 @@ nav:
       - 'Using the Container Engine': software/container-engine/run.md
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
-      - 'Guidelines for images on Alps': software/container-engine/examples/guidelines-images.md
-        - software/container-engine/examples/image-comm-fwk.md
-        - software/container-engine/examples/image-mpich.md
-        - software/container-engine/examples/image-compi.md
-        - software/container-engine/examples/image-nccl-tests.md
-        - software/container-engine/examples/image-nvshmem.md
+      - 'Guidelines for images on Alps':
+        - software/container-engine/examples/guidelines-images.md
+        - 'Communication frameworks image': software/container-engine/examples/image-comm-fwk.md
+        - 'MPICH image': software/container-engine/examples/image-mpich.md
+        - 'OpenMPI image': software/container-engine/examples/image-ompi.md
+        - 'NCCL Tests image': software/container-engine/examples/image-nccl-tests.md
+        - 'NVSHMEM image': software/container-engine/examples/image-nvshmem.md
       - 'Known issues': software/container-engine/known-issue.md
   - 'Building and Installing Software':
     - build-install/index.md
