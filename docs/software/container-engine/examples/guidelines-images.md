@@ -1,7 +1,7 @@
 [](){#ref-ce-guidelines-images}
 # Guidelines for images on Alps
 
-This section offers some guidelines about creating and using container images that achieve good performance on the Alps reseach infrastructure.
+This section offers some guidelines about creating and using container images that achieve good performance on the Alps research infrastructure.
 The section focuses on foundational components (such as communication libraries) which are essential to enabling performant effective usage of Alps' capabilities, rather than full application use cases.
 Synthetic benchmarks are also used to showcase quantitative performance.
 
