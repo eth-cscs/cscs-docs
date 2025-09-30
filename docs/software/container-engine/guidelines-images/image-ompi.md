@@ -419,7 +419,7 @@ com.hooks.cxi.enabled="false"
 
 === "Point-to-point bandwidth, CPU-to-CPU memory, inter-node communication"
     ```console
-   $ srun -N2 --mpi=pmix --environment=omb-ompi-no-cxi ./pt2pt/osu_bw --validation
+    $ srun -N2 --mpi=pmix --environment=omb-ompi-no-cxi ./pt2pt/osu_bw --validation
 
     # OSU MPI Bandwidth Test v7.5
     # Datatype: MPI_CHAR.
