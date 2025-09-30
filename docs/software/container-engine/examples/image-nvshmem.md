@@ -104,7 +104,7 @@ com.hooks.aws_ofi_nccl.variant = "cuda12"
 
 - NVSHMEM's `libfabric` transport does not support VMM yet, so VMM must be disabled by setting the environment variable `NVSHMEM_DISABLE_CUDA_VMM=1`.
 - Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option `--mpi=pmix` must be used to run successful multi-rank jobs.
-- Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM throug the related [environment variables](https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options). When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
+- Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options). When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
 - NCCL requires the presence of the [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) in order to correctly interface with Libfabric and (through the latter) the Slingshot interconnect. Therefore, for optimal performance the [related CE hook][ref-ce-aws-ofi-hook] must be enabled and set to match the CUDA version in the container.
 - Libfabric itself is usually injected by the [CXI hook][ref-ce-cxi-hook], which is enabled by default on several Alps vClusters.
 

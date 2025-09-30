@@ -45,7 +45,7 @@ RUN wget -q https://www.mpich.org/static/downloads/${MPI_VER}/mpich-${MPI_VER}.t
 
 ## Performance examples
 
-In this section we demonstrate the performance of the previosly created MPICH image using it to build the OSU Micro-Benchmarks 7.5.1, and deploying the resulting image on Alps through the Container Engine to run a variety of benchmarks.
+In this section we demonstrate the performance of the previously created MPICH image using it to build the OSU Micro-Benchmarks 7.5.1, and deploying the resulting image on Alps through the Container Engine to run a variety of benchmarks.
 
 A build of the image with the OSU benchmarks is available on the [Quay.io](https://quay.io/) registry at the following reference:
 `quay.io/ethcscs/osu-mb:7.5-mpich4.3.1-ofi1.22-cuda12.8`.

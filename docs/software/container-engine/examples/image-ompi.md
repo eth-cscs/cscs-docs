@@ -39,7 +39,7 @@ RUN wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-${OMPI_V
 
 ## Performance examples
 
-In this section we demonstrate the performance of the previosly created OpenMPI image using it to build the OSU Micro-Benchmarks 7.5.1, and deploying the resulting image on Alps through the Container Engine to run a variety of benchmarks.
+In this section we demonstrate the performance of the previously created OpenMPI image using it to build the OSU Micro-Benchmarks 7.5.1, and deploying the resulting image on Alps through the Container Engine to run a variety of benchmarks.
 
 A build of the image with the OSU benchmarks is available on the [Quay.io](https://quay.io/) registry at the following reference:
 `quay.io/ethcscs/osu-mb:7.5-ompi5.0.8-ofi1.22-cuda12.8`.
