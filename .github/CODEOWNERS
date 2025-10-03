@@ -1,7 +1,7 @@
 * @bcumming @msimberg @RMeli
 docs/access/jupyterlab.md @rsarm
-docs/services/firecrest.md @jpdorsch @ekouts @theely @iB0nes
-docs/services/devportal.md @jpdorsch @ekouts @theely @iB0nes
+docs/services/firecrest.md @jpdorsch @ekouts @theely @ibonesana-ethz
+docs/services/devportal.md @jpdorsch @ekouts @theely @ibonesana-ethz
 docs/services/kubernetes @eliaoggian
 docs/software/communication @Madeeks @msimberg
 docs/software/devtools/linaro @jgphpc
