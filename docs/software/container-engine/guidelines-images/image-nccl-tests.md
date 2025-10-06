@@ -41,12 +41,14 @@ RUN wget -O nccl-tests-${nccl_tests_version}.tar.gz https://github.com/NVIDIA/nc
 image = "quay.io#ethcscs/nccl-tests:2.17.1-ompi5.0.8-ofi1.22-cuda12.8"
 
 [env]
-PMIX_MCA_psec="native"
+PMIX_MCA_psec="native" # (1)!
 
 [annotations]
 com.hooks.aws_ofi_nccl.enabled = "true"
 com.hooks.aws_ofi_nccl.variant = "cuda12"
 ```
+
+1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 
 ### Notes
 

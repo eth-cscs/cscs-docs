@@ -90,19 +90,21 @@ RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/3.4.5/s
 image = "quay.io#ethcscs/nvshmem:3.4.5-ompi5.0.8-ofi1.22-cuda12.8"
 
 [env]
-PMIX_MCA_psec="native"
+PMIX_MCA_psec="native" # (1)!
 NVSHMEM_REMOTE_TRANSPORT="libfabric"
 NVSHMEM_LIBFABRIC_PROVIDER="cxi"
-NVSHMEM_DISABLE_CUDA_VMM="1"
+NVSHMEM_DISABLE_CUDA_VMM="1" # (2)!
 
 [annotations]
 com.hooks.aws_ofi_nccl.enabled = "true"
 com.hooks.aws_ofi_nccl.variant = "cuda12"
 ```
 
+1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
+2. NVSHMEM's `libfabric` transport does not support VMM yet, so VMM must be disabled by setting the environment variable `NVSHMEM_DISABLE_CUDA_VMM=1`.
+
 ### Notes
 
-- NVSHMEM's `libfabric` transport does not support VMM yet, so VMM must be disabled by setting the environment variable `NVSHMEM_DISABLE_CUDA_VMM=1`.
 - Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option `--mpi=pmix` must be used to run successful multi-rank jobs.
 - Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options). When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
 - NCCL requires the presence of the [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) in order to correctly interface with Libfabric and (through the latter) the Slingshot interconnect. Therefore, for optimal performance the [related CE hook][ref-ce-aws-ofi-hook] must be enabled and set to match the CUDA version in the container.

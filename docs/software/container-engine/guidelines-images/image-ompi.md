@@ -71,8 +71,10 @@ WORKDIR /usr/local/libexec/osu-micro-benchmarks/mpi
 image = "quay.io#ethcscs/osu-mb:7.5-ompi5.0.8-ofi1.22-cuda12.8"
 
 [env]
-PMIX_MCA_psec="native"
+PMIX_MCA_psec="native" # (1)!
 ```
+
+1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 
 ### Notes
 
