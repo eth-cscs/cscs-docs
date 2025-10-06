@@ -1,7 +1,7 @@
 [](){#ref-ce-guidelines-images-nvshmem}
 # NVSHMEM image
 
-This page describes a container image featuring the [NVSHMEM](https://developer.nvidia.com/nvshmem) parallel programming library with support for Libfabric, and demonstrates how to efficiently run said image on Alps.
+This page describes a container image featuring the [NVSHMEM](https://developer.nvidia.com/nvshmem) parallel programming library with support for libfabric, and demonstrates how to efficiently run said image on Alps.
 
 This image is based on the [OpenMPI image][ref-ce-guidelines-images-ompi], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
 
@@ -79,7 +79,7 @@ RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/3.4.5/s
 
 !!! note
     - This image also builds the performance tests bundled with NVSHMEM (`NVSHMEM_BUILD_TESTS=1`) to demonstrate performance below. The performance tests, in turn, require the installation of Python dependencies. When building images intended solely for production purposes, you may exclude both those elements.
-    - Notice that NVSHMEM is configured with support for Libfabric explicitly enabled (`NVSHMEM_LIBFABRIC_SUPPORT=1`).
+    - Notice that NVSHMEM is configured with support for libfabric explicitly enabled (`NVSHMEM_LIBFABRIC_SUPPORT=1`).
     - Since this image is meant primarily to run on Alps, NVSHMEM is built without support for UCX and Infiniband components. 
     - Since this image uses OpenMPI (which provides PMIx) as MPI implementation, NVSHMEM is also configured to default to PMIx for bootstrapping (`NVSHMEM_PMIX_SUPPORT=1`).
 

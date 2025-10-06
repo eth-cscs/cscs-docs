@@ -5,9 +5,9 @@ This page describes a container image providing foundational software components
 
 The most important aspect to consider for performance of containerized applications is related to use of high-speed networks,
 therefore this image mainly installs communication frameworks and libraries, besides general utility tools.
-In particular, the [Libfabric](https://ofiwg.github.io/libfabric/) framework (also known as Open Fabrics Interfaces - OFI) is required to interface applications with the Slingshot high-speed network.
+In particular, the [libfabric](https://ofiwg.github.io/libfabric/) framework (also known as Open Fabrics Interfaces - OFI) is required to interface applications with the Slingshot high-speed network.
 
-At runtime, the container engine [CXI hook][ref-ce-cxi-hook] will replace the Libfabric libraries inside the container with the corresponding libraries on the host system.
+At runtime, the container engine [CXI hook][ref-ce-cxi-hook] will replace the libfabric libraries inside the container with the corresponding libraries on the host system.
 This will ensure access to the Slingshot interconnect.
 
 This image is not intended to be used on its own, but to serve as a base to build higher-level software (e.g. MPI implementations) and application stacks.
@@ -101,5 +101,5 @@ RUN wget https://github.com/openucx/ucx/releases/download/v${UCX_VERSION}/ucx-${
 ## Notes
 - The image is based on an official NVIDIA CUDA image, and therefore already provides the NCCL library, alongside a complete CUDA installation.
 - Communication frameworks are built with explicit support for CUDA and GDRCopy.
-- The libfabric EFA provider is included to leave open the possibility to experiment with derived images on AWS infrastructure as well.
+- The libfabric [EFA](https://aws.amazon.com/hpc/efa/) provider is included to leave open the possibility to experiment with derived images on AWS infrastructure as well.
 - Although only the libfabric framework is required to support Alps' Slingshot network, this image also packages the UCX communication framework to allow building a broader set of software (e.g. some OpenSHMEM implementations) and supporting optimized Infiniband communication as well.
