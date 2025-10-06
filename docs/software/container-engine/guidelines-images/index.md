@@ -29,7 +29,7 @@ Below is a summary of the software suggested and demonstrated throughout this se
 
 The content is organized in pages which detail container images building incrementally upon each other:
 
-- a base image installing baseline libraries and frameworks (e.g. CUDA, libfabric)
-- MPI implementations (MPICH, OpenMPI)
-- NVSHMEM
-- NCCL tests
+- a [base image][ref-ce-guidelines-images-commfwk] installing baseline libraries and frameworks (e.g. CUDA, libfabric)
+- MPI implementations ([MPICH][ref-ce-guidelines-images-mpich], [OpenMPI][ref-ce-guidelines-images-ompi])
+- [NVSHMEM][ref-ce-guidelines-images-nvshmem]
+- [NCCL tests][ref-ce-guidelines-images-nccl-tests]
