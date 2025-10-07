@@ -117,6 +117,140 @@ Note that shared libraries might not be found when executing VASP, if the makefi
 
 Examples for Makefiles that set the necessary rpath and link options on GH200:
 
+
+??? note "Makefile for v6.5.1"
+    ```make
+    # Default precompiler options
+    CPP_OPTIONS = -DHOST=\"LinuxNV\" \
+                  -DMPI -DMPI_INPLACE -DMPI_BLOCK=8000 -Duse_collective \
+                  -DscaLAPACK \
+                  -DCACHE_SIZE=4000 \
+                  -Davoidalloc \
+                  -Dvasp6 \
+                  -Dtbdyn \
+                  -Dqd_emulate \
+                  -Dfock_dblbuf \
+                  -D_OPENMP \
+                  -DACC_OFFLOAD \
+                  -DNVCUDA \
+                  -DUSENCCL \
+                  -DCRAY_MPICH
+
+    CPP         = nvfortran -Mpreprocess -Mfree -Mextend -E $(CPP_OPTIONS) $*$(FUFFIX)  > $*$(SUFFIX)
+
+    CUDA_VERSION = $(shell nvcc -V | grep -E -o -m 1 "[0-9][0-9]\.[0-9]," | rev | cut -c 2- | rev)
+
+    CC          = mpicc -acc -gpu=cc90,cuda${CUDA_VERSION} -mp
+    FC          = mpif90 -acc -gpu=cc90,cuda${CUDA_VERSION} -mp
+    FCL         = mpif90 -acc -gpu=cc90,cuda${CUDA_VERSION} -mp -c++libs
+
+    FREE        = -Mfree
+
+    FFLAGS      = -Mbackslash -Mlarge_arrays
+
+    OFLAG       = -fast
+
+    DEBUG       = -Mfree -O0 -traceback
+
+    LLIBS       = -cudalib=cublas,cusolver,cufft,nccl -cuda
+
+    # Redefine the standard list of O1 and O2 objects
+    SOURCE_O1  := pade_fit.o minimax_dependence.o
+    SOURCE_O2  := pead.o
+
+    # For what used to be vasp.5.lib
+    CPP_LIB     = $(CPP)
+    FC_LIB      = $(FC)
+    CC_LIB      = $(CC)
+    CFLAGS_LIB  = -O -w
+    FFLAGS_LIB  = -O1 -Mfixed
+    FREE_LIB    = $(FREE)
+
+    OBJECTS_LIB = linpack_double.o
+
+    # For the parser library
+    CXX_PARS    = nvc++ --no_warnings
+
+    ##
+    ## Customize as of this point! Of course you may change the preceding
+    ## part of this file as well if you like, but it should rarely be
+    ## necessary ...
+    ##
+    # When compiling on the target machine itself , change this to the
+    # relevant target when cross-compiling for another architecture
+    VASP_TARGET_CPU ?= -tp host
+    FFLAGS     += $(VASP_TARGET_CPU)
+
+    ## Improves performance when using NV HPC-SDK >=21.11 and CUDA >11.2
+    OFLAG_IN   = -fast -Mwarperf
+    SOURCE_IN  := nonlr.o
+
+    # Software emulation of quadruple precsion (mandatory)
+    QD         ?= $(shell find /user-environment/ -wholename "*compilers/extras/qd" -not -path "*REDIST*" | head -1)
+    LLIBS      += -L$(QD)/lib -lqdmod -lqd -Wl,-rpath,$(QD)/lib
+    INCS       += -I$(QD)/include/qd
+
+    # BLAS (mandatory)
+    BLAS        = -lnvpl_blas_lp64_gomp -lnvpl_blas_core
+
+    # LAPACK (mandatory)
+    LAPACK      = -lnvpl_lapack_lp64_gomp -lnvpl_lapack_core
+
+    # scaLAPACK (mandatory)
+    SCALAPACK   = -lscalapack
+
+    LLIBS      += $(SCALAPACK) $(LAPACK) $(BLAS)
+
+    # FFTW (mandatory)
+    FFTW_ROOT  ?= /user-environment/env/develop
+    LLIBS      += -L$(FFTW_ROOT)/lib -lfftw3 -lfftw3_omp
+    INCS       += -I$(FFTW_ROOT)/include
+
+    # Use cusolvermp (optional)
+    # supported as of NVHPC-SDK 24.1 (and needs CUDA-11.8)
+    #CPP_OPTIONS+= -DCUSOLVERMP -DCUBLASMP
+    #LLIBS      += -cudalib=cusolvermp,cublasmp -lnvhpcwrapcal
+
+    # HDF5-support (optional but strongly recommended, and mandatory for some features)
+    CPP_OPTIONS+= -DVASP_HDF5
+    HDF5_ROOT  ?= /user-environment/env/develop
+    LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
+    INCS       += -I$(HDF5_ROOT)/include
+
+
+    # For the VASP-2-Wannier90 interface (optional)
+    CPP_OPTIONS    += -DVASP2WANNIER90
+    WANNIER90_ROOT ?= /user-environment/env/develop
+    LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+
+    # For the fftlib library (hardly any benefit for the OpenACC GPU port)
+    #CPP_OPTIONS+= -Dsysv
+    #FCL        += fftlib.o
+    #CXX_FFTLIB  = nvc++ -mp --no_warnings -std=c++11 -DFFTLIB_THREADSAFE
+    #INCS_FFTLIB = -I./include -I$(FFTW_ROOT)/include
+    #LIBS       += fftlib
+    #LLIBS      += -ldl
+
+    # For machine learning library vaspml (experimental)
+    #CPP_OPTIONS += -Dlibvaspml
+    #CPP_OPTIONS += -DVASPML_USE_CBLAS
+    #CPP_OPTIONS += -DVASPML_DEBUG_LEVEL=3
+    #CXX_ML      = mpic++ -mp
+    #CXXFLAGS_ML = -O3 -std=c++17 -Wall -Wextra
+    #INCLUDE_ML  =
+
+    # Add -gpu=tripcount:host to compiler commands for NV HPC-SDK > 25.1
+    NVFORTRAN_VERSION := $(shell nvfortran --version | sed -n '2s/^nvfortran \([0-9.]*\).*/\1/p')
+     define greater_or_equal
+    $(shell printf '%s\n%s\n' '$(1)' '$(2)' | sort -V | head -n1 | grep -q '$(2)' && echo true || echo false)
+    endef
+    ifeq ($(call greater_or_equal,$(NVFORTRAN_VERSION),25.1),true)
+        CC  += -gpu=tripcount:host
+        FC  += -gpu=tripcount:host
+    endif
+
+
+
 ??? note "Makefile for v6.5.0"
     ```make
     # Default precompiler options
@@ -135,7 +269,6 @@ Examples for Makefiles that set the necessary rpath and link options on GH200:
                  -DUSENCCL \
                  -DCRAY_MPICH
 
-    CPP         = nvfortran -Mpreprocess -Mfree -Mextend -E $(CPP_OPTIONS) $*$(FUFFIX)  > $*$(SUFFIX)
     CPP         = nvfortran -Mpreprocess -Mfree -Mextend -E $(CPP_OPTIONS) $*$(FUFFIX)  > $*$(SUFFIX)
 
     CUDA_VERSION = $(shell nvcc -V | grep -E -o -m 1 "[0-9][0-9]\.[0-9]," | rev | cut -c 2- | rev)
@@ -369,7 +502,6 @@ Examples for Makefiles that set the necessary rpath and link options on GH200:
     #LIBS       += fftlib
     #LLIBS      += -ldl
     ```
-
 
 
 [VASP]: https://vasp.at/
