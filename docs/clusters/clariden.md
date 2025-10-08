@@ -81,7 +81,7 @@ There are two Slurm partitions on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 1204       | -    | 24 hours |
+| `normal` | 1204       | -    | 12 hours |
 | `debug`  | 24         | 2    | 1.5 node-hours |
 | `xfer`   | 2          | 1    | 24 hours |
 
