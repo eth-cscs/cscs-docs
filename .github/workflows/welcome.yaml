@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/first-interaction@v3
       with:
-        pr-message: |
+        pr_message: |
           Thank you for your contribution to eth-cscs/cscs-docs.
 
           If you have not done so already, please take some time to get familiar with the [contributing guidelines](https://docs.cscs.ch/contributing/).
