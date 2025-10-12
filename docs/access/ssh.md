@@ -174,6 +174,53 @@ ssh -A cscsusername@ela.cscs.ch
 ssh daint.cscs.ch
 ```
 
+## SSH tunnel to a service on CSCS Alps (e.g., daint) via ela
+
+If you have a server listening on a compute node in an Alps cluster and want to reach it from your laptop. Here is a quick solution: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster (e.g. `daint`), then use `http://localhost:PORT` on your laptop.
+This is how:
+
+### Requirements
+- SSH keys loaded in your agent (including MFA steps).
+- Your CSCS username handy (replace `MYUSER` below).
+- Know the compute node ID (e.g., `nid006554`) and the port of your running server.
+
+### Allocate a node and run a server (or test server)
+Tip: binding to `127.0.0.1` ensures the service is only reachable via your tunnel.
+
+### Open the tunnel from your laptop
+In a new local terminal:
+
+```bash
+MYUSER=cscsusername     # your username at CSCS
+NODE=nid006554          # obtained from salloc or srun
+PORT=6006               # example port
+CLUSTER=daint           # cluster you want to reach
+
+ssh -N -J ${MYUSER}@ela.cscs.ch,${MYUSER}@${CLUSTER}.alps.cscs.ch -L ${PORT}:localhost:${PORT}   ${MYUSER}@${NODE}
+```
+- First run may ask to trust the node’s host key — type `yes`.
+- The command blocks while the tunnel is open (that is expected).
+
+### Connect locally
+With the service running and the tunnel open, you can now reach your service locally:
+
+- Browser: `http://localhost:PORT`
+- Terminal: `curl localhost:PORT`
+
+### Clean up
+- Stop the server (Ctrl-C on the compute node shell).
+- End the Slurm allocation:
+  ```bash
+  scancel $SLURM_JOB_ID
+  ```
+- Close the tunnel (Ctrl-C in the tunnel terminal).
+
+### Common troubleshooting (fast fixes)
+- **Port already in use locally:** pick another `PORT` (e.g., 6007) in both server + tunnel.
+- **Service not responding:** ensure the server binds to `127.0.0.1` and is running on the compute node; confirm `NODE` matches your allocation.
+- **Auth prompts loop:** verify your SSH MFA to CSCS and the correct setup of the ssh agent.
+
+
 [](){#ref-ssh-faq}
 ## Frequently encountered issues
 
