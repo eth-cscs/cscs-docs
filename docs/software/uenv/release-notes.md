@@ -4,6 +4,31 @@
 The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v8.1.0**.
 You can check the version available on a specific system with the `uenv --version` command.
 
+[](){#ref-uenv-release-notes-v9.0.0}
+## v9.0.0
+
+This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will replace v8.1.0 on Alps clusters.
+
+### Features
+
+- elastic logging.
+- Add `--json` option to `image ls` and `image find`.
+- add `--format` flag to uenv status.
+
+### Improvements
+
+- force unsquashfs to use a single thread when unpacking meta data.
+- reimplement squashfs-mount in the main repository.
+- improve file name completion in bash.
+
+### Fixes
+
+- Turn some CLI flags into options, so that they can be set with or without `=`. e.g. `uenv --repo=$HOME/uenv` or `uenv --repo $HOME/uenv`.
+- Only use the meta data path adjacent to a uenv image if it contains an env.json file.
+- `image push` was not pushing the correct meta data path.
+- a bug where the `--only-meta` flag was ignored on `image pull`.
+- add hints to error message when uenv is not found.
+
 [](){#ref-uenv-release-notes-v8.1.0}
 ## v8.1.0
 
