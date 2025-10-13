@@ -24,7 +24,7 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
 ### Fixes
 
 - Turn some CLI flags into options, so that they can be set with or without `=`. e.g. `uenv --repo=$HOME/uenv` or `uenv --repo $HOME/uenv`.
-- Only use meta data path in adjacent to a uenv image if it contains an env.json file.
+- Only use the meta data path adjacent to a uenv image if it contains an env.json file.
 - `image push` was not pushing the correct meta data path.
 - a bug where the `--only-meta` flag was ignored on `image pull`.
 - add hints to error message when uenv is not found.
