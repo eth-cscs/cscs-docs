@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: delete-preview
         run: |
-          curl --fail -X DELETE -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://docs.tds.cscs.ch/upload?path={{ github.event.pull_request.number }}
+          curl --fail -X DELETE -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://docs.tds.cscs.ch/upload?path=${{ github.event.pull_request.number }}
