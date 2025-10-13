@@ -326,6 +326,7 @@ uenv
 uenvs
 uids
 ultrasoft
+unsquashfs
 utkin
 vCluster
 vClusters

@@ -9,17 +9,25 @@ You can check the version available on a specific system with the `uenv --versio
 
 This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will replace v8.1.0 on Alps clusters.
 
-- [fix] Turn some CLI flags into options, so that they can be set with or without `=`. e.g. `uenv --repo=$HOME/uenv` or `uenv --repo $HOME/uenv`.
-- [fix] Only use meta data path in adjacent to a uenv image if it contains an env.json file.
-- [fix] `image push` was not pushing the correct meta data path.
-- [fix] a bug where the `--only-meta` flag was ignored on `image pull`.
-- [fix] add hints to error message when uenv is not found
-- [improvement] unsquashfs uses a single thread when unpacking meta data.
-- [improvement] reimplement squashfs-mount in the main repository
-- [improvement] improve file name completion in bash.
-- [feature] Add `--json` option to `image ls` and `image find`.
-- [feature] elastic logging.
-- [feature] add --format flag to uenv status
+### Features
+
+- elastic logging.
+- Add `--json` option to `image ls` and `image find`.
+- add `--format` flag to uenv status.
+
+### Improvements
+
+- force unsquashfs to use a single thread when unpacking meta data.
+- reimplement squashfs-mount in the main repository.
+- improve file name completion in bash.
+
+### Fixes
+
+- Turn some CLI flags into options, so that they can be set with or without `=`. e.g. `uenv --repo=$HOME/uenv` or `uenv --repo $HOME/uenv`.
+- Only use meta data path in adjacent to a uenv image if it contains an env.json file.
+- `image push` was not pushing the correct meta data path.
+- a bug where the `--only-meta` flag was ignored on `image pull`.
+- add hints to error message when uenv is not found.
 
 [](){#ref-uenv-release-notes-v8.1.0}
 ## v8.1.0
