@@ -1,0 +1,13 @@
+name: Delete PR preview
+on:
+  pull_request_target:
+    branches: ['main']
+    types: ['closed']
+
+jobs:
+  preview_delete:
+    name: Delete preview
+    runs-on: ubuntu-latest
+    steps:
+      - name: delete-preview
+        run: curl --fail -X DELETE -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://docs.tds.cscs.ch/upload?path={{ github.event.pull_request.number }}
