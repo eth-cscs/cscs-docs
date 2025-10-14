@@ -72,10 +72,8 @@ See the Slurm documentation for instructions on how to [run jobs][ref-slurm].
 
 ### FirecREST
 
-!!! todo
-    add the correct API endpoint
-
-Besso can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
+!!! under-construction
+    Besso will have support for [FirecREST][ref-firecrest] access.
 
 ## Maintenance and status
 
