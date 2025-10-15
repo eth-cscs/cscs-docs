@@ -24,7 +24,7 @@ There are three ways to do so:
 !!! note "Shared container at the node-level"
     For memory efficiency reasons, all Slurm tasks on an individual compute node share the same container, including its filesystem. As a consequence, any write operation to the container filesystem by one task will eventually become visible to all other tasks on the same node.
 
-!!! warning "Container start failure with `id: cannot find name for user ID`"
+??? warning "Container start failure with `id: cannot find name for user ID`"
     If your slurm job using a container fails to start with an error message similar to:
     ```console
     slurmstepd: error: pyxis: container start failed with error code: 1
