@@ -186,6 +186,10 @@ Before starting, make sure you:
   See the [Slurm documentation][ref-slurm] for help on how to allocate a node and start your server on a compute node.
 - Know the compute node ID (e.g., `nid006554`) and the port of your running server.
 
+!!! warning "Fast fixes when starting a server or before tunneling"
+- Port already in use locally: pick another PORT (e.g., 6007) in both your server and the tunnel command below.
+- Auth prompts loop: verify your SSH MFA to CSCS and that your SSH agent is correctly set up and loaded with your keys.
+
 !!! tip "Binding to `127.0.0.1` ensures the service is only reachable via your tunnel"
 
 To open the tunnel from your local computer:
@@ -208,6 +212,9 @@ With the service running and the tunnel open, you can now reach your service loc
 - Browser: `http://localhost:PORT`
 - Terminal: `curl localhost:PORT`
 
+!!! warning "Fast fix if the service doesn’t respond locally"
+- Service not responding: ensure the server binds to 127.0.0.1 and is running on the compute node; confirm NODE matches your current Slurm allocation.
+
 To clean up afterwards:
 - Stop the server (Ctrl-C on the compute node shell).
 - End the Slurm allocation:
@@ -215,11 +222,6 @@ To clean up afterwards:
   scancel $SLURM_JOB_ID
   ```
 - Close the tunnel (Ctrl-C in the tunnel terminal).
-
-### Common troubleshooting (fast fixes)
-- **Port already in use locally:** pick another `PORT` (e.g., 6007) in both server + tunnel.
-- **Service not responding:** ensure the server binds to `127.0.0.1` and is running on the compute node; confirm `NODE` matches your allocation.
-- **Auth prompts loop:** verify your SSH MFA to CSCS and the correct setup of the ssh agent.
 
 
 [](){#ref-ssh-faq}
