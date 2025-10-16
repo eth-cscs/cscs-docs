@@ -206,7 +206,7 @@ ssh -N -J ${MYUSER}@ela.cscs.ch,${MYUSER}@${CLUSTER}.alps.cscs.ch -L ${PORT}:loc
 
 The command blocks while the tunnel is open (that is expected).
 
-!!! info The first run may ask to trust the node's host key---type `yes`.
+!!! info "The first run may ask to trust the node's host key---type `yes`"
 
 With the service running and the tunnel open, you can now reach your service locally:
 
