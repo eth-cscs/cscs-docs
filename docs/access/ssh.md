@@ -214,7 +214,7 @@ With the service running and the tunnel open, you can now reach your service loc
 - Terminal: `curl localhost:PORT`
 
 !!! warning "Fast fix if the service doesn’t respond locally"
-- Service not responding: ensure the server binds to 127.0.0.1 and is running on the compute node; confirm NODE matches your current Slurm allocation.
+    - Service not responding: ensure the server binds to 127.0.0.1 and is running on the compute node; confirm NODE matches your current Slurm allocation.
 
 To clean up afterwards:
 
