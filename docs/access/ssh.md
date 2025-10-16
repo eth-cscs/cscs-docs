@@ -188,8 +188,8 @@ Before starting, make sure you:
 - Know the compute node ID (e.g., `nid006554`) and the port of your running server.
 
 !!! warning "Fast fixes when starting a server or before tunneling"
-- Port already in use locally: pick another PORT (e.g., 6007) in both your server and the tunnel command below.
-- Auth prompts loop: verify your SSH MFA to CSCS and that your SSH agent is correctly set up and loaded with your keys.
+    - Port already in use locally: pick another PORT (e.g., 6007) in both your server and the tunnel command below.
+    - Auth prompts loop: verify your SSH MFA to CSCS and that your SSH agent is correctly set up and loaded with your keys.
 
 !!! tip "Binding to `127.0.0.1` ensures the service is only reachable via your tunnel"
 
