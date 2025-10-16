@@ -179,9 +179,11 @@ ssh daint.cscs.ch
 If you have a server listening on a compute node in an Alps cluster and want to reach it from your local computer, you can do the following: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster, then use `http://localhost:PORT` locally.
 Details on how to achieve this are below.
 
-### Requirements
-- SSH keys loaded in your agent (including MFA steps).
-- Your CSCS username handy (replace `MYUSER` below).
+Before starting, make sure you:
+- [Have SSH keys loaded in your agent][ref-ssh-agent].
+- Have your CSCS username handy (replace `MYUSER` below).
+- Have your server running on a compute node on Alps.
+  See the [Slurm documentation][ref-slurm] for help on how to allocate a node and start your server on a compute node.
 - Know the compute node ID (e.g., `nid006554`) and the port of your running server.
 
 ### Allocate a node and run a server (or test server)
