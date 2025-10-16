@@ -188,8 +188,7 @@ Before starting, make sure you:
 
 !!! tip "Binding to `127.0.0.1` ensures the service is only reachable via your tunnel"
 
-### Open the tunnel from your laptop
-In a new local terminal:
+To open the tunnel from your local computer:
 
 ```bash
 MYUSER=cscsusername     # your username at CSCS
@@ -199,8 +198,10 @@ CLUSTER=daint           # cluster you want to reach
 
 ssh -N -J ${MYUSER}@ela.cscs.ch,${MYUSER}@${CLUSTER}.alps.cscs.ch -L ${PORT}:localhost:${PORT}   ${MYUSER}@${NODE}
 ```
-- First run may ask to trust the node’s host key — type `yes`.
-- The command blocks while the tunnel is open (that is expected).
+
+The command blocks while the tunnel is open (that is expected).
+
+!!! info The first run may ask to trust the node's host key---type `yes`.
 
 ### Connect locally
 With the service running and the tunnel open, you can now reach your service locally:
