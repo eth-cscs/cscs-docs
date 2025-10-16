@@ -174,6 +174,58 @@ ssh -A cscsusername@ela.cscs.ch
 ssh daint.cscs.ch
 ```
 
+## SSH tunnel to a service on Alps compute nodes via ela
+
+If you have a server listening on a compute node in an Alps cluster and want to reach it from your local computer, you can do the following: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster, then use `http://localhost:PORT` locally.
+Details on how to achieve this are below.
+
+Before starting, make sure you:
+
+- [Have SSH keys loaded in your agent][ref-ssh-agent].
+- Have your CSCS username handy (replace `MYUSER` below).
+- Have your server running on a compute node on Alps.
+  See the [Slurm documentation][ref-slurm] for help on how to allocate a node and start your server on a compute node.
+- Know the compute node ID (e.g., `nid006554`) and the port of your running server.
+
+!!! warning "Fast fixes when starting a server or before tunneling"
+    - Port already in use locally: pick another PORT (e.g., 6007) in both your server and the tunnel command below.
+    - Auth prompts loop: verify your SSH MFA to CSCS and that your SSH agent is correctly set up and loaded with your keys.
+
+!!! tip "Binding to `127.0.0.1` ensures the service is only reachable via your tunnel"
+
+To open the tunnel from your local computer:
+
+```bash
+MYUSER=cscsusername     # your username at CSCS
+NODE=nid006554          # obtained from salloc or srun
+PORT=6006               # example port
+CLUSTER=daint           # cluster you want to reach
+
+ssh -N -J ${MYUSER}@ela.cscs.ch,${MYUSER}@${CLUSTER}.alps.cscs.ch -L ${PORT}:localhost:${PORT}   ${MYUSER}@${NODE}
+```
+
+The command blocks while the tunnel is open (that is expected).
+
+!!! info "The first run may ask to trust the node's host key---type `yes`"
+
+With the service running and the tunnel open, you can now reach your service locally:
+
+- Browser: `http://localhost:PORT`
+- Terminal: `curl localhost:PORT`
+
+!!! warning "Fast fix if the service doesn’t respond locally"
+    - Service not responding: ensure the server binds to 127.0.0.1 and is running on the compute node; confirm NODE matches your current Slurm allocation.
+
+To clean up afterwards:
+
+- Stop the server (Ctrl-C on the compute node shell).
+- End the Slurm allocation:
+  ```bash
+  scancel $SLURM_JOB_ID
+  ```
+- Close the tunnel (Ctrl-C in the tunnel terminal).
+
+
 [](){#ref-ssh-faq}
 ## Frequently encountered issues
 
