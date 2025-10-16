@@ -4,6 +4,7 @@ AMD
 Alpstein
 Balfrin
 Besard
+Besso
 Broyden
 CFLAGS
 CHARMM
@@ -121,6 +122,7 @@ artifactory
 autodetection
 aws
 baremetal
+besso
 biomolecular
 blaspp
 blt
@@ -326,6 +328,7 @@ uenv
 uenvs
 uids
 ultrasoft
+unsquashfs
 utkin
 vCluster
 vClusters

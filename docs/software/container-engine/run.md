@@ -24,6 +24,10 @@ There are three ways to do so:
 !!! note "Shared container at the node-level"
     For memory efficiency reasons, all Slurm tasks on an individual compute node share the same container, including its filesystem. As a consequence, any write operation to the container filesystem by one task will eventually become visible to all other tasks on the same node.
 
+!!! warning "Container start failure with `id: cannot find name for user ID`"
+    Containers may fail to start due to user database issues on compute nodes.
+    See [this section][ref-ce-no-user-id] for more details.
+
 ### Use from batch scripts
 
 Use `--environment` with the Slurm command (e.g., `srun` or `salloc`):

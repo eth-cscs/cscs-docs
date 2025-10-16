@@ -17,7 +17,14 @@ nav:
   - 'Alps':
     - alps/index.md
     - 'Platforms': alps/platforms.md
-    - 'Clusters': alps/clusters.md
+    - 'Clusters':
+      - clusters/index.md
+      - 'Besso': clusters/besso.md
+      - 'Bristen': clusters/bristen.md
+      - 'Clariden': clusters/clariden.md
+      - 'Daint': clusters/daint.md
+      - 'Eiger': clusters/eiger.md
+      - 'Santis': clusters/santis.md
     - 'Hardware': alps/hardware.md
     - 'Storage': alps/storage.md
     - 'Machine Learning Platform':
