@@ -176,8 +176,8 @@ ssh daint.cscs.ch
 
 ## SSH tunnel to a service on Alps compute nodes via ela
 
-If you have a server listening on a compute node in an Alps cluster and want to reach it from your laptop. Here is a quick solution: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster (e.g. `daint`), then use `http://localhost:PORT` on your laptop.
-This is how:
+If you have a server listening on a compute node in an Alps cluster and want to reach it from your local computer, you can do the following: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster, then use `http://localhost:PORT` locally.
+Details on how to achieve this are below.
 
 ### Requirements
 - SSH keys loaded in your agent (including MFA steps).
