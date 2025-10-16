@@ -208,7 +208,7 @@ With the service running and the tunnel open, you can now reach your service loc
 - Browser: `http://localhost:PORT`
 - Terminal: `curl localhost:PORT`
 
-### Clean up
+To clean up afterwards:
 - Stop the server (Ctrl-C on the compute node shell).
 - End the Slurm allocation:
   ```bash
