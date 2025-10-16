@@ -186,8 +186,7 @@ Before starting, make sure you:
   See the [Slurm documentation][ref-slurm] for help on how to allocate a node and start your server on a compute node.
 - Know the compute node ID (e.g., `nid006554`) and the port of your running server.
 
-### Allocate a node and run a server (or test server)
-Tip: binding to `127.0.0.1` ensures the service is only reachable via your tunnel.
+!!! tip "Binding to `127.0.0.1` ensures the service is only reachable via your tunnel"
 
 ### Open the tunnel from your laptop
 In a new local terminal:
