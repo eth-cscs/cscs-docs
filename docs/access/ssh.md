@@ -216,6 +216,7 @@ With the service running and the tunnel open, you can now reach your service loc
 - Service not responding: ensure the server binds to 127.0.0.1 and is running on the compute node; confirm NODE matches your current Slurm allocation.
 
 To clean up afterwards:
+
 - Stop the server (Ctrl-C on the compute node shell).
 - End the Slurm allocation:
   ```bash
