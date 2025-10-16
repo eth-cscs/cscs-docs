@@ -79,3 +79,32 @@ The use of `--environment` as `#SBATCH` is known to cause **unexpected behaviors
  - **Nested use of `--environment`**: running `srun --environment` in `#SBATCH --environment` results in double-entering EDF containers, causing unexpected errors in the underlying container runtime.
 
 To avoid any unexpected confusion, users are advised **not** to use `--environment` as `#SBATCH`. If users encounter a problem while using this, it's recommended to move `--environment` from `#SBATCH` to each `srun` and see if the problem disappears.
+
+[](){#ref-ce-no-user-id}
+## Container start fails with `id: cannot find name for user ID`
+
+If your slurm job using a container fails to start with an error message similar to:
+```console
+slurmstepd: error: pyxis: container start failed with error code: 1
+slurmstepd: error: pyxis: container exited too soon
+slurmstepd: error: pyxis: printing engine log file:
+slurmstepd: error: pyxis:     id: cannot find name for user ID 42
+slurmstepd: error: pyxis:     id: cannot find name for user ID 42
+slurmstepd: error: pyxis:     id: cannot find name for user ID 42
+slurmstepd: error: pyxis:     mkdir: cannot create directory ‘/iopsstor/scratch/cscs/42’: Permission denied
+slurmstepd: error: pyxis: couldn't start container
+slurmstepd: error: spank: required plugin spank_pyxis.so: task_init() failed with rc=-1
+slurmstepd: error: Failed to invoke spank plugin stack
+srun: error: nid001234: task 0: Exited with exit code 1
+srun: Terminating StepId=12345.0
+```
+it does not indicate an issue with your container, but instead means that one or more of the compute nodes have user databases that are not fully synchronized.
+If the problematic node is not automatically drained, please [let us know][ref-get-in-touch] so that we can ensure the node is in a good state.
+You can check the state of a node using `sinfo --nodes=<node>`, e.g.:
+```console
+$ sinfo --nodes=nid006886
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+debug        up    1:30:00      0    n/a
+normal*      up   12:00:00      1 drain$ nid006886
+xfer         up 1-00:00:00      0    n/a
+```

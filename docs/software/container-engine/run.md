@@ -24,32 +24,9 @@ There are three ways to do so:
 !!! note "Shared container at the node-level"
     For memory efficiency reasons, all Slurm tasks on an individual compute node share the same container, including its filesystem. As a consequence, any write operation to the container filesystem by one task will eventually become visible to all other tasks on the same node.
 
-??? warning "Container start failure with `id: cannot find name for user ID`"
-    If your slurm job using a container fails to start with an error message similar to:
-    ```console
-    slurmstepd: error: pyxis: container start failed with error code: 1
-    slurmstepd: error: pyxis: container exited too soon
-    slurmstepd: error: pyxis: printing engine log file:
-    slurmstepd: error: pyxis:     id: cannot find name for user ID 42
-    slurmstepd: error: pyxis:     id: cannot find name for user ID 42
-    slurmstepd: error: pyxis:     id: cannot find name for user ID 42
-    slurmstepd: error: pyxis:     mkdir: cannot create directory ‘/iopsstor/scratch/cscs/42’: Permission denied
-    slurmstepd: error: pyxis: couldn't start container
-    slurmstepd: error: spank: required plugin spank_pyxis.so: task_init() failed with rc=-1
-    slurmstepd: error: Failed to invoke spank plugin stack
-    srun: error: nid001234: task 0: Exited with exit code 1
-    srun: Terminating StepId=12345.0
-    ```
-    it does not indicate an issue with your container, but instead means that one or more of the compute nodes have user databases that are not fully synchronized.
-    If the problematic node is not automatically drained, please [let us know][ref-get-in-touch] so that we can ensure the node is in a good state.
-    You can check the state of a node using `sinfo --nodes=<node>`, e.g.:
-    ```console
-    $ sinfo --nodes=nid006886
-    PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-    debug        up    1:30:00      0    n/a
-    normal*      up   12:00:00      1 drain$ nid006886
-    xfer         up 1-00:00:00      0    n/a
-    ```
+!!! warning "Container start failure with `id: cannot find name for user ID`"
+    Containers may fail to start due to user database issues on compute nodes.
+    See [this section][ref-ce-no-user-id] for more details.
 
 ### Use from batch scripts
 
