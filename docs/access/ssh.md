@@ -203,7 +203,6 @@ The command blocks while the tunnel is open (that is expected).
 
 !!! info The first run may ask to trust the node's host key---type `yes`.
 
-### Connect locally
 With the service running and the tunnel open, you can now reach your service locally:
 
 - Browser: `http://localhost:PORT`
