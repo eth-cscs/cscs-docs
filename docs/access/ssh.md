@@ -180,6 +180,7 @@ If you have a server listening on a compute node in an Alps cluster and want to 
 Details on how to achieve this are below.
 
 Before starting, make sure you:
+
 - [Have SSH keys loaded in your agent][ref-ssh-agent].
 - Have your CSCS username handy (replace `MYUSER` below).
 - Have your server running on a compute node on Alps.
