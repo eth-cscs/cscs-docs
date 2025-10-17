@@ -15,7 +15,60 @@ The uenvs are available in the following versions on the following systems:
 
 | version | node types | system |
 |-----------|-----------|--------|
+| 25.10 | gh200, zen2 | daint, eiger |
 | 24.11 | gh200, zen2 | daint, eiger |
+
+=== "25.10"
+    In version 25.10, the common set of packages in both uenvs is:
+
+    * [arpack-ng@3.9.1](https://packages.spack.io/package.html?name=arpack-ng)
+    * [blaspp@2025.05.28](https://packages.spack.io/package.html?name=blaspp)
+    * [blt@0.7.1](https://packages.spack.io/package.html?name=blt)
+    * [boost@1.88.0](https://packages.spack.io/package.html?name=boost)
+    * [camp@2025.03.0](https://packages.spack.io/package.html?name=camp)
+    * [cmake@3.31.8](https://packages.spack.io/package.html?name=cmake)
+    * [cray-mpich@8.1.32](https://packages.spack.io/package.html?name=cray-mpich)
+    * [dla-future@0.10.0](https://packages.spack.io/package.html?name=dla-future)
+    * [dla-future-fortran@0.5.0](https://packages.spack.io/package.html?name=dla-future-fortran)
+    * [eigen@3.4.0](https://packages.spack.io/package.html?name=eigen)
+    * [fftw@3.3.10](https://packages.spack.io/package.html?name=fftw)
+    * [fmt@11.0.2](https://packages.spack.io/package.html?name=fmt)
+    * [gsl@2.8](https://packages.spack.io/package.html?name=gsl)
+    * [hdf5@1.14.6](https://packages.spack.io/package.html?name=hdf5)
+    * [hwloc@2.12.2](https://packages.spack.io/package.html?name=hwloc)
+    * [kokkos@4.3.01](https://packages.spack.io/package.html?name=kokkos)
+    * [kokkos-kernels@4.3.01](https://packages.spack.io/package.html?name=kokkos-kernels)
+    * [kokkos-tools@develop](https://packages.spack.io/package.html?name=kokkos-tools)
+    * [lapackpp@2025.05.28](https://packages.spack.io/package.html?name=lapackpp)
+    * [libfabric@1.22.0](https://packages.spack.io/package.html?name=libfabric)
+    * [libtree@3.1.1](https://packages.spack.io/package.html?name=libtree)
+    * [libxml2@2.13.5](https://packages.spack.io/package.html?name=libxml2)
+    * [lua@5.4.6](https://packages.spack.io/package.html?name=lua)
+    * [lz4@1.10.0](https://packages.spack.io/package.html?name=lz4)
+    * [lzo@2.10](https://packages.spack.io/package.html?name=lzo)
+    * [meson@1.8.5](https://packages.spack.io/package.html?name=meson)
+    * [metis@5.1.0](https://packages.spack.io/package.html?name=metis)
+    * [mimalloc@3.1.5](https://packages.spack.io/package.html?name=mimalloc)
+    * [mumps@5.8.1](https://packages.spack.io/package.html?name=mumps)
+    * [nco@5.3.4](https://packages.spack.io/package.html?name=nco)
+    * [netcdf-c@4.9.3](https://packages.spack.io/package.html?name=netcdf-c)
+    * [netlib-scalapack@2.2.2](https://packages.spack.io/package.html?name=netlib-scalapack)
+    * [ninja@1.13.0](https://packages.spack.io/package.html?name=ninja)
+    * [openblas@0.3.30](https://packages.spack.io/package.html?name=openblas)
+    * [osu-micro-benchmarks@7.5.1](https://packages.spack.io/package.html?name=osu-micro-benchmarks)
+    * [p4est@2.8](https://packages.spack.io/package.html?name=p4est)
+    * [parmetis@4.0.3](https://packages.spack.io/package.html?name=parmetis)
+    * [petsc@3.24.0](https://packages.spack.io/package.html?name=petsc)
+    * [pika@0.34.0](https://packages.spack.io/package.html?name=pika)
+    * [python@3.14.0](https://packages.spack.io/package.html?name=python)
+    * [stdexec@25.03.rc1](https://packages.spack.io/package.html?name=stdexec)
+    * [suite-sparse@7.3.1](https://packages.spack.io/package.html?name=suite-sparse)
+    * [superlu@7.0.0](https://packages.spack.io/package.html?name=superlu)
+    * [superlu-dist@9.1.0](https://packages.spack.io/package.html?name=superlu-dist)
+    * [swig@4.1.1](https://packages.spack.io/package.html?name=swig)
+    * [trilinos@16.0.0](https://packages.spack.io/package.html?name=trilinos)
+    * [umpire@2025.03.0](https://packages.spack.io/package.html?name=umpire)
+    * [zlib-ng@2.2.4](https://packages.spack.io/package.html?name=zlib-ng)
 
 === "24.11"
     In version 24.11, the common set of packages in both uenvs is:
