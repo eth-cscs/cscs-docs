@@ -253,7 +253,7 @@ gh,gpu,thp_never,thp_always,thp_madvise,nvidia_vboost_enabled,nvidia_vboost_disa
 One or more constraints can be selected using the `--constraint`/`-C` flag of `sbatch` or `srun`:
 
 ```bash
-sbatch --constraint thp_never,nvidia_vboost_enabled batch.sh
+sbatch --constraint thp_never&nvidia_vboost_enabled batch.sh
 ```
 
 [](){#ref-slurm-features-thp}
