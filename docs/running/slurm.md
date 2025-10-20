@@ -237,6 +237,7 @@ The build generates the following executables:
 
     You can also check GPU affinity by inspecting the value of the `CUDA_VISIBLE_DEVICES` environment variable.
 
+[](){#ref-slurm-features}
 ## Slurm features
 
 Slurm allows specifying [constraints](https://slurm.schedmd.com/sbatch.html#OPT_constraint) for jobs, which can be used to change features available on nodes in a job.
@@ -255,6 +256,7 @@ One or more constraints can be selected using the `--constraint`/`-C` flag of `s
 sbatch --constraint thp_never,nvidia_vboost_enabled batch.sh
 ```
 
+[](){#ref-slurm-features-thp}
 ### Transparent hugepages
 
 !!! info "The THP Slurm feature is only available on [GH200 nodes][ref-alps-gh200-node]"
@@ -284,6 +286,7 @@ The available Slurm features to select the THP mode are listed below:
 | `madvise`      | `thp_madvise`          |
 | `never`        | `thp_never`            |
 
+[](){#ref-slurm-features-vboost}
 ### NVIDIA vboost
 
 !!! info "The NVIDIA vboost Slurm feature is only available on [GH200 nodes][ref-alps-gh200-node]"
