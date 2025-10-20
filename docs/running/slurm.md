@@ -237,6 +237,87 @@ The build generates the following executables:
 
     You can also check GPU affinity by inspecting the value of the `CUDA_VISIBLE_DEVICES` environment variable.
 
+## Slurm features
+
+Slurm allows specifying [constraints](https://slurm.schedmd.com/sbatch.html#OPT_constraint) for jobs, which can be used to change features available on nodes in a job.
+CSCS implements a few custom features, described below, that can be selected on certain clusters.
+To check which features are available on a cluster, for example on the `normal` partition, use `sinfo`:
+
+```console
+$ sinfo --partition normal --format %b
+ACTIVE_FEATURES
+gh,gpu,thp_never,thp_always,thp_madvise,nvidia_vboost_enabled,nvidia_vboost_disabled
+```
+
+One or more constraints can be selected using the `--constraint`/`-C` flag of `sbatch` or `srun`:
+
+```bash
+sbatch --constraint thp_never,nvidia_vboost_enabled batch.sh
+```
+
+### Transparent hugepages
+
+!!! info "The THP Slurm feature is only available on [GH200 nodes][ref-alps-gh200-node]"
+
+[Transparent hugepages (THP)](https://www.kernel.org/doc/html/v6.17/admin-guide/mm/transhuge.html) are a Linux kernel feature that allows automatically coalescing pages into huge pages without the user application explicitly asking for hugepages:
+
+> Performance critical computing applications dealing with large memory working sets are already running on top of libhugetlbfs and in turn hugetlbfs.
+> Transparent HugePage Support (THP) is an alternative mean of using huge pages for the backing of virtual memory with huge pages that supports the automatic promotion and demotion of page sizes and without the shortcomings of hugetlbfs.
+
+While this feature generally improves performance, we have observed degrading application performance with the THP feature enabled due to the page coalescing blocking progress on certain operations.
+An example of this is ICON, a latency-sensitive application where small delays can can cause large performance drops.
+
+THP support is enabled by default, and the current setting can be checked with:
+
+```console
+$ cat /sys/kernel/mm/transparent_hugepage/enabled
+[always] madvise never
+```
+
+A detailed explanation of how the different options behave can be found in the [THP documentation](https://www.kernel.org/doc/html/v6.17/admin-guide/mm/transhuge.html#global-thp-controls).
+
+The available Slurm features to select the THP mode are listed below:
+
+| Kernel setting | Slurm constraint       |
+|----------------|------------------------|
+| `always`       | `thp_always` (default) |
+| `madvise`      | `thp_madvise`          |
+| `never`        | `thp_never`            |
+
+### NVIDIA vboost
+
+!!! info "The NVIDIA vboost Slurm feature is only available on [GH200 nodes][ref-alps-gh200-node]"
+
+The [NVIDIA NeMo documentation](https://docs.nvidia.com/nemo-framework/user-guide/latest/performance/performance-guide.html#gpu-core-clock-optimization) describes the vboost feature as:
+
+> NVIDIA GPUs support a CPU core clock boost mode, which increases the core clock rate by reducing the off-chip memory clock rate.
+> This is particularly beneficial for LLMs, which are typically compute throughput-bound.
+
+The vboost slider is at `0` by default, and the current value can be checked checked with `nvidia-smi`:
+
+```console
+$ nvidia-smi boost-slider --list
++-------------------------------------------------+
+| GPU Boost Slider                                |
+| GPU     Slider       Max Value    Current Value |
+|=================================================|
+|   0     vboost           4              0       |
++-------------------------------------------------+
+|   1     vboost           4              0       |
++-------------------------------------------------+
+|   2     vboost           4              0       |
++-------------------------------------------------+
+|   3     vboost           4              0       |
++-------------------------------------------------+
+```
+
+The slider can be set to `1` using the `nvidia_vboost_enable` feature:
+
+| vboost setting | Slurm constraint                  |
+|----------------|-----------------------------------|
+| `0`            | `nvidia_vboost_disable` (default) |
+| `1`            | `nvidia_vboost_enable`            |
+
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
 
