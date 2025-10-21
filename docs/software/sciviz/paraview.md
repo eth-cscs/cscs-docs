@@ -136,5 +136,7 @@ You will need to add the corresponding XML code to your local ParaView installat
               <Argument value="6000"/>
             </Arguments>
           </Command>
+      </CommandStartup>
+      </Server>
     </Servers>
     ```

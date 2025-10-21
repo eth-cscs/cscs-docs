@@ -206,6 +206,8 @@ The first step is to create the virtual environment using the usual workflow.
     # create and activate a new relocatable venv using uv
     # in this case we explicitly select python 3.12
     uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+    # You can also point to the uenv python with `uv venv -p $(which python) ...`
+    # which, among other things, enables user portability of the venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 
