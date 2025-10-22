@@ -185,7 +185,7 @@ For further details on execution logic, job monitoring and data management, plea
 
     * Extensively evaluate all possible parallelization dimensions, including data-, tensor- and pipeline parallelism (including virtual pipeline parallelism) and more, when available. Identify storage-related bottlenecks by isolating data loading/generation operations into a separate benchmark.
 
-    * Disabling transparent huge pages and enabling the Nvidia [vboost](https://docs.nvidia.com/nemo-framework/user-guide/latest/performance/performance-guide.html#gpu-core-clock-optimization) feature has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
+    * [Disabling transparent huge pages][ref-slurm-features-thp] and [enabling the Nvidia vboost feature][ref-slurm-features-vboost] has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
        ```bash
        #SBATCH -C thp_never&nvidia_vboost_enabled
        ```

@@ -110,6 +110,7 @@ SSHService
 STMV
 Scopi
 Signalkuppe
+THP
 TOTP
 UANs
 UIs
@@ -178,6 +179,8 @@ gromos
 groundstate
 gsl
 hdf
+hugepages
+hugetlbfs
 hotmail
 huggingface
 hwloc
@@ -198,6 +201,7 @@ lapackpp
 lexer
 lexers
 libfabric
+libhugetlbfs
 libint
 libtree
 libxc
