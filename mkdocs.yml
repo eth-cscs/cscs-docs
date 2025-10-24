@@ -111,12 +111,12 @@ nav:
       - 'WRF': software/cw/wrf.md
     - 'Communication Libraries':
       - software/communication/index.md
+      - 'libfabric': software/communication/libfabric.md
       - 'Cray MPICH': software/communication/cray-mpich.md
       - 'MPICH': software/communication/mpich.md
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
       - 'RCCL': software/communication/rccl.md
-      - 'libfabric': software/communication/libfabric.md
     - 'Commercial software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
