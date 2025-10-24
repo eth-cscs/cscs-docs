@@ -368,6 +368,43 @@ By default, the modules are not activated when a uenv is started, and need to be
     cmake version 3.30.5
     ```
 
+??? warning "bash: module: command not found"
+
+    Version 9.0.0 of uenv, installed on October 22 2025, has a bug that removes the module command on Santis and Clariden.
+
+    !!! note
+        The issue does not affect uenv in Slurm jobs, or on Daint and Eiger.
+
+    !!! note
+        A fix has been implemented, and will be installed as soon as possible.
+
+    Specifically, the `module` command is not available inside `uenv start` sessions:
+    ```console
+    $ uenv start prgenv-gnu/24.11:v2 --view=modules
+    $ module avail
+    bash: module: command not found
+    ```
+
+    The workaround is to manually load the module tool after starting your uenv session:
+
+    ```console
+    $ uenv start prgenv-gnu/24.11:v2 --view=modules
+    $ source /usr/share/lmod/8.7.17/init/bash
+    $ module avail
+
+    -------------- /user-environment/modules ---------------
+       aws-ofi-nccl/git.v1.9.2-aws_1.9.2
+       boost/1.86.0
+       cmake/3.30.5
+       cray-mpich/8.1.30
+       cuda/12.6.0
+       fftw/3.3.10
+       fmt/11.0.2
+       gcc/13.3.0
+       ...
+    ```
+
+
 #### Spack
 
 uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies.
