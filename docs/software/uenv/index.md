@@ -391,7 +391,6 @@ By default, the modules are not activated when a uenv is started, and need to be
     $ uenv start prgenv-gnu/24.11:v2 --view=modules
     $ source /usr/share/lmod/8.7.17/init/bash
     $ module avail
-    [santis][bcumming@santis-ln002 ~]$ module avail
 
     -------------- /user-environment/modules ---------------
        aws-ofi-nccl/git.v1.9.2-aws_1.9.2
