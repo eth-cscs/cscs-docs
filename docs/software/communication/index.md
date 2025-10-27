@@ -1,15 +1,26 @@
 [](){#ref-software-communication}
 # Communication Libraries
 
+!!! todo "list of ideas to integrate in this page"
+    * communication libraries are part of the "base" or "core" layer in your environment, alongside compilers and cuda (on NVIDIA GPU systems).
+        * we provide base containers that start with compilers+CUDA
+    * have a section "installing/getting comm libs":
+        * CE (build your own) and uenv (it comes with the label) sub-sections
+        * Conda, pre-built (ORCA, ANSYS, etc)
+
 Communication libraries are used by scientific and AI workloads to communicate between processes.
 The communication libraries used by workloads need to be built and configured correctly to get the best performance.
 Broadly speaking, there are two levels of communication:
 
 * **intra-node** communication between two processes on the same node.
-* **inter-node** communication between different nodes, which requires 
+* **inter-node** communication between different nodes, over the [Slingshot 11 network][ref-alps-hsn] that connects nodes on Alps..
 
-Inter-node communication requires sending and receiving data over the [Slingshot 11 network][ref-alps-hsn] that connects nodes on Alps.
 Communication libraries, like MPI and NCCL, need to be configured to use the [libfabric][ref-communication-libfabric] library that has an optimised back end for Slingshot 11.
+As such, they are part of the base layer of libraries and tools required to fully utilize the hardware on Alps:
+
+* **CPU**: compilers with support for building applications optimized for the CPU architecture on the node.
+* **GPU**: CUDA and ROCM provide compilers and runtime libraries for NVIDIA and AMD GPUs respectively.
+* **Network**: libfabric, MPI, NCCL/RCCL, NVSHMEM, need to be configured for the Slingshot network.
 
 CSCS provides communication libraries optimised for libfabric and slingshot in uenv, and guidance on how to configure container images similarly.
 This section of the documentation provides advice on how to build and install software to use these libraries, and how to deploy them.
@@ -23,9 +34,40 @@ NCCL and RCCL have to be configured with a plugin using [libfabric][ref-communic
 
 See the individual pages for each library for information on how to use and best configure the libraries.
 
-* [libfabric][ref-communication-libfabric]
-* [Cray MPICH][ref-communication-cray-mpich]
-* [MPICH][ref-communication-mpich]
-* [OpenMPI][ref-communication-openmpi]
-* [NCCL][ref-communication-nccl]
-* [RCCL][ref-communication-rccl]
+<div class="grid cards" markdown>
+
+-   __Low Level__
+
+    learn about the base installation libfabric and its dependencies
+
+    [:octicons-arrow-right-24: libfabric][ref-alps]
+
+</div>
+<div class="grid cards" markdown>
+
+-   __MPI__
+
+    Cray MPICH is the most optimized and best tested MPI implementation on Alps, and is used by uenv.
+
+    [:octicons-arrow-right-24: Cray MPICH][ref-communication-cray-mpich]
+
+    For compatibility in containers:
+
+    [:octicons-arrow-right-24: MPICH][ref-communication-mpich]
+
+    Also OpenMPI can be built in containers or in uenv
+
+    [:octicons-arrow-right-24: FirecREST API][ref-communication-openmpi]
+
+</div>
+<div class="grid cards" markdown>
+
+-   __Machine Learning__
+
+    NCCL and RCCL 
+
+    [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
+
+    [:octicons-arrow-right-24: RCCL][ref-communication-rccl]
+
+</div>
