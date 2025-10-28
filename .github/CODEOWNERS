@@ -1,5 +1,6 @@
 * @bcumming @msimberg @RMeli
 docs/access/jupyterlab.md @rsarm
+docs/clusters/besso.md @victorusu
 docs/services/firecrest.md @jpdorsch @ekouts @theely @ibonesana-ethz
 docs/services/devportal.md @jpdorsch @ekouts @theely @ibonesana-ethz
 docs/services/kubernetes @eliaoggian
