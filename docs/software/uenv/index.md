@@ -368,6 +368,7 @@ By default, the modules are not activated when a uenv is started, and need to be
     cmake version 3.30.5
     ```
 
+[](){#ref-uenv-error-v9modules}
 ??? warning "bash: module: command not found"
 
     Version 9.0.0 of uenv, installed on October 22 2025, has a bug that removes the module command on Santis and Clariden.

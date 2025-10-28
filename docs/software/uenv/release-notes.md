@@ -36,6 +36,10 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
     This version introduced changes to the `squashfs-mount` tool used by `uenv start` and `uenv -run` that are incompatible with older versions of uenv.
     If you see errors that contain `error: unable to exec '...': No such file or directory (errno=2)`, follow the guide for [uninstalling user-installed uenv][ref-uenv-uninstall].
 
+!!! warning "bash: module: command not found"
+    This is a known issue with version 9.0.0 that will be fixed in 9.0.1.
+    See the [uenv modules][ref-uenv-error-v9modules] docs for a workaround.
+
 [](){#ref-uenv-release-notes-v8.1.0}
 ## v8.1.0
 
