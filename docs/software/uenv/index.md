@@ -750,7 +750,6 @@ $ which uenv # type and which should point to the same executable in /usr/bin
 /usr/bin/uenv
 $ uenv --version
 9.0.0
-$ hash -r
 ```
 
 ### Removing version 5
