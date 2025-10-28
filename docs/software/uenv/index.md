@@ -532,32 +532,6 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 
 * Note how the second call has access to `mpicc`, provided by `prgenv-gnu`.
 
-[](){#ref-uenv-installation}
-## Installing the uenv tool
-
-The command line tool can be installed from source, if you are working on a cluster that does not have uenv installed, or if you need to test a new version.
-
-!!! note
-    uenv is installed already on CSCS clusters, so installation is not required.
-
-    Only follow these steps if you are advised to test out a new version (e.g. if it has a fix for an issues that you are encountering).
-
-```bash
-git clone https://github.com/eth-cscs/uenv2.git
-cd uenv2
-
-./install-alps-local.sh # (1)!
-
-# update bashrc
-echo "export PATH=\$HOME/.local/\$(uname -m)/bin:\$PATH" >> $HOME/.bashrc 
-echo "unset -f uenv" >> $HOME/.bashrc
-```
-
-1. Run installation script. This will install uenv in `$HOME/.local/$(uname -m)/bin/`.
-
-!!! warning
-    Before uenv can be used, you need to log out then back in again and type `which uenv` to verify that uenv has been installed in your `$HOME` path.
-
 [](){#ref-uenv-labels}
 ## uenv labels
 
