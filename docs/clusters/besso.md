@@ -72,8 +72,7 @@ See the Slurm documentation for instructions on how to [run jobs][ref-slurm].
 
 ### FirecREST
 
-!!! under-construction
-    Besso will have support for [FirecREST][ref-firecrest] access.
+Besso can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/mwa/firecrest/v2` API endpoint.
 
 ## Maintenance and status
 
