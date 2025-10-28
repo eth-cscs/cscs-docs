@@ -701,6 +701,13 @@ This guide walks through the process of detecting if you have an old version ins
 
 First, log into the target cluster, and enter `type uenv` and inspect the output.
 
+The system version of `uenv` is installed in `/usr/bin`, so if you see the following you do not need to make any changes:
+
+```console
+$ type uenv
+uenv is /usr/bin/uenv
+```
+
 Version 5 of uenv used a bash function called `uenv`, which will give output that looks like this:
 
 ```console
@@ -711,14 +718,7 @@ uenv ()
     local _last_exitcode=$?;
     function uenv_usage ()
     {
-... 
-```
-
-More recent versions of uenv install an executable, which is installed in `/usr`:
-
-```console
-$ type uenv
-uenv is /usr/bin/uenv
+...
 ```
 
 If you have installed version 6, 7, 8 or 9, it will be in a different location, for example:
@@ -743,13 +743,11 @@ $ rm $(which uenv)
 # forget the old uenv command
 $ hash -r
 
-# check the version
+# type and which should point to the same executable in /usr/bin
 $ type uenv
 uenv is /usr/bin/uenv
-$ which uenv # type and which should point to the same executable in /usr/bin
+$ which uenv
 /usr/bin/uenv
-$ uenv --version
-9.0.0
 ```
 
 ### Removing version 5
@@ -766,13 +764,11 @@ Log out and back in again, then issue the following command to force bash to for
 # forget the old uenv command
 $ hash -r
 
-# check the version
+# type and which should point to the same executable in /usr/bin
 $ type uenv
 uenv is /usr/bin/uenv
-$ which uenv # type and which should point to the same executable in /usr/bin
+$ which uenv
 /usr/bin/uenv
-$ uenv --version
-9.0.0
 ```
 
 

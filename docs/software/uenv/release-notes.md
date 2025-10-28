@@ -29,7 +29,7 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
 - a bug where the `--only-meta` flag was ignored on `image pull`.
 - add hints to error message when uenv is not found.
 
-[#ref-uenv-release-notes-v9.0.0-issues]
+[](){#ref-uenv-release-notes-v9.0.0-issues}
 ### Known issues
 
 !!! warning "user-installed uenv stopped working"
