@@ -103,6 +103,11 @@ Plan sufficient time for the setup and contact a GitHub/GitLab/Bitbucket profess
 Please open a [Service Desk ticket](https://support.cscs.ch/) and include which repository should be registered, and who should own the registration (by default it would be the requester).
 Once your project has been registered you will be provided with a webhook-secret.
 
+!!! note
+    CSCS staff members can directly register their project by clicking on [register new
+    project](https://cicd-ext-mw.cscs.ch/ci/register) at the bottom right of the [CI overview
+    page](https://cicd-ext-mw.cscs.ch/ci/overview).
+
 1. **Set up CI**: Head to the [CI overview page](https://cicd-ext-mw.cscs.ch/ci/overview), login with your CSCS credentials, and go to the newly registered project.
 
 1. **Add FirecREST tokens**: Expand the `Admin config`, and follow the guide (click on the small black triangle next to Firecrest Consumer Key).
