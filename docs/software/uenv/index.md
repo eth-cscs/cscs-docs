@@ -675,3 +675,105 @@ $ myenv
 ```
 
 The benefit of this approach is that you can create multiple environments, whereas modifying `.bashrc` will lock you into using the same environment every time you log in.
+
+[](){#ref-uenv-uninstall}
+## Uninstalling the uenv tool
+
+It is strongly recommended to use the version of uenv installed on the system, instead of installing your own version from source.
+This guide walks through the process of detecting if you have an old version installed, and removing it.
+
+!!! note
+    In the past CSCS has recommended installing a more recent version of uenv to help fix issues for some users.
+    Some users still have old self-installed versions installed in `HOME`, so they are missing out on new uenv features, and possibly seeing errors on systems with the most recent `v9.0.0` uenv installed.
+
+!!! warning "error caused by incompatible uenv version"
+    If trying to use `uenv run` or `uenv start`, and you see an error message like the following:
+
+    ```
+    error: unable to exec '/capstor/scratch/cscs/wombat/.uenv-images/images/61d1f21881a6....squashfs:/user-environment':
+    No such file or directory (errno=2)
+    ```
+
+    Then you are probably using an old version of uenv that is not compatible with the version of `squashfs-mount` installed on the system.
+
+### Detecting which version of uenv is installed
+
+First, log into the target cluster, and enter `type uenv` and inspect the output.
+
+Version 5 of uenv used a bash function called `uenv`, which will give output that looks like this:
+
+```console
+$ type uenv
+uenv is a function
+uenv ()
+{
+    local _last_exitcode=$?;
+    function uenv_usage ()
+    {
+... 
+```
+
+More recent versions of uenv install an executable, which is installed in `/usr`:
+
+```console
+$ type uenv
+uenv is /usr/bin/uenv
+```
+
+If you have installed version 6, 7, 8 or 9, it will be in a different location, for example:
+
+```console
+$ type uenv
+uenv is /users/voldemort/.local/bin/uenv
+```
+
+??? question "why not use `which uenv`?"
+    The `which uenv` command searches the directories listed in the `PATH` environment variable for the `uenv` executable, and ignores bash functions.
+    If there is a `uenv` bash function is set, then it will be take precedence over the `uenv` executable found using `which uenv`.
+
+### Removing version 6 or later
+
+To remove uenv version 6, 7, 8 or 9, delete the executable, then force bash to forget the old command.
+
+```console
+# remove your self-installed executable
+$ rm $(which uenv)
+
+# forget the old uenv command
+$ hash -r
+
+# check the version
+$ type uenv
+uenv is /usr/bin/uenv
+$ which uenv # type and which should point to the same executable in /usr/bin
+/usr/bin/uenv
+$ uenv --version
+9.0.0
+$ hash -r
+```
+
+### Removing version 5
+
+To remove version 5, look in your `.bashrc` file for a line like the following and remove or comment it out:
+
+```bash
+# configure the user-environment (uenv) utility
+source /users/voldemort/.local/bin/activate-uenv
+```
+
+Log out and back in again, then issue the following command to force bash to forget the old uenv command:
+```console
+# forget the old uenv command
+$ hash -r
+
+# check the version
+$ type uenv
+uenv is /usr/bin/uenv
+$ which uenv # type and which should point to the same executable in /usr/bin
+/usr/bin/uenv
+$ uenv --version
+9.0.0
+```
+
+
+
