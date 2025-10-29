@@ -102,6 +102,7 @@ nav:
     - 'Climate and Weather':
       - software/cw/index.md
       - 'WRF': software/cw/wrf.md
+      - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
       - 'Cray MPICH': software/communication/cray-mpich.md
