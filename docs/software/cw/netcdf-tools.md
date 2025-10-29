@@ -7,14 +7,14 @@ The release schedule is not fixed, with new releases when required.
 
 | version            | node types        | system                                  | status |
 |--------------------|-------------------|-----------------------------------------|--------|
-| 2024               | zen2, gh200       | daint, eiger, santis, clariden          | **DEPRECATED** |
 | 2025               | zen2, gh200       | daint, eiger, santis, clariden          | :white_check_mark: |
+| 2024               | zen2, gh200       | daint, eiger, santis, clariden          | **DEPRECATED** |
 
 !!! warning
     If you are using the `netcdf-tools/2024` version, please upgrade to the `2025` version, because the `2024` version uses an old interface that won't load views correctly.
 
 
-The packages exposed via the `default` and `modules` views in `2025:v1` are:
+The packages exposed via the `default` and `modules` views in `netcdf-tools/2025:v1` are:
 
 * [cdo@2.5.2](https://packages.spack.io/package.html?name=cdo)
 * [cray-mpich@8.1.32](https://packages.spack.io/package.html?name=cray-mpich)
