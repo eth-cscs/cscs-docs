@@ -11,7 +11,9 @@ The release schedule is not fixed, with new releases when required.
 | 2024               | zen2, gh200       | daint, eiger, santis, clariden          | **DEPRECATED** |
 
 !!! warning
-    If you are using the `netcdf-tools/2024` version, please upgrade to the `2025` version, because the `2024` version uses an old interface that won't load views correctly.
+    The `netcdf-tools/2024` version uses an old interface that won't load views correctly.
+
+    All users of version `2024` should upgrade to `2025` as soon as possible.
 
 
 The packages exposed via the `default` and `modules` views in `netcdf-tools/2025:v1` are:
