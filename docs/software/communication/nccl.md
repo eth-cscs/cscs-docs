@@ -22,6 +22,16 @@ While the container engine sets these automatically when using the NCCL hook, th
 
 [_Demystifying NCCL: An In-depth Analysis of GPU Communication Protocols and Algorithms_](https://arxiv.org/abs/2507.04786v2) contains detailed information about NCCL algorithms and protocols, which can be helpful for deciding if your application could benefit from an alternative configuration.
 
+!!! warning "NCCL watchdog timeout or hanging process"
+    In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error.
+    In this scenario, we recommend disabling Slingshot eager messages with the following workaround:
+    ```console
+    # Disable eager messages to avoid NCCL timeouts
+    export FI_CXI_RDZV_GET_MIN=0
+    export FI_CXI_RDZV_THRESHOLD=0
+    export FI_CXI_RDZV_EAGER_SIZE=0
+    ```
+
 !!! warning "Using NCCL with uenvs"
     The environment variables listed above are not set automatically when using uenvs.
 
