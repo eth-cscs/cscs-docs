@@ -25,7 +25,7 @@ While the container engine sets these automatically when using the NCCL hook, th
 !!! warning "NCCL watchdog timeout or hanging process"
     In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error.
     In this scenario, we recommend disabling Slingshot eager messages with the following workaround:
-    ```console
+    ```bash
     # Disable eager messages to avoid NCCL timeouts
     export FI_CXI_RDZV_GET_MIN=0
     export FI_CXI_RDZV_THRESHOLD=0
