@@ -142,7 +142,7 @@ The simplest way to have the correct layout is to copy to a directory with the c
     ```
 
     *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
-    Use `lfs migrate` to update the settings for existing files.
+    [Use `lfs migrate` to update the settings for existing files][ref-guides-storage-examples-lfs-migrate].
 
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
@@ -152,6 +152,7 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <base_dir>
     ```
 
+[](){#ref-guides-storage-examples-lfs-migrate}
 !!! example "Updating settings for existing files"
     While `lfs setstripe` applies to newly created files, `lfs migrate` can be used to re-layout existing files.
     For example, to set the recommended settings above on an existing file:
