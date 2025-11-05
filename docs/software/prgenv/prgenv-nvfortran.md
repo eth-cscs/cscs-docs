@@ -29,6 +29,8 @@ The currently supported versions are:
 
 === "25.7"
 
+    !!! info "The v2 tag adds the `+cxx` variant to `hdf5`"
+
     Version 25.7 provides the following software:
 
     * [cmake@3.31.8](https://packages.spack.io/package.html?name=cmake)
