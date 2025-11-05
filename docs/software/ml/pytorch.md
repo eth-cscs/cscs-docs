@@ -328,7 +328,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `kokkos-kernels` | 4.7.01|
         | `kokkos-nvcc-wrapper` | 4.7.01|
         | `kokkos-tools` | develop|
-        | `krb5` | 1.21.3+shared|
+        | `krb5` | 1.21.3|
         | `libaec` | 1.1.4|
         | `libaio` | 0.3.113|
         | `libbsd` | 0.12.2|
@@ -379,7 +379,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `netcdf-fortran` | 4.6.2|
         | `netlib-scalapack` | 2.2.2|
         | `nghttp2` | 1.67.1|
-        | `ninja` | 1.13.0+re2c|
+        | `ninja` | 1.13.0|
         | `nlohmann-json` | 3.12.0|
         | `numactl` | 2.0.18|
         | `nvidia-mathdx` | 25.06.1-cuda12|
@@ -412,9 +412,9 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `readline` | 8.3|
         | `rust` | 1.91.0|
         | `rust-bootstrap` | 1.91.0|
-        | `sleef` | 3.8~ipo|
+        | `sleef` | 3.8|
         | `snappy` | 1.2.1|
-        | `sox` | 14.4.2~mp3|
+        | `sox` | 14.4.2|
         | `sqlite` | 3.50.4|
         | `superlu` | 7.0.0|
         | `swig` | 4.1.1|
