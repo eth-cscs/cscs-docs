@@ -149,7 +149,7 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 
 !!! example "Good default settings"
     ```bash
-    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
+    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <base_dir>
     ```
 
 !!! example "Updating settings for existing files"
