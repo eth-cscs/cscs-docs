@@ -810,12 +810,15 @@ $ exit # (6)!
     Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
     If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
 
-??? bug "Python packages from uenv shadowing those in a virtual environment"
-    When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the uenv paths being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
+??? bug "Python packages from uenv view shadowing those in a virtual environment"
+    Some uenv views set the `PYTHONPATH` environment variable and/or do not set the `PYTHONUSERBASE` environment variable.
+    This can lead to unexpected behavior when using Python virtual environments on top of the uenv, as the packages installed in the uenv view may take precedence over those in the virtual environment.
+    A possible workaround is to unset the `PYTHONPATH` and set the `PYTHONUSERBASE` environment variables, as described in the [Python virtual environments with uenv guide][ref-guides-storage-venv]:
     ```bash
-    export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
     ```
-    It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv that you need to change for your application.
+    It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv view that you need to change for your application.
 
 !!! note
     Keep in mind that

@@ -334,6 +334,10 @@ Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` a
     $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors
     ```
 
+!!! info
+    Python virtual environments can be created on top of a uenv view.
+    However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [Python virtual environments with uenv][ref-guides-storage-venv].
+
 #### Modules
 
 Most uenv provide the modules, that can be accessed using the `module` command.

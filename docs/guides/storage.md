@@ -203,9 +203,13 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # create and activate a new relocatable venv using uv
     # in this case we explicitly select python 3.12
-    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+    uv venv -p /user-environment/env/default/bin/python --system-site-packages --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     # You can also point to the uenv python with `uv venv -p $(which python) ...`
     # which, among other things, enables user portability of the venv
     cd /dev/shm/sqfs-demo
@@ -231,12 +235,16 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # for the example create a working path on SCRATCH
     mkdir $SCRATCH/sqfs-demo
     cd $SCRATCH/sqfs-demo
 
     # create and activate the empty venv
-    python -m venv ./.venv
+    python -m venv --system-site-packages ./.venv
     source ./.venv/bin/activate
 
     # install software in the virtual environment
