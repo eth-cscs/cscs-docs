@@ -139,16 +139,30 @@ The simplest way to have the correct layout is to copy to a directory with the c
 
 !!! example "Settings for large files"
     *Remember:* Settings only apply to files added to the directory after this command.
-    ```console
+    ```bash
     lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
     ```
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
 
 !!! example "Good default settings"
-    ```console
+    ```bash
     lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
     ```
+
+!!! example "Updating settings for existing files"
+    While `lfs setstripe` applies to newly created files, `lfs migrate` can be used to re-layout existing files.
+    For example, to set the recommended settings above on an existing file:
+    ```bash
+    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <file>
+    ```
+
+    Alternatively, to migrate all files recursively in a directory:
+    ```bash
+    lfs find <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M
+    ```
+
+    Note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
 
 ### Iopsstor vs Capstor
 
