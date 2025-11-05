@@ -164,8 +164,8 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     ```bash
     lfs find <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M
     ```
-
-    Note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
+    The `--verbose` flag makes `lfs migrate` print the path of each file after the file has been migrated.
+    Also note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
 
 ### Iopsstor vs Capstor
 
