@@ -208,7 +208,7 @@ The first step is to create the virtual environment using the usual workflow.
     export PYTHONUSERBASE=/user-environment/env/default
 
     # create and activate a new relocatable venv using uv
-    # in this case we explicitly select python 3.12
+    # in this case we explicitly select the python interpreter from the uenv view
     uv venv -p /user-environment/env/default/bin/python --system-site-packages --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     # You can also point to the uenv python with `uv venv -p $(which python) ...`
     # which, among other things, enables user portability of the venv
