@@ -29,7 +29,7 @@ The currently supported versions are:
 
 === "25.7"
 
-    Version 24.11 provides the following software:
+    Version 25.7 provides the following software:
 
     * [cmake@3.31.8](https://packages.spack.io/package.html?name=cmake)
     * [cray-mpich@8.1.32](https://packages.spack.io/package.html?name=cray-mpich)
