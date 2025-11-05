@@ -47,16 +47,24 @@ After logging into an [Alps cluster][ref-alps-clusters], you can quickly check t
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-8.1.0
+9.0.0
 ```
 
-On Alps clusters the most recent version 8.1.0 is installed.
+On Alps clusters the current versions are available
+
+| version | description |
+| -- | -- |
+| 9.0.0 | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
+| 9.0.1 | bug fix release that will be deployed mid November 2025 |
+| 9.1.0 | feature release, currently being tested. Will be deployed late November 2025  |
 
 ??? warning "Out of date uenv version on Balfrin"
 
     The uenv tool available on Balfrin is a different version than the one described below, and some commands will be different to those documented here.
 
     Please refer to `uenv --help` for the correct usage on Balfrin.
+
+    This version willbe upgraded to 8.1.0 based on the Balfrinew image.
 
 ## Finding uenv
 
