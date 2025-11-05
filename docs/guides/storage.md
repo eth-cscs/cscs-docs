@@ -136,12 +136,14 @@ The simplest way to have the correct layout is to copy to a directory with the c
     ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
     See the [Lustre documentation](https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace) for more information.
 
-
 !!! example "Settings for large files"
-    *Remember:* Settings only apply to files added to the directory after this command.
     ```bash
     lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
     ```
+
+    *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
+    Use `lfs migrate` to update the settings for existing files.
+
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
 
