@@ -138,7 +138,7 @@ The simplest way to have the correct layout is to copy to a directory with the c
 
 !!! example "Settings for large files"
     ```bash
-    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
+    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>
     ```
 
     *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
