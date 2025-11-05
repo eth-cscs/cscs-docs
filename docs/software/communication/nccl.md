@@ -30,7 +30,7 @@ export NCCL_NCHANNELS_PER_NET_PEER=4
 
 A value of 4 is generally a good compromise to improve point-to-point performance without affecting collectives performance.
 Setting it to a higher value such as 16 or 32 can still further improve send/recv performance, but may degrade collectives performance, so the optimal value depends on the mix of operations used in an application.
-The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issues/1272) contains additional details.
+The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issues/1272) and the paper linked above contain additional details.
 
 !!! warning "NCCL watchdog timeout or hanging process"
     In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error.
