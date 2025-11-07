@@ -273,6 +273,7 @@ pytorch
 quantumespresso
 quasiparticles
 quickstart
+recv
 rgw
 ripgrep
 rocm

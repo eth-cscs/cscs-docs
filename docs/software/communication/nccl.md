@@ -22,6 +22,16 @@ While the container engine sets these automatically when using the NCCL hook, th
 
 [_Demystifying NCCL: An In-depth Analysis of GPU Communication Protocols and Algorithms_](https://arxiv.org/abs/2507.04786v2) contains detailed information about NCCL algorithms and protocols, which can be helpful for deciding if your application could benefit from an alternative configuration.
 
+In addition to the above variables, setting `NCCL_NCHANNELS_PER_NET_PEER` can improve point-to-point performance (operations based directly on send/recv):
+
+```bash
+export NCCL_NCHANNELS_PER_NET_PEER=4
+```
+
+A value of 4 is generally a good compromise to improve point-to-point performance without affecting collectives performance.
+Setting it to a higher value such as 16 or 32 can still further improve send/recv performance, but may degrade collectives performance, so the optimal value depends on the mix of operations used in an application.
+The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issues/1272) and the paper linked above contain additional details.
+
 !!! warning "NCCL watchdog timeout or hanging process"
     In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error.
     In this scenario, we recommend disabling Slingshot eager messages with the following workaround:
