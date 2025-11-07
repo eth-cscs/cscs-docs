@@ -275,6 +275,7 @@ quasiparticles
 quickstart
 recv
 rgw
+ritom
 ripgrep
 rocm
 rowspan
@@ -301,6 +302,7 @@ sshservice
 stackinator
 stakeholders
 stdexec
+sqlite
 subfolders
 subtable
 subtables

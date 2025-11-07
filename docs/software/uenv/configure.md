@@ -37,6 +37,7 @@ Notes on the syntax:
 | ---       | ----------- | --------    | ------  |
 | [`color`][ref-uenv-configure-options-color]   | Use color output  | automatically chosen according to environment | `true`, `false` |
 | [`repo`][ref-uenv-configure-options-repo]    | The default repo location for downloaded uenv images  | `$SCRATCH/.uenv-images`  | An absolute path |
+| [`elasticsearch`][ref-uenv-configure-options-elastic]   | Elastic logging API end point | - | http://log.cscs.ch:31311/logs |
 
 [](){#ref-uenv-configure-options-color}
 #### `color`
@@ -58,3 +59,17 @@ The repo is selected according to the following process:
 * if the `--repo` CLI argument is given, use that setting
 * else if `repo` is set in the config file, use that setting
 * else use the default value of `$SCRATCH/.uenv-images`
+
+Note that the default location is system-specific, and may not match the actual `SCRATCH` environment variable.
+
+[](){#ref-uenv-configure-options-elastic}
+#### `elasticsearch`
+
+!!! warning "do not modify"
+    This option is set in the system configuration file, normally installed at `/etc/uenv/config`.
+    This file is used to set system-wide defaults, and can only be modified by system engineers.
+
+The location of the elastic logging service used to log uenv usage in SLURM jobs.
+This value has to be set to the specific API end point of the CSCS elastic service, otherwise no logging will be performed.
+
+CSCS uses this information to understand uenv usage, in order to improve the quality of the uenv service.
