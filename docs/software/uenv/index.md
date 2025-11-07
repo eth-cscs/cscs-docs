@@ -336,7 +336,7 @@ Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` a
 
 !!! info
     Python virtual environments can be created on top of a uenv view.
-    However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [Python virtual environments with uenv][ref-guides-storage-venv].
+    However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv][ref-uenv-venv].
 
 #### Modules
 
@@ -782,11 +782,11 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
 
 - **Unset `PYTHONPATH`**. Anything there is *prepended* to Python's `sys.path`, which can lead to surprising imports.
 - **Set `PYTHONUSERBASE` to the view's root directory** (e.g., `/user-environment/env/default`) so the interpreterâ€™s _user site_ resolves inside the view.
-  - You can derive this automatically from the interpreter youâ€™re about to use: take the parent of `which python`:
-    ```bash
-    export PYTHONUSERBASE=$(dirname $(dirname $(which python)))
-    ```
-  - Do not use tools that resolve symlinks (such as `readlink -f` or Python's `Path.resolve()`), as the Python interpreter in the _uenv view_ is a symlink - following it would point outside the view.
+    - You can derive this automatically from the interpreter youâ€™re about to use: take the parent of `which python`:
+      ```bash
+      export PYTHONUSERBASE=$(dirname $(dirname $(which python)))
+      ```
+    - Do not use tools that resolve symlinks (such as `readlink -f` or Python's `Path.resolve()`), as the Python interpreter in the _uenv view_ is a symlink - following it would point outside the view.
 - **Create the venv with `--system-site-packages`**.
 `venv` disables the user site by default; enabling system site restores both the system site and the user site, so packages provided by the _uenv view_ become visible inside the venv.
 
@@ -871,12 +871,12 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
     (my-venv) $ python -m pip list -v --path "$(python -c 'import site; print(site.getusersitepackages())')"
     ```
 
-!!! note "Troubleshooting & Gotchas"
+!!! note "Troubleshooting"
     - `pip install --user` will fail here.
     The uenv is a read-only squashfs; a `--user` install would try to write into `PYTHONUSERBASE` (the uenv), which is not possible.
     - Some uenv views already set `PYTHONUSERBASE`. If you start a uenv view that does this, you can skip setting `PYTHONUSERBASE` yourself.
-    - The virtual environment is _specific_ to a particular uenv and won't work unless used from inside this excact uenv - it relies on the resources packaged inside the uenv.
+    - The virtual environment is _specific_ to a particular uenv and won't work unless used from inside this exact uenv - it relies on the resources packaged inside the uenv.
 
 !!! note "Performance considerations"
-    On our Lustre parallel file system, large venvs can be slow due to many small files.
+    On our Lustre parallel file system, large virtual environments can be slow due to many small files.
     See [How to squash virtual environments][ref-guides-storage-venv] for turning a venv into a compact image to improve startup and import performance.
