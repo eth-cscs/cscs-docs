@@ -1,8 +1,6 @@
 [](){#ref-uenv-guides}
 # uenv guides
 
-This page contains guides for features and work
-
 [](){#ref-uenv-labels}
 ## uenv labels
 
@@ -20,14 +18,14 @@ The different fields are described in the following table:
 | `name`    | name of the uenv, e.g. `gromacs`, `prgenv-gnu`  |
 | `version` | version of the uenv: e.g. `v8.7`, `2025.01` |
 | `tag`     | a tag applied by CSCS     |
+| `system`  | name of the system/cluster, e.g. `daint`, `clariden`, `eiger` or `santis` |
 | `uarch`   | node microarchitecture: one of `gh200`, `a100`, `zen2`, `mi200`, `mi300a`, `zen3`    |
-| `cluster` | name of the cluster, e.g. `daint`, `clariden`, `eiger` or `santis` |
 
 !!! example "Example labels"
     ??? note "`prgenv-gnu/24.11:v2@daint%gh200`"
         The `prgenv-gnu` programming environment, built on [Daint][ref-cluster-daint] for the Grace-Hopper GH200 (`gh200`) architecture.
 
-        * the _version_ `24.11` refers to the version
+        * the _version_ is `24.11`, referring to the December 2024 version.
         * the _tag_ `v2` refers to a minor update to the uenv (e.g. a bug fix or addition of a new package).
 
     ??? note "`cp2k/2025.1:v3@eiger%zen2`"
@@ -58,14 +56,14 @@ uenv image find :v1
 uenv image find prgenv-gnu/24.11:v1
 ```
 
-By default, `uenv` filters results to uenv that were built for the current cluster.
+By default, `uenv` filters results to uenv that were built for the current cluster to match the `system` field in the label.
 The name of the current cluster is always available via the `CLUSTER_NAME` environment variable.
 
 ```console
-# log into the eiger vCluster
+# log into eiger
 $ ssh eiger
 
-# this command will search for all prgenv-gnu uenv on _eiger_
+# this command will search for all prgenv-gnu uenv on eiger
 $ uenv image find prgenv-gnu
 
 # use @ to search on a specific system, e.g. on daint:
@@ -143,9 +141,7 @@ $ ssh eiger.cscs.ch
 $ myenv
 ```
 
-The benefit of this approach is that you can create multiple environments, whereas modifying `.bashrc` will lock you into using the same environment every time you log in.
-
-
+The benefit of this approach is that you can create multiple environments, whereas modifying `.bashrc` would lock you into using the same environment every time you log in.
 
 [](){#ref-uenv-uninstall}
 ## Uninstalling the uenv tool
