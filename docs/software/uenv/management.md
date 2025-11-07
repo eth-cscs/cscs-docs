@@ -17,7 +17,7 @@ In the above image there are two locations where uenv images are stored:
     * officially supported uenv images provided by CSCS for users on Alps;
     * and, images built by users using the [uenv build][ref-uenv-build] service.
 - A **repository** (or repo) is a directory on the file system that contains downloaded uenv.
-  See the [repository][ref-uenv-repo] documentation for more information about repositories manage images.
+  See the [repository][ref-uenv-repo] documentation for more information.
 
 [](){#ref-uenv-find}
 ## Finding and downloading uenv
@@ -76,7 +76,7 @@ The search can be refined by providing a [label][ref-uenv-labels].
 [](){#ref-uenv-image-pull}
 ### `uenv image pull`
 
-To download a uenv so that you can use it, the `uenv image pull` command will the registry to your local [repository][ref-uenv-repo].
+To download a uenv so that you can use it, use the `uenv image pull` command to download it from the registry to your local [repository][ref-uenv-repo].
 For example, to download a version of the `prgenv-gnu` uenv:
 
 !!! example "uenv image pull"
@@ -97,7 +97,7 @@ Some images can be large, over 10 GB, and it can take a while to download them f
 
 By default, uenv can be pulled by all users on a system, with no restrictions.
 
-Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP][ref-uenv-vasp] license, who are added to the `vasp` group once then have provided CSCS with a copy of their license.
+Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP][ref-uenv-vasp] license, who are added to the `vasp` group once they have provided CSCS with a copy of their license.
 
 To be able to pull such images a token that authorizes access must be provided.
 Tokens are created by CSCS, and stored on SCRATCH in a file that only users who have access to the software can read.
@@ -121,7 +121,7 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
 [](){#ref-uenv-image-ls}
 ### `uenv image ls`
 
-To view all uenv that are available and ready to run, use the `uenv image ls` command:
+To view all uenv that are available and ready to run from your repo, use the `uenv image ls` command:
 
 !!! example "listing downloaded uenv"
     ```console
@@ -160,9 +160,8 @@ To view all uenv that are available and ready to run, use the `uenv image ls` co
 !!! example "filtering downloaded uenv"
 
 This command will show you all images that have been downloaded to your repo, and labelled for the current cluster.
-The examples above were executed on [Daint][ref-cluster-daint], and we can see that .
-
-To view all images that are available for all clusters
+The examples above were executed on [Daint][ref-cluster-daint] (see the `system` column in the output).
+To view all images that are available for all clusters:
 
 ```console
 $ uenv image ls @*
@@ -236,7 +235,7 @@ A repo will automatically be created in your [Scratch path][ref-storage-scratch]
 This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
 
 !!! question "Where is my repo?"
-    The Scratch filystem used depends on the cluster:
+    The Scratch fileystem used depends on the cluster:
 
     | cluster | repo path | notes |
     | ------- | --------- | ----- |
@@ -263,7 +262,17 @@ Note that the `--repo` flag goes between `uenv` and the command, `image ls` in t
 
 The `uenv repo status` command provides information about a repository.
 By default, `uenv repo status` will print information about the default repo.
-To get the status of a different repo, provide it as an optional argument:
+To get the status of a different repo, provide it as an optional positional argument:
+
+!!! example ""
+    ```console
+    $ uenv repo status
+    the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite
+      - on a lustre file system
+
+    $ ./uenv repo status $HOME/.uenv/repo
+    the repository /users/bcumming/.uenv/repo is readwrite
+    ```
 
 The information provided includes:
 
@@ -326,7 +335,7 @@ There are two main use cases:
 
 The command takes two arguments, a source and destination repo:
 ```
-$ uenv repo migrate $source $destination
+$ uenv repo migrate [source] [destination]
 ```
 
 If the destination repo does not exist, it is created and a populated with a complete copy of the source repo.

@@ -72,4 +72,4 @@ Note that the default location is system-specific, and may not match the actual 
 The location of the elastic logging service used to log uenv usage in SLURM jobs.
 This value has to be set to the specific API end point of the CSCS elastic service, otherwise no logging will be performed.
 
-CSCS uses this information to understand which uenv usage, in order to improve the quality of the uenv service.
+CSCS uses this information to understand uenv usage, in order to improve the quality of the uenv service.

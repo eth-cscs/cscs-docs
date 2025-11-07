@@ -29,11 +29,18 @@ They cover everything you need to get started with using uenv to build your code
 
     Learn how to search for, download and manage uenv images.
 
+    [:octicons-arrow-right-24: Managing uenv][ref-uenv-manage]
+
 -   :fontawesome-solid-layer-group: __uenv guides__
 
-    Learn about how uenv are named and referenced:
+    Guides and useful information, including how uenv are named and referenced:
 
     [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
+
+    and hints and tips for createing custom environments:
+
+    [:octicons-arrow-right-24: Custome environments][ref-uenv-customenv]
+
 
 </div>
 
@@ -57,7 +64,7 @@ The following guides provide for advanced users and CSCS staff:
 
     Release notes for the uenv tools installed on Alps.
 
-    Check here for changes, and known issues and bugs for specific versions.
+    Check here for changes, known issues and bugs for specific versions.
 
     [:octicons-arrow-right-24: uenv release notes][ref-uenv-release-notes]
 

@@ -213,7 +213,7 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     ```
 
 !!! example "running cmake"
-    Call `cmake` to configure a build with the `default` view loaded
+    Call the `cmake` provided by the uenv to configure a build with the `default` view loaded:
     ```console
     # run a command
     $ uenv run prgenv-gnu/25.6:v2 --view=default -- cmake -DUSE_GPU=cuda ..
@@ -320,7 +320,7 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 Starting a uenv runs in a process with the software mounted at `/user-environment` or `/user-tools`, however no changes are made to environment variables like `$PATH`.
 
 Uenv images provide **views**, which will set environment variables that load the software into your environment.
-Views are loaded using the `--view` flag for `uenv start` (also for `uenv run` and the Slurm plugin, documented below)
+Views are loaded using the `--view` flag for `uenv start`, `uenv run` and the Slurm plugin (all documented above).
 
 !!! example "loading views"
     ```console
