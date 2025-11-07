@@ -37,9 +37,9 @@ They cover everything you need to get started with using uenv to build your code
 
     [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
 
-    and hints and tips for createing custom environments:
+    and hints and tips for creating custom environments:
 
-    [:octicons-arrow-right-24: Custome environments][ref-uenv-customenv]
+    [:octicons-arrow-right-24: Custom environments][ref-uenv-customenv]
 
 
 </div>

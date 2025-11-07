@@ -235,7 +235,7 @@ A repo will automatically be created in your [Scratch path][ref-storage-scratch]
 This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
 
 !!! question "Where is my repo?"
-    The Scratch fileystem used depends on the cluster:
+    The Scratch filesystem used depends on the cluster:
 
     | cluster | repo path | notes |
     | ------- | --------- | ----- |
