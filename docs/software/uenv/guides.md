@@ -114,7 +114,7 @@ module load ncview
 
 It is possible to create a custom command that will start a new shell with a uenv loaded, with additional customizations to the environment (e.g. loading modules and setting environment variables).
 
-The first step is to create a script that performs the the customization steps to perform once the uenv has been loaded.
+The first step is to create a script that performs the customization steps to perform once the uenv has been loaded.
 Here is an example for an environment called `myenv`:
 
 ```bash title="~/.myenvrc"
