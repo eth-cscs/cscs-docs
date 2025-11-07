@@ -184,9 +184,9 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
 
 !!! warning "do not use `uenv start` in scripts or `~/.bashrc`"
     The `uenv start` command is only for creating interactive environments, because it creates an interactive shell.
-    For Slurm jobs, and use inside scripts, uset the `uenv run` and Slurm integration.
+    For Slurm jobs, and use inside scripts, use the `uenv run` and Slurm integration.
 
-    Because uenv start and run executbe commands in a new environment, they [can't be used in bashrc][ref-guides-terminal-bashrc] to configure your environment during login.
+    Because uenv start and run execute commands in a new environment, they [can't be used in bashrc][ref-guides-terminal-bashrc] to configure your environment during login.
     See our guide for creating [convenient custom environments][ref-uenv-customenv] with uenv for alternatives to `module load` in your `~/.basrhc`.
     
 
@@ -339,7 +339,7 @@ Each uenv can provide more than one view.
 The  [`modules`][ref-uenv-views-modules] and [`spack`][ref-uenv-views-spack] are standard views provided by nearly all uenv.
 
 To find a list of the views in a uenv, use the `uenv status` command when the uenv is running.
-This is a little bit incovenient, and we will add a command for finding the views in a uenv without having to run it.
+This is a little bit inconvenient, and we will add a command for finding the views in a uenv without having to run it.
 
 !!! example "listing views in a uenv"
     Use the following `uenv run` trick to list the views in a uenv:

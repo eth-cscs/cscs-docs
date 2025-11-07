@@ -139,7 +139,7 @@ To view all uenv that are available and ready to run, use the `uenv image ls` co
     prgenv-nvfortran/24.11:v1      gh200  daint   d2afc254383cef20   8,703    2025-01-30
     ```
 
-    You can apply flters, for example show only uenv with the name `prgenv-gnu`:
+    You can apply filters, for example show only uenv with the name `prgenv-gnu`:
 
     ```console
     $ uenv image ls prgenv-gnu
@@ -216,7 +216,7 @@ To add a uenv SquashFS file to a repo, so that it can be used with a [label][ref
 [](){#ref-uenv-repo}
 ## Repositories
 
-A repository is a directory that contains an sqlite databse `index.db` in the root, and an `images` sub-directory that contains the individual uenv that have been downloaded in directories.
+A repository is a directory that contains an sqlite database `index.db` in the root, and an `images` sub-directory that contains the individual uenv that have been downloaded in directories.
 
 ```
 repo
@@ -233,7 +233,7 @@ repo
 ### Creating and using repositories
 
 A repo will automatically be created in your [Scratch path][ref-storage-scratch] attached to the cluster you are on when you first use uenv.
-This _default repo_ is used by all calls to uenv, unless it is overriden using the options in this section.
+This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
 
 !!! question "Where is my repo?"
     The Scratch filystem used depends on the cluster:
@@ -263,7 +263,7 @@ Note that the `--repo` flag goes between `uenv` and the command, `image ls` in t
 
 The `uenv repo status` command provides information about a repository.
 By default, `uenv repo status` will print information about the default repo.
-To get the status of a diferent repo, provide it as an optional argument:
+To get the status of a different repo, provide it as an optional argument:
 
 The information provided includes:
 
@@ -273,7 +273,7 @@ The information provided includes:
 
 Warnings are printed if:
 
-* the repo is on a Lustre file system and contains unstriped imges;
+* the repo is on a Lustre file system and contains unstriped images;
 * the repo is in inconsistent state;
 * or, if the repo database needs updating.
 
@@ -288,7 +288,7 @@ If a warning is printed, it is possible to fix the issues by running the [`repo 
 [](){#ref-uenv-repo-update}
 ### `uenv repo update`
 
-The repo update comand can upgrade or fix issues in a repository, if needed.
+The repo update command can upgrade or fix issues in a repository, if needed.
 Currently two updates are applied:
 
 - apply Lustre striping if the repo is on a Lustre file system and no striping has already been applied;
@@ -339,7 +339,7 @@ If only one argument is passed, the default repo is used as the source.
     If migration is cancelled by the user, or by a system issue, it can be resumed with the same command, which will continue from where the migration was when canceled.
 
 !!! note
-    In December 2025 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesytem called Ritom.
+    In December 2025 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesystem called Ritom.
 
     When the transition occurs, you will see a warning message like the following:
     ```
