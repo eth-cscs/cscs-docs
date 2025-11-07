@@ -173,7 +173,7 @@ At first it can seem strange that a "high-performance" file system is significan
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 [](){#ref-guides-storage-venv}
-### Python virtual environments with uenv
+### Squash Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.
 
@@ -191,7 +191,7 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow.
+The first step is to create the virtual environment using the usual workflow described in the [uenv documentation][ref-uenv-venv].
 
 === "uv"
 
@@ -205,13 +205,11 @@ The first step is to create the virtual environment using the usual workflow.
 
     # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
     unset PYTHONPATH
-    export PYTHONUSERBASE=/user-environment/env/default
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
 
     # create and activate a new relocatable venv using uv
     # in this case we explicitly select the python interpreter from the uenv view
-    uv venv -p /user-environment/env/default/bin/python --system-site-packages --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
-    # You can also point to the uenv python with `uv venv -p $(which python) ...`
-    # which, among other things, enables user portability of the venv
+    uv venv --python $(which python) --system-site-packages --seed --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 

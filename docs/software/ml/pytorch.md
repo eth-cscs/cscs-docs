@@ -779,55 +779,11 @@ There are two ways to access the software provided by the uenv, once it has been
 [](){#ref-uenv-pytorch-venv}
 ### Adding Python packages on top of the uenv
 
-Uenvs are read-only, and cannot be modified. However, it is possible to add Python packages on top of the uenv using virtual environments analogous to the setup with containers.
-
-```console title="Creating a virtual environment on top of the uenv"
-$ uenv start pytorch/v2.8.0:v1 --view=default # (1)!
-
-$ python -m venv --system-site-packages venv-uenv-pt2.8-v1 # (2)!
-
-$ source venv-uenv-pt2.8-v1/bin/activate # (3)!
-
-(venv-uenv-pt2.8-v1) $ pip install <package> # (4)!
-
-(venv-uenv-pt2.8-v1) $ deactivate # (5)!
-
-$ exit # (6)!
-```
-
-1. The `default` view is recommended, as it loads all the packages provided by the uenv.
-   This is important for PyTorch to work correctly, as it relies on the CUDA and NCCL libraries provided by the uenv.
-2. The virtual environment is created in the current working directory, and can be activated and deactivated like any other Python virtual environment.
-3. Activating the virtual environment will override the Python executable provided by the uenv, and use the one from the virtual environment instead.
-   This is important to ensure that the packages installed in the virtual environment are used.
-4. The virtual environment can be used to install any Python package.
-5. The virtual environment can be deactivated using the `deactivate` command.
-   This will restore the original Python executable provided by the uenv.
-6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
-
-
-!!! note "Squashing the virtual environment"
-    Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
-    If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
-
-??? bug "Python packages from uenv view shadowing those in a virtual environment"
-    Some uenv views set the `PYTHONPATH` environment variable and/or do not set the `PYTHONUSERBASE` environment variable.
-    This can lead to unexpected behavior when using Python virtual environments on top of the uenv, as the packages installed in the uenv view may take precedence over those in the virtual environment.
-    A possible workaround is to unset the `PYTHONPATH` and set the `PYTHONUSERBASE` environment variables, as described in the [Python virtual environments with uenv guide][ref-guides-storage-venv]:
-    ```bash
-    unset PYTHONPATH
-    export PYTHONUSERBASE=/user-environment/env/default
-    ```
-    It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv view that you need to change for your application.
-
-!!! note
-    Keep in mind that
-
-     * this virtual environment is _specific_ to this particular uenv and won't actually work unless you are using it from inside this uenv - it relies on the resources packaged inside the uenv.
-     * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
-
-Alternatively one can use the uenv as [upstream Spack instance][ref-build-uenv-spack] to to add both Python and non-Python packages.
-However, this workflow is more involved and intended for advanced Spack users.
+Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages.
+Please refer to the [Python virtual environments with uenv documentation][ref-uenv-venv] and the [guide on performance][ref-guides-storage-venv] for more details on
+- creating and managing virtual environments on top of uenvs
+- best practices and caveats when using virtual environments with uenvs
+- troubleshooting common issues
 
 ### Running PyTorch jobs with Slurm
 
