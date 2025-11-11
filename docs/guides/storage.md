@@ -138,7 +138,7 @@ The simplest way to have the correct layout is to copy to a directory with the c
 
 !!! example "Settings for large files"
     ```bash
-    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>
+    lfs setstripe --stripe-count 32 --stripe-size 4M <big_files_dir>
     ```
 
     *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
@@ -149,7 +149,7 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 
 !!! example "Good default settings"
     ```bash
-    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <base_dir>
+    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <base_dir>
     ```
 
 [](){#ref-guides-storage-examples-lfs-migrate}
@@ -157,12 +157,12 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     While `lfs setstripe` applies to newly created files, `lfs migrate` can be used to re-layout existing files.
     For example, to set the recommended settings above on an existing file:
     ```bash
-    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <file>
+    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <file>
     ```
 
     Alternatively, to migrate all files recursively in a directory:
     ```bash
-    lfs find --type file <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M
+    lfs find --type file <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M
     ```
     The `--verbose` flag makes `lfs migrate` print the path of each file after the file has been migrated.
     Also note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
