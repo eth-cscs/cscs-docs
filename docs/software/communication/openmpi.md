@@ -33,7 +33,7 @@ export OMPI_MCA_mtl="ofi" # (4)!
 
 !!! info "CXI provider does all communication through the network interface cards (NICs)"
     When using the libfabric CXI provider, all communication goes through NICs, including intra-node communication.
-    This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will not be severely limited.
+    This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will be severely limited.
 
 ### Using the experimental LINKx provider
 
