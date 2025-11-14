@@ -46,7 +46,11 @@ The CXI provider can be used for inter-node communication while the shared memor
 
 !!! warning "The LINKx provider is experimental and may contain bugs, in particular for intra-node communication"
 
-To use the LINKx provider, set `--mpi=pmix`, exactly as without the LINKx provider.
+    A patch has been included in the [`prgenv-gnu-openmpi`][ref-uenv-prgenv-gnu-openmpi] uenv for [this LINKx issue](https://github.com/ofiwg/libfabric/issues/11231).
+    However, the patch may be incomplete and other issues may still be present.
+    Always validate your results to ensure MPI is working correctly.
+
+To use the LINKx provider, set `--mpi=pmix`, as without the LINKx provider.
 Additionally, set the following environment variables:
 
 ```bash
