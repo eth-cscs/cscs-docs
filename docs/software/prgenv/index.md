@@ -10,6 +10,10 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
     Provides compilers, MPI, tools and libraries built around the GNU compiler toolchain.
     It is the go to programming environment on all systems and target node types, that is it is the first that you should try out when starting to compile an application or create a python virtual environment.
 
+-   :fontawesome-solid-layer-group: [__prgenv-gnu-openmpi__][ref-uenv-prgenv-gnu-openmpi] uenv
+
+    Same as [`prgenv-gnu`][ref-uenv-prgenv-gnu] but with OpenMPI instead of Cray MPICH.
+
 -   :fontawesome-solid-layer-group: [__prgenv-nvfortran__][ref-uenv-prgenv-nvfortran] uenv
 
     Provides a set of tools and libraries for building applications that need the NVIDIA Fortran compiler, commonly required for OpenACC and CUDA-Fortran applications.
