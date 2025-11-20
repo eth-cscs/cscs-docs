@@ -64,10 +64,12 @@ See the individual pages for each library for information on how to use and best
 
 -   __Machine Learning__
 
-    NCCL and RCCL 
+    NCCL, RCCL and NVSHMEM
 
     [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
 
     [:octicons-arrow-right-24: RCCL][ref-communication-rccl]
+
+    [:octicons-arrow-right-24: NVSHMEM][ref-communication-nvshmem]
 
 </div>
