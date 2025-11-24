@@ -19,7 +19,8 @@ The release schedule is not fixed, with new versions will be released roughly ev
 
 | version            | node types        | system                                  |
 |--------------------|-------------------|-----------------------------------------|
-| 25.6               | gh200             | daint, eiger, santis, clariden          |
+| 25.11              | gh200, zen2       | daint, eiger, santis, clariden          |
+| 25.6               | gh200, zen2       | daint, eiger, santis, clariden          |
 | 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
 | 24.7               | gh200, zen2       | daint, eiger, todi                      |
 
@@ -31,6 +32,48 @@ We will provide full support for 12 months after the uenv image is released, and
 * The 24.7 release is no longer supported and will be removed at the end of July 2025 - users are encouraged to update to 24.11 or later, before requesting support.
 
 ### Versions
+
+=== "25.11"
+
+    The key update in version 25.11 compared to 25.6 is that libfabric was updated from the system-provided version 1.22 to a a newer version 2.3.1 built from [source](https://github.com/ofiwg/libfabric).
+    This newer version brings stability and performance improvements, in particular to NCCL workloads.
+
+    `netcdf-cxx4` also was added to the uenv, alongside the other netcdf packages `netcdf-c`, `netcdf-cxx`, and `netcdf-fortran`.
+
+    ??? info "all packages exposed via the `default` and `modules` views in `v1`"
+        * [aws-ofi-nccl@1.16.3](https://packages.spack.io/package.html?name=aws-ofi-nccl)
+        * [boost@1.88.0](https://packages.spack.io/package.html?name=boost)
+        * [cmake@3.31.9](https://packages.spack.io/package.html?name=cmake)
+        * [cray-mpich@8.1.32](https://packages.spack.io/package.html?name=cray-mpich)
+        * [cuda@12.9.0](https://packages.spack.io/package.html?name=cuda)
+        * [fftw@3.3.10](https://packages.spack.io/package.html?name=fftw)
+        * [fmt@12.0.0](https://packages.spack.io/package.html?name=fmt)
+        * [gcc@14.2.0](https://packages.spack.io/package.html?name=gcc)
+        * [gsl@2.8](https://packages.spack.io/package.html?name=gsl)
+        * [hdf5@1.14.6](https://packages.spack.io/package.html?name=hdf5)
+        * [kokkos@4.7.01](https://packages.spack.io/package.html?name=kokkos)
+        * [kokkos-kernels@4.7.01](https://packages.spack.io/package.html?name=kokkos-kernels)
+        * [kokkos-tools@develop](https://packages.spack.io/package.html?name=kokkos-tools)
+        * [libfabric@2.3.1](https://packages.spack.io/package.html?name=libfabric)
+        * [libtree@3.1.1](https://packages.spack.io/package.html?name=libtree)
+        * [lua@5.4.6](https://packages.spack.io/package.html?name=lua)
+        * [lz4@1.10.0](https://packages.spack.io/package.html?name=lz4)
+        * [meson@1.8.5](https://packages.spack.io/package.html?name=meson)
+        * [nccl@2.28.3-1](https://packages.spack.io/package.html?name=nccl)
+        * [nccl-tests@2.16.3](https://packages.spack.io/package.html?name=nccl-tests)
+        * [netcdf-c@4.9.3](https://packages.spack.io/package.html?name=netcdf-c)
+        * [netcdf-cxx@4.2](https://packages.spack.io/package.html?name=netcdf-cxx)
+        * [netcdf-cxx4@4.3.1](https://packages.spack.io/package.html?name=netcdf-cxx4)
+        * [netcdf-fortran@4.6.2](https://packages.spack.io/package.html?name=netcdf-fortran)
+        * [netlib-scalapack@2.2.2](https://packages.spack.io/package.html?name=netlib-scalapack)
+        * [ninja@1.13.0](https://packages.spack.io/package.html?name=ninja)
+        * [openblas@0.3.30](https://packages.spack.io/package.html?name=openblas)
+        * [osu-micro-benchmarks@7.5.1](https://packages.spack.io/package.html?name=osu-micro-benchmarks)
+        * [papi@7.2.0](https://packages.spack.io/package.html?name=papi)
+        * [python@3.14.0](https://packages.spack.io/package.html?name=python)
+        * [superlu@7.0.0](https://packages.spack.io/package.html?name=superlu)
+        * [xcb-util-cursor@0.1.5](https://packages.spack.io/package.html?name=xcb-util-cursor)
+        * [zlib-ng@2.2.4](https://packages.spack.io/package.html?name=zlib-ng)
 
 === "25.6"
 
