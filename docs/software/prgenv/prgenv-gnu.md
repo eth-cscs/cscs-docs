@@ -38,7 +38,7 @@ We will provide full support for 12 months after the uenv image is released, and
     The key update in version 25.11 compared to 25.6 is that libfabric was updated from the system-provided version 1.22 to a a newer version 2.3.1 built from [source](https://github.com/ofiwg/libfabric).
     This newer version brings stability and performance improvements, in particular to NCCL workloads.
 
-    `netcdf-cxx4` also was added to the uenv, alongside the other netcdf packages `netcdf-c`, `netcdf-cxx`, and `netcdf-fortran`.
+    `netcdf-cxx4` also was added to the uenv, alongside the other NetCDF packages `netcdf-c`, `netcdf-cxx`, and `netcdf-fortran`.
 
     ??? info "all packages exposed via the `default` and `modules` views in `v1`"
         * [aws-ofi-nccl@1.16.3](https://packages.spack.io/package.html?name=aws-ofi-nccl)
