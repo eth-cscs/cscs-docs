@@ -1,7 +1,7 @@
 [](){#ref-uenv-configure}
-# Configuring uenv
+# Configuring uenvs
 
-Uenv is designed to work out of the box, with zero configuration for most users.
+The uenv tools are designed to work out of the box, with zero configuration for most users.
 There is support for limited per-user configuration via a configuration file, which will be expanded as we add features that make it easier for groups and communities to manage their own environments.
 
 ## User configuration

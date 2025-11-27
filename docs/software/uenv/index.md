@@ -1,8 +1,8 @@
 [](){#ref-uenv}
 # uenv
 
-Uenv are user environments that provide scientific applications, libraries and tools.
-Uenv are typically application-specific, domain-specific or tool-specific - each uenv contains only what is required for the application or tools that it provides.
+Uenvs are user environments that provide scientific applications, libraries and tools.
+Uenvs are typically application-specific, domain-specific or tool-specific - each uenv contains only what is required for the application or tools that it provides.
 
 Each uenv is packaged in a single file (in the [Squashfs](https://docs.kernel.org/filesystems/squashfs.html) file format), that stores a compressed directory tree that contains all of the software, tools and other information like modules, required to provide a rich environment.
 
@@ -25,15 +25,15 @@ They cover everything you need to get started with using uenv to build your code
 
 -   :fontawesome-solid-layer-group: __Managing uenv__
 
-    Uenv need to be downloaded before they can be used.
+    Uenvs need to be downloaded before they can be used.
 
     Learn how to search for, download and manage uenv images.
 
-    [:octicons-arrow-right-24: Managing uenv][ref-uenv-manage]
+    [:octicons-arrow-right-24: Managing uenvs][ref-uenv-manage]
 
 -   :fontawesome-solid-layer-group: __uenv guides__
 
-    Guides and useful information, including how uenv are named and referenced:
+    Guides and useful information, including how uenvs are named and referenced:
 
     [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
 
@@ -50,15 +50,15 @@ The following guides provide for advanced users and CSCS staff:
 
 -   :fontawesome-solid-layer-group: __Building uenv__
 
-    More adventurous users can create their own uenv for personal use, and for other users in their team and community.
+    More adventurous users can create their own uenvs for personal use, and for other users in their team and community.
 
-    [:octicons-arrow-right-24: Building uenv][ref-uenv-build]
+    [:octicons-arrow-right-24: Building uenvs][ref-uenv-build]
 
 -   :fontawesome-solid-layer-group: __Configuring uenv__
 
     Users can customize the behavior of uenv using a configuration file.
 
-    [:octicons-arrow-right-24: Configuring uenv][ref-uenv-configure]
+    [:octicons-arrow-right-24: Configuring uenvs][ref-uenv-configure]
 
 -   :fontawesome-solid-layer-group: __Release notes__
 
@@ -74,7 +74,7 @@ The following guides provide for advanced users and CSCS staff:
 
     **For CSCS staff**, though it may be of interest to advanced users.
 
-    [:octicons-arrow-right-24: Deploying uenv][ref-uenv-deploy]
+    [:octicons-arrow-right-24: Deploying uenvs][ref-uenv-deploy]
 
 
 </div>
@@ -88,21 +88,19 @@ After logging into an [Alps cluster][ref-alps-clusters], you can quickly check t
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-9.0.0
+9.1.0
 ```
 
-On Alps clusters the current versions are available
+[Version 9][ref-uenv-release-notes-v9.0.0] of uenv is installed on the main Alps clusters, specifically the following versions:
 
 | version | description |
 | -- | -- |
-| 9.0.0 | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
-| 9.0.1 | bug fix release that will be deployed mid November 2025 |
-| 9.1.0 | feature release, currently being tested. Will be deployed late November 2025  |
+| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
+| [9.1.0][ref-uenv-release-notes-v9.1.1] | feature bug fix release, currently being tested. |
 
-Uenv are fully self-contained environments stored in a single SquashFS file.
-In order to use a uenv, it first has to be downloaded into a local file system.
+See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 
-The `uenv` command line tool is the main tool used to interact with uenv.
+The `uenv` command line tool is the main tool used to interact with uenvs.
 The basic workflow for using a uenv provided by CSCS is:
 
 * search for available images using `uenv image find`
