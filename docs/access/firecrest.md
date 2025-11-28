@@ -20,7 +20,7 @@ Starting early 2025, CSCS has introduced a new version of the API: [FirecREST ve
 Version 2 is faster, easier to use, and more efficient in resource management than its predecessor, therefore, if you are new to FirecREST start directly using **version 2**.
 
 !!! warning "Deprecation notice"
-    All interfaces to **FirecREST version 1** at CSCS will be removed on Friday 05.12.2025 at 12:00pm CET. For more information please refer this [announcement](https://status.cscs.ch/announcements/e37325f6-0bb3-4b07-bbd6-25d465d39be5){:target="_blank"}
+    All interfaces to **FirecREST version 1** at CSCS will be removed on Friday 05.12.2025 at 12:00pm CET. For more information please refer to this [announcement](https://status.cscs.ch/announcements/e37325f6-0bb3-4b07-bbd6-25d465d39be5){:target="_blank"}.
 
 === "Version 2"
 
