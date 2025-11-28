@@ -1,5 +1,5 @@
 [](){#ref-uenv-deploy}
-# Deploying uenv
+# Deploying uenvs
 
 [](){#ref-uenv-deploy-versions}
 ## Versioning and labeling
@@ -18,7 +18,8 @@ prgenv-gnu/24.11:v2@todi%gh200
 
 ### uenv name
 
-The name of the uenv. In this case `prgenv-gnu`.
+The name of the uenv.
+In this case `prgenv-gnu`.
 
 ### uenv version
 
@@ -117,7 +118,7 @@ recipes to deployed versions on microarchitectures.
 !!! note "For CSCS staff"
     This information applies only to CSCS staff.
 
-Deployment and deletion of uenv requires elevated permissions.
+Deployment and deletion of uenvs requires elevated permissions.
 Before you can modify the uenv registry, you need to set up credentials.
 
 * Your CSCS username needs to be added to the `uenv-admin` group on JFrog, and
@@ -209,8 +210,8 @@ These artifacts are stored in a JFrog "generic repository" [uenv-sources].
 
 Each software package has a sub-directory and all image paths are lower case (e.g. `uenv-sources/namd`).
 
-By default, all packages in [uenv-sources]  are anonymous read access
-to enable users to build uenv on vClusters without configuring access tokens.
+By default, all packages in [uenv-sources] are anonymous read access
+to enable users to build uenvs on vClusters without configuring access tokens.
 However,
 
 * access to some packages is restricted by applying access rules to the package path
@@ -236,9 +237,9 @@ For this reason, there is not a universal release and deprecation schedule for s
 While the frequency of updates and deprecation policy is defined by the uenv maintainer, the following release cycle with tag names should be followed when possible:
 
 - [optional] tag pre-releases with `:rc1`, `:rc2`, etc
-    - uenv tagged as release candidates are intended for early testing only, and can be removed at any point.
+    - uenvs tagged as release candidates are intended for early testing only, and can be removed at any point.
 - Tag `:v1` for the first official release.
-- [optional] release updated versions of uenv with tags (`:v2`, `:v3`, ...) with patches and fixes.
+- [optional] release updated versions of a uenv with tags (`:v2`, `:v3`, ...) with patches and fixes.
 - Remove old versions according to a deprecation policy.
 
 A uenv's release and support policy is part of the uenv's documentation under the "Versioning" section, see [prgenv-gnu][ref-uenv-prgenv-gnu-versioning] for example.
