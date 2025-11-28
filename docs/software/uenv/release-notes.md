@@ -38,10 +38,10 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
     If you see errors that contain `error: unable to exec '...': No such file or directory (errno=2)`, follow the guide for [uninstalling user-installed uenv][ref-uenv-uninstall].
 
 ??? warning "bash: module: command not found"
-    This is a known issue with version 9.0.0 that was be fixed in 9.0.1, and should no longer be an issue on Alps.
+    This is a known issue with version 9.0.0 that was fixed in 9.0.1, and should no longer be an issue on Alps.
     See the [uenv modules][ref-uenv-error-v9modules] docs for a workaround.
 
-### Minor and Patch releases
+### Minor and patch releases
 
 [](){#ref-uenv-release-notes-v9.1.1}
 ??? info "v9.1.1 bug fix release"

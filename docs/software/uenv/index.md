@@ -96,7 +96,7 @@ $ uenv --version
 | version | description |
 | -- | -- |
 | [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
-| [9.1.0][ref-uenv-release-notes-v9.1.1] | feature bug fix release, currently being tested. |
+| [9.1.1][ref-uenv-release-notes-v9.1.1] | feature bug fix release, currently being tested. |
 
 See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 
