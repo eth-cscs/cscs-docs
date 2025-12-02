@@ -17,7 +17,7 @@ A build of this image is currently hosted on the [Quay.io](https://quay.io/) reg
 
 Containers provided by NVIDIA on NGC typically provide NVSHMEM as part of the NVHPC SDK in the image, however this version is built for and linked against OpenMPI and UCX in the container, which are not compatible with the Slingshot network of Alps.
 
-To use NVSHMEM, we recomend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI+libfabric.
+To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI+libfabric.
 
 NVSHMEM is built from source in the container, from a source tar ball provided by NVIDIA.
 The example here provides the latest version 3.4.5 at the time of writing (November 2025).
