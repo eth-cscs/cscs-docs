@@ -32,39 +32,12 @@ If you are using [containers][ref-container-engine], the simplest approach is to
 Alternatively, it is possible to build libfabric and its dependencies into your container.
 
 !!! example "Installing libfabric in a container for NVIDIA nodes"
-    The following lines demonstrate how to configure and 
+    The following lines demonstrate how to configure and install libfabric in a Dockerfile.
 
     Note that it is assumed that CUDA has already been installed on the system.
     ```Dockerfile
-    # Install libfabric
-    ARG gdrcopy_version=2.5.1
-    RUN git clone --depth 1 --branch v${gdrcopy_version} https://github.com/NVIDIA/gdrcopy.git \
-        && cd gdrcopy \
-        && export CUDA_PATH=${CUDA_HOME:-$(echo $(which nvcc) | grep -o '.*cuda')} \
-        && make CC=gcc CUDA=$CUDA_PATH lib \
-        && make lib_install \
-        && cd ../ && rm -rf gdrcopy
-
-    # Install libfabric
-    ARG libfabric_version=1.22.0
-    RUN git clone --branch v${libfabric_version} --depth 1 https://github.com/ofiwg/libfabric.git \
-        && cd libfabric \
-        && ./autogen.sh \
-        && ./configure --prefix=/usr --with-cuda=/usr/local/cuda --enable-cuda-dlopen \
-           --enable-gdrcopy-dlopen --enable-efa \
-        && make -j$(nproc) \
-        && make install \
-        && ldconfig \
-        && cd .. \
-        && rm -rf libfabric
+    --8<-- "docs/software/communication/dockerfiles/libfabric"
     ```
-
-!!! todo
-    In the above recipe `CUDA_PATH` is "calculated" for gdrcopy, and just hard coded to `/usr/loca/cuda` for libfabric.
-    How about just hard-coding it everywhere, to simplify the recipe?
-
-!!! todo
-    Should we include the EFA and UCX support here? It is not needed to run on Alps, and might confuse readers.
 
 ??? note "The full Containerfile for GH200"
 
@@ -78,75 +51,9 @@ Alternatively, it is possible to build libfabric and its dependencies into your 
     - this image also packages the UCX communication framework to allow building a broader set of software (e.g. some OpenSHMEM implementations) and supporting optimized Infiniband communication as well.
 
     ```
-    ARG ubuntu_version=24.04
-    ARG cuda_version=12.8.1
-    FROM docker.io/nvidia/cuda:${cuda_version}-cudnn-devel-ubuntu${ubuntu_version}
-
-    RUN apt-get update \
-        && DEBIAN_FRONTEND=noninteractive \
-           apt-get install -y \
-            build-essential \
-            ca-certificates \
-            pkg-config \
-            automake \
-            autoconf \
-            libtool \
-            cmake \
-            gdb \
-            strace \
-            wget \
-            git \
-            bzip2 \
-            python3 \
-            gfortran \
-            rdma-core \
-            numactl \
-            libconfig-dev \
-            libuv1-dev \
-            libfuse-dev \
-            libfuse3-dev \
-            libyaml-dev \
-            libnl-3-dev \
-            libnuma-dev \
-            libsensors-dev \
-            libcurl4-openssl-dev \
-            libjson-c-dev \
-            libibverbs-dev \
-            --no-install-recommends \
-        && rm -rf /var/lib/apt/lists/*
-
-    ARG gdrcopy_version=2.5.1
-    RUN git clone --depth 1 --branch v${gdrcopy_version} https://github.com/NVIDIA/gdrcopy.git \
-        && cd gdrcopy \
-        && export CUDA_PATH=${CUDA_HOME:-$(echo $(which nvcc) | grep -o '.*cuda')} \
-        && make CC=gcc CUDA=$CUDA_PATH lib \
-        && make lib_install \
-        && cd ../ && rm -rf gdrcopy
-
-    # Install libfabric
-    ARG libfabric_version=1.22.0
-    RUN git clone --branch v${libfabric_version} --depth 1 https://github.com/ofiwg/libfabric.git \
-        && cd libfabric \
-        && ./autogen.sh \
-        && ./configure --prefix=/usr --with-cuda=/usr/local/cuda --enable-cuda-dlopen --enable-gdrcopy-dlopen --enable-efa \
-        && make -j$(nproc) \
-        && make install \
-        && ldconfig \
-        && cd .. \
-        && rm -rf libfabric
-
-    # Install UCX
-    ARG UCX_VERSION=1.19.0
-    RUN wget https://github.com/openucx/ucx/releases/download/v${UCX_VERSION}/ucx-${UCX_VERSION}.tar.gz \
-        && tar xzf ucx-${UCX_VERSION}.tar.gz \
-        && cd ucx-${UCX_VERSION} \
-        && mkdir build \
-        && cd build \
-        && ../configure --prefix=/usr --with-cuda=/usr/local/cuda --with-gdrcopy=/usr/local --enable-mt --enable-devel-headers \
-        && make -j$(nproc) \
-        && make install \
-        && cd ../.. \
-        && rm -rf ucx-${UCX_VERSION}.tar.gz ucx-${UCX_VERSION}
+    --8<-- "docs/software/communication/dockerfiles/base"
+    --8<-- "docs/software/communication/dockerfiles/libfabric"
+    --8<-- "docs/software/communication/dockerfiles/ucx"
     ```
 
 ## Tuning libfabric

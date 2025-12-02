@@ -6,17 +6,12 @@ However, [OpenMPI](https://www.open-mpi.org/) can be used as an alternative in s
 
 To use OpenMPI on Alps, it must be built against [libfabric][ref-communication-libfabric] with support for the [Slingshot 11 network][ref-alps-hsn].
 
-## Using OpenMPI
-
 !!! warning
     Building and using OpenMPI on Alps is still [work in progress](https://eth-cscs.github.io/cray-network-stack/).
     The instructions found on this page may be inaccurate, but are a good starting point to using OpenMPI on Alps.
 
-!!! todo
-    Deploy experimental uenv.
-
-!!! todo
-    Document OpenMPI uenv next to prgenv-gnu, prgenv-nvfortran, and linalg?
+[](){#ref-communication-uenv}
+## OpenMPI in uenv
 
 OpenMPI is provided through a [uenv][ref-uenv] similar to [`prgenv-gnu`][ref-uenv-prgenv-gnu].
 Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent.
@@ -31,9 +26,9 @@ srun --mpi=pmix ...
 Additionally, the following environment variables should be set:
 ```bash
 export PMIX_MCA_psec="native" # (1)!
-export FI_PROVIDER="cxi" # (2)!
-export OMPI_MCA_pml="^ucx" # (3)!
-export OMPI_MCA_mtl="ofi" # (4)!
+export FI_PROVIDER="cxi"      # (2)!
+export OMPI_MCA_pml="^ucx"    # (3)!
+export OMPI_MCA_mtl="ofi"     # (4)!
 ```
 
 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
@@ -50,9 +45,38 @@ export OMPI_MCA_mtl="ofi" # (4)!
     To use the LINKx provider, set the following, instead of `FI_PROVIDER=cxi`:
 
     ```bash
-    export FI_PROVIDER="lnx" # (1)!
+    export FI_PROVIDER="lnx"           # (1)!
     export FI_LNX_PROV_LINKS="shm+cxi" # (2)!
     ```
 
     1. Use the libfabric LINKx provider, to allow using different libfabric providers for inter- and intra-node communication.
     2. Use the shared memory provider for intra-node communication and the CXI (Slingshot) provider for inter-node communication.
+
+[](){#ref-communication-openmpi-ce}
+## OpenMPI in containers
+
+!!! warning "Do we need to use these base containers?"
+    The base containers on `quay.io` are a bit misleading: if we are not providing official base container images, this will confuse users
+
+```Dockerfile
+--8<-- "docs/software/communication/dockerfiles/openmpi"
+```
+
+??? note "The full containerfile"
+    ```Dockerfile
+    --8<-- "docs/software/communication/dockerfiles/base"
+    --8<-- "docs/software/communication/dockerfiles/libfabric"
+    --8<-- "docs/software/communication/dockerfiles/ucx"
+    --8<-- "docs/software/communication/dockerfiles/openmpi"
+    ```
+
+1. Build OpenSHMEM as part of the OpenMPI installation. This can be useful to support other SHMEM implementations like NVSHMEM.
+
+
+```bash
+export FI_PROVIDER="lnx"           # (1)!
+export FI_LNX_PROV_LINKS="shm+cxi" # (2)!
+```
+
+1. Use the libfabric LINKx provider, to allow using different libfabric providers for inter- and intra-node communication.
+2. Use the shared memory provider for intra-node communication and the CXI (Slingshot) provider for inter-node communication.

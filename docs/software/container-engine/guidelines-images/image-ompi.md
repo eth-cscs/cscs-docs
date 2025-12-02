@@ -25,8 +25,9 @@ ARG OMPI_VER=5.0.8
 RUN wget -q https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-${OMPI_VER}.tar.gz \
     && tar xf openmpi-${OMPI_VER}.tar.gz \
     && cd openmpi-${OMPI_VER} \
-    && ./configure --prefix=/usr --with-ofi=/usr --with-ucx=/usr --enable-oshmem \
-       --with-cuda=/usr/local/cuda --with-cuda-libdir=/usr/local/cuda/lib64/stubs \
+    && ./configure --prefix=/usr --with-ofi=/usr --with-ucx=/usr \
+        --enable-oshmem --with-cuda=/usr/local/cuda    \
+        --with-cuda-libdir=/usr/local/cuda/lib64/stubs \
     && make -j$(nproc) \
     && make install \
     && ldconfig \
