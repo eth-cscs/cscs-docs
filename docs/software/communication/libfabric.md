@@ -6,14 +6,14 @@ Libfabric has backends for different network types, and is the interface chosen 
 
 To fully take advantage of the network on Alps:
 
-* libfabric and its dependencies must be availailable in your environment (uenv or container);
+* libfabric and its dependencies must be available in your environment (uenv or container);
 * and, communication libraries like Cray MPICH, OpenMPI, NCCL, and RCCL have to be built or configured to use libfabric.
 
 ??? question "What about UCX?"
     [Unified Communication X (UCX)](https://openucx.org/) is a low level library that targets the same layer as libfabric.
     Specifically, it provides an open, standards-based, networking API.
 
-    By targetting UCX and libfabric, MPI and NCCL do not need to implement low-level support for each network hardware.
+    By targeting UCX and libfabric, MPI and NCCL do not need to implement low-level support for each network hardware.
 
     A downside of having two standards instead of one, is that pre-built software (for example Conda packages and Containers) have versions of MPI built for UCX, which does not provide a back end for Slingshot 11.
     Trying to run these images will lead to errors, or very poor performance.
@@ -66,9 +66,9 @@ Alternatively, it is possible to build libfabric and its dependencies into your 
 !!! todo
     Should we include the EFA and UCX support here? It is not needed to run on Alps, and might confuse readers.
 
-??? note "The full containerfile for GH200"
+??? note "The full Containerfile for GH200"
 
-    The containerfile below is based on the NVIDIA CUDA image, which provides a complete CUDA installation.
+    The Containerfile below is based on the NVIDIA CUDA image, which provides a complete CUDA installation.
 
     - Communication frameworks are built with explicit support for CUDA and GDRCopy.
 
