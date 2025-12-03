@@ -48,7 +48,15 @@ it prints some basic instructions on how to use the command.
 
 The following sbatch script can be used as a template.
 
+!!! note
+    Before using a uenv, you have to ensure that you pulled the one you are going to use.
+    Refer to [uenv quick start guide][ref-uenv-using] for more details.
+
 === "GH200"
+
+    !!! note
+        Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu].
+        How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
     ```bash
     #SBATCH -N 1
@@ -56,14 +64,11 @@ The following sbatch script can be used as a template.
     #SBATCH --cpus-per-task=72
     #SBATCH --gpus-per-task=1
     #SBATCH -A <account>
-    #SBATCH --uenv=paraview/5.13.2:v2 --view=paraview
+    #SBATCH --uenv=paraview/6.0.1 --view=default
     #SBATCH --hint=nomultithread
 
-    export MPICH_GPU_SUPPORT_ENABLED=0
-
-    srun --cpus-per-task=72 --cpu_bind=sockets /user-environment/ParaView-5.13/gpu_wrapper.sh /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
+    srun --cpus-per-task=72 bind-gpu-vtk-egl pvbatch your-paraview-python-script.py
     ```
-    Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu]. How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
 === "Eiger"
 
@@ -71,12 +76,11 @@ The following sbatch script can be used as a template.
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
-    #SBATCH --uenv=paraview/5.13.2:v2 --view=paraview
+    #SBATCH --uenv=paraview/6.0.1 --view=default
     #SBATCH --hint=nomultithread
 
-    srun --cpus-per-task=128 /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
+    srun --cpus-per-task=128 pvbatch your-paraview-python-script.py
     ```
-
 
 ## Using ParaView in client-server mode
 
