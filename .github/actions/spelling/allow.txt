@@ -79,6 +79,7 @@ NAMD
 NICs
 NVMe
 NVSHMEM
+NVLINK
 Nordend
 OpenFabrics
 OAuth

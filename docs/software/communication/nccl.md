@@ -36,7 +36,7 @@ The example container files provided in the [libfabric][ref-communication-libfab
 
 !!! example "Installing the NCCL benchmarks in a container for NVIDIA nodes"
     To test whether NCCL inside a container has been set up correctly for optimal performance, add the NCCL test suite to the container.
-    Use the following as the starting point for installing the tess:
+    Use the following as the starting point for installing the tests:
 
     ```Dockerfile
     --8<-- "docs/software/communication/dockerfiles/nccl-tests"
@@ -130,8 +130,8 @@ The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issu
 !!! note "impact of disabling the CXI hook"
     On many Alps vClusters, the Container Engine is configured with the [CXI hook][ref-ce-cxi-hook] enabled by default, enabling transparent access to the Slingshot interconnect.
 
-    The inter node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optmised network configuration.
-    If you see similar performance degredation in your tests, the first thing to investigate is whether your setup is using the libfabric optimised back end.
+    The inter node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration.
+    If you see similar performance degradation in your tests, the first thing to investigate is whether your setup is using the libfabric optimised back end.
 
 Below are the results of of running the collective all reduce latency test on 2 nodes with 8 GPUs total (the `all_reduce_perf` test).
 
