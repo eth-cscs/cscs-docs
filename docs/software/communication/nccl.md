@@ -75,7 +75,25 @@ The example container files provided in the [libfabric][ref-communication-libfab
     nid006365:180142:180163 [0] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
     ```
 
-    If you only set `NCCL_NET="ofi"`, NCCL may silently fail to load the plugin but fall back to the default implementation.
+In addition to the above variables, setting `NCCL_NCHANNELS_PER_NET_PEER` can improve point-to-point performance (operations based directly on send/recv):
+
+```bash
+export NCCL_NCHANNELS_PER_NET_PEER=4
+```
+
+A value of 4 is generally a good compromise to improve point-to-point performance without affecting collectives performance.
+Setting it to a higher value such as 16 or 32 can still further improve send/recv performance, but may degrade collectives performance, so the optimal value depends on the mix of operations used in an application.
+The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issues/1272) and the paper linked above contain additional details.
+
+!!! warning "NCCL watchdog timeout or hanging process"
+    In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error.
+    In this scenario, we recommend disabling Slingshot eager messages with the following workaround:
+    ```bash
+    # Disable eager messages to avoid NCCL timeouts
+    export FI_CXI_RDZV_GET_MIN=0
+    export FI_CXI_RDZV_THRESHOLD=0
+    export FI_CXI_RDZV_EAGER_SIZE=0
+    ```
 
 !!! warning "GPU-aware MPI with NCCL"
     Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi).

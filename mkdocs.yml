@@ -57,10 +57,13 @@ nav:
     - 'Getting started in the terminal': guides/terminal.md
     - 'uenv':
       - software/uenv/index.md
-      - 'Configuration': software/uenv/configure.md
+      - 'Using uenv': software/uenv/using.md
+      - 'Managing uenv': software/uenv/management.md
       - 'Building uenv': software/uenv/build.md
-      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Configuration': software/uenv/configure.md
       - 'Release notes': software/uenv/release-notes.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Guides': software/uenv/guides.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using the Container Engine': software/container-engine/run.md
@@ -109,6 +112,7 @@ nav:
     - 'Climate and Weather':
       - software/cw/index.md
       - 'WRF': software/cw/wrf.md
+      - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
       - 'libfabric': software/communication/libfabric.md
