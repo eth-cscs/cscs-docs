@@ -12,6 +12,37 @@
     [ParaView](https://www.paraview.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
+## One-time setup
+
+CSCS provides helper scripts that are very handy for launching live sessions and batch rendering.
+
+To keep these utilities available from any shell, the simplest approach is to place them in a directory that is part of your
+`PATH`. A common convention is to create a personal `~/bin` directory and add it to to your `PATH`.
+
+```bash
+# create the ~/bin folder and add it to PATH
+mkdir -p ~/bin
+echo "export PATH=~/bin:$PATH" >> .bashrc
+
+# Then, download the scripts and put them in that folder
+cd ~/bin
+wget -qO- https://gist.github.com/albestro/67728336bb3e60f6a3c64471b1893d66/archive/main.tar.gz | tar xzf - --strip-component 1 --same-permissions
+```
+
+!!! warning "reload to make changes effective"
+
+    Changes to your `.bashrc` requires a reload of your shell to become effective.
+
+    Hence, you need to logout and login back to be able to easily use the scripts you just intalled.
+
+In a new shell, you can then test that scripts are available as commands from any directory.
+For instance, you can check that issuing
+
+```bash
+paraview-reverse-connect
+```
+
+it prints some basic instructions on how to use the command.
 
 ## Running ParaView in batch mode with Python scripts
 
