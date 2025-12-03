@@ -33,7 +33,7 @@ wget -qO- https://gist.github.com/albestro/67728336bb3e60f6a3c64471b1893d66/arch
 
     Changes to your `.bashrc` requires a reload of your shell to become effective.
 
-    Hence, you need to logout and login back to be able to easily use the scripts you just intalled.
+    Hence, you need to logout and login back to be able to easily use the scripts you just installed.
 
 In a new shell, you can then test that scripts are available as commands from any directory.
 For instance, you can check that issuing
