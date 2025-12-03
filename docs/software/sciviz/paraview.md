@@ -84,7 +84,41 @@ The following sbatch script can be used as a template.
 
 ## Using ParaView in client-server mode
 
-A ParaView server can connect to a remote ParaView client installed on your desktop. Make sure to use the same version on both sides. Your local ParaView GUI client needs to create a SLURM job with appropriate parameters. We recommend that you make a copy of the file `/user-environment/ParaView-5.13/rc-submit-pvserver.sh` to your $HOME, such that you can further fine-tune it.
+A ParaView server can connect to a remote ParaView client installed on your workstation.
+
+!!! note
+     Make sure to use the same version on both sides.
+
+Your local ParaView client needs to create a SLURM job with appropriate parameters.
+
+### Manual command
+
+The most versatile and basic way to connect is to create a new configuration for "reverse connection"
+and specify a command that looks like this
+
+```bash
+ssh -R 2222:localhost:2222 daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 2222 -N1 -n4 --gpus-per-task=1
+```
+
+Let's split it and understand the various parts.
+
+It is possible to identify two sections of the full command separated by "`--`":
+
+- `ssh -R 2222:localhost:2222 daint.cscs.ch`
+- `paraview-reverse-connect paraview/6.0.1 2222 -N1 -n4 --gpus-per-task=1`
+
+The former `ssh` command runs locally on your workstation and specifies how to connect to Alps via SSH.
+You should use whatever option you are normally using to connect to Alps.
+The only important part is the `-R <PORT>:localhost:<PORT>` which is responsible of forwarding
+the specified port from Alps to your local workstation.
+
+
+The latter `paraview-reverse-connect` command runs on the Alps login node to start a SLURM job which will run ParaView
+`pvserver` instances on compute nodes that will connect to your ParaView UI on your workstation.
+It requires you to specify as first two arguments the [uenv image label][ref-uenv-labels] and the port you are forwarding via SSH (they must match).
+After those two mandatory arguments, you can optionally specify any srun option you need, giving you full control on the allocation request.
+
+### GUI
 
 You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster. The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
 
