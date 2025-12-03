@@ -4,14 +4,17 @@
 [NVSHMEM](https://developer.nvidia.com/nvshmem) is a parallel programming interface based on OpenSHMEM that provides efficient and scalable communication for NVIDIA GPU clusters.
 NVSHMEM creates a global address space for data that spans the memory of multiple GPUs and can be accessed with fine-grained GPU-initiated operations, CPU-initiated operations, and operations on CUDA streams.
 
-[](){#ref-communication-nvshmem-uenv}
-## NVSHMEM in uenv
+[](){#ref-communication-nvshmem-using}
+## Using NVSHMEM
+
+[](){#ref-communication-uenv-ce}
+### uenv
 
 NVSHMEM is not currently available in any uenv.
 CSCS is developing support for building NVSHMEM that runs efficiently on the Alps network, and will update these docs when it is available.
 
 [](){#ref-communication-nvshmem-ce}
-## NVSHMEM in containers
+### Containers
 
 To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI+libfabric.
 
@@ -28,7 +31,7 @@ The example here provides the latest version 3.4.5 at the time of writing (Novem
 - NVSHMEM is built without support for UCX and Infiniband components, because they are not needed on Alps.
 - Since this image uses OpenMPI (which provides PMIx) as MPI implementation, NVSHMEM is also configured to default to PMIx for bootstrapping (`NVSHMEM_PMIX_SUPPORT=1`).
 
-!!! example "Installing libfabric in a container for NVIDIA nodes"
+!!! example "Installing NVSHMEM in a container for NVIDIA nodes"
     The following example demonstrates how to download and install NVSHMEM from source in a Containerfile.
 
     The container image cont
@@ -40,14 +43,16 @@ The example here provides the latest version 3.4.5 at the time of writing (Novem
         The performance tests, in turn, require the installation of Python dependencies.
         When building images intended solely for production purposes, you may exclude both those elements.
 
+    Expand the box below to see an example of a complete Containerfile that installs NVSHMEM and all of its dependencies in an NVIDIA container.
+
     ??? note "The full Containerfile"
-    ```dockerfile
-    --8<-- "docs/software/communication/dockerfiles/base"
-    --8<-- "docs/software/communication/dockerfiles/libfabric"
-    --8<-- "docs/software/communication/dockerfiles/ucx"
-    --8<-- "docs/software/communication/dockerfiles/openmpi"
-    --8<-- "docs/software/communication/dockerfiles/nvshmem"
-    ```
+        ```dockerfile
+        --8<-- "docs/software/communication/dockerfiles/base"
+        --8<-- "docs/software/communication/dockerfiles/libfabric"
+        --8<-- "docs/software/communication/dockerfiles/ucx"
+        --8<-- "docs/software/communication/dockerfiles/openmpi"
+        --8<-- "docs/software/communication/dockerfiles/nvshmem"
+        ```
 
 !!! example "Running the NVSHMEM container"
     The following EDF file sets the required environment variables and container hooks for NVSHMEM.
@@ -89,8 +94,8 @@ The example here provides the latest version 3.4.5 at the time of writing (Novem
     Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options).
     When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
 
-[](){#ref-communication-nvshmem-results}
-## Results
+[](){#ref-communication-nvshmem-performance}
+## NVSHMEM Performance
 
 The results of running the `alltoall_latency` benchmark provided by the NCCL test suite, built in the example container [above][ref-communication-nvshmem-ce].
 
