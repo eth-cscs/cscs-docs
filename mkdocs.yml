@@ -81,6 +81,7 @@ nav:
       - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'How to build software':
       - 'uenv': build-install/uenv.md
+      - 'Python': build-install/python.md
     - 'Packaging and Deployment':
       - 'Creating uenv': software/uenv/build.md
       - 'Creating Containers with podman': build-install/containers.md

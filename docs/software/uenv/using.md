@@ -363,6 +363,11 @@ This is a little bit inconvenient, and we will add a command for finding the vie
     This view is not loaded by default if no view is specified with the `--view` flag.
     We no longer use the name `default` in new uenv, however we continue using the name for uenv like `prgenv-gnu` to minimise user-disruption.
 
+
+!!! info "installing Python venv with uenv"
+    Python virtual environments can be created on top of a uenv view.
+    However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv][ref-python-uenv-venv].
+
 [](){#ref-uenv-views-modules}
 ### Modules view
 

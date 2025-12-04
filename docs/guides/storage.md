@@ -190,7 +190,7 @@ At first it can seem strange that a "high-performance" file system is significan
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 [](){#ref-guides-storage-venv}
-### Python virtual environments with uenv
+### Squash Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.
 
@@ -208,7 +208,7 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow.
+The first step is to create the virtual environment using the usual workflow described in the [Python environment documentation][ref-python-uenv-venv].
 
 === "uv"
 
@@ -220,11 +220,13 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
+
     # create and activate a new relocatable venv using uv
-    # in this case we explicitly select python 3.12
-    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
-    # You can also point to the uenv python with `uv venv -p $(which python) ...`
-    # which, among other things, enables user portability of the venv
+    # in this case we explicitly select the python interpreter from the uenv view
+    uv venv --python $(which python) --system-site-packages --seed --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 
@@ -248,12 +250,16 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # for the example create a working path on SCRATCH
     mkdir $SCRATCH/sqfs-demo
     cd $SCRATCH/sqfs-demo
 
     # create and activate the empty venv
-    python -m venv ./.venv
+    python -m venv --system-site-packages ./.venv
     source ./.venv/bin/activate
 
     # install software in the virtual environment
