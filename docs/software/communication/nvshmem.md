@@ -19,7 +19,7 @@ CSCS is developing support for building NVSHMEM that runs efficiently on the Alp
 To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI+libfabric.
 
 This image recipe described here is based on the [OpenMPI image][ref-communication-openmpi], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
-This image is based on the [OpenMPI image][ref-ce-guidelines-images-ompi], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
+This image is based on the [OpenMPI image][ref-communication-openmpi-ce], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
 
 !!! warning "Be careful with NVSHMEM provided by NVIDIA containers"
     Containers provided by NVIDIA on NGC typically provide NVSHMEM as part of the NVHPC SDK in the image, however this version is built for and linked against OpenMPI and UCX in the container, which are not compatible with the Slingshot network of Alps.
