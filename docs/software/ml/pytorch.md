@@ -780,10 +780,11 @@ There are two ways to access the software provided by the uenv, once it has been
 ### Adding Python packages on top of the uenv
 
 Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages.
-Please refer to the [Python virtual environments with uenv documentation][ref-uenv-venv] and the [guide on performance][ref-guides-storage-venv] for more details on
-- creating and managing virtual environments on top of uenvs
-- best practices and caveats when using virtual environments with uenvs
-- troubleshooting common issues
+Please refer to the [guide for installing Python virtual environments on uenv][ref-python-uenv-venv] and the [guide on performance][ref-guides-storage-venv] for more details on:
+
+- creating and managing virtual environments on top of uenvs;
+- best practices and caveats when using virtual environments with uenvs;
+- and, troubleshooting common issues.
 
 ### Running PyTorch jobs with Slurm
 

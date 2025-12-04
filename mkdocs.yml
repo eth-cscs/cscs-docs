@@ -57,10 +57,13 @@ nav:
     - 'Getting started in the terminal': guides/terminal.md
     - 'uenv':
       - software/uenv/index.md
-      - 'Configuration': software/uenv/configure.md
+      - 'Using uenv': software/uenv/using.md
+      - 'Managing uenv': software/uenv/management.md
       - 'Building uenv': software/uenv/build.md
-      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Configuration': software/uenv/configure.md
       - 'Release notes': software/uenv/release-notes.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Guides': software/uenv/guides.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using the Container Engine': software/container-engine/run.md
@@ -78,6 +81,7 @@ nav:
       - 'Cray modules (CPE)': software/prgenv/cpe.md
     - 'How to build software':
       - 'uenv': build-install/uenv.md
+      - 'Python': build-install/python.md
     - 'Packaging and Deployment':
       - 'Creating uenv': software/uenv/build.md
       - 'Creating Containers with podman': build-install/containers.md
