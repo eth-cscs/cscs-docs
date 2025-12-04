@@ -138,7 +138,7 @@ The simplest way to have the correct layout is to copy to a directory with the c
 
 !!! example "Settings for large files"
     ```bash
-    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>
+    lfs setstripe --stripe-count 32 --stripe-size 4M <big_files_dir>
     ```
 
     *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
@@ -149,7 +149,7 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 
 !!! example "Good default settings"
     ```bash
-    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <base_dir>
+    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <base_dir>
     ```
 
 [](){#ref-guides-storage-examples-lfs-migrate}
@@ -157,12 +157,12 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     While `lfs setstripe` applies to newly created files, `lfs migrate` can be used to re-layout existing files.
     For example, to set the recommended settings above on an existing file:
     ```bash
-    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M <file>
+    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <file>
     ```
 
     Alternatively, to migrate all files recursively in a directory:
     ```bash
-    lfs find --type file <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count -1 --stripe-size 4M
+    lfs find --type file <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M
     ```
     The `--verbose` flag makes `lfs migrate` print the path of each file after the file has been migrated.
     Also note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
@@ -190,7 +190,7 @@ At first it can seem strange that a "high-performance" file system is significan
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 [](){#ref-guides-storage-venv}
-### Python virtual environments with uenv
+### Squash Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.
 
@@ -208,7 +208,7 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow.
+The first step is to create the virtual environment using the usual workflow described in the [Python environment documentation][ref-python-uenv-venv].
 
 === "uv"
 
@@ -220,11 +220,13 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
+
     # create and activate a new relocatable venv using uv
-    # in this case we explicitly select python 3.12
-    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
-    # You can also point to the uenv python with `uv venv -p $(which python) ...`
-    # which, among other things, enables user portability of the venv
+    # in this case we explicitly select the python interpreter from the uenv view
+    uv venv --python $(which python) --system-site-packages --seed --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 
@@ -248,12 +250,16 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # for the example create a working path on SCRATCH
     mkdir $SCRATCH/sqfs-demo
     cd $SCRATCH/sqfs-demo
 
     # create and activate the empty venv
-    python -m venv ./.venv
+    python -m venv --system-site-packages ./.venv
     source ./.venv/bin/activate
 
     # install software in the virtual environment

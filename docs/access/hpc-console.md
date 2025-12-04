@@ -16,9 +16,9 @@ HPC console is currently available on three [Alps platforms][ref-alps-platforms]
 
 | Platform       | URL               | Clusters                                                                 |
 |----------------|----------------------|--------------------------------------------------------------------------|
-| HPC Platform   | [https://my.hpcp.cscs.ch/](https://my.hpcp.cscs.ch/) | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger]             |
-| ML Platform    | [https://my.mlp.cscs.ch/](https://my.mlp.cscs.ch/)  | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden]  |
-| CW Platform    | [https://my.cwp.cscs.ch/](https://my.cwp.cscs.ch/)  | [Santis][ref-cluster-santis]  |
+| HPC Platform   | [https://console.hpcp.cscs.ch/](https://console.hpcp.cscs.ch/) | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger]             |
+| ML Platform    | [https://console.mlp.cscs.ch/](https://console.mlp.cscs.ch/)  | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden]  |
+| CW Platform    | [https://console.cwp.cscs.ch/](https://console.cwp.cscs.ch/)  | [Santis][ref-cluster-santis]  |
 
 ## Access and prerequisites
 

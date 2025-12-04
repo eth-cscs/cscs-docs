@@ -1,19 +1,19 @@
 [](){#ref-uenv-using}
-# Using uenv
+# Using uenvs
 
 To use one, it must first be loaded into your running environment.
-There are three ways to use uenv:
+There are three ways to use a uenv:
 
 * [**Start**][ref-uenv-start] a shell with a uenv environment for **interactive use**;
 * [**Run**][ref-uenv-run] a single command in a uenv, for use in scripts or in workflows that use software provided by more than one uenv.
 * Configure a [**Slurm**][ref-uenv-slurm] job to use a uenv on compute nodes.
 
 [](){#ref-uenv-how}
-## How uenv work
+## How uenv works
 
-Uenv provide full software stacks that provide specific applications, or programming/development environments.
-Uenv are [SquashFS images](https://docs.kernel.org/filesystems/squashfs.html), a compressed file that contains a directory tree.
-The squashfs image of a uenv is a directory that contains all of the software provided by the uenv, along with useful meta data.
+A uenv provides full software stacks that provide specific applications, or programming/development environments.
+They are stored as [SquashFS images](https://docs.kernel.org/filesystems/squashfs.html), a compressed file that contains a directory tree.
+The SquashFS image of a uenv is a directory that contains all of the software provided by the uenv, along with useful meta data.
 
 
 When you use [`uenv start`][ref-uenv-start], [`uenv run`][ref-uenv-run], or use the [`--uenv`][ref-uenv-slurm] flag with Slurm, the SquashFS file is mounted at the mount location for the uenv, which is most often `/user-environment`.
@@ -363,10 +363,15 @@ This is a little bit inconvenient, and we will add a command for finding the vie
     This view is not loaded by default if no view is specified with the `--view` flag.
     We no longer use the name `default` in new uenv, however we continue using the name for uenv like `prgenv-gnu` to minimise user-disruption.
 
+
+!!! info "installing Python venv with uenv"
+    Python virtual environments can be created on top of a uenv view.
+    However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv][ref-python-uenv-venv].
+
 [](){#ref-uenv-views-modules}
 ### Modules view
 
-Most uenv provide the modules, that can be accessed using the `module` command.
+Most uenvs provide the modules, that can be accessed using the `module` command.
 By default, the modules are not activated when a uenv is started, and need to be explicitly activated using the `module` view.
 
 !!! example "using the module view"

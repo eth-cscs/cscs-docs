@@ -1,5 +1,5 @@
 [](){#ref-uenv-manage}
-# Managing uenv
+# Managing uenvs
 
 This page documents how to search for, download and manage your local uenv images.
 
