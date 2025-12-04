@@ -273,7 +273,7 @@ If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
-See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
+See the good and bad examples below for an example of what happens when a change to a sentence forces a line rebalance:
 
 === "good"
     Before:
