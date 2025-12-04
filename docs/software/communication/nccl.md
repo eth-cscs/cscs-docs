@@ -38,7 +38,8 @@ Then install libfabric as documented in the [libfabric container documentation][
 
 !!! example "Installing the NCCL benchmarks in a container for NVIDIA nodes"
     To test whether NCCL inside a container has been set up correctly for optimal performance, add the NCCL test suite to the container.
-    Use the following as the starting point for installing the tess:
+
+    Use the following as a template for installing the tests:
 
     ```Dockerfile
     --8<-- "docs/software/communication/dockerfiles/nccl-tests"
@@ -54,7 +55,7 @@ Then install libfabric as documented in the [libfabric container documentation][
         --8<-- "docs/software/communication/dockerfiles/nccl-tests"
         ```
 
-To use NCCL in a conatiner, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in the EDF file.
+To use NCCL in a container, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in the EDF file.
 
 ```toml
 [env]
