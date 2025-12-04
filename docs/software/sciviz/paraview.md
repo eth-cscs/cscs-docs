@@ -5,52 +5,45 @@
     Paraview is [supported software][ref-support-apps] on Alps.
     See the [main applications page][ref-software] for more information.
 
-[ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool that enables analysis and visualization of extremely large datasets. ParaView is both a general purpose, end-user application with a distributed architecture that can be seamlessly leveraged by your desktop or other remote parallel computing resources and an extensible framework with a collection of tools and libraries for various applications including scripting (using Python), web visualization (through trame and ParaViewWeb), or in situ analysis (with Catalyst).
+[ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool, which enables analysis and visualization of extremely large datasets.
 
-!!! note "uenvs"
-
-    [ParaView](https://www.paraview.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
+!!! note "[ParaView](https://www.paraview.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv]"
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
+ParaView is both a general purpose, end-user application with a distributed architecture that can be seamlessly leveraged by your desktop or other remote parallel computing resources, and an extensible framework with a collection of tools and libraries for various applications including scripting (using Python), web visualization (through Trame and ParaViewWeb), or in situ analysis (with Catalyst).
+
+[](){#ref-paraview-one-time-setup}
 ## One-time setup
+
+!!! warning "Before starting you should have already pulled a ParaView uenv (see [uenv quick-start guide][ref-uenv-quickstart])"
 
 CSCS provides helper scripts that are very handy for launching live sessions and batch rendering.
 
-To keep these utilities available from any shell, the simplest approach is to place them in a directory that is part of your
-`PATH`. A common convention is to create a personal `~/bin` directory and add it to to your `PATH`.
+To install these utilities, the simplest approach is to place them in a directory that is part of your `PATH`.
+A common convention is to create a personal `~/bin` directory and add it to your `PATH`.
 
 ```bash
-# create the ~/bin folder and add it to PATH
-mkdir -p ~/bin
-echo "export PATH=~/bin:$PATH" >> .bashrc
-
-# Then, download the scripts and put them in that folder
-cd ~/bin
-wget -qO- https://gist.github.com/albestro/67728336bb3e60f6a3c64471b1893d66/archive/main.tar.gz | tar xzf - --strip-component 1 --same-permissions
+mkdir ~/bin && echo 'export PATH=~/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
+uv run paraview/6.0.1 -- cp /user-environment/helpers/. ~/bin
 ```
 
-!!! warning "reload to make changes effective"
+!!! info ""
+    You can then test that helpers scripts are installed correctly
 
-    Changes to your `.bashrc` requires a reload of your shell to become effective.
+    ```console
+    $ paraview-reverse-connect
+    Usage: paraview-reverse-connect <uenv-label> <server-port> [<srun-option>]*
+    ```
 
-    Hence, you need to logout and login back to be able to easily use the scripts you just installed.
-
-In a new shell, you can then test that scripts are available as commands from any directory.
-For instance, you can check that issuing
-
-```bash
-paraview-reverse-connect
-```
-
-it prints some basic instructions on how to use the command.
+    ```console
+    $ bind-gpu-vtk-egl
+    Usage: bind-gpu-vtk-egl <cmd> [args...]
+    This wrapper is supposed to be used in a SLURM job.
+    ```
 
 ## Running ParaView in batch mode with Python scripts
 
-The following sbatch script can be used as a template.
-
-!!! note
-    Before using a uenv, you have to ensure that you pulled the one you are going to use.
-    Refer to [uenv quick start guide][ref-uenv-using] for more details.
+The following sbatch script can be used as template for running ParaView in batch mode.
 
 === "GH200"
 
@@ -84,45 +77,55 @@ The following sbatch script can be used as a template.
 
 ## Using ParaView in client-server mode
 
+!!! warning "Make sure to use the same version on both sides."
+
 A ParaView server can connect to a remote ParaView client installed on your workstation.
+To do that, your local ParaView client needs to connect to a `pvserver` on a compute node on Alps, which is started using a SLURM job with appropriate parameters.
+
+It can be done manually each time, or ParaView can be configured to do that for you automagically. 🪄
+
+### Create a *reverse-connection* Configuration
 
 !!! note
-     Make sure to use the same version on both sides.
+    Once you create a configuration, you can always edit its port and its command.
+    Or you can create a new one with a different preset.
 
-Your local ParaView client needs to create a SLURM job with appropriate parameters.
+The most simple and versatile way to reverse connect from Alps is to create a new configuration with the following steps:
 
-### Manual command
+- **File &rarr; Connect ... &rarr; Add Server**
+- Specify a name for the configuration
+- Select **Reverse Connection**
+- Click on **Configure**
+- Select **Startup Type: Command**
+- Type the command (follows)
 
-The most versatile and basic way to connect is to create a new configuration for "reverse connection"
-and specify a command that looks like this
+The command should look like this
 
 ```bash
-ssh -R 2222:localhost:2222 daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 2222 -N1 -n4 --gpus-per-task=1
+ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug
 ```
 
-Let's split it and understand the various parts.
+Let's split it and understand the various parts, so you can customise it for your needs.
 
-It is possible to identify two sections of the full command separated by "`--`":
+In the command it is possible to identify two sections separated by "`--`":
 
-- `ssh -R 2222:localhost:2222 daint.cscs.ch`
-- `paraview-reverse-connect paraview/6.0.1 2222 -N1 -n4 --gpus-per-task=1`
+1. `ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch`
+2. `paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug`
 
-The former `ssh` command runs locally on your workstation and specifies how to connect to Alps via SSH.
-You should use whatever option you are normally using to connect to Alps.
-The only important part is the `-R <PORT>:localhost:<PORT>` which is responsible of forwarding
-the specified port from Alps to your local workstation.
+The first part with `ssh` command runs locally on your workstation and specifies how to connect to Alps via SSH.
+**You should use whatever option you are normally using to connect to Alps**.
+What's **important is having** `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`, which is responsible of forwarding the port specified in the GUI (if it is busy, you can try a different one) from your local workstation to Alps.
 
-
-The latter `paraview-reverse-connect` command runs on the Alps login node to start a SLURM job which will run ParaView
-`pvserver` instances on compute nodes that will connect to your ParaView UI on your workstation.
-It requires you to specify as first two arguments the [uenv image label][ref-uenv-labels] and the port you are forwarding via SSH (they must match).
-After those two mandatory arguments, you can optionally specify any srun option you need, giving you full control on the allocation request.
+The latter `paraview-reverse-connect` command (see [how to obtain it][ref-paraview-one-time-setup]) runs on the Alps login node to start a SLURM job which will run ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
+The two arguments are required, and they are the [uenv image label][ref-uenv-labels] and the port you are forwarding via SSH.
+After them, it is possible to specify any srun option, giving full control on the allocation request (e.g. time, partition).
 
 ### GUI
 
-You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster. The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
+You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster.
+The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
 
-!!! Example "XML code to add to your local ParaView settings"
+??? Example "XML code to add to your local ParaView settings"
     ```xml
     <Servers>
       <Server name="Reverse-Connect-Daint.Alps" configuration="" resource="csrc://:11111" timeout="-1">
