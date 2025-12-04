@@ -8,16 +8,16 @@ OpenMPI is available for use in both uenv and containers.
 
 To use OpenMPI on Alps, it must be built against [libfabric][ref-communication-libfabric] with support for the [Slingshot 11 network][ref-alps-hsn].
 
-!!! under-construction
-    Building and using OpenMPI on Alps is work in progress.
-
-    The instructions found on this page may be inaccurate, but are a good starting point to using OpenMPI on Alps.
-
 [](){#ref-communication-openmpi-using}
 ## Using OpenMPI
 
 [](){#ref-communication-openmpi-uenv}
 ### uenv
+
+!!! under-construction
+    Building and using OpenMPI in uenv on Alps is work in progress.
+
+    The instructions found on this page may be inaccurate, but are a good starting point to using OpenMPI on Alps.
 
 OpenMPI is provided through a [uenv][ref-uenv] similar to [`prgenv-gnu`][ref-uenv-prgenv-gnu].
 Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent.

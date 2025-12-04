@@ -30,19 +30,21 @@ While the container engine sets these automatically when using the NCCL hook, th
 [](){#ref-communication-nccl-ce}
 ### Containers
 
-To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL, and using the [AWS OFI hook][ref-ce-aws-ofi-hook] to configure NCCL to use [libfabric][ref-communication-libfabric] optimised for the Alps network.
+To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL as the starting point.
+Then install libfabric as documented in the [libfabric container documentation][ref-communication-libfabric-ce], and use the [AWS OFI hook][ref-ce-aws-ofi-hook] to configure NCCL to use [libfabric][ref-communication-libfabric] optimised for the Alps network.
 
-The example container files provided in the [libfabric][ref-communication-libfabric-ce] documentation, and as a base for the [OpenMPI][ref-communication-openmpi-ce] and [NVSHMEM][ref-communication-nvshmem-ce] containers is based on an NVIDIA image like ``docker.io/nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04`.
+!!! todo
+    the container from the libfabric section is good to go
 
 !!! example "Installing the NCCL benchmarks in a container for NVIDIA nodes"
     To test whether NCCL inside a container has been set up correctly for optimal performance, add the NCCL test suite to the container.
-    Use the following as the starting point for installing the tests:
+    Use the following as the starting point for installing the tess:
 
     ```Dockerfile
     --8<-- "docs/software/communication/dockerfiles/nccl-tests"
     ```
 
-    Expand the box below for an example of a full Containerfile that installs libfabric and the NCCL tests on a base container provided by NVIDIA with CUDA and NCCL:
+    Expand the box below to see the full Containerfile that installs the NCCL tests on top of the example in the [libfabric][ref-communication-libfabric-ce] documentation.
 
     ??? note "The full Containerfile"
         ```Dockerfile
@@ -51,6 +53,27 @@ The example container files provided in the [libfabric][ref-communication-libfab
         --8<-- "docs/software/communication/dockerfiles/ucx"
         --8<-- "docs/software/communication/dockerfiles/nccl-tests"
         ```
+
+To use NCCL in a conatiner, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in the EDF file.
+
+```toml
+[env]
+PMIX_MCA_psec="native" # (1)!
+
+[annotations]
+com.hooks.aws_ofi_nccl.enabled = "true"    # (2)!
+com.hooks.aws_ofi_nccl.variant = "cuda12"  # (3)!
+```
+
+1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
+2. Enable the AWS OFI plugin.
+3. Take care to match the major CUDA version installed in the container.
+
+Because NCCL uses OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=mpix` option to `srun` when launching jobs.
+
+```console
+$ srun --mpi=mpix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
+```
 
 [](){#ref-communication-nccl-issues}
 ## Known issues

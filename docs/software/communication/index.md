@@ -1,13 +1,6 @@
 [](){#ref-software-communication}
 # Communication Libraries
 
-!!! todo "list of ideas to integrate in this page"
-    * communication libraries are part of the "base" or "core" layer in your environment, alongside compilers and cuda (on NVIDIA GPU systems).
-        * we provide base containers that start with compilers+CUDA
-    * have a section "installing/getting comm libs":
-        * CE (build your own) and uenv (it comes with the label) sub-sections
-        * Conda, pre-built (ORCA, ANSYS, etc)
-
 Communication libraries, like MPI and NCCL, are one of the building blocks for high performance scientific and ML workloads.
 Broadly speaking, there are two levels of communication:
 
@@ -58,14 +51,14 @@ See the individual pages for each library for information on how to use and best
 
     Also OpenMPI can be built in containers or in uenv
 
-    [:octicons-arrow-right-24: FirecREST API][ref-communication-openmpi]
+    [:octicons-arrow-right-24: OpenMPI][ref-communication-openmpi]
 
 </div>
 <div class="grid cards" markdown>
 
 -   __Machine Learning__
 
-    NCCL, RCCL and NVSHMEM
+    Communication libraries used by ML tools like Torch, and some simulation codes.
 
     [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
 

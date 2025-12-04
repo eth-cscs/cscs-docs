@@ -29,9 +29,17 @@ No changes are required in applications.
 [](){#ref-communication-libfabric-ce}
 ### Containers
 
-If you are using [containers][ref-container-engine], the simplest approach is to load libfabric into your container using the [CXI hook provided by the container engine][ref-ce-cxi-hook].
+The approach is to install libfabric inside the container, along with MPI and NCCL implementations linked against it.
+At runtime, the [container engine][ref-container-engine] [CXI hook][ref-ce-cxi-hook] will replace the libfabric libraries inside the container with the corresponding libraries on the host system.
+This will ensure access to the Slingshot interconnect.
 
-Alternatively, it is possible to build libfabric and its dependencies into your container.
+
+!!! note "Use NVIDIA containers for the gh200 nodes"
+    Container images provided by NVIDIA, which come with CUDA, NCCL and other commonly used libraries are recommended as the base layer for building a container environment on the [gh200][ref-alps-gh200-node] and [a100][ref-alps-a100-node] nodes.
+
+    The version of CUDA, NCCL and compilers in the container can be used once libfabric has been installed.
+    Other communication libraries, like MPI and NVSHMEM, provided in the containers can't be used directly.
+    Instead, they have to be installed in the container and linked against libfabric.
 
 !!! example "Installing libfabric in a container for NVIDIA nodes"
     The following lines demonstrate how to configure and install libfabric in a Dockerfile.
