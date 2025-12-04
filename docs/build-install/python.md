@@ -7,7 +7,7 @@ Furthermore, environments can be installed on top of uenv, in containers, or bar
 [](){#ref-python-uenv}
 ## uenv
 
-Uenv provide a base for installing Python software, by using the Python interpretter, compilers, MPI and Python packages provided by the uenv.
+Uenv provide a base for installing Python software, by using the Python interpreter, compilers, MPI and Python packages provided by the uenv.
 
 [](){#ref-python-uenv-venv}
 ## Installing venv on top of a uenv view
