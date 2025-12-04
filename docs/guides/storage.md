@@ -129,7 +129,6 @@ The `lfs getstripe <path>` command can be used to get information on the stripe 
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
 
 Striping settings on a directory are only applied to files added after the command is run. 
-Existing files retain their original layout unless explicitly changed using `lfs migrate <striping settings>`, which takes the same arguments as `lfs setstripe`.
 The simplest way to have the correct layout is to copy to a directory with the correct layout.
 
 !!! tip "A block size of 4MB gives good throughput, without being overly big..."
@@ -142,7 +141,6 @@ The simplest way to have the correct layout is to copy to a directory with the c
     ```
 
     *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
-    [Use `lfs migrate` to update the settings for existing files][ref-guides-storage-examples-lfs-migrate].
 
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
@@ -151,21 +149,6 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
     ```bash
     lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <base_dir>
     ```
-
-[](){#ref-guides-storage-examples-lfs-migrate}
-!!! example "Updating settings for existing files"
-    While `lfs setstripe` applies to newly created files, `lfs migrate` can be used to re-layout existing files.
-    For example, to set the recommended settings above on an existing file:
-    ```bash
-    lfs migrate --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <file>
-    ```
-
-    Alternatively, to migrate all files recursively in a directory:
-    ```bash
-    lfs find --type file <base_dir> | xargs lfs migrate --verbose --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M
-    ```
-    The `--verbose` flag makes `lfs migrate` print the path of each file after the file has been migrated.
-    Also note the use of `lfs find` instead of regular `find` as `lfs` can more efficiently retrieve the list of files recursively.
 
 ### Iopsstor vs Capstor
 
