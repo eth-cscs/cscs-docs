@@ -113,7 +113,6 @@ nav:
       - 'MPICH': software/communication/mpich.md
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
-      - 'RCCL': software/communication/rccl.md
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'Commercial software':
       - software/commercial/index.md

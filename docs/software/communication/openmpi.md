@@ -87,7 +87,7 @@ Note that OpenMPI v5 is the first version with full support for libfabric, requi
 
     Expand the box below to see an example of a full Containerfile that can be used to create an OpenMPI container on the gh200 nodes of Alps:
 
-       ??? note "The full Containerfile"
+    ??? note "The full Containerfile"
         This is an example of a complete Containerfile that installs OpenMPI based on the a "base image" that provides gdrcopy, libfabric and UCX on top of an NVIDIA container that provides CUDA:
 
         ```Dockerfile

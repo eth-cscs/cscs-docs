@@ -14,7 +14,7 @@ They comprise the *Network* layer in the following stack:
 
 * **CPU**: compilers with support for building applications optimized for the CPU architecture on the node.
 * **GPU**: CUDA and ROCM provide compilers and runtime libraries for NVIDIA and AMD GPUs respectively.
-* **Network**: libfabric, MPI, NCCL/RCCL, NVSHMEM, need to be configured for the Slingshot network.
+* **Network**: libfabric, MPI, NCCL, NVSHMEM, need to be configured for the Slingshot network.
 
 CSCS provides communication libraries optimised for libfabric and Slingshot in uenv, and guidance on how to create container images that use them.
 This section of the documentation provides advice on how to build and install software to use these libraries, and how to deploy them.
@@ -23,8 +23,8 @@ For most scientific applications relying on MPI, [Cray MPICH][ref-communication-
 [MPICH][ref-communication-mpich] and [OpenMPI][ref-communication-openmpi] may also be used, with limitations.
 Cray MPICH, MPICH, and OpenMPI make use of [libfabric][ref-communication-libfabric] to interact with the underlying network.
 
-Most machine learning applications rely on [NCCL][ref-communication-nccl] or [RCCL][ref-communication-rccl] for high-performance implementations of collectives.
-NCCL and RCCL have to be configured with a plugin using [libfabric][ref-communication-libfabric] to make full use of the Slingshot network.
+Most machine learning applications rely on [NCCL][ref-communication-nccl] for high-performance implementations of collectives.
+NCCL have to be configured with a plugin using [libfabric][ref-communication-libfabric] to make full use of the Slingshot network.
 
 See the individual pages for each library for information on how to use and best configure the libraries.
 
@@ -61,8 +61,6 @@ See the individual pages for each library for information on how to use and best
     Communication libraries used by ML tools like Torch, and some simulation codes.
 
     [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
-
-    [:octicons-arrow-right-24: RCCL][ref-communication-rccl]
 
     [:octicons-arrow-right-24: NVSHMEM][ref-communication-nvshmem]
 

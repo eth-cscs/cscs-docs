@@ -7,7 +7,7 @@ Libfabric has backends for different network types, and is the interface chosen 
 To fully take advantage of the network on Alps:
 
 * libfabric and its dependencies must be available in your environment (uenv or container);
-* and, communication libraries in your environment like Cray MPICH, OpenMPI, NCCL, and RCCL have to be built or configured to use libfabric.
+* and, communication libraries in your environment like Cray MPICH, OpenMPI, NCCL, and NVSHMEM have to be built or configured to use libfabric.
 
 !!! question "What about UCX?"
     [Unified Communication X (UCX)](https://openucx.org/) is a low level library that targets the same layer as libfabric.
@@ -70,7 +70,7 @@ This will ensure access to the Slingshot interconnect.
 [](){#ref-communication-libfabric-performance}
 ## Tuning libfabric
 
-Tuning libfabric (particularly together with [Cray MPICH][ref-communication-cray-mpich], [OpenMPI][ref-communication-openmpi], [NCCL][ref-communication-nccl], and [RCCL][ref-communication-rccl]) depends on many factors, including the application, workload, and system.
+Tuning libfabric (particularly together with [Cray MPICH][ref-communication-cray-mpich], [OpenMPI][ref-communication-openmpi], and [NCCL][ref-communication-nccl] depends on many factors, including the application, workload, and system.
 For a comprehensive overview libfabric options for the CXI provider (the provider for the Slingshot network), see the [`fi_cxi` man pages](https://ofiwg.github.io/libfabric/v2.1.0/man/fi_cxi.7.html).
 Note that the exact version deployed on Alps may differ, and not all options may be applicable on Alps.
 
