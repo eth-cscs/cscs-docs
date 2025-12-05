@@ -92,7 +92,7 @@ It can be done manually each time, or ParaView can be configured to do that for 
 
 The most simple and versatile way to reverse connect from Alps is to create a new configuration with the following steps:
 
-- **File &rarr; Connect ... &rarr; Add Server**
+- **File → Connect → Add Server**
 - Specify a name for the configuration
 - Select **Reverse Connection**
 - Click on **Configure**
