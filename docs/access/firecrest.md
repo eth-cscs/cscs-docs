@@ -195,7 +195,8 @@ A staging area is used for external transfers and downloading/uploading a file f
 !!!Note
     pyFirecREST hides this complexity to the user. We strongly recommend to use this library for these tasks.
 
-#### Upload
+#### Examples of data transfer via pyFirecREST
+
 !!! example "Upload a large file using FirecREST-v2"
     ```python
 
@@ -217,7 +218,6 @@ A staging area is used for external transfers and downloading/uploading a file f
                                 account=account,
                                 blocking=True)    
     ```
-#### Download
 
 !!! example "Download a large file using FirecREST-v2"
     ```python
