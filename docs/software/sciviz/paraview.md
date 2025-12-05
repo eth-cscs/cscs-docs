@@ -105,7 +105,7 @@ The command should look like this
 ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug
 ```
 
-Let's split it and understand the various parts, so you can customise it for your needs.
+Let's split it and understand the various parts, so you can customize it for your needs.
 
 In the command it is possible to identify two sections separated by "`--`":
 
