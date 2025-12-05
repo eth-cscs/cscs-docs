@@ -273,7 +273,7 @@ If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
-See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
+See the good and bad examples below for an example of what happens when a change to a sentence forces a line rebalance:
 
 === "good"
     Before:
@@ -347,7 +347,7 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 
 ### Headings are written in sentence case
 
-Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
+Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning just the first word and names are capitalized.
 
 ### Avoid nesting headings too deep
 
