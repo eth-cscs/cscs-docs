@@ -84,13 +84,85 @@ To do that, your local ParaView client needs to connect to a `pvserver` on a com
 
 It can be done manually each time, or ParaView can be configured to do that for you automagically. 🪄
 
-### Create a *reverse-connection* Configuration
+### Connecting using an PVSC configuration file
 
-!!! note
-    Once you create a configuration, you can always edit its port and its command.
-    Or you can create a new one with a different preset.
+A [ParaView Server Configuration (PVSC)](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) file is an XML file that contains one or more server configurations.
 
-The most simple and versatile way to reverse connect from Alps is to create a new configuration with the following steps:
+!!! note ""
+    This is a very simple configuration that before connecting prompts you for:
+
+    - uenv image label to use (it will be stored for next time)
+    - SLURM arguments for the allocation (every time it proposes the default value)
+    - port to use for the reverse connection
+
+    ```xml
+    <Servers>
+      <Server name="CSCS Alps Daint" resource="csrc://daint.cscs.ch:11111" timeout="-1">
+        <CommandStartup>
+          <Options>
+            <Option name="UENV" label="ParaView uenv" save="true" readonly="false">
+              <String default="paraview/6.0.1:20251204"/>
+            </Option>
+            <Option name="SLURM_ARGS" label="SLURM Arguments" readonly="false">
+              <String default="-N1 -n4 -pdebug -t10"/>
+            </Option>
+            <Option name="PV_SERVER_PORT" label="Server Port" readonly="false">
+              <Range type="int" min="11111" max="65535"/>
+            </Option>
+          </Options>
+          <SSHCommand exec="paraview-reverse-connect" delay="0" process_wait="0">
+            <SSHConfig>
+              <PortForwarding/>
+            </SSHConfig>
+            <Arguments>
+              <Argument value="$UENV$"/>
+              <Argument value="$PV_SERVER_PORT$"/>
+              <Argument value="$SLURM_ARGS$"/>
+            </Arguments>
+          </SSHCommand>
+        </CommandStartup>
+      </Server>
+    </Servers>
+    ```
+
+    !!! tip
+        You can use this as a starting point for more advanced setups and customizations.
+
+        See the official documentation about [PVSC files](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) for examples and details.
+
+An easy way to add a server configuration is to create it in a file with `*.pvsc` extension, and load it in ParaView with **File → Connect... → Load Servers**.
+This will add the configurations in the file to your list of available configurations proposed when you click on **File → Connect...**.
+
+You can manipulate this list from the dialog, and changes will be reflected (on ParaView UI exit) in a file called `servers.pvsc` in your ParaView user settings directory.
+
+### A more advanced and versatile configuration
+
+This is the most versatile way to configure ParaView client-server connection to Alps, as **it allows you to customize the command used to start the server on Alps directly from the ParaView UI**.
+
+!!! tip
+    You can achieve the exact same results by creating a PVSC file as described in the previous section with the following content:
+
+    ```xml
+    <Servers>
+      <Server name="CSCS Alps" configuration="" resource="csrc://localhost:10111" timeout="-1">
+        <CommandStartup>
+          <Command process_wait="0" delay="0" exec="ssh">
+            <Arguments>
+              <Argument value="-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
+              <Argument value="daint.cscs.ch"/>
+              <Argument value="--"/>
+              <Argument value="paraview-reverse-connect"/>
+              <Argument value="paraview/6.0.1:20251204"/>
+              <Argument value="$PV_SERVER_PORT$"/>
+              <Argument value="-N1 -n4 -pdebug -t5 --gpus-per-task=1"/>
+            </Arguments>
+          </Command>
+        </CommandStartup>
+      </Server>
+    </Servers>
+    ```
+
+To set it up, follow these steps in your ParaView UI:
 
 - **File → Connect → Add Server**
 - Specify a name for the configuration
@@ -102,7 +174,7 @@ The most simple and versatile way to reverse connect from Alps is to create a ne
 The command should look like this
 
 ```bash
-ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug
+ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -N1 -n4 -pdebug -t5 --gpus-per-task=1
 ```
 
 Let's split it and understand the various parts, so you can customize it for your needs.
@@ -110,7 +182,7 @@ Let's split it and understand the various parts, so you can customize it for you
 In the command it is possible to identify two sections separated by "`--`":
 
 1. `ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch`
-2. `paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug`
+2. `paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -N1 -n4 -pdebug -t5 --gpus-per-task=1`
 
 The first part with `ssh` command runs locally on your workstation and specifies how to connect to Alps via SSH.
 You should **use whatever SSH option you are normally using to connect to Alps**.
@@ -119,96 +191,3 @@ What's **important is having `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`**,
 The latter `paraview-reverse-connect` command (see [how to obtain it][ref-paraview-one-time-setup]) runs on the Alps login node to start a SLURM job which will run ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
 The two arguments are required, and they are the [uenv image label][ref-uenv-labels] and the port you are forwarding via SSH.
 After them, it is possible to specify any srun option, giving full control on the allocation request (e.g. time, partition).
-
-### GUI
-
-You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster.
-The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
-
-??? Example "XML code to add to your local ParaView settings"
-    ```xml
-    <Servers>
-      <Server name="Reverse-Connect-Daint.Alps" configuration="" resource="csrc://:11111" timeout="-1">
-        <CommandStartup>
-          <Options>
-            <Option name="MACHINE" label="remote cluster" save="true">
-              <String default="daint"/>
-            </Option>
-            <Option name="SSH_USER" label="SSH Username" save="true">
-              <String default="your-userid"/>
-            </Option>
-            <Option name="ACCOUNT" label="Account to be charged" save="true">
-              <String default="your-projectid"/>
-            </Option>
-            <Option name="RESERVATION" label="reservation name" save="true">
-              <Enumeration default="none">
-                <Entry value="" label="none"/>
-              </Enumeration>
-            </Option>
-            <Option name="SSH_CMD" label="SSH command" save="true">
-              <File default="/usr/bin/ssh"/>
-            </Option>
-            <Option name="REMOTESCRIPT" label="The remote script which generates the SLURM job" save="true">
-              <String default="/users/your-userid/rc-submit-pvserver.sh"/>
-            </Option>
-            <Option name="PVNodes" label="Number of cluster nodes" save="true">
-              <Range type="int" min="1" max="128" step="1" default="1"/>
-            </Option>
-            <Option name="PVTasks" label="Number of pvserver per node" save="true">
-              <Range type="int" min="1" max="4" step="1" default="4"/>
-            </Option>
-            <Option name="Queue" label="Queue" save="true">
-              <Enumeration default="normal">
-                <Entry value="normal" label="normal"/>
-                <Entry value="debug" label="debug"/>
-              </Enumeration>
-            </Option>
-            <Option name="MemxNode" label="MemxNode" save="true">
-              <Enumeration default="standard">
-                <Entry value="high" label="high"/>
-                <Entry value="standard" label="standard"/>
-              </Enumeration>
-            </Option>
-            <Option name="VERSION" label="VERSION ?" save="true">
-              <Enumeration default="5.13.2:v2">
-                <Entry value="5.13.2:v2" label="5.13.2:v2"/>
-              </Enumeration>
-            </Option>
-            <Option name="PV_SERVER_PORT" label="pvserver port" save="true">
-              <Range type="int" min="1024" max="65535" step="1" default="1100"/>
-            </Option>
-            <Option name="NUMMIN" label="job wall time" save="true">
-              <String default="00:29:59"/>
-            </Option>
-            <Option name="SESSIONID" label="Session id" save="true">
-              <String default="ParaViewServer"/>
-            </Option>
-          </Options>
-          <Command exec="$SSH_CMD$" delay="5" process_wait="0">
-            <Arguments>
-              <Argument value="-A"/>
-              <Argument value="-l"/>
-              <Argument value="$SSH_USER$"/>
-              <Argument value="-R"/>
-              <Argument value="$PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
-              <Argument value="$MACHINE$"/>
-              <Argument value="$REMOTESCRIPT$"/>
-              <Argument value="$SESSIONID$"/>
-              <Argument value="$NUMMIN$"/>
-              <Argument value="$PVNodes$"/>
-              <Argument value="$PVTasks$"/>
-              <Argument value="$PV_SERVER_PORT$"/>
-              <Argument value="$MACHINE$"/>
-              <Argument value="$VERSION$"/>
-              <Argument value="$Queue$"/>
-              <Argument value="$MemxNode$"/>
-              <Argument value="$ACCOUNT$"/>
-              <Argument value="$RESERVATION$;"/>
-              <Argument value="sleep"/>
-              <Argument value="6000"/>
-            </Arguments>
-          </Command>
-      </CommandStartup>
-      </Server>
-    </Servers>
-    ```
