@@ -7,10 +7,12 @@
 
 [ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool, which enables analysis and visualization of extremely large datasets.
 
-!!! note "[ParaView](https://www.paraview.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv]"
-    Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
+ParaView is both:
 
-ParaView is both a general purpose, end-user application with a distributed architecture that can be seamlessly leveraged by your desktop or other remote parallel computing resources, and an extensible framework with a collection of tools and libraries for various applications including scripting (using Python), web visualization (through Trame and ParaViewWeb), or in situ analysis (with Catalyst).
+- a general purpose, end-user application with a distributed architecture that can be seamlessly leveraged by your desktop or other remote parallel computing resources, and
+- an extensible framework with a collection of tools and libraries for various applications including scripting (using Python), web visualization (through Trame and ParaViewWeb), or in situ analysis (with Catalyst).
+
+ParaView is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
 
 [](){#ref-paraview-one-time-setup}
 ## One-time setup
@@ -80,20 +82,20 @@ The following sbatch script can be used as template for running ParaView in batc
 !!! warning "Make sure to use the same version on both sides."
 
 A ParaView server can connect to a remote ParaView client installed on your workstation.
-To do that, your local ParaView client needs to connect to a `pvserver` on a compute node on Alps, which is started using a SLURM job with appropriate parameters.
+To do that, your local ParaView client needs to connect to a `pvserver` running on Alps compute nodes, which is started using a SLURM job with appropriate parameters.
 
-It can be done manually each time, or ParaView can be configured to do that for you automagically. 🪄
+It can be done manually each time, or ParaView can be configured to do that for you auto-magically. 🪄
 
 ### Connecting using an PVSC configuration file
 
 A [ParaView Server Configuration (PVSC)](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) file is an XML file that contains one or more server configurations.
 
 !!! note ""
-    This is a very simple configuration that before connecting prompts you for:
+    This is a very simple configuration that at each connection to Alps Daint it prompts you for:
 
-    - uenv image label to use (it will be stored for next time)
+    - [uenv image label][ref-uenv-labels] to use (it will be stored for next time)
     - SLURM arguments for the allocation (every time it proposes the default value)
-    - port to use for the reverse connection
+    - TCP port to use for the reverse connection
 
     ```xml
     <Servers>
@@ -131,16 +133,16 @@ A [ParaView Server Configuration (PVSC)](https://docs.paraview.org/en/latest/Ref
         See the official documentation about [PVSC files](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) for examples and details.
 
 An easy way to add a server configuration is to create it in a file with `*.pvsc` extension, and load it in ParaView with **File → Connect... → Load Servers**.
-This will add the configurations in the file to your list of available configurations proposed when you click on **File → Connect...**.
+This will add the configuration(s) provided to the list of available server proposed when you click on **File → Connect...**.
 
 You can manipulate this list from the dialog, and changes will be reflected (on ParaView UI exit) in a file called `servers.pvsc` in your ParaView user settings directory.
 
 ### A more advanced and versatile configuration
 
-This is the most versatile way to configure ParaView client-server connection to Alps, as **it allows you to customize the command used to start the server on Alps directly from the ParaView UI**.
+This is the most versatile way to configure ParaView client-server connection to Alps, as **it allows you to customize (any part of) the command used directly from the ParaView UI**.
 
 !!! tip
-    You can achieve the exact same results by creating a PVSC file as described in the previous section with the following content:
+    You can achieve the same exact results explained later by creating a PVSC file as described in the previous section with the following content:
 
     ```xml
     <Servers>
@@ -176,6 +178,8 @@ The command should look like this
 ```bash
 ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -N1 -n4 -pdebug -t5 --gpus-per-task=1
 ```
+
+#### Understanding and customizing the command
 
 Let's split it and understand the various parts, so you can customize it for your needs.
 
