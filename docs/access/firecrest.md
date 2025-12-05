@@ -17,6 +17,9 @@ Users can make HTTP requests to perform the following operations:
 
 Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
 
+!!! warning "Deprecation notice"
+    FirecREST version 1 has been decommissioned on December 5th, 2025. Since then, only version 2 is available at CSCS systems.
+
 For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
 
 Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/user_guide/) for detailed documentation.
