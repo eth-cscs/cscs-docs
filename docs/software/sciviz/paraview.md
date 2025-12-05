@@ -24,7 +24,7 @@ A common convention is to create a personal `~/bin` directory and add it to your
 
 ```bash
 mkdir ~/bin && echo 'export PATH=~/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
-uv run paraview/6.0.1 -- cp /user-environment/helpers/. ~/bin
+uenv run paraview/6.0.1 -- cp -r /user-environment/helpers/. ~/bin
 ```
 
 !!! info ""
