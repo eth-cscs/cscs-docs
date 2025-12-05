@@ -113,8 +113,8 @@ In the command it is possible to identify two sections separated by "`--`":
 2. `paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -N1 -n4 --gpus-per-task=1 -pdebug`
 
 The first part with `ssh` command runs locally on your workstation and specifies how to connect to Alps via SSH.
-**You should use whatever option you are normally using to connect to Alps**.
-What's **important is having** `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`, which is responsible of forwarding the port specified in the GUI (if it is busy, you can try a different one) from your local workstation to Alps.
+You should **use whatever SSH option you are normally using to connect to Alps**.
+What's **important is having `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`**, which is responsible of forwarding the port specified in the GUI (if it is busy, you can try a different one) from your local workstation to Alps.
 
 The latter `paraview-reverse-connect` command (see [how to obtain it][ref-paraview-one-time-setup]) runs on the Alps login node to start a SLURM job which will run ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
 The two arguments are required, and they are the [uenv image label][ref-uenv-labels] and the port you are forwarding via SSH.
