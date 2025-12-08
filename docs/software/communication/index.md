@@ -4,13 +4,13 @@
 Communication libraries, like MPI and NCCL, are one of the building blocks for high performance scientific and ML workloads.
 Broadly speaking, there are two levels of communication:
 
-* **intra-node** communication between two processes on the same node.
-* **inter-node** communication between different nodes, over the [Slingshot 11 network][ref-alps-hsn] that connects nodes on Alps..
+* **Intra-node** communication between two processes on the same node.
+* **Inter-node** communication between different nodes, over the [Slingshot 11 network][ref-alps-hsn] that connects nodes on Alps.
 
 To get the best inter-node performance on Alps, they need to be configured to use the [libfabric][ref-communication-libfabric] library that has an optimised back end for the Slingshot 11 network on Alps.
 
 As such, communication libraries are part of the "base layer" of libraries and tools used by all workloads to fully utilize the hardware on Alps.
-They comprise the *Network* layer in the following stack:
+They comprise the *network* layer in the following stack:
 
 * **CPU**: compilers with support for building applications optimized for the CPU architecture on the node.
 * **GPU**: CUDA and ROCM provide compilers and runtime libraries for NVIDIA and AMD GPUs respectively.
@@ -32,7 +32,7 @@ See the individual pages for each library for information on how to use and best
 
 -   __Low Level__
 
-    Learn about the base installation libfabric and its dependencies
+    Learn about the low-level networking library libfabric, and how to use it in uenv and containers
 
     [:octicons-arrow-right-24: libfabric][ref-alps]
 

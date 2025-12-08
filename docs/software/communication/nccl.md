@@ -33,9 +33,6 @@ While the container engine sets these automatically when using the NCCL hook, th
 To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL as the starting point.
 Then install libfabric as documented in the [libfabric container documentation][ref-communication-libfabric-ce], and use the [AWS OFI hook][ref-ce-aws-ofi-hook] to configure NCCL to use [libfabric][ref-communication-libfabric] optimised for the Alps network.
 
-!!! todo
-    the container from the libfabric section is good to go
-
 !!! example "Installing the NCCL benchmarks in a container for NVIDIA nodes"
     To test whether NCCL inside a container has been set up correctly for optimal performance, add the NCCL test suite to the container.
 
@@ -55,7 +52,7 @@ Then install libfabric as documented in the [libfabric container documentation][
         --8<-- "docs/software/communication/dockerfiles/nccl-tests"
         ```
 
-To use NCCL in a container, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in the EDF file.
+To use NCCL in a container, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in the [EDF file][ref-ce-edf-reference].
 
 ```toml
 [env]
@@ -70,10 +67,10 @@ com.hooks.aws_ofi_nccl.variant = "cuda12"  # (3)!
 2. Enable the AWS OFI plugin.
 3. Take care to match the major CUDA version installed in the container.
 
-Because NCCL uses OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=mpix` option to `srun` when launching jobs.
+Because NCCL uses OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
 
 ```console
-$ srun --mpi=mpix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
+$ srun --mpi=pmix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
 ```
 
 [](){#ref-communication-nccl-issues}
@@ -151,7 +148,7 @@ The option is undocumented, but [this issue](https://github.com/NVIDIA/nccl/issu
     /usr/local/libexec/osu-micro-benchmarks/mpi/./collective/osu_alltoall: /usr/lib/aarch64-linux-gnu/libnl-3.so.200: no version information available (required by /usr/lib64/libcxi.so.1)
     ```
 
-!!! note "impact of disabling the CXI hook"
+!!! note "Impact of disabling the CXI hook"
     On many Alps vClusters, the Container Engine is configured with the [CXI hook][ref-ce-cxi-hook] enabled by default, enabling transparent access to the Slingshot interconnect.
 
     The inter node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration.

@@ -8,8 +8,9 @@ RUN apt-get update \
     && rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
 # Build NVSHMEM from source
-RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/3.4.5/source/nvshmem_src_cuda12-all-all-3.4.5.tar.gz \
-    && tar -xvf nvshmem_src_cuda12-all-all-3.4.5.tar.gz \
+ARG nvshmem_version=3.4.5
+RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/${nvshmem_version}/source/nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz \
+    && tar -xvf nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz \
     && cd nvshmem_src \
     && NVSHMEM_BUILD_EXAMPLES=0 \
        NVSHMEM_BUILD_TESTS=1 \
@@ -50,4 +51,4 @@ RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/3.4.5/s
        && make install \
    && ldconfig \
    && cd .. \
-   && rm -r nvshmem_src nvshmem_src_cuda12-all-all-3.4.5.tar.gz
+   && rm -r nvshmem_src nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz

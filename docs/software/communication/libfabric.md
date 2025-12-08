@@ -14,7 +14,7 @@ To fully take advantage of the network on Alps:
     Specifically, it provides an open, standards-based, networking API.
     By targeting UCX and libfabric, MPI and NCCL do not need to implement low-level support for each network hardware.
 
-    **There is no UCX back end for the Slingshot network on Alps**, and pre-built software (for example Conda packages and Containers) often provides versions of MPI built for UCX only.
+    **There is no UCX back end for the Slingshot network on Alps**, and pre-built software (for example conda packages and containers) often provides versions of MPI built for UCX only.
     Running these images and packages on Alps will lead to very poor network performance or errors.
 
 [](){#ref-communication-libfabric-using}
@@ -42,7 +42,7 @@ This will ensure access to the Slingshot interconnect.
     Instead, they have to be installed in the container and linked against libfabric.
 
 !!! example "Installing libfabric in a container for NVIDIA nodes"
-    The following lines demonstrate how to configure and install libfabric in a Dockerfile.
+    The following lines demonstrate how to configure and install libfabric in a Containerfile.
     Communication frameworks are built with explicit support for CUDA and GDRCopy.
 
     Some additional features are enabled to increase the portability of the container to non-Alps systems:
@@ -70,7 +70,7 @@ This will ensure access to the Slingshot interconnect.
 [](){#ref-communication-libfabric-performance}
 ## Tuning libfabric
 
-Tuning libfabric (particularly together with [Cray MPICH][ref-communication-cray-mpich], [OpenMPI][ref-communication-openmpi], and [NCCL][ref-communication-nccl] depends on many factors, including the application, workload, and system.
+Tuning libfabric (particularly together with [Cray MPICH][ref-communication-cray-mpich], [OpenMPI][ref-communication-openmpi], and [NCCL][ref-communication-nccl]) depends on many factors, including the application, workload, and system.
 For a comprehensive overview libfabric options for the CXI provider (the provider for the Slingshot network), see the [`fi_cxi` man pages](https://ofiwg.github.io/libfabric/v2.1.0/man/fi_cxi.7.html).
 Note that the exact version deployed on Alps may differ, and not all options may be applicable on Alps.
 

@@ -10,16 +10,16 @@ NVSHMEM creates a global address space for data that spans the memory of multipl
 [](){#ref-communication-uenv-ce}
 ### uenv
 
-NVSHMEM is not currently available in any uenv.
-CSCS is developing support for building NVSHMEM that runs efficiently on the Alps network, and will update these docs when it is available.
+Version 2.8 of the [PyTorch uenv][ref-uenv-pytorch] is currently the only uenv that provides NVSHMEM.
+
+CSCS working on building NVSHMEM that runs efficiently on the Alps network in uenv, and will update these docs when it is available.
 
 [](){#ref-communication-nvshmem-ce}
 ### Containers
 
-To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI+libfabric.
+To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI with libfabric.
 
-This image recipe described here is based on the [OpenMPI image][ref-communication-openmpi], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
-This image is based on the [OpenMPI image][ref-communication-openmpi-ce], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
+The image recipe described here is based on the [OpenMPI image for NVIDIA][ref-communication-openmpi], and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
 
 !!! warning "Be careful with NVSHMEM provided by NVIDIA containers"
     Containers provided by NVIDIA on NGC typically provide NVSHMEM as part of the NVHPC SDK in the image, however this version is built for and linked against OpenMPI and UCX in the container, which are not compatible with the Slingshot network of Alps.

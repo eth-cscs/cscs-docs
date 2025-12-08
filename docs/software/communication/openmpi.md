@@ -109,12 +109,6 @@ PMIX_MCA_psec="native" # (1)!
 
 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 
-!!! todo
-    Above are the suggested environment variables from the CE pull request.
-    Do we also set the environment variables in the uenv section above?
-
-    We might want to consolidate these into a single location.
-
 [](){#ref-communication-openmpi-performance}
 ## OpenMPI Performance
 
