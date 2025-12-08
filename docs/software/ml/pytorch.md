@@ -255,7 +255,265 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
 
 | version   | node types | system                  |
 |-----------|------------|-------------------------|
+| v2.8.0     | gh200      | clariden, daint, santis         |
 | v2.6.0     | gh200      | clariden, daint         |
+
+=== "v2.8.0"
+
+    ??? info "non-Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `abseil-cpp` | `20250814.1`|
+        | `alsa-lib` | `1.2.3.2`|
+        | `autoconf` | `2.72`|
+        | `automake` | `1.16.5`|
+        | `aws-ofi-nccl` | `1.17.1`|
+        | `bc` | `1.07.1`|
+        | `berkeley-db` | `18.1.40`|
+        | `binutils` | `2.45`|
+        | `bison` | `3.8.2`|
+        | `boost` | `1.88.0`|
+        | `bzip2` | `1.0.8`|
+        | `ca-certificates-mozilla` | `2025-08-12`|
+        | `c-ares` | `1.28.1`|
+        | `cassini-headers` | `git.59b6de6a91d9637809677c50cc48b607a91a9acb`|
+        | `c-blosc` | `1.21.6`|
+        | `check` | `0.15.2`|
+        | `cmake` | `3.31.9`|
+        | `compiler-wrapper` | `1.0`|
+        | `cpuinfo` | `2025-03-21`|
+        | `cray-gtl` | `8.1.32`|
+        | `cray-mpich` | `8.1.32`|
+        | `cray-pals` | `1.3.2`|
+        | `cray-pmi` | `6.1.15`|
+        | `cublasmp` | `0.5.0.898`|
+        | `cuda` | `12.9.0`|
+        | `cudnn` | `9.8.0.87-12`|
+        | `cudss` | `0.7.0`|
+        | `curl` | `8.15.0`|
+        | `cusparselt` | `0.8.1-cuda120`|
+        | `cutensor` | `2.0.1.2`|
+        | `cutlass` | `4.1.0`|
+        | `cxi-driver` | `git.08deb056fac4ca8b0d3d39b5f7cc0dad019ee266`|
+        | `diffutils` | `3.12`|
+        | `dynolog` | `0.5.0`|
+        | `ed` | `1.4`|
+        | `eigen` | `5.0.0`|
+        | `expat` | `2.7.3`|
+        | `faiss` | `1.8.0`|
+        | `ffmpeg` | `6.1.1`|
+        | `fftw` | `3.3.10`|
+        | `findutils` | `4.10.0`|
+        | `flac` | `1.5.0`|
+        | `flex` | `2.6.3`|
+        | `fmt` | `12.1.0`|
+        | `fp16` | `2020-05-14`|
+        | `fxdiv` | `2020-04-17`|
+        | `gcc` | `14.2.0`|
+        | `gcc-runtime` | `14.2.0`|
+        | `gdbm` | `1.25`|
+        | `gdrcopy` | `2.5.1`|
+        | `gettext` | `0.23.1`|
+        | `git` | `2.48.1`|
+        | `glibc` | `2.31`|
+        | `gmake` | `4.4.1`|
+        | `gnuconfig` | `2024-07-27`|
+        | `gsl` | `2.8`|
+        | `hdf5` | `1.14.6`|
+        | `hwloc` | `2.12.2`|
+        | `hydra` | `4.2.1`|
+        | `json-c` | `0.18`|
+        | `kokkos` | `4.7.01`|
+        | `kokkos-kernels` | `4.7.01`|
+        | `kokkos-nvcc-wrapper` | `4.7.01`|
+        | `kokkos-tools` | `develop`|
+        | `krb5` | `1.21.3`|
+        | `libaec` | `1.1.4`|
+        | `libaio` | `0.3.113`|
+        | `libbsd` | `0.12.2`|
+        | `libconfig` | `1.7.3`|
+        | `libcxi` | `git.be1f7149482581ad589a124e5f6764b9d20d2d45`|
+        | `libedit` | `3.1-20240808`|
+        | `libfabric` | `2.3.1`|
+        | `libffi` | `3.5.2`|
+        | `libfuse` | `2.9.9`|
+        | `libgit2` | `1.9.1`|
+        | `libiconv` | `1.18`|
+        | `libidn2` | `2.3.7`|
+        | `libjpeg-turbo` | `3.0.4`|
+        | `libmd` | `1.1.0`|
+        | `libnl` | `3.3.0`|
+        | `libogg` | `1.3.6`|
+        | `libpciaccess` | `0.17`|
+        | `libpng` | `1.6.47`|
+        | `libpthread-stubs` | `0.5`|
+        | `libsigsegv` | `2.14`|
+        | `libssh2` | `1.11.1`|
+        | `libtool` | `2.4.7`|
+        | `libtree` | `3.1.1`|
+        | `libunistring` | `1.2`|
+        | `libunwind` | `master`|
+        | `liburing` | `2.12`|
+        | `libuv` | `1.48.0`|
+        | `libvorbis` | `1.3.7`|
+        | `libxau` | `1.0.12`|
+        | `libxcb` | `1.17.0`|
+        | `libxcrypt` | `4.4.38`|
+        | `libxdmcp` | `1.1.5`|
+        | `libxml2` | `2.13.5`|
+        | `libyaml` | `0.2.5`|
+        | `lm-sensors` | `3-6-0`|
+        | `lua` | `5.4.6`|
+        | `lz4` | `1.10.0`|
+        | `m4` | `1.4.20`|
+        | `magma` | `2.9.0`|
+        | `meson` | `1.8.5`|
+        | `metis` | `5.1.0`|
+        | `nasm` | `2.16.03`|
+        | `nccl` | `2.28.7-1`|
+        | `nccl-tests` | `2.16.3`|
+        | `ncurses` | `6.5-20250705`|
+        | `netcdf-c` | `4.9.3`|
+        | `netcdf-cxx` | `4.2`|
+        | `netcdf-fortran` | `4.6.2`|
+        | `netlib-scalapack` | `2.2.2`|
+        | `nghttp2` | `1.67.1`|
+        | `ninja` | `1.13.0`|
+        | `nlohmann-json` | `3.12.0`|
+        | `numactl` | `2.0.18`|
+        | `nvidia-mathdx` | `25.06.1-cuda12`|
+        | `nvshmem` | `3.4.5`|
+        | `nvtx` | `3.2.1`|
+        | `openblas` | `0.3.30`|
+        | `openssh` | `9.9p1`|
+        | `openssl` | `3.6.0`|
+        | `opus` | `1.5.2`|
+        | `osu-micro-benchmarks` | `7.5.1`|
+        | `papi` | `7.2.0`|
+        | `patchelf` | `0.17.2`|
+        | `pcre2` | `10.44`|
+        | `pcre` | `8.45`|
+        | `perl` | `5.42.0`|
+        | `pigz` | `2.8`|
+        | `pkgconf` | `2.5.1`|
+        | `prometheus-cpp` | `1.3.0`|
+        | `protobuf` | `33.0`|
+        | `psimd` | `2020-05-17`|
+        | `pthreadpool` | `2023-08-29`|
+        | `py-mpi4py` | `4.0.1`|
+        | `py-setuptools` | `79.0.1`|
+        | `python` | `3.12.12`|
+        | `python-venv` | `1.0`|
+        | `py-wheel` | `0.45.1`|
+        | `rdma-core` | `31.0`|
+        | `re2` | `2024-07-02`|
+        | `re2c` | `3.1`|
+        | `readline` | `8.3`|
+        | `rust` | `1.91.0`|
+        | `rust-bootstrap` | `1.91.0`|
+        | `sleef` | `3.8`|
+        | `snappy` | `1.2.1`|
+        | `sox` | `14.4.2`|
+        | `sqlite` | `3.50.4`|
+        | `superlu` | `7.0.0`|
+        | `swig` | `4.1.1`|
+        | `tar` | `1.35`|
+        | `texinfo` | `7.2`|
+        | `ucc` | `1.5.1`|
+        | `ucx` | `1.19.0`|
+        | `unzip` | `6.0`|
+        | `util-linux-uuid` | `2.41`|
+        | `util-macros` | `1.20.1`|
+        | `valgrind` | `3.25.1`|
+        | `xcb-proto` | `1.17.0`|
+        | `xcb-util` | `0.4.1`|
+        | `xcb-util-cursor` | `0.1.5`|
+        | `xcb-util-image` | `0.4.1`|
+        | `xcb-util-renderutil` | `0.3.10`|
+        | `xpmem` | `2.9.6`|
+        | `xproto` | `7.0.31`|
+        | `xz` | `5.6.3`|
+        | `zlib` | `1.3.1`|
+        | `zlib-ng` | `2.2.4`|
+        | `zstd` | `1.5.7`|
+
+    ??? info "Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `absl-py`                 | `1.4.0`|
+        | `annotated-types`         | `0.7.0`|
+        | `apex`                    | `0.1`|
+        | `astunparse`              | `1.6.3`|
+        | `certifi`                 | `2025.7.14`|
+        | `charset-normalizer`      | `3.4.4`|
+        | `cuda-bindings`           | `12.9.0`|
+        | `cuda-core`               | `0.2.0`|
+        | `cutlass_library`         | `4.0.0`|
+        | `Cython`                  | `3.1.3`|
+        | `einops`                  | `0.8.1`|
+        | `faiss`                   | `1.8.0`|
+        | `filelock`                | `3.19.1`|
+        | `fsspec`                  | `2025.9.0`|
+        | `grpcio`                  | `1.75.0`|
+        | `hf-xet`                  | `1.2.0`|
+        | `huggingface_hub`         | `0.36.0`|
+        | `idna`                    | `3.10`|
+        | `importlib_metadata`      | `7.0.1`|
+        | `iniconfig`               | `2.1.0`|
+        | `Jinja2`                  | `3.1.6`|
+        | `lightning-utilities`     | `0.11.2`|
+        | `Markdown`                | `3.4.1`|
+        | `MarkupSafe`              | `3.0.2`|
+        | `meson`                   | `1.8.5`|
+        | `ml_dtypes`               | `0.5.3`|
+        | `mpi4py`                  | `4.0.1`|
+        | `mpmath`                  | `1.3.0`|
+        | `networkx`                | `3.5`|
+        | `numpy`                   | `2.3.4`|
+        | `nvshmem4py-cu12`         | `0.1.2`|
+        | `nvtx`                    | `0.2.12`|
+        | `onnx`                    | `1.19.1`|
+        | `onnx-ir`                 | `0.1.12`|
+        | `onnxscript`              | `0.5.6.dev20251104`|
+        | `packaging`               | `25.0`|
+        | `pillow`                  | `12.0.0`|
+        | `pip`                     | `25.1.1`|
+        | `pluggy`                  | `1.6.0`|
+        | `protobuf`                | `6.33.0`|
+        | `pybind11`                | `3.0.1`|
+        | `pyclibrary`              | `0.2.2`|
+        | `pycute`                  | `4.0.0`|
+        | `pydantic`                | `2.10.1`|
+        | `pydantic_core`           | `2.27.1`|
+        | `Pygments`                | `2.19.2`|
+        | `pyparsing`               | `3.2.5`|
+        | `pytest`                  | `8.4.1`|
+        | `PyYAML`                  | `6.0.3`|
+        | `regex`                   | `2025.11.3`|
+        | `requests`                | `2.32.5`|
+        | `safetensors`             | `0.6.2`|
+        | `setuptools`              | `79.0.1`|
+        | `six`                     | `1.17.0`|
+        | `sympy`                   | `1.13.3`|
+        | `tensorboard`             | `2.20.0`|
+        | `tensorboard_data_server` | `0.7.0`|
+        | `tokenizers`              | `0.22.1`|
+        | `torch`                   | `2.8.0`|
+        | `torchaudio`              | `2.8.0a0+6e1c7fe`|
+        | `torchmetrics`            | `1.8.2`|
+        | `torchvision`             | `0.23.0`|
+        | `tqdm`                    | `4.67.1`|
+        | `transformer_engine`      | `2.8.0+40c69e75`|
+        | `transformers`            | `4.57.0`|
+        | `triton`                  | `3.4.0`|
+        | `typing_extensions`       | `4.14.1`|
+        | `urllib3`                 | `2.5.0`|
+        | `vllm`                    | `0.11.1.dev0+gb8b302cde.d19800101.cu129`|
+        | `Werkzeug`                | `3.1.3`|
+        | `wheel`                   | `0.45.1`|
+        | `zipp`                    | `3.17.0`|
 
 === "v2.6.0"
 
@@ -489,8 +747,8 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
-    ```console title="Test mpi compilers and python provided by pytorch/v2.6.0"
-    $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
+    ```console title="Test mpi compilers and python provided by pytorch/v2.8.0"
+    $ uenv start pytorch/v2.8.0:v1 --view=default # (1)!
 
     $ which python # (2)!
     /user-environment/env/default/bin/python
@@ -521,52 +779,12 @@ There are two ways to access the software provided by the uenv, once it has been
 [](){#ref-uenv-pytorch-venv}
 ### Adding Python packages on top of the uenv
 
-Uenvs are read-only, and cannot be modified. However, it is possible to add Python packages on top of the uenv using virtual environments analogous to the setup with containers.
+Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages.
+Please refer to the [guide for installing Python virtual environments on uenv][ref-python-uenv-venv] and the [guide on performance][ref-guides-storage-venv] for more details on:
 
-```console title="Creating a virtual environment on top of the uenv"
-$ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
-
-$ python -m venv --system-site-packages venv-uenv-pt2.6-v1 # (2)!
-
-$ source venv-uenv-pt2.6-v1/bin/activate # (3)!
-
-(venv-uenv-pt2.6-v1) $ pip install <package> # (4)!
-
-(venv-uenv-pt2.6-v1) $ deactivate # (5)!
-
-$ exit # (6)!
-```
-
-1. The `default` view is recommended, as it loads all the packages provided by the uenv.
-   This is important for PyTorch to work correctly, as it relies on the CUDA and NCCL libraries provided by the uenv.
-2. The virtual environment is created in the current working directory, and can be activated and deactivated like any other Python virtual environment.
-3. Activating the virtual environment will override the Python executable provided by the uenv, and use the one from the virtual environment instead.
-   This is important to ensure that the packages installed in the virtual environment are used.
-4. The virtual environment can be used to install any Python package.
-5. The virtual environment can be deactivated using the `deactivate` command.
-   This will restore the original Python executable provided by the uenv.
-6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
-
-
-!!! note "Squashing the virtual environment"
-    Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
-    If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
-
-??? bug "Python packages from uenv shadowing those in a virtual environment"
-    When using uenv with a virtual environment on top, the site-packages under `/user-environment` currently take precedence over those in the activated virtual environment. This is due to the uenv paths being included in the `PYTHONPATH` environment variable. As a consequence, despite installing a different version of a package in the virtual environment from what is available in the uenv, the uenv version will still be imported at runtime. A possible workaround is to prepend the virtual environment's site-packages to `PYTHONPATH` whenever activating the virtual environment.
-    ```bash
-    export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
-    ```
-    It is recommended to apply this workaround if you are constrained by a Python package version installed in the uenv that you need to change for your application.
-
-!!! note
-    Keep in mind that
-
-     * this virtual environment is _specific_ to this particular uenv and won't actually work unless you are using it from inside this uenv - it relies on the resources packaged inside the uenv.
-     * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
-
-Alternatively one can use the uenv as [upstream Spack instance][ref-build-uenv-spack] to to add both Python and non-Python packages.
-However, this workflow is more involved and intended for advanced Spack users.
+- creating and managing virtual environments on top of uenvs;
+- best practices and caveats when using virtual environments with uenvs;
+- and, troubleshooting common issues.
 
 ### Running PyTorch jobs with Slurm
 
@@ -579,7 +797,7 @@ However, this workflow is more involved and intended for advanced Spack users.
 #SBATCH --ntasks-per-node=4
 #SBATCH --output=logs/slurm-%x-%j.log
 # (1)!
-#SBATCH --uenv=pytorch/v2.6.0:/user-environment
+#SBATCH --uenv=pytorch/v2.8.0:/user-environment
 #SBATCH --view=default
 
 set -x
@@ -616,7 +834,7 @@ export CUDA_CACHE_DISABLE=1 # (7)!
 # (9)!
 # (10)!
 srun -ul bash -c "
-    . ./venv-uenv-pt2.6-v1/bin/activate
+    . ./venv-uenv-pt2.8-v1/bin/activate
 
 --8<-- "docs/software/ml/torch_distributed_env_vars"
     python dist-train.py <dist-train-args>

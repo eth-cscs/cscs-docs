@@ -33,13 +33,19 @@ They cover everything you need to get started with using uenv to build your code
 
 -   :fontawesome-solid-layer-group: __uenv guides__
 
-    Guides and useful information, including how uenvs are named and referenced:
+    How uenvs are named and referenced:
 
     [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
 
-    and hints and tips for creating custom environments:
+    Hints and tips for creating custom environments:
 
     [:octicons-arrow-right-24: Custom environments][ref-uenv-customenv]
+
+    How to install software on a uenv:
+
+    [:octicons-arrow-right-24: Using Spack][ref-build-uenv-spack]
+
+    [:octicons-arrow-right-24: Python environments][ref-python-uenv]
 
 
 </div>
