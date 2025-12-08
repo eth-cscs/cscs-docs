@@ -25,7 +25,6 @@ The image recipe described here is based on the [OpenMPI image for NVIDIA][ref-c
     Containers provided by NVIDIA on NGC typically provide NVSHMEM as part of the NVHPC SDK in the image, however this version is built for and linked against OpenMPI and UCX in the container, which are not compatible with the Slingshot network of Alps.
 
 NVSHMEM is built from source in the container, from a source tar ball provided by NVIDIA.
-The example here provides the latest version 3.4.5 at the time of writing (November 2025).
 
 - Notice that NVSHMEM is configured with support for libfabric explicitly enabled: `NVSHMEM_LIBFABRIC_SUPPORT=1`
 - NVSHMEM is built without support for UCX and Infiniband components, because they are not needed on Alps.
