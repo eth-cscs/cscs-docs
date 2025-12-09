@@ -100,4 +100,7 @@ The recommended way of using CPE in a container is to start the container, and u
 !!! note
     By default, the paths `/capstor`, `/iopsstor` are mounted to the same paths inside the container.
 
-Additionally `/users` will be mounted at `/users.host`, so you can access data in your home folder, but with a slightly different path. This is on purpose, and you can override this behaviour by writing your own [EDF file][ref-ce-edf-reference], especially using the key `base_environment`, referencing the predefined CPE environment files and override what you would like to change.
+!!! note
+    `/users` will not be mounted by default.
+    If you need your home directory, you need to override the `mounts` directive.
+    The recommended way is to derive from existing EDF file using the key `base_environment`, further details at [EDF file reference][ref-ce-edf-reference].
