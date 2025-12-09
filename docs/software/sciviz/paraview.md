@@ -5,19 +5,53 @@
     Paraview is [supported software][ref-support-apps] on Alps.
     See the [main applications page][ref-software] for more information.
 
-[ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool that enables analysis and visualization of extremely large datasets. ParaView is both a general purpose, end-user application with a distributed architecture that can be seamlessly leveraged by your desktop or other remote parallel computing resources and an extensible framework with a collection of tools and libraries for various applications including scripting (using Python), web visualization (through trame and ParaViewWeb), or in situ analysis (with Catalyst).
+[ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool, which enables analysis and visualization of extremely large datasets.
 
-!!! note "uenvs"
+ParaView is both:
 
-    [ParaView](https://www.paraview.org/) is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
-    Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
+- a general purpose end-user application with a distributed architecture, that can be seamlessly leveraged by your desktop or other remote parallel computing resources, and
+- an extensible framework with a collection of tools and libraries for various applications, including scripting (using Python), web visualization (through Trame and ParaViewWeb), and in situ analysis (with Catalyst).
 
+ParaView is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
+
+[](){#ref-paraview-one-time-setup}
+## One-time setup
+
+!!! warning "Before starting you should have already pulled a ParaView uenv (see [uenv quick-start guide][ref-uenv-quickstart])"
+
+CSCS provides helper scripts that are very handy for launching live sessions and batch rendering.
+
+To install these utilities, the simplest approach is to place them in a directory that is part of your `PATH`.
+A common convention is to create a personal `~/bin` directory and add it to your `PATH`.
+
+```bash
+mkdir ~/bin && echo 'export PATH=~/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
+uenv run paraview/6.0.1 -- cp -r /user-environment/helpers/. ~/bin
+```
+
+!!! info ""
+    You can then test that helpers scripts are installed correctly
+
+    ```console
+    $ paraview-reverse-connect
+    Usage: paraview-reverse-connect <uenv-label> <server-port> [<srun-option>]*
+    ```
+
+    ```console
+    $ bind-gpu-vtk-egl
+    Usage: bind-gpu-vtk-egl <cmd> [args...]
+    This wrapper is supposed to be used in a SLURM job.
+    ```
 
 ## Running ParaView in batch mode with Python scripts
 
-The following sbatch script can be used as a template.
+The following sbatch script can be used as template for running ParaView in batch mode.
 
 === "GH200"
+
+    !!! note
+        Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu].
+        How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
     ```bash
     #SBATCH -N 1
@@ -25,14 +59,11 @@ The following sbatch script can be used as a template.
     #SBATCH --cpus-per-task=72
     #SBATCH --gpus-per-task=1
     #SBATCH -A <account>
-    #SBATCH --uenv=paraview/5.13.2:v2 --view=paraview
+    #SBATCH --uenv=paraview/6.0.1 --view=default
     #SBATCH --hint=nomultithread
 
-    export MPICH_GPU_SUPPORT_ENABLED=0
-
-    srun --cpus-per-task=72 --cpu_bind=sockets /user-environment/ParaView-5.13/gpu_wrapper.sh /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
+    srun --cpus-per-task=72 bind-gpu-vtk-egl pvbatch your-paraview-python-script.py
     ```
-    Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu]. How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
 === "Eiger"
 
@@ -40,103 +71,142 @@ The following sbatch script can be used as a template.
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
-    #SBATCH --uenv=paraview/5.13.2:v2 --view=paraview
+    #SBATCH --uenv=paraview/6.0.1 --view=default
     #SBATCH --hint=nomultithread
 
-    srun --cpus-per-task=128 /user-environment/ParaView-5.13/bin/pvbatch ParaViewPythonScript.py
+    srun --cpus-per-task=128 pvbatch your-paraview-python-script.py
     ```
-
 
 ## Using ParaView in client-server mode
 
-A ParaView server can connect to a remote ParaView client installed on your desktop. Make sure to use the same version on both sides. Your local ParaView GUI client needs to create a SLURM job with appropriate parameters. We recommend that you make a copy of the file `/user-environment/ParaView-5.13/rc-submit-pvserver.sh` to your $HOME, such that you can further fine-tune it.
+!!! warning "Make sure to use the same version on both sides."
 
-You will need to add the corresponding XML code to your local ParaView installation, such that the Connect menu entry recognizes the ALPS cluster. The following code would be added to your **local** `$HOME/.config/ParaView/servers.pvsc` file
+A ParaView server can connect to a remote ParaView client installed on your workstation.
+To do that, your local ParaView client needs to connect to a `pvserver` running on Alps compute nodes, which is started using a SLURM job with appropriate parameters.
 
-!!! Example "XML code to add to your local ParaView settings"
+It can be done manually each time, or ParaView can be configured to do that for you auto-magically. 🪄
+
+### Connecting using an PVSC configuration file
+
+A [ParaView Server Configuration (PVSC)](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) file is an XML file that contains one or more server configurations.
+
+!!! note ""
+    This is a very simple configuration that at each connection to Alps Daint it prompts you for:
+
+    - [uenv image label][ref-uenv-labels] to use (it will be stored for next time)
+    - SLURM arguments for the allocation (every time it proposes the default value)
+    - TCP port to use for the reverse connection
+
     ```xml
     <Servers>
-      <Server name="Reverse-Connect-Daint.Alps" configuration="" resource="csrc://:11111" timeout="-1">
+      <Server name="CSCS Alps Daint" resource="csrc://daint.cscs.ch:11111" timeout="-1">
         <CommandStartup>
           <Options>
-            <Option name="MACHINE" label="remote cluster" save="true">
-              <String default="daint"/>
+            <Option name="UENV" label="ParaView uenv" save="true" readonly="false">
+              <String default="paraview/6.0.1:20251204"/>
             </Option>
-            <Option name="SSH_USER" label="SSH Username" save="true">
-              <String default="your-userid"/>
+            <Option name="SLURM_ARGS" label="SLURM Arguments" readonly="false">
+              <String default="-n4 -pdebug -t10"/>
             </Option>
-            <Option name="ACCOUNT" label="Account to be charged" save="true">
-              <String default="your-projectid"/>
-            </Option>
-            <Option name="RESERVATION" label="reservation name" save="true">
-              <Enumeration default="none">
-                <Entry value="" label="none"/>
-              </Enumeration>
-            </Option>
-            <Option name="SSH_CMD" label="SSH command" save="true">
-              <File default="/usr/bin/ssh"/>
-            </Option>
-            <Option name="REMOTESCRIPT" label="The remote script which generates the SLURM job" save="true">
-              <String default="/users/your-userid/rc-submit-pvserver.sh"/>
-            </Option>
-            <Option name="PVNodes" label="Number of cluster nodes" save="true">
-              <Range type="int" min="1" max="128" step="1" default="1"/>
-            </Option>
-            <Option name="PVTasks" label="Number of pvserver per node" save="true">
-              <Range type="int" min="1" max="4" step="1" default="4"/>
-            </Option>
-            <Option name="Queue" label="Queue" save="true">
-              <Enumeration default="normal">
-                <Entry value="normal" label="normal"/>
-                <Entry value="debug" label="debug"/>
-              </Enumeration>
-            </Option>
-            <Option name="MemxNode" label="MemxNode" save="true">
-              <Enumeration default="standard">
-                <Entry value="high" label="high"/>
-                <Entry value="standard" label="standard"/>
-              </Enumeration>
-            </Option>
-            <Option name="VERSION" label="VERSION ?" save="true">
-              <Enumeration default="5.13.2:v2">
-                <Entry value="5.13.2:v2" label="5.13.2:v2"/>
-              </Enumeration>
-            </Option>
-            <Option name="PV_SERVER_PORT" label="pvserver port" save="true">
-              <Range type="int" min="1024" max="65535" step="1" default="1100"/>
-            </Option>
-            <Option name="NUMMIN" label="job wall time" save="true">
-              <String default="00:29:59"/>
-            </Option>
-            <Option name="SESSIONID" label="Session id" save="true">
-              <String default="ParaViewServer"/>
+            <Option name="PV_SERVER_PORT" label="Server Port" readonly="false">
+              <Range type="int" min="11111" max="65535"/>
             </Option>
           </Options>
-          <Command exec="$SSH_CMD$" delay="5" process_wait="0">
+          <SSHCommand exec="paraview-reverse-connect" delay="0" process_wait="0">
+            <SSHConfig>
+              <PortForwarding/>
+            </SSHConfig>
             <Arguments>
-              <Argument value="-A"/>
-              <Argument value="-l"/>
-              <Argument value="$SSH_USER$"/>
-              <Argument value="-R"/>
-              <Argument value="$PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
-              <Argument value="$MACHINE$"/>
-              <Argument value="$REMOTESCRIPT$"/>
-              <Argument value="$SESSIONID$"/>
-              <Argument value="$NUMMIN$"/>
-              <Argument value="$PVNodes$"/>
-              <Argument value="$PVTasks$"/>
+              <Argument value="$UENV$"/>
               <Argument value="$PV_SERVER_PORT$"/>
-              <Argument value="$MACHINE$"/>
-              <Argument value="$VERSION$"/>
-              <Argument value="$Queue$"/>
-              <Argument value="$MemxNode$"/>
-              <Argument value="$ACCOUNT$"/>
-              <Argument value="$RESERVATION$;"/>
-              <Argument value="sleep"/>
-              <Argument value="6000"/>
+              <Argument value="$SLURM_ARGS$"/>
             </Arguments>
-          </Command>
-      </CommandStartup>
+          </SSHCommand>
+        </CommandStartup>
       </Server>
     </Servers>
     ```
+
+    !!! tip
+        You can use this as a starting point for more advanced setups and customizations.
+
+        See the official documentation about [PVSC files](https://docs.paraview.org/en/latest/ReferenceManual/parallelDataVisualization.html#paraview-server-configuration-files) for examples and details.
+
+An easy way to add a server configuration to your ParaView is to create it in a file with `*.pvsc` extension, and then load it in ParaView with **File → Connect... → Load Servers**.
+This will add the configuration(s) provided to the list of available server proposed when you click on **File → Connect...**.
+
+You can manipulate the list of server configurations from the dialog, and changes will be reflected (on ParaView UI exit) in a file called `servers.pvsc` in your ParaView user settings directory.
+
+### A more advanced and versatile configuration
+
+This is the most versatile way to configure ParaView client-server connection to Alps, as **it allows you to customize (any part of) the command directly from the ParaView UI**.
+
+You can achieve the same exact results either by creating a PVSC file as described in the previous section with the following content:
+
+```xml
+<Servers>
+  <Server name="CSCS Alps" resource="csrc://localhost:10111" timeout="-1">
+    <CommandStartup>
+      <Command process_wait="0" delay="0" exec="ssh">
+        <Arguments>
+          <Argument value="-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$"/>
+          <Argument value="daint.cscs.ch"/>
+          <Argument value="--"/>
+          <Argument value="paraview-reverse-connect"/>
+          <Argument value="paraview/6.0.1:20251204"/>
+          <Argument value="$PV_SERVER_PORT$"/>
+          <Argument value="-n4 -pdebug --gpus-per-task=1"/>
+        </Arguments>
+      </Command>
+    </CommandStartup>
+  </Server>
+</Servers>
+```
+
+Or by adding a new server configuration directly from the ParaView UI:
+
+- **File → Connect... → Add Server**
+- Specify a name for the configuration
+- Select **Reverse Connection**
+- Click on **Configure**
+- Select **Startup Type: Command**
+
+And type in the following command:
+
+```bash
+ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
+```
+
+#### Understanding and customizing the command
+
+Let's dissect the command in order to fully understand it, so you can customize it for your needs.
+In the command it is possible to identify two parts separated by "`--`":
+
+- SSH connection
+- ParaView server launch with `paraview-reverse-connect`
+
+##### SSH connection
+
+```bash
+ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch
+```
+
+This first part runs locally on your workstation and specifies how to connect to Alps via SSH.
+
+You should **use whatever SSH option you are normally using to connect to Alps**.
+What's **important is having `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`**, which is responsible of forwarding the port specified in the GUI (if it is busy, you can try a different one) from your local workstation to Alps.
+
+##### ParaView server launch with `paraview-reverse-connect`
+
+```bash
+paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
+```
+
+The second part uses `paraview-reverse-connect` (see [how to obtain it][ref-paraview-one-time-setup]), which runs on the Alps login node to launch a SLURM job, that will execute ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
+
+The first two arguments are required, and they are:
+
+- the [uenv image label][ref-uenv-labels] and
+- the port you are forwarding via SSH.
+
+After them, it is possible to specify any srun option, giving you full control on the allocation request (e.g. time, partition).
