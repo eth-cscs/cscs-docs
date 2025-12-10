@@ -15,14 +15,14 @@ Users can make HTTP requests to perform the following operations:
 
 ## FirecREST specification
 
-Starting early 2025, CSCS has introduced a new version of the API: [FirecREST version 2](https://eth-cscs.github.io/firecrest-v2).
+[Version 2 of the FirecREST API](https://eth-cscs.github.io/firecrest-v2) is provided on Alps.
+See the following external documentation pages for more detailed information:
 
-!!! warning "Deprecation notice"
-    FirecREST version 1 has been decommissioned on December 5th, 2025. Since then, only version 2 is available at CSCS systems.
+* [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/user_guide/): for detailed documentation.
+* [FirecREST-v2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi): for the full feature set.
 
-For a full feature set, have a look at the latest [FirecREST version 2 API specification](https://eth-cscs.github.io/firecrest-v2/openapi) deployed at CSCS.
-
-Please refer to the [FirecREST-v2 documentation](https://eth-cscs.github.io/firecrest-v2/user_guide/) for detailed documentation.
+!!! warning "Version 1 deprecation"
+    FirecREST version 1 was decommissioned on Alps on December 5th, 2025
 
 ## FirecREST Deployment on Alps
 
