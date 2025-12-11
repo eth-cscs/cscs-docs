@@ -275,6 +275,9 @@ quasiparticles
 quickstart
 recv
 rgw
+retag
+retagging
+retagged
 ritom
 ripgrep
 rocm
