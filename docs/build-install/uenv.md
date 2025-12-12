@@ -19,15 +19,16 @@ CSCS provides `uenv-spack` - a tool that can be used to quickly install software
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git # (1)!
-
-(cd uenv-spack && ./bootstrap) # (2)!
-
-export PATH=$PWD/uenv-spack:$PATH
+export PATH=$PWD/uenv-spack:$PATH  # (2)!
 ```
 
 1. Download the `uenv-spack` tool from GitHub.
 
-2. Initialize the `uenv-spack` tool.
+2. Makes the `uenv-spack` executable available.
+
+!!! note "Requires uv"
+    `uenv-spack` requires that [uv](https://docs.astral.sh/uv/) is installed to work.
+    See our guide to setting up [installation locations][ref-guides-terminal-arch], before [installing uv](https://docs.astral.sh/uv/getting-started/installation).
 
 ### Select the uenv
 
@@ -59,7 +60,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
 
 !!! note "What does the `spack` view do?"
     The `spack` view sets environment variables that provide information about the version of Spack that was used to build the uenv, and where the uenv Spack configuration is stored.
-    
+
     | <div style="width:12em">variable</div> | <div style="width:18em">example</div> | description |
     | -------- | ------- | ----------- |
     | `UENV_SPACK_CONFIG_PATH` | `user-environment/config` | the path of the upstream [spack configuration files]. |
@@ -67,7 +68,16 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     | `UENV_SPACK_URL`         | `https://github.com/spack/spack.git` | The git repository for Spack - nearly always the main spack/spack repository. |
     | `UENV_SPACK_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The commit of Spack that was used |
 
-    !!! warning
+    Spack version 1 moved the Spack packages from inside the Spack repository to a stand alone [repository on GitHub](https://github.com/spack/spack-packages).
+    Uenvs that were built using Spack 1.0 and later will also set the following environment variables that provide information about the package versioning:
+
+    | <div style="width:14em">variable</div> | <div style="width:16em">example</div> | description |
+    | -------- | ------- | ----------- |
+    | `UENV_SPACK_PACKAGES_REF`         | `releases/v2025.07` | the branch or tag used - this might be empty if a specific commit of Spack was used. |
+    | `UENV_SPACK_PACKAGES_URL`         | `https://github.com/spack/spack-packages.git` | The git repository - nearly always the main spack/spack-packages repository. |
+    | `UENV_SPACK_PACKAGES_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The git commit of Spack-packages that was used |
+
+    !!! note
 
         The environment variables set by the `spack` view are scoped by `UENV_`.
         Therefore, they don't change Spack-related environment variables.
