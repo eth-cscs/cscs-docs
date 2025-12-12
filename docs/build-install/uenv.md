@@ -240,7 +240,7 @@ The packages built by Spack are installed in `<build-path>/store`.
 ### Spack view
 
 A Spack view is generated in `<build-path>/view`, with a .
-When the view is activated, all of ths installed packages are available for use in the environment.
+When the view is activated, all of the installed packages are available for use in the environment.
 
 !!! example "Activating the view"
     For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
