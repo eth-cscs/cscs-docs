@@ -51,7 +51,7 @@ graph TD
 
     On systems that have NVIDIA GPUs (`gh200` and `a100` uarch), it also provides the latest version of `cuda` and `nccl`, and it is configured for GPU-aware MPI communication.
 
-To use an uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/latest/chain.html),
+To use a uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/latest/chain.html),
 the uenv has to be started with the `spack` view:
 
 ```bash
@@ -88,14 +88,13 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
+    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that .
+    It is recommended that you take the time to the setup, and modify it as needed for your project.
 
-    Advanced Spack users can use the environment variables set by the `spack` view to manually configure the uenv as a Spack upstream instance.
-    
-    !!! tip
-        If using multiple uenvs, we recommend using a different Spack instance per uenv.
+    It is also possible to integrate uenv into your own Spack workflow.
+    For this, it is recommended to load the `spack` view, and use the `UENV_SPACK_*` environment variables.
 
-    ??? example "Setting Spack configuration path"
-    
+    !!! example "Setting Spack configuration path"
         ```bash
         export SPACK_SYSTEM_CONFIG_PATH=$UENV_SPACK_CONFIG_PATH
         ```
@@ -110,12 +109,22 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 !!! example "Create a build directory with a Spack environment file and a Spack package repository"
 
     ```bash
-    uenv-spack <build-path> --uarch=gh200
+    uenv-spack <build-path> --uarch=<uarch> --name=<env-name>
     cd <build-path>
+    vim ./env/spack.yaml    # (1) !
     ./build
     ```
 
-    `<build-path>` is a path (typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`).
+    All of the arguments are required:
+
+    * `<build-path>` is the path in which the environment will be built:
+        * typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`.
+    * `<uarch>`: is the microarchitecture:
+        * one of `zen2, zen3, gh200, a100`;
+        * used to set default variants in the Spack recipe.
+    * `<env-name>`: is the name of the environment:
+        * must start with a letter, and may only contain letters, numbers, underscores `_` and dashes `-`.
+
 
 
 `uenv-spack` creates a directory tree with the following contents:
@@ -214,11 +223,11 @@ Once specs have been added to `spack.yaml`, you can build the image using the `b
 ./build
 ```
 
-This process will take a while, because the version of Spack that was downloaded needs to
+This process will take a while, because the version of Spack that was downloaded needs to:
 
-* bootstrap,
-* concretise the environment,
-* and build all of the packages.
+* bootstrap Spack;
+* then concretise the environment;
+* then build all of the packages.
 
 The duration of the build depends on the specs: some specs may require a long time to build, or require installing many dependencies.
 
@@ -230,41 +239,43 @@ The packages built by Spack are installed in `<build-path>/store`.
 
 ### Spack view
 
-A Spack view is generated in `<build-path>/view`.
+A Spack view is generated in `<build-path>/view`, with a .
+When the view is activated, all of ths installed packages are available for use in the environment.
+
+!!! example "Activating the view"
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
+
+    ```bash
+    uenv start prgenv-gnu/25.6:v2                   # (1)!
+    source $SCRATCH/software/tool/view/activate.sh  # (2)!
+    ```
+
+    1. Start the uenv: to use the software the `spack` view does not need to be loaded.
+    2. The `activate.sh` script sets environment variables that load the software.
+
 
 ### Modules
 
 Module files are generated in the `module` sub-directory of the `<build-path>`
 
-To use them, add them to the module environment
+To use them, add them to the module environment:
 
-```bash
-module use <build-path>/modules # (1)!
-module avail # (2)!
-```
+!!! example "Use the modules"
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
 
-1. Make modules available.
-2. Check that the modules are available.
+    ```bash
+    uenv start prgenv-gnu/25.6:v2             # (1)!
+    module use $SCRATCH/software/tool/modules # (2)!
+    module avail                              # (3)!
+    ```
+
+    1. Start the uenv: to use the software the `spack` view does not need to be loaded.
+    2. Make modules available.
+    3. Check that the modules are available.
 
 !!! note
     The generation of modules can be customised by editing the `<build-path>/config/user/modules.yaml` file _before_ running `build`.
     See the [Spack modules] documentation.
-
-### Use the software
-
-!!! warning
-
-    This step is not fully covered by the tool/workflow yet.
-
-!!! warning
-
-    The uenv that was used to configure and build must always be loaded when using the software stack.
-
-To use the installed software, you have the following options:
-
-* Loading modules
-* Activate the Spack view
-* `source <build-path>/spack/share/spack/setup-env.sh` and then use Spack
 
 [Chaining Spack Installations]: https://spack.readthedocs.io/en/latest/chain.html
 [Spack]: https://spack.readthedocs.io/en/latest/
