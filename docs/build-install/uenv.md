@@ -117,7 +117,7 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 
     1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set preferences, etc.
 
-    The argments to `uenv-spack` arguments are required:
+    The arguments to `uenv-spack` arguments are:
 
     * **required**: `<build-path>` is the path in which the environment will be built:
         * typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`.
