@@ -117,17 +117,19 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 
     1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set preferences, etc.
 
-    All of the arguments are required:
+    The argments to `uenv-spack` arguments are required:
 
-    * `<build-path>` is the path in which the environment will be built:
+    * **required**: `<build-path>` is the path in which the environment will be built:
         * typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`.
-    * `<uarch>`: is the microarchitecture:
+    * **required**: `--uarch=<uarch>`: is the microarchitecture:
         * one of `zen2, zen3, gh200, a100`;
         * used to set default variants in the Spack recipe.
-    * `<env-name>`: is the name of the environment:
+    * **required**: `--name=<env-name>`: is the name of the environment:
         * must start with a letter, and may only contain letters, numbers, underscores `_` and dashes `-`.
-
-
+    * **optional**: `--compiler=<compiler-name>`: is the compiler toolchain to use in the generated `spack.yaml`:
+        * one of `gcc`, `nvhpc`, `llvm`, or `llvm-amdgpu`.
+        * default: `gcc`
+        * note that the compiler must be in the list of compilers provided by the uenv.
 
 `uenv-spack` creates a directory tree with the following contents:
 
