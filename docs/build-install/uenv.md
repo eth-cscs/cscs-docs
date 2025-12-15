@@ -24,10 +24,10 @@ export PATH=$PWD/uenv-spack:$PATH  # (2)!
 
 1. Download the `uenv-spack` tool from GitHub.
 
-2. Makes the `uenv-spack` executable available.
+2. Make the `uenv-spack` executable available.
 
 !!! note "Requires uv"
-    `uenv-spack` requires that [uv](https://docs.astral.sh/uv/) is installed to work.
+    `uenv-spack` requires [uv](https://docs.astral.sh/uv/).
     See our guide to setting up [installation locations][ref-guides-terminal-arch], before [installing uv](https://docs.astral.sh/uv/getting-started/installation).
 
 ### Select the uenv
@@ -68,7 +68,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     | `UENV_SPACK_URL`         | `https://github.com/spack/spack.git` | The git repository for Spack - nearly always the main spack/spack repository. |
     | `UENV_SPACK_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The commit of Spack that was used |
 
-    Spack version 1 moved the Spack packages from inside the Spack repository to a stand alone [repository on GitHub](https://github.com/spack/spack-packages).
+    Spack version 1 moved the Spack packages from inside the Spack repository to a standalone [repository on GitHub](https://github.com/spack/spack-packages).
     Uenvs that were built using Spack 1.0 and later will also set the following environment variables that provide information about the package versioning:
 
     | <div style="width:14em">variable</div> | <div style="width:16em">example</div> | description |
@@ -88,8 +88,8 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
-    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that .
-    It is recommended that you take the time to the setup, and modify it as needed for your project.
+    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that automates concretising and installing the environment.
+    It is recommended that you take the time to review the environment and configuration, and modify it as needed for your project.
 
     It is also possible to integrate uenv into your own Spack workflow.
     For this, it is recommended to load the `spack` view, and use the `UENV_SPACK_*` environment variables.
@@ -111,9 +111,11 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
     ```bash
     uenv-spack <build-path> --uarch=<uarch> --name=<env-name>
     cd <build-path>
-    vim ./env/spack.yaml    # (1) !
+    vim ./env/spack.yaml    # (1)!
     ./build
     ```
+
+    1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set perferences, etc.
 
     All of the arguments are required:
 
@@ -239,7 +241,7 @@ The packages built by Spack are installed in `<build-path>/store`.
 
 ### Spack view
 
-A Spack view is generated in `<build-path>/view`, with a .
+A Spack view is generated in `<build-path>/view` with an activation script `<build-path>/view/activate.sh`.
 When the view is activated, all of the installed packages are available for use in the environment.
 
 !!! example "Activating the view"
