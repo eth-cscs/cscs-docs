@@ -115,7 +115,7 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
     ./build
     ```
 
-    1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set perferences, etc.
+    1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set preferences, etc.
 
     All of the arguments are required:
 
