@@ -88,7 +88,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
-    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that automates concretising and installing the environment.
+    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that automates concretizing and installing the environment.
     It is recommended that you take the time to review the environment and configuration, and modify it as needed for your project.
 
     It is also possible to integrate uenv into your own Spack workflow.
