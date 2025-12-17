@@ -17,9 +17,11 @@ CWP
 CXI
 Ceph
 Containerfile
+Containerfiles
 DNS
 Dockerfiles
 Dufourspitze
+EFA
 EMPA
 ETHZ
 Ehrenfest
@@ -76,6 +78,8 @@ MeteoSwiss
 NAMD
 NICs
 NVMe
+NVSHMEM
+NVLINK
 Nordend
 OpenFabrics
 OAuth
@@ -102,6 +106,7 @@ ROCm
 RPA
 Roboto
 Roothaan
+SHMEM
 SSHService
 STMV
 Scopi
@@ -254,6 +259,7 @@ kubeconfig
 ceph
 rwx
 rwo
+standalone
 subdomain
 tls
 kured
@@ -275,6 +281,9 @@ quasiparticles
 quickstart
 recv
 rgw
+retag
+retagging
+retagged
 ritom
 ripgrep
 rocm

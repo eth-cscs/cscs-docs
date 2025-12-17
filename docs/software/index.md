@@ -28,6 +28,8 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-bullhorn: [__Communication Libraries__][ref-software-communication]
 
+    [:octicons-arrow-right-24: Cray MPICH][ref-communication-libfabric]
+
     [:octicons-arrow-right-24: Cray MPICH][ref-communication-cray-mpich]
 
     [:octicons-arrow-right-24: MPICH][ref-communication-mpich]
@@ -36,7 +38,6 @@ These pages provided documentation for all supported software, and installation 
 
     [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
 
-    [:octicons-arrow-right-24: RCCL][ref-communication-rccl]
 
     [:octicons-arrow-right-24: libfabric][ref-communication-libfabric]
 
