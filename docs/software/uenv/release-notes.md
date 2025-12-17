@@ -43,6 +43,11 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
 
 ### Minor and patch releases
 
+[](){#ref-uenv-release-notes-v9.1.2}
+??? info "v9.1.2 bug fix release"
+    - [fix] on non-production systems fall back to `SCRATCH` as the default repository location (required for systems like Balfrin)
+    - [fix] `uenv image add` works when the image provided is already inside the repo (i.e. retagging is properly supported)
+
 [](){#ref-uenv-release-notes-v9.1.1}
 ??? info "v9.1.1 bug fix release"
     - [fix] rename cluster field in elastic logs to avoid name conflict

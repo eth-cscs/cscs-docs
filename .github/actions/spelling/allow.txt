@@ -259,6 +259,7 @@ kubeconfig
 ceph
 rwx
 rwo
+standalone
 subdomain
 tls
 kured
@@ -280,6 +281,9 @@ quasiparticles
 quickstart
 recv
 rgw
+retag
+retagging
+retagged
 ritom
 ripgrep
 rocm
