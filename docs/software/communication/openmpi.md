@@ -87,4 +87,55 @@ export OMPI_MCA_mtl_ofi_av=table # (4)!
 
 ## Known issues
 
-TODO: async collectives don't work.
+Some asynchronous collectives are known not to work with GPU buffers, independent of the libfabric provider used.
+For example, `MPI_Iallreduce` will fail with a segmentation fault.
+Running the `osu_iallreduce` benchmark with GPU buffers results in:
+
+```console
+$ srun -u --mpi=pmix -n4 osu_iallreduce -d cuda
+
+# OSU MPI-CUDA Non-blocking Allreduce Latency Test v7.5
+# Overall = Coll. Init + Compute + MPI_Test + MPI_Wait
+
+# Datatype: MPI_INT.
+# Size           Overall(us)       Compute(us)    Pure Comm.(us)        Overlap(%)
+[nid006549:31808] *** Process received signal ***
+[nid006549:31808] Signal: Segmentation fault (11)
+[nid006549:31808] Signal code: Invalid permissions (2)
+[nid006549:31808] Failing at address: 0x4002da000000
+[nid006550:188198] *** Process received signal ***
+[nid006550:188198] Signal: Segmentation fault (11)
+[nid006550:188198] Signal code: Invalid permissions (2)
+[nid006550:188198] Failing at address: 0x40029a000000
+[nid006549:31808] [ 0] linux-vdso.so.1(__kernel_rt_sigreturn+0x0)[0x400027ce07dc]
+[nid006549:31808] [ 1] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(+0x19f1c8)[0x400029b0f1c8]
+[nid006549:31808] [ 2] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(+0x12836c)[0x400029a9836c]
+[nid006549:31808] [ 3] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(NBC_Progress+0x164)[0x400029a97bd4]
+[nid006549:31808] [ 4] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(ompi_coll_libnbc_progress+0x8c)[0x400029a96a0c]
+[nid006549:31808] [ 5] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libopen-pal.so.80(opal_progress+0x3c)[0x40002a23737c]
+[nid006549:31808] [ 6] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(ompi_request_default_wait+0x50)[0x4000299f3810]
+[nid006549:31808] [ 7] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(MPI_Wait+0x64)[0x400029a3df24]
+[nid006549:31808] [ 8] /user-environment/env/default/libexec/osu-micro-benchmarks/mpi/collective/osu_iallreduce[0x40424c]
+[nid006549:31808] [ 9] /lib64/libc.so.6(__libc_start_main+0xe8)[0x40002a073fa0]
+[nid006549:31808] [10] /user-environment/env/default/libexec/osu-micro-benchmarks/mpi/collective/osu_iallreduce[0x404e98]
+[nid006549:31808] *** End of error message ***
+[nid006550:188198] [ 0] linux-vdso.so.1(__kernel_rt_sigreturn+0x0)[0x4000026a07dc]
+[nid006550:188198] [ 1] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(+0x19f1c8)[0x4000044cf1c8]
+[nid006550:188198] [ 2] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(+0x12836c)[0x40000445836c]
+[nid006550:188198] [ 3] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(NBC_Progress+0x164)[0x400004457bd4]
+[nid006550:188198] [ 4] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(ompi_coll_libnbc_progress+0x8c)[0x400004456a0c]
+[nid006550:188198] [ 5] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libopen-pal.so.80(opal_progress+0x3c)[0x400004bf737c]
+[nid006550:188198] [ 6] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(ompi_request_default_wait+0x50)[0x4000043b3810]
+[nid006550:188198] [ 7] /user-environment/linux-neoverse_v2/openmpi-5.0.9-leskuw5dyswfdw3eaybcyfmsrbid3uuq/lib/libmpi.so.40(MPI_Wait+0x64)[0x4000043fdf24]
+[nid006550:188198] [ 8] /user-environment/env/default/libexec/osu-micro-benchmarks/mpi/collective/osu_iallreduce[0x40424c]
+[nid006550:188198] [ 9] /lib64/libc.so.6(__libc_start_main+0xe8)[0x400004a33fa0]
+[nid006550:188198] [10] /user-environment/env/default/libexec/osu-micro-benchmarks/mpi/collective/osu_iallreduce[0x404e98]
+[nid006550:188198] *** End of error message ***
+srun: error: nid006549: task 0: Segmentation fault (core dumped)
+srun: Terminating StepId=2243671.21
+[2025-12-17T12:59:34.342] error: *** STEP 2243671.21 ON nid006549 CANCELLED AT 2025-12-17T12:59:34 DUE TO TASK FAILURE ***
+srun: error: nid006550: task 2: Segmentation fault (core dumped)
+srun: error: nid006550: task 3: Terminated
+srun: error: nid006549: task 1: Terminated
+srun: Force Terminated StepId=2243671.21
+```
