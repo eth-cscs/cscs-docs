@@ -103,7 +103,7 @@ A [ParaView Server Configuration (PVSC)](https://docs.paraview.org/en/latest/Ref
         <CommandStartup>
           <Options>
             <Option name="UENV" label="ParaView uenv" save="true" readonly="false">
-              <String default="paraview/6.0.1:20251204"/>
+              <String default="paraview/6.0.1"/>
             </Option>
             <Option name="SLURM_ARGS" label="SLURM Arguments" readonly="false">
               <String default="-n4 -pdebug -t10"/>
@@ -153,7 +153,7 @@ You can achieve the same exact results either by creating a PVSC file as describ
           <Argument value="daint.cscs.ch"/>
           <Argument value="--"/>
           <Argument value="paraview-reverse-connect"/>
-          <Argument value="paraview/6.0.1:20251204"/>
+          <Argument value="paraview/6.0.1"/>
           <Argument value="$PV_SERVER_PORT$"/>
           <Argument value="-n4 -pdebug --gpus-per-task=1"/>
         </Arguments>
@@ -174,7 +174,7 @@ Or by adding a new server configuration directly from the ParaView UI:
 And type in the following command:
 
 ```bash
-ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
+ssh -R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$ daint.cscs.ch -- paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
 ```
 
 #### Understanding and customizing the command
@@ -199,7 +199,7 @@ What's **important is having `-R $PV_SERVER_PORT$:localhost:$PV_SERVER_PORT$`**,
 ##### ParaView server launch with `paraview-reverse-connect`
 
 ```bash
-paraview-reverse-connect paraview/6.0.1:20251204 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
+paraview-reverse-connect paraview/6.0.1 $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
 ```
 
 The second part uses `paraview-reverse-connect` (see [how to obtain it][ref-paraview-one-time-setup]), which runs on the Alps login node to launch a SLURM job, that will execute ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
