@@ -1,0 +1,7 @@
+ARG nccl_tests_version=2.17.1
+RUN wget -O nccl-tests-${nccl_tests_version}.tar.gz https://github.com/NVIDIA/nccl-tests/archive/refs/tags/v${nccl_tests_version}.tar.gz \
+    && tar xf nccl-tests-${nccl_tests_version}.tar.gz \
+    && cd nccl-tests-${nccl_tests_version} \
+    && MPI=1 make -j$(nproc) \
+    && cd .. \
+    && rm -rf nccl-tests-${nccl_tests_version}.tar.gz

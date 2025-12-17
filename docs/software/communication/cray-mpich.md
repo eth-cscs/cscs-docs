@@ -28,7 +28,7 @@ This means that Cray MPICH will automatically be linked to the GTL library, whic
     $ ldd myexecutable | grep gtl
             libmpi_gtl_cuda.so => /user-environment/linux-sles15-neoverse_v2/gcc-13.2.0/cray-gtl-8.1.30-fptqzc5u6t4nals5mivl75nws2fb5vcq/lib/libmpi_gtl_cuda.so (0x0000ffff82aa0000)
     ```
-    
+
     The path may be different, but the `libmpi_gtl_cuda.so` library should be printed when using CUDA.
     In ROCm environments the `libmpi_gtl_hsa.so` library should be linked.
     If the GTL library is not linked, nothing will be printed.
@@ -40,7 +40,7 @@ See [this page][ref-slurm-gh200] for more information on configuring Slurm to us
 !!! warning "Segmentation faults when trying to communicate GPU buffers without `MPICH_GPU_SUPPORT_ENABLED=1`"
     If you attempt to communicate GPU buffers through MPI without setting `MPICH_GPU_SUPPORT_ENABLED=1`, it will lead to segmentation faults, usually without any specific indication that it is the communication that fails.
     Make sure that the option is set if you are communicating GPU buffers through MPI.
-    
+
 !!! warning "Error: "`GPU_SUPPORT_ENABLED` is requested, but GTL library is not linked""
     If `MPICH_GPU_SUPPORT_ENABLED` is set to `1` and your application does not link against one of the GTL libraries you will get an error similar to the following during MPI initialization:
     ```bash
