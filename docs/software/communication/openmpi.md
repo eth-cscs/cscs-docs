@@ -18,7 +18,21 @@ This is done with the `--mpi` flag of `srun`:
 srun --mpi=pmix ...
 ```
 
-Additionally, the following environment variables should be set:
+There are two primary ways to configure OpenMPI and libfabric to use the Slingshot network:
+
+1. [Only using the CXI provider][ref-communication-openmpi-cxi].
+   This method has been found to work in more applications but uses NICs for intra-node communication which can limit performance.
+2. [Using the LINKx provider][ref-communication-openmpi-lnx] which combines the CXI provider for inter-node communication with the shared memory provider for intra-node communication.
+   This provider is newer, may not support all features, and more likely to contain bugs, but makes full use of intra-node bandwidth.
+
+We recommend trying the LINKx provider first as it provides better performance in the situations that it's supported.
+If you encounter failures using the LINKx provider we ask you to [get in touch with us][ref-get-in-touch] so that we can evaluate whether upstream libfabric or OpenMPI need fixing.
+
+[](){#ref-communication-openmpi-cxi}
+### Using the CXI provider
+
+To use the CXI provider the following environment variables should be set:
+
 ```bash
 export PMIX_MCA_psec="native" # (1)!
 export FI_PROVIDER="cxi" # (2)!
@@ -34,8 +48,10 @@ export OMPI_MCA_mtl="ofi" # (4)!
 !!! info "CXI provider does all communication through the network interface cards (NICs)"
     When using the libfabric CXI provider, all communication goes through NICs, including intra-node communication.
     This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will be severely limited.
+    Use the [LINKx][ref-communication-openmpi-lnx] provider to make full use of the available intra-node bandwidth.
 
-### Using the experimental LINKx provider
+[](){#ref-communication-openmpi-lnx}
+### Using the LINKx provider
 
 The default configuration routes all communication through the NICs.
 While performance may sometimes be acceptable, this mode does not make full use of the much higher intra-node bandwidth available on Grace-Hopper nodes.
@@ -44,14 +60,12 @@ In particular, GPU-GPU communication is significantly faster when using the appr
 The experimental [LINKx](https://ofiwg.github.io/libfabric/v2.3.1/man/fi_lnx.7.html) libfabric provider allows composing multiple libfabric providers for inter- and intra-node communication.
 The CXI provider can be used for inter-node communication while the shared memory (`shm`) provider can be used to take advantage of xpmem for CPU-CPU communication and GDRCopy for GPU-GPU communication.
 
-!!! warning "The LINKx provider is experimental and may contain bugs, in particular for intra-node communication"
+!!! danger "The LINKx provider is experimental"
 
-    A patch has been included in the [`prgenv-gnu-openmpi`][ref-uenv-prgenv-gnu-openmpi] uenv for [this LINKx issue](https://github.com/ofiwg/libfabric/issues/11231).
-    However, the patch may be incomplete and other issues may still be present.
+    While many basic tests work correctly using the LINKx provider we have had reports of applications failing to run with the LINKx provider.
     Always validate your results to ensure MPI is working correctly.
 
-To use the LINKx provider, set `--mpi=pmix`, as without the LINKx provider.
-Additionally, set the following environment variables:
+To use the LINKx provider set the following environment variables:
 
 ```bash
 export PMIX_MCA_psec="native"
