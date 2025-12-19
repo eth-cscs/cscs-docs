@@ -170,9 +170,13 @@ We present some performance numbers for OpenMPI, obtained using the OSU benchmar
 The first performance benchmarks are for the OSU point-to-point bandwidth test `osu_bw`.
 
 * inter-node tests place the two ranks on different nodes, so that all communication is over the Slingshot network
-* intra-node tests place two ranks on the same node, so that communication is via NVLINK or memory copies in the CPU-CPU case
+* intra-node tests place two ranks on the same node, but communication is still done over the Slingshot network
 
-!!! note "impact of disabling the CXI hook"
+!!! note
+    The container is configured to only use the CXI provider of libfabric, routing intra-node communication over NICs.
+    We currently only provide instructions on using the [experimental LINKx provider][ref-communication-openmpi-lnx], which can make use of higher intra-node bandwidth, for uenv.
+
+!!! note "Impact of disabling the CXI hook"
     On many Alps vClusters, the Container Engine is configured with the [CXI hook][ref-ce-cxi-hook] enabled by default, enabling transparent access to the Slingshot interconnect.
 
     The inter-node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration.
