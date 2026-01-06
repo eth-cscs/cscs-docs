@@ -22,25 +22,16 @@ The CPE is provided to users on Alps as containers.
 ### Available versions
 
 The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as separate containers, instead of having both in one container, named `gnu-$version` and `cray-$version` respectively.
-The `version` is the CPE version in the container.
+The `version` is the CPE version in the container. Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/edf/<microarchitecture>`.
 
 |                 | `zen2`   | `gh200` |
 |-----------------|----------|---------|
-| `cpe-gnu-24.7`  | ❌       | ✅      |
-| `cpe-cray-24.7` | ❌       | ✅      |
-
-!!! warning "only available on gh200"
-    The CPE container is only provided on systems with the "[container engine][ref-container-engine]" container runtime, which is currently the Grace-Hopper systems [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis].
+| `cpe-gnu-24.7`  | ✅       | ✅      |
+| `cpe-cray-24.7` | ✅       | ✅      |
+| `cpe-gnu-25.3`  | ✅       | ✅      |
+| `cpe-cray-25.3` | ✅       | ✅      |
 
 ### How to use
-
-!!! info "Before you start"
-    To use the CPE containers as documented below, you need to set the `EDF_PATH` environment variable.
-    ```console
-    export EDF_PATH=/capstor/scratch/cscs/anfink/shared/cpe/edf:$EDF_PATH
-    ```
-    Note that the current location of the EDF files is temporary, to work around a file system bug.
-    The environment variable __will not be required__ once this issue is fixed.
 
 To start a session with the CPE (see [available-versions][ref-cpe-versions] above):
 ```console
@@ -109,4 +100,7 @@ The recommended way of using CPE in a container is to start the container, and u
 !!! note
     By default, the paths `/capstor`, `/iopsstor` are mounted to the same paths inside the container.
 
-Additionally `/users` will be mounted at `/users.host`, so you can access data in your home folder, but with a slightly different path. This is on purpose, and you can override this behaviour by writing your own [EDF file][ref-ce-edf-reference], especially using the key `base_environment`, referencing the predefined CPE environment files and override what you would like to change.
+!!! note
+    `/users` will not be mounted by default.
+    If you need your home directory, you need to override the `mounts` directive.
+    The recommended way is to derive from existing EDF file using the key `base_environment`, further details at [EDF file reference][ref-ce-edf-reference].
