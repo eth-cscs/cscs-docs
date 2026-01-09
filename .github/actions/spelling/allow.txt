@@ -50,6 +50,7 @@ HPCP
 HPE
 HSN
 Hartree
+IAP
 Invernizzi
 Jax
 Jira
@@ -198,6 +199,7 @@ juliaup
 jupyter
 jwt
 kokkos
+lammps
 lapackpp
 lexer
 lexers
