@@ -17,6 +17,13 @@ The current version of LAMMPS is written in C++.
 ??? note "Licensing terms and conditions"
     [LAMMPS] is a freely-available open-source code, distributed under the terms of the [GNU Public License](http://www.gnu.org/copyleft/gpl.html).
 
+??? note "Changelog"
+
+    ??? note "20251210"
+        
+        * Added the following extras: `mc`, `misc`, `manifold`, `qtb`, `reaction`, `shock`, `spin`, `extra-pair`, `extra-fix`, `ml-iap`
+        * Included fix for ML-IAP: [lammps/lammps#4808](https://github.com/lammps/lammps/pull/4808)
+
 ## Running LAMMPS
 
 ### Loading LAMMPS Interactively
@@ -37,13 +44,13 @@ Please see the documentation here for further details: https://eth-cscs.github.i
 To obtain this image, please run:
 
 ```bash
-uenv image pull lammps/2024:v2
+uenv image pull lammps/20251210:v1
 ```
 
 To start the uenv for this specific version of LAMMPS, you can use:
 
 ```bash
-uenv start --view kokkos lammps/2024:v2
+uenv start --view kokkos lammps/20251210:v1
 ```
 
 You can load the `kokkos` or `gpu` view from the uenv to make the `lmp` executable available.
@@ -52,12 +59,12 @@ The executable in both these views support GPUs:
 === "Kokkos"
     ```bash
     #lammps +kokkos package
-    uenv start --view kokkos lammps/2024:v2
+    uenv start --view kokkos lammps/20251210:v1
     ```
 === "GPU"
     ```bash
     #lammps +gpu package
-    uenv start --view gpu lammps/2024:v2
+    uenv start --view gpu lammps/20251210:v1
     ```
 
 A development view is also provided, which contains all libraries and command-line tools necessary to build LAMMPS from source, without including the LAMMPS executable:
@@ -65,12 +72,12 @@ A development view is also provided, which contains all libraries and command-li
 === "Kokkos"
     ```bash
     # build environment for lammps +kokkos package, without providing lmp executable
-    uenv start --view develop-kokkos lammps/2024:v2
+    uenv start --view develop-kokkos lammps/20251210:v1
     ```
 === "GPU"
     ```bash
     # build environment for lammps +gpu package, without providing lmp executable
-    uenv start --view develop-gpu lammps/2024:v2
+    uenv start --view develop-gpu lammps/20251210:v1
     ```
 
 ### Running LAMMPS with Kokkos on Daint
@@ -283,12 +290,12 @@ Load one of the two following views:
 === "Kokkos"
     ```bash
     #build environment for lammps +kokkos package, without providing lmp executable
-    uenv start --view develop-kokkos lammps/2024:v2
+    uenv start --view develop-kokkos lammps/20251210:v1
     ```
 === "GPU"
     ```bash
     #build environment for lammps +gpu package, without providing lmp executable
-    uenv start --view develop-gpu lammps/2024:v2
+    uenv start --view develop-gpu lammps/20251210:v1
     ```
 
 and now you can build your local copy of LAMMPS. 
@@ -304,7 +311,6 @@ CC=mpicc CXX=mpic++ cmake \
 -DEXTERNAL_KOKKOS=yes \
 -DKokkos_ARCH_NATIVE=yes \
 -DKokkos_ARCH_HOPPER90=yes \
--DKokkos_ARCH_PASCAL60=no \
 -DKokkos_ENABLE_CUDA=yes \
 -DKokkos_ENABLE_OPENMP=yes \
 -DCUDPP_OPT=no \
