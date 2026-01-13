@@ -128,7 +128,7 @@ This submission script is only representative. Users must run their input files 
 
 ### PLUMED
 
-The PLUMED interface looks for the `PLUMED_KERNEL` environment variable, which should contain the path and the name of a shared object containing the PLUMED kernel (usually callde `libplumedKernel.so`). Make sure to appropriately set this variable before running GROMACS.
+The PLUMED interface looks for the `PLUMED_KERNEL` environment variable, which should contain the path and the name of a shared object containing the PLUMED kernel (usually called `libplumedKernel.so`). Make sure to appropriately set this variable before running GROMACS.
 
 !!! tip "Find `libplumedKernel.so`"
 

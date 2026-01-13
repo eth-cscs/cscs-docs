@@ -177,6 +177,7 @@ gitlab
 gmail
 gpt
 gpu
+gromacs
 gromos
 groundstate
 gsl
