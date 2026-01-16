@@ -20,7 +20,7 @@ For ORCA v6.1.1, it is called `orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.
 Move the archive into your `$SCRATCH`, and unpack it in its own subfolder.
 
 ## Running ORCA calculations
-ORCA is shiped as a pre-compiled executable linked against OpenMPI. To be able to run, the `prgenv-gnu-openmpi`
+ORCA is shipped as a pre-compiled executable linked against OpenMPI. To be able to run, the `prgenv-gnu-openmpi`
 uenv is required. Here is a sample Slurm batch script:
 
 ```bash
