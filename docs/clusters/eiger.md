@@ -80,6 +80,7 @@ CSCS and the user community provide [uenv][ref-uenv] software environments on Ei
      * [NAMD][ref-uenv-namd]
      * [Quantumespresso][ref-uenv-quantumespresso]
      * [VASP][ref-uenv-vasp]
+     * [ORCA][ref-software-orca]
 
 </div>
 
