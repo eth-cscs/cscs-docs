@@ -116,9 +116,9 @@ nav:
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'User Applications':
       - software/userapps/index.md
-      - 'WRF': software/cw/wrf.md
-      - 'ORCA': sofrware/sciapps/orca.md
-    - 'Commercial software':
+      - 'WRF': software/userapps/wrf.md
+      - 'ORCA': software/userapps/orca.md
+    - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
     - 'Scientific Visualization':

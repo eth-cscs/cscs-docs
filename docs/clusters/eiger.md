@@ -106,8 +106,9 @@ CSCS and the user community provide [uenv][ref-uenv] software environments on Ei
 [](){#ref-cluster-eiger-users-apps}
 #### User applications
 For help with [user applications][ref-support-user-apps], see the following guides:
-    * [ORCA][ref-software-orca]
-    * [WRF][ref-software-wrf]
+
+* [ORCA][ref-software-orca]
+* [WRF][ref-software-wrf]
 
 [](){#ref-cluster-eiger-containers}
 #### Containers
