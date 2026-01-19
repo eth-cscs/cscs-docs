@@ -26,8 +26,6 @@ These pages provided documentation for all supported software, and installation 
 
     [:octicons-arrow-right-24: VASP][ref-uenv-vasp]
 
-    [:octicons-arrow-right-24: ORCA][ref-software-orca]
-
 -   :fontawesome-solid-bullhorn: [__Communication Libraries__][ref-software-communication]
 
     [:octicons-arrow-right-24: Cray MPICH][ref-communication-libfabric]
@@ -53,7 +51,13 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-earth-oceania: [__Climate and Weather__][ref-software-climate]
 
+    [:octicons-arrow-right-24: netcdf-tools][ref-uenv-netcdf-tools]
+
+-   :fontawesome-solid-earth-oceania: [__User Applications__][ref-software-userapps]
+
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
+
+    [:octicons-arrow-right-24: ORCA][ref-software-orca]
 
 -   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]
 

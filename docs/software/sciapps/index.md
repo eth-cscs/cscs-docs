@@ -13,4 +13,3 @@ CSCS staff can also help users with performance analysis to optimise their workf
 * [NAMD][ref-uenv-namd]
 * [Quantum ESPRESSO][ref-uenv-quantumespresso]
 * [VASP][ref-uenv-vasp]
-* [ORCA] [ref-software-orca]

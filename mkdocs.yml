@@ -105,7 +105,6 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
-      - 'WRF': software/cw/wrf.md
       - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
@@ -115,6 +114,10 @@ nav:
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
       - 'NVSHMEM': software/communication/nvshmem.md
+    - 'User Applications':
+      - software/userapps/index.md
+      - 'WRF': software/cw/wrf.md
+      - 'ORCA': sofrware/sciapps/orca.md
     - 'Commercial software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md

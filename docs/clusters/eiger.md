@@ -80,7 +80,6 @@ CSCS and the user community provide [uenv][ref-uenv] software environments on Ei
      * [NAMD][ref-uenv-namd]
      * [Quantumespresso][ref-uenv-quantumespresso]
      * [VASP][ref-uenv-vasp]
-     * [ORCA][ref-software-orca]
 
 </div>
 
@@ -103,6 +102,12 @@ CSCS and the user community provide [uenv][ref-uenv] software environments on Ei
 
     * [Linaro Forge][ref-uenv-linaro]
 </div>
+
+[](){#ref-cluster-eiger-users-apps}
+#### User applications
+For help with [user applications][ref-support-user-apps], see the following guides:
+    * [ORCA][ref-software-orca]
+    * [WRF][ref-software-wrf]
 
 [](){#ref-cluster-eiger-containers}
 #### Containers

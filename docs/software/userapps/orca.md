@@ -9,18 +9,18 @@
 [ORCA](https://www.faccts.de/orca/) is a quantum chemistry software package implementing a wide range of methods (DFT,
 HF, wave-function methods, etc) with Gaussian basis sets.
 
-It is used for CPU-only simulation on [Eiger][ref-cluster-eiger], for which this guide applies. Please do not use on GPU
-platforms such as [Daint][ref-cluster-daint].
+It is used for CPU-only simulations on [Eiger][ref-cluster-eiger], for which this guide applies. Please do not 
+use it on GPU platforms such as [Daint][ref-cluster-daint].
 
 ## Installation
 You need to download the compiled executable yourself [here](https://www.faccts.de/customer). You first need to create a
 user account, and make sure you fulfill the license requirements. Select the archive for the linux x86_64 architecture.
 For ORCA v6.1.1, it is called `orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg.tar.xz`
 
-Move the archive into your `$SCRATCH`, and unpack it in its own subfolder.
+Move the archive into your `$HOME` or `$PROJECT`, and unpack it in its own subfolder.
 
 ## Running ORCA calculations
-ORCA is shipped as a pre-compiled executable linked against OpenMPI. To be able to run, the `prgenv-gnu-openmpi`
+ORCA is shipped as a pre-compiled executable linked against OpenMPI. To be able to run, the [`prgenv-gnu-openmpi`][ref-uenv-prgenv-gnu-openmpi]
 uenv is required. Here is a sample Slurm batch script:
 
 ```bash
@@ -45,7 +45,7 @@ $ORCA_EXEC water.inp > water.out
 ```
 
 The number of MPI processes must be specified in the ORCA input file, and it should match the specifications of the
-slurm submission script. The example input file below (non-physical stack of water molecules with RI-MP2) matches 
+Slurm submission script. The example input file below (non-physical stack of water molecules with RI-MP2) matches 
 the above sample script:
 
 ```bash
