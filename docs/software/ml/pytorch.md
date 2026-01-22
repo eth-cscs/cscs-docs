@@ -268,7 +268,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `abseil-cpp` | `20250814.1` |
         | `autoconf` | `2.72` |
         | `automake` | `1.16.5` |
-        | `aws-ofi-nccl` | `1.17.1` |
+        | `aws-ofi-nccl` | `1.18.0` |
         | `bc` | `1.07.1` |
         | `berkeley-db` | `18.1.40` |
         | `binutils` | `2.45` |
@@ -277,10 +277,11 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `bzip2` | `1.0.8` |
         | `ca-certificates-mozilla` | `2025-08-12` |
         | `c-ares` | `1.28.1` |
-        | `cassini-headers` | `git.59b6de6a91d9637809677c50cc48b607a91a9acb=main` |
+        | `cassini-headers` | `git.release/shs-13.0.0=13.0.0` |
         | `c-blosc` | `1.21.6` |
         | `check` | `0.15.2` |
         | `cmake` | `3.31.9` |
+        | `compiler-wrapper` | `1.0` |
         | `cpuinfo` | `2025-03-21` |
         | `cray-gtl` | `9.0.0` |
         | `cray-mpich` | `9.0.0` |
@@ -289,12 +290,11 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `cublasmp` | `0.5.0.898` |
         | `cuda` | `12.9.1` |
         | `cudnn` | `9.8.0.87-12` |
-        | `cudss` | `0.7.0` |
-        | `curl` | `8.15.0` |
+        | `curl` | `8.17.0` |
         | `cusparselt` | `0.8.1-cuda120` |
         | `cutensor` | `2.0.1.2` |
         | `cutlass` | `4.1.0` |
-        | `cxi-driver` | `git.08deb056fac4ca8b0d3d39b5f7cc0dad019ee266=main` |
+        | `cxi-driver` | `git.release/shs-13.0.0=13.0.0` |
         | `diffutils` | `3.12` |
         | `dynolog` | `0.5.0` |
         | `ed` | `1.4` |
@@ -307,12 +307,15 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `fmt` | `12.1.0` |
         | `fp16` | `2020-05-14` |
         | `fxdiv` | `2020-04-17` |
+        | `gcc` | `14.2.0` |
         | `gcc-runtime` | `14.2.0` |
         | `gdbm` | `1.25` |
         | `gdrcopy` | `2.5.1` |
         | `gettext` | `0.23.1` |
-        | `git` | `2.48.1` |
+        | `git` | `2.52.0` |
+        | `glibc` | `2.31` |
         | `gmake` | `4.4.1` |
+        | `gnuconfig` | `2024-07-27` |
         | `gsl` | `2.8` |
         | `hdf5` | `1.14.6` |
         | `hwloc` | `2.12.2` |
@@ -323,9 +326,9 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `libaio` | `0.3.113` |
         | `libbsd` | `0.12.2` |
         | `libconfig` | `1.7.3` |
-        | `libcxi` | `git.be1f7149482581ad589a124e5f6764b9d20d2d45=main` |
+        | `libcxi` | `git.release/shs-13.0.0=13.0.0` |
         | `libedit` | `3.1-20240808` |
-        | `libfabric` | `2.3.1` |
+        | `libfabric` | `2.4.0-dev` |
         | `libffi` | `3.5.2` |
         | `libfuse` | `2.9.9` |
         | `libgit2` | `1.9.1` |
@@ -358,7 +361,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `magma` | `2.9.0` |
         | `meson` | `1.8.5` |
         | `nasm` | `2.16.03` |
-        | `nccl` | `2.28.9-1` |
+        | `nccl` | `2.29.2-1` |
         | `nccl-tests` | `2.17.6` |
         | `ncurses` | `6.5-20250705` |
         | `netcdf-c` | `4.9.3` |
@@ -367,14 +370,14 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `nghttp2` | `1.67.1` |
         | `ninja` | `1.13.0` |
         | `nlohmann-json` | `3.12.0` |
-        | `numactl` | `2.0.18` |
+        | `numactl` | `2.0.19` |
         | `nvidia-mathdx` | `25.06.1-cuda12` |
         | `nvshmem` | `3.4.5` |
         | `nvtx` | `3.2.1` |
         | `openblas` | `0.3.30` |
         | `openssh` | `9.9p1` |
         | `openssl` | `3.6.0` |
-        | `osu-micro-benchmarks` | `7.5.1` |
+        | `osu-micro-benchmarks` | `7.5.2` |
         | `papi` | `7.2.0` |
         | `patchelf` | `0.17.2` |
         | `pcre2` | `10.44` |
@@ -383,101 +386,17 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `pigz` | `2.8` |
         | `pkgconf` | `2.5.1` |
         | `prometheus-cpp` | `1.3.0` |
-        | `protobuf` | `33.0` |
+        | `protobuf` | `33.1` |
         | `psimd` | `2020-05-17` |
         | `pthreadpool` | `2023-08-29` |
-        | `py-absl-py` | `1.4.0` |
-        | `py-annotated-types` | `0.7.0` |
-        | `py-build` | `1.2.2` |
-        | `py-calver` | `2025.4.17` |
-        | `py-certifi` | `2025.7.14` |
-        | `py-charset-normalizer` | `3.4.4` |
-        | `py-coherent-licensed` | `0.5.2` |
-        | `py-cuda-bindings` | `12.9.0` |
-        | `py-cuda-core` | `0.4.2` |
-        | `py-cutlass` | `4.1.0` |
-        | `py-cython` | `3.1.3` |
-        | `py-einops` | `0.8.1` |
-        | `py-filelock` | `3.19.1` |
-        | `py-flit-core` | `3.12.0` |
-        | `py-fsspec` | `2025.9.0` |
-        | `py-grpcio` | `1.75.0` |
-        | `py-hatch-fancy-pypi-readme` | `25.1.0` |
-        | `py-hatchling` | `1.27.0` |
-        | `py-hatch-vcs` | `0.5.0` |
-        | `py-hf-xet` | `1.2.0` |
-        | `py-huggingface-hub` | `0.36.0` |
-        | `py-idna` | `3.10` |
-        | `py-importlib-metadata` | `8.7.0` |
-        | `py-iniconfig` | `2.1.0` |
-        | `py-jinja2` | `3.1.6` |
-        | `py-lightning-utilities` | `0.11.2` |
-        | `py-lit` | `18.1.8` |
-        | `py-markdown` | `3.4.1` |
-        | `py-markupsafe` | `3.0.2` |
-        | `py-maturin` | `1.9.6` |
-        | `py-meson-python` | `0.18.0` |
-        | `py-ml-dtypes` | `0.5.3` |
-        | `py-mpi4py` | `4.1.1` |
-        | `py-mpmath` | `1.3.0` |
-        | `py-networkx` | `3.5` |
-        | `py-numpy` | `2.3.5` |
-        | `py-onnx` | `1.20.0` |
-        | `py-onnx-ir` | `0.1.12` |
-        | `py-onnxscript` | `0.5.6` |
-        | `py-packaging` | `25.0` |
-        | `py-pathspec` | `0.12.1` |
-        | `py-pillow` | `12.0.0` |
-        | `py-pip` | `25.1.1` |
-        | `py-pluggy` | `1.6.0` |
-        | `py-protobuf` | `6.33.0` |
-        | `py-pybind11` | `3.0.1` |
-        | `py-pyclibrary` | `0.2.2` |
-        | `py-pydantic` | `2.12.4` |
-        | `py-pydantic-core` | `2.41.5` |
-        | `py-pygments` | `2.19.2` |
-        | `py-pyparsing` | `3.2.5` |
-        | `py-pyproject-hooks` | `1.2.0` |
-        | `py-pyproject-metadata` | `0.9.1` |
-        | `py-pytest` | `9.0.0` |
-        | `py-pyyaml` | `6.0.3` |
-        | `py-regex` | `2025.11.3` |
-        | `py-requests` | `2.32.5` |
-        | `py-safetensors` | `0.6.2` |
-        | `py-scikit-build-core` | `0.11.5` |
-        | `py-semantic-version` | `2.10.0` |
-        | `py-setuptools` | `79.0.1` |
-        | `py-setuptools-rust` | `1.12.0` |
-        | `py-setuptools-scm` | `8.2.1` |
-        | `py-six` | `1.17.0` |
-        | `py-sympy` | `1.14.0` |
-        | `py-tensorboard` | `2.20.0` |
-        | `py-tensorboard-data-server` | `0.7.0` |
         | `python` | `3.12.12` |
         | `python-venv` | `1.0` |
-        | `py-tokenizers` | `0.22.1` |
-        | `py-torch` | `2.9.1` |
-        | `py-torchaudio` | `2.9.1` |
-        | `py-torchmetrics` | `1.8.2` |
-        | `py-torch-nvidia-apex` | `25.09` |
-        | `py-torchvision` | `0.24.1` |
-        | `py-tqdm` | `4.67.1` |
-        | `py-transformer-engine` | `2.9` |
-        | `py-transformers` | `4.57.0` |
-        | `py-triton` | `3.5.1` |
-        | `py-trove-classifiers` | `2025.9.11.17` |
-        | `py-typing-extensions` | `4.14.1` |
-        | `py-typing-inspection` | `0.4.2` |
-        | `py-urllib3` | `2.5.0` |
-        | `py-vllm` | `0.12.0` |
-        | `py-werkzeug` | `3.1.3` |
-        | `py-wheel` | `0.45.1` |
-        | `py-zipp` | `3.23.0` |
+        | `rdma-core-mock` | `60.1` |
         | `re2` | `2024-07-02` |
         | `re2c` | `3.1` |
         | `readline` | `8.3` |
-        | `rust` | `1.91.0` |
-        | `rust-bootstrap` | `1.91.0` |
+        | `rust` | `1.89.0` |
+        | `rust-bootstrap` | `1.89.0` |
         | `sed` | `4.9` |
         | `sleef` | `3.8` |
         | `snappy` | `1.2.1` |
@@ -486,7 +405,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `tar` | `1.35` |
         | `texinfo` | `7.2` |
         | `ucc` | `1.6.0` |
-        | `ucx` | `1.19.0` |
+        | `ucx` | `1.19.1` |
         | `unzip` | `6.0` |
         | `util-linux-uuid` | `2.41` |
         | `util-macros` | `1.20.1` |
@@ -513,10 +432,11 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `apex` | `0.1` |
         | `certifi` | `2025.7.14` |
         | `charset-normalizer` | `3.4.4` |
-        | `cuda-bindings` | `12.9.0` |
-        | `cuda-core` | `0.4.2` |
-        | `cutlass_library` | `4.0.0` |
-        | `Cython` | `3.1.3` |
+        | `cuda-bindings` | `12.9.1` |
+        | `cuda-core` | `0.2.0` |
+        | `cuda-pathfinder` | `1.2.3` |
+        | `cuda-python` | `12.9.1` |
+        | `Cython` | `3.2.3` |
         | `einops` | `0.8.1` |
         | `faiss` | `1.8.0` |
         | `filelock` | `3.19.1` |
@@ -535,21 +455,21 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `ml_dtypes` | `0.5.3` |
         | `mpi4py` | `4.1.1` |
         | `mpmath` | `1.3.0` |
+        | `nanobind` | `2.8.0` |
         | `networkx` | `3.5` |
-        | `numpy` | `2.3.5` |
+        | `numpy` | `2.4.1` |
         | `nvshmem4py-cu12` | `0.1.2` |
         | `nvtx` | `0.2.12` |
         | `onnx` | `1.20.0` |
         | `onnx-ir` | `0.1.12` |
-        | `onnxscript` | `0.5.6.dev20251209` |
+        | `onnxscript` | `0.5.6.dev20260122` |
         | `packaging` | `25.0` |
-        | `pillow` | `12.0.0` |
+        | `pillow` | `12.1.0` |
         | `pip` | `25.1.1` |
         | `pluggy` | `1.6.0` |
-        | `protobuf` | `6.33.0` |
+        | `protobuf` | `6.33.1` |
         | `pybind11` | `3.0.1` |
         | `pyclibrary` | `0.2.2` |
-        | `pycute` | `4.0.0` |
         | `pydantic` | `2.12.4` |
         | `pydantic_core` | `2.41.5` |
         | `Pygments` | `2.19.2` |
@@ -570,13 +490,12 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
         | `torchmetrics` | `1.8.2` |
         | `torchvision` | `0.24.1` |
         | `tqdm` | `4.67.1` |
-        | `transformer_engine` | `2.9.0+70f5366` |
+        | `transformer_engine` | `2.11.0+c188b53` |
         | `transformers` | `4.57.0` |
         | `triton` | `3.5.1` |
-        | `typing_extensions` | `4.14.1` |
+        | `typing_extensions` | `4.15.0` |
         | `typing-inspection` | `0.4.2` |
         | `urllib3` | `2.5.0` |
-        | `vllm` | `0.1.dev1+g4fd9d6a.d19800101` |
         | `Werkzeug` | `3.1.3` |
         | `zipp` | `3.23.0` |
 
