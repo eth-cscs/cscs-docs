@@ -51,7 +51,7 @@ On our systems, CP2K is built with the following dependencies:
 * [COSMA]
 * [Cray MPICH]
 * [DBCSR]
-* [DLA-Future] (from `cp2k@2025.1` in `cp2k-dlaf` view, from `cp2k@2026.1` onwards in default view)
+* [DLA-Future] (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
 * [dftd4] (from `cp2k@2025.1` onwards)
 * [ELPA]
 * [FFTW]
@@ -455,7 +455,7 @@ See [manual.cp2k.org/CMake] for more details.
 
 In version 2026.1 a bug in CMake has been fixed, that caused `ELPA_KERNEL` to default to `GENERIC` instead of `NVIDIA_GPU` on Daint.
 
-For some worksloads, the `GENERIC` kernel is faster than `NVIDIA_GPU`. It is possible to recover the old behaviour by explicitly setting 
+For some workloads, the `GENERIC` kernel is faster than `NVIDIA_GPU`. It is possible to recover the old behaviour by explicitly setting 
 the `ELPA_KERNEL`:
 ```
 &GLOBAL
