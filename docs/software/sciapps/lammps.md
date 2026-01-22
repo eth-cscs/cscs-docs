@@ -418,7 +418,7 @@ lmp ...
 
 
     pair_style    mliap unified mace.model-mliap_lammps.pt 0
-    pair_coeff    * * C H O N
+    pair_coeff    * * Ni
 
     timestep      0.0001
     thermo        100
