@@ -364,7 +364,7 @@ pip install --upgrade pip
     You can check that the installed PyTorch version has CUDA support by running:
 
     ```python
-    pytthon -c "import torch; print(torch.cuda.is_available())"
+    python -c "import torch; print(torch.cuda.is_available())"
     ```
 
 To run LAMMPS, you need to ensure that the virtual environment is activated (for each process).
