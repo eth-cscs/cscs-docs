@@ -206,7 +206,9 @@ lexers
 libfabric
 libhugetlbfs
 libint
+libtorch
 libtree
+libvori
 libxc
 linalg
 linkx

@@ -30,7 +30,7 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
         * Added `libvori` support
         * Removed `cp2k-dlaf` view; DLA-Future is now integrated in the `cp2k` view
         * The default `ELPA_KERNEL` changed from `GENERIC` to `NVIDIA_GPU` on Daint
-          * This can cause a slowdown in some workfloads, see [known issues](#known-issues) for details
+          * This can cause a slowdown in some workflows, see [known issues](#known-issues) for details
 
     ??? note "2025.1"
 
@@ -369,7 +369,7 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 !!! warning
 
     The `--cpu-bind=socket` option is necessary to get good performance.
-    If runnign with DLA-Future, use `--cpu-bind=cores` instead.
+    If running with DLA-Future, use `--cpu-bind=cores` instead.
 
 ??? info "Running regression tests"
 
