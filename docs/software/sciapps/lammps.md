@@ -408,7 +408,6 @@ lmp ...
 
     boundary p p p
 
-    atom_style atomic/kk
     lattice fcc 3.6
     region box block 0 4 0 4 0 4
     create_box 1 box
