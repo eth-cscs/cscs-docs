@@ -329,7 +329,131 @@ CC=mpicc CXX=mpic++ cmake \
 
 If you'd like to extend the existing uenv with additional packages (or your own), you can use the LAMMPS uenv to provide all dependencies needed to build your customization. See [here](https://eth-cscs.github.io/alps-uenv/tutorial-spack) for more information.
 
+### LAMMPS ML-IAP: using LAMMPS with machine learning interatomic potentials
+
+From `lammps/20251210:v1` onwards, LAMMPS has been built with the [ML-IAP package] enabled.
+This package allows LAMMPS to interface with machine learning interatomic potentials (MLIPs) for molecular dynamics simulations.
+
+Due to the complex dependencies of different MLIPs, users need to install the necessary Python packages themselves.
+This can be best done in a Python virtual environment.
+
+```bash
+uenv image pull lammps/20251210:v1
+uenv start --view kokkos lammps/20251210:v1
+
+python -m venv --system-site-packages venv-lammps-mace
+source venv-lammps-mace/bin/activate
+
+pip install --upgrade pip
+
+# TODO: Install the necessary MLIP packages
+```
+
+??? tip "Installing PyTorch with CUDA support"
+
+    Make sure to install a CUDA-enabled version of PyTorch:
+
+    ```bash
+    pip install torch --index-url https://download.pytorch.org/whl/cu129
+    ```
+
+    Before [PyTorch 2.9], the availability of ARM+CUDA wheels is limited.
+    For a given version of PyTorch <2.9, only wheels for specific versions of CUDA are provided.
+    Keep this in mind if you are installing an older version of PyTorch.
+
+    You can check that the installed PyTorch version has CUDA support by running:
+
+    ```python
+    pytthon -c "import torch; print(torch.cuda.is_available())"
+    ```
+
+To run LAMMPS, you need to ensure that the virtual environment is activated (for each process).
+You can use something like the following in your Slurm submission script:
+
+```bash
+srun bash -c "
+source /PATH/TO/VENV/bin/activate
+lmp ...
+"
+```
+
+??? example "LAMMPS with MACE"
+
+    Install MACE and its dependencies in the virtual environment as follows:
+
+    ```bash
+    uenv image pull lammps/20251210:v1
+    uenv start --view kokkos lammps/20251210:v1
+    python -m venv --system-site-packages venv-lammps-mace
+    source venv-lammps-mace/bin/activate
+    pip install --upgrade pip
+    pip install torch --index-url https://download.pytorch.org/whl/cu129
+    pip install mace-torch cuequivariance-torch cuequivariance cuequivariance-ops-torch-cu12 cupy-cuda12x
+    ```
+
+    Convert your MACE model to LAMMPS format using the provided conversion script:
+
+    ```bash
+    python -m mace.cli.create_lammps_model mace.model --format=mliap
+    ```
+
+    This last command generates a file named `mace.model-mliap_lammps.pt` that can be used in LAMMPS.
+
+    A simple LAMMPS input file using MACE looks as follows:
+
+    ```
+    units         metal
+    atom_style    atomic
+    newton        on
+
+    boundary p p p
+
+    atom_style atomic/kk
+    lattice fcc 3.6
+    region box block 0 4 0 4 0 4
+    create_box 1 box
+    create_atoms 1 box
+
+    mass 1 58.693
+
+
+    pair_style    mliap unified mace.model-mliap_lammps.pt 0
+    pair_coeff    * * C H O N
+
+    timestep      0.0001
+    thermo        100
+
+    fix           1 all nvt temp 300 300 100
+    run           1000
+    ```
+
+    Run LAMMPS with the following submissions script (adapt to your needs):
+
+    ```bash
+    #!/bin/bash -l
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=1
+    #SBATCH --cpus-per-task=64
+    #SBATCH --gpus-per-task=1
+    #SBATCH --account=csstaff
+    #SBATCH --time=00:10:00
+    #SBATCH --uenv=lammps/20251210:v1
+    #SBATCH --view=kokkos
+    #SBATCH --partition=debug
+
+    export MPICH_GPU_SUPPORT_ENABLED=1
+    export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+    ulimit -s unlimited
+
+    srun bash -c "
+    source ./venv-lammps-mace/bin/activate
+    lmp -k on g 1 -sf kk -pk kokkos gpu/aware on newton on neigh half -in lmp.inp 
+    "
+    ```
+
 [LAMMPS]: https://www.lammps.org
 [GNU Public License]: http://www.gnu.org/copyleft/gpl.html
 [uenv]: https://eth-cscs.github.io/cscs-docs/software/uenv
 [Slurm ]: https://eth-cscs.github.io/cscs-docs/running/slurm
+[ML-IAP package]: https://docs.lammps.org/Packages_details.html#pkg-ml-iap
+[PyTorch 2.9]: https://pytorch.org/blog/pytorch-2-9/
