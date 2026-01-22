@@ -426,7 +426,7 @@ lmp ...
     run           1000
     ```
 
-    Run LAMMPS with the following submissions script (adapt to your needs):
+    Run LAMMPS with the following submission script (adapt to your needs):
 
     ```bash
     #!/bin/bash -l
