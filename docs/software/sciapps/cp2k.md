@@ -22,7 +22,15 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 !!! warning "Known issues"
     Please check CP2K's [known issues](#known-issues) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
 
-??? note "Changelog"
+!!! note "Changelog"
+    
+    !!! note "2026.1:v1"
+
+        * Added `libtorch` support
+        * Added `libvori` support
+        * Removed `dla-future` view; DLA-Future is now integrated in the default views
+        * The default `ELPA_KERNEL` changed from `GENERIC` to `NVIDIA_GPU` on Daint
+          * This can cause a slowdown in some workfloads, see [known issues](#known-issues) for details
 
     ??? note "2025.1"
 
@@ -43,7 +51,7 @@ On our systems, CP2K is built with the following dependencies:
 * [COSMA]
 * [Cray MPICH]
 * [DBCSR]
-* [DLA-Future] (from `cp2k@2025.1` onwards, only in `cp2k-dlaf` view)
+* [DLA-Future] (from `cp2k@2025.1` in `cp2k-dlaf` view, from `cp2k@2026.1` onwards in default view)
 * [dftd4] (from `cp2k@2025.1` onwards)
 * [ELPA]
 * [FFTW]
@@ -55,6 +63,8 @@ On our systems, CP2K is built with the following dependencies:
 * [SIRIUS]
 * [Spglib]
 * [spla]
+* PyTorch (from `cp2k@2026.1` onwards)
+* libVori (from `cp2k@2026.1` onwards)
 
 !!! note "GPU-aware MPI"
     [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
@@ -359,6 +369,7 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 !!! warning
 
     The `--cpu-bind=socket` option is necessary to get good performance.
+    If runnign with DLA-Future, use `--cpu-bind=cores` instead.
 
 ??? info "Running regression tests"
 
@@ -388,17 +399,24 @@ mkdir build && cd build
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
     -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCP2K_USE_MPI=ON \
     -DCP2K_USE_LIBXC=ON \
     -DCP2K_USE_LIBINT2=ON \
+    -DCP2K_USE_FFTW3=ON \
     -DCP2K_USE_SPGLIB=ON \
     -DCP2K_USE_ELPA=ON \
     -DCP2K_USE_SPLA=ON \
+    -DCP2K_USE_SPLA_GEMM_OFFLOADING=ON \
     -DCP2K_USE_SIRIUS=ON \
     -DCP2K_USE_COSMA=ON \
     -DCP2K_USE_PLUMED=ON \
+    -DCP2K_USE_LIBVORI=ON \
     -DCP2K_USE_DFTD4=ON \
     -DCP2K_USE_DLAF=ON \
-    -DCP2K_USE_ACCEL=CUDA -DCP2K_WITH_GPU=H100 \ # (4)!
+    -DCP2K_USE_LIBTORCH=ON \
+    -DCP2K_USE_SPGLIB=ON \
+    -DCP2K_USE_ACCEL=CUDA -DCMAKE_CUDA_ARCHITECTURES=90 \ # (4)!
     ..
 
 ninja -j 32
@@ -427,6 +445,20 @@ ninja -j 32
 See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
+
+### ELPA slowdown with 2026.1 on Daint
+
+In version 2026.1 a bug in CMake has been fixed, that caused `ELPA_KERNEL` to default to `GENERIC` instead of `NVIDIA_GPU` on Daint.
+
+For some worksloads, the `GENERIC` kernel is faster than `NVIDIA_GPU`. It is possible to recover the old behaviour by explicitly setting 
+the `ELPA_KERNEL`:
+```
+&GLOBAL
+    ELPA_KERNEL NVIDIA_GPU
+&END GLOBAL
+```
+
+You should benchmark your workload to see which kernel is faster for your specific case.
 
 ### Older uenv versions on Eiger
 
