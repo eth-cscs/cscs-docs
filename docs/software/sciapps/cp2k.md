@@ -28,7 +28,7 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 
         * Added `libtorch` support
         * Added `libvori` support
-        * Removed `dla-future` view; DLA-Future is now integrated in the default views
+        * Removed `cp2k-dlaf` view; DLA-Future is now integrated in the `cp2k` view
         * The default `ELPA_KERNEL` changed from `GENERIC` to `NVIDIA_GPU` on Daint
           * This can cause a slowdown in some workfloads, see [known issues](#known-issues) for details
 
@@ -63,8 +63,8 @@ On our systems, CP2K is built with the following dependencies:
 * [SIRIUS]
 * [Spglib]
 * [spla]
-* PyTorch (from `cp2k@2026.1` onwards)
-* libVori (from `cp2k@2026.1` onwards)
+* [libtorch] (from `cp2k@2026.1` onwards)
+* [libvori] (from `cp2k@2026.1` onwards)
 
 !!! note "GPU-aware MPI"
     [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
@@ -583,3 +583,5 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
 [Slurm]: https://slurm.schedmd.com/
 [CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
+[libvori]: https://brehm-research.de/libvori.php
+[libtorch]: https://docs.pytorch.org/cppdocs/installing.html
