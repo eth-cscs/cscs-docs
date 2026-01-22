@@ -396,6 +396,8 @@ uenv start --view=develop <CP2K_UENV> # (1)!
 cd <PATH_TO_CP2K_SOURCE> # (2)!
 
 mkdir build && cd build
+
+Torch_DIR=$(dirname $(find /user-environment/linux-neoverse_v2/ -name TorchConfig.cmake -type f)) \ # (4)!
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
     -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
@@ -411,12 +413,13 @@ CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -DCP2K_USE_SIRIUS=ON \
     -DCP2K_USE_COSMA=ON \
     -DCP2K_USE_PLUMED=ON \
-    -DCP2K_USE_LIBVORI=ON \
+    -DCP2K_USE_VORI=ON \
     -DCP2K_USE_DFTD4=ON \
     -DCP2K_USE_DLAF=ON \
     -DCP2K_USE_LIBTORCH=ON \
     -DCP2K_USE_SPGLIB=ON \
-    -DCP2K_USE_ACCEL=CUDA -DCMAKE_CUDA_ARCHITECTURES=90 \ # (4)!
+    -DCP2K_USE_GRPP=ON \
+    -DCP2K_USE_ACCEL=CUDA -DCMAKE_CUDA_ARCHITECTURES=90 \
     ..
 
 ninja -j 32
@@ -426,7 +429,9 @@ ninja -j 32
 
 2. Go to the CP2K source directory
 
-3. The `H100` option enables the `sm_90` architecture for the CUDA backend
+3. Make sure `mpicc` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
+
+4. Explicitly tell CMake where to find PyTorch's `TorchConfig.cmake`
 
 !!! note "Eiger: `libxsmm`"
 
