@@ -453,13 +453,14 @@ See [manual.cp2k.org/CMake] for more details.
 
 ### ELPA slowdown with 2026.1 on Daint
 
-In version 2026.1 a bug in CMake has been fixed, that caused `ELPA_KERNEL` to default to `GENERIC` instead of `NVIDIA_GPU` on Daint.
+In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from
+`GENERIC` (used by default before 2026.1) to `NVIDIA_GPU` (used by default from 2026.1 onwards) on Daint.
 
-For some workloads, the `GENERIC` kernel is faster than `NVIDIA_GPU`. It is possible to recover the old behaviour by explicitly setting 
-the `ELPA_KERNEL`:
+For some workloads the `GENERIC` kernel is faster than `NVIDIA_GPU`.
+It is possible to recover the old behaviour by explicitly setting the `ELPA_KERNEL`:
 ```
 &GLOBAL
-    ELPA_KERNEL NVIDIA_GPU
+    ELPA_KERNEL GENERIC
 &END GLOBAL
 ```
 
