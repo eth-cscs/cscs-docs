@@ -113,6 +113,44 @@ This is the correct choice for standard jobs. The maximum time is usually set to
 The following sections will provide detailed guidance on how to use Slurm to request and manage CPU cores, memory, and GPUs in jobs.
 These instructions will help users optimize their workload execution and ensure efficient use of CSCS computing resources.
 
+## Interactive jobs
+### Single node shell
+It is possible to spawn a shell on a compute node to run commands interactively.
+This is useful to e.g. compile applications, build container images, etc.
+To start an interactive shell on a compute node, you can use the command
+```console title="Single node shell"
+$ srun --pty -p debug bash
+```
+This will run the command `bash` (assuming that your shell is still the default, i.e. `bash`).
+The flag `--pty` allows stdin/stdout interactively.
+
+### Multi node allocation
+Sometimes it is useful to first allocate nodes, and then interactively submit jobs to the allocated nodes.
+To allocate nodes, you should use the command `salloc`.
+```console title="Allocate 2 nodes"
+$ salloc -N2 -pdebug
+```
+This will allocate 2 nodes on the `debug` partition. Now you can run several commands, and they will all run in the same allocation, i.e. they will not go through the SLURM queue.
+```console
+$ srun -n2 hostname
+$ srun -n2 date
+$ exit # deallocate the 2 nodes again
+```
+This will first run the command `hostname` on both nodes, and then it will run as second job the command `date`.
+This allows you to quickly iterate without going for every command through the SLURM queue.
+Do not forget to `exit` the shell, once you are done, otherwise the allocation will consume your nodehours compute budget.
+If in doubt, use the commands `squeue --me` to verify if your allocation is still running, and `scancel <JOB-ID>` to cancel the job (i.e. the allocation).
+
+### Connect to node in a running job
+It is possible to connect to a node in a running job.
+First you will need the `jobid`, which you can find e.g. via `squeue --me`.
+To connect to the first node of the job use the command
+```console
+$ srun --jobid <JOB-ID> --overlap --pty bash
+```
+This will drop you into a shell on the first compute node of the job.
+If you want to connect to a specific node of your job, use additionally the flag `--nodelist=nidXXXXXX`.
+
 ## Affinity
 
 The following sections will document how to use Slurm on different compute nodes available on Alps.
