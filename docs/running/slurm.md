@@ -138,7 +138,7 @@ $ exit # deallocate the 2 nodes again
 ```
 This will first run the command `hostname` on both nodes, and then it will run as second job the command `date`.
 This allows you to quickly iterate without going for every command through the SLURM queue.
-Do not forget to `exit` the shell, once you are done, otherwise the allocation will consume your nodehours compute budget.
+Do not forget to `exit` the shell, once you are done, otherwise the allocation will consume your node hours compute budget.
 If in doubt, use the commands `squeue --me` to verify if your allocation is still running, and `scancel <JOB-ID>` to cancel the job (i.e. the allocation).
 
 ### Connect to node in a running job
