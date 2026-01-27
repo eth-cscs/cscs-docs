@@ -117,11 +117,13 @@ These instructions will help users optimize their workload execution and ensure 
 ### Single node shell
 It is possible to spawn a shell on a compute node to run commands interactively.
 This is useful to e.g. compile applications, build container images, etc.
-To start an interactive shell on a compute node, you can use the command
+To start an interactive shell on a compute node, you can use the`--pty` flag and execute your shell:
 ```console title="Single node shell"
 $ srun --pty -p debug bash
 ```
-This will run the command `bash` (assuming that your shell is still the default, i.e. `bash`).
+!!! info
+    The example above executes the `bash` shell, which is the default shell for most users on Alps.
+    It is also possible to execute a different shell, for example `zsh`.
 The flag `--pty` allows stdin/stdout interactively.
 
 ### Multi node allocation
