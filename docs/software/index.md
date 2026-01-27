@@ -51,7 +51,13 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-earth-oceania: [__Climate and Weather__][ref-software-climate]
 
+    [:octicons-arrow-right-24: netcdf-tools][ref-uenv-netcdf-tools]
+
+-   :fontawesome-solid-earth-oceania: [__User Applications__][ref-software-userapps]
+
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
+
+    [:octicons-arrow-right-24: ORCA][ref-software-orca]
 
 -   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]
 
