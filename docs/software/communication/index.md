@@ -34,7 +34,7 @@ See the individual pages for each library for information on how to use and best
 
     Learn about the low-level networking library libfabric, and how to use it in uenv and containers
 
-    [:octicons-arrow-right-24: libfabric][ref-libfabric]
+    [:octicons-arrow-right-24: libfabric][ref-communication-libfabric]
 
 </div>
 <div class="grid cards" markdown>
