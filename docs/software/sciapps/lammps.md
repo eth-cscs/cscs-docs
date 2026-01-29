@@ -17,9 +17,12 @@ The current version of LAMMPS is written in C++.
 ??? note "Licensing terms and conditions"
     [LAMMPS] is a freely-available open-source code, distributed under the terms of the [GNU Public License](http://www.gnu.org/copyleft/gpl.html).
 
-??? note "Changelog"
+!!! note "Changelog"
+    !!! note "20251210:v2"
+        
+        * Added the following extra: `extra-compute`
 
-    ??? note "20251210"
+    ??? note "20251210:v1"
         
         * Added the following extras: `mc`, `misc`, `manifold`, `qtb`, `reaction`, `shock`, `spin`, `extra-pair`, `extra-fix`, `ml-iap`
         * Included fix for ML-IAP: [lammps/lammps#4808](https://github.com/lammps/lammps/pull/4808)
@@ -44,13 +47,13 @@ Please see the documentation here for further details: https://eth-cscs.github.i
 To obtain this image, please run:
 
 ```bash
-uenv image pull lammps/20251210:v1
+uenv image pull lammps/20251210:v2
 ```
 
 To start the uenv for this specific version of LAMMPS, you can use:
 
 ```bash
-uenv start --view kokkos lammps/20251210:v1
+uenv start --view kokkos lammps/20251210:v2
 ```
 
 You can load the `kokkos` or `gpu` view from the uenv to make the `lmp` executable available.
@@ -59,12 +62,12 @@ The executable in both these views support GPUs:
 === "Kokkos"
     ```bash
     #lammps +kokkos package
-    uenv start --view kokkos lammps/20251210:v1
+    uenv start --view kokkos lammps/20251210:v2
     ```
 === "GPU"
     ```bash
     #lammps +gpu package
-    uenv start --view gpu lammps/20251210:v1
+    uenv start --view gpu lammps/20251210:v2
     ```
 
 A development view is also provided, which contains all libraries and command-line tools necessary to build LAMMPS from source, without including the LAMMPS executable:
@@ -72,12 +75,12 @@ A development view is also provided, which contains all libraries and command-li
 === "Kokkos"
     ```bash
     # build environment for lammps +kokkos package, without providing lmp executable
-    uenv start --view develop-kokkos lammps/20251210:v1
+    uenv start --view develop-kokkos lammps/20251210:v2
     ```
 === "GPU"
     ```bash
     # build environment for lammps +gpu package, without providing lmp executable
-    uenv start --view develop-gpu lammps/20251210:v1
+    uenv start --view develop-gpu lammps/20251210:v2
     ```
 
 ### Running LAMMPS with Kokkos on Daint
@@ -290,12 +293,12 @@ Load one of the two following views:
 === "Kokkos"
     ```bash
     #build environment for lammps +kokkos package, without providing lmp executable
-    uenv start --view develop-kokkos lammps/20251210:v1
+    uenv start --view develop-kokkos lammps/20251210:v2
     ```
 === "GPU"
     ```bash
     #build environment for lammps +gpu package, without providing lmp executable
-    uenv start --view develop-gpu lammps/20251210:v1
+    uenv start --view develop-gpu lammps/20251210:v2
     ```
 
 and now you can build your local copy of LAMMPS. 
@@ -338,8 +341,8 @@ Due to the complex dependencies of different MLIPs, users need to install the ne
 This can be best done in a Python virtual environment.
 
 ```bash
-uenv image pull lammps/20251210:v1
-uenv start --view kokkos lammps/20251210:v1
+uenv image pull lammps/20251210:v2
+uenv start --view kokkos lammps/20251210:v2
 
 python -m venv --system-site-packages venv-lammps-mace
 source venv-lammps-mace/bin/activate
@@ -382,8 +385,8 @@ lmp ...
     Install MACE and its dependencies in the virtual environment as follows:
 
     ```bash
-    uenv image pull lammps/20251210:v1
-    uenv start --view kokkos lammps/20251210:v1
+    uenv image pull lammps/20251210:v2
+    uenv start --view kokkos lammps/20251210:v2
     python -m venv --system-site-packages venv-lammps-mace
     source venv-lammps-mace/bin/activate
     pip install --upgrade pip
@@ -436,7 +439,7 @@ lmp ...
     #SBATCH --gpus-per-task=1
     #SBATCH --account=csstaff
     #SBATCH --time=00:10:00
-    #SBATCH --uenv=lammps/20251210:v1
+    #SBATCH --uenv=lammps/20251210:v2
     #SBATCH --view=kokkos
     #SBATCH --partition=debug
 
