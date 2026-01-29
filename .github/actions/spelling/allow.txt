@@ -69,6 +69,8 @@ Linux
 MDS
 MDSs
 MFA
+MLIP
+MLIPs
 MLP
 MNDO
 MPICH
@@ -207,7 +209,9 @@ lexers
 libfabric
 libhugetlbfs
 libint
+libtorch
 libtree
+libvori
 libxc
 linalg
 linkx
