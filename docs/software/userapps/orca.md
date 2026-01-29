@@ -80,3 +80,60 @@ H   0.7920  12.0000  -0.4973
     The ORCA executable is built with version 4 of OpenMPI, but the `prgenv-gnu-openmpi` uenv provides version 5. In
     principle, OpenMPI is backward compatible and everything should work. It is however possible that unforeseen issues
     arise when using methods that go beyond the simple testing we have done.
+
+
+## Launching multiple ORCA calculations on a single node
+Many ORCA calculations do not scale well enough to efficiently use an entire node (128 CPU cores on [Eiger][ref-cluster-eiger]). Therefore, launching a single calculation per Slurm job can be quite wasteful. If the scientific workflow allows it, it is much more efficient to launch multiple ORCA calculations in parallel from a single Slurm submission script, with each calculation using only a fraction of the node. This can be done with [HyperQueue][ref-hyperqueue].
+
+After downloading the `hq` executable, any number of ORCA jobs can be scheduled with HyperQueue, each running on a specified number of CPUs. If all jobs cannot run concurrently, some will be queued until resources become available. You can adapt the following Slurm script to your needs. Note that all input files must contain an appropriate `%PAL` setting, and do not forget to use the `--oversubscribe` option.
+
+```bash
+#!/bin/bash -l
+#SBATCH --job-name=orca_job
+#SBATCH --time=00:30:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=128
+#SBATCH --account=<ACCOUNT>
+#SBATCH --hint=nomultithread
+#SBATCH --constraint=mc
+#SBATCH --uenv=prgenv-gnu-openmpi/25.12:v1
+#SBATCH --view=default
+
+ORCA_PATH="absolute_path_to_orca_unpacked_directory" # modify this accordingly
+export PATH="$PATH:$ORCA_PATH"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$ORCA_PATH"
+
+ORCA_EXEC="$ORCA_PATH/orca"
+
+# Start HyperQueue server and workers
+hq server start &
+
+# Wait for the server to be ready
+hq server wait
+
+# Start HyperQueue workers
+srun hq worker start --cpus 128 &
+
+# Submit tasks. Here the 4 calculations on 32 CPUs would start first, and as soon as one is finished
+# the subsequent calculations can start (using 16 or 8 CPUs, respectively).
+hq submit --pin taskset --cpus 32 --stdout pal32_1.out --stderr pal32_1.err  $orca_exec  pal32_1.inp --oversubscribe
+hq submit --pin taskset --cpus 32 --stdout pal32_2.out --stderr pal32_2.err  $orca_exec  pal32_2.inp --oversubscribe
+hq submit --pin taskset --cpus 32 --stdout pal32_3.out --stderr pal32_3.err  $orca_exec  pal32_3.inp --oversubscribe
+hq submit --pin taskset --cpus 32 --stdout pal32_4.out --stderr pal32_4.err  $orca_exec  pal32_4.inp --oversubscribe
+hq submit --pin taskset --cpus 16 --stdout pal16_1.out --stderr pal16_1.err  $orca_exec  pal16_1.inp --oversubscribe
+hq submit --pin taskset --cpus 16 --stdout pal16_2.out --stderr pal16_2.err  $orca_exec  pal16_2.inp --oversubscribe
+hq submit --pin taskset --cpus 8 --stdout pal8_1.out --stderr pal8_1.err  $orca_exec  pal8_1.inp --oversubscribe
+hq submit --pin taskset --cpus 8 --stdout pal8_2.out --stderr pal8_2.err  $orca_exec  pal8_2.inp --oversubscribe
+hq submit --pin taskset --cpus 8 --stdout pal8_3.out --stderr pal8_3.err  $orca_exec  pal8_3.inp --oversubscribe
+hq submit --pin taskset --cpus 8 --stdout pal8_4.out --stderr pal8_4.err  $orca_exec  pal8_4.inp --oversubscribe
+
+# Wait for all jobs to finish
+hq job wait all
+
+# Stop HyperQueue server and workers
+hq server stop
+
+echo
+echo "Everything done!"
+
+```
