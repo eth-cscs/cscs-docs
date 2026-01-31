@@ -117,7 +117,7 @@ This submission script is only representative. Users must run their input files 
 
 ## Scaling
 
-Benchmarking is done with large MD simulations of systems of 1.4 million and 3 million atoms, in order to fully saturate the GPUs, from the [HECBioSim Benchmark Suite](https://www.hecbiosim.ac.uk/access-hpc/benchmarks).
+Benchmarking is done with large MD simulations of systems of 1.4 million and 3 million atoms, in order to fully saturate the GPUs, from the [HECBioSim Benchmark Suite](https://www.hecbiosim.ac.uk/access-hpc/hpc-benchmarking-suite).
 
 In addition, the STMV (~1 million atom) benchmark that NVIDIA publishes on its [website](https://developer.nvidia.com/hpc-application-performance) was also tested for comparison. 
 
