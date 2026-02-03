@@ -861,13 +861,8 @@ CMD="echo \$(date) \$(hostname) SLURM_STEP_ID:\${SLURM_STEP_ID} SLURM_PROCID:\${
 export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
 export CUDA_DEVICE_MAX_CONNECTIONS=8
 
-# Start MPS daemons for GPU 0
 CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0 CUDA_VISIBLE_DEVICES=0 hwloc-bind --cpubind core:0-71 nvidia-cuda-mps-control -d
-mps0=$!
-
-# Start MPS daemons for GPU 1
 CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-1 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-1 CUDA_VISIBLE_DEVICES=1 hwloc-bind --cpubind core:72-143 nvidia-cuda-mps-control -d
-mps1=$!
 
 # Wait for MPS daemons to be ready
 until [[ -f "/tmp/nvidia-mps-0/nvidia-cuda-mps-control.pid" && -f "/tmp/nvidia-mps-1/nvidia-cuda-mps-control.pid" ]]; do
