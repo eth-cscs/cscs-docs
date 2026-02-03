@@ -850,7 +850,7 @@ Using a single MPS daemon for multiple GPUs can become the bottleneck.
 
 The following script shows how to run four independent job steps on two GPUs:
 
-```
+```bash
 #!/bin/bash
 #SBATCH --job-name=multi-jobstep-per-gpu
 #SBATCH --time=00:01:00
