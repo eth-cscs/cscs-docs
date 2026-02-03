@@ -421,42 +421,76 @@ Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, wh
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
 In these cases Slurm jobs must be configured to assign multiple ranks to a single GPU.
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
-To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
+To use MPS, launch your application using the following wrapper script, which will use one rank per node to start an MPS daemon for each GPU of the node,
+and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
 ```bash title="mps-wrapper.sh"
 #!/bin/bash
-# Example mps-wrapper.sh usage:
-# > srun [srun args] mps-wrapper.sh [cmd] [cmd args]
 
-# Only this path is supported by MPS
-export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps
-export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$(id -un)
+set -eu
 
-# Launch MPS from a single rank per node
+mps_prefix="/tmp/nvidia"
+num_gpus=4
+
+# Reset CUDA environment variables to default values without MPS
+export CUDA_DEVICE_MAX_CONNECTIONS=8
+export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
+
+# Each GPU is attached to the corresponding NUMA node
+# Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices
+numa_node=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+
+function start_daemon {
+    mkdir -p ${mps_prefix}-mps-${1}
+    mkdir -p ${mps_prefix}-log-${1}
+    export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${1}
+    export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${1}
+    CUDA_VISIBLE_DEVICES=${1} nvidia-cuda-mps-control -d
+}
+
+function stop_daemon {
+    export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${i}
+    export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${i}
+    echo quit | nvidia-cuda-mps-control
+}
+
+# Start MPS control daemons from a single rank per node, one for each GPU on the node
 if [[ $SLURM_LOCALID -eq 0 ]]; then
-    CUDA_VISIBLE_DEVICES=0,1,2,3 nvidia-cuda-mps-control -d
+    for i in $(seq 0 $((num_gpus - 1))); do
+        start_daemon ${i}
+    done
 fi
 
-# Set CUDA device. Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA
-# nodes appearing in the list of CUDA devices. They start appearing in hwloc
-# version 2.11.
-numa_nodes=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
-export CUDA_VISIBLE_DEVICES=$numa_nodes
+# Set MPS options for this rank. Each rank will access the MPS of the GPU
+# corresponding to the NUMA node. CUDA_VISIBLE_DEVICES should not be set. The
+# chosen MPS determines which device is visible.
+export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${numa_node}
+export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${numa_node}
 
-# Wait for MPS to start
-sleep 1
+# Wait until the control daemon for our rank is up. The daemon creates a pid
+# file which we can wait for. See
+# https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html
+until [[ -f "${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid" ]]; do
+    sleep 1
+done
 
 # Run the command
-numactl --membind=$numa_nodes "$@"
-result=$?
+"$@"
 
-# Quit MPS control daemon before exiting
+# Quit MPS control daemons before exiting
 if [[ $SLURM_LOCALID -eq 0 ]]; then
-    echo quit | nvidia-cuda-mps-control
+    for i in $(seq 0 $((num_gpus - 1))); do
+        stop_daemon ${i}
+    done
 fi
-
-exit $result
 ```
+
+One limitation of the script above is that CPU bindings only belong to one NUMA domain.
+It is currently up to the user to ensure that this limitation is respected when configuring Slurm jobs.
+
+!!! warning "CUDA environment variables"
+    The MPS wrapper script above resets the `CUDA_DEVICE_MAX_CONNECTIONS` and `CUDA_DEVICE_MAX_COPY_CONNECTIONS` environment variables to their default values.
+    If your application requires different values for these variables, modify the script accordingly.
 
 Save the above script as `mps-wrapper.sh` and make it executable with `chmod +x mps-wrapper.sh`.
 If the `mps-wrapper.sh` script is in the current working directory, you can then launch jobs using MPS for example as follows:
@@ -797,3 +831,71 @@ Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restri
         Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:2 ProcID:1 CUDA_VISIBLE_DEVICES=3
         Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
         ```
+
+### Running more than one job step per GPU
+
+!!! under-construction
+    
+    This section will be refined in the future, to multiple nodes and better handling of CPU affinity.
+    The current version assumes that the job steps have approximately the same runtime and resource requirements.
+
+Given the the strong capabilities of GH200 GPUs, some workflows may benefit from running more than one job step per GPU.
+For example, a workflow that runs many small simulations that do not fully utilize a GPU individually
+may benefit from running multiple simulations on the same GPU simultaneously.
+While some GPU resources will be shared this causing a performance degradation, the overall throughput of the workflow may increase.
+
+In order to run more than on job per GPU, it is important to enable MPS (Multi-Process Service) on the GPUs.
+If multiple GPUs on one node are used, an MPS daemon must be started for each GPU.
+Using a single MPS daemon for multiple GPUs can become the bottleneck.
+
+The following script shows how to run four independent job steps on two GPUs:
+
+```
+#!/bin/bash
+#SBATCH --job-name=lammps-multi
+#SBATCH --time=00:30:00
+#SBATCH --nodes=1
+
+CMD="echo \$(date) \$(hostname) SLURM_STEP_ID:\${SLURM_STEP_ID} SLURM_PROCID:\${SLURM_PROCID} CUDA_MPS_PIPE_DIRECTORY=\${CUDA_MPS_PIPE_DIRECTORY} CUDA_MPS_LOG_DIRECTORY=\${CUDA_MPS_LOG_DIRECTORY} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES} CPU_MASK=\$(hwloc-bind --get --taskset) ; sleep 10"
+
+export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
+export CUDA_DEVICE_MAX_CONNECTIONS=8
+
+# Start MPS daemons for GPU 0
+CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0 CUDA_VISIBLE_DEVICES=0 hwloc-bind --cpubind core:0-71 nvidia-cuda-mps-control -d
+mps0=$!
+
+# Start MPS daemons for GPU 1
+CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-1 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-1 CUDA_VISIBLE_DEVICES=1 hwloc-bind --cpubind core:72-143 nvidia-cuda-mps-control -d
+mps1=$!
+
+# Wait for MPS daemons to be ready
+until [[ -f "/tmp/nvidia-mps-0/nvidia-cuda-mps-control.pid" && -f "/tmp/nvidia-mps-1/nvidia-cuda-mps-control.pid" ]]; do
+    sleep 1
+done
+
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind0.sh hwloc-bind --cpubind core:0-35 -- bash -c "$CMD" &
+j01=$!
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind0.sh hwloc-bind --cpubind core:36-71 -- bash -c "$CMD" &
+j02=$!
+
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind1.sh hwloc-bind --cpubind core:72-107 -- bash -c "$CMD" &
+j11=$!
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind1.sh hwloc-bind --cpubind core:108-143 -- bash -c "$CMD" &
+j12=$!
+
+wait $j01 $j02 $j11 $j12
+
+kill $mps0 $mps1
+```
+
+The `gpubind*.sh` scripts set the appropriate MPS environment variables. For example, `gpubind0.sh`:
+
+```bash title="gpubind0.sh"
+#!/bin/bash
+
+export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0
+export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0
+
+"$@"
+```
