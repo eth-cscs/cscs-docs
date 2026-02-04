@@ -22,7 +22,24 @@ The CPE is provided to users on Alps as containers.
 ### Available versions
 
 The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as separate containers, instead of having both in one container, named `gnu-$version` and `cray-$version` respectively.
-The `version` is the CPE version in the container. Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/edf/<microarchitecture>`.
+The `version` is the CPE version in the container.
+
+Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/edf/<microarchitecture>`.
+
+!!! example "Listing all available CPE containers"
+    ```console
+    $ find /capstor/store/cscs/cscs/public/containers/edf -type f -printf '%P\n'
+    zen2/cpe-cray-24.07.toml
+    zen2/cpe-cray-25.03.toml
+    zen2/cpe-gnu-25.03.toml
+    zen2/cpe-gnu-24.07.toml
+    zen2/.cpe-base.toml
+    gh200/cpe-cray-24.07.toml
+    gh200/cpe-cray-25.03.toml
+    gh200/cpe-gnu-25.03.toml
+    gh200/cpe-gnu-24.07.toml
+    gh200/.cpe-base.toml
+    ```
 
 |                 | `zen2`   | `gh200` |
 |-----------------|----------|---------|
