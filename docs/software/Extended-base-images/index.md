@@ -1,0 +1,91 @@
+# Extended Base Images
+
+The Alps infrastructure (specifically the networking stack) requires custom-built libraries and specific environment settings to fully leverage the high-speed network. To reduce the burden on users and ensure best-in-class performance, we provide pre-built **Alps Extended Images** for popular base images (starting with those commonly used by the ML/AI community).
+
+> ℹ️ **VALIDATION**  
+> All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance.
+
+---
+
+## Images List
+
+> ⚠️ **IMPORTANT**  
+> Images are continuously updated to incorporate the latest improvements. We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
+
+| Base Image                       | Alps Extended Image              | Notes                       |
+| :------------------------------- | :------------------------------- | ---------------------------: |
+| nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.4, RDMA enabled |
+| nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.4, RDMA enabled |
+
+---
+
+## Using the Images
+
+The images are hosted on the CSCS internal artifactory repository and can only be pulled from within the Alps environment.
+
+**Repository URL**  
+jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/\<image:tag\>
+
+### Direct Usage
+
+To use an image directly on Alps via an EDF environment file, set the image to the repository URL followed by the image name and tag.
+
+> ⚠️ **VERY IMPORTANT**  
+> - Do **not** use the `aws_ofi_nccl` hook annotation  
+> - Explicitly **disable** the `cxi` hook
+
+**Example:**
+```toml
+image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2"
+
+mounts = [
+    "/capstor/",
+    "/iopsstor/",
+]
+
+writable = true
+
+[env]
+PMIX_MCA_psec = "native"
+
+[annotations]
+com.hooks.cxi.enabled = "false"
+```
+
+### Pulling Images with Podman
+
+Extended images can also be pulled using Podman and used as a base image in your own Dockerfiles.
+
+Example pull with Podman:
+
+```bash
+podman pull docker://jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2
+```
+
+### Use in Dockerfile
+
+Example Dockerfile:
+```dockerfile
+FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2
+
+RUN echo "Hello world!"
+
+```
+
+# Contributing
+
+The extended base images are automatically built via a dedicated CI/CD pipeline hosted on GitHub:
+
+[github.com/eth-cscs/alps-swiss-ai](https://github.com/eth-cscs/alps-swiss-ai)
+
+> ⚠️ **NOTE:**
+> The repository is currently private. Please open a [Service Desk](https://support.cscs.ch/)
+>  ticket to request access.
+
+
+
+
+
+
+
+
