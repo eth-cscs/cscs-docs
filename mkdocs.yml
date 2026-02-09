@@ -158,6 +158,7 @@ nav:
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
+    - 'GPU Report': guides/gpu-report.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
