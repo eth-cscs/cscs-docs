@@ -429,7 +429,7 @@ and assign GPUs to ranks according to the CPU mask of a rank, ensuring the close
 
 set -eu
 
-mps_prefix="/tmp/nvidia"
+mps_prefix="/tmp/nvidia-$(id -un)"
 num_gpus=4
 
 # Reset CUDA environment variables to default values without MPS
