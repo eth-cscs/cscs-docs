@@ -43,7 +43,7 @@ What happens:
 gssr-analyze.py gr-test -o gssr-report.pdf
 ```
 
-You now have a GPU utilisation report.  
+You now have a GPU utilization report.  
 Open the PDF to verify it was created successfully.
 
 ---
