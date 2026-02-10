@@ -21,15 +21,15 @@ cd gssr
 make
 ```
 
-Include the git repository in your `PATH` (put this in `$HOME/.bashrc` too)
-```bash
-export PATH=<path-to-gssr>:$PATH
-```
-
-Optionally install `uv` if you don't already have it installed
+Optionally install `uv` if you don't already have it installed.
+Follow the [official uv instructions](https://docs.astral.sh/uv/getting-started/installation), or just run
 ```bash
 make install-uv
 ```
+
+Consider putting `gssr-record` and `gssr-analyze.py` in an architecture-specific location in your `$PATH`.
+This is discussed in detail [on this page][ref-guides-terminal-arch].
+Otherwise, you will need to modify the examples to include the path to the tools in the command.
 
 ## Quick start -- fastest path to a PDF
 
