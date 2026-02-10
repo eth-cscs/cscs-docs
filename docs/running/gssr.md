@@ -2,10 +2,14 @@
 
 ## Overview
 
-GSSR records how your GPUs are used during a job and generates a PDF report suitable for project proposals.
-
-You run your application once with GSSR enabled, then generate the report.
+GSSR records how the GPUs on allocated nodes are used during a job and generates a PDF report suitable for project proposals.
 The PDF helps reviewers better understand the GPU usage of your application.
+
+Using GSSR always follows the same two steps:
+
+1. Run your job while recording GPU metrics  
+2. Generate the PDF report
+
 
 ## Downloading GSSR
 
@@ -26,13 +30,6 @@ Optionally install `uv` if you don't already have it installed
 ```bash
 make install-uv
 ```
-
-## The two-command workflow
-
-Using GSSR always follows the same two steps:
-
-1. Run your job while recording GPU metrics  
-2. Generate the PDF report
 
 ## Quick start -- fastest path to a PDF
 
@@ -105,7 +102,10 @@ When running inside a container, you must enable the DCGM hook in your EDF file:
 com.hooks.dcgm.enabled = "true"
 ```
 
-Without this setting, GPU metrics cannot be collected.
+Without this setting, GPU metrics cannot be collected and you will receive the error:
+```
+error while loading shared libraries: libdcgm.so.3: cannot open shared object file: No such file or directory
+```
 
 !!! warning
     The output directory should be under a path that has been bind-mounted in the
@@ -114,11 +114,6 @@ Without this setting, GPU metrics cannot be collected.
     the user.
 
 ## Important behaviour to know
-
-### Only one task per node records metrics
-
-You do not need to modify your MPI job.  
-GSSR automatically records metrics for all GPUs on the node.
 
 ### Overlapping jobs share GPU data
 
@@ -196,7 +191,7 @@ Options:
 
 ## Support
 
-If you encounter problems, contact support and include:
+If you encounter problems, [contact support][ref-get-in-touch] and include:
 
 - Job script  
 - GSSR output directory  
