@@ -2,27 +2,43 @@
 
 ## Overview
 
-**gssr records how your GPUs are used during a job and generates a PDF report suitable for project proposals.**
+GSSR records how your GPUs are used during a job and generates a PDF report suitable for project proposals.
 
-You run your application once with gssr enabled, then generate the report.  
+You run your application once with GSSR enabled, then generate the report.
 The PDF helps reviewers better understand the GPU usage of your application.
 
----
+## Downloading GSSR
 
-## The 2-Command Workflow
+Clone the GSSR repository onto a GH200 Alps login node and build
 
-Using gssr always follows the same two steps:
+```bash
+git clone https://github.com/jpcoles-cscs/gssr.git
+cd gssr
+make
+```
+
+Include the git repository in your `PATH` (put this in `$HOME/.bashrc` too)
+```bash
+export PATH=<path-to-gssr>:$PATH
+```
+
+Optionally install `uv` if you don't already have it installed
+```bash
+make install-uv
+```
+
+## The two-command workflow
+
+Using GSSR always follows the same two steps:
 
 1. Run your job while recording GPU metrics  
 2. Generate the PDF report
 
----
-
-## Quick Start — Fastest Path to a PDF
+## Quick start -- fastest path to a PDF
 
 This example uses a dummy job so you can verify everything works in under one minute.
 
-### Step 1 — Record a Run
+### Step 1 -- record a run
 
 Run any command using `gssr-record`:
 
@@ -35,9 +51,7 @@ What happens:
 - Your command runs normally (e.g., `sleep 30`) 
 - GPU metrics are recorded in the directory `gr-test/`
 
----
-
-### Step 2 — Generate the Report
+### Step 2 -- generate the report
 
 ```bash
 gssr-analyze.py gr-test -o gssr-report.pdf
@@ -46,9 +60,7 @@ gssr-analyze.py gr-test -o gssr-report.pdf
 You now have a GPU utilization report.  
 Open the PDF to verify it was created successfully.
 
----
-
-## Real Usage With Your Application
+## Real usage with your application
 
 Replace the test command with your real workload. Example:
 
@@ -64,9 +76,7 @@ gssr-analyze.py gr-training -o gpu-report.pdf
 
 Upload the generated PDF with your project proposal.
 
----
-
-## Slurm Job Script Example
+## Slurm job script example
 
 ```bash
 #!/bin/bash
@@ -84,11 +94,9 @@ After the job completes:
 gssr-analyze.py gr-run -o gpu-report.pdf
 ```
 
----
+## Using GSSR inside containers
 
-## Using gssr Inside Containers
-
-gssr uses the NVIDIA DCGM library to read GPU metrics. This is available on the Alps host system.
+GSSR uses the NVIDIA DCGM library to read GPU metrics. This is available on the Alps host system.
 
 When running inside a container, you must enable the DCGM hook in your EDF file:
 
@@ -99,23 +107,25 @@ com.hooks.dcgm.enabled = "true"
 
 Without this setting, GPU metrics cannot be collected.
 
----
+!!! warning
+    The output directory should be under a path that has been bind-mounted in the
+    `.toml` file.  If the output directory is inside the container, the data will
+    be lost when the container ends. GSSR attempts to detect this scenario and warn
+    the user.
 
-## Important Behaviour to Know
+## Important behaviour to know
 
-### Only One Task per Node Records Metrics
+### Only one task per node records metrics
 
 You do not need to modify your MPI job.  
-gssr automatically records metrics for all GPUs on the node.
+GSSR automatically records metrics for all GPUs on the node.
 
-### Overlapping Jobs Share GPU Data
+### Overlapping jobs share GPU data
 
 If multiple jobs run on the same GPUs at the same time, they will record the same GPU metrics.  
 This behaviour is normal.
 
----
-
-## Choosing the Right Run for Your Proposal
+## Choosing the right run for your proposal
 
 Your profiling run should demonstrate how a typical simulations from your proposal performs.
 
@@ -125,9 +135,7 @@ A good profiling run:
 - Represents real training or simulation behaviour.
 - Shows steady GPU usage.
 
----
-
-## Output Files
+## Output files
 
 After recording, the output directory contains raw GPU metrics, e.g.:
 
@@ -138,27 +146,23 @@ gr-training/
 Most users do not need to inspect these files directly.  
 They are used to generate the report.
 
----
-
 ## Troubleshooting
 
-### The Report is Empty
+### The report is empty
 
 Your job likely did not see GPUs.  
 Verify that GPUs are visible inside your job or container.
 
-### I Forgot to Run gssr-record
+### I forgot to run gssr-record
 
 You must rerun the job.  
 GPU metrics cannot be recreated after a job finishes.
 
-### The Run Was Very Short
+### The run was very short
 
 Runs shorter than approximately one minute may not produce useful plots.
 
----
-
-## Command Reference
+## Command reference
 
 ### gssr-record
 
@@ -190,13 +194,11 @@ Options:
 -o <file>    Output PDF (default: gssr-report.pdf)
 ```
 
----
-
 ## Support
 
 If you encounter problems, contact support and include:
 
 - Job script  
-- gssr output directory  
+- GSSR output directory  
 - Error messages
 
