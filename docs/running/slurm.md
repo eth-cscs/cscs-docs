@@ -474,10 +474,16 @@ export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${numa_node}
 
 # Wait until the control daemon for our rank is up. The daemon creates a pid
 # file which we can wait for. See
-# https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html
-until [[ -f "${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid" ]]; do
-    sleep 1
-done
+# https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html.
+# Wait up to mps_pid_file_timeout seconds for the pid file to be created. In
+# jobs with a large number of ranks some ranks may take a long time to start. If
+# that happens consider increasing the timeout.
+mps_pid_file_timeout=120
+pid_file="${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid"
+if ! timeout ${mps_pid_file_timeout} bash -c "until [[ -f \"${pid_file}\" ]]; do sleep 1; done"; then
+    echo "The MPS wrapper script timed out waiting for MPS pid file ${pid_file} on rank ${SLURM_PROCID}. MPS daemon likely did not start correctly or the rank starting the MPS daemons took too long to start."
+    exit 1
+fi
 
 # Run the command
 exec "$@"
