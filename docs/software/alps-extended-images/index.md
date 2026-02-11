@@ -34,7 +34,9 @@ The images are hosted on the CSCS internal artifactory repository and can only b
 **Repository URL**
 !!! note ""
 
+    ```
     jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/<image:tag>
+    ```
 
 ### Direct Usage
 
@@ -58,12 +60,12 @@ writable = true
 PMIX_MCA_psec = "native"
 [annotations]
 # (3)!
-com.hooks.cxi.enabled = "false"```
+com.hooks.cxi.enabled = "false"
+```
 1. Images will be pulled directly from CSCS' `jfrog` artifactory
 2. Pertinent environment variables for optimal network performance are already set in the container image.
 `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
 3. Te `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
-```
 
 ### Pulling Images with Podman
 
