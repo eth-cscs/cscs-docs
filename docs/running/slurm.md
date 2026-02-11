@@ -454,14 +454,13 @@ function start_daemon {
     CUDA_VISIBLE_DEVICES=${1} nvidia-cuda-mps-control -d
 }
 
-function stop_daemon {
-    export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${1}
-    export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${1}
-    echo quit | nvidia-cuda-mps-control
-}
-
 # Start MPS control daemons from a single rank per node, one for each GPU on the node
 if [[ $SLURM_LOCALID -eq 0 ]]; then
+    # We attempt to kill previous MPS instances, but if we can't (either none
+    # have been started or they are unkillable) we ignore it and attempt to run
+    # anyway
+    pkill --uid $(id -un) '^nvidia-cuda-mps-' || true
+
     for i in $(seq 0 $((num_gpus - 1))); do
         start_daemon ${i}
     done
@@ -481,14 +480,7 @@ until [[ -f "${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid" ]]; do
 done
 
 # Run the command
-"$@"
-
-# Quit MPS control daemons before exiting
-if [[ $SLURM_LOCALID -eq 0 ]]; then
-    for i in $(seq 0 $((num_gpus - 1))); do
-        stop_daemon ${i}
-    done
-fi
+exec "$@"
 ```
 
 One limitation of the script above is that CPU bindings only belong to one NUMA domain.
