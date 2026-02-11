@@ -70,6 +70,7 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
+    - 'Alps Extended Images' : software/alps-extended-images/index.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
