@@ -5,6 +5,7 @@ The Alps infrastructure (specifically the networking stack) requires custom-buil
 !!! note
 
     All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance.
+    Build and testing pipeline: https://github.com/eth-cscs/alps-swiss-ai/blob/main/ci-pipelines/build-alps-golden-images.yaml
 
 
 ---
