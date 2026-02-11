@@ -45,22 +45,24 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
 
-**Example:**
-```toml
+```toml title="Example EDF file"
+# (1)!
 image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2"
-
 mounts = [
     "/capstor/",
     "/iopsstor/",
 ]
-
 writable = true
-
 [env]
+# (2)!
 PMIX_MCA_psec = "native"
-
 [annotations]
-com.hooks.cxi.enabled = "false"
+# (3)!
+com.hooks.cxi.enabled = "false"```
+1. Images will be pulled directly from CSCS' `jfrog` artifactory
+2. Pertinent environment variables for optimal network performance are already set in the container image.
+`PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
+3. Te `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 ```
 
 ### Pulling Images with Podman
@@ -82,6 +84,8 @@ FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-al
 RUN echo "Hello world!"
 
 ```
+For further information, please see the [guide to building container images on Alps][ref-build-containers].
+
 
 # Contributing
 
