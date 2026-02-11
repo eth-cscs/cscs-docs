@@ -1,4 +1,4 @@
-# Extended Base Images
+# Alps Extended Images
 
 The Alps infrastructure (specifically the networking stack) requires custom-built libraries and specific environment settings to fully leverage the high-speed network. To reduce the burden on users and ensure best-in-class performance, we provide pre-built **Alps Extended Images** for popular base images (starting with those commonly used by the ML/AI community).
 
@@ -82,7 +82,7 @@ RUN echo "Hello world!"
 
 # Contributing
 
-The extended base images are automatically built via a dedicated CI/CD pipeline hosted on GitHub:
+The Alps extended images are automatically built via a dedicated CI/CD pipeline hosted on GitHub:
 
 [github.com/eth-cscs/alps-swiss-ai](https://github.com/eth-cscs/alps-swiss-ai)
 
