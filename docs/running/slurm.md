@@ -447,10 +447,10 @@ if ! [[ "${numa_node}" =~ ^[0-9]+$ ]]; then
 fi
 
 function start_daemon {
-    mkdir -p ${mps_prefix}-mps-${1}
-    mkdir -p ${mps_prefix}-log-${1}
     export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${1}
     export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${1}
+    mkdir -p "${CUDA_MPS_PIPE_DIRECTORY}"
+    mkdir -p "${CUDA_MPS_LOG_DIRECTORY}"
     CUDA_VISIBLE_DEVICES=${1} nvidia-cuda-mps-control -d
 }
 
