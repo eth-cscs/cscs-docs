@@ -30,8 +30,10 @@ The Alps infrastructure (specifically the networking stack) requires custom-buil
 
 The images are hosted on the CSCS internal artifactory repository and can only be pulled from within the Alps environment.
 
-**Repository URL**  
-jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/\<image:tag\>
+**Repository URL**
+!!! note ""
+
+    jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/<image:tag>
 
 ### Direct Usage
 
