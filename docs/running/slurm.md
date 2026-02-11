@@ -440,6 +440,12 @@ export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
 # Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices
 numa_node=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
 
+# We expect exactly one non-negative integer for the NUMA node
+if ! [[ "${numa_node}" =~ ^[0-9]+$ ]]; then
+    echo "The MPS wrapper script only works when the process mask of the rank is adjacent to exactly one GPU. The CPU mask is $(hwloc-bind --get --taskset) and the list of adjacent numa nodes is ${numa_node} for rank ${SLURM_PROCID}."
+    exit 1
+fi
+
 function start_daemon {
     mkdir -p ${mps_prefix}-mps-${1}
     mkdir -p ${mps_prefix}-log-${1}
