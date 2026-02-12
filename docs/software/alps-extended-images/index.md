@@ -54,12 +54,10 @@ mounts = [
     "/iopsstor/",
 ]
 writable = true
-[env]
-# (2)!
+[env] # (2)!
 PMIX_MCA_psec = "native"
 [annotations]
-# (3)!
-com.hooks.cxi.enabled = "false"
+com.hooks.cxi.enabled = "false" # (3)!
 ```
 
 1. Images will be pulled directly from CSCS' `jfrog` artifactory
