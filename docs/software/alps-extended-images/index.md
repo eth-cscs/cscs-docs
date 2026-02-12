@@ -5,7 +5,7 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
 !!! note
 
-    All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contibuting section](#contributing)).
+    All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contributing section](#contributing)).
 
 ---
 
