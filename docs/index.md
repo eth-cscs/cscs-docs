@@ -123,6 +123,8 @@ Learn by doing with our guides and tutorials.
 
     [:octicons-arrow-right-24: Container engine][ref-container-engine]
 
+    [:octicons-arrow-right-24: Alps extended images](software/alps-extended-images/index.md)
+
 
 -   :fontawesome-solid-screwdriver-wrench: __Data management and storage__
 
