@@ -5,9 +5,7 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
 !!! note
 
-    All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance.
-    Build and testing pipeline: https://github.com/eth-cscs/alps-swiss-ai/blob/main/ci-pipelines/build-alps-golden-images.yaml
-
+    All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contibuting section](#Contributing)).
 
 ---
 
@@ -92,6 +90,9 @@ The Alps extended images are automatically built via a dedicated CI/CD pipeline 
 
 [github.com/eth-cscs/alps-swiss-ai](https://github.com/eth-cscs/alps-swiss-ai)
 
+Additional tests can be added to the [build and test pipeline](https://github.com/eth-cscs/alps-swiss-ai/blob/main/ci-pipelines/build-alps-golden-images.yaml)
+
+New images can be added to the [Alps-Images folder](https://github.com/eth-cscs/alps-swiss-ai/tree/main/Alps-Images)
 
 !!! note
 
