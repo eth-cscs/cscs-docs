@@ -2,7 +2,7 @@
 # Job report
 
 !!!info
-    The [GPU Saturation Scorer (gssr)][ref-gssr] will ultimately replace Jobreport but is currently limited to Swiss AI proposals.
+    The [GPU Saturation Scorer (GSSR)][ref-gssr] will ultimately replace Jobreport but is currently limited to Swiss AI proposals.
     Please refer to the submission guidelines for which tool to use.
 
 A batch job summary report is often requested in project proposals at CSCS to demonstrate the effective use of GPUs.
