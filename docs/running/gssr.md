@@ -1,4 +1,9 @@
-# GPU Saturation Scorer Report
+[](){#ref-gssr}
+# GPU Saturation Scorer
+
+!!!info
+    The GPU Saturation Scorer (gssr) will ultimately replace [Jobreport][ref-jobreport] but is currently limited to Swiss AI proposals.
+    Please refer to the submission guidelines for which tool to use.
 
 ## Overview
 
