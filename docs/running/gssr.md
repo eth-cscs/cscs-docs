@@ -108,7 +108,7 @@ error while loading shared libraries: libdcgm.so.3: cannot open shared object fi
 ```
 
 !!! warning
-    The output directory should be under a path that has been bind-mounted in the
+    The output directory should be under a path that has been [bind-mounted][ref-ce-edf-reference-mounts] in the
     `.toml` file.  If the output directory is inside the container, the data will
     be lost when the container ends. GSSR attempts to detect this scenario and warn
     the user.
