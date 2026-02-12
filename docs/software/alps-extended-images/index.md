@@ -31,8 +31,7 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
 The images are hosted on the CSCS internal artifactory repository and can only be pulled from within the Alps environment.
 
-**Repository URL**
-!!! note ""
+!!! note "Repository URL"
 
     ```
     jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/<image:tag>
