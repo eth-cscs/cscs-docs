@@ -86,7 +86,7 @@ RUN echo "Hello world!"
 For further information, please see the [guide to building container images on Alps][ref-build-containers].
 
 
-# Contributing
+## Contributing
 
 The Alps extended images are automatically built via a dedicated CI/CD pipeline hosted on GitHub:
 
