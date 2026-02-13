@@ -47,15 +47,14 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Launch MPI applications with `PMIx` (i.e. using `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
 ```toml title="Example EDF file"
-# (1)!
-image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2"
+image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2" # (1)!
 mounts = [
     "/capstor/",
     "/iopsstor/",
 ]
 writable = true
-[env] # (2)!
-PMIX_MCA_psec = "native"
+[env]
+PMIX_MCA_psec = "native" # (2)!
 [annotations]
 com.hooks.cxi.enabled = "false" # (3)!
 ```
@@ -71,9 +70,7 @@ com.hooks.cxi.enabled = "false" # (3)!
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=4
 
-# (1)!
-# (2)!
-srun --mpi=pmix --environment=example.edf.toml python my_script.py
+srun --mpi=pmix --environment=example.edf.toml python my_script.py # (1)! (2)!
 ```
 
 1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
