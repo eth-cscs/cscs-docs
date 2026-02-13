@@ -43,6 +43,8 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
+    - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
+    - Launch MPI applications with `PMIx` (i.e. using `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
 ```toml title="Example EDF file"
 # (1)!
@@ -97,7 +99,8 @@ For further information, please see the [guide to building container images on A
 
 ## Troubleshooting
 
-!!! note MPI applications need to be launched with `--mpi=pmix`
+!!! note "MPI applications need to be launched with `--mpi=pmix`"
+
     If you see warnings related to `PMIx`, for example
     ```
     No PMIx server was reachable, but a PMI1/2 was detected
@@ -114,7 +117,8 @@ For further information, please see the [guide to building container images on A
     or set the environment variable `SLURM_MPI_TYPE=pmix` to make `PMIx` the default MPI launcher.
 
 
-!!! note The `--environment` option must not be used for `sbatch`
+!!! note "The `--environment` option must not be used for `sbatch`"
+
     If you are submitting a batch job with `sbatch` and using the `--environment` (i.e. `#SBATCH --environment=my_edf.toml`) option, this can lead to errors such as:
     ```
     srun: error: plugin_load_from_file: dlopen(/usr/lib64/slurm/switch_hpe_slingshot.so): libjson-c.so.3: cannot open shared object file: No such file or directory
