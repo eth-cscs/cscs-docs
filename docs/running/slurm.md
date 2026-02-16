@@ -486,6 +486,7 @@ if ! timeout ${mps_pid_file_timeout} bash -c "until [[ -f \"${pid_file}\" ]]; do
 fi
 
 # Run the command
+# We are using `exec`, because we want e.g. signals to be forwarded directly to the application, and not this wrapper script
 exec "$@"
 ```
 
