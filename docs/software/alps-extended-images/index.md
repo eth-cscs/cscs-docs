@@ -79,6 +79,36 @@ srun --mpi=pmix --environment=example.edf.toml python my_script.py
 1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
 2. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
 
+!!! failure "`srun` errors related to missing Slurm plugins"
+
+    If you are submitting a batch job with `sbatch` and using the `--environment` (i.e. `#SBATCH --environment=my_edf.toml`) option, this can lead to errors such as:
+    ```
+    srun: error: plugin_load_from_file: dlopen(/usr/lib64/slurm/switch_hpe_slingshot.so): libjson-c.so.3: cannot open shared object file: No such file or directory
+    srun: error: Couldn't load specified plugin name for switch/hpe_slingshot: Dlopen of plugin file failed
+    srun: fatal: Can't find plugin for switch/hpe_slingshot
+    ```
+    Make sure you use the option for `srun` instead of `sbatch`, i.e.:
+    ```bash
+    srun --environment=my_edf.toml ...
+    ```
+
+!!! failure "`PMIx`/`ucx` errors during initialization"
+
+    If you see warnings related to `PMIx`, for example
+    ```
+    No PMIx server was reachable, but a PMI1/2 was detected
+    ```
+    or observe `ucx` logs indicating that
+    ```
+    Transport endpoint is not connected
+    ```
+    this likely indicates that Slurm is not configured to use `PMIx` for launching MPI applications.
+    To resolve this, ensure that you are launching your application with the `--mpi=pmix` flag, for example:
+    ```bash
+    srun --mpi=pmix ...
+    ```
+    or set the environment variable `SLURM_MPI_TYPE=pmix` to make `PMIx` the default MPI launcher.
+
 ### Pulling Images with Podman
 
 Extended images can also be pulled using Podman and used as a base image in your own Dockerfiles.
@@ -96,39 +126,6 @@ RUN echo "Hello world!"
 
 ```
 For further information, please see the [guide to building container images on Alps][ref-build-containers].
-
-## Troubleshooting
-
-!!! note "MPI applications need to be launched with `--mpi=pmix`"
-
-    If you see warnings related to `PMIx`, for example
-    ```
-    No PMIx server was reachable, but a PMI1/2 was detected
-    ```
-    or observe `ucx` logs indicating that
-    ```
-    Transport endpoint is not connected
-    ```
-    this likely indicates that Slurm is not configured to use `PMIx` for launching MPI applications.
-    To resolve this, ensure that you are launching your application with the `--mpi=pmix` flag, for example:
-    ```bash
-    srun --mpi=pmix ...
-    ```
-    or set the environment variable `SLURM_MPI_TYPE=pmix` to make `PMIx` the default MPI launcher.
-
-
-!!! note "The `--environment` option must not be used for `sbatch`"
-
-    If you are submitting a batch job with `sbatch` and using the `--environment` (i.e. `#SBATCH --environment=my_edf.toml`) option, this can lead to errors such as:
-    ```
-    srun: error: plugin_load_from_file: dlopen(/usr/lib64/slurm/switch_hpe_slingshot.so): libjson-c.so.3: cannot open shared object file: No such file or directory
-    srun: error: Couldn't load specified plugin name for switch/hpe_slingshot: Dlopen of plugin file failed
-    srun: fatal: Can't find plugin for switch/hpe_slingshot
-    ```
-    Make sure you use the option for `srun` instead of `sbatch`, i.e.:
-    ```bash
-    srun --environment=my_edf.toml ...
-    ```
 
 ## Contributing
 
