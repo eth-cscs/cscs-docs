@@ -62,7 +62,7 @@ com.hooks.cxi.enabled = "false" # (3)!
 
 1. Images will be pulled directly from CSCS' `jfrog` artifactory
 2. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
-3. Te `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
+3. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 
 ```bash title="Example sbatch file"
 #!/usr/bin/env bash
