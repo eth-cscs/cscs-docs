@@ -802,14 +802,15 @@ Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restri
 ## NVIDIA GH200 power capping
 
 !!! info
-    This power capping functionality is deployed only on the following clusters:
+    This power capping functionality is an experimental feature developed by CSCS.
+    It is currently being tested with key users on the Starlex test cluster.
 
-    - starlex
+    This documentation will be updated once it has been deployed onto the production clusters.
 
-The power of each GH200 module (CPU + GPU) on Alps is capped at approximately 660 W.
-The system is configured such that CPU power requirements have priority over GPU requirements.
-This has consequences for applications that overlap CPU and GPU computations.
-If an application uses many CPU cores concurrently with the GPU, there may not be sufficient power available, which can lead to GPU throttling.
+The combined power of each GH200 module (CPU + GPU) on Alps is capped at approximately 660 W.
+The modules are configured such that CPU power requirements have priority over GPU requirements, which can impact GPU performance for applications that overlap CPU and GPU computations.
+If an application uses many CPU cores concurrently with the GPU, there may not be sufficient power available for the GPU.
+
 To mitigate this, CSCS provides a Slurm option that allows setting a power cap for the CPU.
 However, this also limits CPU power when the GPU is not in use. Therefore, this feature should only be used for applications that use both CPU and GPU simultaneously, and it may require experimentation with different settings to achieve optimal performance.
 
