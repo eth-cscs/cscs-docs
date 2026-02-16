@@ -1,45 +1,45 @@
 [](){#ref-cpe}
 # Cray Programming Environment (CPE)
 
-The Cray Programming Environment (CPE) is a suite of software: programming environments, compilers, libraries and tools.
+The Cray Programming Environment (CPE) is provided to users on Alps as containers, with limited support from CSCS.
 
-The CPE is provided to users on Alps as containers.
+!!! info "CPE is not supported by CSCS"
+    CSCS offers full support for building software using [uenv][ref-uenv]-based programming environments.
+    See the [programming environment][ref-software-prgenvs] documentation for supported programming environments.
 
-!!! info "CPE is the cray modules"
-    The familiar modules that provide the `Prgenv-gnu` and `Prgenv-cray`  programming environments, and packages like `cray-python` and `cray-fftw`, that will be familiar from the old Piz Daint system.
 
-!!! warning "CPE is not supported on Alps"
-    The Cray modules were provided on the old Daint system, and CSCS supported their use and provided software built on top of them.
+The CPE is a suite of software: programming environments, compilers, libraries and tools.
+The CPE will be familiar to users of previous CSCS systems, including Piz Daint, and users of HPE/Cray systems at other sites.
+It provides modules for programming environments including `Prgenv-gnu` and `Prgenv-cray`, and packages like `cray-python` and `cray-fftw`.
 
-    **Alps is a big change - the CPE modules are not provide as officially supported software.**
-    They are provided _as is_ to users who still need to use them, however CSCS will not be able to provide detailed support for issues that arise when using them.
+
+??? warning "The `cray` module is deprecated"
+    On [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] the outdated version 24.7 of CPE is installed, and can be loaded using the `cray` module.
+
+    * this module will be removed soon (the timeline will be communicated to the community);
+    * this version of CPE is out of date, and is missing key updates required for compatibility and performance for `gh200` on Daint.
+    * CSCS can't provide support when the `cray` module is loaded.
 
     The recommended method for building and running software is to use [uenv][ref-uenv] or [containers][ref-container-engine].
+    See the [programming environment][ref-software-prgenvs] documentation for alternative programming environments.
 
 ## CPE in a container
+
+The CPE is provided on [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] in containers.
 
 [](){#ref-cpe-versions}
 ### Available versions
 
-The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as separate containers, instead of having both in one container, named `gnu-$version` and `cray-$version` respectively.
-The `version` is the CPE version in the container.
+CPE containers are provided for `zen2` and `gh200` [micro-architectures][ref-alps-nodes].
+The `zen2` containers are intended for use on [Eiger][], and the `gh200` images are available for [Grace-Hopper][ref-alps-gh200-node] systems for the systems below:
 
-Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/edf/<microarchitecture>`.
+| uarch  | system |
+| ------ | ------ |
+| `zen2` | [Eiger][ref-cluster-eiger]  |
+| `gh200`| [Daint][ref-cluster-daint], [Santis][ref-cluster-santis] |
 
-!!! example "Listing all available CPE containers"
-    ```console
-    $ find /capstor/store/cscs/cscs/public/containers/edf -type f -printf '%P\n'
-    zen2/cpe-cray-24.07.toml
-    zen2/cpe-cray-25.03.toml
-    zen2/cpe-gnu-25.03.toml
-    zen2/cpe-gnu-24.07.toml
-    zen2/.cpe-base.toml
-    gh200/cpe-cray-24.07.toml
-    gh200/cpe-cray-25.03.toml
-    gh200/cpe-gnu-25.03.toml
-    gh200/cpe-gnu-24.07.toml
-    gh200/.cpe-base.toml
-    ```
+
+The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as separate containers, named `gnu-$version` and `cray-$version` respectively, where `version` is the CPE version in the container.
 
 |                 | `zen2`   | `gh200` |
 |-----------------|----------|---------|
@@ -48,9 +48,28 @@ Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/ed
 | `cpe-gnu-25.3`  | ✅       | ✅      |
 | `cpe-cray-25.3` | ✅       | ✅      |
 
+??? question "Where are CPE containers stored?"
+
+    Deployed versions can be found at `/capstor/store/cscs/cscs/public/containers/edf/<microarchitecture>`.
+
+    !!! example "Listing all available CPE containers"
+        ```console
+        $ find /capstor/store/cscs/cscs/public/containers/edf -type f -printf '%P\n'
+        zen2/cpe-cray-24.07.toml
+        zen2/cpe-cray-25.03.toml
+        zen2/cpe-gnu-25.03.toml
+        zen2/cpe-gnu-24.07.toml
+        zen2/.cpe-base.toml
+        gh200/cpe-cray-24.07.toml
+        gh200/cpe-cray-25.03.toml
+        gh200/cpe-gnu-25.03.toml
+        gh200/cpe-gnu-24.07.toml
+        gh200/.cpe-base.toml
+        ```
+
 ### How to use
 
-To start a session with the CPE (see [available-versions][ref-cpe-versions] above):
+To start a session with the CPE with a [specific version][ref-cpe-versions] above):
 ```console
 $ srun --environment=cpe-cray-24.07 --pty bash
 ```
