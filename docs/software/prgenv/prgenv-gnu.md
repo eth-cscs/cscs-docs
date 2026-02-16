@@ -10,6 +10,8 @@ It is the go to programming environment on all systems and target node types, th
 
     The [`linalg`][ref-uenv-linalg] environment is similar to prgenv-gnu, with additional linear algebra and mesh partitioning algorithms.
 
+    The [`prgenv-gnu-openmpi`][ref-uenv-prgenv-gnu-openmpi] is otherwise similar to `prgenv-gnu`, but provides OpenMPI instead of Cray MPICH.
+
 [](){#ref-uenv-prgenv-gnu-versioning}
 ## Versioning
 
