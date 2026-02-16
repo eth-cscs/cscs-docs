@@ -70,6 +70,7 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
+    - 'Alps Extended Images' : software/alps-extended-images/index.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
@@ -105,17 +106,20 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
-      - 'WRF': software/cw/wrf.md
       - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
+      - 'libfabric': software/communication/libfabric.md
       - 'Cray MPICH': software/communication/cray-mpich.md
       - 'MPICH': software/communication/mpich.md
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
-      - 'RCCL': software/communication/rccl.md
-      - 'libfabric': software/communication/libfabric.md
-    - 'Commercial software':
+      - 'NVSHMEM': software/communication/nvshmem.md
+    - 'User Applications':
+      - software/userapps/index.md
+      - 'WRF': software/userapps/wrf.md
+      - 'ORCA': software/userapps/orca.md
+    - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
     - 'Scientific Visualization':

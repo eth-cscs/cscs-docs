@@ -4,7 +4,17 @@
 MPICH is an open-source MPI implementation actively developed in this [github repository](https://github.com/pmodels/mpich).
 It can be installed inside containers directly from the source code manually, or using Spack or similar package managers.
 
-## MPICH inside containers
+[](){#ref-communication-mpich-using}
+## Using MPICH
+
+[](){#ref-communication-mpich-ce}
+### uenv
+
+MPICH is not provided in any uenv images, which instead use the [Cray MPICH][ref-communication-cray-mpich] distribution which is optimised for the Alps network.
+
+[](){#ref-communication-mpich-ce}
+### Containers
+
 MPICH can be built inside containers, however for native Slingshot performance special care has to be taken to ensure that communication is optimal for all cases:
 
 * Intra-node communication (this is via shared memory, especially `xpmem`)
@@ -136,13 +146,25 @@ They are explicit and building manually the necessary packages, however for prod
     RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
     ```
 
-!!! important "GPU-to-GPU inter-node communication"
+Once the container is built and pushed to a registry, one can create a [container environment][ref-container-engine].
+
+!!! note "GPU-to-GPU inter-node communication"
     To make sure that GPU-to-GPU performance is good for inter-node communication one must set the variable
     ```console
     $ export MPIR_CVAR_CH4_OFI_ENABLE_HMEM=1
     ```
 
-Once the container is built and pushed to a registry, one can create a [container environment][ref-container-engine].
+!!! note "Use PMI-2"
+    By default MPICH uses [PMI-2](https://www.mcs.anl.gov/papers/P1760.pdf) for wire-up and communication between ranks.
+    Hence, when launching containers that use MPICH through Slurm, PMI-2 must be used for application launching.
+    This is done with the `--mpi` flag of `srun`:
+    ```bash
+    srun --mpi=pmi2 ...
+    ```
+
+[](){#ref-communication-mpich-performance}
+## MPICH Performance
+
 To verify performance, one can run the `osu_bw` benchmark, which is doing a bandwidth benchmark for different message sizes between two ranks.
 For reference this is the expected performance for different memory residency, with inter-node and intra-node communication:
 === "CPU-to-CPU memory intra-node"

@@ -17,9 +17,11 @@ CWP
 CXI
 Ceph
 Containerfile
+Containerfiles
 DNS
 Dockerfiles
 Dufourspitze
+EFA
 EMPA
 ETHZ
 Ehrenfest
@@ -48,6 +50,7 @@ HPCP
 HPE
 HSN
 Hartree
+IAP
 Invernizzi
 Jax
 Jira
@@ -66,6 +69,8 @@ Linux
 MDS
 MDSs
 MFA
+MLIP
+MLIPs
 MLP
 MNDO
 MPICH
@@ -76,6 +81,8 @@ MeteoSwiss
 NAMD
 NICs
 NVMe
+NVSHMEM
+NVLINK
 Nordend
 OpenFabrics
 OAuth
@@ -102,6 +109,7 @@ ROCm
 RPA
 Roboto
 Roothaan
+SHMEM
 SSHService
 STMV
 Scopi
@@ -193,13 +201,16 @@ juliaup
 jupyter
 jwt
 kokkos
+lammps
 lapackpp
 lexer
 lexers
 libfabric
 libhugetlbfs
 libint
+libtorch
 libtree
+libvori
 libxc
 linalg
 linkx
@@ -254,6 +265,7 @@ kubeconfig
 ceph
 rwx
 rwo
+standalone
 subdomain
 tls
 kured
@@ -275,6 +287,9 @@ quasiparticles
 quickstart
 recv
 rgw
+retag
+retagging
+retagged
 ritom
 ripgrep
 rocm

@@ -9,7 +9,7 @@ docs/software/devtools/linaro @jgphpc
 docs/software/devtools/vihps @jgphpc
 docs/software/prgenv/linalg.md @finkandreas @msimberg
 docs/software/sciapps/cp2k.md @abussy @RMeli
-docs/software/sciapps/lammps.md @rubber-duck-debug
+docs/software/sciapps/lammps.md @RMeli
 docs/software/sciapps/gromacs.md @kanduri
 docs/software/sciviz @jfavre @albestro
 docs/software/ml @boeschf @henrique @lukasgd

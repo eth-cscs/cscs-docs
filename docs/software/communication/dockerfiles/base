@@ -1,0 +1,36 @@
+ARG ubuntu_version=24.04
+ARG cuda_version=12.8.1
+FROM docker.io/nvidia/cuda:${cuda_version}-cudnn-devel-ubuntu${ubuntu_version}
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive \
+       apt-get install -y \
+        build-essential \
+        ca-certificates \
+        pkg-config \
+        automake \
+        autoconf \
+        libtool \
+        cmake \
+        gdb \
+        strace \
+        wget \
+        git \
+        bzip2 \
+        python3 \
+        gfortran \
+        rdma-core \
+        numactl \
+        libconfig-dev \
+        libuv1-dev \
+        libfuse-dev \
+        libfuse3-dev \
+        libyaml-dev \
+        libnl-3-dev \
+        libnuma-dev \
+        libsensors-dev \
+        libcurl4-openssl-dev \
+        libjson-c-dev \
+        libibverbs-dev \
+        --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
