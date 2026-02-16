@@ -421,42 +421,81 @@ Omitting the `--gpus-per-task` results in `CUDA_VISIBLE_DEVICES` being unset, wh
 Using multiple ranks per GPU can improve performance e.g. of applications that don't generate enough work for a GPU using a single rank, or ones that scale badly to all 72 cores of the Grace CPU.
 In these cases Slurm jobs must be configured to assign multiple ranks to a single GPU.
 This is best done using [NVIDIA's Multi-Process Service (MPS)].
-To use MPS, launch your application using the following wrapper script, which will start MPS on one rank per node and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
+To use MPS, launch your application using the following wrapper script, which will use one rank per node to start an MPS daemon for each GPU of the node,
+and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:
 
 ```bash title="mps-wrapper.sh"
 #!/bin/bash
-# Example mps-wrapper.sh usage:
-# > srun [srun args] mps-wrapper.sh [cmd] [cmd args]
 
-# Only this path is supported by MPS
-export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps
-export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-$(id -un)
+set -eu
 
-# Launch MPS from a single rank per node
-if [[ $SLURM_LOCALID -eq 0 ]]; then
-    CUDA_VISIBLE_DEVICES=0,1,2,3 nvidia-cuda-mps-control -d
+mps_prefix="/tmp/$(id -un)/slurm-${SLURM_JOBID}.${SLURM_STEPID}/nvidia"
+num_gpus=4
+
+# Reset CUDA environment variables to default values without MPS
+export CUDA_DEVICE_MAX_CONNECTIONS=8
+export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
+
+# Each GPU is attached to the corresponding NUMA node
+# Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices
+numa_node=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+
+# We expect exactly one non-negative integer for the NUMA node
+if ! [[ "${numa_node}" =~ ^[0-9]+$ ]]; then
+    echo "The MPS wrapper script only works when the process mask of the rank is adjacent to exactly one GPU. The CPU mask is $(hwloc-bind --get --taskset) and the list of adjacent numa nodes is ${numa_node} for rank ${SLURM_PROCID}."
+    exit 1
 fi
 
-# Set CUDA device. Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA
-# nodes appearing in the list of CUDA devices. They start appearing in hwloc
-# version 2.11.
-numa_nodes=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
-export CUDA_VISIBLE_DEVICES=$numa_nodes
+function start_daemon {
+    export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${1}
+    export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${1}
+    mkdir -p "${CUDA_MPS_PIPE_DIRECTORY}"
+    mkdir -p "${CUDA_MPS_LOG_DIRECTORY}"
+    CUDA_VISIBLE_DEVICES=${1} nvidia-cuda-mps-control -d
+}
 
-# Wait for MPS to start
-sleep 1
+# Start MPS control daemons from a single rank per node, one for each GPU on the node
+if [[ $SLURM_LOCALID -eq 0 ]]; then
+    # We attempt to kill previous MPS instances, but if we can't (either none
+    # have been started or they are unkillable) we ignore it and attempt to run
+    # anyway
+    pkill --uid $(id -un) '^nvidia-cuda-mps-' || true
+
+    for i in $(seq 0 $((num_gpus - 1))); do
+        start_daemon ${i}
+    done
+fi
+
+# Set MPS options for this rank. Each rank will access the MPS of the GPU
+# corresponding to the NUMA node. CUDA_VISIBLE_DEVICES should not be set. The
+# chosen MPS determines which device is visible.
+export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${numa_node}
+export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${numa_node}
+
+# Wait until the control daemon for our rank is up. The daemon creates a pid
+# file which we can wait for. See
+# https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html.
+# Wait up to mps_pid_file_timeout seconds for the pid file to be created. In
+# jobs with a large number of ranks some ranks may take a long time to start. If
+# that happens consider increasing the timeout.
+mps_pid_file_timeout=120
+pid_file="${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid"
+if ! timeout ${mps_pid_file_timeout} bash -c "until [[ -f \"${pid_file}\" ]]; do sleep 1; done"; then
+    echo "The MPS wrapper script timed out waiting for MPS pid file ${pid_file} on rank ${SLURM_PROCID}. MPS daemon likely did not start correctly or the rank starting the MPS daemons took too long to start."
+    exit 1
+fi
 
 # Run the command
-numactl --membind=$numa_nodes "$@"
-result=$?
-
-# Quit MPS control daemon before exiting
-if [[ $SLURM_LOCALID -eq 0 ]]; then
-    echo quit | nvidia-cuda-mps-control
-fi
-
-exit $result
+# We are using `exec`, because we want e.g. signals to be forwarded directly to the application, and not this wrapper script
+exec "$@"
 ```
+
+One limitation of the script above is that CPU bindings only belong to one NUMA domain.
+It is currently up to the user to ensure that this limitation is respected when configuring Slurm jobs.
+
+!!! warning "CUDA environment variables"
+    The MPS wrapper script above resets the `CUDA_DEVICE_MAX_CONNECTIONS` and `CUDA_DEVICE_MAX_COPY_CONNECTIONS` environment variables to their default values.
+    If your application requires different values for these variables, modify the script accordingly.
 
 Save the above script as `mps-wrapper.sh` and make it executable with `chmod +x mps-wrapper.sh`.
 If the `mps-wrapper.sh` script is in the current working directory, you can then launch jobs using MPS for example as follows:
@@ -480,6 +519,43 @@ Note that in the example job above:
 The configuration that is optimal for your application may be different.
 
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
+
+[](){#ref-slurm-gh200-power-capping}
+### GH200 power capping
+
+!!! info
+    This power capping functionality is an experimental feature developed by CSCS.
+    It is currently being tested with key users on the Starlex test cluster.
+
+    This documentation will be updated once it has been deployed onto the production clusters.
+
+The combined power of each GH200 module (CPU + GPU) on Alps is capped at approximately 660 W.
+The modules are configured such that CPU power requirements have priority over GPU requirements, which can impact GPU performance for applications that overlap CPU and GPU computations.
+If an application uses many CPU cores concurrently with the GPU, there may not be sufficient power available for the GPU.
+
+To mitigate this, CSCS provides a Slurm option that allows setting a power cap for the CPU.
+However, this also limits CPU power when the GPU is not in use. Therefore, this feature should only be used for applications that use both CPU and GPU simultaneously, and it may require experimentation with different settings to achieve optimal performance.
+
+The CPU power cap is set using `--power-cap=<value>`, where `<value>` is the power cap in watts, in the range `50–300`.
+
+It can be set either for the entire job in an sbatch script:
+```bash
+#SBATCH --power-cap=100
+```
+or for an individual job step using srun:
+```bash
+srun -n4 -N1 --power-cap=100 ./run
+```
+
+!!! warning
+    If `--power-cap` is specified both in `sbatch` and in `srun`, the value set in `srun` takes precedence.
+    This allows fine-tuning the CPU power cap for individual job steps.
+
+    However, when multiple `srun` commands are executed in parallel (for example using background execution with `&`), each `srun` may overwrite the currently active power cap.
+    In this case, the last `srun` that applies its setting determines the effective power cap.
+
+    Running multiple parallel `srun` commands with the **same** `--power-cap` value is safe.
+    Using **different** values in parallel `srun` commands may lead to unintended behavior and should be avoided.
 
 [](){#ref-slurm-amdcpu}
 ## AMD CPU nodes
@@ -798,39 +874,67 @@ Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restri
         Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
         ```
 
-[](){#ref-gh200-power-capping}
-## NVIDIA GH200 power capping
 
-!!! info
-    This power capping functionality is an experimental feature developed by CSCS.
-    It is currently being tested with key users on the Starlex test cluster.
+### Running more than one job step per GPU
 
-    This documentation will be updated once it has been deployed onto the production clusters.
+!!! under-construction
 
-The combined power of each GH200 module (CPU + GPU) on Alps is capped at approximately 660 W.
-The modules are configured such that CPU power requirements have priority over GPU requirements, which can impact GPU performance for applications that overlap CPU and GPU computations.
-If an application uses many CPU cores concurrently with the GPU, there may not be sufficient power available for the GPU.
+    This section will be refined in the future, to multiple nodes and better handling of CPU affinity.
+    The current version assumes that the job steps have approximately the same runtime and resource requirements.
 
-To mitigate this, CSCS provides a Slurm option that allows setting a power cap for the CPU.
-However, this also limits CPU power when the GPU is not in use. Therefore, this feature should only be used for applications that use both CPU and GPU simultaneously, and it may require experimentation with different settings to achieve optimal performance.
+Given the strong capabilities of GH200 GPUs, some workflows may benefit from running more than one job step per GPU.
+For example, a workflow that runs many small simulations that do not fully utilize a GPU individually
+may benefit from running multiple simulations on the same GPU simultaneously.
+While some GPU resources will be shared, causing some performance degradation, the overall throughput of the workflow may increase.
 
-The CPU power cap is set using `--power-cap=<value>`, where `<value>` is the power cap in watts, in the range `50–300`.
+In order to run more than one job per GPU, it is important to enable MPS (Multi-Process Service) on the GPUs.
+If multiple GPUs on one node are used, an MPS daemon must be started for each GPU.
+Using a single MPS daemon for multiple GPUs can become the bottleneck.
 
-It can be set either for the entire job in an sbatch script:
+The following script shows how to run four independent job steps on two GPUs:
+
 ```bash
-#SBATCH --power-cap=100
+#!/bin/bash
+#SBATCH --job-name=multi-jobstep-per-gpu
+#SBATCH --time=00:01:00
+#SBATCH --nodes=1
+
+CMD="echo \$(date) \$(hostname) SLURM_STEP_ID:\${SLURM_STEP_ID} SLURM_PROCID:\${SLURM_PROCID} CUDA_MPS_PIPE_DIRECTORY=\${CUDA_MPS_PIPE_DIRECTORY} CUDA_MPS_LOG_DIRECTORY=\${CUDA_MPS_LOG_DIRECTORY} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES} CPU_MASK=\$(hwloc-bind --get --taskset) ; sleep 10"
+
+export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
+export CUDA_DEVICE_MAX_CONNECTIONS=8
+
+CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0 CUDA_VISIBLE_DEVICES=0 hwloc-bind --cpubind core:0-71 nvidia-cuda-mps-control -d
+CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-1 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-1 CUDA_VISIBLE_DEVICES=1 hwloc-bind --cpubind core:72-143 nvidia-cuda-mps-control -d
+
+# Wait for MPS daemons to be ready
+until [[ -f "/tmp/nvidia-mps-0/nvidia-cuda-mps-control.pid" && -f "/tmp/nvidia-mps-1/nvidia-cuda-mps-control.pid" ]]; do
+    sleep 1
+done
+
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind0.sh hwloc-bind --cpubind core:0-35 -- bash -c "$CMD" &
+j01=$!
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind0.sh hwloc-bind --cpubind core:36-71 -- bash -c "$CMD" &
+j02=$!
+
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind1.sh hwloc-bind --cpubind core:72-107 -- bash -c "$CMD" &
+j11=$!
+srun -u --overlap --ntasks-per-node=1 --output "out-%J.log" ./gpubind1.sh hwloc-bind --cpubind core:108-143 -- bash -c "$CMD" &
+j12=$!
+
+wait $j01 $j02 $j11 $j12
+
+echo quit | CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0 nvidia-cuda-mps-control
+echo quit | CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-1 CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-1 nvidia-cuda-mps-control
 ```
-or for an individual job step using srun:
-```bash
-srun -n4 -N1 --power-cap=100 ./run
+
+The `gpubind*.sh` scripts set the appropriate MPS environment variables. For example, `gpubind0.sh`:
+
+```bash title="gpubind0.sh"
+#!/bin/bash
+
+export CUDA_MPS_PIPE_DIRECTORY=/tmp/nvidia-mps-0
+export CUDA_MPS_LOG_DIRECTORY=/tmp/nvidia-log-0
+
+"$@"
 ```
-
-!!! warning
-    If `--power-cap` is specified both in `sbatch` and in `srun`, the value set in `srun` takes precedence.
-    This allows fine-tuning the CPU power cap for individual job steps.
-
-    However, when multiple `srun` commands are executed in parallel (for example using background execution with `&`), each `srun` may overwrite the currently active power cap.
-    In this case, the last `srun` that applies its setting determines the effective power cap.
-
-    Running multiple parallel `srun` commands with the **same** `--power-cap` value is safe.
-    Using **different** values in parallel `srun` commands may lead to unintended behavior and should be avoided.
