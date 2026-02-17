@@ -31,8 +31,8 @@ A good profiling run:
 Clone the GSSR repository onto a GH200 Alps login node and build
 
 ```bash
-git clone https://github.com/jpcoles-cscs/gssr.git
-cd gssr
+git clone https://github.com/eth-cscs/GPU-Saturation-Scorer.git
+cd GPU-Saturation-Scorer
 make
 ```
 
@@ -42,9 +42,10 @@ Follow the [official uv instructions](https://docs.astral.sh/uv/getting-started/
 make install-uv
 ```
 
-Consider putting `gssr-record` and `gssr-analyze` in an architecture-specific location in your `$PATH`.
-This is discussed in detail [on this page][ref-guides-terminal-arch].
-Otherwise, you will need to modify the examples to include the path to the tools in the command.
+!!!tip
+    Consider putting `gssr-record` and `gssr-analyze` in an architecture-specific location in your `$PATH`.
+    This is discussed in detail [on this page][ref-guides-terminal-arch].
+    Otherwise, you will need to modify the examples to include the path to the tools in the command.
 
 ## Quick start example, single node
 
@@ -61,12 +62,12 @@ gssr-record sleep 30
 What happens:
 
 - Your command runs normally (e.g., `sleep 30`) 
-- GPU metrics are recorded in the directory `gssr-report/`
+- GPU metrics are recorded in the directory `gssr_report/`
 
 ### Step 2 -- generate the report
 
 ```bash
-gssr-analyze gssr-report -o gssr-report.pdf
+gssr-analyze gssr_report -o gssr-report.pdf
 ```
 
 You now have a GPU utilization report in `gssr-report.pdf`.  
@@ -106,7 +107,7 @@ srun gssr-record python train.py
 After the job completes:
 
 ```bash
-gssr-analyze gssr-report -o gpu-report.pdf
+gssr-analyze gssr_report -o gpu-report.pdf
 ```
 
 ## Using GSSR inside containers
@@ -143,7 +144,7 @@ This behaviour is normal.
 After recording, the default output directory contains raw GPU metrics, e.g.:
 
 ```
-gssr-report/<cluster-name>_<jobid>
+gssr_report/<cluster-name>_<jobid>
 ```
 
 Most users do not need to inspect these files directly.  
@@ -151,7 +152,7 @@ They are used to generate the report.
 
 !!!tip
     `gssr-analyze` will generate a single report containing all the jobs in the given directory.
-    Alternatively, one can list specific directories to include, e.g., `gssr-report/alps-daint_1234567 gssr-report/alps-clariden_7654321`.
+    Alternatively, one can list specific directories to include, e.g., `gssr_report/alps-daint_1234567 gssr_report/alps-clariden_7654321`.
 
 ## Troubleshooting
 
