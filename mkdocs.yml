@@ -136,6 +136,7 @@ nav:
       - 'Linaro debugger': software/devtools/linaro-ddt.md
     - 'Using Score-P/Scalasca': software/devtools/vihps.md
     - 'Job report': running/jobreport.md
+    - 'GPU report': running/gssr.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
