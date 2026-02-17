@@ -15,6 +15,16 @@ Using GSSR always follows the same two steps:
 1. Run your job while recording GPU metrics  
 2. Generate the PDF report
 
+## Choosing the right run for your proposal
+
+Your profiling run should demonstrate how a typical simulations from your proposal performs.
+
+A good profiling run:
+
+- Captures GPU usage for a few minutes after any initial data loading and setup.
+- Represents real training or simulation behaviour.
+- Shows steady GPU usage.
+
 
 ## Downloading GSSR
 
@@ -32,11 +42,11 @@ Follow the [official uv instructions](https://docs.astral.sh/uv/getting-started/
 make install-uv
 ```
 
-Consider putting `gssr-record` and `gssr-analyze.py` in an architecture-specific location in your `$PATH`.
+Consider putting `gssr-record` and `gssr-analyze` in an architecture-specific location in your `$PATH`.
 This is discussed in detail [on this page][ref-guides-terminal-arch].
 Otherwise, you will need to modify the examples to include the path to the tools in the command.
 
-## Quick start -- fastest path to a PDF
+## Quick start example, single node
 
 This example uses a dummy job so you can verify everything works in under one minute.
 
@@ -45,35 +55,38 @@ This example uses a dummy job so you can verify everything works in under one mi
 Run any command using `gssr-record`:
 
 ```bash
-gssr-record -o gr-test sleep 30
+gssr-record sleep 30
 ```
 
 What happens:
 
 - Your command runs normally (e.g., `sleep 30`) 
-- GPU metrics are recorded in the directory `gr-test/`
+- GPU metrics are recorded in the directory `gssr-report/`
 
 ### Step 2 -- generate the report
 
 ```bash
-gssr-analyze.py gr-test -o gssr-report.pdf
+gssr-analyze gssr-report -o gssr-report.pdf
 ```
 
-You now have a GPU utilization report.  
+You now have a GPU utilization report in `gssr-report.pdf`.  
 Open the PDF to verify it was created successfully.
 
-## Real usage with your application
+Note: `sleep` will not produce any GPU activity. This example is just to verify the workflow.
+
+
+## Real usage with your application, multinode
 
 Replace the test command with your real workload. Example:
 
 ```bash
-srun gssr-record -o gr-training python train.py
+srun -N4 gssr-record python train.py
 ```
 
 After the job finishes:
 
 ```bash
-gssr-analyze.py gr-training -o gpu-report.pdf
+gssr-analyze gssr_report -o gpu-report.pdf
 ```
 
 Upload the generated PDF with your project proposal.
@@ -83,17 +96,17 @@ Upload the generated PDF with your project proposal.
 ```bash
 #!/bin/bash
 #SBATCH --job-name=gssr-test
-#SBATCH --nodes=1
+#SBATCH --nodes=4
 #SBATCH --gpus=4
 #SBATCH --time=00:30:00
 
-srun gssr-record -o gr-run python train.py
+srun gssr-record python train.py
 ```
 
 After the job completes:
 
 ```bash
-gssr-analyze.py gr-run -o gpu-report.pdf
+gssr-analyze gssr-report -o gpu-report.pdf
 ```
 
 ## Using GSSR inside containers
@@ -125,26 +138,20 @@ error while loading shared libraries: libdcgm.so.3: cannot open shared object fi
 If multiple jobs run on the same GPUs at the same time, they will record the same GPU metrics.  
 This behaviour is normal.
 
-## Choosing the right run for your proposal
-
-Your profiling run should demonstrate how a typical simulations from your proposal performs.
-
-A good profiling run:
-
-- Captures GPU usage for a few minutes after any initial data loading and setup.
-- Represents real training or simulation behaviour.
-- Shows steady GPU usage.
-
 ## Output files
 
-After recording, the output directory contains raw GPU metrics, e.g.:
+After recording, the default output directory contains raw GPU metrics, e.g.:
 
 ```
-gr-training/
+gssr-report/<cluster-name>_<jobid>
 ```
 
 Most users do not need to inspect these files directly.  
 They are used to generate the report.
+
+!!!tip
+    `gssr-analyze` will generate a single report containing all the jobs in the given directory.
+    Alternatively, one can list specific directories to include, e.g., `gssr-report/alps-daint_1234567 gssr-report/alps-clariden_7654321`.
 
 ## Troubleshooting
 
@@ -180,12 +187,12 @@ Options:
 --version        Show version
 ```
 
-### gssr-analyze.py
+### gssr-analyze
 
 Generate a PDF report from recorded metrics.
 
 ```bash
-gssr-analyze.py <directory> -o <pdf>
+gssr-analyze <directory> -o <pdf>
 ```
 
 Options:
