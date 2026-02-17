@@ -305,10 +305,11 @@ and now you can build your local copy of LAMMPS.
 For example to build with Kokkos and the `MOLECULE` package enabled:
 
 ```bash
-CC=mpicc CXX=mpic++ cmake \
--DCMAKE_CXX_FLAGS=-DCUDA_PROXY \
--DBUILD_MPI=yes\
--DBUILD_OMP=no \
+cmake \
+-DMPI_CXX_COMPILER=$(which mpic++) \
+-DCMAKE_CXX_FLAGS="-DCUDA_PROXY" \
+-DBUILD_MPI=yes \
+-DBUILD_OMP=yes \
 -DPKG_MOLECULE=yes \
 -DPKG_KOKKOS=yes \
 -DEXTERNAL_KOKKOS=yes \
@@ -319,7 +320,7 @@ CC=mpicc CXX=mpic++ cmake \
 -DCUDPP_OPT=no \
 -DCUDA_MPS_SUPPORT=yes \
 -DCUDA_ENABLE_MULTIARCH=no \
-../cmake  
+../cmake
 ```
 
 !!! warning
