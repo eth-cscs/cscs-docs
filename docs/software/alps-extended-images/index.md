@@ -7,15 +7,8 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
     All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contributing section](#contributing)).
 
----
 
 ## Images List
-
-!!! tip
-
-    Images are continuously updated to incorporate the latest improvements.
-    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
-
 
 | Base Image                       | Alps Extended Image              | Notes                       |
 | :------------------------------- | :------------------------------- | ---------------------------:|
@@ -23,7 +16,12 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.4, RDMA enabled |
 | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.4, RDMA enabled |
 
----
+
+!!! tip
+
+    Images are continuously updated to incorporate the latest improvements.
+    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
+
 
 ## Using the Images
 
