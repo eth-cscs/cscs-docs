@@ -318,6 +318,7 @@ ssh
 sshservice
 stackinator
 stakeholders
+starlex
 stdexec
 sqlite
 subfolders
