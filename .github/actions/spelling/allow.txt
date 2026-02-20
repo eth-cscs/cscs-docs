@@ -6,9 +6,11 @@ Balfrin
 Besard
 Besso
 Broyden
+CESM
 CFLAGS
 CHARMM
 CHF
+compset
 COSMA
 CPE
 CPMD
@@ -24,6 +26,7 @@ Dockerfiles
 Dufourspitze
 EFA
 EMPA
+ESMF
 ETHZ
 Ehrenfest
 Errigal
