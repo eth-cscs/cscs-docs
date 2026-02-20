@@ -1,0 +1,54 @@
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive \
+       apt-get install -y \
+        python3-venv \
+        python3-dev \
+        --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /usr/lib/python3.12/EXTERNALLY-MANAGED
+
+# Build NVSHMEM from source
+ARG nvshmem_version=3.4.5
+RUN wget -q https://developer.download.nvidia.com/compute/redist/nvshmem/${nvshmem_version}/source/nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz \
+    && tar -xvf nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz \
+    && cd nvshmem_src \
+    && NVSHMEM_BUILD_EXAMPLES=0 \
+       NVSHMEM_BUILD_TESTS=1 \
+       NVSHMEM_DEBUG=0 \
+       NVSHMEM_DEVEL=0 \
+       NVSHMEM_DEFAULT_PMI2=0 \
+       NVSHMEM_DEFAULT_PMIX=1 \
+       NVSHMEM_DISABLE_COLL_POLL=1 \
+       NVSHMEM_ENABLE_ALL_DEVICE_INLINING=0 \
+       NVSHMEM_GPU_COLL_USE_LDST=0 \
+       NVSHMEM_LIBFABRIC_SUPPORT=1 \
+       NVSHMEM_MPI_SUPPORT=1 \
+       NVSHMEM_MPI_IS_OMPI=1 \
+       NVSHMEM_NVTX=1 \
+       NVSHMEM_PMIX_SUPPORT=1 \
+       NVSHMEM_SHMEM_SUPPORT=1 \
+       NVSHMEM_TEST_STATIC_LIB=0 \
+       NVSHMEM_TIMEOUT_DEVICE_POLLING=0 \
+       NVSHMEM_TRACE=0 \
+       NVSHMEM_USE_DLMALLOC=0 \
+       NVSHMEM_USE_NCCL=1 \
+       NVSHMEM_USE_GDRCOPY=1 \
+       NVSHMEM_VERBOSE=0 \
+       NVSHMEM_DEFAULT_UCX=0 \
+       NVSHMEM_UCX_SUPPORT=0 \
+       NVSHMEM_IBGDA_SUPPORT=0 \
+       NVSHMEM_IBGDA_SUPPORT_GPUMEM_ONLY=0 \
+       NVSHMEM_IBDEVX_SUPPORT=0 \
+       NVSHMEM_IBRC_SUPPORT=0 \
+       LIBFABRIC_HOME=/usr \
+       NCCL_HOME=/usr \
+       GDRCOPY_HOME=/usr/local \
+       MPI_HOME=/usr \
+       SHMEM_HOME=/usr \
+       NVSHMEM_HOME=/usr \
+       cmake . \
+       && make -j$(nproc) \
+       && make install \
+   && ldconfig \
+   && cd .. \
+   && rm -r nvshmem_src nvshmem_src_cuda12-all-all-${nvshmem_version}.tar.gz
