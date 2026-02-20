@@ -25,7 +25,6 @@ The naming scheme is `esmf/<version>`, where `<version>` has the `YY.M[M]` forma
 This version builds on top
 
 - gcc@14.3.0
-    - provides C, C++ and Fortran compilers.
 - python@3.14.0
 - cray-mpich@8.1.32
 - libfabric@2.3.1
@@ -43,8 +42,6 @@ The following core dependencies are also provided:
 
 [](){#ref-uenv-cesm-gnu-how-to-use}
 ## How to use
-
-The uenv is based on the GNU compiler toolchain, and provides the cray-mpich implementation.
 
 On Eiger, search for `esmf` images, which are in the service namespace:
 ```console
@@ -89,7 +86,7 @@ NETCDF_PATH=/user-environment/env/esmf
     $ ./bin/git-fleximod update
 
     # set up the machine file
-    cp -rv /user-environment/meta/extra/machines/eiger $CESMROOT/ccs_config/machines/
+    $ cp -rv /user-environment/meta/extra/machines/eiger $CESMROOT/ccs_config/machines/
     ```
 
     The last step copied machine configuration files for eiger from the uenv into the CESM source code.
@@ -97,8 +94,7 @@ NETCDF_PATH=/user-environment/env/esmf
     You will have to update the `config_machines.xml` file with relevant directories, and also check the `config_batch.xml` file.
     The `gnu_eiger.cmake` should not need modification - if it does, contact CSCS support (or Ben Cumming on CSCS user slack) to see whether we can update the configuration in future releases of the ESMF uenv image.
 
-    Now it is time to configure the use case.
-    Here we configure a simple 
+    Now it is time to configure the use case (modify the `case`, `compset` and `res` arguments for your use case):
 
     ```console
     $ cd $CESMROOT/cime/scripts
@@ -114,7 +110,8 @@ NETCDF_PATH=/user-environment/env/esmf
     ```
 
 !!! note
-    The workflow above worked for the `FHIST` compset - it might need to be changed (and the uenv might need to be changed) to support your use case.
+    The workflow above worked for the `FHIST` compset - the uenv and this documentation might need to be changed to support your use case.
+    Contact CSCS if that is the case.
 
 !!! warning
     The uenv must be loaded when SLURM jobs are launched, which requires that the correct flags are passed to srun.
