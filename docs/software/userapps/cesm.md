@@ -6,7 +6,7 @@
     This guide is provided based on our experiences helping users -- however we can't provide the same level of support as we do for [supported software][ref-support-apps].
     See the [main applications page][ref-software] for more information.
 
-The [Coummunity Earth System Model (CESM)](https://www.cesm.ucar.edu/) is a fully coupled global Earth system model.
+The [Community Earth System Model (CESM)](https://www.cesm.ucar.edu/) is a fully coupled global Earth system model.
 
 This guide demonstrates a uenv-based workflow that CSCS has developed with CESM users on [Eiger][ref-cluster-eiger].
 Specifically, the workflow is for users of CESM version 3, which is currently in beta release, on multi-core x86 CPUs.
