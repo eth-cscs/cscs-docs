@@ -42,7 +42,8 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
     - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
-    - Launch MPI applications with `PMIx` (i.e. using `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
+    - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
+    - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
 ```toml title="Example EDF file"
 # (1)!
@@ -71,11 +72,13 @@ com.hooks.cxi.enabled = "false" # (3)!
 
 # (1)!
 # (2)!
-srun --mpi=pmix --environment=example.edf.toml python my_script.py
+# (3)!
+srun --mpi=pmix --network=disable_rdzv_get --environment=example.edf.toml python my_script.py
 ```
 
 1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
-2. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
+2. The `--network=disable_rdzv_get` flag is required to disable the rendezvous mechanism for network initialization. Alternatively, you can also set the environment variable `SLURM_NETWORK=disable_rdzv_get` to achieve the same effect.
+3. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
 
 !!! failure "`srun` errors related to missing Slurm plugins"
 
