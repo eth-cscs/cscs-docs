@@ -7,15 +7,8 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
     All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contributing section](#contributing)).
 
----
 
 ## Images List
-
-!!! tip
-
-    Images are continuously updated to incorporate the latest improvements.
-    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
-
 
 | Base Image                       | Alps Extended Image              | Notes                       |
 | :------------------------------- | :------------------------------- | ---------------------------:|
@@ -23,7 +16,12 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.4, RDMA enabled |
 | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.4, RDMA enabled |
 
----
+
+!!! tip
+
+    Images are continuously updated to incorporate the latest improvements.
+    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
+
 
 ## Using the Images
 
@@ -44,7 +42,8 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
     - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
-    - Launch MPI applications with `PMIx` (i.e. using `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
+    - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
+    - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
 ```toml title="Example EDF file"
 # (1)!
@@ -73,11 +72,13 @@ com.hooks.cxi.enabled = "false" # (3)!
 
 # (1)!
 # (2)!
-srun --mpi=pmix --environment=example.edf.toml python my_script.py
+# (3)!
+srun --mpi=pmix --network=disable_rdzv_get --environment=example.edf.toml python my_script.py
 ```
 
 1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
-2. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
+2. The `--network=disable_rdzv_get` flag is required to disable the rendezvous mechanism for network initialization. Alternatively, you can also set the environment variable `SLURM_NETWORK=disable_rdzv_get` to achieve the same effect.
+3. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
 
 !!! failure "`srun` errors related to missing Slurm plugins"
 

@@ -76,6 +76,7 @@ nav:
     - 'Programming Environments':
       - software/prgenv/index.md
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
+      - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
@@ -135,6 +136,7 @@ nav:
       - 'Linaro debugger': software/devtools/linaro-ddt.md
     - 'Using Score-P/Scalasca': software/devtools/vihps.md
     - 'Job report': running/jobreport.md
+    - 'GPU report': running/gssr.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md
