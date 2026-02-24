@@ -32,7 +32,7 @@ The images are hosted on the CSCS internal artifactory repository and can only b
     | :--------------- | :------------- | :--------------------------- |
     | `libfabric`      | `2.5.0a1`      | Built from commit `102872c0280ce290d9d663945dad8a36ceb53c50` + patch (removing dependency on `shs-14` API, which is not available on Alps) |
     | `NCCL`           | `2.29.3-1*`    | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the `2.29.3` release |
-    | `aws-ofi-plugin` | `git-394ae7b*` | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patch by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
+    | `aws-ofi-plugin` | `git-394ae7b*` | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patched by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
     | `nvshmem`        | `3.4.5-0`      | |
     | `OpenMPI`        | `5.0.9`        | |
 
@@ -51,9 +51,9 @@ The images are hosted on the CSCS internal artifactory repository and can only b
 
         | Library          | Version        | Notes                        |
         | :--------------- | :------------- | :--------------------------- |
-        | `libfabric`      | `2.5.0a1`      | Built from commit `f8262817c337d615a1acceea6cd4ecb526ce548b` + patch by applying `https://github.com/ofiwg/libfabric/pull/11684` |
+        | `libfabric`      | `2.5.0a1`      | Built from commit `f8262817c337d615a1acceea6cd4ecb526ce548b` + patched by applying `https://github.com/ofiwg/libfabric/pull/11684` |
         | `NCCL`           | `2.29.2-1*`    | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the `2.29.2` release |
-        | `aws-ofi-plugin` | `git-eb9877e*` | Built from commit `eb9877e9cfecf725dba0794a5e0fc06f8fdf7f3f` + patch by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
+        | `aws-ofi-plugin` | `git-eb9877e*` | Built from commit `eb9877e9cfecf725dba0794a5e0fc06f8fdf7f3f` + patched by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
         | `nvshmem`        | `3.4.5-0`      | |
         | `OpenMPI`        | `5.0.9`        | |
 
