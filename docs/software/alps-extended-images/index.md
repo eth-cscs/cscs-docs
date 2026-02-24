@@ -20,22 +20,32 @@ The images are hosted on the CSCS internal artifactory repository and can only b
 
 === "alps3"
 
-    | Base Image                       | Alps Extended Image              | Notes                        | URL                          |
-    | :------------------------------- | :------------------------------- | :--------------------------- | :--------------------------- |
-    | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps3      | Libfabric 2.5.0a1, NCCL 2.29.3-1, aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3``` |
-    | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps3      | Libfabric 2.5.0a1,  aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps3``` |
-    | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps3          | Libfabric 2.5.0a1 and aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps3``` |
+    | Base Image                       | Alps Extended Image              | URL                          |
+    | :------------------------------- | :------------------------------- | :--------------------------- |
+    | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps3      | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3``` |
+    | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps3      | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps3``` |
+    | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps3          | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps3``` |
+
+    !!! note "Network Stack: libraries and versions"
+
+        | Library         | Version       | Notes                        |
+        | :-------------- | :------------ | :--------------------------- |
+        | Libfabric       | 2.5.0a1       | Built from commit `102872c0280ce290d9d663945dad8a36ceb53c50` + patch (removing dependency on shs-14 API, which is not available on Alps) |
+        | NCCL            | 2.29.3-1*     | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the 2.29.3 release |
+        | aws-ofi-plugin  | git-394ae7b*  | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patch by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
+        | nvshmem         | 3.4.5-0       | |
+        | OpenMPI         | 5.0.9         | |
 
 
 === "alps2"
 
     ??? warning "The alps2 images are deprecated"
 
-        | Base Image                       | Alps Extended Image              | Notes                        | URL                          |
-        | :------------------------------- | :------------------------------- | :--------------------------- | :--------------------------- |
-        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps2      | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps2``` |
-        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2``` |
-        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps2``` |
+        | Base Image                       | Alps Extended Image              | URL                          |
+        | :------------------------------- | :------------------------------- | :--------------------------- |
+        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps2      | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps2``` |
+        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2``` |
+        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps2``` |
 
 === "alps1"
 
@@ -136,6 +146,25 @@ Extended images can also be pulled using Podman and used as a base image in your
 
 ```bash title="Pulling with Podman"
 podman pull docker://jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
+```
+
+## Inspect image provenance labels
+
+Alps Extended Images include OCI labels with provenance metadata (for example, source repository, commit SHA, and build time). You can inspect these labels with `podman`.
+
+```bash title="Pull image and inspect labels"
+IMAGE="jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3"
+
+# Pull the image
+podman pull "$IMAGE"
+
+# Show all labels (JSON)
+podman image inspect "$IMAGE" --format '{{ json .Labels }}'
+
+# Show specific labels
+podman image inspect "$IMAGE" --format 'Source Repository: {{ index .Labels "org.opencontainers.image.source" }}'
+podman image inspect "$IMAGE" --format 'Source Revision: {{ index .Labels "org.opencontainers.image.revision" }}'
+podman image inspect "$IMAGE" --format 'Build Time: {{ index .Labels "org.opencontainers.image.created" }}'
 ```
 
 ## Use in Dockerfile
