@@ -151,13 +151,23 @@ srun \
     ```
     or set the environment variable `SLURM_MPI_TYPE=pmix` to make `PMIx` the default MPI launcher.
 
-### Pulling images with Podman
+### Pulling and using images with Podman
 
-Extended images can also be pulled using Podman and used as a base image in your own Dockerfiles.
+Extended images can also be pulled using Podman
 
 ```bash title="Pulling with Podman"
 podman pull docker://jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
 ```
+
+and/or be used as base images in your own Containerfiles:
+
+```dockerfile title="Example Containerfile"
+FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
+
+RUN echo "Hello world!"
+
+```
+For further information, please see the [guide to building container images on Alps][ref-build-containers].
 
 ### Inspecting image provenance labels
 
@@ -177,16 +187,6 @@ podman image inspect "$IMAGE" --format 'Source Repository: {{ index .Labels "org
 podman image inspect "$IMAGE" --format 'Source Revision: {{ index .Labels "org.opencontainers.image.revision" }}'
 podman image inspect "$IMAGE" --format 'Build Time: {{ index .Labels "org.opencontainers.image.created" }}'
 ```
-
-### Use as base image in your own Containerfiles
-
-```dockerfile title="Example Dockerfile"
-FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
-
-RUN echo "Hello world!"
-
-```
-For further information, please see the [guide to building container images on Alps][ref-build-containers].
 
 ## Contributing
 
