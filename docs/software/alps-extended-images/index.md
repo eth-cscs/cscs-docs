@@ -28,13 +28,13 @@ The images are hosted on the CSCS internal artifactory repository and can only b
 
     !!! note "Network Stack: libraries and versions"
 
-        | Library         | Version       | Notes                        |
-        | :-------------- | :------------ | :--------------------------- |
-        | Libfabric       | 2.5.0a1       | Built from commit `102872c0280ce290d9d663945dad8a36ceb53c50` + patch (removing dependency on shs-14 API, which is not available on Alps) |
-        | NCCL            | 2.29.3-1*     | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the 2.29.3 release |
-        | aws-ofi-plugin  | git-394ae7b*  | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patch by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
-        | nvshmem         | 3.4.5-0       | |
-        | OpenMPI         | 5.0.9         | |
+        | Library          | Version        | Notes                        |
+        | :--------------- | :------------- | :--------------------------- |
+        | `libfabric`      | `2.5.0a1`      | Built from commit `102872c0280ce290d9d663945dad8a36ceb53c50` + patch (removing dependency on `shs-14` API, which is not available on Alps) |
+        | `NCCL`           | `2.29.3-1*`    | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the `2.29.3` release |
+        | `aws-ofi-plugin` | `git-394ae7b*` | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patch by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
+        | `nvshmem`        | `3.4.5-0`      | |
+        | `OpenMPI`        | `5.0.9`        | |
 
 
 === "alps2"
