@@ -10,21 +10,6 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
 ## Images List
 
-| Base Image                       | Alps Extended Image              | Notes                       |
-| :------------------------------- | :------------------------------- | ---------------------------:|
-| nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps2      | Libfabric 2.4, RDMA enabled |
-| nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.4, RDMA enabled |
-| nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.4, RDMA enabled |
-
-
-!!! tip
-
-    Images are continuously updated to incorporate the latest improvements.
-    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
-
-
-## Using the Images
-
 The images are hosted on the CSCS internal artifactory repository and can only be pulled from within the Alps environment.
 
 !!! note "Repository URL"
@@ -33,7 +18,42 @@ The images are hosted on the CSCS internal artifactory repository and can only b
     jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/<image:tag>
     ```
 
-### Direct Usage
+=== "alps3"
+
+    | Base Image                       | Alps Extended Image              | Notes                        | URL                          |
+    | :------------------------------- | :------------------------------- | :--------------------------- | :--------------------------- |
+    | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps3      | Libfabric 2.5.0a1, NCCL 2.29.3-1, aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3``` |
+    | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps3      | Libfabric 2.5.0a1,  aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps3``` |
+    | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps3          | Libfabric 2.5.0a1 and aws-ofi-plugin   | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps3``` |
+
+
+=== "alps2"
+
+    ??? warning "The alps2 images are deprecated"
+
+        | Base Image                       | Alps Extended Image              | Notes                        | URL                          |
+        | :------------------------------- | :------------------------------- | :--------------------------- | :--------------------------- |
+        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps2      | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps2``` |
+        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2``` |
+        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | Libfabric 2.5.0a1, NCCL 2.29.2-1 | ```jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps2``` |
+
+=== "alps1"
+
+    ??? warning "The alps1 images are deprecated"
+
+        | Base Image                       | Alps Extended Image              |
+        | :------------------------------- | :------------------------------- |
+        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps1      |
+        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps1      |
+        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps1          |
+
+
+!!! tip
+
+    Images are continuously updated to incorporate the latest improvements.
+    We strongly recommend periodically checking whether a newer version of an Alps Extended Image is available.
+
+## Direct Usage
 
 To use an image directly on Alps via an EDF environment file, set the image to the repository URL followed by the image name and tag.
 
@@ -47,7 +67,7 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
 ```toml title="Example EDF file"
 # (1)!
-image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2"
+image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3"
 mounts = [
     "/capstor/",
     "/iopsstor/",
@@ -110,18 +130,18 @@ srun --mpi=pmix --network=disable_rdzv_get --environment=example.edf.toml python
     ```
     or set the environment variable `SLURM_MPI_TYPE=pmix` to make `PMIx` the default MPI launcher.
 
-### Pulling Images with Podman
+## Pulling Images with Podman
 
 Extended images can also be pulled using Podman and used as a base image in your own Dockerfiles.
 
 ```bash title="Pulling with Podman"
-podman pull docker://jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2
+podman pull docker://jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
 ```
 
-### Use in Dockerfile
+## Use in Dockerfile
 
 ```dockerfile title="Example Dockerfile"
-FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2
+FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3
 
 RUN echo "Hello world!"
 
