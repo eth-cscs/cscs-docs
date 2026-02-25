@@ -1,6 +1,9 @@
 [](){#ref-software-climate}
 # Climate and Weather Software
 
+Software for the climate research community is available on [Santis][ref-cluster-santis].
+The software is maintained in a collaboration between the climate community and CSCS.
+
 <div class="grid cards" markdown>
 -   :fontawesome-solid-earth: [__ICON__][ref-software-icon]
 
@@ -9,7 +12,7 @@
 
 -   :fontawesome-solid-bullhorn: __Community Codes__
 
-    There are some software provided on Eiger
+    CSCS provides some uenv and guides for users of community codes on Eiger:
 
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
 
