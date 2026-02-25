@@ -114,6 +114,7 @@ For example:
 A YAML file `config.yaml` is maintained in the [github.com/eth-cscs/alps-uenv](https://github.com/eth-cscs/alps-uenv/blob/main/config.yaml) repository that maps
 recipes to deployed versions on microarchitectures.
 
+[](){#ref-uenv-deploy-permission}
 ### Permissions
 
 !!! note "For CSCS staff"
