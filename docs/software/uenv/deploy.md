@@ -56,6 +56,7 @@ The node type (microarchitecture) that the uenv is built for.
 |[mi300][ref-alps-mi300-node]| 4 24-core AMD Genoa (`zen4`)       | 4 AMD Mi300 GPUs  | |
 | zen3                       | 2 64-core AMD Milan (`zen3`)       | - | only in MCH system |
 
+[](){#ref-uenv-deploy-registries}
 ## Registries
 
 The following naming scheme is employed in the OCI container registry for uenv images:

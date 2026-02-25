@@ -89,3 +89,22 @@ Builds are triggered using a PR comment by a user who as been [added to the CI/C
     ```
     cscs-ci run alps;system=balfrin;uarch=a100;uenv=mch:v8
     ```
+
+The build pipeline runs a job on the target system, and on success will push the image into the [`deploy` namespace][
+ref-uenv-deploy-registries].
+
+You will be able to find all builds on a system by logging into the system, and using the `build::` prefix when searching.
+
+!!! example "Finding fdb builds"
+    ```console
+    # search for all builds of fdb
+    $ uenv image find build::fdb
+
+    # search for builds of fdb/5.18
+    $ uenv image find build::fdb/5.18
+    uenv                 arch  system   id                size(MB)  date
+    fdb/5.18:2110858405  zen3  balfrin  f7fb7baea157cce0     701    2025-10-21
+    fdb/5.18:2162754541  zen3  balfrin  33ef8bf54533c871     786    2025-11-17
+    ...
+    fdb/5.18:2339783178  zen3  balfrin  6a0da38bb279de97     843    2026-02-20
+    ```
