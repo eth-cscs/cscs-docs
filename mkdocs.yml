@@ -107,6 +107,8 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
+      - 'Deployment': software/cw/deployment.md
+      - 'ICON': software/cw/icon.md
       - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
