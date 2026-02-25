@@ -34,7 +34,7 @@ Contact one of the following people with your **GitHub user name** to request pe
 - Ben Cumming at CSCS
 - Mikael Simberg at CSCS
 - Nina Burgdorfer at MCH
-- Daniel at CSCS at MCH
+- Daniel Hupp at MCH
 
 !!! note
     MCH staff working on MCH workflows should contact one of the MCH representatives.
