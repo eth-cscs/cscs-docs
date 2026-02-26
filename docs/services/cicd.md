@@ -120,22 +120,22 @@ Enter all fields for FirecREST, i.e.,
         If you don't already know how to obtain FirecREST credentials, you can find more information on [CSCS Developer Portal][ref-devportal].
         You must subscribe your application to the FirecREST API of the platform to which you want to submit jobs, e.g.
         `FirecREST-HPC` for the HPC platform.
-        If `v2` is available for your platform, then subscribe to `v2` of the API, otherwise `v1` will work too.
         It is not mandatory to subscribe to the `ciext-container-builder` API to use pure CI workflows (this API is only used for building manually container images).
 
 1. **(Optional) Private project**: If your Git repository is a private repository make sure to check the `Private repository` box and follow the instructions to add an SSH key to your Git repository.
 
 1. **Add notification token**: On the setup page you will also find the field `Notification token`.
+By clicking on the small triangle next to `Notification token`, you will find instructions on how to generate a token on GitHub.
 The token is live tested, and you will see a green checkmark when the token is valid and can be used by the CI.
 It is mandatory to add a token so that your Git repository will be notified about the status of the build jobs.
 You cannot save anything as long as the notification token is invalid.
-(Click on the small triangle to get further instructions)
 
-1. **Add webhook**: On the CI setup page you will find the `Setup webhook details` button (go to the [CI overview](https://cicd-ext-mw.cscs.ch), then the project, and there is a blue button with the text `Setup webhook details`).
+1. **Add webhook**: On the CI setup page you will find the `Webhook setup details` button (go to the [CI overview](https://cicd-ext-mw.cscs.ch), then the project, and there is a blue button with the text `Webhook setup details`
+on the top left of the page under the Repository ID number).
 If you click on it you will see all the entries which have to be added to a new webhook in your Git repository.
 Follow the link given there to your repository, and add the webhook with the given entries.
 
-1. **Default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches.
+1. **(Optional) Add default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches.
 The global configuration will apply to all pipelines that do not overwrite it explicitly.
 
 1. **Pipeline default**: Your first pipeline has the name `default`.
@@ -153,7 +153,7 @@ See the [Hello World Tutorial](#ref-cicd-containerized-tutorial) for a simple ya
 
 #### Clarifications and pitfalls to the above-mentioned steps
 !!! info
-    This section exemplifies on GitHub, but similar settings are available on GitLab and Bitbucket
+    This section exemplifies on GitHub, but similar settings are available on GitLab and Bitbucket.
 
 The `notification token` setup step is crucial, because this is the number one entrypoint for receiving initial feedback on any errors.
 You will not be able to save any changes on the CI setup page, as long as the notification token is invalid.
