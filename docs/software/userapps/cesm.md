@@ -22,23 +22,51 @@ The naming scheme is `esmf/<version>`, where `<version>` has the `YY.M[M]` forma
 
 === "26.2"
 
-This version builds on top
+    The 26.2 version provides two views for building CESM with and without MPI.
 
-- gcc@14.3.0
-- python@3.14.0
-- cray-mpich@8.1.32
-- libfabric@2.3.1
+    Both views are based on the following base:
 
-The following core dependencies are also provided:
+    - gcc@14.3.0
+    - python@3.14.0
 
-- **esmf@8.8.0**
-- **parallelio@2.6.6**
-- hdf5@1.14.6
-- netcdf-c@4.9.3
-- netcdf-cxx@4.2
-- netcdf-fortran@4.6.2
-- openblas@0.3.30
-- parallel-netcdf@1.14.1
+    And standard build tools like:
+
+    - cmake
+    - subversion
+    - gmake
+
+    === "`esmf` view"
+
+        The following core dependencies are provided:
+
+        - **esmf@8.8.0**
+        - **parallelio@2.6.6**
+        - hdf5@1.14.6
+        - netcdf-c@4.9.3
+        - netcdf-cxx@4.2
+        - netcdf-fortran@4.6.2
+        - openblas@0.3.30
+        - parallel-netcdf@1.14.1
+
+        They are compiled with MPI support, based on the following communication libraries:
+
+        - cray-mpich@8.1.32
+        - libfabric@2.3.1
+
+    === "`esmf-serial` view"
+
+        The following core dependencies are provided:
+
+        - **esmf@8.8.0**
+        - **parallelio@2.6.6**
+        - hdf5@1.14.6
+        - netcdf-c@4.9.3
+        - netcdf-cxx@4.2
+        - netcdf-fortran@4.6.2
+        - openblas@0.3.30
+
+        No MPI is included in this view, and `parallelio` and `esmf` do not link to `parallel-netcdf`, which is not provided by the view.
+
 
 [](){#ref-uenv-cesm-gnu-how-to-use}
 ## How to use
@@ -47,28 +75,41 @@ On Eiger, search for `esmf` images, which are in the service namespace:
 ```console
 $ uenv image find service::esmf
 uenv                  arch  system  id                size(MB)  date
-esmf/26.2:2339541775  zen2  eiger   d3259510b826de5a     635    2026-02-20
-$ uenv image pull service::esmf/26.2:2339541775
+esmf/26.2:rc1         zen2  eiger   d3259510b826de5a     635    2026-02-20
+$ uenv image pull service::esmf/26.2:rc1
 ```
 
 !!! note
-    The uenv images in `service::` are currently test builds, hence the long tags.
+    The uenv images in `service::` are currently test builds, hence the `rc` release candidate tags.
     Once we have a released image, we will deploy it as `esmf/26.2:v1`.
 
 The uenv must be loaded when configuring and building CESM use cases, and also when running those use cases.
 
 Start the uenv with the `esmf` view loaded, and if this is your first time you can verify that key environment variables have been set by grepping for `NETCDF` and `ESMF` in the output of `printenv`:
 
-```
-$ uenv start --view=esmf esmf/26.2:v1
-$ printenv | grep -e NETCDF -e ESMF
-PNETCDF_PATH=/user-environment/env/esmf
-ESMFMKFILE=/user-environment/env/esmf/lib/esmf.mk
-NETCDF_PATH=/user-environment/env/esmf
-```
+!!! example "starting the esmf uenv with the `esmf` view for distributed simulations"
+    ```console
+    $ uenv start --view=esmf esmf/26.2:rc1
+
+    $ printenv | grep -e NETCDF -e ESMF
+    PNETCDF_PATH=/user-environment/env/esmf
+    ESMF_LIBDIR=/user-environment/env/esmf/lib
+    ESMFMKFILE=/user-environment/env/esmf/lib/esmf.mk
+    NETCDF_PATH=/user-environment/env/esmf
+    ```
+
+The value two views for parallel and serial builds, `esmf` and `esmf-serial` respectively, set some environment variables that are used to configure CESM builds:
+
+- `MACHINE_PATH`: location of the machine and batch XML configuration files, and the cmake configuration, needed to build CESM.
+- `ESMF_LIBDIR`: path where the ESMF libraries are installed, used by CESM build configuration.
+- `NETCDF_PATH`: path where netcdf is installed, used by CESM build configuration.
+- `PNETCDF_PATH`: path where parallel-netcdf is installed, used by CESM build configuration.
+    - note: this is not set by the `esmf-serial` view, which does not provide parallel-netcdf.
+
 
 !!! example "building CESM `cesm3_0_beta_7`"
 
+    Build a beta release of CESM 3.0 with MPI support, which uses the `esmf` view.
 
     ```console
     # start the environment
@@ -86,7 +127,8 @@ NETCDF_PATH=/user-environment/env/esmf
     $ ./bin/git-fleximod update
 
     # set up the machine file
-    $ cp -rv /user-environment/meta/extra/machines/eiger $CESMROOT/ccs_config/machines/
+    # use the MACHINE_PATH variable set by the view
+    $ cp -rv $MACHINE_PATH $CESMROOT/ccs_config/machines/
     ```
 
     The last step copied machine configuration files for eiger from the uenv into the CESM source code.
@@ -109,13 +151,13 @@ NETCDF_PATH=/user-environment/env/esmf
     $ ./case.build
     ```
 
-!!! note
-    The workflow above worked for the `FHIST` compset - the uenv and this documentation might need to be changed to support your use case.
-    Contact CSCS if that is the case.
+    !!! note
+        The workflow above worked for the `FHIST` compset - the uenv and this documentation might need to be changed to support your use case.
+        Contact CSCS if that is the case.
 
 !!! warning
     The uenv must be loaded when SLURM jobs are launched, which requires that the correct flags are passed to srun.
 
-    The flags to pass to srun are `srun --uenv=esmf/26.2:2339541775 --view=esmf` (modify this to match the version:tag of the image you are testing), which you can set by modifying the `env_mach_specific.xml` that is generated by `create_newcase` in your case directory, or by editing the original machine description.
+    The flags to pass to srun are `srun --uenv=esmf/26.2:rc1 --view=esmf` (or `--view=esmf-serial`) (modify this to match the version:tag of the image you are testing), which you can set by modifying the `env_mach_specific.xml` that is generated by `create_newcase` in your case directory, or by editing the original machine description.
 
     Once we have a final image, the machine configuration will be fixed to configure the released uenv version.
