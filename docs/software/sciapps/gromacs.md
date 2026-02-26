@@ -18,7 +18,7 @@ It is primarily designed for biochemical molecules like proteins, lipids and nuc
 
     GROMACS is a joint effort, with contributions from developers around the world: users agree to acknowledge use of GROMACS in any reports or publications of results obtained with the Software (see [GROMACS Homepage](https://www.gromacs.org/about.html) for details).
 
-??? note "Changelog"
+!!! note "Changelog"
 
     !!! note "2025.0:v1"
 
