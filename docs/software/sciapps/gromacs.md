@@ -20,7 +20,7 @@ It is primarily designed for biochemical molecules like proteins, lipids and nuc
 
 ??? note "Changelog"
 
-    !!! note "2025.0"
+    !!! note "2025.0:v1"
 
         * Updated to GROMACS 2025
         * Unified view for GROMACS and PLUMED
