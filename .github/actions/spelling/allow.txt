@@ -27,6 +27,7 @@ Dufourspitze
 EFA
 EMPA
 ESMF
+esmf
 ETHZ
 Ehrenfest
 Errigal
@@ -47,6 +48,7 @@ GROMACS
 GSSR
 GTL
 Gaussian
+gmake
 Google
 HDD
 HDDs
@@ -89,6 +91,7 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+netcdf
 OpenFabrics
 OAuth
 OIDC
