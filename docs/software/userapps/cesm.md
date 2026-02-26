@@ -75,7 +75,7 @@ On Eiger, search for `esmf` images, which are in the service namespace:
 ```console
 $ uenv image find service::esmf
 uenv                  arch  system  id                size(MB)  date
-esmf/26.2:rc1         zen2  eiger   d3259510b826de5a     635    2026-02-20
+esmf/26.2:rc1         zen2  eiger   5bb49d6c234745f7     679    2026-02-26
 $ uenv image pull service::esmf/26.2:rc1
 ```
 
