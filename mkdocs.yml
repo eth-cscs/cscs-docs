@@ -118,8 +118,9 @@ nav:
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'User Applications':
       - software/userapps/index.md
-      - 'WRF': software/userapps/wrf.md
+      - 'CESM': software/userapps/cesm.md
       - 'ORCA': software/userapps/orca.md
+      - 'WRF': software/userapps/wrf.md
     - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
