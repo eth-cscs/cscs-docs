@@ -98,10 +98,10 @@ Then navigate to GitHub, and create a pull request.
 ## Review process
 
 After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
-A temporary "TDS" copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://docs.tds.cscs.ch/$PR`, where `PR` is the number of the pull request.
+A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
 To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
-The PR will automatically be updated, the spell checker will run again, and the TDS documentation site will be rebuilt.
+The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
 
 !!! tip
     If you think your documentation update could affect specific stakeholders, ping them for a review.
