@@ -16,7 +16,7 @@ The software is maintained in a collaboration between the climate community and 
 
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
 
-    :octicons-arrow-right-24: CESM (coming soon)
+    :octicons-arrow-right-24: ESMF and CESM (coming soon)
 
 -   :fontawesome-solid-earth: [__Deployment__][ref-software-cw-deploy]
 
