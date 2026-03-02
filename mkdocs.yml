@@ -118,7 +118,7 @@ nav:
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'User Applications':
       - software/userapps/index.md
-      - 'CESM': software/userapps/cesm.md
+      - 'ESMF and CESM': software/userapps/cesm.md
       - 'ORCA': software/userapps/orca.md
       - 'WRF': software/userapps/wrf.md
     - 'Commercial Software':
