@@ -10,62 +10,60 @@ It is not possible to authenticate with a username/password and user-created SSH
 Instead, it is necessary to use a certified SSH key created using the CSCS SSHService.
 
 !!! note
-    Keys are valid for 24 hours, after which a new key must be generated.
+    Keys are valid for 1 day (default) or 1 min, after which a new key must be generated.
 
 !!! warning
     The number of certified SSH keys is limited to **five per day**.
     Once you have reached this number you will not be able to generate new keys until at least one of these key expires or keys are revoked.
 
-There are two methods for generating SSH keys using the SSHService, the [SSHService web app](https://sshservice.cscs.ch/) or by using a [command-line script](https://github.com/eth-cscs/sshservice-cli).
+There are two methods for signing SSH keys using the SSHService, the [SSHService web app](https://sshservice.cscs.ch/) or by using a [command-line tool (TODO URL)](https://github.com/eth-cscs/sshservice-cli).
 
-### Getting keys via the command line
+### Signing keys via the command line
 
-On Linux and MacOS, the SSH keys can be generated and automatically installed using a command-line script.
-This script is provided in pure Bash and in Python.
-Python 3 is required together with packages listed in `requirements.txt` provided with the scripts.
+The ssh key can be either generated locally with `ssh-keygen` and then signed using the SSHService (recommended), or both generated and signed using the SSHService (less secure).
 
-!!! note
-    We recommend to using a [virtual environment](https://user.cscs.ch/tools/interactive/python/#python-virtual-environments) for Python.
+On Linux, MacOS, and Windows (Powershell and WSL), the SSH keys can be generated and automatically installed using a command-line tool cscs-key (TODO name, link?).
 
-If this is the first time, download the ssh service from CSCS GitHub:
+#### Installation
+
+To install the command-line tool, download the binary for your OS and architecture from here (TODO link), and add the binary to your PATH.
+You might need to open a new terminal for the changes to take effect.
+
+You can also build it from source by cloning the repository and following the instructions in the README.
+(TODO link in the code).
+You will need to have Rust and Cargo installed on your system to build the tool from source.
+Do not forget to add the bin directory to your PATH and open new terminal.
 
 ```bash
 git clone https://github.com/eth-cscs/sshservice-cli
 cd sshservice-cli
+cargo build --release
 ```
 
-The next step is to use either the bash or python scripts:
+#### Usage
 
-=== "bash"
-    Run the bash script in the `sshservice-cli` path:
-
-    ```
-    ./cscs-keygen.sh
-    ```
-
-=== "python"
-
-    The first time you use the script, you can set up a python virtual environment with the dependencies installed:
-
-    ```bash
-    python3 -m venv mfa
-    source mfa/bin/activate
-    pip install -r requirements.txt
-    ```
-
-    Thereafter, activate the venv before using the script:
-
-    ```bash
-    source mfa/bin/activate
-    python cscs-keygen.py
-    ```
-
-For both approaches, follow the on screen instructions that require you to enter your username, password and the six-digit OTP from the authenticator app on your phone.
-The script generates the key pair (`cscs-key` and `cscs-key-cert.pub`) in your `~/.ssh` path:
-
+First generate the key pair using `ssh-keygen`.
+And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh agent](#ref-ssh-agent).
 ```bash
-> ls ~/.ssh/cscs-key*
-/home/bobsmith/.ssh/cscs-key  /home/bobsmith/.ssh/cscs-key-cert.pub
+ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
+```
+
+In order to ssh into the CSCS clusters with this key, the public key needs to be signed by the SSHService.
+This command will open a browser window for authentication.
+After successful authentication, the public key will be signed and the signed key will be saved with `-cert.pub` suffix.
+Then you can ssh into the clusters.
+```bash
+ssh-key sign
+```
+
+You can list the signed keys with
+```bash
+ssh-key list
+```
+
+And revoke a keys with
+```bash
+ssh-key revoke <key-id>
 ```
 
 ### Getting keys via the web app
