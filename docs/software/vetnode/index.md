@@ -15,7 +15,7 @@ srun -N ${SLURM_JOB_NUM_NODES} --tasks-per-node=4 --environment=${ENV_FILE} \
     if [ "${SLURM_LOCALID}" = "0" ]; then
         mkdir -p /tmp/vetnode-$(hostname)-${SLURM_JOB_ID}
         cd /tmp/vetnode-$(hostname)-${SLURM_JOB_ID}
-        wget -q -O config.yaml https://raw.githubusercontent.com/theely/vetnode/refs/heads/main/examples/alps-ml-vetting/config.yaml
+        wget -q -O config.yaml https://raw.githubusercontent.com/eth-cscs/vetnode/refs/heads/main/examples/alps-ml-vetting/config.yaml
         python -m venv --system-site-packages .venv
         source .venv/bin/activate
         pip install -q --no-cache-dir --index-url "https://jfrog.svc.cscs.ch/artifactory/api/pypi/pypi-remote/simple" vetnode
@@ -124,7 +124,7 @@ evals:
       - numpy
 ```
 
-The example above configures three evaluations. For the full list of available evaluation types, see the [evaluations folder](https://github.com/theely/vetnode/tree/main/src/vetnode/evaluations) in the Vetnode GitHub repository.
+The example above configures three evaluations. For the full list of available evaluation types, see the [evaluations folder](https://github.com/eth-cscs/vetnode/tree/main/src/vetnode/evaluations) in the Vetnode GitHub repository.
 
 ### Top-level fields
 
