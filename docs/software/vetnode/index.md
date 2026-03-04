@@ -71,6 +71,7 @@ vetnode diagnose config.yaml --verbose        # include all output metrics
 |------|-------------|
 | `--skip-install` | Skip dependency installation (use if `setup` was already run) |
 | `--verbose` | Print all output metrics produced by each evaluation |
+| `--help` | Print help |
 
 ### `setup`
 
