@@ -85,7 +85,7 @@ vetnode setup config.yaml
 
 ## Configuration
 
-The evaluations configuration file is a YAML file that lists all evaluations to perform and provides context information for Vetnode to properly distribute the workload.
+The evaluations configuration file is a YAML file that lists all evaluations to be performed and provides context information for Vetnode to properly distribute the workload.
 
 ```yaml
 name: Image Vetting
