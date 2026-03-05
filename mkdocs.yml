@@ -51,6 +51,7 @@ nav:
     - running/index.md
     - 'Slurm': running/slurm.md
     - 'HyperQueue': running/hyperqueue.md
+    - 'Vetnode': running/vetnode.md
     - 'Known issues': running/known-issues.md
   - 'Environments':
     - environments/index.md
