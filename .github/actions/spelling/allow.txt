@@ -362,6 +362,8 @@ vboost
 venv
 versioned
 versioning
+vetnode
+Vetnode
 vscode
 waldur
 wandb
