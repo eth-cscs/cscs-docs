@@ -2,6 +2,11 @@
 
 Vetnode validates your job's allocated nodes at runtime. You can check allocated nodes against a predefined set of performance and configuration evaluations to ensure your environment is properly set up and your allocation does not contain "bad" nodes.
 
+
+!!! note "Experimental"
+
+    This is an experimental tool currently being developed primerely for the ML community.
+
 ---
 
 ## Quick Start
@@ -95,7 +100,7 @@ pip:
 evals:
   - name: Environment Variables
     type: vetnode.evaluations.env_var_eval.EnvVarEval
-    expected:
+    expected: # (1)!
       CUDA_CACHE_DISABLE: "1"
       NCCL_NET: "AWS Libfabric"
       NCCL_CROSS_NIC: "1"
@@ -114,16 +119,29 @@ evals:
 
   - name: Check GPU
     type: vetnode.evaluations.gpu_eval.GPUEval
-    max_temp: 30
-    max_used_memory: 0.2
+    max_temp: 30  # (2)!
+    max_used_memory: 0.2   # (3)!
 
   - name: CudaKernel
     type: vetnode.evaluations.cuda_eval.CUDAEval
-    cuda_home: /usr/local/cuda
+    cuda_home: /usr/local/cuda   # (4)!
     requirements:
       - cuda-python==13.*
       - numpy
 ```
+
+1. A dictionary of required environment variables and their expected values.
+The evaluation fails if any variable is missing or does not match the specified value.
+
+2. The maximum allowed GPU temperature (in degrees Celsius) when the system is idle.
+If the measured temperature exceeds this threshold, the evaluation fails.
+
+3. The maximum allowed fraction of GPU memory in use when the system is idle.
+The value is expressed as a ratio (e.g., 0.2 corresponds to 20% of total GPU memory).
+The evaluation fails if memory usage exceeds this limit.
+
+4. The filesystem path to the CUDA installation directory.
+This path is used to locate CUDA libraries and binaries required for the CUDA kernel validation.
 
 The example above configures three evaluations. For the full list of available evaluation types, see the [evaluations folder](https://github.com/eth-cscs/vetnode/tree/main/src/vetnode/evaluations) in the Vetnode GitHub repository.
 
