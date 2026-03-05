@@ -1,20 +1,21 @@
+[](){#ref-tools-vetnode}
 # Vetnode
 
-Vetnode validates your job's allocated nodes at runtime. You can check allocated nodes against a predefined set of performance and configuration evaluations to ensure your environment is properly set up and your allocation does not contain "bad" nodes.
+Vetnode validates your job's allocated nodes at runtime.
+You can check allocated nodes against a predefined set of performance and configuration evaluations to ensure your environment is properly set up and your allocation does not contain "bad" nodes.
 
 
-!!! note "Experimental"
+!!! warning "Experimental"
 
-    This is an experimental tool currently being developed primerely for the ML community.
-
----
+    This is an experimental tool being developed and tested for large scale LLM training runs on Clariden.
 
 ## Quick Start
 
-The simplest way to run Vetnode is to include the following `srun` snippet at the beginning of your `sbatch` script. Set the `ENV_FILE` environment variable to the path of your EDF TOML file.
+The simplest way to run Vetnode is to include the following `srun` snippet at the beginning of your `sbatch` script.
+Set the `ENV_FILE` environment variable to the path of your EDF TOML file.
 
-```bash
-srun -N ${SLURM_JOB_NUM_NODES} --tasks-per-node=4 --environment=${ENV_FILE} \
+```console
+$ srun -N ${SLURM_JOB_NUM_NODES} --tasks-per-node=4 --environment=${ENV_FILE} \
      --network=disable_rdzv_get --container-writable bash -c '
 
     if [ "${SLURM_LOCALID}" = "0" ]; then
@@ -44,8 +45,6 @@ srun -N ${SLURM_JOB_NUM_NODES} --tasks-per-node=4 --environment=${ENV_FILE} \
 
 This snippet installs Vetnode on the fly on each allocated node and runs a series of predefined evaluations specifically designed to test Alps for ML workloads.
 
----
-
 ## Installation
 
 Vetnode is distributed as a Python package and can be installed via pip:
@@ -53,8 +52,6 @@ Vetnode is distributed as a Python package and can be installed via pip:
 ```bash
 pip install vetnode
 ```
-
----
 
 ## CLI Reference
 
@@ -85,8 +82,6 @@ Installs all requirements needed to execute the evaluations listed in the config
 ```bash
 vetnode setup config.yaml
 ```
-
----
 
 ## Configuration
 
