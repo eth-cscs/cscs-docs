@@ -14,6 +14,47 @@ CSCS offers a public cloud object storage service, based on the Ceph Object Gate
 * __Publicly accessible object links__: `https://rgw.cscs.ch/<tenant>:<bucket-name>/key-name`
     *  after setting proper bucket policy
 
+## Quota and Usage
+
+To check the quota and current space usage associated with a specific access key, query the `/_quota` endpoint. For example:
+
+```console
+$ curl -s "https://rgw.cscs.ch/_quota?AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE"
+```
+
+The request returns the quota and space usage in JSON format:
+```json
+{
+  "uid": "<tenant>$<username>",
+  "quota": {
+    "enabled": true,
+    "check_on_raw": false,
+    "max_size": 54975581388800,
+    "max_size_kb": 53687091200,
+    "max_objects": -1
+  },
+  "stats": {
+    "stats": {
+      "size": 307384015507,
+      "size_actual": 307384156160,
+      "size_kb": 300179703,
+      "size_kb_actual": 300179840,
+      "num_objects": 159
+    },
+    "last_stats_sync": "2026-02-27T10:27:51.904437Z",
+    "last_stats_update": "2026-02-27T10:27:51.903885Z"
+  }
+}
+```
+
+The response includes:
+
+* `uid`: the user identifier associated with the access key
+* `quota.max_size`: the allocated storage quota in bytes (`-1` means unlimited)
+* `quota.max_objects`: the maximum number of objects allowed (`-1` means unlimited)
+* `stats.stats.size`: the current usage in bytes
+* `stats.stats.num_objects`: the current number of stored objects
+
 ## Usage Examples
 
 ### AWS CLI

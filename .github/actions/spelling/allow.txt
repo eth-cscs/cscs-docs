@@ -2,13 +2,17 @@ ACLs
 ACR
 AMD
 Alpstein
+balfrin
 Balfrin
 Besard
 Besso
 Broyden
+Burgdorfer
+CESM
 CFLAGS
 CHARMM
 CHF
+compset
 COSMA
 CPE
 CPMD
@@ -16,6 +20,7 @@ CRYOWRF
 CWP
 CXI
 Ceph
+CESM
 Containerfile
 Containerfiles
 DCGM
@@ -24,9 +29,12 @@ Dockerfiles
 Dufourspitze
 EFA
 EMPA
+ESMF
+esmf
 ETHZ
 Ehrenfest
 Errigal
+fdb
 FFT
 Fawzi
 Firefox
@@ -44,6 +52,7 @@ GROMACS
 GSSR
 GTL
 Gaussian
+gmake
 Google
 HDD
 HDDs
@@ -52,6 +61,7 @@ HPCP
 HPE
 HSN
 Hartree
+Hupp
 IAP
 Invernizzi
 Jax
@@ -68,6 +78,8 @@ LUMI
 Libc
 Linaro
 Linux
+mch
+MCH
 MDS
 MDSs
 MFA
@@ -86,6 +98,7 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+netcdf
 OpenFabrics
 OAuth
 OIDC
@@ -181,6 +194,7 @@ gitlab
 gmail
 gpt
 gpu
+gromacs
 gromos
 groundstate
 gsl
@@ -318,6 +332,7 @@ ssh
 sshservice
 stackinator
 stakeholders
+starlex
 stdexec
 sqlite
 subfolders

@@ -172,7 +172,7 @@ We will provide full support for 12 months after the uenv image is released, and
 [](){#ref-uenv-prgenv-gnu-how-to-use}
 ## How to use
 
-The environment is designed as a fairly minimal set of 
+The environment provides a set of tools and libraries based on the GNU compiler toolchain for building scientific applications.
 
 There are three ways to access the software provided by prgenv-gnu, once it has been started.
 

@@ -520,6 +520,43 @@ The configuration that is optimal for your application may be different.
 
 [NVIDIA's Multi-Process Service (MPS)]: https://docs.nvidia.com/deploy/mps/index.html
 
+[](){#ref-slurm-gh200-power-capping}
+### GH200 power capping
+
+!!! info
+    This power capping functionality is an experimental feature developed by CSCS.
+    It is currently being tested with key users on the Starlex test cluster.
+
+    This documentation will be updated once it has been deployed onto the production clusters.
+
+The combined power of each GH200 module (CPU + GPU) on Alps is capped at approximately 660 W.
+The modules are configured such that CPU power requirements have priority over GPU requirements, which can impact GPU performance for applications that overlap CPU and GPU computations.
+If an application uses many CPU cores concurrently with the GPU, there may not be sufficient power available for the GPU.
+
+To mitigate this, CSCS provides a Slurm option that allows setting a power cap for the CPU.
+However, this also limits CPU power when the GPU is not in use. Therefore, this feature should only be used for applications that use both CPU and GPU simultaneously, and it may require experimentation with different settings to achieve optimal performance.
+
+The CPU power cap is set using `--power-cap=<value>`, where `<value>` is the power cap in watts, in the range `50–300`.
+
+It can be set either for the entire job in an sbatch script:
+```bash
+#SBATCH --power-cap=100
+```
+or for an individual job step using srun:
+```bash
+srun -n4 -N1 --power-cap=100 ./run
+```
+
+!!! warning
+    If `--power-cap` is specified both in `sbatch` and in `srun`, the value set in `srun` takes precedence.
+    This allows fine-tuning the CPU power cap for individual job steps.
+
+    However, when multiple `srun` commands are executed in parallel (for example using background execution with `&`), each `srun` may overwrite the currently active power cap.
+    In this case, the last `srun` that applies its setting determines the effective power cap.
+
+    Running multiple parallel `srun` commands with the **same** `--power-cap` value is safe.
+    Using **different** values in parallel `srun` commands may lead to unintended behavior and should be avoided.
+
 [](){#ref-slurm-amdcpu}
 ## AMD CPU nodes
 
@@ -837,10 +874,11 @@ Slurm will automatically set `CUDA_VISIBLE_DEVICES` for each `srun` call, restri
         Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
         ```
 
+
 ### Running more than one job step per GPU
 
 !!! under-construction
-    
+
     This section will be refined in the future, to multiple nodes and better handling of CPU affinity.
     The current version assumes that the job steps have approximately the same runtime and resource requirements.
 

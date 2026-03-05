@@ -107,6 +107,8 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
+      - 'Deployment': software/cw/deployment.md
+      - 'ICON': software/cw/icon.md
       - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
@@ -118,8 +120,9 @@ nav:
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'User Applications':
       - software/userapps/index.md
-      - 'WRF': software/userapps/wrf.md
+      - 'ESMF and CESM': software/userapps/cesm.md
       - 'ORCA': software/userapps/orca.md
+      - 'WRF': software/userapps/wrf.md
     - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
