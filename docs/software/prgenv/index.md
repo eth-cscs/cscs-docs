@@ -41,7 +41,7 @@ For example:
 
 -   :fontawesome-solid-layer-group: [__Alps Extended Images__][ref-software-extended-images] containers
 
-    Container images based on [NGC]() images that have been fine-tuned for Alps.
+    Container images based on [NGC](https://catalog.ngc.nvidia.com/) that have been fine-tuned for Alps.
     Recommended as the starting point for ML/AI workflows.
 
 -   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe] containers
