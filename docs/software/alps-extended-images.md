@@ -1,12 +1,14 @@
+[](){#ref-software-extended-images}
 # Alps Extended Images
 
 The Alps infrastructure (specifically the networking stack) requires custom-built libraries and specific environment settings to fully leverage the high-speed network.
-To reduce the burden on users and ensure best-in-class performance, we provide pre-built **Alps Extended Images** based on popular container images (starting with those commonly used by the ML/AI community).
+To reduce the burden on users and ensure best-in-class performance, we provide pre-built **Alps Extended Images** based on popular container images, starting with those commonly used by the ML/AI community.
+
+!!! info
+    See our [communication library guide][ref-software-communication] for detailed information about how to build containers with optimised support for the Slingshot network used by Alps.
 
 !!! note
-
     All extended images are thoroughly tested and validated to ensure correct behavior and optimal performance (see [contributing section](#contributing)).
-
 
 ## Images
 
@@ -188,6 +190,7 @@ podman image inspect "$IMAGE" --format 'Source Revision: {{ index .Labels "org.o
 podman image inspect "$IMAGE" --format 'Build Time: {{ index .Labels "org.opencontainers.image.created" }}'
 ```
 
+[](){#ref-software-extended-images-contributing}
 ## Contributing
 
 The Alps extended images are automatically built via a dedicated CI/CD pipeline hosted on GitHub:

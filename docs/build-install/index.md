@@ -22,6 +22,8 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
     And containers are used to deploy:
 
+    [:octicons-arrow-right-24: Alps Extended Images for ML][ref-software-extended-images]
+
     [:octicons-arrow-right-24: Cray Programming Environment][ref-cpe]
 
 </div>

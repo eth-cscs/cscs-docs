@@ -42,9 +42,9 @@ Users are encouraged to use containers on Clariden.
 
 * Jobs using containers can be easily set up and submitted using the [container engine][ref-container-engine].
 * To build images, see the [guide to building container images on Alps][ref-build-containers].
-* Base images which include the necessary libraries and compilers are for example available from the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers):
-    * [HPC NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc)
-    * [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch)
+* The [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers) provides containers with pre-built ML software stacks:
+    * **Recommended**: [Alps extended images][ref-software-extended-images] provided by CSCS are customized versions of NGC images optimized for the Alps network.
+    * Or start with base images from the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers), for example the [HPC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc) and [PyTorch](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) images --- note that you will have to use [container hooks][ref-ce-annotations] to get optimal network performance.
 
 Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently deployed on Clariden:
 
