@@ -71,7 +71,6 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
-    - 'Alps Extended Images' : software/alps-extended-images/index.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
@@ -82,6 +81,7 @@ nav:
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
+      - 'Alps Extended Images' : software/alps-extended-images.md
     - 'How to build software':
       - 'uenv': build-install/uenv.md
       - 'Python': build-install/python.md

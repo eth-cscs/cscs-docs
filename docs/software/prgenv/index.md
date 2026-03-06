@@ -1,7 +1,14 @@
 [](){#ref-software-prgenvs}
 # Programming Environments
 
-CSCS provides "programming environments" on Alps vClusters that provide compilers, MPI, and commonly used libraries and packages, that can be used to build applications from source.
+CSCS provides "programming environments" on Alps clusters.
+Programming environments provide pre-installed software, libraries and tools that can be used to build or install applications and workflows.
+For example:
+
+- The `prgenv` uenv provide provide compilers, MPI, and commonly-used libraries and packages for building applications from source.
+- Container images for ML/AI with optimised communication and GPU libraries and popular frameworks like PyTorch, on top of which workflow-specific tools can be installed.
+
+## Uenv
 
 <div class="grid cards" markdown>
 
@@ -26,6 +33,17 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
 
     Provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally.
 
+</div>
+
+## Containers
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-layer-group: [__Alps Extended Images__][ref-software-extended-images] containers
+
+    Container images based on [NGC](https://catalog.ngc.nvidia.com/) that have been fine-tuned for Alps.
+    Recommended as the starting point for ML/AI workflows.
+
 -   :fontawesome-solid-layer-group: [__Cray Programming Environment__][ref-cpe] containers
 
     The Cray Programming Environment (CPE) is a suite of compilers, libraries and tools provided by HPE.
@@ -33,4 +51,3 @@ CSCS provides "programming environments" on Alps vClusters that provide compiler
     These are the "Cray Modules", familiar to users of old Piz Daint and other HPE/Cray clusters.
 
 </div>
-
