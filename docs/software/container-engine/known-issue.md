@@ -108,3 +108,24 @@ debug        up    1:30:00      0    n/a
 normal*      up   12:00:00      1 drain$ nid006886
 xfer         up 1-00:00:00      0    n/a
 ```
+
+## Mismatching `PATH` between image build time and container runtime
+
+With some container base images (e.g., [OpenSUSE BCI](https://www.suse.com/products/base-container-images/)), the `PATH` environment variable at container runtime is not the same as at the end of image build time. This usually manifests as missing software at runtime if they are built on top of the base image. 
+
+This is because some base images overwrite `PATH` on container startup, regardless of whether it was updated during the container build. As a workaround, users may add a small entrypoint script at the end of their container build script (`Containerfile`) that updates `PATH` to the build-time `PATH` at the beginning of the container runtime. Notice that **the accompanying EDF file should enable the entrypoint** (`entrypoint = true`). 
+
+```dockerfile
+...
+RUN { echo '#!/bin/bash' && \
+      echo 'PATH='"$PATH"' exec "$@"'; } > /entry.sh && \
+    chmod +x /entry.sh
+ENTRYPOINT [ "/entry.sh" ]
+CMD [ "/bin/bash" ]
+```
+
+Alternatively, users may also set an environment variable `ENROOT_LOGIN_SHELL` to `no` to work around this problem. Notice that the variable persists only in the current terminal session.
+
+```console
+$ export ENROOT_LOGIN_SHELL=no
+```
