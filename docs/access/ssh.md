@@ -48,7 +48,7 @@ And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh ag
 ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
 ```
 
-In order to ssh into the CSCS clusters with this key, the public key needs to be signed by the SSHService.
+The public key from the key pair generated in the previous step must be signed by the SSHService before it can be used.
 This command will open a browser window for authentication.
 After successful authentication, the public key will be signed and the signed key will be saved with `-cert.pub` suffix.
 Then you can ssh into the clusters.
