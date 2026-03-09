@@ -10,7 +10,7 @@ It is not possible to authenticate with a username/password and user-created SSH
 Instead, it is necessary to use a certified SSH key created using the CSCS SSHService.
 
 !!! note
-    Keys are valid for 1 day (default) or 1 min, after which a new key must be generated.
+    Keys are valid for 24 hours (default) or 1 minute, after which a new key must be generated.
 
 !!! warning
     The number of certified SSH keys is limited to **five per day**.
