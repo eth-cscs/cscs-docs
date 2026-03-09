@@ -124,7 +124,7 @@ ENTRYPOINT [ "/entry.sh" ]
 CMD [ "/bin/bash" ]
 ```
 
-Alternatively, users may also set an environment variable `ENROOT_LOGIN_SHELL` to `no` to work around this problem. Notice that the variable persists only in the current terminal session.
+Alternatively, users may also set an environment variable `ENROOT_LOGIN_SHELL` to `no` to work around this problem. Notice that the variable doesn't persist throughout different terminal sessions.
 
 ```console
 $ export ENROOT_LOGIN_SHELL=no
