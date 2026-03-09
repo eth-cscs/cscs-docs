@@ -111,7 +111,7 @@ xfer         up 1-00:00:00      0    n/a
 
 ## Mismatching `PATH` between image build time and container runtime
 
-With some container base images (e.g., [OpenSUSE BCI](https://www.suse.com/products/base-container-images/)), the `PATH` environment variable at container runtime is not the same as at the end of image build time. This usually manifests as missing software at runtime if they are built on top of the base image. 
+With some container base images (e.g., [OpenSUSE BCI](https://www.suse.com/products/base-container-images/)), the `PATH` environment variable at container runtime differs from its value at the end of image build time, usually resulting in missing software at runtime if they are built on top of the base image. 
 
 This is because some base images overwrite `PATH` on container startup, regardless of whether it was updated during the container build. As a workaround, users may add a small entrypoint script at the end of their container build script (`Containerfile`) that updates `PATH` to the build-time `PATH` at the beginning of the container runtime. Notice that **the accompanying EDF file should enable the entrypoint** (`entrypoint = true`). 
 
