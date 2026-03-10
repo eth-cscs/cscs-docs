@@ -177,6 +177,7 @@ nav:
 
 theme:
   name: material
+  variant: classic
   language: en
   features:
     - content.code.copy
