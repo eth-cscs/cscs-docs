@@ -198,16 +198,12 @@ nav = [
   ]},
 ]
 
-# ──────────────────────────────────────────────
 # Repository (shown in top-right corner)
-# ──────────────────────────────────────────────
 [project.repo]
 url  = "https://github.com/eth-cscs/cscs-docs"
 edit_uri = "edit/main/docs/"
 
-# ──────────────────────────────────────────────
 # Theme
-# ──────────────────────────────────────────────
 [project.theme]
 variant    = "classic"        # keeps the Material for MkDocs look
 language   = "en"
@@ -264,16 +260,9 @@ extra_css = ["stylesheets/extra.css"]
 # ──────────────────────────────────────────────
 # Plugins
 # ──────────────────────────────────────────────
-# Note: Zensical has built-in search; the trimmer pipeline and autorefs
-# plugin may require separate installation if not yet bundled.
-[project.plugins.search.pipeline]
-pipeline = ["trimmer"]
-
 [project.plugins.autorefs]
 
-## ──────────────────────────────────────────────
 ## Markdown extensions
-## ──────────────────────────────────────────────
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.attr_list]
