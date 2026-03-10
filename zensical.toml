@@ -1,0 +1,307 @@
+[project]
+site_name = "CSCS Documentation"
+site_url   = "https://docs.cscs.ch/"
+docs_dir   = "docs"
+nav = [
+  {"Welcome" = "index.md"},
+  {"Alps" = [
+    "alps/index.md",
+    {"Platforms" = "alps/platforms.md"},
+    {"Clusters" = [
+      "clusters/index.md",
+      {"Besso"     = "clusters/besso.md"},
+      {"Bristen"   = "clusters/bristen.md"},
+      {"Clariden"  = "clusters/clariden.md"},
+      {"Daint"     = "clusters/daint.md"},
+      {"Eiger"     = "clusters/eiger.md"},
+      {"Santis"    = "clusters/santis.md"},
+    ]},
+    {"Hardware" = "alps/hardware.md"},
+    {"Storage"  = "alps/storage.md"},
+    {"Machine Learning Platform" = [
+      "platforms/mlp/index.md",
+      {"Clariden" = "clusters/clariden.md"},
+      {"Bristen"  = "clusters/bristen.md"},
+    ]},
+    {"HPC Platform" = [
+      "platforms/hpcp/index.md",
+      {"Daint" = "clusters/daint.md"},
+      {"Eiger" = "clusters/eiger.md"},
+    ]},
+    {"Climate and Weather Platform" = [
+      "platforms/cwp/index.md",
+      {"Santis" = "clusters/santis.md"},
+    ]},
+  ]},
+  {"Connecting to Alps" = [
+    "access/index.md",
+    {"Multi Factor Authentication (MFA)" = "access/mfa.md"},
+    {"Web Services"  = "access/web.md"},
+    {"SSH"           = "access/ssh.md"},
+    {"FirecREST"     = "access/firecrest.md"},
+    {"HPC Console"   = "access/hpc-console.md"},
+    {"JupyterLab"    = "access/jupyterlab.md"},
+    {"VSCode"        = "access/vscode.md"},
+  ]},
+  {"Running Jobs" = [
+    "running/index.md",
+    {"Slurm"         = "running/slurm.md"},
+    {"HyperQueue"    = "running/hyperqueue.md"},
+    {"Vetnode"       = "running/vetnode.md"},
+    {"Known issues"  = "running/known-issues.md"},
+  ]},
+  {"Environments" = [
+    "environments/index.md",
+    {"Getting started in the terminal" = "guides/terminal.md"},
+    {"uenv" = [
+      "software/uenv/index.md",
+      {"Using uenv"     = "software/uenv/using.md"},
+      {"Managing uenv"  = "software/uenv/management.md"},
+      {"Building uenv"  = "software/uenv/build.md"},
+      {"Configuration"  = "software/uenv/configure.md"},
+      {"Release notes"  = "software/uenv/release-notes.md"},
+      {"Deploying uenv" = "software/uenv/deploy.md"},
+      {"Guides"         = "software/uenv/guides.md"},
+    ]},
+    {"Container Engine" = [
+      "software/container-engine/index.md",
+      {"Using the Container Engine"   = "software/container-engine/run.md"},
+      {"Hooks and native resources"   = "software/container-engine/resource-hook.md"},
+      {"EDF reference"                = "software/container-engine/edf.md"},
+      {"Known issues"                 = "software/container-engine/known-issue.md"},
+    ]},
+  ]},
+  {"Building and Installing Software" = [
+    "build-install/index.md",
+    {"Programming Environments" = [
+      "software/prgenv/index.md",
+      {"prgenv-gnu"          = "software/prgenv/prgenv-gnu.md"},
+      {"prgenv-gnu-openmpi"  = "software/prgenv/prgenv-gnu-openmpi.md"},
+      {"prgenv-nvfortran"    = "software/prgenv/prgenv-nvfortran.md"},
+      {"linalg"              = "software/prgenv/linalg.md"},
+      {"julia"               = "software/prgenv/julia.md"},
+      {"Cray modules (CPE)"  = "software/prgenv/cpe.md"},
+      {"Alps Extended Images" = "software/alps-extended-images.md"},
+    ]},
+    {"How to build software" = [
+      {"uenv"   = "build-install/uenv.md"},
+      {"Python" = "build-install/python.md"},
+    ]},
+    {"Packaging and Deployment" = [
+      {"Creating uenv"                  = "software/uenv/build.md"},
+      {"Creating Containers with podman" = "build-install/containers.md"},
+    ]},
+  ]},
+  {"Applications and Frameworks" = [
+    "software/index.md",
+    {"Scientific Applications" = [
+      "software/sciapps/index.md",
+      {"CP2K"              = "software/sciapps/cp2k.md"},
+      {"GROMACS"           = "software/sciapps/gromacs.md"},
+      {"LAMMPS"            = "software/sciapps/lammps.md"},
+      {"NAMD"              = "software/sciapps/namd.md"},
+      {"Quantum ESPRESSO"  = "software/sciapps/quantumespresso.md"},
+      {"VASP"              = "software/sciapps/vasp.md"},
+    ]},
+    {"Machine Learning" = [
+      "software/ml/index.md",
+      {"PyTorch" = "software/ml/pytorch.md"},
+      {"Tutorials" = [
+        "tutorials/ml/index.md",
+        {"LLM Inference"    = "tutorials/ml/llm-inference.md"},
+        {"LLM Fine-tuning"  = "tutorials/ml/llm-fine-tuning.md"},
+        {"LLM Pre-training" = "tutorials/ml/llm-nanotron-training.md"},
+      ]},
+    ]},
+    {"Climate and Weather" = [
+      "software/cw/index.md",
+      {"Deployment"   = "software/cw/deployment.md"},
+      {"ICON"         = "software/cw/icon.md"},
+      {"netcdf-tools" = "software/cw/netcdf-tools.md"},
+    ]},
+    {"Communication Libraries" = [
+      "software/communication/index.md",
+      {"libfabric"  = "software/communication/libfabric.md"},
+      {"Cray MPICH" = "software/communication/cray-mpich.md"},
+      {"MPICH"      = "software/communication/mpich.md"},
+      {"OpenMPI"    = "software/communication/openmpi.md"},
+      {"NCCL"       = "software/communication/nccl.md"},
+      {"NVSHMEM"    = "software/communication/nvshmem.md"},
+    ]},
+    {"User Applications" = [
+      "software/userapps/index.md",
+      {"ESMF and CESM" = "software/userapps/cesm.md"},
+      {"ORCA"          = "software/userapps/orca.md"},
+      {"WRF"           = "software/userapps/wrf.md"},
+    ]},
+    {"Commercial Software" = [
+      "software/commercial/index.md",
+      {"Matlab" = "software/commercial/matlab.md"},
+    ]},
+    {"Scientific Visualization" = [
+      "software/sciviz/index.md",
+      {"ParaView" = "software/sciviz/paraview.md"},
+    ]},
+    {"Prohibited Software" = "software/unsupported.md"},
+  ]},
+  {"Debugging and Performance Analysis" = [
+    "software/devtools/index.md",
+    {"Using NVIDIA Nsight"   = "software/devtools/nvidia-nsight.md"},
+    {"Using Linaro Forge" = [
+      "software/devtools/linaro-uenv.md",
+      {"Linaro performance analysis tool" = "software/devtools/linaro-map.md"},
+      {"Linaro debugger"                  = "software/devtools/linaro-ddt.md"},
+    ]},
+    {"Using Score-P/Scalasca" = "software/devtools/vihps.md"},
+    {"Job report"             = "running/jobreport.md"},
+    {"GPU report"             = "running/gssr.md"},
+  ]},
+  {"Data Management and Storage" = [
+    "storage/index.md",
+    {"File Systems"      = "storage/filesystems.md"},
+    {"Data Transfer"     = "storage/transfer.md"},
+    {"Long Term Storage" = "storage/longterm.md"},
+    {"Object Storage"    = "storage/object.md"},
+  ]},
+  {"Services" = [
+    "services/index.md",
+    {"Developer Portal" = "services/devportal.md"},
+    {"CI/CD"            = "services/cicd.md"},
+    {"Kubernetes" = [
+      "services/kubernetes/index.md",
+      {"Clusters"             = "services/kubernetes/clusters.md"},
+      {"Kubernetes Upgrades"  = "services/kubernetes/kubernetes-upgrades.md"},
+      {"Node OS Updates"      = "services/kubernetes/node-updates.md"},
+    ]},
+  ]},
+  {"Accounts and Projects" = [
+    "accounts/index.md",
+    {"Account and Resources Management Tool"  = "accounts/ump.md"},
+    {"Project and Resources Management Tool"  = "accounts/waldur.md"},
+    {"Creating a new account"                 = "accounts/account-create.md"},
+  ]},
+  {"Guides" = [
+    "guides/index.md",
+    {"Internet Access on Alps" = "guides/internet-access.md"},
+    {"Storage"                 = "guides/storage.md"},
+  ]},
+  {"Policies" = [
+    "policies/index.md",
+    {"User Regulations"                                        = "policies/regulations.md"},
+    {"Code of Conduct"                                         = "policies/code-of-conduct.md"},
+    {"User Support Policies"                                   = "policies/support.md"},
+    {"Slack Code of Conduct"                                   = "policies/slack.md"},
+    {"Scheduled Maintenance and System Unavailability Policies" = "policies/maintenance.md"},
+  ]},
+  {"Contributing" = [
+    "contributing/index.md",
+  ]},
+]
+
+# ──────────────────────────────────────────────
+# Repository (shown in top-right corner)
+# ──────────────────────────────────────────────
+[project.repo]
+url  = "https://github.com/eth-cscs/cscs-docs"
+edit_uri = "edit/main/docs/"
+
+# ──────────────────────────────────────────────
+# Theme
+# ──────────────────────────────────────────────
+[project.theme]
+variant    = "classic"        # keeps the Material for MkDocs look
+language   = "en"
+logo       = "assets/cscs-logo.png"
+custom_dir = "overrides"
+
+[project.theme.font]
+text = "Roboto"
+code = "Roboto Mono"
+
+# Zensical inherits Material palette syntax inside [project.theme]
+# Three entries mirror the auto / light / dark toggles in mkdocs.yml
+# (palette is an array of tables)
+
+[[project.theme.palette]]
+media  = "(prefers-color-scheme)"
+toggle = {icon = "material/brightness-auto", name = "Switch to light mode"}
+
+[[project.theme.palette]]
+media   = "(prefers-color-scheme: light)"
+scheme  = "default"
+primary = "white"
+accent  = "blue"
+toggle  = {icon = "material/brightness-7", name = "Switch to dark mode"}
+
+[[project.theme.palette]]
+media   = "(prefers-color-scheme: dark)"
+scheme  = "slate"
+primary = "white"
+accent  = "blue"
+toggle  = {icon = "material/brightness-4", name = "Switch to light mode"}
+
+[project.theme.icon]
+edit = "material/pencil"
+
+[project.theme.features]
+features = [
+  "content.code.copy",
+  "content.action.edit",
+  "navigation.indexes",
+  "search.share",
+  "navigation.instant",
+  "navigation.tracking",
+  "navigation.path",
+  "navigation.top",
+  "content.code.annotate",
+]
+
+# ──────────────────────────────────────────────
+# Extra CSS
+# ──────────────────────────────────────────────
+extra_css = ["stylesheets/extra.css"]
+
+# ──────────────────────────────────────────────
+# Plugins
+# ──────────────────────────────────────────────
+# Note: Zensical has built-in search; the trimmer pipeline and autorefs
+# plugin may require separate installation if not yet bundled.
+[project.plugins.search.pipeline]
+pipeline = ["trimmer"]
+
+[project.plugins.autorefs]
+
+## ──────────────────────────────────────────────
+## Markdown extensions
+## ──────────────────────────────────────────────
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.def_list]
+[project.markdown_extensions.footnotes]
+[project.markdown_extensions.md_in_html]
+[project.markdown_extensions.tables]
+# convert ascii dashes, quotes and ellipses to their HTML equivalents
+[project.markdown_extensions.smarty]
+[project.markdown_extensions.pymdownx.arithmatex]
+    generic = true
+[project.markdown_extensions.pymdownx.blocks.caption]
+[project.markdown_extensions.pymdownx.details]
+[project.markdown_extensions.pymdownx.emoji]
+    emoji_index = "zensical.extensions.emoji.twemoji" 
+    emoji_generator = "zensical.extensions.emoji.to_svg"
+[project.markdown_extensions.pymdownx.highlight]
+    anchor_linenums    = true
+    line_spans         = "__span"
+    pygments_lang_class = true
+[project.markdown_extensions.pymdownx.snippets]
+    check_paths = true
+[project.markdown_extensions.pymdownx.superfences]
+    custom_fences = [
+      {name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format"},
+    ]
+[project.markdown_extensions.pymdownx.tabbed]
+    alternate_style = true
+[project.markdown_extensions.toc]
+    permalink = true
+
