@@ -3,7 +3,7 @@
 
 Before accessing CSCS clusters using SSH, first ensure that you have [created a user account][ref-account-management] that is part of a project that has access to the cluster, and have [multi factor authentication][ref-mfa] configured.
 
-## SSH Key Management Overview
+## SSH key management overview
 
 Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to use your existing SSH key and have it signed by CSCS.
 
@@ -12,11 +12,11 @@ Two methods are available for managing SSH keys:
 - **Command-line Interface** (for automation and scripting)
 
 [](){#ref-ssh-key-management}
-## Managing SSH Keys at account.cscs.ch
+## Managing SSH keys at account.cscs.ch
 
 The centralized key management dashboard at [account.cscs.ch](https://account.cscs.ch) allows you to generate, sign, list, and revoke SSH keys.
 
-### Recommended: Sign Your Existing SSH Key
+### Recommended: sign your existing SSH key
 
 The recommended approach is to upload your existing SSH public key to be signed by CSCS. This avoids transferring private keys over the network and follows security best practices.
 
@@ -37,7 +37,7 @@ The recommended approach is to upload your existing SSH public key to be signed 
     - Works with any SSH key type (RSA, ED25519, ECDSA)
     - Recommended for security
 
-### Supported: Generate a New Key Pair
+### Supported: generate a new key pair
 
 If you don't have an SSH key, CSCS can generate one for you. This method is currently supported but will be phased out in favor of signing existing keys.
 
@@ -56,7 +56,7 @@ If you don't have an SSH key, CSCS can generate one for you. This method is curr
 
 **Note:** This method transfers the private key over HTTPS. Key generation will be phased out in favor of signing existing keys.
 
-### Key Validity and Limits
+### Key validity and limits
 
 !!! note
     - **Validity**: Keys are valid for 1 day by default
@@ -64,11 +64,11 @@ If you don't have an SSH key, CSCS can generate one for you. This method is curr
     - **Limit**: You can create up to 5 keys per day
 
 [](){#ref-ssh-cli}
-## Command-line Access
+## Command-line access
 
 The `cscs-key` CLI tool provides programmatic access to SSH key management for automation and scripting.
 
-### Installation and Setup
+### Installation and setup
 
 Visit the [cscs-key repository](https://github.com/rjanalik/cscs-key) for installation instructions and detailed documentation.
 
@@ -77,7 +77,7 @@ The CLI supports two authentication methods:
 - **Browser session integration** — automatically uses your browser's Keycloak session
 - **API keys** — for automation with service accounts
 
-### Basic Usage
+### Basic usage
 
 Run `cscs-key --help` to see all available commands:
 
@@ -109,7 +109,7 @@ cscs-key revoke --serial <serial-number>
 
 For more details and examples, refer to the [cscs-key documentation](https://github.com/rjanalik/cscs-key).
 
-## Logging In
+## Logging in
 
 To ensure secure access, CSCS requires users to connect through the designated jump host Ela (`ela.cscs.ch`) before accessing any cluster.
 
@@ -121,7 +121,7 @@ ssh -i ~/.ssh/cscs-key ela.cscs.ch
 To log into a target system at CSCS, you need to perform some additional setup to handle SSH key forwarding. There are two alternatives detailed below.
 
 [](){#ref-ssh-config}
-### Adding Ela as a jump host in SSH Configuration
+### Adding Ela as a jump host in SSH configuration
 
 This approach configures Ela as a jump host and creates aliases for the systems that you want to access in `~/.ssh/config` on your laptop or PC.
 The benefit of this approach is that once the `~/.ssh/config` file has been configured, no additional steps are required between creating or signing a new key, and logging in.
@@ -166,7 +166,7 @@ ssh daint
 ```
 
 [](){#ref-ssh-agent}
-### Using SSH Agent
+### Using SSH agent
 
 Alternatively, the [SSH authentication agent](https://www.ssh.com/academy/ssh/add-command) can be configured to manage the keys.
 
@@ -191,7 +191,7 @@ ssh -A cscsusername@ela.cscs.ch
 ssh daint.cscs.ch
 ```
 
-## SSH Tunnel to a Service on Alps Compute Nodes via Ela
+## SSH tunnel to a service on Alps compute nodes via Ela
 
 If you have a server listening on a compute node in an Alps cluster and want to reach it from your local computer, you can do the following: allocate a node, start your server bound to `localhost`, open an SSH tunnel that jumps through `ela` to the cluster, then use `http://localhost:PORT` locally.
 Details on how to achieve this are below.
@@ -243,11 +243,11 @@ To clean up afterwards:
 - Close the tunnel (Ctrl-C in the tunnel terminal).
 
 [](){#ref-ssh-revoke}
-## Revoking SSH Keys
+## Revoking SSH keys
 
 You can revoke SSH keys when they are no longer needed or if compromised.
 
-### Revoke via Web Dashboard
+### Revoke via web dashboard
 
 1. Access [account.cscs.ch](https://account.cscs.ch) and log in
 2. Navigate to **SSH Keys** to view your active keys
@@ -271,7 +271,7 @@ cscs-key revoke-all
 The revocation takes effect immediately across all CSCS systems.
 
 [](){#ref-ssh-faq}
-## Frequently Encountered Issues
+## Frequently encountered issues
 
 ??? warning "too many authentication failures"
     You may have too many keys in your ssh agent.
@@ -298,18 +298,18 @@ The revocation takes effect immediately across all CSCS systems.
     The recommended approach is to sign your existing SSH key using the dashboard or CLI. This allows you to use your own key infrastructure without transferring private keys over the network.
 
 [](){#ref-ssh-legacy}
-## Legacy: Old SSH Key Management (Deprecated)
+## Legacy: old SSH key management (deprecated)
 
 !!! warning "⚠️ Deprecated — Migrate by Q2 2026"
     The old SSHService method described below is **deprecated**. All users should migrate to the [new key management dashboard](#ref-ssh-key-management) or [CLI](#ref-ssh-cli) by **Q2 2026**.
 
     The old method will no longer be available after Q2 2026.
 
-### Generating Keys with SSHService (Old Method)
+### Generating keys with SSHService (old method)
 
 The previous approach used the [SSHService web app](https://sshservice.cscs.ch/) or a [command-line script](https://github.com/eth-cscs/sshservice-cli).
 
-#### Getting keys via the command line (Old)
+#### Getting keys via the command line (old)
 
 On Linux and MacOS, SSH keys could be generated and automatically installed using a command-line script.
 This script is provided in pure Bash and in Python.
@@ -359,7 +359,7 @@ The script generates the key pair (`cscs-key` and `cscs-key-cert.pub`) in your `
 /home/bobsmith/.ssh/cscs-key  /home/bobsmith/.ssh/cscs-key-cert.pub
 ```
 
-#### Getting keys via the web app (Old)
+#### Getting keys via the web app (old)
 
 Access the old SSHService web application by accessing [sshservice.cscs.ch](https://sshservice.cscs.ch).
 
@@ -374,7 +374,7 @@ mv /download/location/cscs-key ~/.ssh/cscs-key
 chmod 0600 ~/.ssh/cscs-key
 ```
 
-### Adding a password to the key (Old Method)
+### Adding a password to the key (old method)
 
 Once the key has been generated using either the old CLI or web interface above, it is strongly recommended that you add a password to the generated key using the [ssh-keygen](https://www.ssh.com/academy/ssh/keygen) tool.
 
@@ -382,7 +382,7 @@ Once the key has been generated using either the old CLI or web interface above,
 ssh-keygen -f ~/.ssh/cscs-key -p
 ```
 
-### Migration Notes
+### Migration notes
 
 To migrate from the old SSHService to the new system:
 
