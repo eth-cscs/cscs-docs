@@ -19,15 +19,16 @@ CSCS provides `uenv-spack` - a tool that can be used to quickly install software
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git # (1)!
-
-(cd uenv-spack && ./bootstrap) # (2)!
-
-export PATH=$PWD/uenv-spack:$PATH
+export PATH=$PWD/uenv-spack:$PATH  # (2)!
 ```
 
 1. Download the `uenv-spack` tool from GitHub.
 
-2. Initialize the `uenv-spack` tool.
+2. Make the `uenv-spack` executable available.
+
+!!! note "Requires uv"
+    `uenv-spack` requires [uv](https://docs.astral.sh/uv/).
+    See our guide to setting up [installation locations][ref-guides-terminal-arch], before [installing uv](https://docs.astral.sh/uv/getting-started/installation).
 
 ### Select the uenv
 
@@ -50,7 +51,7 @@ graph TD
 
     On systems that have NVIDIA GPUs (`gh200` and `a100` uarch), it also provides the latest version of `cuda` and `nccl`, and it is configured for GPU-aware MPI communication.
 
-To use an uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/latest/chain.html),
+To use a uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/latest/chain.html),
 the uenv has to be started with the `spack` view:
 
 ```bash
@@ -59,7 +60,7 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
 
 !!! note "What does the `spack` view do?"
     The `spack` view sets environment variables that provide information about the version of Spack that was used to build the uenv, and where the uenv Spack configuration is stored.
-    
+
     | <div style="width:12em">variable</div> | <div style="width:18em">example</div> | description |
     | -------- | ------- | ----------- |
     | `UENV_SPACK_CONFIG_PATH` | `user-environment/config` | the path of the upstream [spack configuration files]. |
@@ -67,7 +68,16 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     | `UENV_SPACK_URL`         | `https://github.com/spack/spack.git` | The git repository for Spack - nearly always the main spack/spack repository. |
     | `UENV_SPACK_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The commit of Spack that was used |
 
-    !!! warning
+    Spack version 1 moved the Spack packages from inside the Spack repository to a standalone [repository on GitHub](https://github.com/spack/spack-packages).
+    Uenvs that were built using Spack 1.0 and later will also set the following environment variables that provide information about the package versioning:
+
+    | <div style="width:14em">variable</div> | <div style="width:16em">example</div> | description |
+    | -------- | ------- | ----------- |
+    | `UENV_SPACK_PACKAGES_REF`         | `releases/v2025.07` | the branch or tag used - this might be empty if a specific commit of Spack was used. |
+    | `UENV_SPACK_PACKAGES_URL`         | `https://github.com/spack/spack-packages.git` | The git repository - nearly always the main spack/spack-packages repository. |
+    | `UENV_SPACK_PACKAGES_COMMIT`      | `c6d4037758140fe...0cd1547f388ae51` | The git commit of Spack-packages that was used |
+
+    !!! note
 
         The environment variables set by the `spack` view are scoped by `UENV_`.
         Therefore, they don't change Spack-related environment variables.
@@ -78,14 +88,13 @@ uenv start prgenv-gnu/24.11:v1 --view=spack
     It is strongly recommended that your version of Spack and the version of Spack in the uenv match when building software on top of an uenv.
 
 !!! note "Advanced Spack users"
+    The `uenv-spack` tool creates an empty Spack environment, configuration files and a build script that automates concretizing and installing the environment.
+    It is recommended that you take the time to review the environment and configuration, and modify it as needed for your project.
 
-    Advanced Spack users can use the environment variables set by the `spack` view to manually configure the uenv as a Spack upstream instance.
-    
-    !!! tip
-        If using multiple uenvs, we recommend using a different Spack instance per uenv.
+    It is also possible to integrate uenv into your own Spack workflow.
+    For this, it is recommended to load the `spack` view, and use the `UENV_SPACK_*` environment variables.
 
-    ??? example "Setting Spack configuration path"
-    
+    !!! example "Setting Spack configuration path"
         ```bash
         export SPACK_SYSTEM_CONFIG_PATH=$UENV_SPACK_CONFIG_PATH
         ```
@@ -100,13 +109,27 @@ The `uenv-spack` tool can be used to create a build directory with a template [S
 !!! example "Create a build directory with a Spack environment file and a Spack package repository"
 
     ```bash
-    uenv-spack <build-path> --uarch=gh200
+    uenv-spack <build-path> --uarch=<uarch> --name=<env-name>
     cd <build-path>
+    vim ./env/spack.yaml    # (1)!
     ./build
     ```
 
-    `<build-path>` is a path (typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`).
+    1. Edit the [`spack.yaml`][Spack environment file] file to add package specs, set preferences, etc.
 
+    The arguments to `uenv-spack` arguments are:
+
+    * **required**: `<build-path>` is the path in which the environment will be built:
+        * typically in `$SCRATCH`, e.g. `$SCRATCH/builds/gromacs-24.11`.
+    * **required**: `--uarch=<uarch>`: is the microarchitecture:
+        * one of `zen2, zen3, gh200, a100`;
+        * used to set default variants in the Spack recipe.
+    * **required**: `--name=<env-name>`: is the name of the environment:
+        * must start with a letter, and may only contain letters, numbers, underscores `_` and dashes `-`.
+    * **optional**: `--compiler=<compiler-name>`: is the compiler toolchain to use in the generated `spack.yaml`:
+        * one of `gcc`, `nvhpc`, `llvm`, or `llvm-amdgpu`.
+        * default: `gcc`
+        * note that the compiler must be in the list of compilers provided by the uenv.
 
 `uenv-spack` creates a directory tree with the following contents:
 
@@ -204,11 +227,11 @@ Once specs have been added to `spack.yaml`, you can build the image using the `b
 ./build
 ```
 
-This process will take a while, because the version of Spack that was downloaded needs to
+This process will take a while, because the version of Spack that was downloaded needs to:
 
-* bootstrap,
-* concretise the environment,
-* and build all of the packages.
+* bootstrap Spack;
+* then concretise the environment;
+* then build all of the packages.
 
 The duration of the build depends on the specs: some specs may require a long time to build, or require installing many dependencies.
 
@@ -220,41 +243,43 @@ The packages built by Spack are installed in `<build-path>/store`.
 
 ### Spack view
 
-A Spack view is generated in `<build-path>/view`.
+A Spack view is generated in `<build-path>/view` with an activation script `<build-path>/view/activate.sh`.
+When the view is activated, all of the installed packages are available for use in the environment.
+
+!!! example "Activating the view"
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
+
+    ```bash
+    uenv start prgenv-gnu/25.6:v2                   # (1)!
+    source $SCRATCH/software/tool/view/activate.sh  # (2)!
+    ```
+
+    1. Start the uenv: to use the software the `spack` view does not need to be loaded.
+    2. The `activate.sh` script sets environment variables that load the software.
+
 
 ### Modules
 
 Module files are generated in the `module` sub-directory of the `<build-path>`
 
-To use them, add them to the module environment
+To use them, add them to the module environment:
 
-```bash
-module use <build-path>/modules # (1)!
-module avail # (2)!
-```
+!!! example "Use the modules"
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
 
-1. Make modules available.
-2. Check that the modules are available.
+    ```bash
+    uenv start prgenv-gnu/25.6:v2             # (1)!
+    module use $SCRATCH/software/tool/modules # (2)!
+    module avail                              # (3)!
+    ```
+
+    1. Start the uenv: to use the software the `spack` view does not need to be loaded.
+    2. Make modules available.
+    3. Check that the modules are available.
 
 !!! note
     The generation of modules can be customised by editing the `<build-path>/config/user/modules.yaml` file _before_ running `build`.
     See the [Spack modules] documentation.
-
-### Use the software
-
-!!! warning
-
-    This step is not fully covered by the tool/workflow yet.
-
-!!! warning
-
-    The uenv that was used to configure and build must always be loaded when using the software stack.
-
-To use the installed software, you have the following options:
-
-* Loading modules
-* Activate the Spack view
-* `source <build-path>/spack/share/spack/setup-env.sh` and then use Spack
 
 [Chaining Spack Installations]: https://spack.readthedocs.io/en/latest/chain.html
 [Spack]: https://spack.readthedocs.io/en/latest/

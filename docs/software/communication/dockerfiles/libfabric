@@ -1,0 +1,20 @@
+ARG gdrcopy_version=2.5.1
+RUN git clone --depth 1 --branch v${gdrcopy_version} https://github.com/NVIDIA/gdrcopy.git \
+    && cd gdrcopy \
+    && export CUDA_PATH=/usr/local/cuda \
+    && make CC=gcc CUDA=$CUDA_PATH lib \
+    && make lib_install \
+    && cd ../ && rm -rf gdrcopy
+
+# Install libfabric
+ARG libfabric_version=1.22.0
+RUN git clone --branch v${libfabric_version} --depth 1 https://github.com/ofiwg/libfabric.git \
+    && cd libfabric \
+    && ./autogen.sh \
+    && ./configure --prefix=/usr --with-cuda=/usr/local/cuda --enable-cuda-dlopen \
+       --enable-gdrcopy-dlopen --enable-efa \
+    && make -j$(nproc) \
+    && make install \
+    && ldconfig \
+    && cd .. \
+    && rm -rf libfabric

@@ -1,6 +1,10 @@
 [](){#ref-jobreport}
 # Job report
 
+!!!info
+    The [GPU Saturation Scorer (GSSR)][ref-gssr] will ultimately replace Jobreport but is currently limited to Swiss AI proposals.
+    Please refer to the submission guidelines for which tool to use.
+
 A batch job summary report is often requested in project proposals at CSCS to demonstrate the effective use of GPUs.
 [jobreport](https://github.com/eth-cscs/alps-jobreport/releases) is used in two stages.
 The first stage monitors an application and records the GPU usage statistics.

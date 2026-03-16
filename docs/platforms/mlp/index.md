@@ -1,7 +1,7 @@
 [](){#ref-platform-mlp}
 # Machine learning platform
 
-The Machine Learning Platform (MLP) provides compute, storage and expertise to the machine learning and AI community in Switzerland, with the main user being the [Swiss AI Initiative](https://www.swiss-ai.org/).
+The Machine Learning Platform (MLP) provides compute, storage and expertise to the machine learning communities accessing the Alps Research Infrastructure.
 
 ## Getting started
 

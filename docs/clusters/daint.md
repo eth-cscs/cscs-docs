@@ -151,7 +151,7 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
         The [access-counter-based memory migration feature](https://developer.nvidia.com/blog/cuda-toolkit-12-4-enhances-support-for-nvidia-grace-hopper-and-confidential-computing/#access-counter-based_migration_for_nvidia_grace_hopper_memory) in the NVIDIA driver for Grace Hopper is disabled to address performance issues affecting NCCL-based workloads (e.g. LLM training)
 
     ??? note "NVIDIA boost slider"
-        Added an option to enable the NVIDIA boost slider (vboost) via Slurm using the `-C nvidia_vboost_enabled` flag.
+        Added [an option to enable the NVIDIA boost slider (vboost)][ref-slurm-features-vboost] via Slurm using the `-C nvidia_vboost_enabled` flag.
         This feature, disabled by default, may increase GPU frequency and performance while staying within the power budget
 
     ??? note "Enroot update"

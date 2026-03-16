@@ -129,25 +129,25 @@ The `lfs getstripe <path>` command can be used to get information on the stripe 
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
 
 Striping settings on a directory are only applied to files added after the command is run. 
-Existing files retain their original layout unless explicitly changed using `lfs migrate <striping settings>`, which takes the same arguments as `lfs setstripe`.
 The simplest way to have the correct layout is to copy to a directory with the correct layout.
 
 !!! tip "A block size of 4MB gives good throughput, without being overly big..."
     ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
     See the [Lustre documentation](https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace) for more information.
 
-
 !!! example "Settings for large files"
-    *Remember:* Settings only apply to files added to the directory after this command.
-    ```console
-    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
+    ```bash
+    lfs setstripe --stripe-count 32 --stripe-size 4M <big_files_dir>
     ```
+
+    *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
+
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
 
 !!! example "Good default settings"
-    ```console
-    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
+    ```bash
+    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <base_dir>
     ```
 
 ### Iopsstor vs Capstor
@@ -173,7 +173,7 @@ At first it can seem strange that a "high-performance" file system is significan
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 [](){#ref-guides-storage-venv}
-### Python virtual environments with uenv
+### Squash Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.
 
@@ -191,7 +191,7 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow.
+The first step is to create the virtual environment using the usual workflow described in the [Python environment documentation][ref-python-uenv-venv].
 
 === "uv"
 
@@ -203,9 +203,13 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
+
     # create and activate a new relocatable venv using uv
-    # in this case we explicitly select python 3.12
-    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+    # in this case we explicitly select the python interpreter from the uenv view
+    uv venv --python $(which python) --system-site-packages --seed --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 
@@ -229,12 +233,16 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # for the example create a working path on SCRATCH
     mkdir $SCRATCH/sqfs-demo
     cd $SCRATCH/sqfs-demo
 
     # create and activate the empty venv
-    python -m venv ./.venv
+    python -m venv --system-site-packages ./.venv
     source ./.venv/bin/activate
 
     # install software in the virtual environment

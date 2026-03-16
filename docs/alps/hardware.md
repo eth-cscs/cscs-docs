@@ -34,6 +34,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
     * GPU-aware communication
     * **slingshot is not infiniband - there is no NVSwitch**
 
+[](){#ref-alps-nodes}
 ## Alps Nodes
 
 Alps was installed in phases, starting with the installation of 1024 AMD Rome dual socket CPU nodes in 2020, through to the main installation of 2,688 Grace-Hopper nodes in 2024.

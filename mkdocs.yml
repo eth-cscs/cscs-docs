@@ -17,7 +17,14 @@ nav:
   - 'Alps':
     - alps/index.md
     - 'Platforms': alps/platforms.md
-    - 'Clusters': alps/clusters.md
+    - 'Clusters':
+      - clusters/index.md
+      - 'Besso': clusters/besso.md
+      - 'Bristen': clusters/bristen.md
+      - 'Clariden': clusters/clariden.md
+      - 'Daint': clusters/daint.md
+      - 'Eiger': clusters/eiger.md
+      - 'Santis': clusters/santis.md
     - 'Hardware': alps/hardware.md
     - 'Storage': alps/storage.md
     - 'Machine Learning Platform':
@@ -37,22 +44,27 @@ nav:
     - 'Web Services': access/web.md
     - 'SSH': access/ssh.md
     - 'FirecREST': access/firecrest.md
+    - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
     - 'HyperQueue': running/hyperqueue.md
+    - 'Vetnode': running/vetnode.md
     - 'Known issues': running/known-issues.md
   - 'Environments':
     - environments/index.md
     - 'Getting started in the terminal': guides/terminal.md
     - 'uenv':
       - software/uenv/index.md
-      - 'Configuration': software/uenv/configure.md
+      - 'Using uenv': software/uenv/using.md
+      - 'Managing uenv': software/uenv/management.md
       - 'Building uenv': software/uenv/build.md
-      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Configuration': software/uenv/configure.md
       - 'Release notes': software/uenv/release-notes.md
+      - 'Deploying uenv': software/uenv/deploy.md
+      - 'Guides': software/uenv/guides.md
     - 'Container Engine': 
       - software/container-engine/index.md
       - 'Using the Container Engine': software/container-engine/run.md
@@ -64,12 +76,15 @@ nav:
     - 'Programming Environments':
       - software/prgenv/index.md
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
+      - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
+      - 'Alps Extended Images' : software/alps-extended-images.md
     - 'How to build software':
       - 'uenv': build-install/uenv.md
+      - 'Python': build-install/python.md
     - 'Packaging and Deployment':
       - 'Creating uenv': software/uenv/build.md
       - 'Creating Containers with podman': build-install/containers.md
@@ -93,16 +108,23 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
-      - 'WRF': software/cw/wrf.md
+      - 'Deployment': software/cw/deployment.md
+      - 'ICON': software/cw/icon.md
+      - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
+      - 'libfabric': software/communication/libfabric.md
       - 'Cray MPICH': software/communication/cray-mpich.md
       - 'MPICH': software/communication/mpich.md
       - 'OpenMPI': software/communication/openmpi.md
       - 'NCCL': software/communication/nccl.md
-      - 'RCCL': software/communication/rccl.md
-      - 'libfabric': software/communication/libfabric.md
-    - 'Commercial software':
+      - 'NVSHMEM': software/communication/nvshmem.md
+    - 'User Applications':
+      - software/userapps/index.md
+      - 'ESMF and CESM': software/userapps/cesm.md
+      - 'ORCA': software/userapps/orca.md
+      - 'WRF': software/userapps/wrf.md
+    - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
     - 'Scientific Visualization':
@@ -118,6 +140,7 @@ nav:
       - 'Linaro debugger': software/devtools/linaro-ddt.md
     - 'Using Score-P/Scalasca': software/devtools/vihps.md
     - 'Job report': running/jobreport.md
+    - 'GPU report': running/gssr.md
   - 'Data Management and Storage':
     - storage/index.md
     - 'File Systems': storage/filesystems.md

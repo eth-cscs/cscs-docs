@@ -4,6 +4,68 @@
 The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v8.1.0**.
 You can check the version available on a specific system with the `uenv --version` command.
 
+
+[](){#ref-uenv-release-notes-v9.0.0}
+## v9.0.0
+
+This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will replace v8.1.0 on Alps clusters.
+
+### Features
+
+- elastic logging.
+- Add `--json` option to `image ls` and `image find`.
+- add `--format` flag to uenv status.
+
+### Improvements
+
+- force unsquashfs to use a single thread when unpacking meta data.
+- reimplement squashfs-mount in the main repository.
+- improve file name completion in bash.
+
+### Fixes
+
+- Turn some CLI flags into options, so that they can be set with or without `=`. e.g. `uenv --repo=$HOME/uenv` or `uenv --repo $HOME/uenv`.
+- Only use the meta data path adjacent to a uenv image if it contains an env.json file.
+- `image push` was not pushing the correct meta data path.
+- a bug where the `--only-meta` flag was ignored on `image pull`.
+- add hints to error message when uenv is not found.
+
+[](){#ref-uenv-release-notes-v9.0.0-issues}
+### Known issues
+
+!!! warning "user-installed uenv stopped working"
+    This version introduced changes to the `squashfs-mount` tool used by `uenv start` and `uenv -run` that are incompatible with older versions of uenv.
+    If you see errors that contain `error: unable to exec '...': No such file or directory (errno=2)`, follow the guide for [uninstalling user-installed uenv][ref-uenv-uninstall].
+
+??? warning "bash: module: command not found"
+    This is a known issue with version 9.0.0 that was fixed in 9.0.1, and should no longer be an issue on Alps.
+    See the [uenv modules][ref-uenv-error-v9modules] docs for a workaround.
+
+### Minor and patch releases
+
+[](){#ref-uenv-release-notes-v9.1.2}
+??? info "v9.1.2 bug fix release"
+    - [fix] on non-production systems fall back to `SCRATCH` as the default repository location (required for systems like Balfrin)
+    - [fix] `uenv image add` works when the image provided is already inside the repo (i.e. retagging is properly supported)
+
+[](){#ref-uenv-release-notes-v9.1.1}
+??? info "v9.1.1 bug fix release"
+    - [fix] rename cluster field in elastic logs to avoid name conflict
+    - [fix] clean up `uenv status --format=views` output
+    - [fix] restrict lustre striping to max 32 OST
+
+[](){#ref-uenv-release-notes-v9.1.0}
+??? info "v9.1.0 feature release"
+    A feature release that focussed on managing repositories
+
+    - [feature] add support for lustre striping and cleaning up missing images from repos
+    - [feature] add `uenv repo migrate` feature
+
+[](){#ref-uenv-release-notes-v9.0.1}
+??? info "v9.0.1 bug fix release"
+    - [fix] fix bash function forwarding bug that broke the module command
+
+
 [](){#ref-uenv-release-notes-v8.1.0}
 ## v8.1.0
 

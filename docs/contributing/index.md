@@ -98,10 +98,10 @@ Then navigate to GitHub, and create a pull request.
 ## Review process
 
 After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
-A temporary "TDS" copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://docs.tds.cscs.ch/$PR`, where `PR` is the number of the pull request.
+A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
 To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
-The PR will automatically be updated, the spell checker will run again, and the TDS documentation site will be rebuilt.
+The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
 
 !!! tip
     If you think your documentation update could affect specific stakeholders, ping them for a review.
@@ -273,7 +273,7 @@ If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
-See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
+See the good and bad examples below for an example of what happens when a change to a sentence forces a line rebalance:
 
 === "good"
     Before:
@@ -347,7 +347,7 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 
 ### Headings are written in sentence case
 
-Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
+Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning just the first word and names are capitalized.
 
 ### Avoid nesting headings too deep
 

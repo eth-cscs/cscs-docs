@@ -204,7 +204,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
 ```toml
 com.hooks.aws_ofi_nccl.enabled = "true"
-com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
+com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)!
 ```
 
 1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
@@ -236,7 +236,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 
 ```toml
 com.hooks.ssh.enabled = "true"
-com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
+com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)!
 ```
 
 1. Replace `<public-key>` with the path to your SSH public key file.
@@ -315,7 +315,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 ??? example "Available GPUs and oversubscription error *without* the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda.toml"
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
+    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)!
     ```
 
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
@@ -327,13 +327,13 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     GPU 2: GH200 120GB (UUID: GPU-...)
     GPU 3: GH200 120GB (UUID: GPU-...)
 
-    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (1)
+    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (1)!
     Test PASSED
     Test PASSED
     Test PASSED
     Test PASSED
 
-    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)
+    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)!
     Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
     srun: error: ...
     ```

@@ -17,7 +17,7 @@ export NCCL_PROTO=^LL128
 # performance on the Alps network across a wide range of applications. Specific
 # applications may perform better with other values.
 export FI_CXI_DEFAULT_CQ_SIZE=131072
-export FI_CXI_DEFAULT_TX_SIZE=32768
+export FI_CXI_DEFAULT_TX_SIZE=16384
 export FI_CXI_DISABLE_HOST_REGISTER=1
 export FI_CXI_RX_MATCH_MODE=software
 export FI_MR_CACHE_MONITOR=userfaultfd
