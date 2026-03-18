@@ -66,12 +66,12 @@ $ podman build \
 
 What this approach is doing is setting up `apt` with:
 
-**sources.list.d/ubuntu.sources**: Tells `apt` to use the internal CSCS JFrog mirror.
-**99-jfrog-proxy**: Connection configurations.
+- **sources.list.d/ubuntu.sources**: Tells `apt` to use the internal CSCS JFrog mirror.
+- **99-jfrog-proxy**: Connection configurations.
 
 Passing these configurations as bind mounts has the advantage that no modifications to the  Containerfile are needed.
 
-We verified that the above workaround works for NVIDIA NGC images like PyTorch 24.01.
+We have verified that the above workaround works for NVIDIA NGC images like PyTorch 24.01.
 
 ## Compatibility with Alpine Linux
 
