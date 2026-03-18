@@ -9,7 +9,7 @@ This section covers how to access CSCS Alps systems and services. All methods sh
     2. Multi-factor authentication (MFA) set up — required for all CSCS services — see [MFA][ref-mfa]
 
 !!! info "Platform transition: UMP → Waldur"
-    CSCS is transitioning from the legacy User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
+    CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
 
     - **portal.cscs.ch** (Waldur) — new portal for project and resource management, user invitations, and service accounts
     - **account.cscs.ch** (UMP) — still active for SSH key management and MFA enrollment
@@ -24,10 +24,10 @@ Choose the access method that fits your workflow:
 |--------|----------|
 | [SSH][ref-ssh] | Terminal access, job submission, file transfer |
 | [Web portals][ref-access-web] | Browser-based access to CSCS services |
+| [FirecREST][ref-firecrest] | Programmatic / API access, CI/CD pipelines |
+| [HPC Console][hpc-console] | Web-based job management and file browsing |
 | [JupyterLab][ref-jupyter] | Interactive notebooks on compute nodes |
 | [VS Code][ref-access-vscode] | Remote IDE development |
-| [HPC Console][hpc-console] | Web-based job management and file browsing |
-| [FirecREST][ref-firecrest] | Programmatic / API access, CI/CD pipelines |
 
 <div class="grid cards" markdown>
 
@@ -37,17 +37,23 @@ Choose the access method that fits your workflow:
 
     [:octicons-arrow-right-24: MFA setup][ref-mfa]
 
+-   :fontawesome-solid-terminal: __SSH__
+
+    Terminal access to Alps clusters using signed SSH keys via the Ela jump host.
+
+    [:octicons-arrow-right-24: SSH access][ref-ssh]
+
 -   :fontawesome-solid-globe: __Web portals__
 
     Browser-based access to CSCS services via Single Sign-On.
 
     [:octicons-arrow-right-24: Web portals][ref-access-web]
 
--   :fontawesome-solid-terminal: __SSH__
+-   :material-fire-circle: __FirecREST__
 
-    Terminal access to Alps clusters using signed SSH keys via the Ela jump host.
+    RESTful API for programmatic HPC access, CI/CD pipelines, and portal integration.
 
-    [:octicons-arrow-right-24: SSH access][ref-ssh]
+    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
 -   :material-console: __HPC Console__
 
@@ -66,11 +72,5 @@ Choose the access method that fits your workflow:
     Remote IDE development on Alps using VS Code tunnels or SSH.
 
     [:octicons-arrow-right-24: VS Code][ref-access-vscode]
-
--   :material-fire-circle: __FirecREST__
-
-    RESTful API for programmatic HPC access, CI/CD pipelines, and portal integration.
-
-    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
 </div>
