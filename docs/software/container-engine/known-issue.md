@@ -71,7 +71,7 @@ What this approach is doing is setting up `apt` with:
 
 Passing these configurations as bind mounts has the advantage that no modifications to the  Containerfile are needed.
 
-We verified that the above workaround works for NGC images like PyTorch 24.01.
+We verified that the above workaround works for NVIDIA NGC images like PyTorch 24.01.
 
 ## Compatibility with Alpine Linux
 
