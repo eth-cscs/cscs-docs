@@ -1,47 +1,76 @@
 # Connecting to Alps
 
-This documentation guides users through the process of accessing CSCS systems and services.
+This section covers how to access CSCS Alps systems and services. All methods share the same authentication foundation: a CSCS account, project membership, and multi-factor authentication.
 
-!!! note ""
-    Before accessing CSCS, you need to have an account at CSCS, and be part of a project that has been allocated resources.
-    More information on how to get an account is available in [accounts and projects][ref-account-management].
+!!! note "Prerequisites"
+    Before using any access method you need:
+
+    1. A CSCS account that is part of a project with allocated resources — see [accounts and projects][ref-account-management]
+    2. Multi-factor authentication (MFA) set up — required for all CSCS services — see [MFA][ref-mfa]
+
+!!! info "Platform transition: UMP → Waldur"
+    CSCS is transitioning from the legacy User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
+
+    - **portal.cscs.ch** (Waldur) — new portal for project and resource management, user invitations, and service accounts
+    - **account.cscs.ch** (UMP) — still active for SSH key management and MFA enrollment
+
+    This documentation will be updated as the transition progresses.
+
+## Access methods
+
+Choose the access method that fits your workflow:
+
+| Method | Best for |
+|--------|----------|
+| [SSH][ref-ssh] | Terminal access, job submission, file transfer |
+| [Web portals][ref-access-web] | Browser-based access to CSCS services |
+| [JupyterLab][ref-jupyter] | Interactive notebooks on compute nodes |
+| [VS Code][ref-access-vscode] | Remote IDE development |
+| [HPC Console][hpc-console] | Web-based job management and file browsing |
+| [FirecREST][ref-firecrest] | Programmatic / API access, CI/CD pipelines |
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-layer-group: __Multi Factor Authentication__
+-   :material-lock-check: __Multi-factor authentication__
 
-    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentication (MFA)
+    Required before using any CSCS service. Set up a TOTP authenticator and enroll your device.
 
-    [:octicons-arrow-right-24: MFA][ref-mfa]
+    [:octicons-arrow-right-24: MFA setup][ref-mfa]
 
--   :fontawesome-solid-layer-group: __Web Services__
+-   :fontawesome-solid-globe: __Web portals__
 
-    Before signing in to CSCS' web portals or using SSH, all users have to set up multi factor authentication (MFA)
+    Browser-based access to CSCS services via Single Sign-On.
 
-    [:octicons-arrow-right-24: Accessing CSCS web services][ref-access-web]
+    [:octicons-arrow-right-24: Web portals][ref-access-web]
 
--   :fontawesome-solid-layer-group: __SSH Access__
+-   :fontawesome-solid-terminal: __SSH__
 
-    Logging into Clusters on Alps
+    Terminal access to Alps clusters using signed SSH keys via the Ela jump host.
 
-    [:octicons-arrow-right-24: SSH][ref-ssh]
+    [:octicons-arrow-right-24: SSH access][ref-ssh]
 
--   :material-fire-circle: __FirecREST__
+-   :material-console: __HPC Console__
 
-    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
+    Web-based dashboard for job submission, monitoring, and file browsing.
 
-    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
+    [:octicons-arrow-right-24: HPC Console][hpc-console]
 
 -   :simple-jupyter: __JupyterLab__
 
-    JupyterLab is a feature-rich notebook authoring application and editing environment.
+    Interactive notebook environment running directly on Alps compute nodes.
 
     [:octicons-arrow-right-24: JupyterLab][ref-jupyter]
 
--   :fontawesome-solid-layer-group: __VSCode__
+-   :material-microsoft-visual-studio-code: __VS Code__
 
-    How to connect VSCode IDE on your laptop with Alps
+    Remote IDE development on Alps using VS Code tunnels or SSH.
 
-    [:octicons-arrow-right-24: SSH][ref-access-vscode]
+    [:octicons-arrow-right-24: VS Code][ref-access-vscode]
+
+-   :material-fire-circle: __FirecREST__
+
+    RESTful API for programmatic HPC access, CI/CD pipelines, and portal integration.
+
+    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
 </div>
