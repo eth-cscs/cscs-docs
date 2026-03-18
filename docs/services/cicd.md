@@ -944,12 +944,12 @@ Optional variable, default is 64
 Limit the job to use at most that many CPUs.
 
 ##### `KUBERNETES_MEMORY_REQUEST`
-Optional variable, default is `32Gi`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
 
 The amount of memory minimally needed to schedule the job.
 
 ##### `KUBERNETES_MEMORY_LIMIT`
-Optional variable, default is `32Gi`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
 
 Limit the job to use at most this much memory.
 You will get an OOM (out-of-memory) error, if you exceed the limit.
