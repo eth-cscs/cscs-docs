@@ -1,16 +1,77 @@
-## Buffer overflow errors with long command strings
+## Slow or failing connection to Ubuntu package repositories
+We are aware that the main repository for the Ubuntu package manager at http://ports.ubuntu.com/ubuntu-ports/ is slow or unresponsive towards CSCS.
 
-We are aware of an issue, as of the system update on 10th September 2025, which is causing a buffer overflow error and abrupt termination of jobs using the CE when entering very long strings as the command to execute in the Slurm job step.
+A temporary solution is to use a CSCS local repo that works as a proxy for Ubuntu packages; it is much faster but needs a small workaround to the build process.
+Basically, the `apt` package manager should be configured to use the CSCS local repository instead of the default one to resolve the packages.
 
-The issue presents itself with a error message similar to the following:
+This can be achieved by first creating specific configuration files. Below we provide examples for recent Ubuntu LTS releases:
 
-```bash
-srun: error: nid001309: task 0: Aborted
-*** buffer overflow detected ***: terminated
+- **For Ubuntu 22.04 Jammy:**
+  ```console
+  $ cat > ./workaround/ubuntu.sources << 'EOF'
+  Types: deb
+  URIs: https://jfrog.svc.cscs.ch/artifactory/ubuntu-ports/
+  Suites: jammy jammy-updates jammy-backports
+  Components: main universe restricted multiverse
+  Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+  ## Ubuntu security updates. Aside from URIs and Suites,
+  ## this should mirror your choices in the previous section.
+  Types: deb
+  URIs: https://jfrog.svc.cscs.ch/artifactory/ubuntu-ports/
+  Suites: jammy-security
+  Components: main universe restricted multiverse
+  Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  EOF
+
+  $ cat > ./workaround/99-jfrog-proxy << 'EOF'
+  Acquire::http::AllowRedirect "true";
+  Acquire::http::Pipeline-Depth "0";
+  EOF
+  ```
+
+- **For Ubuntu 24.04 Noble:**
+  ```console
+  $ cat ./workaround/ubuntu.sources << 'EOF'
+  ## See the sources.list(5) manual page for further settings.
+  Types: deb
+  URIs: https://jfrog.svc.cscs.ch/artifactory/ubuntu-ports/
+  Suites: noble noble-updates noble-backports
+  Components: main universe restricted multiverse
+  Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+  ## Ubuntu security updates. Aside from URIs and Suites,
+  ## this should mirror your choices in the previous section.
+  Types: deb
+  URIs: https://jfrog.svc.cscs.ch/artifactory/ubuntu-ports/
+  Suites: noble-security
+  Components: main universe restricted multiverse
+  Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+  EOF
+
+  $ cat > ./workaround/99-jfrog-proxy  << 'EOF'
+  Acquire::http::AllowRedirect "true";
+  Acquire::http::Pipeline-Depth "0";
+  EOF
+  ```
+
+These files can then be used in the `podman build` command through bind mounts, e.g.:
+
+```console
+$ podman build \
+  -v "$PWD/workaround/ubuntu.sources:/etc/apt/sources.list.d/ubuntu.sources:ro,z" \
+  -v "$PWD/workaround/99-jfrog-proxy:/etc/apt/apt.conf.d/99-jfrog-proxy:ro,z" \
+  -t test-build .
 ```
 
-We have identified the nature of the problem and are working towards deploying a fix.
+What this approach is doing is setting up `apt` with:
 
+**sources.list.d/ubuntu.sources**: Tells `apt` to use the internal CSCS JFrog mirror.
+**99-jfrog-proxy**: Connection configurations.
+
+Passing these configurations as bind mounts has the advantage that no modifications to the  Containerfile are needed.
+
+We verified that the above workaround works for NGC images like PyTorch 24.01.
 
 ## Compatibility with Alpine Linux
 
