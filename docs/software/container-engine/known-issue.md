@@ -1,4 +1,4 @@
-## Slow or failing connection to Ubuntu package repositories
+## Slow or failing connection to Ubuntu package repositories during container build
 We are aware that the main repository for the Ubuntu package manager at http://ports.ubuntu.com/ubuntu-ports/ is slow or unresponsive towards CSCS.
 
 A temporary solution is to use a CSCS local repo that works as a proxy for Ubuntu packages; it is much faster but needs a small workaround to the build process.
