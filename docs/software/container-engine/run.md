@@ -247,9 +247,6 @@ The Container Engine currently uses a customized version of [NVIDIA Pyxis](https
 
 Compared to the original, upstream Pyxis code, the following user-facing differences should be noted:
 
-!!! note
-    As of September 10th, 2025, these items apply only to the Clariden and Santis vClusters.
-
 * **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and `SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container's environment.
   This behavior has been **disabled** by default.
   The remapping can be reactivated by setting the [annotation][ref-ce-annotations] `com.pyxis.pytorch_remap_vars="true"` in the EDF.
