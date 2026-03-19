@@ -499,6 +499,10 @@ Have a look at the definition of the block `.dynamic-image-name` in the file [.c
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
 
+* Cached build layers are  deleted  if they are older than 5 days. These directories are affected
+    * `/build_cache/*`
+    * `/buildcache/*`
+    * `/cache/*`
 * No deletion if total storage usage < 300GB
 * No deletion of images newer than 30 days
 * First cleanup excluding folders `base`, `baseimg`, `baseimage`, `deploy`, `deployment`
@@ -900,6 +904,14 @@ This variable can be:
       If it exists, then the runner will not rebuild the image.
       This is useful to disable rebuilding of base containers.
       See section [dependency management](#dependency-management).
+
+##### `CSCS_BUILD_CACHE`
+Optional variable, example value: `$CSCS_REGISTRY_PATH/build_cache`
+
+This allows to enable layer caching during image builds.
+The layers are cached in a docker registry.
+For fast layer download/upload it is recommended to use `$CSCS_REGISTRY_PATH/build_cache`.
+Layers cached in `$CSCS_REGISTRY_PATH/build_cache` are [cleaned up automatically](#image-cleanup).
 
 ##### `SECONDARY_REGISTRY`
 Optional variable, example value: `docker.io/username/my_image:1.0`
