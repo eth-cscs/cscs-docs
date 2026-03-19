@@ -370,6 +370,8 @@ There is a transition period, during which it is possible to use both Capstor an
     --------------------------------------------------------------------------------
     ```
 
+The migration message is currently disabled, because we are not ready to migrate uenv for the reasons explained below.
+
 If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
 !!! warning "Ritom is not ready for storing uenv"
@@ -377,8 +379,7 @@ If the migration is interrupted, the new default repository will not contain all
 
     CSCS are testing a new version of uenv (`v9.2.0`) that makes uenv compatible with file systems with squash root enabled, that we plan to deploy on March 25th 2026.
 
-    If you were using uenv before ritom was mounted, uenv will continue using the repository on (the migration message described below has been disabled until we have been able to finish testing ritom).
-    New users of uenv and some users who saw the migration message will notice that slurm jobs stop working (the `uenv run` and `uenv start` commands are not affected).
+    If you were using uenv before ritom was mounted, uenv will continue using the repository on Capstor until a migration has been performed. However, new users of uenv and some users who saw the migration message will need to make Capstor their default repository location until the fix has been deployed.
 
     If the system you are using has v9.2.0 installed, there is no need to apply this fix, and you should submit a support request if your issue persists.
 
@@ -392,7 +393,10 @@ If the migration is interrupted, the new default repository will not contain all
     9.2.0
     ```
 
-    First, check whether the old repository on Capstor scratch exists.
+    If you migrated the default repository from Capstor to Ritom, the old repository on Capstor was not deleted.
+    The easiest fix is to remove the Ritom repository, so that uenv falls back to using Capstor.
+
+    First, check whether the old repository on Capstor scratch exists:
 
     !!! example "Checking whether there is a repository on Capstor"
 
@@ -408,7 +412,6 @@ If the migration is interrupted, the new default repository will not contain all
         ```
 
     If there is no repository on Capstor, first create one (skip this step if one already exists).
-
 
     ```console title="create a repository on Capstor"
     $ uenv repo create $SCRATCH/.uenv-images
