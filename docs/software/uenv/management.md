@@ -311,7 +311,7 @@ $ uenv repo update
 $ uenv repo update --no-lustre
 
 # apply updates to a non-default repo location
-$ uenv repo update /capstore/scratch/cscs/$USER/my-other-repo
+$ uenv repo update /capstor/scratch/cscs/$USER/my-other-repo
 ```
 
 !!! note "Lustre striping"
@@ -350,56 +350,77 @@ If only one argument is passed, the default repo is used as the source.
 #### Migration to Ritom
 
 In March-April 2026 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesystem called Ritom.
+The default repository location will change from `/capstor/scratch/cscs/$USER/.uenv-images` to `/ritom/scratch/cscs/$USER/.uenv-images`.
+There is a transition period, during which it is possible to use both Capstor and Ritom, and a message like the following will be shown by uenv when it is time to migrate:
 
-The uenv tool stores images in a repository on each user's scratch, `$SCRATCH/.uenv-images`, which will have to migrate to ritom.
+??? example "uenv migration message"
+    ```
+    --------------------------------------------------------------------------------
+    warning: the default uenv repo on this system has moved to a new location:
+      /iopsstor/scratch/cscs/bcumming/.uenv-images
+    Migrate your repo, while the old location is still available, with this command:
+      uenv repo migrate --sync /capstor/scratch/cscs/<user>/.uenv-images \
+                               /ritom/scratch/cscs/<user>/.uenv-images
+    Migration can take over 30 minutes, and must be completed fully after it has
+    been started for all of the original images to be available. If interrupted,
+    migration can be resumed using the same command.
+    note: uenv will continue using the old location and printing this warning until
+    the migration is performed.
+    Set the environment variable UENV_WARN_MIGRATE to silence this warning.
+    --------------------------------------------------------------------------------
+    ```
 
-!!! warning "do not use ritom for storing uenv"
-    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which makes the uenv Slurm plugin hang when starting jobs with uenv images stored on Ritom.
+If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
-If you were using uenv before ritom was mounted, uenv will continue using the repository on (the migration message described below has been disabled until we have been able to finish testing ritom).
-New users of uenv and some users who saw the migration message will notice that slurm jobs stop working (the `uenv run` and `uenv start` commands are not affected).
+!!! warning "Ritom is not ready for storing uenv"
+    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which makes the **uenv Slurm plugin hang when starting jobs with uenv images stored on Ritom**.
 
-!!! example 'check whether you are affected'
-    Version v9.2.0 of uenv has a fix for the issue.
+    CSCS are testing a new version of uenv (`v9.2.0`) that makes uenv compatible with file systems with squash root enabled, that we plan to deploy on March 25th 2026.
+
+    If you were using uenv before ritom was mounted, uenv will continue using the repository on (the migration message described below has been disabled until we have been able to finish testing ritom).
+    New users of uenv and some users who saw the migration message will notice that slurm jobs stop working (the `uenv run` and `uenv start` commands are not affected).
+
     If the system you are using has v9.2.0 installed, there is no need to apply this fix, and you should submit a support request if your issue persists.
 
-    ```console
-    # we have a problem
+    ```console title="version too old"
     $ uenv --version
     9.1.0
+    ```
 
-    # all good: 9.2.0 and later are fixed
+    ```console title="all good: 9.2.0 and later are fixed"
     $ uenv --version
     9.2.0
     ```
 
-First, check whether the old repository on Capstor scratch exists.
+    First, check whether the old repository on Capstor scratch exists.
 
-!!! example 'checking whether there is a repository on Capstor'
+    !!! example "Checking whether there is a repository on Capstor"
 
-    If the repository does not exist you will see the following output
-    ```console
-    $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
-    /capstor/scratch/cscs/bcumming/.uenv-images is not a repository
-    ```
+        ```console title="no repository on Capstor"
+        $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
+        /capstor/scratch/cscs/bcumming/.uenv-images is not a repository
+        ```
 
-    If it exists
-    ```console
-    $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
-    the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite
-    - on a lustre file system
-    ```
+        ```console title="there is an existing repository on Capstor"
+        $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
+        the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite
+        - on a lustre file system
+        ```
 
-If there is no repository on Capstor, first create one (skip this step if one already exists).
+    If there is no repository on Capstor, first create one (skip this step if one already exists).
 
-!!! example 'new users'
 
-    ```console
+    ```console title="create a repository on Capstor"
     $ uenv repo create $SCRATCH/.uenv-images
+    ```
+
+    Then remove the repository on ritom, while keeping a copy of it:
+
+    ```console
     $ mv /ritom/scratch/cscs/$USER/.uenv-images /ritom/scratch/cscs/$USER/.uenv-images.back
     ```
 
-    then use the `uenv repo status` to check the location of the default repository, which should be in `/capstor/scratch`:
+    If the move was successful, then the `uenv repo status` command will show location of the default repository on `/capstor/scratch`:
 
     ```console
     $ uenv repo status
@@ -407,26 +428,4 @@ If there is no repository on Capstor, first create one (skip this step if one al
       - on a lustre file system
     ```
 
-When the transition occurs, you will see a warning message like the following:
-
-```
---------------------------------------------------------------------------------
-warning: the default uenv repo on this system has moved to a new location:
-  /iopsstor/scratch/cscs/bcumming/.uenv-images
-Migrate your repo, while the old location is still available, with this command:
-  uenv repo migrate --sync /capstor/scratch/cscs/<user>/.uenv-images \
-                           /ritom/scratch/cscs/<user>/.uenv-images
-Migration can take over 30 minutes, and must be completed fully after it has
-been started for all of the original images to be available. If interrupted,
-migration can be resumed using the same command.
-note: uenv will continue using the old location and printing this warning until
-the migration is performed.
-Set the environment variable UENV_WARN_MIGRATE to silence this warning.
---------------------------------------------------------------------------------
-```
-
-Please migrate at the first opportunity to remove the warning, and avoid losing your downloaded uenv images.
-
-!!! note
-    If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
