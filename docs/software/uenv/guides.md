@@ -231,3 +231,10 @@ $ which uenv
 /usr/bin/uenv
 ```
 
+[](){#ref-uenv-guides-ritom}
+## Ritom Migration
+
+The new Ritom file system is has been mounted on Eiger and Daint, where it is being tested before it going into service as a the new primary scratch file system for the HPC Platform.
+The uenv tool stores images in a [repository][ref-uenv-manage] on each user's scratch, `$SCRATCH/.uenv-images`, which will have to migrate to ritom.
+
+
