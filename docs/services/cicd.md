@@ -933,6 +933,28 @@ If `$PERSIST_IMAGE_NAME` is not inside the CSCS default registry, then you have 
 For security you should store a secret variable on the CI setup page, and forward it in the job yaml.
 If possible do not use your password, but create an access token.
 
+##### `KUBERNETES_CPU_REQUEST`
+Optional variable, default is 16
+
+Number of CPUs minimally needed to schedule this job.
+
+##### `KUBERNETES_CPU_LIMIT`
+Optional variable, default is 64
+
+Limit the job to use at most that many CPUs.
+
+##### `KUBERNETES_MEMORY_REQUEST`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
+
+The amount of memory minimally needed to schedule the job.
+
+##### `KUBERNETES_MEMORY_LIMIT`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
+
+Limit the job to use at most this much memory.
+You will get an OOM (out-of-memory) error, if you exceed the limit.
+
+
 #### Build arguments
 Build arguments are configured with the variable [`DOCKER_BUILD_ARGS`](#docker_build_args).
 Additionally these build arguments are injected
