@@ -8,16 +8,13 @@ This section covers how to access CSCS Alps systems and services. All methods sh
     1. A CSCS account that is part of a project with allocated resources — see [accounts and projects][ref-account-management]
     2. Multi-factor authentication (MFA) set up — required for all CSCS services — see [MFA][ref-mfa]
 
-!!! info "Platform transition: UMP → Waldur"
-    CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
+!!! warning "Platform transition: UMP → Waldur (from April 1, 2026)"
+    CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch). UMP will be retired from **April 1, 2026**.
 
     - **portal.cscs.ch** (Waldur) — new portal for project and resource management, user invitations, and service accounts
     - **user-account.cscs.ch** — new portal for SSH key management
 
     This documentation will be updated as the transition progresses.
-
-!!! warning "account.cscs.ch (UMP) — phasing out"
-    UMP (User Management Portal) was previously the central application for user, project, and resource management. It remains active for MFA enrollment only and will be retired as the transition to Waldur progresses.
 
 ## Access methods
 
