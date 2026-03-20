@@ -81,22 +81,21 @@ The recommended approach is to upload your existing SSH public key to be signed 
     - Works with any SSH key type (RSA, ED25519, ECDSA)
     - Recommended for security
 
-### Supported: generate a new key pair (deprecated)
+??? warning "Deprecated: generate a new key pair"
+    If you don't have an SSH key, CSCS can generate one for you. This method is currently supported but will be phased out in favor of signing existing keys.
 
-If you don't have an SSH key, CSCS can generate one for you. This method is currently supported but will be phased out in favor of signing existing keys.
+    **Steps:**
 
-**Steps:**
+    1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
+    2. Navigate to **SSH Keys** and select **Generate Key**
+    3. Optionally add a passphrase for additional security
+    4. Click **Generate** — CSCS creates and downloads a new key pair
+    5. Save the private key (`cscs-key`) to `~/.ssh/` with restricted permissions:
+       ```bash
+       chmod 0600 ~/.ssh/cscs-key
+       ```
 
-1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
-2. Navigate to **SSH Keys** and select **Generate Key**
-3. Optionally add a passphrase for additional security
-4. Click **Generate** — CSCS creates and downloads a new key pair
-5. Save the private key (`cscs-key`) to `~/.ssh/` with restricted permissions:
-   ```bash
-   chmod 0600 ~/.ssh/cscs-key
-   ```
-
-**Note:** This method transfers the private key over HTTPS. Key generation is deprecated in favor of signing existing keys.
+    **Note:** This method transfers the private key over HTTPS which should be avoided.
 
 ### Key validity and limits
 
