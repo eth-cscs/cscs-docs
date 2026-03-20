@@ -5,7 +5,7 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 
 ## SSH key management overview
 
-Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to use your existing SSH key and have it signed by CSCS.
+Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
 - **Web Dashboard** (recommended for most users) — [user-account.cscs.ch](https://user-account.cscs.ch)
