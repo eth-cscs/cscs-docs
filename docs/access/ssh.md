@@ -8,8 +8,54 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
-- **Web Dashboard**  [user-account.cscs.ch](https://user-account.cscs.ch)
 - **Command-line Interface** (for automation and scripting)
+- **Web Dashboard**  [user-account.cscs.ch](https://user-account.cscs.ch)
+
+[](){#ref-ssh-cli}
+## Command-line access
+
+The `cscs-key` CLI tool provides programmatic access to SSH key management for automation and scripting.
+
+### Installation and setup
+
+Visit the [cscs-key repository](https://github.com/rjanalik/cscs-key) for installation instructions and detailed documentation.
+
+The CLI supports two authentication methods:
+
+- **Browser session integration** — automatically uses your browser's Keycloak session
+- **API keys** — for automation with service accounts
+
+### Basic usage
+
+Run `cscs-key --help` to see all available commands:
+
+```bash
+$ cscs-key --help
+```
+
+**Common commands:**
+
+Sign an existing public key:
+```bash
+cscs-key sign --public-key ~/.ssh/id_ed25519.pub
+```
+
+Generate a new key pair:
+```bash
+cscs-key generate --output ~/.ssh/cscs-key
+```
+
+List your SSH keys:
+```bash
+cscs-key list
+```
+
+Revoke a key by serial number:
+```bash
+cscs-key revoke --serial <serial-number>
+```
+
+For more details and examples, refer to the [cscs-key documentation](https://github.com/rjanalik/cscs-key).
 
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
@@ -58,52 +104,6 @@ If you don't have an SSH key, CSCS can generate one for you. This method is curr
     - **Validity**: Keys are valid for 1 day by default
     - **Renewal**: Generate or sign a new key when needed for continued access
     - **Limit**: You can create up to 5 keys per day
-
-[](){#ref-ssh-cli}
-## Command-line access
-
-The `cscs-key` CLI tool provides programmatic access to SSH key management for automation and scripting.
-
-### Installation and setup
-
-Visit the [cscs-key repository](https://github.com/rjanalik/cscs-key) for installation instructions and detailed documentation.
-
-The CLI supports two authentication methods:
-
-- **Browser session integration** — automatically uses your browser's Keycloak session
-- **API keys** — for automation with service accounts
-
-### Basic usage
-
-Run `cscs-key --help` to see all available commands:
-
-```bash
-$ cscs-key --help
-```
-
-**Common commands:**
-
-Sign an existing public key:
-```bash
-cscs-key sign --public-key ~/.ssh/id_ed25519.pub
-```
-
-Generate a new key pair:
-```bash
-cscs-key generate --output ~/.ssh/cscs-key
-```
-
-List your SSH keys:
-```bash
-cscs-key list
-```
-
-Revoke a key by serial number:
-```bash
-cscs-key revoke --serial <serial-number>
-```
-
-For more details and examples, refer to the [cscs-key documentation](https://github.com/rjanalik/cscs-key).
 
 ## Logging in
 
