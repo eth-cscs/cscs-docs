@@ -12,22 +12,14 @@ This section covers how to access CSCS Alps systems and services. All methods sh
     CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
 
     - **portal.cscs.ch** (Waldur) — new portal for project and resource management, user invitations, and service accounts
-    - **account.cscs.ch** (UMP) — still active for SSH key management and MFA enrollment
+    - **user-account.cscs.ch** — new portal for SSH key management
 
     This documentation will be updated as the transition progresses.
 
+!!! warning "account.cscs.ch (UMP) — phasing out"
+    UMP (User Management Portal) was previously the central application for user, project, and resource management. It remains active for MFA enrollment only and will be retired as the transition to Waldur progresses.
+
 ## Access methods
-
-Choose the access method that fits your workflow:
-
-| Method | Best for |
-|--------|----------|
-| [SSH][ref-ssh] | Terminal access, job submission, file transfer |
-| [Web portals][ref-access-web] | Browser-based access to CSCS services |
-| [FirecREST][ref-firecrest] | Programmatic / API access, CI/CD pipelines |
-| [HPC Console][hpc-console] | Web-based job management and file browsing |
-| [JupyterLab][ref-jupyter] | Interactive notebooks on compute nodes |
-| [VS Code][ref-access-vscode] | Remote IDE development |
 
 <div class="grid cards" markdown>
 

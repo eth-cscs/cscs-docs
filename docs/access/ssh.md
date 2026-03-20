@@ -8,13 +8,13 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to use your existing SSH key and have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
-- **Web Dashboard** (recommended for most users) — [account.cscs.ch](https://account.cscs.ch)
+- **Web Dashboard** (recommended for most users) — [user-account.cscs.ch](https://user-account.cscs.ch)
 - **Command-line Interface** (for automation and scripting)
 
 [](){#ref-ssh-key-management}
-## Managing SSH keys at account.cscs.ch
+## Managing SSH keys at user-account.cscs.ch
 
-The centralized key management dashboard at [account.cscs.ch](https://account.cscs.ch) allows you to generate, sign, list, and revoke SSH keys.
+The centralized key management dashboard at [user-account.cscs.ch](https://user-account.cscs.ch) allows you to generate, sign, list, and revoke SSH keys.
 
 ### Recommended: sign your existing SSH key
 
@@ -22,14 +22,12 @@ The recommended approach is to upload your existing SSH public key to be signed 
 
 **Steps:**
 
-1. Access [account.cscs.ch](https://account.cscs.ch) and log in with your CSCS credentials
+1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
 2. Navigate to **SSH Keys** and select **Sign Key**
 3. Paste your existing SSH public key (e.g., from `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub`)
 4. Click **Sign Key** — CSCS will issue a signed certificate
 5. Download the signed certificate (`~/.ssh/cscs-key-cert.pub`)
 6. Your original private key remains on your machine
-
-[Screenshot: account.cscs.ch SSH Keys page]
 
 !!! info "Advantages"
     - Private key never leaves your machine
@@ -37,13 +35,13 @@ The recommended approach is to upload your existing SSH public key to be signed 
     - Works with any SSH key type (RSA, ED25519, ECDSA)
     - Recommended for security
 
-### Supported: generate a new key pair
+### Supported: generate a new key pair (deprecated)
 
 If you don't have an SSH key, CSCS can generate one for you. This method is currently supported but will be phased out in favor of signing existing keys.
 
 **Steps:**
 
-1. Access [account.cscs.ch](https://account.cscs.ch) and log in with your CSCS credentials
+1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
 2. Navigate to **SSH Keys** and select **Generate Key**
 3. Optionally add a passphrase for additional security
 4. Click **Generate** — CSCS creates and downloads a new key pair
@@ -52,9 +50,7 @@ If you don't have an SSH key, CSCS can generate one for you. This method is curr
    chmod 0600 ~/.ssh/cscs-key
    ```
 
-[Screenshot: account.cscs.ch Generate Key page]
-
-**Note:** This method transfers the private key over HTTPS. Key generation will be phased out in favor of signing existing keys.
+**Note:** This method transfers the private key over HTTPS. Key generation is deprecated in favor of signing existing keys.
 
 ### Key validity and limits
 
@@ -249,12 +245,10 @@ You can revoke SSH keys when they are no longer needed or if compromised.
 
 ### Revoke via web dashboard
 
-1. Access [account.cscs.ch](https://account.cscs.ch) and log in
+1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in
 2. Navigate to **SSH Keys** to view your active keys
 3. Click the **Revoke** button next to the key you want to revoke
 4. Confirm the revocation
-
-[Screenshot: account.cscs.ch Revoke Key action]
 
 ### Revoke via CLI
 
@@ -282,7 +276,7 @@ The revocation takes effect immediately across all CSCS systems.
 
 ??? warning "Permission denied"
     This might indicate that your key has expired or is not valid.
-    Check the validity of your key at [account.cscs.ch](https://account.cscs.ch).
+    Check the validity of your key at [user-account.cscs.ch](https://user-account.cscs.ch).
     If expired, sign or generate a new key.
 
 ??? warning "Could not open a connection to your authentication agent"
@@ -298,97 +292,8 @@ The revocation takes effect immediately across all CSCS systems.
     The recommended approach is to sign your existing SSH key using the dashboard or CLI. This allows you to use your own key infrastructure without transferring private keys over the network.
 
 [](){#ref-ssh-legacy}
-## Legacy: old SSH key management (deprecated)
+## Legacy: old SSH key management
 
-!!! warning "⚠️ Deprecated — Migrate by Q2 2026"
-    The old SSHService method described below is **deprecated**. All users should migrate to the [new key management dashboard](#ref-ssh-key-management) or [CLI](#ref-ssh-cli) by **Q2 2026**.
-
-    The old method will no longer be available after Q2 2026.
-
-### Generating keys with SSHService (old method)
-
-The previous approach used the [SSHService web app](https://sshservice.cscs.ch/) or a [command-line script](https://github.com/eth-cscs/sshservice-cli).
-
-#### Getting keys via the command line (old)
-
-On Linux and MacOS, SSH keys could be generated and automatically installed using a command-line script.
-This script is provided in pure Bash and in Python.
-Python 3 is required together with packages listed in `requirements.txt` provided with the scripts.
-
-!!! note
-    We recommend to using a [virtual environment](https://user.cscs.ch/tools/interactive/python/#python-virtual-environments) for Python.
-
-If this is the first time, download the ssh service from CSCS GitHub:
-
-```bash
-git clone https://github.com/eth-cscs/sshservice-cli
-cd sshservice-cli
-```
-
-The next step is to use either the bash or python scripts:
-
-=== "bash"
-    Run the bash script in the `sshservice-cli` path:
-
-    ```
-    ./cscs-keygen.sh
-    ```
-
-=== "python"
-
-    The first time you use the script, you can set up a python virtual environment with the dependencies installed:
-
-    ```bash
-    python3 -m venv mfa
-    source mfa/bin/activate
-    pip install -r requirements.txt
-    ```
-
-    Thereafter, activate the venv before using the script:
-
-    ```bash
-    source mfa/bin/activate
-    python cscs-keygen.py
-    ```
-
-For both approaches, follow the on screen instructions that require you to enter your username, password and the six-digit OTP from the authenticator app on your phone.
-The script generates the key pair (`cscs-key` and `cscs-key-cert.pub`) in your `~/.ssh` path:
-
-```bash
-> ls ~/.ssh/cscs-key*
-/home/bobsmith/.ssh/cscs-key  /home/bobsmith/.ssh/cscs-key-cert.pub
-```
-
-#### Getting keys via the web app (old)
-
-Access the old SSHService web application by accessing [sshservice.cscs.ch](https://sshservice.cscs.ch).
-
-1. Sign in with username, password and OTP
-2. Select "Signed key" on the left tab and click on "Get a signed key"
-3. On the next page a key pair is generated and ready to be downloaded. Download or copy/paste both keys.
-
-Once generated, the keys need to be copied from where your browser downloaded them to your `~/.ssh` path, for example:
-```bash
-mv /download/location/cscs-key-cert.pub ~/.ssh/cscs-key-cert.pub
-mv /download/location/cscs-key ~/.ssh/cscs-key
-chmod 0600 ~/.ssh/cscs-key
-```
-
-### Adding a password to the key (old method)
-
-Once the key has been generated using either the old CLI or web interface above, it is strongly recommended that you add a password to the generated key using the [ssh-keygen](https://www.ssh.com/academy/ssh/keygen) tool.
-
-```
-ssh-keygen -f ~/.ssh/cscs-key -p
-```
-
-### Migration notes
-
-To migrate from the old SSHService to the new system:
-
-1. **Keep your existing private key** (`~/.ssh/cscs-key`)
-2. **Extract the public key**: `ssh-keygen -y -f ~/.ssh/cscs-key > ~/.ssh/cscs-key.pub`
-3. **Sign it with the new system**: Use [account.cscs.ch](https://account.cscs.ch) to sign `cscs-key.pub`
-4. **Test access** before March 31, 2026
-5. **Q2 2026**: Old SSHService will be retired
+!!! warning "Retired from Q2 2026"
+    The old SSHService ([sshservice.cscs.ch](https://sshservice.cscs.ch)) and the associated command-line script have been retired starting Q2 2026. All users must use the [new key management dashboard](#ref-ssh-key-management) or [CLI](#ref-ssh-cli).
 
