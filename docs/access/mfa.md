@@ -58,7 +58,7 @@ Before starting, ensure that the following pre-requisites are satisfied
 
 Steps:
 
-1. Access any of the CSCS Web applications such as [`account.cscs.ch`](https://account.cscs.ch), Jupyter, etc., on a new browser session which will redirects you to the CSCS login page.
+1. Access any of the CSCS Web applications such as [`portal.cscs.ch`](https://portal.cscs.ch), Jupyter, etc., on a new browser session which will redirects you to the CSCS login page.
 2. Log in with your username and password.
 3. You will be asked to key in a code which CSCS Authentication system sent to you by email.
    After successful validation of the code you will be redirected to the next page which present a QR code.
@@ -71,7 +71,7 @@ Steps:
 
 In case users lose access to their mobile device/Authenticator OTP, users can reset their OTP by following the below self-service process.
 
-1. Access any CSCS web application like: [account.cscs.ch](https://account.cscs.ch/) which redirects you to the CSCS Login page. 
+1. Access any CSCS web application like: [portal.cscs.ch](https://portal.cscs.ch) which redirects you to the CSCS Login page.
 2. From the login screen, click the "Reset OTP" link below the "LOG IN" button
 3. Enter your username and password.
 4. On successful validation of user credentials, users will receive an email with a reset credentials link like the one below, click on the link in the email
