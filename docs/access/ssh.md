@@ -14,48 +14,68 @@ Two methods are available for managing SSH keys:
 [](){#ref-ssh-cli}
 ## Command-line access
 
-The `cscs-key` CLI tool provides programmatic access to SSH key management for automation and scripting.
+The CLI interface to the SSH service is called `cscs-key`.
+It is an open source app available [here](https://github.com/eth-cscs/sshservice-cli).
 
-### Installation and setup
+### Installation
 
-Visit the [cscs-key repository](https://github.com/rjanalik/cscs-key) for installation instructions and detailed documentation.
+To install the command-line tool, download the latest release for your OS and architecture from [here](https://github.com/rjanalik/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
+(TODO something about ~/.bashrc or is it obvious?)
 
-The CLI supports two authentication methods:
+(TODO Alternatively, you can install the app from HomeBrew.)
+You can also build it from source by cloning the git repository and following the instructions in the README.
 
-- **Browser session integration** — automatically uses your browser's Keycloak session
-- **API keys** — for automation with service accounts
+### Setup ssh keys
 
-### Basic usage
+First, generate the key pair using `ssh-keygen`.
+And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh agent](#ref-ssh-agent).
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
+```
+This needs to be done only once.
 
-Run `cscs-key --help` to see all available commands:
+### Usage
+
+To see all available commands run:
 
 ```bash
 $ cscs-key --help
 ```
 
-**Common commands:**
-
-Sign an existing public key:
+**Sign** an existing public key:
 ```bash
-cscs-key sign --public-key ~/.ssh/id_ed25519.pub
+cscs-key sign
 ```
+The default private key is `~/.ssh/cscs-key`. You can specify a different private key using the `-f, --file` option.
+The default duration of the signed key is 1 day. You can specify a different duration using the `-d, --duration` option. Possible values are `1d` or `1min`.
 
-Generate a new key pair:
+**Generate** a new key pair (deprecated):
+Generating the ssh key on the server is deprecated and will be removed in the future. It is recommended to generate the SSH key locally and then sign it using the cscs-key sign command.
 ```bash
-cscs-key generate --output ~/.ssh/cscs-key
+cscs-key gen
 ```
+The default private key is `~/.ssh/cscs-key`. You can specify a different private key using the `-f, --file` option.
+The default duration of the signed key is 1 day. You can specify a different duration using the `-d, --duration` option. Possible values are `1d` or `1min`.
 
-List your SSH keys:
+**List** your SSH keys:
 ```bash
 cscs-key list
 ```
+`-a, --all` shows also expired and revoked keys.
 
-Revoke a key by serial number:
+**Revoke** a key by serial number:
 ```bash
-cscs-key revoke --serial <serial-number>
+cscs-key revoke [serial-number]...
 ```
+Use `-a, --all` option to revoke all valid keys.
 
-For more details and examples, refer to the [cscs-key documentation](https://github.com/rjanalik/cscs-key).
+For more details  about any command please refer to help with `-h, --help`.
+
+!!! note
+    The app supports two authentication methods:
+
+    - Users use **OpenID Connect**: web browser window opens where user authenticates with the CSCS credentials.
+    - for automation with service accounts: **API keys**: export environment variable `CSCS_API_KEY=<your_api_key>` before using the app.
 
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
