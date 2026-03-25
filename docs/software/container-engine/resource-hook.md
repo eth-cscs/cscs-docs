@@ -356,7 +356,7 @@ To enable netstacks, add the following annotation in the EDF; all other hooks fo
 com.hooks.netstack.source = "artifact"
 ```
 
-Specifically, `com.hooks.netstack.source` can be either of `"host"` (default), `"artifact"`, or `"artifact:<netstack_ver>"` if a specific version of netstack should be used (`<netstack_ver>` = the netstack version number); `artifact` without `:<netstack_ver>` will automatically use the latest netstack version.
+Specifically, `com.hooks.netstack.source` can be either of `"host"` (default), `"artifact"`, or `"artifact:<netstack_ver>"` if a specific version of netstack should be used (`<netstack_ver>` = the netstack version number). `artifact` without `:<netstack_ver>` will automatically use the latest netstack version.
 
 ## Accessing NVIDIA GPUs
 
