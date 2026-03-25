@@ -358,6 +358,9 @@ com.hooks.netstack.source = "artifact"
 
 Specifically, `com.hooks.netstack.source` can be either of `"host"` (default), `"artifact"`, or `"artifact:<netstack_ver>"` if a specific version of netstack should be used (`<netstack_ver>` = the netstack version number). `artifact` without `:<netstack_ver>` will automatically use the latest netstack version.
 
+!!! warning
+    Currently, netstacks may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
+
 ## Accessing NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
