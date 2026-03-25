@@ -343,7 +343,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 ## Using Network Stack Artifacts
 
-By default, container hooks inject network libraries (e.g., Slingshot interconnect libraries and the AWS OFI NCCL plugin) directly from the host, overwriting the in-container libraries. While this allows the in-container environment to be as close as the host environment, it may cause issues at times due to library incompatibilities (e.g., outdated libfabric or conflicting dependencies).
+By default, container hooks inject network libraries (e.g., libfabric or the AWS OFI NCCL plugin) directly from the host, overwriting the in-container libraries. While this allows the in-container environment to be as close as the host environment, it may cause issues at times due to library incompatibilities (e.g., outdated libfabric or conflicting dependencies).
 
 To mitigate this, hooks can optionally be configured to inject libraries from a prebuilt network stack artifact, dubbed **netstack**, and to avoid overwriting libraries when possible. 
 
@@ -361,7 +361,7 @@ Specifically, `com.hooks.netstack.source` can be either of `"host"`, `"artifact"
 ## Accessing NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
-GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
+GPU device files are always mounted in containers, and the NVIDIA driver user space components are mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
 `NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
