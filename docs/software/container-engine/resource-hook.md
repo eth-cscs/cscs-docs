@@ -341,7 +341,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     1. 4 processes run successfully.
     2. More than 4 concurrent processes result in oversubscription errors.
 
-## Using Network Stack Artifacts
+### Using Network Stack Artifacts
 
 By default, container hooks inject network libraries (e.g., libfabric or the AWS OFI NCCL plugin) directly from the host, overwriting the in-container libraries. While this allows the in-container environment to be as close as the host environment, it may cause issues at times due to library incompatibilities (e.g., outdated libfabric or conflicting dependencies).
 
