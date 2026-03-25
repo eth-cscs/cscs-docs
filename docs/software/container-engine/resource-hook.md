@@ -350,7 +350,7 @@ To mitigate this, hooks can optionally be configured to inject libraries from a 
 !!! tip
     In technical terms, when the netstack is enabled, the network libraries are sourced from a prebuilt artifact instead of the host, and their dependencies are injected into a separate directory within the container; the network libraries search for these dependencies there using `rpath`.
 
-To enable netstacks, add the following annotation in the EDF; all other hooks follow the same annotation as in this document:
+To enable netstacks, add the following annotation in the EDF; all other hooks follow the same annotation as in this document above:
 
 ```toml
 com.hooks.netstack.source = "artifact"
