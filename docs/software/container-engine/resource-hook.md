@@ -356,7 +356,7 @@ To enable netstacks, add the following annotation in the EDF;
 com.hooks.netstack.source = "artifact"
 ```
 
-All other hook annotations in this document are the same regardless of this annotation. Specifying `com.hooks.netstack.source = "host"` is equivalent to no netstack annotation (default).
+All other hook annotations are the same regardless of this annotation. Specifying `com.hooks.netstack.source = "host"` is equivalent to no netstack annotation (default).
 
 !!! warning
     Currently, netstacks may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
