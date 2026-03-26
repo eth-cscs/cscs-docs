@@ -346,7 +346,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 By default, container hooks inject network libraries (e.g., libfabric or the AWS OFI NCCL plugin) and their dependencies directly from the host, overwriting the in-container libraries.
 While this allows the in-container environment to be as close as the host environment, it may cause issues if the injected libraries are not compatible with those in the container image.
 
-To mitigate this, hooks can optionally be configured to inject libraries from a prebuilt network stack artifact, dubbed **netstack**, and to avoid overwriting libraries when possible. 
+To mitigate this, hooks can optionally be configured to inject libraries from a pre-built "netstack" network stack artifact, which avoids overwriting libraries inside the container by mounting the new libraries in a separate path.
 
 !!! tip
     In technical terms, when the netstack is enabled, the network libraries are sourced from a prebuilt artifact instead of the host, and their dependencies are injected into a separate directory within the container; the network libraries search for these dependencies there using `rpath`.
