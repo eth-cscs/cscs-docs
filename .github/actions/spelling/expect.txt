@@ -1,7 +1,10 @@
 JAX
+netstack
+netstacks
 NPZ
 nvitop
 NVRTC
 placeholders
-Zarr
+prebuilt
 PVSC
+Zarr
