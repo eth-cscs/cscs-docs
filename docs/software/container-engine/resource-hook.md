@@ -350,13 +350,13 @@ To mitigate this, hooks can optionally be configured to inject libraries from a 
 !!! tip
     In technical terms, when the netstack is enabled, the network libraries are sourced from a prebuilt artifact instead of the host, and their dependencies are injected into a separate directory within the container; the network libraries search for these dependencies there using `rpath`.
 
-To enable netstacks, add the following annotation in the EDF; all other hooks follow the same annotation as in this document above:
+To enable netstacks, add the following annotation in the EDF;
 
 ```toml
 com.hooks.netstack.source = "artifact"
 ```
 
-Specifically, `com.hooks.netstack.source` can be either of `"host"` (default), `"artifact"`, or `"artifact:<netstack_ver>"` if a specific version of netstack should be used (`<netstack_ver>` = the netstack version number). `artifact` without `:<netstack_ver>` will automatically use the latest netstack version installed on the host.
+All other hook annotations in this document are the same regardless of this annotation. Specifying `com.hooks.netstack.source = "host"` is equivalent to no netstack annotation (default).
 
 !!! warning
     Currently, netstacks may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
