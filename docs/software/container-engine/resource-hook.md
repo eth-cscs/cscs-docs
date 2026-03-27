@@ -341,10 +341,31 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     1. 4 processes run successfully.
     2. More than 4 concurrent processes result in oversubscription errors.
 
-## Accessing  NVIDIA GPUs
+### Using Network Stack Artifacts
+
+By default, container hooks inject network libraries (e.g., libfabric or the AWS OFI NCCL plugin) and their dependencies directly from the host, overwriting the in-container libraries.
+While this allows the in-container environment to be as close as the host environment, it may cause issues if the injected libraries are not compatible with those in the container image.
+
+To mitigate this, hooks can optionally be configured to inject libraries from a pre-built "netstack" network stack artifact, which avoids overwriting libraries inside the container by mounting the new libraries in a separate path.
+
+!!! tip
+    In technical terms, when the netstack is enabled, the network libraries are sourced from a prebuilt artifact instead of the host, and their dependencies are injected into a separate directory within the container; the network libraries search for these dependencies there using `rpath`.
+
+To enable netstacks, add the following annotation in the EDF:
+
+```toml
+com.hooks.netstack.source = "artifact"
+```
+
+All other hook annotations are the same regardless of this annotation. Specifying `com.hooks.netstack.source = "host"` is equivalent to no netstack annotation (default).
+
+!!! warning
+    Currently, netstacks may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
+
+## Accessing NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
-GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
+GPU device files are always mounted in containers, and the NVIDIA driver user space components are mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
 `NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 
