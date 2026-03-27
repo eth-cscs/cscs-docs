@@ -98,7 +98,7 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
 === "EDF pulling from Jfrog"
 
-    ```toml title="Example EDF file"
+    ```toml
     # (1)!
     image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps4"
     mounts = [
@@ -118,9 +118,9 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
 === "EDF pulling from GHCR"
 
-    ```toml title="Example EDF file"
+    ```toml
     # (1)!
-    image = "ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alpsr43"
+    image = "ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps4"
     mounts = [
         "/capstor/",
         "/iopsstor/",
