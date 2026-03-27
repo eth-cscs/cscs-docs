@@ -3,17 +3,15 @@
 
 To access CSCS services and systems users are required to authenticate using multi-factor authentication (MFA).
 MFA is implemented as a two-factor authentication, where one factor is the login and password pair ("the thing you know") and the other factor is the device which generates one-time passwords (OTPs, "the thing you have").
-In this way security is significantly improved compared to single-factor (password only) authentication.
 
 The MFA workflow uses a time-based one-time password (OTP) to verify identity.
-An OTP is a six-digit number which changes every 30 seconds.
-OTPs are generated using a tool installed on a device other than the one used to access CSCS services and infrastructure.
+An OTP is a six-digit number which changes every 30 seconds, generated using a tool installed on a device other than the one used to access CSCS services and infrastructure.
 We recommend to use a smartphone with an application such as Google Authenticator to obtain the OTPs.
 
 [](){#ref-mfa-setup}
 ## Getting Started
 
-When you first log in to any of the CSCS web applications such as UMP, Jupyter, etc., you will be asked to register your device.
+When you first log in to any of the CSCS web applications such as [`portal.cscs.ch`](https://portal.cscs.ch) or Jupyter, you will be asked to register your device.
 
 Firstly, you will be asked to provide a code that you received by email.
 After this validation step, you will need to scan a QR code with your mobile phone using an application such as Google Authenticator.
@@ -58,7 +56,7 @@ Before starting, ensure that the following pre-requisites are satisfied
 
 Steps:
 
-1. Access any of the CSCS Web applications such as [`account.cscs.ch`](https://account.cscs.ch), Jupyter, etc., on a new browser session which will redirects you to the CSCS login page.
+1. Access any of the CSCS Web applications such as [`portal.cscs.ch`](https://portal.cscs.ch), Jupyter, etc., on a new browser session which will redirects you to the CSCS login page.
 2. Log in with your username and password.
 3. You will be asked to key in a code which CSCS Authentication system sent to you by email.
    After successful validation of the code you will be redirected to the next page which present a QR code.
@@ -71,7 +69,7 @@ Steps:
 
 In case users lose access to their mobile device/Authenticator OTP, users can reset their OTP by following the below self-service process.
 
-1. Access any CSCS web application like: [account.cscs.ch](https://account.cscs.ch/) which redirects you to the CSCS Login page. 
+1. Access any CSCS web application like: [portal.cscs.ch](https://portal.cscs.ch) which redirects you to the CSCS Login page.
 2. From the login screen, click the "Reset OTP" link below the "LOG IN" button
 3. Enter your username and password.
 4. On successful validation of user credentials, users will receive an email with a reset credentials link like the one below, click on the link in the email
