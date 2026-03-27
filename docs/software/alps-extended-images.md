@@ -18,12 +18,12 @@ The images are hosted on the CSCS internal jfrog artifactory repository (`jfrog.
 
     | Base Image                                   | Jfrog URI                                                                        | GHCR URI                                                                |
     | :------------------------------------------- | :------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
-    | nvcr.io/nvidia/pytorch:26.02-py3             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps4`     |
-    | nvcr.io/nvidia/pytorch:26.01-py3             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.01-py3-alps4`     |
-    | nvcr.io/nvidia/pytorch:25.12-py3             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:12.12-py3-alps4`     |
-    | nvcr.io/nvidia/nemo:26.02                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps4`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps4`        |
-    | nvcr.io/nvidia/nemo:25.11.01                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps4`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps4`     |
-    | nvcr.io/nvidia/physicsnemo/physicsnemo:25.11 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps4` |
+    | `nvcr.io/nvidia/pytorch:26.02-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps4`     |
+    | `nvcr.io/nvidia/pytorch:26.01-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.01-py3-alps4`     |
+    | `nvcr.io/nvidia/pytorch:25.12-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:12.12-py3-alps4`     |
+    | `nvcr.io/nvidia/nemo:26.02`                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps4`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps4`        |
+    | `nvcr.io/nvidia/nemo:25.11.01`                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps4`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps4`     |
+    | `nvcr.io/nvidia/physicsnemo/physicsnemo:25.11` | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps4` |
 
     Network Stack: libraries and versions
 
@@ -41,9 +41,9 @@ The images are hosted on the CSCS internal jfrog artifactory repository (`jfrog.
 
         | Base Image                       | Alps Extended Image              | URI                          |
         | :------------------------------- | :------------------------------- | :--------------------------- |
-        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps3      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3` |
-        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps3      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps3` |
-        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps3          | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps3` |
+        | `nvcr.io/nvidia/pytorch:26.01-py3` | `ngc-pytorch:26.01-py3-alps3`      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps3` |
+        | `nvcr.io/nvidia/pytorch:25.12-py3` | `ngc-pytorch:25.12-py3-alps3`      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps3` |
+        | `nvcr.io/nvidia/nemo:25.11.01`     | `ngc-nemo:25.11.01-alps3`          | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps3` |
 
         Network Stack: libraries and versions
 
@@ -62,9 +62,9 @@ The images are hosted on the CSCS internal jfrog artifactory repository (`jfrog.
 
         | Base Image                       | Alps Extended Image              | URI                          |
         | :------------------------------- | :------------------------------- | :--------------------------- |
-        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps2      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps2` |
-        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps2      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2` |
-        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps2          | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps2` |
+        | `nvcr.io/nvidia/pytorch:26.01-py3` | `ngc-pytorch:26.01-py3-alps2`      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps2` |
+        | `nvcr.io/nvidia/pytorch:25.12-py3` | `ngc-pytorch:25.12-py3-alps2`      | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps2` |
+        | `nvcr.io/nvidia/nemo:25.11.01`     | `ngc-nemo:25.11.01-alps2`          | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps2` |
 
         Network Stack: libraries and versions
 
@@ -82,9 +82,9 @@ The images are hosted on the CSCS internal jfrog artifactory repository (`jfrog.
 
         | Base Image                       | Alps Extended Image              |
         | :------------------------------- | :------------------------------- |
-        | nvcr.io/nvidia/pytorch:26.01-py3 | ngc-pytorch:26.01-py3-alps1      |
-        | nvcr.io/nvidia/pytorch:25.12-py3 | ngc-pytorch:25.12-py3-alps1      |
-        | nvcr.io/nvidia/nemo:25.11.01     | ngc-nemo:25.11.01-alps1          |
+        | `nvcr.io/nvidia/pytorch:26.01-py3` | `ngc-pytorch:26.01-py3-alps1`      |
+        | `nvcr.io/nvidia/pytorch:25.12-py3` | `ngc-pytorch:25.12-py3-alps1`      |
+        | `nvcr.io/nvidia/nemo:25.11.01`     | `ngc-nemo:25.11.01-alps1`          |
 
 
 !!! tip
