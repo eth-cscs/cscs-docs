@@ -58,7 +58,7 @@ This section covers how to access CSCS Alps systems and services. All methods sh
 
 -   :material-microsoft-visual-studio-code: __VS Code__
 
-    Remote IDE development on Alps using VS Code tunnels or SSH.
+    How to connect VSCode IDE on your laptop with Alps.
 
     [:octicons-arrow-right-24: VS Code][ref-access-vscode]
 
