@@ -1,6 +1,7 @@
 # Connecting to Alps
 
-This section covers how to access CSCS Alps systems and services. All methods share the same authentication foundation: a CSCS account, project membership, and multi-factor authentication.
+This section covers how to access CSCS Alps systems and services.
+All methods share the same authentication foundation: a CSCS account, project membership, and multi-factor authentication.
 
 !!! note "Prerequisites"
     Before using any access method you need:

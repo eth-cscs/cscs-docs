@@ -3,17 +3,15 @@
 
 To access CSCS services and systems users are required to authenticate using multi-factor authentication (MFA).
 MFA is implemented as a two-factor authentication, where one factor is the login and password pair ("the thing you know") and the other factor is the device which generates one-time passwords (OTPs, "the thing you have").
-In this way security is significantly improved compared to single-factor (password only) authentication.
 
 The MFA workflow uses a time-based one-time password (OTP) to verify identity.
-An OTP is a six-digit number which changes every 30 seconds.
-OTPs are generated using a tool installed on a device other than the one used to access CSCS services and infrastructure.
+An OTP is a six-digit number which changes every 30 seconds, generated using a tool installed on a device other than the one used to access CSCS services and infrastructure.
 We recommend to use a smartphone with an application such as Google Authenticator to obtain the OTPs.
 
 [](){#ref-mfa-setup}
 ## Getting Started
 
-When you first log in to any of the CSCS web applications such as UMP, Jupyter, etc., you will be asked to register your device.
+When you first log in to any of the CSCS web applications such as [`portal.cscs.ch`](https://portal.cscs.ch) or Jupyter, you will be asked to register your device.
 
 Firstly, you will be asked to provide a code that you received by email.
 After this validation step, you will need to scan a QR code with your mobile phone using an application such as Google Authenticator.
