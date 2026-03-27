@@ -8,21 +8,20 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
-- **Command-line Interface** (for automation and scripting)
+
+- **Command-line app** `cscs-key`
 - **Web Dashboard**  [user-account.cscs.ch](https://user-account.cscs.ch)
 
 [](){#ref-ssh-cli}
 ## Command-line access
 
 The CLI interface to the SSH service is called `cscs-key`.
-It is an open source app available [here](https://github.com/eth-cscs/sshservice-cli).
+It is an open source app available [here](https://github.com/eth-cscs/cscs-key).
 
 ### Installation
 
-To install the command-line tool, download the latest release for your OS and architecture from [here](https://github.com/rjanalik/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
-(TODO something about ~/.bashrc or is it obvious?)
+To install the `cscs-key` app, download the latest release for your OS and architecture from [here](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
 
-(TODO Alternatively, you can install the app from HomeBrew.)
 You can also build it from source by cloning the git repository and following the instructions in the README.
 
 ### Setup ssh keys
@@ -74,8 +73,8 @@ For more details  about any command please refer to help with `-h, --help`.
 !!! note
     The app supports two authentication methods:
 
-    - Users use **OpenID Connect**: web browser window opens where user authenticates with the CSCS credentials.
-    - for automation with service accounts: **API keys**: export environment variable `CSCS_API_KEY=<your_api_key>` before using the app.
+    - **OpenID Connect**: Web browser window opens where user authenticates with the CSCS credentials.
+    - **API keys**: For automation with service accounts. Export environment variable `CSCS_API_KEY=<your_api_key>` before calling the app.
 
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
