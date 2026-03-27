@@ -40,7 +40,7 @@ This section covers how to access CSCS Alps systems and services. All methods sh
 
 -   :material-fire-circle: __FirecREST__
 
-    RESTful API for programmatic HPC access, CI/CD pipelines, and portal integration.
+    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
 
     [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
@@ -52,7 +52,7 @@ This section covers how to access CSCS Alps systems and services. All methods sh
 
 -   :simple-jupyter: __JupyterLab__
 
-    Interactive notebook environment running directly on Alps compute nodes.
+    JupyterLab is a feature-rich notebook authoring application and editing environment.
 
     [:octicons-arrow-right-24: JupyterLab][ref-jupyter]
 
