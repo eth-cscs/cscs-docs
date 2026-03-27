@@ -5,9 +5,9 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 
 ## SSH key management overview
 
-Username/password authentication is not available for SSH access.
-Instead, you must use SSH keys signed by the CSCS infrastructure.
-The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
+Username+password authentication is not available for SSH access.
+Instead, you must use SSH keys signed by CSCS.
+The recommended approach is to generate SSH key locally with, then have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
 
@@ -17,12 +17,11 @@ Two methods are available for managing SSH keys:
 [](){#ref-ssh-cli}
 ## Command-line access
 
-The CLI interface to the SSH service is called `cscs-key`.
-It is an open source app available [here](https://github.com/eth-cscs/cscs-key).
+The CLI interface to the SSH service is called `cscs-key`, an open source tool available [on GitHub](https://github.com/eth-cscs/cscs-key).
 
 ### Installation
 
-To install the `cscs-key` app, download the latest release for your OS and architecture from [here](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
+To install the `cscs-key` app, download the latest release for your OS and architecture from [the ](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
 
 You can also build it from source by cloning the git repository and following the instructions in the README.
 
@@ -39,12 +38,12 @@ This needs to be done only once.
 
 To see all available commands run:
 
-```bash
+```console
 $ cscs-key --help
 ```
 
 **Sign** an existing public key:
-```bash
+```console
 cscs-key sign
 ```
 The default private key is `~/.ssh/cscs-key`.
@@ -56,7 +55,7 @@ Possible values are `1d` or `1min`.
 **Generate** a new key pair (deprecated):
 Generating the ssh key on the server is deprecated and will be removed in the future.
 It is recommended to generate the SSH key locally and then sign it using the cscs-key sign command.
-```bash
+```console
 cscs-key gen
 ```
 The default private key is `~/.ssh/cscs-key`.
@@ -96,8 +95,6 @@ The centralized key management dashboard at [user-account.cscs.ch](https://user-
 The recommended approach is to upload your existing SSH public key to be signed by CSCS.
 This avoids transferring private keys over the network and follows security best practices.
 
-**Steps:**
-
 1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
 2. Navigate to **SSH Keys** and select **Sign Key**
 3. Paste your existing SSH public key (e.g., from `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub`)
@@ -115,7 +112,7 @@ This avoids transferring private keys over the network and follows security best
     If you don't have an SSH key, CSCS can generate one for you.
     This method is currently supported but will be phased out in favor of signing existing keys.
 
-    **Steps:**
+    Steps:
 
     1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
     2. Navigate to **SSH Keys** and select **Generate Key**

@@ -1,3 +1,12 @@
+!!! warning "Platform transition: UMP → Waldur (from April 1, 2026)"
+    CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch).
+    UMP will be retired from **April 1, 2026**.
+
+    - [portal.cscs.ch](https://portal.cscs.ch) (Waldur) — new portal for project and resource management, user invitations, and service accounts
+    - [user-account.cscs.ch](https://user-account.cscs.ch) — new portal for SSH key management
+
+    This documentation will be updated as the transition progresses.
+
 # Connecting to Alps
 
 This section covers how to access CSCS Alps systems and services.
@@ -9,21 +18,14 @@ All methods share the same authentication foundation: a CSCS account, project me
     1. A CSCS account that is part of a project with allocated resources — see [accounts and projects][ref-account-management]
     2. Multi-factor authentication (MFA) set up — required for all CSCS services — see [MFA][ref-mfa]
 
-!!! warning "Platform transition: UMP → Waldur (from April 1, 2026)"
-    CSCS is migrating from the User Management Portal (UMP) at [account.cscs.ch](https://account.cscs.ch) to a new ecosystem based on **Waldur** at [portal.cscs.ch](https://portal.cscs.ch). UMP will be retired from **April 1, 2026**.
-
-    - **portal.cscs.ch** (Waldur) — new portal for project and resource management, user invitations, and service accounts
-    - **user-account.cscs.ch** — new portal for SSH key management
-
-    This documentation will be updated as the transition progresses.
-
 ## Access methods
 
 <div class="grid cards" markdown>
 
 -   :material-lock-check: __Multi-factor authentication__
 
-    Required before using any CSCS service. Set up a TOTP authenticator and enroll your device.
+    Required before using any CSCS service.
+    Set up a TOTP authenticator and enroll your device.
 
     [:octicons-arrow-right-24: MFA setup][ref-mfa]
 
