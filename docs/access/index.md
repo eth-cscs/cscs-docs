@@ -41,7 +41,7 @@ All methods share the same authentication foundation: a CSCS account, project me
 
 -   :material-fire-circle: __FirecREST__
 
-    RESTful API for programmatic HPC access, CI/CD pipelines, and portal integration.
+    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
 
     [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
@@ -53,13 +53,13 @@ All methods share the same authentication foundation: a CSCS account, project me
 
 -   :simple-jupyter: __JupyterLab__
 
-    Interactive notebook environment running directly on Alps compute nodes.
+    JupyterLab is a feature-rich notebook authoring application and editing environment.
 
     [:octicons-arrow-right-24: JupyterLab][ref-jupyter]
 
 -   :material-microsoft-visual-studio-code: __VS Code__
 
-    Remote IDE development on Alps using VS Code tunnels or SSH.
+    How to connect VSCode IDE on your laptop with Alps.
 
     [:octicons-arrow-right-24: VS Code][ref-access-vscode]
 
