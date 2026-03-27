@@ -5,7 +5,9 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 
 ## SSH key management overview
 
-Username/password authentication is not available for SSH access. Instead, you must use SSH keys signed by the CSCS infrastructure. The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
+Username/password authentication is not available for SSH access.
+Instead, you must use SSH keys signed by the CSCS infrastructure.
+The recommended approach is to generate SSH key locally with `ssh-keygen` and have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
 
@@ -45,16 +47,23 @@ $ cscs-key --help
 ```bash
 cscs-key sign
 ```
-The default private key is `~/.ssh/cscs-key`. You can specify a different private key using the `-f, --file` option.
-The default duration of the signed key is 1 day. You can specify a different duration using the `-d, --duration` option. Possible values are `1d` or `1min`.
+The default private key is `~/.ssh/cscs-key`.
+You can specify a different private key using the `-f, --file` option.
+The default duration of the signed key is 1 day.
+You can specify a different duration using the `-d, --duration` option.
+Possible values are `1d` or `1min`.
 
 **Generate** a new key pair (deprecated):
-Generating the ssh key on the server is deprecated and will be removed in the future. It is recommended to generate the SSH key locally and then sign it using the cscs-key sign command.
+Generating the ssh key on the server is deprecated and will be removed in the future.
+It is recommended to generate the SSH key locally and then sign it using the cscs-key sign command.
 ```bash
 cscs-key gen
 ```
-The default private key is `~/.ssh/cscs-key`. You can specify a different private key using the `-f, --file` option.
-The default duration of the signed key is 1 day. You can specify a different duration using the `-d, --duration` option. Possible values are `1d` or `1min`.
+The default private key is `~/.ssh/cscs-key`.
+You can specify a different private key using the `-f, --file` option.
+The default duration of the signed key is 1 day.
+You can specify a different duration using the `-d, --duration` option.
+Possible values are `1d` or `1min`.
 
 **List** your SSH keys:
 ```bash
@@ -74,7 +83,8 @@ For more details  about any command please refer to help with `-h, --help`.
     The app supports two authentication methods:
 
     - **OpenID Connect**: Web browser window opens where user authenticates with the CSCS credentials.
-    - **API keys**: For automation with service accounts. Export environment variable `CSCS_API_KEY=<your_api_key>` before calling the app.
+    - **API keys**: For automation with service accounts.
+    Export environment variable `CSCS_API_KEY=<your_api_key>` before calling the app.
 
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
@@ -83,7 +93,8 @@ The centralized key management dashboard at [user-account.cscs.ch](https://user-
 
 ### Recommended: sign your existing SSH key
 
-The recommended approach is to upload your existing SSH public key to be signed by CSCS. This avoids transferring private keys over the network and follows security best practices.
+The recommended approach is to upload your existing SSH public key to be signed by CSCS.
+This avoids transferring private keys over the network and follows security best practices.
 
 **Steps:**
 
@@ -101,7 +112,8 @@ The recommended approach is to upload your existing SSH public key to be signed 
     - Recommended for security
 
 ??? warning "Deprecated: generate a new key pair"
-    If you don't have an SSH key, CSCS can generate one for you. This method is currently supported but will be phased out in favor of signing existing keys.
+    If you don't have an SSH key, CSCS can generate one for you.
+    This method is currently supported but will be phased out in favor of signing existing keys.
 
     **Steps:**
 
@@ -132,7 +144,8 @@ Before trying to log into your target cluster, you can first check that your SSH
 ssh -i ~/.ssh/cscs-key ela.cscs.ch
 ```
 
-To log into a target system at CSCS, you need to perform some additional setup to handle SSH key forwarding. There are two alternatives detailed below.
+To log into a target system at CSCS, you need to perform some additional setup to handle SSH key forwarding.
+There are two alternatives detailed below.
 
 [](){#ref-ssh-config}
 ### Adding Ela as a jump host in SSH configuration
@@ -304,14 +317,17 @@ The revocation takes effect immediately across all CSCS systems.
     ```
 
 ??? question "How long are SSH keys valid?"
-    SSH keys are valid for 1 day by default. You will need to generate or sign a new key after it expires.
+    SSH keys are valid for 1 day by default.
+    You will need to generate or sign a new key after it expires.
 
 ??? question "How do I use my own SSH key?"
-    The recommended approach is to sign your existing SSH key using the dashboard or CLI. This allows you to use your own key infrastructure without transferring private keys over the network.
+    The recommended approach is to sign your existing SSH key using the dashboard or CLI.
+    This allows you to use your own key infrastructure without transferring private keys over the network.
 
 [](){#ref-ssh-legacy}
 ## Legacy: old SSH key management
 
 !!! warning "Retired from Q2 2026"
-    The old SSHService ([sshservice.cscs.ch](https://sshservice.cscs.ch)) and the associated command-line script have been retired starting Q2 2026. All users must use the [new key management dashboard](#ref-ssh-key-management) or [CLI](#ref-ssh-cli).
+    The old SSHService ([sshservice.cscs.ch](https://sshservice.cscs.ch)) and the associated command-line script have been retired starting Q2 2026.
+    All users must use the [new key management dashboard](#ref-ssh-key-management) or [CLI](#ref-ssh-cli).
 
