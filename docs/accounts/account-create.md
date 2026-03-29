@@ -1,10 +1,7 @@
 [](){#ref-account-create}
 # Creating an account
 
-!!! warning
-    The process for creating an account documented here applies only to users who are invited using the new [project and resource management tool][ref-account-waldur] (Waldur).
-
-When the CSCS Account Manager, project PI or Deputy PI invites the users they will receive an invitation email if the invited user has an **existing** CSCS account then the user clicks on the URL from the email and log-in with a username, password, OTP, and accept the invitation **whereas** if the invited user is new then the user needs to follow the step-by-step instructions below to get an account
+When the CSCS Account Manager, project PI or Deputy PI invites a user to their project, the user will receive an invitation email. If the invited user has an **existing** CSCS account then the user clicks on the URL from the email and log-in with a username, password, OTP, and accept the invitation. If the invited user is a new user, then the user should follow the step-by-step instructions below to get an account.
 
 The email contains a URL that redirects you to the registration page:
 
