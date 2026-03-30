@@ -158,7 +158,6 @@ nav:
       - 'Node OS Updates': services/kubernetes/node-updates.md
   - 'Accounts and Projects':
     - accounts/index.md
-    - 'Account and Resources Management Tool': accounts/ump.md
     - 'Project and Resources Management Tool': accounts/waldur.md
     - 'Creating a new account': accounts/account-create.md
   - 'Guides':
