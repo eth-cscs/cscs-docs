@@ -29,11 +29,11 @@ The images are hosted on the CSCS internal jfrog artifactory (`jfrog.svc.cscs.ch
 
     | Library          | Version        | Notes                        |
     | :--------------- | :------------- | :--------------------------- |
-    | `libfabric`      | `2.5.0a1`      | Built from commit `102872c0280ce290d9d663945dad8a36ceb53c50` + patch (removing dependency on `shs-14` API, which is not available on Alps) |
-    | `NCCL`           | `2.29.3-1*`    | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the `2.29.3` release |
+    | `libfabric`      | `2.5.0a1`      | Built from commit `79fd4514977a8f15844fbe26df9f5930eb96311a` + patch (removing dependency on `shs-14` API, which is not available on Alps) |
+    | `NCCL`           | `2.29.7-1*`    | Patched by applying `https://github.com/NVIDIA/nccl/pull/1979` to the `2.29.3` release |
     | `aws-ofi-plugin` | `git-394ae7b*` | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patched by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
-    | `nvshmem`        | `3.4.5-0`      | |
-    | `OpenMPI`        | `5.0.9`        | |
+    | `nvshmem`        | `3.6.5-0`      | |
+    | `OpenMPI`        | `5.0.10`        | |
 
 === "alps3"
 
