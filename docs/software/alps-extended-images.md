@@ -12,7 +12,8 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 
 ## Images
 
-The images are hosted on the CSCS internal jfrog artifactory (`jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/<image:tag>`; only accessible from within the Alps environment) and on the [repo's Container Registry](https://github.com/orgs/eth-cscs/packages?repo_name=alps-extended-images) (publicly accessible).
+The images are hosted on [github](https://github.com/orgs/eth-cscs/packages?repo_name=alps-extended-images) through github's Container Registry (GHCR) and are also mirrored on CSCS' internal `jfrog` artifactory for optimal performance when pulling images directly on Alps.
+The latter is only accessible from within the Alps environment, while the GHCR is publicly accessible and can be pulled from anywhere.
 
 === "alps4"
 
