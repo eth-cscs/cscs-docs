@@ -17,22 +17,35 @@ Two methods are available for managing SSH keys:
 [](){#ref-ssh-cli}
 ## Command-line access
 
-The CLI interface to the SSH service is called `cscs-key`, an open source tool available [on GitHub](https://github.com/eth-cscs/cscs-key).
+The CLI interface to the SSH service is called `cscs-key`, an open source tool developed by CSCS to simplify managing keys.
 
 ### Installation
 
-To install the `cscs-key` app, download the latest release for your OS and architecture from [the ](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
+To install the `cscs-key` app, download the latest release for your OS and architecture from [the tools GitHub releases](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
 
+!!! example "Installing cscs-key 1.0.0 on MacOS"
+    Here we download the binary for `cscs-key` and put it in `$HOME/.local/bin`, which is in PATH on the target system.
+
+    ```console
+    $ wget https://github.com/eth-cscs/cscs-key/releases/download/1.0.0/cscs-key-1.0.0-macos-aarch64.tar.gz
+    $ tar -xzvf cscs-key-1.0.0-macos-aarch64.tar.gz
+    $ mv cscs-key $HOME/.local/bin
+    $ cscs-key --version
+    cscs-key 1.0.0
+    ```
 You can also build it from source by cloning the git repository and following the instructions in the README.
 
 ### Setup ssh keys
 
-First, generate the key pair using `ssh-keygen`.
-And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh agent](#ref-ssh-agent).
+First, generate the key pair using [`ssh-keygen`](https://www.ssh.com/academy/ssh/keygen).
+
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
 ```
-This needs to be done only once.
+!!! note
+    The key only needs to be generated once, and does not need to be run every time your signed key expires.
+
+And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh agent](#ref-ssh-agent).
 
 ### Usage
 
@@ -40,11 +53,10 @@ To see all available commands run:
 
 ```console
 $ cscs-key --help
-```
 
 **Sign** an existing public key:
 ```console
-cscs-key sign
+$ cscs-key sign
 ```
 The default private key is `~/.ssh/cscs-key`.
 You can specify a different private key using the `-f, --file` option.
@@ -52,27 +64,39 @@ The default duration of the signed key is 1 day.
 You can specify a different duration using the `-d, --duration` option.
 Possible values are `1d` or `1min`.
 
-**Generate** a new key pair (deprecated):
-Generating the ssh key on the server is deprecated and will be removed in the future.
-It is recommended to generate the SSH key locally and then sign it using the cscs-key sign command.
-```console
-cscs-key gen
-```
-The default private key is `~/.ssh/cscs-key`.
-You can specify a different private key using the `-f, --file` option.
-The default duration of the signed key is 1 day.
-You can specify a different duration using the `-d, --duration` option.
-Possible values are `1d` or `1min`.
+??? note "generate a new key pair (deprecated)"
+    !!! warning
+        Generating the ssh key on the server is deprecated and will be removed in the future.
 
+    It is possible to generate the SSH key locally and then sign it using the cscs-key sign command.
+    ```console
+    cscs-key gen
+    ```
+    The default private key is `~/.ssh/cscs-key`.
+    You can specify a different private key using the `-f, --file` option.
+    The default duration of the signed key is 1 day.
+    You can specify a different duration using the `-d, --duration` option.
+    Possible values are `1d` or `1min`.
+
+The `cscs-key` command can be used to summarise the status of all of your signed ssh keys
 **List** your SSH keys:
-```bash
-cscs-key list
+```console
+$ cscs-key list
+╭────────────────────┬──────────┬────────────┬────────────────────────────╮
+│ Serial Number      │ Valid    │ Expiration │ Expire Time                │
+╞════════════════════╪══════════╪════════════╪════════════════════════════╡
+│ 202800351141013664 │ ✅ VALID │ in a day   │ 2026-04-01 16:15:20 +02:00 │
+├────────────────────┼──────────┼────────────┼────────────────────────────┤
+│ 202344484062892129 │ ✅ VALID │ in a day   │ 2026-04-01 16:09:12 +02:00 │
+╰────────────────────┴──────────┴────────────┴────────────────────────────╯
 ```
-`-a, --all` shows also expired and revoked keys.
 
-**Revoke** a key by serial number:
-```bash
-cscs-key revoke [serial-number]...
+The `-a, --all` flag wil also include expired and revoked keys in the output of `cscs-key list`.
+
+Keys can be revoked using the serial number, which can be found using the `cscs-key list` command above.
+```console
+$ cscs-key revoke 202800351141013664
+202800351141013664: ✅ Key revoked successfully
 ```
 Use `-a, --all` option to revoke all valid keys.
 
@@ -88,9 +112,13 @@ For more details  about any command please refer to help with `-h, --help`.
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
 
-The centralized key management dashboard at [user-account.cscs.ch](https://user-account.cscs.ch) allows you to generate, sign, list, and revoke SSH keys.
+The centralized key management dashboard at [user-account.cscs.ch](https://user-account.cscs.ch) allows you to generate, sign, list, and revoke SSH keys in your browser.
 
-### Recommended: sign your existing SSH key
+!!! info
+    The dashboard is an alternative to the `cscs-key` command line tool.
+    If you are comfortable using `cscs-key` we recommend sticking to that interface.
+
+### Sign your existing SSH key
 
 The recommended approach is to upload your existing SSH public key to be signed by CSCS.
 This avoids transferring private keys over the network and follows security best practices.
@@ -108,7 +136,7 @@ This avoids transferring private keys over the network and follows security best
     - Works with any SSH key type (RSA, ED25519, ECDSA)
     - Recommended for security
 
-??? warning "Deprecated: generate a new key pair"
+??? info "Generate a new key pair (deprecated)"
     If you don't have an SSH key, CSCS can generate one for you.
     This method is currently supported but will be phased out in favor of signing existing keys.
 
