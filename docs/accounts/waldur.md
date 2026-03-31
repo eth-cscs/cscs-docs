@@ -1,19 +1,15 @@
 [](){#ref-account-waldur}
 # The Project and Resources Management Tool
 
-CSCS Account Managers, PIs and deputy PIs can invite users to the respective projects following the below steps on CSCS's new project management portal.
+CSCS Account Managers, PIs and deputy PIs can invite users to their respective projects using CSCS's project management portal.
 
-!!! info
-    The new user project management portal is currently only used by the [Machine Learning Platform][ref-platform-mlp]
-    All other platforms use the old [user management portal][ref-account-ump]
-
-## log in to the portal
+## Log in to the portal
 
 Navigate to the site project management portal [portal.cscs.ch](https://portal.cscs.ch/).
 
 ## Select the Organisation
 
-After login to the portal, choose the corresponding organization in which the project was created.
+After logging into the portal, choose the corresponding organization in which the project was created.
 
 ![waldur-org](../images/access/waldur-organisation.png)
 
