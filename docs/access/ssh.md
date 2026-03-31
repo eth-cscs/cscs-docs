@@ -53,8 +53,9 @@ To see all available commands run:
 
 ```console
 $ cscs-key --help
+```
 
-**Sign** an existing public key:
+To sign an existing public key:
 ```console
 $ cscs-key sign
 ```
@@ -78,8 +79,7 @@ Possible values are `1d` or `1min`.
     You can specify a different duration using the `-d, --duration` option.
     Possible values are `1d` or `1min`.
 
-The `cscs-key` command can be used to summarise the status of all of your signed ssh keys
-**List** your SSH keys:
+The `cscs-key` command can be used to summarise the status of all of your signed ssh keys:
 ```console
 $ cscs-key list
 ╭────────────────────┬──────────┬────────────┬────────────────────────────╮
@@ -91,7 +91,7 @@ $ cscs-key list
 ╰────────────────────┴──────────┴────────────┴────────────────────────────╯
 ```
 
-The `-a, --all` flag wil also include expired and revoked keys in the output of `cscs-key list`.
+The `-a, --all` flag will also include expired and revoked keys in the output of `cscs-key list`.
 
 Keys can be revoked using the serial number, which can be found using the `cscs-key list` command above.
 ```console
