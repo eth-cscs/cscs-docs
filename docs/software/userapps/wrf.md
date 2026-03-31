@@ -25,11 +25,9 @@ Then follow the steps in the [uenv-spack][ref-build-uenv-spack] guide to install
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git
-(cd uenv-spack && ./bootstrap)
+# add the uenv-spack executable to your path
+export PATH=$PWD/uenv-spack:$PATH
 ```
-
-!!! warning
-    Run the step of downloading and running the bootstrap script for `uenv-spack` _before_ starting a uenv.
 
 The [`prgenv-gnu`][ref-uenv-prgenv-gnu] uenv is suitable for building WRF.
 ```
@@ -39,13 +37,13 @@ In this example we use the latest version of `prgenv-gnu` on Eiger at the time o
 
 ```bash
 # build the latest version provided by the version of Spack used by prgenv-gnu
-$ uenv-spack/uenv-spack $PWD/build --uarch=zen2 --specs=wrf
+$ uenv-spack $PWD/build --uarch=zen2 --specs=wrf
 
 # build a specific version
-$ uenv-spack/uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2
+$ uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2
 
 # build a specific version with WRF-Chem enabled
-$ uenv-spack/uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2 +chem
+$ uenv-spack $PWD/build --uarch=zen2 --specs=wrf@4.5.2 +chem
 ```
 
 !!! note
@@ -132,7 +130,7 @@ We use [`prgenv-gnu/24.11:v2`][ref-uenv-prgenv-gnu] [uenv][ref-uenv].
 
     # download and install uenv-spack
     git clone https://github.com/eth-cscs/uenv-spack.git $WRFROOT/uenv-spack
-    (cd $WRFROOT/uenv-spack && ./bootstrap)
+    (cd $WRFROOT/uenv-spack/uenv-spack && ./bootstrap)
 
     # start the uenv with the spack view enabled
     # warning: bootstrap the uenv-spack tool _before_ starting the uenv
@@ -171,7 +169,7 @@ Then follow the steps in the [uenv-spack][ref-build-uenv-spack] guide to install
 ```bash
 # download and install uenv-spack
 git clone https://github.com/eth-cscs/uenv-spack.git $WRFROOT/uenv-spack
-(cd $WRFROOT/uenv-spack && ./bootstrap)
+export PATH=$PWD/uenv-spack:$PATH
 ```
 
 !!! warning
