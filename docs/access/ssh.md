@@ -91,7 +91,7 @@ $ cscs-key list
 ╰────────────────────┴──────────┴────────────┴────────────────────────────╯
 ```
 
-The `-a, --all` flag wil also include expired and revoked keys in the output of `cscs-key list`.
+The `-a, --all` flag will also include expired and revoked keys in the output of `cscs-key list`.
 
 Keys can be revoked using the serial number, which can be found using the `cscs-key list` command above.
 ```console
