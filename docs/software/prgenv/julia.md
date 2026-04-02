@@ -3,7 +3,7 @@
 
 The `julia` uenv provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally. 
 Unlike in traditional approaches, this Julia HPC setup enables you to update Julia yourself using the included preconfigured community tool [`juliaup`](https://github.com/JuliaLang/juliaup). 
-It also does not preinstall any packages site-wide. Instead, for HPC key packages that benefit from using locally built libraries (`MPI.jl`, `CUDA.jl`, `AMDGPU.jl`, `HDF5.jl`, `ADIOS2.jl`, etc.), this uenv provides the libraries and presets package preferences and environment variables for an automatic optimal installation and usage of these packages using these local libraries. 
+It also does not preinstall any packages site-wide. Instead, for HPC key packages that benefit from using locally built libraries (`MPI.jl`, `CUDA.jl`, `AMDGPU.jl`, `Reactant.jl`, `HDF5.jl`, `ADIOS2.jl`, etc.), this uenv provides the libraries and presets package preferences and environment variables for an automatic optimal installation and usage of these packages using these local libraries. 
 As a result, you only need to type, e.g., `] add CUDA` in the Julia REPL, in order to install `CUDA.jl` optimally. 
 The `julia` uenv internally relies on the community scripting project [JUHPC](https://github.com/JuliaParallel/JUHPC) to achieve this.
 
@@ -38,11 +38,9 @@ The release schedule is not fixed; new versions will be released, when there is 
     The key updates in version `26.3:v1` from the version `25.5:v1` were:
 
     * upgrading the `Spack` version used to build the packages to `1.1`
-    * using the `Stackinator` version `6`, supporting the new Spack version 
-    * porting the build recipes to the new format required for the new Spack and Stackinator versions
-    * base the recipe on the latest `prgenv-gnu.25.11:v1` uenv
     * adding `NCCL`
     * adding `cuTENSOR`
+    * adding `papi`
     * upgrading to `cuda@12.9` and `cray-mpich@8.1.32`
     
     !!! info "HPC key libraries included"
