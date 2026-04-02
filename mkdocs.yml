@@ -42,7 +42,9 @@ nav:
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Portals': access/web.md
-    - 'SSH': access/ssh.md
+    - 'SSH':
+      - access/ssh.md
+      - 'Service Accounts': access/service-accounts.md
     - 'FirecREST': access/firecrest.md
     - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
