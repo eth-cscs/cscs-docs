@@ -47,6 +47,7 @@ nav:
     - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
+    - 'Service Accounts': access/service-accounts.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
