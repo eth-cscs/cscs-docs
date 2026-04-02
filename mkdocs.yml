@@ -42,13 +42,12 @@ nav:
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
     - 'Web Portals': access/web.md
-    - 'SSH':
-      - access/ssh.md
-      - 'Service Accounts': access/service-accounts.md
+    - 'SSH': access/ssh.md
     - 'FirecREST': access/firecrest.md
     - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
+    - 'Service Accounts': access/service-accounts.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
