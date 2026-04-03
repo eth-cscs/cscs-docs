@@ -176,6 +176,7 @@ nav:
 
 theme:
   name: material
+  variant: classic
   language: en
   features:
     - content.code.copy
@@ -251,7 +252,3 @@ markdown_extensions:
       generic: true
   # for captioning images
   - pymdownx.blocks.caption
-
-extra_javascript:
- - javascripts/mathjax.js
- - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
