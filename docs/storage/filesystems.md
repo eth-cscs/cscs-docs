@@ -96,10 +96,21 @@ All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, whi
 
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
-* Files not accessed in the last 30 days are automatically deleted.
+* Files on `/capstor/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
+* Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **21 days** are automatically deleted.
 * When capacity grows above:
     * 60%: users are asked to start removing or archiving unneeded files
     * 80%: CSCS will start removing files and paths without further notice.
+
+!!! warning "Hidden directories are excluded from the cleaning policy"
+    The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
+
+    - `.uenv-images`: user environments downloaded from JFrog
+    - `.enroot`: container images downloaded by the user
+    - `.edf_imagestore`: container images used by the Container Engine
+
+    These directories can consume significant disk space and inodes over time.
+    If you no longer need the environments or containers stored there, you can safely remove them manually to free up space.
 
 ### Quota
 
@@ -303,7 +314,10 @@ Ideally occupancy should not exceed 60%, with severe performance degradation for
 
 File cleanup removes files that are not being used to ensure that occupancy and file counts do not affect file system performance.
 
-A daily process removes files that have not been **accessed (either read or written)** in the last 30 days.
+A daily process removes files that have not been **accessed (either read or written)** within the retention period:
+
+* **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
+* **21 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
 
 ??? example "How can I tell when a file was last accessed?"
     The access time of a file can be found using the `stat` command.
