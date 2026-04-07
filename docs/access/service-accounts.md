@@ -1,43 +1,60 @@
 [](){#ref-service-accounts}
 # Service Accounts
 
-Service Accounts allow users to integrate CI/CD pipelines with HPC systems managed by CSCS. They provide programmatic, non-interactive access to project resources, making them suitable for automated workflows and pipeline authentication.
+Service Accounts provide programmatic, non-interactive access to CSCS project resources. Unlike personal accounts, they are designed for automated workflows such as CI/CD pipelines, scheduled jobs, and scripts that need to authenticate with HPC systems without human interaction.
 
-## Requesting a Service Account
+Use a Service Account when:
 
-Service Accounts are scoped to a **single project** and grant access to all resources within it. To obtain one, the **Project PI** must submit a request to a **Platform Manager** via an SD Ticket on the Service Desk.
+- You need to run SSH commands from a CI/CD pipeline (e.g., GitHub Actions, GitLab CI).
+- You have scripts that execute multiple cluster operations in sequence.
+- You want to isolate automated access from your personal credentials.
 
-Once approved and enabled, the **Service accounts** menu entry will appear under the **Team** tab of your project.
+To use Service Accounts, you'll need the `cscs-key` CLI tool, a helper that wraps the authentication flow described below into simple commands. See [installation instructions][ref-ssh-cli]. Alternatively, you can implement the flow yourself using the raw API calls documented here.
 
-## Creating a Service Account
+!!! note "Requesting a Service Account"
+    If you need to request a Service Account, please see [Requesting a Service Account][ref-account-create] in the accounts and projects documentation.
 
-1. Navigate to your project's **Members** tab.
-2. Click on **Service Account**.
+
+## Creating a Service Account in Waldur
+
+Once enabled, you can create a Service Account in your [Waldur project](https://portal.cscs.ch/projects/).
+
+1. Navigate to your project's **Team** tab.
+2. Click **Add** -> **Service account**.
 3. Follow the prompts to create a new Service Account.
 
-!!! note "Important"
-    Upon creation, an API Key will be shown **only once**. Copy and store it securely immediately, as it cannot be retrieved later. If lost, a new Service Account must be created.
+!!! note "Copy the API Key right away"
+    Upon creation, an API Key will be shown **only once**. Copy and store it securely immediately, it cannot be retrieved later. If lost, the key must be rotated.
 
-### Quick Key Generation with `cscs-key`
+!!! warning "Keep your API Key secure"
+    The `CSCS_API_KEY` environment variable overrides the default OIDC authentication in `cscs-key`. Avoid setting it globally (e.g., in `.bashrc`), as this would break personal interactive use. Use it only within the scope of your scripts or CI/CD environment.
 
-Once you have your API Key, you can use the `cscs-key` tool to generate a short-lived key directly:
+[](){#ref-service-accounts-quick-auth}
+## Quick Authentication with `cscs-key`
+
+Once you have your API Key, `cscs-key` can generate a short-lived certificate in a single command:
 
 ```bash
 CSCS_API_KEY=<YOUR_API_KEY> cscs-key sign --duration 1min
 ```
 
-!!! warning "Be careful about setting environment variables"
-    The presence of `CSCS_API_KEY` will override the default OIDC authentication method in `cscs-key`. This can be a security risk if not handled carefully. For example, if you set `CSCS_API_KEY` in your `.bashrc`, you will not be able to use `cscs-key` for your personal use.
+!!! note "Use a separate SSH key pair for Service Accounts"
+    We recommend using a different SSH key pair for Service Accounts to keep automated and personal access cleanly separated. Use the `-f` flag to specify the key:
+    ```bash
+    CSCS_API_KEY=<YOUR_API_KEY> cscs-key sign --duration 1min -f ~/.ssh/cscs-key-sa
+    ```
 
 ## Authentication Flow
 
-Cluster access requires two API calls: first to obtain a **JWT Token** from your API Key, then to obtain an **SSH Key Pair** (or just a certificate) from the JWT Token.
+Cluster access requires two API calls: first to obtain a **JWT Token** from your API Key, then to use that token to retrieve a signed **SSH Certificate**.
 
 ```
-API Key  ->  JWT Token  ->  SSH Key Pair / Certificate  ->  Cluster Login
+API Key  ->  JWT Token  ->  SSH Certificate  ->  Cluster Login
 ```
 
-### Step 1 - Request a JWT Token
+The `cscs-key` tool [handles this flow for you][ref-service-accounts-quick-auth]. If you prefer to call the API directly, follow Steps 1 and 2 below.
+
+### Step 1, Request a JWT Token
 
 ```bash
 JWT_RESPONSE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-service-account/api/v1/auth/token" \
@@ -46,9 +63,9 @@ JWT_RESPONSE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-service-ac
 JWT_TOKEN=$(echo "$JWT_RESPONSE" | jq -r '.access_token')
 ```
 
-### Step 2 - Request Only an SSH Certificate (Recommended)
+### Step 2, Sign an SSH Certificate (Recommended)
 
-If you already have an existing SSH key pair, you can request only a signed certificate. This is the preferred approach when the environment can be configured accordingly, as it avoids generating new private keys on every authentication.
+If you already have an SSH key pair, request only a signed certificate. This is the preferred approach because it avoids generating a new private key on every authentication.
 
 ```bash
 GENERATE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/api/v1/ssh-keys/sign" \
@@ -59,18 +76,22 @@ GENERATE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/ap
 echo "$GENERATE" | jq -r '.sshKey.publicKey' > ~/.ssh/cscs-key-sa-cert.pub
 ```
 
-### Step 2a - Request an SSH Key Pair (Deprecated)
+### Step 3, Generate a Full SSH Key Pair (Deprecated)
 
-Use the JWT Token to generate a full SSH key pair and certificate:
+!!! warning "Deprecated"
+    This method generates a new private key on every call and is no longer recommended. Use Step 2 instead. This endpoint may be removed in a future release.
+
+Use this only if your environment does not support pre-existing SSH key pairs:
 
 ```bash
 GENERATE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/api/v1/ssh-keys" \
   -H "Authorization: Bearer $JWT_TOKEN")
 
-echo "$GENERATE" | jq -r '.sshKey.privateKey' > ~/.ssh/cscs-key
-echo "$GENERATE" | jq -r '.sshKey.publicKey'  > ~/.ssh/cscs-key-cert.pub
-chmod 600 ~/.ssh/cscs-key
+echo "$GENERATE" | jq -r '.sshKey.privateKey' > ~/.ssh/cscs-key-sa
+echo "$GENERATE" | jq -r '.sshKey.publicKey'  > ~/.ssh/cscs-key-sa-cert.pub
+chmod 600 ~/.ssh/cscs-key-sa
 ```
+
 ## Certificate Validity and Renewal
 
 All credentials issued through this flow are valid for **1 minute**. This is sufficient for:
@@ -78,34 +99,32 @@ All credentials issued through this flow are valid for **1 minute**. This is suf
 - Single commands run interactively.
 - Interactive shell sessions (the session stays alive after the certificate expires).
 
-### Handling Sequential Commands
+However, each non-interactive SSH invocation (`ssh <host> <command>`) opens a new connection and requires a valid certificate. You must request a fresh certificate before **each command**.
 
-When running commands non-interactively via `ssh <host> <command>`, each invocation opens a **new SSH connection** and requires a **valid certificate**. You must therefore request a fresh certificate before each command.
+## Using Service Accounts in CI/CD Pipelines
 
-#### 1. Configure your SSH client
+### 1. Configure your SSH client
 
-Add an entry to `~/.ssh/config` for your target cluster (e.g., Clariden):
+See the [SSH documentation][ref-ssh-config] for general SSH configuration. For Service Accounts, we recommend using a separate wildcard pattern and key pair to avoid interfering with your personal configuration:
 
 ```
 Host sa-*
-    IdentityFile ~/.ssh/cscs-key
-    CertificateFile ~/.ssh/cscs-key-sa-cert.pub
+    IdentityFile ~/.ssh/cscs-key-sa
     User svc_account_name
-    IdentitiesOnly yes
 
 Host sa-ela
     HostName ela.cscs.ch
-    ProxyJump none
 
 Host sa-clariden
     HostName clariden.cscs.ch
-    StrictHostKeyChecking no
     ProxyJump sa-ela
 ```
 
-#### 2. Define a `get_certificate` helper
+Refer to the [SSH documentation][ref-ssh] for the full jump host configuration for each cluster.
 
-Add the following to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
+### 2. Define helper functions
+
+The following helper functions are designed as an example for use in **scripts and CI/CD pipelines only**, not for local interactive use.
 
 ```bash
 get_certificate() {
@@ -115,26 +134,19 @@ get_certificate() {
     local CERT=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/api/v1/ssh-keys/sign" \
         -H "Authorization: Bearer $JWT_TOKEN" \
         -H "Content-Type: application/json" \
-        -d "{\"public_key\": \"$(cat ~/.ssh/cscs-key.pub)\"}")
+        -d "{\"public_key\": \"$(cat ~/.ssh/cscs-key-sa.pub)\"}")
 
     echo "$CERT" | jq -r '.sshKey.publicKey' > ~/.ssh/cscs-key-sa-cert.pub
 }
-```
 
-#### 3. Define an `sa_ssh` convenience wrapper
-
-```bash
 sa_ssh() {
     get_certificate && ssh "$CSCS_SA_USERNAME@$1" "${@:2}"
 }
 ```
 
-This wrapper automatically refreshes the certificate before every SSH command:
+These functions automatically refresh the certificate before every SSH command:
 
 ```bash
 sa_ssh sa-clariden srun your-job.sh
 sa_ssh sa-clariden sbatch my-script.slurm
 ```
-
-!!! note "Note"
-    For CI/CD pipelines, call `get_certificate` at the start of each step that connects to the cluster, rather than once at the top of the pipeline. Certificates will expire between steps if the pipeline takes longer than 1 minute.
