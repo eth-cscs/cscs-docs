@@ -109,6 +109,8 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
     - `.enroot`: container images downloaded by the user
     - `.edf_imagestore`: container images used by the Container Engine
 
+    Using these directories to store general data in order to circumvent the cleaning policy is a violation of CSCS usage policies.
+
     These directories can consume significant disk space and inodes over time.
     If you no longer need the environments or containers stored there, you can safely remove them manually to free up space.
 
