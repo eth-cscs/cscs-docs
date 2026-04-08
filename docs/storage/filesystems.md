@@ -107,7 +107,7 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
 
     - `.uenv-images`: used by [uenv][ref-uenv] as the default repository for [managing uenv images][ref-uenv-manage].
     - `.enroot`: container images downloaded by the user
-    - `.edf_imagestore`: container images used by the Container Engine
+    - `.edf_imagestore`: container images used by the [Container Engine][ref-container-engine]
 
     Using these directories to store general data in order to circumvent the cleaning policy is a violation of CSCS usage policies.
 
