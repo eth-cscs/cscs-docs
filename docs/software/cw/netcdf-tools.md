@@ -35,6 +35,12 @@ The packages exposed via the `default` and `modules` views in `netcdf-tools/2025
 * [python@3.13.5](https://packages.spack.io/package.html?name=python)
 * [udunits@2.2.28](https://packages.spack.io/package.html?name=udunits)
 
+!!! note "`netcdf-tools/2025:v2` update on Eiger"
+    An small update version of `netcdf-tools/2025` is available on Eiger which makes the following changes to `:v1`:
+
+    * the `eccodes` package was built with the `+tools+netcdf+png` flags to enable netcdf and png support, and to install the eccodes command line tools.
+    * the `py-eccodes` package was added.
+
 ## How to use
 
 Use the different views to access the software
