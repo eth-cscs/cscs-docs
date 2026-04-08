@@ -9,6 +9,8 @@ on:
     types: ['opened', 'reopened', 'synchronize']
   issue_comment:
     types: ['created']
+  pull_reqest:
+    branches: ['main']
 
 jobs:
   spelling:
@@ -28,7 +30,8 @@ jobs:
     steps:
     - name: check-spelling
       id: spelling
-      uses: check-spelling/check-spelling@v0.0.26
+      #uses: check-spelling/check-spelling@v0.0.26
+      uses: check-spelling/check-spelling@1a32c3379c9fa28549c68b7931712d81831304df
       with:
         suppress_push_for_open_pull_request: ${{ github.actor != 'dependabot[bot]' && 1 }}
         checkout: true
