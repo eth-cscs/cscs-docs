@@ -41,9 +41,10 @@ Once MFA has been configured, you will finally be redirected to the CSCS portal 
 
 ![](../images/access/waldur-user-dashboard.png)
 
+[](){#ref-account-create-service-account}
 ## Requesting a Service Account
 
-Service Accounts are scoped to a **single project** and grant access to all resources within it. To obtain one, the **Project PI** must submit a request to a **Platform Manager** via an [SD Ticket on the Service Desk](https://service-desk.cscs.ch).
+Service Accounts are scoped to a **single project** and grant access to all resources within it. To obtain one, the **Project PI** must submit a request to a **Platform Manager** via an [SD Ticket on the Service Desk](https://support.cscs.ch).
 
 Once approved and enabled, the **Service accounts** menu entry will appear under the **Team** tab of your project.
 

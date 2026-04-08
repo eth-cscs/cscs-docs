@@ -12,7 +12,7 @@ Use a Service Account when:
 To use Service Accounts, you'll need the `cscs-key` CLI tool, a helper that wraps the authentication flow described below into simple commands. See [installation instructions][ref-ssh-cli]. Alternatively, you can implement the flow yourself using the raw API calls documented here.
 
 !!! note "Requesting a Service Account"
-    If you need to request a Service Account, please see [Requesting a Service Account][ref-account-create] in the accounts and projects documentation.
+    If you need to request a Service Account, please see [Requesting a Service Account][ref-account-create-service-account] in the accounts and projects documentation.
 
 
 ## Creating a Service Account in Waldur
@@ -120,16 +120,18 @@ Host sa-clariden
     ProxyJump sa-ela
 ```
 
-Refer to the [SSH documentation][ref-ssh] for the full jump host configuration for each cluster.
-
 ### 2. Define helper functions
 
 The following helper functions are designed as an example for use in **scripts and CI/CD pipelines only**, not for local interactive use.
 
+!!! note "Environment variables"
+    CI/CD should be the only place where the `CSCS_API_KEY` environment variable is set.
+    In this example, `CSCS_SA_USERNAME` is also defined, but the username can be retrieved from the `sign` API response as well.
+
 ```bash
 get_certificate() {
     local JWT_TOKEN=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-service-account/api/v1/auth/token" \
-        -H "X-API-Key: $CSCS_SA_API_KEY" | jq -r '.access_token')
+        -H "X-API-Key: $CSCS_API_KEY" | jq -r '.access_token')
 
     local CERT=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/api/v1/ssh-keys/sign" \
         -H "Authorization: Bearer $JWT_TOKEN" \
@@ -144,7 +146,7 @@ sa_ssh() {
 }
 ```
 
-These functions automatically refresh the certificate before every SSH command:
+Using these helper functions we can automatically refresh the certificate before every SSH command:
 
 ```bash
 sa_ssh sa-clariden srun your-job.sh
