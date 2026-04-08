@@ -105,7 +105,7 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
 !!! warning "Hidden directories are excluded from the cleaning policy"
     The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
 
-    - `.uenv-images`: user environments downloaded from JFrog
+    - `.uenv-images`: used by [uenv][ref-uenv] as the default repository for [managing uenv images][ref-uenv-manage].
     - `.enroot`: container images downloaded by the user
     - `.edf_imagestore`: container images used by the Container Engine
 
