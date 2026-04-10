@@ -18,7 +18,7 @@ Alternatively, you can implement the flow yourself using the raw API calls docum
 
 ## Creating a Service Account in Waldur
 
-Once enabled, you can create a Service Account in your [Waldur project](https://portal.cscs.ch/projects/).
+Once enabled, you can create a Service Account in your [Waldur project][ref-account-waldur] at [`https://portal.cscs.ch/projects/`](https://portal.cscs.ch/projects/).
 
 1. Navigate to your project's **Team** tab.
 2. Click **Add** -> **Service account**.
