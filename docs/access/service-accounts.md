@@ -55,7 +55,7 @@ API Key  ->  JWT Token  ->  SSH Certificate  ->  Cluster Login
 
 The `cscs-key` tool [handles this flow for you][ref-service-accounts-quick-auth]. If you prefer to call the API directly, follow Steps 1 and 2 below.
 
-### Step 1, Request a JWT Token
+### 1. Request a JWT Token
 
 ```bash
 JWT_RESPONSE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-service-account/api/v1/auth/token" \
@@ -64,7 +64,7 @@ JWT_RESPONSE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-service-ac
 JWT_TOKEN=$(echo "$JWT_RESPONSE" | jq -r '.access_token')
 ```
 
-### Step 2, Sign an SSH Certificate (Recommended)
+### 2. Sign an SSH Certificate (Recommended)
 
 If you already have an SSH key pair, request only a signed certificate. This is the preferred approach because it avoids generating a new private key on every authentication.
 
@@ -77,7 +77,7 @@ GENERATE=$(curl -s -X POST "https://authx-gateway.svc.cscs.ch/api-ssh-service/ap
 echo "$GENERATE" | jq -r '.sshKey.publicKey' > ~/.ssh/cscs-key-sa-cert.pub
 ```
 
-### Step 3, Generate a Full SSH Key Pair (Deprecated)
+### 3. Generate a Full SSH Key Pair (Deprecated)
 
 !!! warning "Deprecated"
     This method generates a new private key on every call and is no longer recommended. Use Step 2 instead. This endpoint may be removed in a future release.
