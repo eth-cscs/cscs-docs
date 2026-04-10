@@ -106,7 +106,8 @@ However, each non-interactive SSH invocation (`ssh <host> <command>`) opens a ne
 
 ### 1. Configure your SSH client
 
-See the [SSH documentation][ref-ssh-config] for general SSH configuration. For Service Accounts, we recommend using a separate wildcard pattern and key pair to avoid interfering with your personal configuration:
+See the [SSH documentation][ref-ssh-config] for general SSH configuration.
+For Service Accounts, we recommend using a separate wildcard pattern and key pair to avoid interfering with your personal configuration:
 
 ```
 Host sa-*
