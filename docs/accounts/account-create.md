@@ -40,3 +40,31 @@ From here you will need to set up [multi-factor authentication][ref-mfa-configur
 Once MFA has been configured, you will finally be redirected to the CSCS portal as shown:
 
 ![](../images/access/waldur-user-dashboard.png)
+
+[](){#ref-account-create-service-account}
+## Requesting a Service Account
+
+Service Accounts are scoped to a **single project** and grant access to all resources within it. To obtain one, the **Project PI** must submit a request to a **Platform Manager** via an [SD Ticket on the Service Desk](https://support.cscs.ch).
+
+### Request Template
+
+To help us process your request efficiently, please include the following information in your SD Ticket:
+
+```
+Subject: Service Account Request - [Project Name]
+
+Project: [Your CSCS Project Name]
+PI: [Project PI Name]
+
+Service Account Details:
+- Account Purpose/Use Case: [e.g., CI/CD pipeline, automated job submission, monitoring, data sync]
+- Expected Usage: [Describe what the account will do, frequency, and scale]
+- Responsible Team/Person: [Name or team responsible for managing this service account]
+- Duration: [e.g., permanent, specific project end date]
+
+Additional Notes: [Any other relevant information, e.g., specific requirements or constraints]
+```
+
+### After Approval
+
+Once approved and enabled, the **Service Account** menu entry will appear under the **Team** tab of your Waldur project. For details on setting up and using a Service Account, see [Service Accounts][ref-service-accounts].
