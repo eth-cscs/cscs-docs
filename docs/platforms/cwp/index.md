@@ -49,7 +49,7 @@ See the [Scratch][ref-storage-scratch] documentation for more information.
 The environment variable `SCRATCH=/capstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
 
 !!! warning "scratch cleanup policy"
-    Files that have not been accessed in 30 days are automatically deleted.
+    Files that have not been accessed in **30 days** are automatically deleted.
 
     **Scratch is not intended for permanent storage**: transfer files back to the [Store][ref-storage-store] after job runs.
 
