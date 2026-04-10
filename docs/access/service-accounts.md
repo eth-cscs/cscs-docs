@@ -9,7 +9,8 @@ Use a Service Account when:
 - You have scripts that execute multiple cluster operations in sequence.
 - You want to isolate automated access from your personal credentials.
 
-To use Service Accounts, you'll need the `cscs-key` CLI tool, a helper that wraps the authentication flow described below into simple commands. See [installation instructions][ref-ssh-cli]. Alternatively, you can implement the flow yourself using the raw API calls documented here.
+To use Service Accounts, you'll need the [`cscs-key` CLI tool][ref-ssh-cli], a helper that wraps the authentication flow described below into simple commands.
+Alternatively, you can implement the flow yourself using the raw API calls documented here.
 
 !!! note "Requesting a Service Account"
     If you need to request a Service Account, please see [Requesting a Service Account][ref-account-create-service-account] in the accounts and projects documentation.
