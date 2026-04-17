@@ -11,7 +11,7 @@ Please note that this service does not support the deployment of private models,
 ## Access process
 
 ### Request for early access
-Our Managed LLM Models service is currently in early access phase. To take advantage of it, please submit a request for early access to pablo.fernandez@cscs.ch, indicating your project context, specific needs, desired models and availability requirements.
+Our Managed LLM Models service is currently in early access phase. To take advantage of it, please submit a request for early access to [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch), indicating your project context, specific needs, desired models and availability requirements.
 
 ### Obtaining the authentication token
 Once your request is approved, an authentication token is issued for your project (see [Project Management][ref-account-management]) which you can obtain through [https://portal.cscs.ch](https://portal.cscs.ch). This is the token you will use to query the endpoints against [https://ai-gateway.svc.cscs.ch](https://ai-gateway.svc.cscs.ch).
