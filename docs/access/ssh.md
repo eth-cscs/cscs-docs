@@ -106,7 +106,18 @@ For more details  about any command please refer to help with `-h, --help`.
     The app supports two authentication methods:
 
     - **OpenID Connect**: Web browser window opens where user authenticates with the CSCS credentials.
+    - **OAuth2 Device Authorization Grant** for remote headless machines, enabled by `--headless` flag.
     - **API keys**: For automation with service accounts. See [Service Accounts][ref-service-accounts] for details.
+
+### Shell completion
+
+To enable completion on every shell start, add to your shell config (e.g. `~/.bashrc`):
+
+```bash
+source <(cscs-key completion <shell>)
+```
+
+Supported shells: `bash`, `zsh`, `fish`, `powershell`, `elvish`.
 
 [](){#ref-ssh-key-management}
 ## Managing SSH keys at user-account.cscs.ch
