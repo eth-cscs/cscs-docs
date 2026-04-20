@@ -46,12 +46,12 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode
 
     ```console
     $ uenv start prgenv-gnu/24.11:v1,linaro-forge/24.1.1:v1 --view=prgenv-gnu:default # (1)!
-    $ source /user-tools/activate
+    $ source /user-tools/activate # (2)!
     $ srun -N1 -n4 -t15 -pdebug ./cuda_visible_devices.sh   ddt-client   ./myexe
     ```
 
     1. Start a session with both the uenv used to build your application and the `linaro-forge` uenv mounted.
-
+    2. This step is only necessary for versions before 25.1.
 
 
 ### Start debugging
