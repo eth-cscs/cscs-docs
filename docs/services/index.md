@@ -22,7 +22,7 @@
 
 -   :fontawesome-solid-robot: __Inference__
 
-    Managed LLM models acessible through public API endpoints, and Kubernetes services for deploying custom ML services.
+    Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
 
     [:octicons-arrow-right-24: Inference][ref-inference]
 </div>

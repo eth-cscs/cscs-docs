@@ -4,14 +4,14 @@
 !!! under-construction "Inference services are in beta"
     Inference services are under development.
     We are seeking additional early-access users, particularly novel use cases, to help shape the service design.
-    Please contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) if you are interested.
+    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
 The managed LLM model service provides Internet-accessible OpenAI/Anthropic-compatible inference endpoints backed by selected open-weight models (for example Apertus and other vetted models).
 Users consume from a shared pool of LLM models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
 
 This offering is intended for users who primarily need managed inference APIs.
 Private model deployments are not supported.
-Additional model requests can be discussed via [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch), subject to review.
+Additional model requests can be discussed with Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch).
 
 For privacy reasons, CSCS does not track user prompts or model responses.
 For operational reasons, such as service quality and latency, CSCS does collect infrastructure metrics and telemetry, including prompt and response lengths.
@@ -56,7 +56,7 @@ If the request succeeds, your access is active and you can start using available
 
 ### Request access
 
-To request early-access, contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) and briefly describe your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
+To request early-access, contact Pablo Fernandez ([`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch)) and briefly describe your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
 ### Obtain your authentication token
 

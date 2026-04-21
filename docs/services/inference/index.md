@@ -4,7 +4,7 @@
 !!! under-construction "Inference services are in beta"
     Inference services are under development.
     We are seeking additional early-access users, particularly novel use cases, to help shape the service design.
-    Please contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) if you are interested.
+    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
 !!! todo
     Add an introduction that says __what the inference service is__
