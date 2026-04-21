@@ -24,15 +24,20 @@ The release schedule is not fixed, with new versions will be released roughly ev
 | 26.3               | gh200, zen2       | daint, eiger, santis, clariden          |
 | 25.11              | gh200, zen2       | daint, eiger, santis, clariden          |
 | 25.6               | gh200, zen2       | daint, eiger, santis, clariden          |
-| 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen |
-| 24.7               | gh200, zen2       | daint, eiger, todi                      |
+
+??? note "Removed versions"
+    The following versions have been removed:
+
+    | version            | Removal date |
+    |--------------------|--------------|
+    | 24.11              | April 2026   |
+    | 24.7               | April 2026   |
 
 ### Deprecation policy
 
 We will provide full support for 12 months after the uenv image is released, and remove the images when they are no longer being used or when system upgrades break their functionality on the system.
 
 * It is recommended to document how you compiled and set up your workflow using `prgenv-gnu` so that you can recreate it with future versions.
-* The 24.7 release is no longer supported and will be removed at the end of July 2025 - users are encouraged to update to 24.11 or later, before requesting support.
 
 ### Versions
 
@@ -162,53 +167,6 @@ We will provide full support for 12 months after the uenv image is released, and
         * [superlu@7.0.0](https://packages.spack.io/package.html?name=superlu)
         * [xcb-util-cursor@0.1.5](https://packages.spack.io/package.html?name=xcb-util-cursor)
         * [zlib-ng@2.2.4](https://packages.spack.io/package.html?name=zlib-ng)
-
-=== "24.11"
-
-    The key updates in version 24.11:v1 from the 24.7 version were:
-
-    * upgrading the versions of gcc@13 and cuda@12.6
-    * upgrading cray-mpich to version 8.1.30
-    * adding kokkos
-    * adding gsl
-
-    ??? info "all packages exposed via the `default` and `modules` views in `v1`"
-        * [aws-ofi-nccl@git.v1.9.2-aws_1.9.2](https://packages.spack.io/package.html?name=aws-ofi-nccl)
-        * [boost@1.86.0](https://packages.spack.io/package.html?name=boost)
-        * [cmake@3.30.5](https://packages.spack.io/package.html?name=cmake)
-        * [cray-mpich@8.1.30](https://packages.spack.io/package.html?name=cray-mpich)
-        * [cuda@12.6.2](https://packages.spack.io/package.html?name=cuda)
-            * in the `gh200` and `a100` images
-        * [fftw@3.3.10](https://packages.spack.io/package.html?name=fftw)
-        * [fmt@11.0.2](https://packages.spack.io/package.html?name=fmt)
-        * [gcc@13.3.0](https://packages.spack.io/package.html?name=gcc)
-        * [gsl@2.8](https://packages.spack.io/package.html?name=gsl)
-        * [hdf5@1.14.5](https://packages.spack.io/package.html?name=hdf5)
-        * [kokkos-kernels@4.4.01](https://packages.spack.io/package.html?name=kokkos-kernels)
-        * [kokkos-tools@develop](https://packages.spack.io/package.html?name=kokkos-tools)
-        * [kokkos@4.4.01](https://packages.spack.io/package.html?name=kokkos)
-        * [libtree@3.1.1](https://packages.spack.io/package.html?name=libtree)
-        * [lua@5.4.6](https://packages.spack.io/package.html?name=lua)
-        * [lz4@1.10.0](https://packages.spack.io/package.html?name=lz4)
-        * [meson@1.5.1](https://packages.spack.io/package.html?name=meson)
-        * [nccl-tests@2.13.6](https://packages.spack.io/package.html?name=nccl-tests)
-        * [nccl@2.22.3-1](https://packages.spack.io/package.html?name=nccl)
-        * [netlib-scalapack@2.2.0](https://packages.spack.io/package.html?name=netlib-scalapack)
-        * [ninja@1.12.1](https://packages.spack.io/package.html?name=ninja)
-        * [openblas@0.3.28](https://packages.spack.io/package.html?name=openblas)
-            * built with the OpenMP threading back end
-        * [osu-micro-benchmarks@5.9](https://packages.spack.io/package.html?name=osu-micro-benchmarks)
-        * [papi@7.1.0](https://packages.spack.io/package.html?name=papi)
-        * [python@3.12.5](https://packages.spack.io/package.html?name=python)
-        * [superlu@5.3.0](https://packages.spack.io/package.html?name=superlu)
-        * [zlib-ng@2.2.1](https://packages.spack.io/package.html?name=zlib-ng)
-
-    ??? info "24.7:v2 changelog"
-        The `v2` update added `netcdf`, specifically the following packages:
-
-        * [netcdf-c@4.9.2](https://packages.spack.io/package.html?name=netcdf-c)
-        * [netcdf-cxx@4.2](https://packages.spack.io/package.html?name=netcdf-cxx)
-        * [netcdf-fortran@4.6.1](https://packages.spack.io/package.html?name=netcdf-fortran)
 
 [](){#ref-uenv-prgenv-gnu-how-to-use}
 ## How to use
