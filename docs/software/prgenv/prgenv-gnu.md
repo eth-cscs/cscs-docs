@@ -19,12 +19,18 @@ The naming scheme is `prgenv-gnu/<version>`, where `<version>` has the `YY.M[M]`
 
 The release schedule is not fixed, with new versions will be released roughly every 3-6 months, when there is a compelling reason to update.
 
-| version            | node types        | system                                  | Notes   |
-|--------------------|-------------------|-----------------------------------------|---------|
-| 25.11              | gh200, zen2       | daint, eiger, santis, clariden          |         |
-| 25.6               | gh200, zen2       | daint, eiger, santis, clariden          |         |
-| 24.11              | a100, gh200, zen2 | daint, eiger, santis, clariden, bristen | Removed |
-| 24.7               | gh200, zen2       | daint, eiger, todi                      | Removed |
+| version            | node types        | system                                  |
+|--------------------|-------------------|-----------------------------------------|
+| 25.11              | gh200, zen2       | daint, eiger, santis, clariden          |
+| 25.6               | gh200, zen2       | daint, eiger, santis, clariden          |
+
+??? note "Removed versions"
+    The following versions have been removed:
+
+    | version            | Removal date |
+    |--------------------|--------------|
+    | 24.11              | April 2026   |
+    | 24.7               | April 2026   |
 
 ### Deprecation policy
 
