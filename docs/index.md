@@ -98,13 +98,15 @@ Learn by doing with our guides and tutorials.
 
     CSCS provides services and software on Alps.
 
-    [:octicons-arrow-right-24: Services Overview](services/index.md)
+    [:octicons-arrow-right-24: Services Overview][ref-services]
 
     Learn about individual services
 
     [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
-    [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
+    [:octicons-arrow-right-24: CI/CD for external projects][ref-cicd]
+
+    [:octicons-arrow-right-24: Inference services][ref-inference]
 
 
 -   :fontawesome-solid-hammer: __Software__

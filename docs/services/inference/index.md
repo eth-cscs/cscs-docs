@@ -1,32 +1,38 @@
 [](){#ref-inference}
 # Inference
 
-Inference services are under development at CSCS and gradually becoming available to interested users. The roll-out of the different services and features is happening in phases.
+!!! under-construction "Inference services are in beta"
+    Inference services are under development.
+    We are seeking additional early-access users, particularly novel use cases, to help shape the service design.
+    Please contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
-We are seeking additional early-access users, particularly those with use cases not yet considered, to help shape our ongoing design phase. If you are interested in exploring early-access opportunities, please contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch).
-
+!!! todo
+    Add an introduction that says __what the inference service is__
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-layer-group: __OpenAI and Anthropic-compatible endpoints__
+-   :fontawesome-solid-layer-group: __Managed Model Access__
 
-    Managed, Internet-accessible OpenAI/Anthropic-compatible inference endpoints using vetted open-weight models (e.g., Apertus), with token-based resource consumption.
+    Managed, internet-accessible [OpenAI API](https://developers.openai.com/api/docs)-compatible inference providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
 
-    [:octicons-arrow-right-24: Managed LLM models][ref-managed-models]
+    [:octicons-arrow-right-24: Managed LLM models][ref-inference-managed]
 
 </div>
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-layer-group: __Hybrid Kubernetes Namespaces__
 
-    Internet-accessible Kubernetes namespaces backed by mixed hardware resources, combining Grace-Hopper GPU nodes with commodity CPU-only virtual machines. Designed for users who need to develop and operate ML-centric services (e.g., RAG) and use cases beyond LLMs. Resource consumption is based on assigned CPU, GPU, memory, and storage.
+    Internet-accessible Kubernetes namespaces backed by mixed hardware resources, combining Grace-Hopper GPU nodes with commodity CPU-only virtual machines.
+    Designed for users who need to develop and operate ML-centric services (e.g., RAG) and use cases beyond LLMs.
+    Resource consumption is based on assigned CPU, GPU, memory, and storage.
 
     !!! under-construction
-        This service is not yet generally available. Its documentation is pending.
+        This service is not yet available.
 
 -   :fontawesome-solid-layer-group: __Blueprints for re-deployments__ 
 
-    Deployment-ready blueprints for re-creating the GPU Hybrid Namespaces model on segregated infrastructure where stronger privacy, confidentiality, or compliance controls are required. They preserve the same flexibility for custom ML-centric services, resource-based consumption, and mixed-hardware Kubernetes operations, while adapting the platform to stricter isolation boundaries.
+    Deployment-ready blueprints for re-creating the GPU Hybrid Namespaces model on segregated infrastructure where stronger privacy, confidentiality, or compliance controls are required.
+    They preserve the same flexibility for custom ML-centric services, resource-based consumption, and mixed-hardware Kubernetes operations, while adapting the platform to stricter isolation boundaries.
 
     !!! under-construction
         This service is not yet available.

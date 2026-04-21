@@ -1,16 +1,20 @@
-[](){#ref-managed-models}
-
+[](){#ref-inference-managed}
 # Managed LLM Models
 
-This page explains how to request access, obtain credentials, use the service, and monitor consumption for the **Managed LLM Models** offering at CSCS.
+!!! under-construction "Inference services are in beta"
+    Inference services are under development.
+    We are seeking additional early-access users, particularly novel use cases, to help shape the service design.
+    Please contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
-The service provides Internet-accessible OpenAI/Anthropic-compatible inference endpoints backed by selected open-weight models (for example Apertus and other vetted models). Users consume from a shared pool of LLM models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
+The managed LLM model service provides Internet-accessible OpenAI/Anthropic-compatible inference endpoints backed by selected open-weight models (for example Apertus and other vetted models).
+Users consume from a shared pool of LLM models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
 
-This offering is intended for users who primarily need managed inference APIs. Private model deployments are not supported. Additional model requests can be discussed via [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch), subject to review.
+This offering is intended for users who primarily need managed inference APIs.
+Private model deployments are not supported.
+Additional model requests can be discussed via [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch), subject to review.
 
-For privacy reasons, CSCS does not track user prompts or model responses. For operational reasons, such as service quality and latency, CSCS does collect infrastructure metrics and telemetry, including prompt and response lengths.
-
----
+For privacy reasons, CSCS does not track user prompts or model responses.
+For operational reasons, such as service quality and latency, CSCS does collect infrastructure metrics and telemetry, including prompt and response lengths.
 
 ## Service at a glance
 
@@ -34,8 +38,7 @@ For privacy reasons, CSCS does not track user prompts or model responses. For op
 
 </div>
 
----
-
+[](){#ref-inference-managed-quickstart}
 ## Quick Start
 
 Get your token from the [CSCS portal](https://portal.cscs.ch), then run:
@@ -48,28 +51,30 @@ curl -X GET "https://ai-gateway.svc.cscs.ch/v1/models" \
 
 If the request succeeds, your access is active and you can start using available models.
 
----
+[](){#ref-inference-managed-access}
+## Access
 
-## Access process
+### Request access
 
-### 1. Request access
+To request early-access, contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) and briefly describe your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
-The service is being rolled out in phases and is not yet generally available. To request early-access, contact [pablo.fernandez@cscs.ch](mailto:pablo.fernandez@cscs.ch) and briefly describe your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
+### Obtain your authentication token
 
----
+Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur].
 
-### 2. Obtain your authentication token
-
-Once approved, your project receives an authentication token, which can be retrieved and managed through [https://portal.cscs.ch](https://portal.cscs.ch).
-
-!!! todo
+!!! under-construction
     Project key management is evolving. Future improvements include multiple keys per project, self-service rotation, revocation, scoped access, auditability, and quota or budget controls.
 
-<!-- Screenshot placeholder: portal page showing where to retrieve the token -->
+!!! todo
+    Instead of adding a screenshot, can't we 
+    <!-- Screenshot placeholder: portal page showing where to retrieve the token -->
 
----
+### Use the API
 
-### 3. Endpoint URL
+!!! todo
+    Provide a very short example of how to use the token with the API.
+
+    Then provide a link to proper docs for the API
 
 Use the gateway base URL:
 
@@ -84,10 +89,9 @@ Common API paths include:
 /v1/chat/completions
 /v1/embeddings
 ```
+## Example use cases
 
----
-
-## First tests and examples
+This section provides practical examples of how to use the API for common tasks.
 
 ### List available models
 
@@ -97,7 +101,8 @@ curl -X GET "https://ai-gateway.svc.cscs.ch/v1/models" \
   -H "Content-Type: application/json"
 ```
 
----
+!!! todo
+    show example output
 
 ### Chat completion request
 
@@ -114,7 +119,8 @@ curl -X POST "https://ai-gateway.svc.cscs.ch/v1/chat/completions" \
   }'
 ```
 
----
+!!! todo
+    show example output
 
 ### Claude Code CLI
 
@@ -126,62 +132,60 @@ export ANTHROPIC_BASE_URL=https://ai-gateway.svc.cscs.ch/v1
 export ANTHROPIC_MODEL=apertus-70b-instruct
 ```
 
----
-
 ## Resource consumption and monitoring
 
-Quotas are currently assigned per project as token volumes. Tokens consumption is processed on the project allocation. This includes user prompts, generated responses, and internal reasoning tokens when applicable.
+Quotas are currently assigned per project as token volumes.
+This includes user prompts, generated responses, and internal reasoning tokens when applicable.
 
-Token accounting currently does not account for the model chosen.
 
-Aspects to keep in consideration:
+!!! under-construction "Token accounting currently is currently the same for all models."
+    Model-aware accounting is planned so token costs and quotas may differ across models.
+
+### Reducing consumption
 
 * longer prompts increase cost and latency
 * future pricing may differentiate across models with different compute costs
 
-!!! todo
-    Model-aware accounting is planned so token costs and quotas may differ across models.
-
-### Current visibility
+### Managing quota
 
 Quota state is available through the CSCS portal: [https://portal.cscs.ch](https://portal.cscs.ch).
 
-More elaborated usage reporting and visibility features are being developed progressively. If you need interim reporting or quota visibility, contact the service team.
+!!! under-construction
+    More elaborated usage reporting and visibility features are being developed progressively.
 
-!!! todo
+If you need interim reporting or quota visibility, contact the service team.
+
+!!! under-construction
     Enhanced usage reporting, richer quota visibility, and system dashboards are being developed progressively.
 
 ### Deployment visibility roadmap
 
 A future status page will provide fuller visibility into deployed models and their configuration, including deployment state, replica counts, load, startup expectations, templates, routing defaults and system prompts.
 
-!!! todo
+!!! under-construction
     A dedicated status page will provide deployment visibility such as model state, replicas, load, startup expectations, routing defaults, and related configuration details.
 
----
+## Availability and service levels
 
-## Operational characteristics
+!!! todo
+    This section is confusing - it needs an introduction that describes what we are talking about.
 
 Model deployment policies distinguish the following cases:
 
 * single-site deployments, vs. geo-redundant deployments for higher availability
 * scale-to-zero on inactivity, vs. keep warm with a minimum replica count (usually 1)
 
-!!! todo
+!!! under-construction
     Higher-availability service tiers and explicit SLO options for production workloads are planned for selected models.
 
----
-
-## Good practices
+## Best practices
 
 ### Security
 
 * store tokens safely
 * avoid exposing prompts containing sensitive data unless approved for your context
 
----
-
-## Current limitations
+## Known issues and limitations
 
 * project key management is still evolving; currently one key is issued per project and rotation requires contacting the team
 * detailed self-service telemetry is limited today
