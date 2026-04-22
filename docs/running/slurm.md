@@ -31,7 +31,6 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
 Slurm associates each job with a CSCS project in order to perform accounting.
 The project to use for accounting is specified using the `--account/-A` flag.
-If no job is specified, the primary project is used as the default.
 
 ??? example "Which projects am I a member of?"
     Users often are part of multiple projects, and by extension their associated `groupd_id` groups.
@@ -164,7 +163,7 @@ To connect to the first node of the job use the command
 $ srun --jobid=<JOB-ID> --overlap --pty bash
 ```
 This will drop you into a shell on the first compute node of the job.
-If you want to connect to a specific node of your job, use additionally the flag `--nodelist=nidXXXXXX`.
+If you want to connect to a specific node of your job, add the additional flags `--nodes=1 --nodelist=nidXXXXXX`.
 
 ## Affinity
 
