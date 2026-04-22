@@ -291,6 +291,7 @@ rwx
 rwo
 standalone
 subdomain
+Schuppli
 tls
 kured
 KUbernetes

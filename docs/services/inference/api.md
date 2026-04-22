@@ -1,4 +1,4 @@
-[](){#ref-llm-inference-api}
+[](){#ref-inference-api}
 # LLM Inference API Service
 
 !!! under-construction "Inference services are in beta"
@@ -38,7 +38,7 @@ For operational reasons, such as service quality and latency, CSCS does collect 
 
 </div>
 
-[](){#ref-inference-managed-quickstart}
+[](){#ref-inference-api-quickstart}
 ## Quick Start
 
 Get your token from the [CSCS portal](https://portal.cscs.ch), then run:
@@ -51,7 +51,7 @@ curl -X GET "https://ai-gateway.svc.cscs.ch/v1/models" \
 
 If the request succeeds, your access is active and you can start using available models.
 
-[](){#ref-inference-managed-access}
+[](){#ref-inference-api-access}
 ## Access
 
 ### Request access
