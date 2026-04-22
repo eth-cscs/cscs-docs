@@ -12,6 +12,9 @@ It is the go to programming environment on all systems and target node types, th
 
     The [`prgenv-gnu-openmpi`][ref-uenv-prgenv-gnu-openmpi] is otherwise similar to `prgenv-gnu`, but provides OpenMPI instead of Cray MPICH.
 
+    The [`prgenv-intel`][ref-uenv-prgenv-intel] is similar to `prgenv-gnu`, but provides the intel OneAPI compiler.
+    Only available on [Eiger][ref-cluster-eiger], and provides fewer general libraries than the full GNU environment.
+
 [](){#ref-uenv-prgenv-gnu-versioning}
 ## Versioning
 

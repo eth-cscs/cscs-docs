@@ -33,6 +33,10 @@ For example:
 
     Provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally.
 
+-   :fontawesome-solid-layer-group: [__prgenv-intel__][ref-uenv-prgenv-intel] uenv
+
+    Provides a set of tools and libraries for building applications with the intel OneAPI compilers on [Eiger][ref-cluster-eiger].
+
 </div>
 
 ## Containers

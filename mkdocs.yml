@@ -79,6 +79,7 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
+      - 'prgenv-intel': software/prgenv/prgenv-intel.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
