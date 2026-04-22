@@ -3,11 +3,10 @@
 
 !!! under-construction "Inference services are in beta"
     Inference services are under development.
-    We are seeking additional early-access users, particularly novel use cases, to help shape the service design.
-    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
+    We are seeking additional novel use cases, to help shape the service design.
+    Please contact Stefano Schuppli at [`stefano.schuppli@cscs.ch`](mailto:stefano.schuppli@cscs.ch) and Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
-!!! todo
-    Add an introduction that says __what the inference service is__
+Inference services leverage already pre-trained machine-learning models to generate new content based on a given input. We allow the deployment of models and related services without having to worry about the underlying infrastructure.
 
 <div class="grid cards" markdown>
 
