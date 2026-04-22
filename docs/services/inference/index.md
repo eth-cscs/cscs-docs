@@ -14,7 +14,7 @@ Inference services leverage already pre-trained machine-learning models to gener
 
     Managed, internet-accessible [OpenAI API](https://developers.openai.com/api/docs)-compatible inference providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
 
-    [:octicons-arrow-right-24: Managed LLM models][ref-inference-managed]
+    [:octicons-arrow-right-24: LLM Inference API service][ref-llm-inference-api]
 
 </div>
 <div class="grid cards" markdown>
