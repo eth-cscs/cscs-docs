@@ -30,7 +30,7 @@ When HPE release cray-mpich as open source, we will be able to provide more opti
 ### Deprecation policy
 
 There is no fixed deprecation policy.
-We will continue to provide each version as long as practicallty possible, however system upgrades might force us to provide updated versions, and users to recompile their software.
+We will continue to provide each version as long as practically possible, however system upgrades might force us to provide updated versions, and users to recompile their software.
 
 ### Versions
 
