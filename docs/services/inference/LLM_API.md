@@ -1,4 +1,4 @@
-[](){#ref-inference-managed}
+[](){#ref-llm-inference-api}
 # LLM Inference API Service
 
 !!! under-construction "Inference services are in beta"
