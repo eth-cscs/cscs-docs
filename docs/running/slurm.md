@@ -163,7 +163,7 @@ To connect to the first node of the job use the command
 $ srun --jobid=<JOB-ID> --overlap --pty bash
 ```
 This will drop you into a shell on the first compute node of the job.
-If you want to connect to a specific node of your job, use additionally the flag `--nodelist=nidXXXXXX`.
+If you want to connect to a specific node of your job, add the additional flags `--nodes=1 --nodelist=nidXXXXXX`.
 
 ## Affinity
 
