@@ -6,13 +6,13 @@
     We are seeking additional novel use cases, to help shape the service design.
     Please contact Stefano Schuppli at [`stefano.schuppli@cscs.ch`](mailto:stefano.schuppli@cscs.ch) and Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
 
-Inference services leverage already pre-trained machine-learning models to generate new content based on a given input. We allow the deployment of models and related services without having to worry about the underlying infrastructure.
+Inference services leverage Machine Learning models to generate new content based on a given input. We enable the deployment of models and related services without having to worry about the underlying infrastructure.
 
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-layer-group: __Managed Model Access__
 
-    Managed, internet-accessible [OpenAI API](https://developers.openai.com/api/docs)-compatible inference providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
+    Managed, Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference APIs providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
 
     [:octicons-arrow-right-24: LLM Inference API service][ref-inference-api]
 
