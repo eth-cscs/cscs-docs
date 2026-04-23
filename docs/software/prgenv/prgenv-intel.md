@@ -17,10 +17,10 @@ It can be used for applications that require the Intel Fortran compiler.
 
 The naming scheme is `prgenv-intel/<version>`, where `<version>` has the `YYYY.M[M]` format that matches the version of the [Intel OneAPI compilers](https://packages.spack.io/package.html?name=intel-oneapi-compilers) in the uenv.
 
-The release schedule is not fixed, with new versions will be released when there is a compelling reason to update.
+The release schedule is not fixed, with new versions will be released when there is a compelling reason.
 
-We are constrained by the pre-compiled versions of cray-mpich provided by HPE - they need to release cray-mpich built with the target compiler.
-When HPE release cray-mpich as open source, we will be able to provide more options, because we will be able to rebuild it with any compiler.
+!!! note
+    We are constrained by the pre-compiled versions of cray-mpich provided by HPE---they need to release cray-mpich built with the target compiler.
 
 | version            | node types | system    | released  |
 |--------------------|------------|-----------|-----------|
