@@ -3,7 +3,7 @@
 
 The `julia` uenv provides a complete HPC setup for running Julia efficiently at scale, using the supercomputer hardware optimally. 
 Unlike in traditional approaches, this Julia HPC setup enables you to update Julia yourself using the included preconfigured community tool [`juliaup`](https://github.com/JuliaLang/juliaup). 
-It also does not preinstall any packages site-wide. Instead, for HPC key packages that benefit from using locally built libraries (`MPI.jl`, `CUDA.jl`, `AMDGPU.jl`, `HDF5.jl`, `ADIOS2.jl`, etc.), this uenv provides the libraries and presets package preferences and environment variables for an automatic optimal installation and usage of these packages using these local libraries. 
+It also does not preinstall any packages site-wide. Instead, for HPC key packages that benefit from using locally built libraries (`MPI.jl`, `CUDA.jl`, `AMDGPU.jl`, `Reactant.jl`, `HDF5.jl`, `ADIOS2.jl`, etc.), this uenv provides the libraries and presets package preferences and environment variables for an automatic optimal installation and usage of these packages using these local libraries. 
 As a result, you only need to type, e.g., `] add CUDA` in the Julia REPL, in order to install `CUDA.jl` optimally. 
 The `julia` uenv internally relies on the community scripting project [JUHPC](https://github.com/JuliaParallel/JUHPC) to achieve this.
 
@@ -16,6 +16,7 @@ The release schedule is not fixed; new versions will be released, when there is 
 |-----------|-----------|--------|
 | 24.9      | gh200, zen2 | daint, eiger, todi |
 | 25.5      | gh200, zen2 | daint, eiger, santis, clariden, bristen |
+| 26.3      | gh200 | daint, santis, clariden |
 
 === "25.5"
 
@@ -32,25 +33,42 @@ The release schedule is not fixed; new versions will be released, when there is 
         * hdf5/1.14.5
         * adios2/2.10.2
 
+=== "26.3"
+
+    The key updates in version `26.3:v1` from the version `25.5:v1` were:
+
+    * upgrading the `Spack` version used to build the packages to `1.1`
+    * adding `NCCL`
+    * adding `cuTENSOR`
+    * adding `papi`
+    * upgrading to `cuda@12.9` and `cray-mpich@8.1.32`
+    
+    !!! info "HPC key libraries included"
+        * cray-mpich/8.1.32
+        * cuda/12.9.0
+        * nccl/2.28.3-1
+        * hdf5/1.14.6
+        * adios2/2.10.2
+
 ## How to use
 
 Find and pull a Julia uenv image, e.g.:
 ```bash
 uenv image find julia       # list available julia images
-uenv image pull julia/25.5  # copy version[:tag] from the list above
+uenv image pull julia/26.3  # copy version[:tag] from the list above
 ```
 
 Start the image and activate the Julia[up] HPC setup by loading the following view(s):
 === "`juliaup`"
     !!! example ""
         ```bash
-        uenv start julia/25.5:v1 --view=juliaup
+        uenv start julia/26.3:v1 --view=juliaup
         ```
 
 === "`juliaup` and `modules`"
     !!! example "This activates also modules for the available libraries like, e.g, `cuda`."
         ```bash
-        uenv start julia/25.5:v1 --view=juliaup,modules
+        uenv start julia/26.3:v1 --view=juliaup,modules
         ```
 
 There is also a view `jupyter` available, which is required for [using Julia in JupyterHub][using-julia-in-jupyter].
