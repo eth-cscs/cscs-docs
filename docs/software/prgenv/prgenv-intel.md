@@ -7,7 +7,7 @@ It can be used for applications that require the Intel Fortran compiler.
 !!! note
     The `prgenv-intel` uenv does not have as many packages as the full [`prgenv-gnu`][ref-uenv-prgenv-gnu] environment.
 
-    Try using the `prgenv-gnu` uenv first, because it is better tested, better supported, and has more software packages available
+    Try using the `prgenv-gnu` uenv first, because it is better tested, better supported, and has more software packages available.
 
 !!! note "only on [zen2][ref-alps-zen2-node] nodes"
     Only available on [Eiger][ref-cluster-eiger], and provides fewer general libraries than the full GNU environment.
