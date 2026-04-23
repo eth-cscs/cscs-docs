@@ -7,7 +7,7 @@ It can be used for applications that require the Intel Fortran compiler.
 !!! note
     The `prgenv-intel` uenv does not have as many packages as the full [`prgenv-gnu`][ref-uenv-prgenv-gnu] environment.
 
-    Try using the `prgenv-gnu` uenv first, because it is better tested, better supported, and has more software packages available
+    Try using the `prgenv-gnu` uenv first, because it is better tested, better supported, and has more software packages available.
 
 !!! note "only on [zen2][ref-alps-zen2-node] nodes"
     Only available on [Eiger][ref-cluster-eiger], and provides fewer general libraries than the full GNU environment.
@@ -19,7 +19,7 @@ The naming scheme is `prgenv-intel/<version>`, where `<version>` has the `YYYY.M
 
 The release schedule is not fixed, with new versions will be released when there is a compelling reason to update.
 
-We are constrained by the pre-compiled versions of cray-mpich provided by HPE - they need to release cray-mpich built with the target compiler.
+We are constrained by the pre-compiled versions of cray-mpich provided by HPE---they need to release cray-mpich built with the target compiler.
 When HPE release cray-mpich as open source, we will be able to provide more options, because we will be able to rebuild it with any compiler.
 
 | version            | node types | system    | released  |
