@@ -17,11 +17,8 @@ Users consume from a shared pool of LLM models where requests are efficiently mu
 
 Private model deployments are not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-For privacy reasons, CSCS does not track user prompts or model responses.
+Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS does not track user prompts or model responses. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor and improve service quality.
 
-For operational reasons, such as service quality and latency, CSCS does collect infrastructure metrics and telemetry, including prompt and response lengths.
-
-Usage of sensitive or personal data is not allowed.
 
 ## Service at a glance
 
@@ -38,6 +35,10 @@ Usage of sensitive or personal data is not allowed.
 * :material-cloud-check: **No infrastructure management**
 
   No need to run GPUs, containers, autoscaling, or model servers yourself.
+
+* :material-shield-lock: **Sovereign and private**
+
+  Your data stays yours and is processed entirely within CSCS in Switzerland. Prompts and responses are not tracked.
 
 </div>
 
