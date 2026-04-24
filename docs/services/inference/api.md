@@ -3,11 +3,14 @@
 
 !!! under-construction "The LLM Inference API service is in beta"
     This service is under development.
+    
     * We are currently exploring the potential adoption of this service, as well as the business model to cover for its cost.
     * Capacity and availability is limited. Downtimes and slowdowns are to be expected.
     * The models that are available can change over time.
     * Access to the Beta is upon invitation, without any cost.
-    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta.
+    * Carefully read the [objectives and limitations][ref-inference-api-beta] of the Beta below 
+    
+    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta, describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
 The LLM Inference API service provides Internet-accessible OpenAI/Anthropic-compatible inference endpoints backed by selected open-weight models (for example Apertus and other vetted models).
 Users consume from a shared pool of LLM models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
@@ -61,9 +64,6 @@ Early usage of this service requires an invitation. If you would like to partici
 ### Obtain your authentication token
 
 Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur].
-
-!!! under-construction
-    Project key management is evolving. Future improvements include multiple keys per project, self-service rotation, revocation, scoped access, auditability, and quota or budget controls.
 
 !!! todo
     Add a screenshot to see how to obtain the API key
@@ -145,7 +145,7 @@ Token consumption can be observed using the API
 * longer prompts increase cost and latency
 * future costs may differentiate across models with different computational load
 
-
+[](){#ref-inference-api-beta}
 ## Objectives of the Beta
 
 The goal of this Beta is to understand what is missing before having an operational service. We need answers to understand:
@@ -156,7 +156,7 @@ The goal of this Beta is to understand what is missing before having an operatio
 * what the balance is with the existing capacity and future cost.
 * what is the right accounting metric to be used
 
-## Known issues and limitations
+### Known issues and limitations
 
 * project key management is still evolving; currently one key is issued per project and rotation requires contacting the team
 * detailed self-service telemetry is limited today
