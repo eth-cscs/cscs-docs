@@ -97,7 +97,7 @@ All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, whi
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
 * Files on `/capstor/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
-* Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **21 days** are automatically deleted.
+* Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
 * When capacity grows above:
     * 60%: users are asked to start removing or archiving unneeded files
     * 80%: CSCS will start removing files and paths without further notice.
@@ -106,13 +106,16 @@ The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure cont
     The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
 
     - `.uenv-images`: used by [uenv][ref-uenv] as the default repository for [managing uenv images][ref-uenv-manage].
+
+    Using this directory to store general data in order to circumvent the cleaning policy is a violation of CSCS usage policies.
+
+    This directory can consume significant disk space and inodes over time.
+    If you no longer need the environments stored there, you can safely remove them manually to free up space.
+
+    Note that the following directories **are** subject to the cleaning policy and their contents will be removed if not accessed within the retention period:
+
     - `.enroot`: container images downloaded by the user
     - `.edf_imagestore`: container images used by the [Container Engine][ref-container-engine]
-
-    Using these directories to store general data in order to circumvent the cleaning policy is a violation of CSCS usage policies.
-
-    These directories can consume significant disk space and inodes over time.
-    If you no longer need the environments or containers stored there, you can safely remove them manually to free up space.
 
 ### Quota
 
@@ -319,7 +322,7 @@ File cleanup removes files that are not being used to ensure that occupancy and 
 A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
 * **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
-* **21 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
+* **14 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
 
 ??? example "How can I tell when a file was last accessed?"
     The access time of a file can be found using the `stat` command.
