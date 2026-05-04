@@ -281,13 +281,10 @@ To use them, add them to the module environment:
     The generation of modules can be customised by editing the `<build-path>/config/user/modules.yaml` file _before_ running `build`.
     See the [Spack modules] documentation.
 
-[Chaining Spack Installations]: https://spack.readthedocs.io/en/latest/chain.html
 [Spack]: https://spack.readthedocs.io/en/latest/
-[Spack Basic Usage]: https://spack.readthedocs.io/en/latest/basic_usage.html
 [Spack modules]: https://spack.readthedocs.io/en/latest/module_file_support.html
 [Spack package repository]: https://spack.readthedocs.io/en/latest/repositories.html
 [Stackinator]: https://eth-cscs.github.io/stackinator/
 [Spack configuration files]: https://spack.readthedocs.io/en/latest/configuration.html
-[spec]: https://spack.readthedocs.io/en/latest/basic_usage.html#sec-specs
 [specs]: https://spack.readthedocs.io/en/latest/basic_usage.html#sec-specs
 [Spack environment file]: https://spack.readthedocs.io/en/latest/environments.html

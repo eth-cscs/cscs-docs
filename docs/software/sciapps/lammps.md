@@ -19,11 +19,11 @@ The current version of LAMMPS is written in C++.
 
 !!! note "Changelog"
     !!! note "20251210:v2"
-        
+
         * Added the following extra: `extra-compute`
 
     ??? note "20251210:v1"
-        
+
         * Added the following extras: `mc`, `misc`, `manifold`, `qtb`, `reaction`, `shock`, `spin`, `extra-pair`, `extra-fix`, `ml-iap`
         * Included fix for ML-IAP: [lammps/lammps#4808](https://github.com/lammps/lammps/pull/4808)
 
@@ -31,7 +31,7 @@ The current version of LAMMPS is written in C++.
 
 ### Loading LAMMPS Interactively
 
-On Alps, LAMMPS is precompiled and available in a [uenv][ref-uenv]. 
+On Alps, LAMMPS is precompiled and available in a [uenv][ref-uenv].
 LAMMPS has been built with the [Kokkos](https://docs.lammps.org/Speed_kokkos.html) and GPU packages separately.
 
 To find which LAMMPS uenv is provided, you can use the following command:
@@ -86,7 +86,7 @@ A development view is also provided, which contains all libraries and command-li
 ### Running LAMMPS with Kokkos on Daint
 
 [Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
-To start a job, the following bash [Slurm] submission script is required:
+To start a job, the following bash [Slurm][ref-slurm] submission script is required:
 
 ```bash title="run_lammps_kokkos.sh"
 #!/bin/bash -l
@@ -455,8 +455,5 @@ lmp ...
     ```
 
 [LAMMPS]: https://www.lammps.org
-[GNU Public License]: http://www.gnu.org/copyleft/gpl.html
-[uenv]: https://eth-cscs.github.io/cscs-docs/software/uenv
-[Slurm ]: https://eth-cscs.github.io/cscs-docs/running/slurm
 [ML-IAP package]: https://docs.lammps.org/Packages_details.html#pkg-ml-iap
 [PyTorch 2.9]: https://pytorch.org/blog/pytorch-2-9/

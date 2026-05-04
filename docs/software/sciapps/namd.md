@@ -368,5 +368,4 @@ export LD_LIBRARY_PATH="${DEV_VIEW_PATH}/lib/"
 [NAMD Spack package]: https://packages.spack.io/package.html?name=namd
 [Running Charm++ Programs]: https://charm.readthedocs.io/en/latest/charm++/manual.html#running-charm-programs
 [What you should know about NAMD and Charm++ but were hoping to ignore]: https://dl.acm.org/doi/pdf/10.1145/3219104.3219134
-[NAMD 3.0 new features]: https://www.ks.uiuc.edu/Research/namd/3.0/features.html
 [NAMD 3.0b6 GPU-Resident benchmarking results]: https://www.ks.uiuc.edu/Research/namd/benchmarks/

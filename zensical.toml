@@ -203,6 +203,10 @@ nav = [
 url  = "https://github.com/eth-cscs/cscs-docs"
 edit_uri = "edit/main/docs/"
 
+# Validation
+[project.validation]
+unresolved_references = false
+
 # Theme
 [project.theme]
 variant    = "classic"        # keeps the Material for MkDocs look
