@@ -6,18 +6,18 @@
 The Alps infrastructure offers multiple storage solutions, each with characteristics suited to different workloads and use cases.
 HPC storage is provided by independent clusters, composed of servers and physical storage drives.
 
-|              | Capstor                | Iopsstor               | Ritom               | VAST                |
+|              | Capstor                | Iopsstor               | Ritom               | Vadret              |
 |--------------|------------------------|------------------------|---------------------|---------------------|
 | Model        | HPE ClusterStor E1000D | HPE ClusterStor E1000F | VAST                |  VAST               |
 | Type         | Lustre                 | Lustre                 | NFS                 |  NFS                |
 | Capacity     | 129 PB raw GridRAID    | 7.2 PB raw RAID 10     | 10 PB (7.2 PB real) |  1 PB               |
-| Number of Drives | 8,480 16 TB HDD    | 240 * 30 TB NVMe SSD   | 528 * 15 TB SSDs    |  N/A                |
+| Number of Drives | 8,480 16 TB HDD    | 240 * 30 TB NVMe SSD   | 528 * 15 TB SSD     |  N/A                |
 | Read Speed   | 1.19 TB/s              | 782 GB/s               | 900 GB/s            |  38 GB/s            |
 | Write Speed  | 1.09 TB/s              | 393 GB/s               | 317 GB/s            |  11 GB/s            |
 | IOPs         | 1.5M                   | 8.6M read, 24M write   | 5.1M read, - write  |  200k read, 768k write |
 | file create/s| 374k                   | 214k                   |                     |  97k                |
 
-Capstor and Iopsstor are on the same Slingshot network as Alps, while VAST is on the CSCS Ethernet network.
+Capstor, Iopsstor and Ritom are on the same Slingshot network as Alps, while Vadret is on the CSCS Ethernet network.
 
 See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best performance out of the filesystem.
 
@@ -64,12 +64,12 @@ Additionally, it provides support for advanced features:
 * **Encryption and multi-tenancy** required for secure computing.
 * **Deduplication** gives more usable storage than Lustre file systems.
 
-[](){#ref-alps-vast}
-## VAST
+[](){#ref-alps-vadret}
+## Vadret
 
-The VAST storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
+The Vadret storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
 
 !!! todo
-    small text explaining what VAST is designed to be used for.
+    small text explaining what Vadret is designed to be used for.
 
 

@@ -38,13 +38,13 @@ There are three main file systems mounted on the HPCP clusters.
 
 | type |mount | file system |
 | -- | -- | -- |
-| [Home][ref-storage-home]       | /users/$USER | [VAST][ref-alps-vast] |
+| [Home][ref-storage-home]       | /users/$USER | [Vadret][ref-alps-vadret] |
 | [Scratch][ref-storage-scratch] | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
 | [Store][ref-storage-store]     | `/capstor/store/cscs/<customer>/<project>` | [Capstor][ref-alps-capstor] |
 
 ### Home
 
-Every user has a [home][ref-storage-home] path (`$HOME`) mounted at `/users/$USER` on the [VAST][ref-alps-vast] file system.
+Every user has a [home][ref-storage-home] path (`$HOME`) mounted at `/users/$USER` on the [Vadret][ref-alps-vadret] file system.
 Home directories have 50 GB of capacity and are intended for keeping configuration files, small software packages, and scripts.
 
 ### Scratch
