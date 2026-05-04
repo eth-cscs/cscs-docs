@@ -266,6 +266,7 @@ osts
 osu
 papi
 paraview
+passphrase
 parmetis
 petsc
 pme

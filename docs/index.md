@@ -48,7 +48,7 @@ Find out more about Alps...
 
     Then access CSCS services:
 
-    [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
+    [:octicons-arrow-right-24: Accessing CSCS Web Portals][ref-access-web]
 
     [:octicons-arrow-right-24: Using SSH][ref-ssh]
 

@@ -13,7 +13,7 @@ The HPC Platform (HPCP) provides compute, storage, and related services for the 
 
 ### Getting access
 
-Principal Investigators (PIs) and Deputy PIs can invite users to join their projects using the [account and resource management tool][ref-account-ump].
+Principal Investigators (PIs) and Deputy PIs can invite users to join their projects using the [project management tool][ref-account-waldur].
 
 Once invited to a project you will receive an email with information on how to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
@@ -56,7 +56,7 @@ See the [Scratch][ref-storage-scratch] documentation for more information.
 The environment variable `$SCRATCH` points to `/capstor/scratch/cscs/$USER`, and can be used as a shortcut to access your scratch folder.
 
 !!! warning "scratch cleanup policy"
-    Files that have not been accessed in 30 days are automatically deleted.
+    Files that have not been accessed in **30 days** are automatically deleted.
 
     **Scratch is not intended for permanent storage**: transfer files back to the [Store][ref-storage-store] after batch job completion.
 
