@@ -205,7 +205,8 @@ edit_uri = "edit/main/docs/"
 
 # Validation
 [project.validation]
-unresolved_references = false
+# link checking won't work for us until the checker supports auto-refs
+#unresolved_references = false
 
 # Theme
 [project.theme]
