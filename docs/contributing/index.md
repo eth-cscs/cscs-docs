@@ -144,6 +144,26 @@ There are three files used to configure words that get ignored:
 Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
 Only markdown files under the `docs` directory are checked.
 
+[](){#ref-contributing-llms}
+## Using LLMs and coding agents to write docs
+
+Feel free to use your favourite CLI coding agent to help write your contributions.
+We provide a `CONTRIBUTING.md` file with guidance for models and links to this guide, along with `AGENTS.md` and `CLAUDE.md` files that point to `CONTRIBUTING.md`.
+Ensure your tool is using these guides (most tools should automatically find one of them).
+
+!!! tip "Please check the LLM output"
+    If the LLM gets the docs right first time, that's great!
+
+    But reviewers read every contribution carefully---please do not submit AI output without carefully checking it, as it puts an unfair burden on them.
+
+!!! warning "Contributors are responsible for content"
+    Contributors are responsible for the content that they submit, regardless of whether an AI agent was used to help write it.
+    This includes ensuring that:
+
+    * you have the right to contribute it under the [CC0 1.0 public domain dedication](https://github.com/eth-cscs/cscs-docs?tab=CC0-1.0-1-ov-file) that applies to the docs (i.e. it contains no third-party copyrighted text);
+    * the contribution provides guidance that is correct and tested;
+    * the contribution is professional and respectful.
+
 [](){#ref-contributing-guidelines}
 ## Guidelines
 
