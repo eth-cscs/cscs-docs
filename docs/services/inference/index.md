@@ -18,6 +18,7 @@ Inference services leverage Machine Learning models to generate new content base
 
 </div>
 
+<!--
 <div class="grid cards" markdown>
 
 -   :fontawesome-solid-layer-group: __Custom Inference Service__
@@ -30,7 +31,6 @@ Inference services leverage Machine Learning models to generate new content base
     !!! under-construction
         This service is not yet available for early testing.
 
-<!-- removed because the name "blueprints for re-deployments" is ambiguous, and because we do not have any good internal documentation about this feature.
 -   :fontawesome-solid-layer-group: __Blueprints for re-deployments__ 
 
     Deployment-ready blueprints for re-creating the GPU Hybrid Namespaces model on segregated infrastructure where stronger privacy, confidentiality, or compliance controls are required.
@@ -38,6 +38,6 @@ Inference services leverage Machine Learning models to generate new content base
 
     !!! under-construction
         This service is not yet available.
--->
 
 </div>
+-->
