@@ -154,7 +154,7 @@ Ensure your tool is using these guides (most tools should automatically find one
 !!! warning "Please check the LLM output"
     If the LLM gets the docs right first time, that's great!
 
-    But remember that reviewers read each contribution without LLM assistance, and you will have to buy them a beer if their time is wasted with unchecked contributions.
+    But remember that reviewers read each contribution without LLM assistance, and unchecked contributions are wasting their time.
 
 [](){#ref-contributing-guidelines}
 ## Guidelines
