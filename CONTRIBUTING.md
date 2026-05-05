@@ -6,9 +6,11 @@ Humans can refer to the [online contributing guide](https://docs.cscs.ch/contrib
 
 Agents should:
 
-1. read the contributing guide in its raw form in the `docs/contributing/index.md` file.
-2. read the `readme.md` file in this path fro guidance on how we test.
-3. read the rest of this page.
+1. read the contributing guide in its raw form in the `docs/contributing/index.md` file — the spell checker section in particular is not duplicated here.
+2. read the rest of this page.
+
+To validate changes, run `./serve build` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
+This will catch broken links and build errors before the CI pipeline does.
 
 ## Guidelines for agents
 
@@ -97,13 +99,13 @@ Here is a quick overview of the top level ToC entries:
 We use autorefs for generating links, e.g.:
 
 ```
-[](){!ref-wombats}
+[](){#ref-wombats}
 # Wombats
 
 This page describes wombat care at CSCS.
 To get started, checkout out our [Quickstart guide][ref-wombats-quickstart].
 
-[](){!ref-wombats-quickstart}
+[](){#ref-wombats-quickstart}
 ## Quickstart
 ```
 
@@ -168,6 +170,23 @@ This isn't a hard and fast rule, but if you end up with many small sections and 
 
 ### 3. Use the token
 ```
+
+### Headings use sentence case
+
+Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for all headings: only the first word and proper names are capitalised.
+
+### One sentence per line
+
+In paragraphs of prose, write one sentence per line and disable automatic line-wrapping in your editor.
+This makes diffs easier to read because a change to one sentence does not reflow the surrounding lines.
+There is one and only one canonical representation of a paragraph, which reduces merge conflicts.
+
+### No FAQ sections
+
+The documentation does not have FAQ sections.
+Questions are best answered by integrating the information into the relevant part of the main documentation.
+A FAQ scatters information about a topic across two places, making it harder to search.
+If you want to add a list of common error messages or similar, create a dedicated subsection (e.g. `## Known issues`) at the bottom of the relevant page.
 
 ### Use tabs when there is more than one way to do something
 
@@ -235,3 +254,56 @@ We have two custom admonitions for "todo" and "under-construction".
 * "under-construction" is used to indicate a service/tool/etc that is still being built by CSCS.
 
 When writing docs, we prefer to structure the docs as though they were "complete" or documenting a "complete service", and mark the parts that are missing. This ensures that the structure of pages does not change as much over time, and to ensure that missing documentation is clearly marked and less likely to be forgotten or brushed under the carpet.
+
+### change admonitions
+
+Use the `change` admonition to log updates to clusters or services, at the top of the relevant section.
+Recent entries are expanded, older ones are folded:
+
+```
+!!! change "2025-04-17"
+    * Slurm was upgraded to version 25.1.
+    * uenv was upgraded to v0.8
+
+??? change "2025-02-04"
+    * The new scratch cleanup policy was implemented.
+```
+
+### Code blocks
+
+Use `console` for interactive shell sessions that show a prompt and output:
+
+```
+```console title="check the queue"
+$ squeue --me
+```
+```
+
+Use `bash` for command-only blocks that should be easy to copy (no prompt, no output):
+
+```
+```bash title="load a uenv"
+uenv start prgenv-gnu/24.11:v1
+```
+```
+
+`terminal` is **not** a valid lexer — MkDocs will silently render it without highlighting.
+Always use `$` as the prompt character in `console` blocks; `>` is not highlighted correctly.
+Add a `title=` to every code block to describe what it does.
+
+### Reusing content with snippets
+
+If the same content needs to appear on multiple pages (e.g. a set of required environment variables), store it once as a plain text file and include it with the snippets syntax rather than copying it:
+
+```
+--8<-- "docs/path/to/snippet_file"
+```
+
+This keeps the content in sync across pages automatically.
+
+### Spell checker
+
+The CI pipeline runs a spell checker on all pull requests.
+New technical terms, hostnames, software names, and HPC jargon will often be flagged.
+Add unfamiliar-but-correct words (one per line) to `.github/actions/spelling/allow.txt`.
+Words with unusual capitalisation that confuse the checker (e.g. `FirecREST`) should instead be added as a regex pattern to `.github/actions/spelling/patterns.txt`.
