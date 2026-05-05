@@ -1,0 +1,196 @@
+# Contributing to the Docs
+
+This documentation is for use by LLM agents tasked with drafting and editing documentation.
+
+Humans can refer to the [online contributing guide](https://docs.cscs.ch/contributing)
+
+Agents should:
+
+1. read the contributing guide in its raw form in the `docs/contributing/index.md` file.
+2. read the `readme.md` file in this path fro guidance on how we test.
+3. read the rest of this page.
+
+## Guidelines for agents
+
+The documentation uses the Material for MkDocs framework.
+
+The project configuration is in the `mkdocs.yml` file.
+
+The docs are in the `docs` directory.
+
+### What are we documenting?
+
+These is the public facing documentation for the Swiss National Supercomputing Center (CSCS).
+They are mostly technical documentation for all users that aim to guide users through their first steps getting an account and logging in, through to advanced usage of the different systems and services.
+
+### Documentation structure
+
+CSCS has a large HPE Cray EX system called Alps.
+Alps is not deployed as a monolithic cluster, instead it is partitioned into clusters, and these clusters are assigned to use-case specific Platforms.
+Most users come to CSCS through one of the platforms, each of which has its own clusters, storage configuration, and user software.
+The docs are structured to provide an on-ramp through a platform page, which links out to more general purpose documentation about services/storage/software etc that apply to all platforms.
+
+NOTE:
+
+* the layout of pages in the table of contents does not match directory structure in `docs`.
+    * This is partly due to history: a page might move to a new area in the ToC but not move inside the repo
+    * The url is determined by the location in the `docs` path: if we don't move files urls point to our docs are less likely to break.
+* we use autorefs. This allows us to move pages and files without having to update internal links to the pages.
+* each section of the docs has an `index.md` file that introduces the section, with a table of cards on the index page that link to the child pages, and maybe a quickstart guide if appropriate.
+    * see the docs in `docs/software/uenv` for a good example
+
+Here is a quick overview of the top level ToC entries:
+
+* `alps`:
+    * general documentation about the system, with information about the hardware, network and storage
+    * also has an overview page for the platforms, and overview pages for each platform that summarise the specific clusters used by that platform, details about storage and software provided to users of the platform.
+* `connecting to alps`:
+    * guides for all methods provided for users to connect to Alps.
+    * MFA and SSH key management
+    * using SSH, using VS Code, FirecREST, JupyterLab, etc
+* 
+* `running Jobs`: guide to the job scheduler options.
+
+TODO
+
+### we use autorefs
+
+We use autorefs for generating links, e.g.:
+
+```
+[](){!ref-wombats}
+# Wombats
+
+This page describes wombat care at CSCS.
+To get started, checkout out our [Quickstart guide][ref-wombats-quickstart].
+
+[](){!ref-wombats-quickstart}
+## Quickstart
+```
+
+They always start with `ref-`, followed by the name of the section/topic, then page (if appropriate), then a final sub-section.
+For example, for the following structure:
+
+```
+docs
+└── services
+    ├── index.md
+    └── inference
+        ├── index.md
+        └── api.md
+```
+
+* `/docs/services/index.md` would have the top level ref `ref-services`
+* `/docs/services/inference/index.md` would have the top level ref `ref-inference`
+* `/docs/services/inference/api.md` would have the top level ref `ref-inference-api`
+* `/docs/services/inference/api.md#quickstart` a section header inside might have the ref `ref-inference-api-quickstart`
+
+Note that for brevity we use `ref-inference` instead of `ref-services-inference`, and to make the link less bound to its location in the directory tree/table of contents.
+
+* see the `docs/software/uenv` docs for guidance on how to structure links.
+
+You can add references not only to sections/headers, but also to examples, images, etc.
+
+When adding a link, always ask "how portable is this? How likely is this naming scheme and layout to break if we restructure the docs?"
+
+### Link, don't replicate
+
+Review the documentation to see whether a particular piece of information has been covered in another more appropriate section, and link to it (always using auto-refs).
+
+If information is being documented in more than one place, propose centralising it (within reason).
+
+### Ensure that plumbing is in place
+
+IMPORTANT: When asked to write a new page, don't forget the following (where appropriate):
+
+- add it to the table of contents in `mkdocs.yml`
+- add a card at the appropriate `index.md` page
+- do we need to update platform specific docs in `docs/alps/platform`?
+- are we contradicting or replacing something that is documented elsewhere? If it looks like we are, ask the user how to proceed.
+
+### Do not use emoji in titles and bullet lists
+
+Never use emoji in bullet lists and section titles.
+It is not professional, and adds no additional meaning.
+
+It is okay to select appropriate emoji from fontawesome (the free version) in card titles, but aim for subtlety.
+
+### Prefer flat content over headings
+
+When creating, e.g., a list of steps, don't create numbered headers.
+think about how this could be achieved using bullet lists, or admonitions.
+
+This isn't a hard and fast rule, but if you end up with many small sections and headers that start with numbers like the following, you know that something has gone wrong:
+
+```
+### 1. Get an account
+
+### 2. Get a token
+
+### 3. Use the token
+```
+
+### Use tabs when there is more than one way to do something
+
+The mkdocs tabs feature is very useful for side by side examples, and applying vertical compression.
+
+```
+!!! example "querying the available models"
+    Access the `vi/models` API end point to get a list of available models in JSON format.
+
+    === "curl"
+        ```console
+        $ curl -X GET "https://ai-gateway.svc.cscs.ch/v1/models" \
+          -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
+          -H "Content-Type: application/json"
+        ```
+
+    === "python"
+        ```python
+        import requests
+        url = "https://ai-gateway.svc.cscs.ch/v1/models"
+        headers = {
+            "Authorization": "Bearer <AUTHENTICATION_TOKEN>",
+            "Content-Type": "application/json"
+        }
+        response = requests.get(url, headers=headers)
+        ```
+```
+
+### Try to preempt user questions
+
+Use admonitions of the type `question` or `info` to provide additional context, and fold them if the information is for advanced users or for curious readers.
+
+For example, the following in the documentation that explains file system quotas:
+
+??? question "what is an inode"
+    inodes are data structures that describe Linux file system objects like files and directories - every file and directory has a corresponding inode.
+
+    Large inode counts degrade file system performance in multiple ways. For example, Lustre file systems have separate metadata and data management. Excessive inode usage can overwhelm the metadata services, causing degradation across the file system.
+
+### Don't be afraid to share technical details
+
+The documentation is also a good reference for CSCS staff and advanced users who want to understand how things work "under the hood".
+You can use admonitions that provide insight (whether the admonition is hidden or not is a judgement call).
+
+### Known issues
+
+Known issues are kept in a section titled `## Known issues` at the bottom of their respective page.
+There is some flexibility in how these are formatted, with the default style being "folded warning admonitions".
+
+??? warning "ls: `No such file or directory`"
+    This message is printed by the `ls` command when you search for an explicit pattern for which there are no matches.
+
+If there is an error message, try to have it in the title of the folded admonition.
+Verbatim reproduction of error/warning messages is important, to help users find documentation when searching with error messages.
+
+You can also add a folded warning admonition inline 
+
+### todo and under-construction
+
+We have two custom admonitions for "todo" and "under-construction".
+
+* "todo" is used to mark documentation that needs to be completed.
+* "under-construction" is used to indicate a service/tool/etc that is still being built by CSCS.
+
+When writing docs, we prefer to structure the docs as though they were "complete" or documenting a "complete service", and mark the parts that are missing. This ensures that the structure of pages does not change as much over time, and to ensure that missing documentation is clearly marked and less likely to be forgotten or brushed under the carpet.
