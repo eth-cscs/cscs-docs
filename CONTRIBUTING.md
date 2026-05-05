@@ -48,10 +48,49 @@ Here is a quick overview of the top level ToC entries:
     * guides for all methods provided for users to connect to Alps.
     * MFA and SSH key management
     * using SSH, using VS Code, FirecREST, JupyterLab, etc
-* 
-* `running Jobs`: guide to the job scheduler options.
-
-TODO
+* `running jobs`:
+    * guide to running batch and interactive jobs with the Slurm job scheduler
+    * HyperQueue for high-throughput scheduling of many small tasks
+    * tools for profiling job performance: job reports and GPU reports
+* `environments`:
+    * how to set up the shell environment after logging in to a cluster
+    * uenv: the CSCS tool for delivering scientific software stacks on Alps
+    * container engine: recommended for machine learning workflows and Python environments
+* `building and installing software`:
+    * programming environments (prgenv-gnu, prgenv-nvfortran, linalg, julia, CPE) and Alps Extended Images
+    * guides for building software using uenv or Python
+    * packaging and deployment: creating containers with podman, or building uenv with the build service
+* `applications and frameworks`:
+    * scientific applications: CP2K, GROMACS, LAMMPS, NAMD, Quantum ESPRESSO, VASP
+    * machine learning: PyTorch, and tutorials for LLM inference, fine-tuning and pre-training
+    * climate and weather: ICON, netcdf-tools
+    * communication libraries: libfabric, Cray MPICH, MPICH, OpenMPI, NCCL, NVSHMEM
+    * user applications: ESMF/CESM, ORCA, WRF
+    * scientific visualisation: ParaView
+    * commercial software: Matlab
+* `debugging and performance analysis`:
+    * parallel debugging tools: Linaro Forge DDT
+    * performance analysis tools: NVIDIA Nsight, Linaro Forge MAP, Score-P/Scalasca
+    * job report and GPU report tools
+* `data management and storage`:
+    * file systems available on Alps
+    * data transfer: moving data into and out of CSCS and between CSCS systems
+    * long term storage (LTS): preserving scientific data with persistent identifiers
+    * object storage: Ceph-based public cloud object storage
+* `services`:
+    * CI/CD: integrating GitHub, GitLab and Bitbucket projects with Alps
+    * developer portal: creating and managing API subscriptions
+    * Kubernetes: platform for deploying and managing containerised applications
+* `accounts and projects`:
+    * how to get a CSCS account (requires an invitation from the PI of an active project)
+    * the project and resources management tool at portal.cscs.ch
+    * linking external institutional accounts to a CSCS account
+* `guides`:
+    * best practices, practical tips, known issues and background information on a range of topics
+* `policies`:
+    * code of conduct, user regulations, and support policies
+    * resource allocation: quarterly compute budgets measured in node hours
+    * data retention: backup policy, scratch cleanup, and long term storage lifecycle
 
 ### we use autorefs
 
@@ -118,7 +157,7 @@ It is okay to select appropriate emoji from fontawesome (the free version) in ca
 ### Prefer flat content over headings
 
 When creating, e.g., a list of steps, don't create numbered headers.
-think about how this could be achieved using bullet lists, or admonitions.
+think about how this could be achieved using bullet lists, admonitions, or plain text formatting.
 
 This isn't a hard and fast rule, but if you end up with many small sections and headers that start with numbers like the following, you know that something has gone wrong:
 
@@ -133,6 +172,8 @@ This isn't a hard and fast rule, but if you end up with many small sections and 
 ### Use tabs when there is more than one way to do something
 
 The mkdocs tabs feature is very useful for side by side examples, and applying vertical compression.
+
+For example:
 
 ```
 !!! example "querying the available models"
