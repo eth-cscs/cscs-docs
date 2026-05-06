@@ -7,7 +7,7 @@ Before accessing CSCS clusters using SSH, first ensure that you have [created a 
 
 Username+password authentication is not available for SSH access.
 Instead, you must use SSH keys signed by CSCS.
-The recommended approach is to generate SSH key locally with, then have it signed by CSCS.
+The recommended approach is to generate the SSH key locally and then have it signed by CSCS.
 
 Two methods are available for managing SSH keys:
 
@@ -21,18 +21,62 @@ The CLI interface to the SSH service is called `cscs-key`, an open source tool d
 
 ### Installation
 
-To install the `cscs-key` app, download the latest release for your OS and architecture from [the tools GitHub releases](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and make sure the directory where you copied the binary is in `PATH`.
+To install `cscs-key`, download the latest release for your OS and architecture from the [GitHub releases page](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and place the binary in a directory on your `PATH` (`$HOME/.local/bin` on macOS/Linux, `$HOME\bin` on Windows).
+The snippets below show this for `v1.1.0` — replace the version with the latest tag.
+On Windows, choose the PowerShell tab for the native binary, or the Linux tab when running inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-!!! example "Installing cscs-key 1.0.0 on MacOS"
-    Here we download the binary for `cscs-key` and put it in `$HOME/.local/bin`, which is in PATH on the target system.
-
-    ```console
-    $ wget https://github.com/eth-cscs/cscs-key/releases/download/1.0.0/cscs-key-1.0.0-macos-aarch64.tar.gz
-    $ tar -xzvf cscs-key-1.0.0-macos-aarch64.tar.gz
-    $ mv cscs-key $HOME/.local/bin
+=== "macOS (Apple Silicon)"
+    ```console title="install cscs-key on Apple Silicon Mac"
+    $ mkdir -p $HOME/.local/bin
+    $ cd $HOME/.local/bin
+    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
+    $ tar -xzvf cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
+    $ rm cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
     $ cscs-key --version
-    cscs-key 1.0.0
+    cscs-key 1.1.0
     ```
+
+=== "Linux (x86_64)"
+    ```console title="install cscs-key on x86_64 Linux"
+    $ mkdir -p $HOME/.local/bin
+    $ cd $HOME/.local/bin
+    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
+    $ tar -xzvf cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
+    $ rm cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
+    $ cscs-key --version
+    cscs-key 1.1.0
+    ```
+
+=== "Windows (x86_64, PowerShell)"
+    ```powershell title="install cscs-key on Windows"
+    mkdir $HOME\bin -Force
+    cd $HOME\bin
+    curl.exe -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
+    Expand-Archive -Path cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip -DestinationPath .
+    Remove-Item cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
+    cscs-key --version
+    ```
+
+The final `cscs-key --version` step prints the version when the install worked.
+If it instead reports that `cscs-key` cannot be found, the install directory is not on your shell's `PATH`.
+Add it once with the snippet below, then open a new terminal and try again.
+
+??? note "Add the install directory to your `PATH`"
+    === "Zsh"
+        ```bash title="add ~/.local/bin to PATH"
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+        ```
+
+    === "Bash"
+        ```bash title="add ~/.local/bin to PATH"
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+        ```
+
+    === "PowerShell"
+        ```powershell title="add %HOMEPATH%\bin to PATH for the current user"
+        [Environment]::SetEnvironmentVariable('PATH', $env:PATH + ';' + $HOME + '\bin', 'User')
+        ```
+
 You can also build it from source by cloning the git repository and following the instructions in the README.
 
 ### Setup ssh keys
@@ -103,7 +147,7 @@ Use `-a, --all` option to revoke all valid keys.
 For more details  about any command please refer to help with `-h, --help`.
 
 !!! note
-    The app supports two authentication methods:
+    The app supports three authentication methods:
 
     - **OpenID Connect**: Web browser window opens where user authenticates with the CSCS credentials.
     - **OAuth2 Device Authorization Grant** for remote headless machines, enabled by `--headless` flag.
@@ -330,8 +374,8 @@ cscs-key revoke-all
 
 The revocation takes effect immediately across all CSCS systems.
 
-[](){#ref-ssh-faq}
-## Frequently encountered issues
+[](){#ref-ssh-known-issues}
+## Known issues
 
 ??? warning "too many authentication failures"
     You may have too many keys in your ssh agent.
@@ -350,14 +394,6 @@ The revocation takes effect immediately across all CSCS systems.
     ```bash
     eval $(ssh-agent)
     ```
-
-??? question "How long are SSH keys valid?"
-    SSH keys are valid for 1 day by default.
-    You will need to generate or sign a new key after it expires.
-
-??? question "How do I use my own SSH key?"
-    The recommended approach is to sign your existing SSH key using the dashboard or CLI.
-    This allows you to use your own key infrastructure without transferring private keys over the network.
 
 [](){#ref-ssh-legacy}
 ## Legacy: old SSH key management

@@ -4,6 +4,7 @@ AMD
 Alpstein
 balfrin
 Balfrin
+Bash
 Besard
 Besso
 Broyden
@@ -117,6 +118,7 @@ Pintarelli
 Piz
 Plesset
 Podladchikov
+PowerShell
 Pulay
 RCCL
 RDMA
@@ -135,7 +137,9 @@ UANs
 UIs
 UserLab
 Wannier
+WSL
 XDG
+Zsh
 Zumsteinspitz
 aarch
 acfdt
