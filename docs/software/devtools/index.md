@@ -10,10 +10,10 @@ If you have issues or questions about debugging or performance analysis tools, p
 [](){#ref-devtools-perf}
 ## Performance Analysis
 
-Performance analysis tools are essential to gain insight into how an application leverages a distributed system with CPUs and GPUs and should be integrated to the development and optimization workflow of the application.
+Performance analysis tools are essential to gain insight into how an application leverages a distributed system with CPUs and GPUs and should be integrated into the development and optimization workflow of the application.
 This ensures that computational resources are utilized to their fullest potential.
 
-Learning to analyze the performance of an applications effectively is crucial to build a deeper understanding of how your code interacts with the underlying hardware.
+Learning to analyze the performance of applications effectively is crucial to build a deeper understanding of how your code interacts with the underlying hardware.
 In this section we introduce the various performance analysis solutions available at CSCS.
 
 <div class="grid cards" markdown>
@@ -25,7 +25,7 @@ In this section we introduce the various performance analysis solutions availabl
 
 -   :fontawesome-solid-terminal: __CLI and GUI Tools__
 
-    CSCS provides third party tools for performance analysis and tuning
+    CSCS provides third party tools for performance analysis and tuning.
 
     [:octicons-arrow-right-24: NVIDIA Nsight Developer Tools][ref-devtools-nsight]
 
