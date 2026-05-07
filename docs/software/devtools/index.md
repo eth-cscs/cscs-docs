@@ -19,7 +19,7 @@ In this section we introduce the various performance analysis solutions availabl
 <div class="grid cards" markdown>
 -   :fontawesome-solid-file-pen: __For Project Proposals__
 
-    The GPU Saturation Scorer tool generates a report that summarises GPU utilization.
+    The GPU Saturation Scorer tool generates a report that summarizes GPU utilization.
 
     [:octicons-arrow-right-24: GSSR][ref-gssr]
 
