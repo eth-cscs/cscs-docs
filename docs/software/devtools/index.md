@@ -5,9 +5,35 @@ Debugging and performance analysis tools can assist users in developing and opti
 These tools can significantly improve workflows and save valuable computational resources.
 
 CSCS provides debuggers and performance analysis tools on [Alps][ref-alps] clusters.
+If you have issues or questions about debugging or performance analysis tools, please do not hesitate to [contact us][ref-get-in-touch].
 
-!!! note "Get in touch"
-    If you have issues or questions about debugging or performance analysis tools, please do not hesitate to [contact us][ref-get-in-touch].
+[](){#ref-devtools-perf}
+## Performance Analysis
+
+Performance analysis tools are essential to gain insight into how an application leverages a distributed system with CPUs and GPUs and should be integrated to the development and optimization workflow of the application.
+This ensures that computational resources are utilized to their fullest potential.
+
+Learning to analyze the performance of an applications effectively is crucial to build a deeper understanding of how your code interacts with the underlying hardware.
+In this section we introduce the various performance analysis solutions available at CSCS.
+
+<div class="grid cards" markdown>
+-   :fontawesome-solid-file-pen: __For Project Proposals__
+
+    The GPU Saturation Scorer tool generates a report that summarises GPU utilization.
+
+    [:octicons-arrow-right-24: GSSR][ref-gssr]
+
+-   :fontawesome-solid-terminal: __CLI and GUI Tools__
+
+    CSCS provides third party tools for performance analysis and tuning
+
+    [:octicons-arrow-right-24: NVIDIA Nsight Developer Tools][ref-devtools-nsight]
+
+    [:octicons-arrow-right-24: Linaro Forge MAP][ref-devtools-map]
+
+    [:octicons-arrow-right-24: VI-HPS Tools][ref-devtools-vihps]
+
+</div>
 
 [](){#ref-devtools-debug}
 ## Debugging
@@ -19,15 +45,3 @@ In this section we introduce the various debugging tools available at CSCS.
 
 * [Linaro Forge DDT][ref-devtools-ddt]
 
-[](){#ref-devtools-perf}
-## Performance Analysis
-
-Performance analysis tools are essential to gain insight into how an application leverages a distributed system with CPUs and GPUs and should be integrated to the development and optimization workflow of the application.
-This ensures that computational resources are utilized to their fullest potential.
-
-Learning to analyze the performance of an applications effectively is crucial to build a deeper understanding of how your code interacts with the underlying hardware.
-In this section we introduce the various performance analysis solutions available at CSCS.
-
-* [NVIDIA Nsight Developer Tools][ref-devtools-nsight]
-* [Linaro Forge MAP][ref-devtools-map]
-* [VI-HPS Tools][ref-devtools-vihps]

@@ -1,12 +1,6 @@
 [](){#ref-gssr}
 # GPU Saturation Scorer
 
-!!!info
-    The GPU Saturation Scorer (GSSR) will ultimately replace [Jobreport][ref-jobreport] but is currently limited to Swiss AI proposals.
-    Please refer to the submission guidelines for which tool to use.
-
-## Overview
-
 GSSR records how the GPUs on allocated nodes are used during a job and generates a PDF report suitable for project proposals.
 The PDF helps reviewers better understand the GPU usage of your application.
 
