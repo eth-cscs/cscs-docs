@@ -23,7 +23,7 @@ The CLI interface to the SSH service is called `cscs-key`, an open source tool d
 
 To install `cscs-key`, use Homebrew on macOS or Linux, or download a release binary from the [GitHub releases page](https://github.com/eth-cscs/cscs-key/releases) on any platform.
 For a manual install, unpack the archive and place the binary in a directory on your `PATH` (`$HOME/.local/bin` on macOS/Linux, `$HOME\bin` on Windows).
-The snippets below show this for `v1.1.0` — replace the version with the latest tag.
+The snippets below use `v1.1.0` — replace it with the [latest release tag](https://github.com/eth-cscs/cscs-key/releases).
 On Windows, choose the PowerShell tab for the native binary, or the Linux tab when running inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 === "Homebrew (macOS, Linux)"
@@ -153,7 +153,7 @@ $ cscs-key revoke 202800351141013664
 ```
 Use `-a, --all` option to revoke all valid keys.
 
-For more details  about any command please refer to help with `-h, --help`.
+For more details about any command please refer to help with `-h, --help`.
 
 !!! note
     The app supports three authentication methods:
