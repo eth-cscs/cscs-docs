@@ -88,7 +88,7 @@ Add it once with the snippet below, then open a new terminal and try again.
 
 You can also build it from source by cloning the git repository and following the instructions in the README.
 
-### Setup ssh keys
+### Setup SSH keys
 
 First, generate the key pair using [`ssh-keygen`](https://www.ssh.com/academy/ssh/keygen).
 
@@ -98,7 +98,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
 !!! note
     The key only needs to be generated once, and does not need to be run every time your signed key expires.
 
-And add this key to your [ssh config](#ref-ssh-config) or add it to your [ssh agent](#ref-ssh-agent).
+And add this key to your [SSH config](#ref-ssh-config) or add it to your [SSH agent](#ref-ssh-agent).
 
 ### Usage
 
@@ -120,7 +120,7 @@ Possible values are `1d` or `1min`.
 
 ??? note "generate a new key pair (deprecated)"
     !!! warning
-        Generating the ssh key on the server is deprecated and will be removed in the future.
+        Generating the SSH key on the server is deprecated and will be removed in the future.
 
     It is possible to generate the SSH key locally and then sign it using the cscs-key sign command.
     ```console
@@ -132,7 +132,7 @@ Possible values are `1d` or `1min`.
     You can specify a different duration using the `-d, --duration` option.
     Possible values are `1d` or `1min`.
 
-The `cscs-key` command can be used to summarise the status of all of your signed ssh keys:
+The `cscs-key` command can be used to summarise the status of all of your signed SSH keys:
 ```console
 $ cscs-key list
 ╭────────────────────┬──────────┬────────────┬────────────────────────────╮
@@ -291,7 +291,7 @@ ssh-add -t 1d ~/.ssh/cscs-key
 ```
 
 ??? warning "Could not open a connection to your authentication agent"
-    If you see this error message, the ssh agent is not running.
+    If you see this error message, the SSH agent is not running.
     You can start it with the following command:
     ```
     eval $(ssh-agent)
@@ -387,7 +387,7 @@ The revocation takes effect immediately across all CSCS systems.
 ## Known issues
 
 ??? warning "too many authentication failures"
-    You may have too many keys in your ssh agent.
+    You may have too many keys in your SSH agent.
     Remove the unused keys from the agent or flush them all with the following command:
     ```bash
     ssh-add -D
