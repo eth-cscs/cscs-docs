@@ -82,8 +82,9 @@ Add it once with the snippet below, then open a new terminal and try again.
         ```
 
     === "PowerShell"
-        ```powershell title="add %HOMEPATH%\bin to PATH for the current user"
-        [Environment]::SetEnvironmentVariable('PATH', $env:PATH + ';' + $HOME + '\bin', 'User')
+        ```powershell title="add $HOME\bin to PATH for the current user"
+        $userPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
+        [Environment]::SetEnvironmentVariable('PATH', "$userPath;$HOME\bin", 'User')
         ```
 
 You can also build it from source by cloning the git repository and following the instructions in the README.
