@@ -21,9 +21,18 @@ The CLI interface to the SSH service is called `cscs-key`, an open source tool d
 
 ### Installation
 
-To install `cscs-key`, download the latest release for your OS and architecture from the [GitHub releases page](https://github.com/eth-cscs/cscs-key/releases), unpack the archive, and place the binary in a directory on your `PATH` (`$HOME/.local/bin` on macOS/Linux, `$HOME\bin` on Windows).
+To install `cscs-key`, use Homebrew on macOS or Linux, or download a release binary from the [GitHub releases page](https://github.com/eth-cscs/cscs-key/releases) on any platform.
+For a manual install, unpack the archive and place the binary in a directory on your `PATH` (`$HOME/.local/bin` on macOS/Linux, `$HOME\bin` on Windows).
 The snippets below show this for `v1.1.0` — replace the version with the latest tag.
 On Windows, choose the PowerShell tab for the native binary, or the Linux tab when running inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+=== "Homebrew (macOS, Linux)"
+    ```console title="install cscs-key from Homebrew"
+    $ brew tap eth-cscs/homebrew-tap
+    $ brew install cscs-key
+    $ cscs-key --version
+    cscs-key 1.1.0
+    ```
 
 === "macOS (Apple Silicon)"
     ```console title="install cscs-key on Apple Silicon Mac"
