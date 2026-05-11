@@ -58,12 +58,13 @@ On Windows, choose the PowerShell tab for the native binary, or the Linux tab wh
 
 === "Windows (x86_64, PowerShell)"
     ```powershell title="install cscs-key on Windows"
-    mkdir $HOME\bin -Force
-    cd $HOME\bin
-    curl.exe -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
-    Expand-Archive -Path cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip -DestinationPath .
-    Remove-Item cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
-    cscs-key --version
+    > mkdir $HOME\bin -Force
+    > cd $HOME\bin
+    > curl.exe -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
+    > Expand-Archive -Path cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip -DestinationPath .
+    > Remove-Item cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
+    > cscs-key --version
+    cscs-key 1.1.0
     ```
 
 The final `cscs-key --version` step prints the version when the install worked.
