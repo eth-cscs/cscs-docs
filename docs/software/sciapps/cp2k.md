@@ -162,6 +162,169 @@ sbatch run_cp2k.sh
          per node. Experiments have shown that CP2K performs and scales better when the number of MPI ranks is a power
          of 2, even if some cores are left idling. 
 
+[](){#ref-4-cp2k-calculation-1-node}
+#### Running multiple CP2K calculations simultaneously on a single Daint node
+GH200 nodes offer a very large amount of computing resources, and some calculations are simply too small to make use of these resources efficiently. A symptom of that is when running on 2 nodes is barely faster, or even slower, than a single node. If the scientific investigation permits, up to 4 independent CP2K calculations can run in parallel on a single node, each using 72 CPU cores and a GPU. This could typically be the case when running various MD trajectories at different temperatures, or with different starting configurations. For optimal resource utilization, the 4 calculations should have similar wall times. The `H2O-128.inp` benchmark from the CP2K [git repository](https://github.com/cp2k/cp2k/blob/support/v2026.1/benchmarks/QS/H2O-128.inp) is one such an example (the wall time on 1 and 2 nodes is roughly equivalent). Below is a Slurm submission script launching 4 `H2O-128.inp` benchmark calculations simultaneously:
+
+??? example "Running 4 independent CP2K calculations on a single node"
+    ```bash title="run_cp2k_on_split_node.sh"
+    #!/bin/bash -l
+
+    #SBATCH --job-name=cp2k-job
+    #SBATCH --time=00:30:00
+    #SBATCH --nodes=1
+    #SBATCH --account=<ACCOUNT>
+    #SBATCH --hint=nomultithread
+    #SBATCH --no-requeue
+    #SBATCH --uenv=<CP2K_UENV>
+    #SBATCH --view=cp2k
+
+    # Set the number of MPI ranks per calculation (one calculation per GPU, 4 in total).
+    # The number of OMP threads is automatically inferred.
+    nranks_per_calc=8
+    if !((nranks_per_calc > 0 && 72 % nranks_per_calc == 0)); then
+        echo "Error: the number of ranks per calculation must be an integer divisor of 72 (# CPU cores per GPU)" >&2
+        exit 1
+    fi
+    ncpus=$((288/$nranks_per_calc))
+
+    # Usual CP2K environment variables
+    export CUDA_CACHE_PATH="/dev/shm/$RANDOM"
+    export MPICH_GPU_SUPPORT_ENABLED=1
+    export MPICH_MALLOC_FALLBACK=1
+    export OMP_NUM_THREADS=$((72/$nranks_per_calc - 1))
+    ulimit -s unlimited
+
+    # Kill running mps daemon, if any. Usually done in mps-wrapper.sh
+    pkill --uid $(id -un) '^nvidia-cuda-mps-' || true
+
+    # Important note: with the --overlap option, each srun job step will share resources. Therefore, we allocate all resources
+    # for each job, i.e. nranks_per_calc*ncpus==288, and distribute the work with different CPU and GPU masks.
+    if !((nranks_per_calc * ncpus == 288)); then
+        echo "Error: all resources MUST be allocated for each calculation" >&2
+        exit 1
+    fi
+
+    # CPU masks to ensure each calculation runs on a different set of CPU cores, close to a given GPU.
+    mask0="mask_cpu:0xffffffffffffffffff"                                                        # cores 0-71
+    mask1="mask_cpu:0xffffffffffffffffff000000000000000000"                                      # cores 72-143
+    mask2="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000"                    # cores 144-215
+    mask3="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000000000000000000000"  # cores 216-287
+
+    # First calculation on GPU 0 and CPU cores 0-71
+    srun -u --overlap \
+         --cpu-bind=$mask0,verbose \
+         --ntasks=$nranks_per_calc \
+         --cpus-per-task=$ncpus \
+         --output="output0.out" \
+         ./select_gpu.sh 0 \
+         cp2k.psmp -i H2O-128.inp \
+         & j0=$!
+
+    # Second calculation on GPU 1 and CPU cores 72-143
+    srun -u --overlap \
+         --cpu-bind=$mask1,verbose \
+         --ntasks=$nranks_per_calc \
+         --cpus-per-task=$ncpus \
+         --output="output1.out" \
+         ./select_gpu.sh 1 \
+         cp2k.psmp -i H2O-128.inp \
+         & j1=$!
+
+    # Third calculation on GPU 2 and CPU cores 144-215
+    srun -u --overlap \
+         --cpu-bind=$mask2,verbose \
+         --ntasks=$nranks_per_calc \
+         --cpus-per-task=$ncpus \
+         --output="output2.out" \
+         ./select_gpu.sh 2 \
+         cp2k.psmp -i H2O-128.inp \
+         & j2=$!
+
+    # Fourth calculation on GPU 3 and CPU cores 216-287
+    srun -u --overlap \
+         --cpu-bind=$mask3,verbose \
+         --ntasks=$nranks_per_calc \
+         --cpus-per-task=$ncpus \
+         --output="output3.out" \
+         ./select_gpu.sh 3 \
+         cp2k.psmp -i H2O-128.inp \
+         & j3=$!
+
+    # Wait for all calculations to finish
+    wait $j0 $j1 $j2 $j3
+    ```
+
+    The `select_gpu.sh` script is a variation of the standard [mps-wrapper.sh][ref-slurm-gh200-multi-rank-per-gpu] script, which sets up a MPS daemon for a given GPU:
+
+    ```bash title="run_cp2k_on_split_node.sh"
+    #!/bin/bash
+
+    set -eu
+
+    mps_prefix="/tmp/$(id -un)/slurm-${SLURM_JOBID}.${SLURM_STEPID}/nvidia"
+    num_gpus=4
+
+    # Reset CUDA environment variables to default values without MPS
+    export CUDA_DEVICE_MAX_CONNECTIONS=8
+    export CUDA_DEVICE_MAX_COPY_CONNECTIONS=8
+
+    # Each GPU is attached to the corresponding NUMA node
+    # Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices
+    numa_node=$(HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES=0 hwloc-calc --physical --intersect NUMAnode $(hwloc-bind --get --taskset))
+
+    # We expect exactly one non-negative integer for the NUMA node
+    if ! [[ "${numa_node}" =~ ^[0-9]+$ ]]; then
+        echo "The MPS wrapper script only works when the process mask of the rank is adjacent to exactly one GPU. The CPU mask is $(hwloc-bind --get --taskset) and the list of adjacent numa nodes is ${numa_node} for rank ${SLURM_PROCID}."
+        exit 1
+    fi
+
+    function start_daemon {
+        export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${1}
+        export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${1}
+        mkdir -p "${CUDA_MPS_PIPE_DIRECTORY}"
+        mkdir -p "${CUDA_MPS_LOG_DIRECTORY}"
+        CUDA_VISIBLE_DEVICES=${1} nvidia-cuda-mps-control -d
+    }
+
+    # First argument of select_gpu.sh is the selected GPU id (integer from 0 to 4)
+    if [[ "$1" =~ ^[0-3]$ ]]; then
+        GPU_ID="$1"
+        shift
+    else
+        echo "Error: invalid GPU id (must be an integer in [0,3])" >&2
+        exit 1
+    fi
+
+    # Start MPS control daemons from a single rank per node, one for each GPU on the node
+    if [[ $SLURM_LOCALID -eq 0 ]]; then
+        start_daemon $GPU_ID
+    fi
+
+    # Set MPS options for this rank. Each rank will access the MPS of the GPU
+    # corresponding to the NUMA node. CUDA_VISIBLE_DEVICES should not be set. The
+    # chosen MPS determines which device is visible.
+    export CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-${numa_node}
+    export CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-${numa_node}
+
+    # Wait until the control daemon for our rank is up. The daemon creates a pid
+    # file which we can wait for. See
+    # https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html.
+    # Wait up to mps_pid_file_timeout seconds for the pid file to be created. In
+    # jobs with a large number of ranks some ranks may take a long time to start. If
+    # that happens consider increasing the timeout.
+    mps_pid_file_timeout=120
+    pid_file="${CUDA_MPS_PIPE_DIRECTORY}/nvidia-cuda-mps-control.pid"
+    if ! timeout ${mps_pid_file_timeout} bash -c "until [[ -f \"${pid_file}\" ]]; do sleep 1; done"; then
+        echo "The MPS wrapper script timed out waiting for MPS pid file ${pid_file} on rank ${SLURM_PROCID}. MPS daemon likely did not start correctly or the rank starting the MPS daemons took too long to start."
+        exit 1
+    fi
+
+    # Run the command
+    # We are using `exec`, because we want e.g. signals to be forwarded directly to the application, and not this wrapper script
+    exec "$@"
+    ```
+
 
 ??? info "Running regression tests"
 
