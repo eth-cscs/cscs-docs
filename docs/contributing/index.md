@@ -341,7 +341,7 @@ Integrating information into the main documentation requires some care to identi
 Adding the information to a FAQ is easier, but the result is information about a topic distributed between the docs and FAQ questions, which ultimately makes the documentation harder to search.
 
 FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
-If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
+If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-known-issues].
 
 
 ### Small contributions
