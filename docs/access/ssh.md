@@ -23,7 +23,7 @@ The CLI interface to the SSH service is called `cscs-key`, an open source tool d
 
 To install `cscs-key`, use Homebrew on macOS or Linux, or download a release binary from the [GitHub releases page](https://github.com/eth-cscs/cscs-key/releases) on any platform.
 For a manual install, unpack the archive and place the binary in a directory on your `PATH` (`$HOME/.local/bin` on macOS/Linux, `$HOME\bin` on Windows).
-The snippets below use `v1.1.0` — replace it with the [latest release tag](https://github.com/eth-cscs/cscs-key/releases).
+The snippets below set `TAG=v1.1.0` — replace it with the [latest release tag](https://github.com/eth-cscs/cscs-key/releases).
 On Windows, choose the PowerShell tab for the native binary, or the Linux tab when running inside [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 === "Homebrew (macOS, Linux)"
@@ -36,33 +36,36 @@ On Windows, choose the PowerShell tab for the native binary, or the Linux tab wh
 
 === "macOS (Apple Silicon)"
     ```console title="install cscs-key on Apple Silicon Mac"
+    $ TAG=v1.1.0
     $ mkdir -p $HOME/.local/bin
     $ cd $HOME/.local/bin
-    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
-    $ tar -xzvf cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
-    $ rm cscs-key-v1.1.0-aarch64-apple-darwin.tar.gz
+    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/$TAG/cscs-key-$TAG-aarch64-apple-darwin.tar.gz
+    $ tar -xzvf cscs-key-$TAG-aarch64-apple-darwin.tar.gz
+    $ rm cscs-key-$TAG-aarch64-apple-darwin.tar.gz
     $ cscs-key --version
     cscs-key 1.1.0
     ```
 
 === "Linux (x86_64)"
     ```console title="install cscs-key on x86_64 Linux"
+    $ TAG=v1.1.0
     $ mkdir -p $HOME/.local/bin
     $ cd $HOME/.local/bin
-    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
-    $ tar -xzvf cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
-    $ rm cscs-key-v1.1.0-x86_64-unknown-linux-musl.tar.gz
+    $ curl -LO https://github.com/eth-cscs/cscs-key/releases/download/$TAG/cscs-key-$TAG-x86_64-unknown-linux-musl.tar.gz
+    $ tar -xzvf cscs-key-$TAG-x86_64-unknown-linux-musl.tar.gz
+    $ rm cscs-key-$TAG-x86_64-unknown-linux-musl.tar.gz
     $ cscs-key --version
     cscs-key 1.1.0
     ```
 
 === "Windows (x86_64, PowerShell)"
     ```powershell title="install cscs-key on Windows"
+    > $TAG = "v1.1.0"
     > mkdir $HOME\bin -Force
     > cd $HOME\bin
-    > curl.exe -LO https://github.com/eth-cscs/cscs-key/releases/download/v1.1.0/cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
-    > Expand-Archive -Path cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip -DestinationPath .
-    > Remove-Item cscs-key-v1.1.0-x86_64-pc-windows-msvc.zip
+    > curl.exe -LO "https://github.com/eth-cscs/cscs-key/releases/download/$TAG/cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
+    > Expand-Archive -Path "cscs-key-$TAG-x86_64-pc-windows-msvc.zip" -DestinationPath .
+    > Remove-Item "cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
     > cscs-key --version
     cscs-key 1.1.0
     ```
