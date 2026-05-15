@@ -20,7 +20,7 @@ PIs can then invite members of their groups to join their project.
 
 ## Tools for managing accounts and projects
 
-As of 1 APril 2026, the [HPC Platform][ref-platform-hpcp], [Climate and Weather Platform][ref-platform-cwp] and [Machine Learning Platform][ref-platform-mlp] all use the [project and resources management tool][ref-account-waldur] at [portal.cscs.ch](https://portal.cscs.ch). 
+As of 1 April 2026, the [HPC Platform][ref-platform-hpcp], [Climate and Weather Platform][ref-platform-cwp] and [Machine Learning Platform][ref-platform-mlp] all use the [project and resources management tool][ref-account-waldur] at [portal.cscs.ch](https://portal.cscs.ch). 
 
 ## Signing up for a new account
 
