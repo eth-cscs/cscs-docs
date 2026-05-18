@@ -271,7 +271,10 @@ Recent entries are expanded, older ones are folded:
 
 ### Code blocks
 
-Use `console` for interactive shell sessions that show a prompt and output:
+Use a session lexer for interactive shell sessions with prompt-output pairs:
+
+- `console` for bash/zsh, with `$` as the prompt character
+- `pwsh-session` for PowerShell, with `PS>` as the prompt character
 
 ```
 ```console title="check the queue"
@@ -279,7 +282,9 @@ $ squeue --me
 ```
 ```
 
-Use `bash` for command-only blocks that should be easy to copy (no prompt, no output):
+Prompts and command output are stripped from the copy button, so include realistic output where it helps the reader.
+
+Use `bash` (or `powershell` for PowerShell) for command-only blocks (no prompt, no output):
 
 ```
 ```bash title="load a uenv"
@@ -288,7 +293,7 @@ uenv start prgenv-gnu/24.11:v1
 ```
 
 `terminal` is **not** a valid lexer — MkDocs will silently render it without highlighting.
-Always use `$` as the prompt character in `console` blocks; `>` is not highlighted correctly.
+In `console` blocks, use `$` as the prompt character; `>` is not highlighted correctly.
 Add a `title=` to every code block to describe what it does.
 
 ### Reusing content with snippets

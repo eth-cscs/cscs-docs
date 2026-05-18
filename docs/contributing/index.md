@@ -462,7 +462,10 @@ Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blo
 The documentation uses [pygments](https://pygments.org) for highlighting.
 See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
 
-Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for interactive sessions with prompt-output pairs:
+Use a session lexer for interactive sessions with prompt-output pairs:
+
+* [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for bash/zsh, with `$` as the prompt character
+* [`pwsh-session`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellSessionLexer) for PowerShell, with `PS>` as the prompt character
 
 === "Markdown"
 
@@ -480,20 +483,23 @@ Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSess
     Hello, world!
     ```
 
+!!! tip "Prompts and output are stripped from the copy button"
+    Users who click "copy" get just the runnable commands, so feel free to include realistic prompts and output.
+
 !!! warning
     `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
     The text will be rendered without highlighting.
 
 !!! warning
-    Use `$` as the prompt character, optionally preceded by text.
-    `>` as the prompt character will not be highlighted correctly.
+    In `console` blocks, use `$` as the prompt character.
+    `>` will not be highlighted correctly as a prompt.
 
 Note the use of `title=...`, which will give the code block a heading.
 
 !!! tip
     Include a title whenever possible to describe what the code block does or is.
 
-If you want to display commands without output that can easily be copied, use `bash` as the language:
+For command-only blocks (no prompt, no output), use `bash`:
 
 === "Markdown"
 
