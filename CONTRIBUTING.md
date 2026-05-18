@@ -284,7 +284,8 @@ $ squeue --me
 
 Prompts and command output are stripped from the copy button, so include realistic output where it helps the reader.
 
-Use `bash` (or `powershell` for PowerShell) for command-only blocks (no prompt, no output):
+Use `bash` for command-only blocks (no prompt, no output).
+Use `powershell` for the PowerShell equivalent.
 
 ```
 ```bash title="load a uenv"
