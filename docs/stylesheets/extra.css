@@ -146,3 +146,14 @@
   border-radius: 2px;
 }
 
+/* In `console` code blocks, exclude the shell prompt (`$`) and command */
+/* output from the copy button, so users get just the commands. */
+/* Material's copy button reads `innerText` after briefly setting */
+/* `data-md-copying` on the code element, and `innerText` ignores */
+/* hidden content. Selection is left alone so users can still grab the */
+/* full transcript by hand. */
+[data-md-copying] .gp,
+[data-md-copying] .go {
+  display: none;
+}
+
