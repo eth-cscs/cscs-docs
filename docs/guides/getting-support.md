@@ -5,7 +5,7 @@ Requests for support must be submitted to the [CSCS Service Desk](https://suppor
 
 ## Before submitting a ticket
 
-It is worth ruling out some common causes before submitting a ticket.
+It is worth checking the following:
 
 * Check the [status page](https://status.cscs.ch) for the latest updates and ongoing incidents.
 * Check your [available disk quotas][ref-storage-quota] using the [`quota`][ref-storage-quota-cli] command.
@@ -49,7 +49,11 @@ The goal of a support ticket is to give the engineer enough information to repro
 
 ### Clear description of the problem
 
-Describe exactly what you observed and what you expected to happen.
+Describe exactly:
+
+* what you expected to happen, and
+* what you observed.
+
 Avoid vague descriptions like "my job failed" or "the cluster is broken".
 Instead support engineers need concrete, observable details to start investigating.
 
@@ -65,11 +69,15 @@ Good examples:
     "The job printed `Error: out of memory` and exited with code 1" is a symptom.
     "There is a memory leak in the runtime" is a diagnosis.
 
+!!! tip "Describe your attempts to fix the issue"
+    Include information about steps that you took to fix the issue before submitting the ticket.
+
 ### Slurm job information
 
 If the issue involves a batch or interactive Slurm job, include the job ID(s), the submission script, and the number of nodes, tasks, and other resources requested.
 
-It helps to state explicitly how you intend the job to run. For example, "I want to run 16 MPI ranks on 4 nodes, with one GPU per MPI rank".
+It helps to state explicitly how you intend the job to run.
+For example, "I want to run 16 MPI ranks on 4 nodes, with one GPU per MPI rank".
 
 If the problem is intermittent, include job IDs for both successful and unsuccessful runs.
 
