@@ -166,6 +166,7 @@ nav:
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
+    - 'Support Guide': guides/getting-support.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
