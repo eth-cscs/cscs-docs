@@ -15,7 +15,6 @@ It is worth ruling out some common causes before submitting a ticket.
 ## Writing a good support ticket
 
 The goal of a support ticket is to give the engineer enough information to reproduce or understand your problem without having to ask follow-up questions.
-Every round-trip — "can you send the job script?", "what node did it run on?" — adds at least a day to resolution time.
 
 !!! example "Example of a good support ticket"
     My MPI application hangs during initialization when running on 2 or more nodes on Daint.
@@ -52,7 +51,9 @@ Every round-trip — "can you send the job script?", "what node did it run on?" 
 ### Clear description of the problem
 
 Describe exactly what you observed and what you expected to happen.
-Avoid vague descriptions like "my job failed" or "the cluster is broken" — support engineers need concrete, observable details to start investigating.
+Avoid vague descriptions like "my job failed" or "the cluster is broken".
+Instead support engineers need concrete, observable details to start investigating.
+
 Good examples:
 
 * "My Slurm job exits immediately with an out-of-memory error."
@@ -61,15 +62,16 @@ Good examples:
 * "My application was running successfully, but since Monday it is crashing with I/O errors."
 
 !!! tip "Describe symptoms, not diagnoses"
-    It is fine to include your theory about the cause, but always state the observable symptoms as well.
+    It is fine to include theories about the cause, but always state the observable symptoms first.
     "The job printed `Error: out of memory` and exited with code 1" is a symptom.
     "There is a memory leak in the runtime" is a diagnosis.
-    Support engineers need the symptom to investigate; a diagnosis alone forces them to work backwards.
 
 ### Slurm job information
 
 If the issue involves a batch or interactive Slurm job, include the job ID(s), the submission script, and the number of nodes, tasks, and other resources requested.
-It helps to state explicitly how you intend the job to run — for example, "I want to run 16 MPI ranks on 4 nodes, with one GPU per MPI rank".
+
+It helps to state explicitly how you intend the job to run. For example, "I want to run 16 MPI ranks on 4 nodes, with one GPU per MPI rank".
+
 If the problem is intermittent, include job IDs for both successful and unsuccessful runs.
 
 ### Job output and logs
@@ -81,7 +83,7 @@ Always provide the paths to the standard output and standard error logs, and ens
     If you would like to share logs, scripts and other artifacts, ensure that you [give access to the `csstaff` group][ref-guides-storage-sharing].
 
 Include any relevant error messages, stack traces, and the last few lines of output before the failure.
-Paste error messages verbatim — even if the numbers and codes seem meaningless to you, they are often the fastest path to a diagnosis.
+Paste error messages verbatim, even if the numbers and codes seem meaningless to you, they are often the fastest path to a diagnosis.
 
 !!! tip
     Our support desk uses Jira, which has its own [Jira formatting](https://cheatography.com/rhorber/cheat-sheets/jira-text-formatting-notation) markup language.
@@ -111,7 +113,7 @@ Paste error messages verbatim — even if the numbers and codes seem meaningless
         Error: out of memory allocating ring buffer (rank 15)
         ```
 
-!!! tip "Avoid screenshots of the terminal"
+!!! tip "Only use screenshots of the terminal when necessary"
     Sometimes a screenshot is more useful than raw text, however 90% of the time it is better to paste terminal output directly into the ticket or attach a text file.
     This makes it much easier for support engineers to copy job IDs, hashes, and error messages when trying to help.
 
