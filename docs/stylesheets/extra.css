@@ -146,3 +146,11 @@
   border-radius: 2px;
 }
 
+/* Strip prompts (.gp) and output (.go) from the copy button in session
+   code blocks (console, pwsh-session). Material toggles data-md-copying
+   only during the copy click, so manual selection still gets everything. */
+[data-md-copying] .gp,
+[data-md-copying] .go {
+  display: none;
+}
+

@@ -59,14 +59,14 @@ On Windows, choose the PowerShell tab for the native binary, or the Linux tab wh
     ```
 
 === "Windows (x86_64, PowerShell)"
-    ```powershell title="install cscs-key on Windows"
-    > $TAG = "v1.1.0"
-    > mkdir $HOME\bin -Force
-    > cd $HOME\bin
-    > curl.exe -LO "https://github.com/eth-cscs/cscs-key/releases/download/$TAG/cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
-    > Expand-Archive -Path "cscs-key-$TAG-x86_64-pc-windows-msvc.zip" -DestinationPath .
-    > Remove-Item "cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
-    > cscs-key --version
+    ```pwsh-session title="install cscs-key on Windows"
+    PS> $TAG = "v1.1.0"
+    PS> mkdir $HOME\bin -Force
+    PS> cd $HOME\bin
+    PS> curl.exe -LO "https://github.com/eth-cscs/cscs-key/releases/download/$TAG/cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
+    PS> Expand-Archive -Path "cscs-key-$TAG-x86_64-pc-windows-msvc.zip" -DestinationPath .
+    PS> Remove-Item "cscs-key-$TAG-x86_64-pc-windows-msvc.zip"
+    PS> cscs-key --version
     cscs-key 1.1.0
     ```
 
