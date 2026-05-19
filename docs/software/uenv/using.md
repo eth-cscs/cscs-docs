@@ -314,6 +314,49 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 
 * Note how the second call has access to `mpicc`, provided by `prgenv-gnu`.
 
+[](){#ref-uenv-slurm-passthrough}
+### Passthrough behaviour
+
+<span class="v-badge">uenv v10</span>
+
+The `--uenv-passthrough` flag controls how a uenv that is already loaded in the calling environment is treated when launching a Slurm step.
+It accepts three values:
+
+| value | meaning |
+|-------|---------|
+| `use` | forward the currently loaded uenv into the job (default for `srun`) |
+| `ignore` | start the job with a clean environment, discarding the loaded uenv |
+| `disable` | produce an error if a uenv is loaded and no `--uenv` flag is given (default for `sbatch`/`salloc`) |
+
+The `SBATCH_UENV`, `SBATCH_UENV_VIEW`, and `SBATCH_UENV_REPO` environment variables can be used to pre-configure the uenv for a batch job — useful in CI/CD pipelines or wrapper scripts where passing flags to `sbatch` is inconvenient:
+
+```bash title="setting uenv via environment variables"
+export SBATCH_UENV=prgenv-gnu/25.6:v2
+export SBATCH_UENV_VIEW=default
+sbatch my-job.sh
+```
+
+These variables are cleared after the job starts and do not propagate to nested `srun` or `sbatch` calls.
+
+??? warning "Breaking change: calling `sbatch` from inside a uenv session"
+    In v10, calling `sbatch` or `salloc` from inside an active `uenv start` session is disabled by default and will produce an error:
+
+    ```console
+    $ uenv start prgenv-gnu/25.6:v2 --view=default
+    $ sbatch my-job.sh
+    error: Calling sbatch/salloc from inside a uenv session is disabled by default.
+    ```
+
+    Use `--uenv-passthrough` to declare your intent explicitly:
+
+    ```console title="submitting a job from inside a uenv session"
+    # inherit the running uenv in the job
+    $ sbatch --uenv-passthrough=use my-job.sh
+
+    # start the job with a clean environment (ignore the running uenv)
+    $ sbatch --uenv-passthrough=ignore my-job.sh
+    ```
+
 [](){#ref-uenv-views}
 ## Views
 
@@ -338,14 +381,11 @@ Views are loaded using the `--view` flag for `uenv start`, `uenv run` and the Sl
 Each uenv can provide more than one view.
 The  [`modules`][ref-uenv-views-modules] and [`spack`][ref-uenv-views-spack] are standard views provided by nearly all uenv.
 
-To find a list of the views in a uenv, use the `uenv status` command when the uenv is running.
-This is a little bit inconvenient, and we will add a command for finding the views in a uenv without having to run it.
+To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image-inspect] without having to mount it first.
 
 !!! example "listing views in a uenv"
-    Use the following `uenv run` trick to list the views in a uenv:
-
     ```console
-    $ uenv run namd -- uenv status
+    $ uenv image inspect namd
     namd:/user-environment
       NAMD: Scalable Molecular Dynamics
       views:
@@ -362,6 +402,20 @@ This is a little bit inconvenient, and we will add a command for finding the vie
 
     This view is not loaded by default if no view is specified with the `--view` flag.
     We no longer use the name `default` in new uenv, however we continue using the name for uenv like `prgenv-gnu` to minimise user-disruption.
+
+!!! info "automatic default views <span class='v-badge'>uenv v10</span>"
+    Uenv images can declare a **default view** in their metadata.
+    When a default view is declared and no `--view` flag is given, that view is loaded automatically — you do not need to specify `--view` explicitly.
+
+    To opt out of the automatic default view, use the `--no-default-view` flag (short form `-V`):
+
+    ```bash title="disable the default view"
+    uenv start prgenv-gnu/25.6:v2 --no-default-view
+    uenv run prgenv-gnu/25.6:v2 -V -- bash
+    ```
+
+    Not all uenv declare a default view.
+    Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
 
 
 !!! info "installing Python venv with uenv"
