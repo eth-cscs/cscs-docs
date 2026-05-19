@@ -460,12 +460,18 @@ As a placeholder for documentation that needs to be written.
 
 Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
 The documentation uses [pygments](https://pygments.org) for highlighting.
-See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
+The language of a code block is set by its *lexer* — the name written after the opening triple backticks.
+See the [list of available lexers](https://pygments.org/docs/lexers/#).
 
-Use a session lexer for interactive sessions with prompt-output pairs:
+Use `title=...` whenever possible to give the block a descriptive heading, as shown in the examples below.
 
-* [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for bash/zsh, with `$` as the prompt character
-* [`pwsh-session`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellSessionLexer) for PowerShell, with `PS>` as the prompt character
+For an interactive shell session that shows both the commands you type and the output they produce, use:
+
+* [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for bash/zsh — write the prompt as `$`
+* [`pwsh-session`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellSessionLexer) for PowerShell — write the prompt as `PS>`
+
+These lexers highlight prompts, commands and output.
+They also let the copy button strip prompts and output, so only the runnable commands are copied.
 
 === "Markdown"
 
@@ -483,23 +489,11 @@ Use a session lexer for interactive sessions with prompt-output pairs:
     Hello, world!
     ```
 
-!!! tip "Prompts and output are stripped from the copy button"
-    Users who click "copy" get just the runnable commands, so feel free to include realistic prompts and output.
-
 !!! warning
-    `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
+    `terminal` is not a valid lexer, but neither MkDocs nor pygments will warn you.
     The text will be rendered without highlighting.
 
-!!! warning
-    In `console` blocks, use `$` as the prompt character.
-    `>` will not be highlighted correctly as a prompt.
-
-Note the use of `title=...`, which will give the code block a heading.
-
-!!! tip
-    Include a title whenever possible to describe what the code block does or is.
-
-For command-only blocks (no prompt, no output), use `bash`:
+For command-only blocks (no prompt, no output), use [`bash`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashLexer) or [`powershell`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellLexer):
 
 === "Markdown"
 
