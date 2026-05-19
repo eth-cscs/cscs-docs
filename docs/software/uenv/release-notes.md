@@ -9,7 +9,7 @@ You can check the version available on a specific system with the `uenv --versio
 
 ### Features
 
-- [TOML configuration format][ref-uenv-configure] with support for multiple named repositories.
+- [TOML configuration format][ref-uenv-configure] and [improved repository management][ref-uenv-repo-multiple]: multiple named repositories can be configured and selected by name.
 - [Default views][ref-uenv-views]: uenv images can declare a view to load automatically when no `--view` flag is given.
 - Advanced Slurm workflows: the [`--uenv-passthrough`][ref-uenv-slurm-passthrough] flag controls whether a loaded uenv is forwarded to nested `srun`, `sbatch`, or `salloc` calls.
 - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).

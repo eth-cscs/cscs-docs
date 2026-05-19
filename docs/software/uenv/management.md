@@ -299,55 +299,83 @@ priority = 30
 | - | --- | --- | --- |
 | `name` | yes | the name of the repo             | - |
 | `path` | yes | the file system path of the repo | - |
-| `priority` | no |                               | - |
+| `priority` | no | determines the order in which repos are searched | 10 |
 
+The priority of each repo determines the order in which they will be searched, from lowest to highest.
+The default priority for repos is 10, and the priority of the default user repo is 5, so the default repo has the highest priority.
 
-```console
-$ uenv image ls
-repo main
-  uenv                        arch   system  id                size(MB)  date
-  prgenv-gnu/25.6:v2          gh200  daint   b81fd6ba25e88782   4,191    2025-04-10
+With multiple repos configured, `uenv image ls` searches all of them and label each result with its source repo.
 
-repo team
-  uenv                        arch   system  id                size(MB)  date
-  cp2k/2025.1:v1              gh200  daint   2a56f1df31a4c196   2,693    2025-03-01
-  gromacs/2024:v1             gh200  daint   b58e6406810279d5   3,658    2025-02-12
-```
+??? example "uenv image ls output when multiple repos are configured"
+    ```console
+    $ uenv image ls
+    repo default
+      uenv                        arch   system  id                size(MB)  date
+      cp2k/2025.1:v1              gh200  daint   2a56f1df31a4c196   2,693    2025-03-01
+      prgenv-gnu/26.2:v2          gh200  daint   c71fd8d678a6c217   5,191    2026-02-10
 
-With multiple repos configured, `uenv image ls` and `uenv image find` search all of them and label each result with its source repo:
+    repo main
+      uenv                        arch   system  id                size(MB)  date
+      prgenv-gnu/25.6:v2          gh200  daint   b81fd6ba25e88782   4,191    2025-04-10
 
+    repo team
+      uenv                        arch   system  id                size(MB)  date
+      gromacs/2024:v1             gh200  daint   b58e6406810279d5   3,658    2025-02-12
+    ```
 
-`uenv image pull` and `uenv image add` always write to the first repo in the list (`main` in the example above).
+[](){#ref-uenv-repo-priority}
+### Repo priority
+
+The uenv that is selected by the `uenv start`, `uenv run` and the Slurm `--uenv` flag is affected by repo priority.
+Uenv will search through each repo in priority order, and take the first match that it finds.
+That is, if it finds a match in the highest priority repo, it will use that without searching for matches in the other repos.
+
+Commands that modify the repo contents (`uenv image pull`, `uenv image add` and `uenv image rm`) always write to the repo with the highest priority.
+
 To write to a different repo, use the `--repo` flag with the repo name:
 
-```bash title="pull an image into the team repo"
-uenv --repo=team image pull cp2k/2025.1:v1
-```
+??? example "pull an image into the team repo"
+    ```
+    uenv --repo=team image pull cp2k/2025.1:v1
+    ```
+See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customise the search order.
 
+[](){#ref-uenv-repo-flag}
 ### The `--repo` flag
 
 The `--repo` flag selects which repos to use for a command.
 It goes between `uenv` and the subcommand and can be used with all uenv commands.
 It accepts a comma-separated list of repos, where each repo is one of a repo name (from the config file), an absolute path, or a `name=path` pair.
 
-```bash title="selecting repos with --repo"
-# by name (defined in config)
-uenv --repo=team image ls
+!!! example "selecting repos with `--repo`"
+    ```console
+    # by name (defined in config)
+    $ uenv --repo=team image ls
 
-# by path (no config needed)
-uenv --repo=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+    # by path (no config needed)
+    $ uenv --repo=/capstor/store/cscs/userlab/sm42/uenv-images image ls
 
-# explicit name=path (ad-hoc, overrides config entirely)
-uenv --repo=team=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+    # explicit name=path (ad-hoc, overrides config entirely)
+    $ uenv --repo=team=/capstor/store/cscs/userlab/sm42/uenv-images image ls
 
-# multiple repos at once
-uenv --repo=main,team image ls
-```
+    # multiple repos at once
+    $ uenv --repo=main,team image ls
+    ```
 
-Note that the order of repos is important: it defines the order of precedence of the repos.
+The order of repos in a `--repo` list is important: it defines the order of precedence of the repos.
 This means that operations that select a uenv, for example `uenv start`, will search through the repos in the order provided and select 
 
 !!! tip "use `--repo` to override precedence"
+    Repos in a `--repo` list are searched in the order that they are written in the list.
+
+    This is very useful if you want to change the default search order, for example the `default` repo typically has higher precenedence than other repos.
+    The following example will changes the search order:
+
+    ```bash
+    uenv --repo=team,default start cp2k/2025.1
+    ```
+
+    If there is a unique image matching `cp2k/2025.1` in the `team` repo, the `default` repo will not be checked.
 
 [](){#ref-uenv-repo-status}
 ### `uenv repo status`
