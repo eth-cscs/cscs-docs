@@ -151,6 +151,10 @@ If you cannot find the information that you need in the documentation, help is a
 
     [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
 
+    Check our hints for what information to provide for us to help you most effectively:
+
+    [:octicons-arrow-right-24: Support Guide][ref-guide-support]
+
 -   :fontawesome-regular-comments: __Chat__
 
     Discuss Alps with other users and CSCS staff on Slack.
