@@ -10,7 +10,6 @@ It is worth ruling out some common causes before submitting a ticket.
 * Check the [status page](https://status.cscs.ch) for the latest updates and ongoing incidents.
 * Check your [available disk quotas][ref-storage-quota] using the [`quota`][ref-storage-quota-cli] command.
 * Check whether scheduled maintenance is in progress (see the [Scheduled Events](https://status.cscs.ch/scheduled-events) tab on the status page).
-* Ask on the [CSCS User Slack](https://cscs-users.slack.com/) whether other users are seeing the same problem.
 
 ## Writing a good support ticket
 
@@ -95,11 +94,11 @@ Paste error messages verbatim, even if the numbers and codes seem meaningless to
         The stderr and stdout output are in {{/capstor/scratch/cscs/jsmith/output/log123.txt}}.
         The specific error message is:
 
-        {{code}}
+        {code}
         starting time step 23
         updated particle positions
         Error: out of memory allocating ring buffer (rank 15)
-        {{code}}
+        {code}
         ```
 
     === "Result"
