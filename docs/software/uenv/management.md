@@ -338,7 +338,7 @@ To write to a different repo, use the `--repo` flag with the repo name:
     ```
     uenv --repo=team image pull cp2k/2025.1:v1
     ```
-See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customise the search order.
+See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
 
 [](){#ref-uenv-repo-flag}
 ### The `--repo` flag
@@ -368,7 +368,7 @@ This means that operations that select a uenv, for example `uenv start`, will se
 !!! tip "use `--repo` to override precedence"
     Repos in a `--repo` list are searched in the order that they are written in the list.
 
-    This is very useful if you want to change the default search order, for example the `default` repo typically has higher precenedence than other repos.
+    This is very useful if you want to change the default search order, for example the `default` repo typically has higher precedence than other repos.
     The following example will changes the search order:
 
     ```bash

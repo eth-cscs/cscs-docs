@@ -114,6 +114,7 @@ PID
 PMPI
 POSIX
 Parrinello
+Passthrough
 Pintarelli
 Piz
 Plesset
@@ -271,6 +272,7 @@ osu
 papi
 paraview
 passphrase
+passthrough
 parmetis
 petsc
 pme
