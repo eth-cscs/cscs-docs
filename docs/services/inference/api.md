@@ -57,12 +57,13 @@ Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS do
 Before starting, you need an API token (see the the [access guide][ref-inference-api-access]).
 Once you have your token, it must be provided with every call to the API.
 
-!!! example "opencode CLI"
+!!! example "claude code"
     Example environment configuration to be set before starting a `claude` session.
     ```console
     $ export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
     $ export ANTHROPIC_BASE_URL=https://llm-proxy.svc.cscs.ch/v1
     $ export ANTHROPIC_MODEL=apertus-70b-instruct
+    $ claude
     ```
 
 !!! example "List available models"
