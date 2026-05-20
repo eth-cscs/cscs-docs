@@ -400,7 +400,7 @@ mkdir build && cd build
 Torch_DIR=$(dirname $(find /user-environment/linux-neoverse_v2/ -name TorchConfig.cmake -type f)) \ # (4)!
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
-    -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
+    -DCMAKE_CUDA_HOST_COMPILER=mpic++ \ # (3)!
     -DCMAKE_BUILD_TYPE=Release \
     -DCP2K_USE_MPI=ON \
     -DCP2K_USE_LIBXC=ON \
@@ -429,7 +429,7 @@ ninja -j 32
 
 2. Go to the CP2K source directory
 
-3. Make sure `mpicc` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
+3. Make sure `mpic++` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
 
 4. Explicitly tell CMake where to find PyTorch's `TorchConfig.cmake`
 

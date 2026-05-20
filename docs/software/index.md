@@ -57,6 +57,8 @@ These pages provided documentation for all supported software, and installation 
 
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
 
+    [:octicons-arrow-right-24: ESMF and CESM][ref-software-cesm]
+
     [:octicons-arrow-right-24: ORCA][ref-software-orca]
 
 -   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]

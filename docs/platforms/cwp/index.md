@@ -9,7 +9,7 @@ The Climate and Weather Platform (CWP) provides compute, storage and support to 
 
 Project administrators (PIs and deputy PIs) of projects on the CWP can to invite users to join their project, before they can use the project's resources on Alps.
 
-This is currently performed using the [account and resource management tool][ref-account-ump].
+This is performed using the [project management tool][ref-account-waldur].
 
 Once invited to a project, you will receive an email, which you can need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
@@ -49,7 +49,7 @@ See the [Scratch][ref-storage-scratch] documentation for more information.
 The environment variable `SCRATCH=/capstor/scratch/cscs/$USER` is set automatically when you log into the system, and can be used as a shortcut to access scratch.
 
 !!! warning "scratch cleanup policy"
-    Files that have not been accessed in 30 days are automatically deleted.
+    Files that have not been accessed in **30 days** are automatically deleted.
 
     **Scratch is not intended for permanent storage**: transfer files back to the [Store][ref-storage-store] after job runs.
 

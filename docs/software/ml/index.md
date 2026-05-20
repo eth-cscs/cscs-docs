@@ -27,7 +27,9 @@ For detailed information on storage options and best practices for managing data
 
 Containerization is the recommended approach for ML workloads on Alps, as it simplifies software management and maximizes compatibility with other systems.
 
-Users are encouraged to build their own containers, starting from popular sources such as the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers), which offers a variety of pre-built images optimized for HPC and ML workloads.
+The recommended container to use as the base for your work are the [Alps extended images][ref-software-extended-images] --- [Nvidia NGC](https://catalog.ngc.nvidia.com/containers) containers that have been fine-tuned and extended for best performance on Alps.
+
+Alternatively users can build their own images starting from popular sources such as the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers), which offers a variety of pre-built images optimized for HPC and ML workloads.
 Examples include:
 
 * [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) ([Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html))

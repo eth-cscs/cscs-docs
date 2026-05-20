@@ -41,16 +41,18 @@ nav:
   - 'Connecting to Alps':
     - access/index.md
     - 'Multi Factor Authentication (MFA)': access/mfa.md
-    - 'Web Services': access/web.md
+    - 'Web Portals': access/web.md
     - 'SSH': access/ssh.md
     - 'FirecREST': access/firecrest.md
     - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md
+    - 'Service Accounts': access/service-accounts.md
   - 'Running Jobs':
     - running/index.md
     - 'Slurm': running/slurm.md
     - 'HyperQueue': running/hyperqueue.md
+    - 'Vetnode': running/vetnode.md
     - 'Known issues': running/known-issues.md
   - 'Environments':
     - environments/index.md
@@ -70,7 +72,6 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
-    - 'Alps Extended Images' : software/alps-extended-images/index.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
@@ -78,9 +79,11 @@ nav:
       - 'prgenv-gnu': software/prgenv/prgenv-gnu.md
       - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
+      - 'prgenv-intel': software/prgenv/prgenv-intel.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
+      - 'Alps Extended Images' : software/alps-extended-images.md
     - 'How to build software':
       - 'uenv': build-install/uenv.md
       - 'Python': build-install/python.md
@@ -107,6 +110,8 @@ nav:
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
     - 'Climate and Weather':
       - software/cw/index.md
+      - 'Deployment': software/cw/deployment.md
+      - 'ICON': software/cw/icon.md
       - 'netcdf-tools': software/cw/netcdf-tools.md
     - 'Communication Libraries':
       - software/communication/index.md
@@ -118,8 +123,9 @@ nav:
       - 'NVSHMEM': software/communication/nvshmem.md
     - 'User Applications':
       - software/userapps/index.md
-      - 'WRF': software/userapps/wrf.md
+      - 'ESMF and CESM': software/userapps/cesm.md
       - 'ORCA': software/userapps/orca.md
+      - 'WRF': software/userapps/wrf.md
     - 'Commercial Software':
       - software/commercial/index.md
       - 'Matlab': software/commercial/matlab.md
@@ -154,13 +160,13 @@ nav:
       - 'Node OS Updates': services/kubernetes/node-updates.md
   - 'Accounts and Projects':
     - accounts/index.md
-    - 'Account and Resources Management Tool': accounts/ump.md
     - 'Project and Resources Management Tool': accounts/waldur.md
     - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
+    - 'Support Guide': guides/getting-support.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

@@ -48,7 +48,7 @@ Find out more about Alps...
 
     Then access CSCS services:
 
-    [:octicons-arrow-right-24: Accessing CSCS Web Services][ref-access-web]
+    [:octicons-arrow-right-24: Accessing CSCS Web Portals][ref-access-web]
 
     [:octicons-arrow-right-24: Using SSH][ref-ssh]
 
@@ -123,8 +123,6 @@ Learn by doing with our guides and tutorials.
 
     [:octicons-arrow-right-24: Container engine][ref-container-engine]
 
-    [:octicons-arrow-right-24: Alps extended images](software/alps-extended-images/index.md)
-
 
 -   :fontawesome-solid-screwdriver-wrench: __Data management and storage__
 
@@ -151,7 +149,11 @@ If you cannot find the information that you need in the documentation, help is a
 
     Contact the CSCS Service Desk for help.
 
-    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
+    [:octicons-arrow-right-24: Service Desk](https://support.cscs.ch)
+
+    Check our hints for what information to provide for us to help you most effectively:
+
+    [:octicons-arrow-right-24: Support Guide][ref-guide-support]
 
 -   :fontawesome-regular-comments: __Chat__
 
