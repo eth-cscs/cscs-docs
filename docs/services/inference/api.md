@@ -57,9 +57,17 @@ Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS do
 Before starting, you need an API token (see the the [access guide][ref-inference-api-access]).
 Once you have your token, it must be provided with every call to the API.
 
+!!! example "opencode CLI"
+    Example environment configuration to be set before starting a `claude` session.
+    ```console
+    $ export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
+    $ export ANTHROPIC_BASE_URL=https://llm-proxy.svc.cscs.ch/v1
+    $ export ANTHROPIC_MODEL=apertus-70b-instruct
+    ```
+
 !!! example "List available models"
     ```console
-    $ curl -X GET "https://ai-gateway.svc.cscs.ch/v1/models" \
+    $ curl -X GET "https://llm-proxy.svc.cscs.ch/v1/models" \
       -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
       -H "Content-Type: application/json"
     ```
@@ -78,14 +86,6 @@ Once you have your token, it must be provided with every call to the API.
       }'
     ```
 
-!!! example "Claude Code CLI"
-    Example environment configuration to be set before starting a `claude` session.
-    ```console
-    $ export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
-    $ export ANTHROPIC_BASE_URL=https://ai-gateway.svc.cscs.ch/v1
-    $ export ANTHROPIC_MODEL=apertus-70b-instruct
-    ```
-
 [](){#ref-inference-api-access}
 ## Access
 
@@ -96,11 +96,13 @@ If you would like to participate, please contact Pablo Fernandez ([`pablo.fernan
 
 ### Obtain your authentication token
 
-Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur].
+Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur]. The following images illustrates.
+
+![Inference Service within the CSCS User Portal](../images/services/inference-api-key.png)
 
 ## API
 
-The service is accessed through the gateway base URL `https://ai-gateway.svc.cscs.ch`.
+The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs.ch`.
 
 With common API paths including:
 
