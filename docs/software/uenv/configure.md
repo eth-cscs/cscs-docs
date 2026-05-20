@@ -36,8 +36,8 @@ Comments start with `#`.
 
     # define one or more repositories
     [[repositories]]
-    name = "main"
-    path = "/capstor/scratch/cscs/username/.uenv-images"
+    name = "test"
+    path = "/capstor/scratch/cscs/username/test-repo"
 
     [[repositories]]
     name = "team"
@@ -88,22 +88,31 @@ uenv image find prgenv-gnu@'*'
 [](){#ref-uenv-configure-options-repos}
 #### `[[repositories]]`
 
-A repository is a directory on the file system where downloaded uenv images are stored.
-Multiple repositories can be defined using the TOML array-of-tables syntax (`[[repositories]]`).
-Each entry requires a `name` (used to refer to the repository) and a `path` (absolute path on disk).
+Multiple [repositories][ref-uenv-repo] can be configured as a TOML array-of-tables.
 
 ```toml title="defining multiple repositories"
 [[repositories]]
-name = "main"
-path = "/capstor/scratch/cscs/username/.uenv-images"
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
 
 [[repositories]]
 name = "team"
 path = "/store/g123/shared/uenv-images"
+priority = 30
 ```
 
-The first repository in the list is the default — it will be used when no `--repo` flag is given.
-The `--repo` CLI flag can reference a repository by name or by path, and takes precedence over the config file.
+Each entry requires a `name`, a `path`, and an optional `priority`:
+
+| | required | description | default |
+| - | --- | --- | --- |
+| `name` | yes | the name used to refer to a repo | - |
+| `path` | yes | the absolute path of the repo | - |
+| `priority` | no | determines the order in which repos are searched | 10 |
+
+The priority of each repo determines the order in which they will be searched, from lowest to highest.
+The default priority for repos is 10, and the priority of the default user repo is 5, so the default repo has the highest priority.
+
+The [`--repo`][ref-uenv-repo-flag] CLI flag can reference a repository by name or by path, and overides the priority ordering specified by the configuration.
 
 [](){#ref-uenv-configure-options-elastic}
 #### `[elastic]`

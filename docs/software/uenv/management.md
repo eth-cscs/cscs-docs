@@ -266,7 +266,7 @@ repo
 ### Creating and using repositories
 
 A repo will automatically be created in your [Scratch path][ref-storage-scratch] attached to the cluster you are on when you first use uenv.
-This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
+This _default repo_ is used by all calls to uenv, unless it is overridden in a configuration file or using the `--repo` CLI flag, both documented below.
 
 !!! question "Where is my repo?"
     The Scratch filesystem used depends on the cluster:
@@ -278,31 +278,25 @@ This _default repo_ is used by all calls to uenv, unless it is overridden using 
     | Clariden     | `/iopsstor/scratch/cscs/$USER/.uenv-images` |
     | Others       | `$SCRATCH/.uenv-images` (falls back to `$HOME/.uenv/repo`) |
 
+
 [](){#ref-uenv-repo-multiple}
-### Multiple repositories <span class="v-badge">uenv v10</span>
+### Multiple repositories
+
+<span class="v-badge">uenv v10</span>
 
 uenv supports multiple named repositories, which is useful for sharing images within a team or project.
 Repos are configured in the [uenv configuration file][ref-uenv-configure-options-repos] using the `[[repositories]]` array:
 
 ```toml title="~/.config/uenv/config.toml"
 [[repositories]]
-name = "main"
-path = "/ritom/scratch/cscs/username/.uenv-images"
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
 
 [[repositories]]
 name = "team"
 path = "/capstor/store/cscs/userlab/sm42/uenv-images"
 priority = 30
 ```
-
-| | required | description | default |
-| - | --- | --- | --- |
-| `name` | yes | the name of the repo             | - |
-| `path` | yes | the file system path of the repo | - |
-| `priority` | no | determines the order in which repos are searched | 10 |
-
-The priority of each repo determines the order in which they will be searched, from lowest to highest.
-The default priority for repos is 10, and the priority of the default user repo is 5, so the default repo has the highest priority.
 
 With multiple repos configured, `uenv image ls` searches all of them and label each result with its source repo.
 
@@ -314,7 +308,7 @@ With multiple repos configured, `uenv image ls` searches all of them and label e
       cp2k/2025.1:v1              gh200  daint   2a56f1df31a4c196   2,693    2025-03-01
       prgenv-gnu/26.2:v2          gh200  daint   c71fd8d678a6c217   5,191    2026-02-10
 
-    repo main
+    repo test
       uenv                        arch   system  id                size(MB)  date
       prgenv-gnu/25.6:v2          gh200  daint   b81fd6ba25e88782   4,191    2025-04-10
 
@@ -322,6 +316,11 @@ With multiple repos configured, `uenv image ls` searches all of them and label e
       uenv                        arch   system  id                size(MB)  date
       gromacs/2024:v1             gh200  daint   b58e6406810279d5   3,658    2025-02-12
     ```
+
+!!! info "where is the `default` repo defined?"
+    The default repo is determined by uenv according to which cluster it is running on, which file systems are attached, and whether those file systems already contain a repository.
+
+    You can check where it has been set on the current system using the `uenv repo status` command to list all repos.
 
 [](){#ref-uenv-repo-priority}
 ### Repo priority
@@ -339,6 +338,11 @@ To write to a different repo, use the `--repo` flag with the repo name:
     uenv --repo=team image pull cp2k/2025.1:v1
     ```
 See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
+
+!!! info "what priority does a repo have?"
+    If no priority is specified when creating a repo in a configuration file, it is given priority 10.
+
+    The `default` repo is given priority 9, so it will have higher precedence.
 
 [](){#ref-uenv-repo-flag}
 ### The `--repo` flag
@@ -358,8 +362,8 @@ It accepts a comma-separated list of repos, where each repo is one of a repo nam
     # explicit name=path (ad-hoc, overrides config entirely)
     $ uenv --repo=team=/capstor/store/cscs/userlab/sm42/uenv-images image ls
 
-    # multiple repos at once
-    $ uenv --repo=main,team image ls
+    # multiple repos in order of priority
+    $ uenv --repo=test,team image ls
     ```
 
 The order of repos in a `--repo` list is important: it defines the order of precedence of the repos.

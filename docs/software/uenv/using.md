@@ -244,7 +244,9 @@ The environment to load can be provided directly to Slurm via three arguments:
 
 * `--uenv`:  a comma-separated list of uenv to mount
 * `--view`:  a comma-separated list of views to load
-* `--repo`:  an alternative (if not set, the default repo in `$SCRATCH/.uenv-images` is used)
+* `--repo`:  customize when repos to search for the requested uenv. See the [`--repo` flag docs][ref-uenv-repo-flag] for more information.
+* `--uenv-passthrough`: <span class="v-badge">uenv v10</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
+* `--no-default-view`: <span class="v-badge">uenv v10</span> disable [default views][ref-uenv-views-default].
 
 For example, the flags can be used with srun :
 ```console
@@ -401,26 +403,33 @@ To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image
     Some uenv, for example the `prgenv-gnu`, have a view named `default`.
 
     This view is not loaded by default if no view is specified with the `--view` flag.
-    We no longer use the name `default` in new uenv, however we continue using the name for uenv like `prgenv-gnu` to minimise user-disruption.
 
-!!! info "automatic default views <span class='v-badge'>uenv v10</span>"
-    Uenv images can declare a **default view** in their metadata.
-    When a default view is declared and no `--view` flag is given, that view is loaded automatically — you do not need to specify `--view` explicitly.
-
-    To opt out of the automatic default view, use the `--no-default-view` flag (short form `-V`):
-
-    ```bash title="disable the default view"
-    uenv start prgenv-gnu/25.6:v2 --no-default-view
-    uenv run prgenv-gnu/25.6:v2 -V -- bash
-    ```
-
-    Not all uenv declare a default view.
-    Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
-
+    Uenv v10 introduces support for [default views][ref-uenv-views-default].
 
 !!! info "installing Python venv with uenv"
     Python virtual environments can be created on top of a uenv view.
     However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv][ref-python-uenv-venv].
+
+[](){#ref-uenv-views-default}
+### Default views
+
+<span class='v-badge'>uenv v10</span>
+
+Since uenv v10, uenv images can provide a default view.
+When a default view is declared and no `--view` flag is given, that view is loaded automatically.
+
+To opt out of the automatic default view, use the `--no-default-view` flag:
+
+!!! example "disable the default view"
+    ```bash
+    uenv start prgenv-gnu/25.6:v2 --no-default-view
+    ```
+
+!!! note
+    Not all uenv provide a default view.
+
+Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
+
 
 [](){#ref-uenv-views-modules}
 ### Modules view
@@ -501,4 +510,3 @@ By default, the modules are not activated when a uenv is started, and need to be
 uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies.
 No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv.
 For more information, see our guide on building software with [Spack and uenv][ref-build-uenv-spack].
-

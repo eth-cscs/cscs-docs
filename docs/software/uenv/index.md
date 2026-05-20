@@ -109,9 +109,9 @@ See the [uenv release notes][ref-uenv-release-notes] for more information about 
 The `uenv` command line tool is the main tool used to interact with uenvs.
 The basic workflow for using a uenv provided by CSCS is:
 
-* search for available images using `uenv image find`
-* download images using `uenv image pull`
-* then start a uenv using `uenv start`
+* search for available images using [`uenv image find`][ref-uenv-image-find]
+* download images using [`uenv image pull`][ref-uenv-image-pull]
+* then start or running a uenv using [`uenv start`][ref-uenv-start] or [`uenv run`][ref-uenv-run]
 
 Take the example of downloading a uenv that provides the [NAMD][ref-uenv-namd] simulation software:
 
@@ -127,6 +127,16 @@ updating namd/3.0:v1@eiger%zen2
 $ uenv image ls
 uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
+
+$ uenv image inspect namd/3.0:v1
+namd/3.0:v1@eiger%zen2 mount at /user-environment
+views:
+  spack: configure spack upstream
+  namd-single-node:
+  namd:
+  modules: activate modules
+  develop-single-node:
+  develop:
 
 $ uenv start namd/3.0:v1
 $ which namd3
