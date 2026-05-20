@@ -66,7 +66,7 @@ Once you have your token, it must be provided with every call to the API.
 
 !!! example "Chat completion request"
     ```console
-    $ curl -X POST "https://ai-gateway.svc.cscs.ch/v1/chat/completions" \
+    $ curl -X POST "https://llm-proxy.svc.cscs.ch/chat/completions" \
       -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
       -H "Content-Type: application/json" \
       -d '{
