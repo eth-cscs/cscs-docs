@@ -110,7 +110,7 @@ Each entry requires a `name`, a `path`, and an optional `priority`:
 | `priority` | no | determines the order in which repos are searched | 10 |
 
 The priority of each repo determines the order in which they will be searched, from lowest to highest.
-The default priority for repos is 10, and the priority of the default user repo is 9, so the default repo has the highest precidence.
+The default priority for repos is 10, and the priority of the default user repo is 9, so the default repo has the highest precedence.
 
 The [`--repo`][ref-uenv-repo-flag] CLI flag can reference a repository by name or by path, and overrides the priority ordering specified by the configuration.
 
