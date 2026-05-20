@@ -33,9 +33,8 @@ When using alongside another uenv, start a uenv session with both uenv.
 In the following example, the `prgenv-gnu` and `linaro-forge` uenv will be mounted at `/user-environment` and `/user-tools`  respectively:
 
 ```console
-$ uenv start prgenv-gnu/24.11:v2,linaro-forge/24.1.2:v1 \
-    --view=prgenv-gnu:default # (1)!
-$ source /user-tools/activate
+$ uenv start prgenv-gnu/24.11:v2,linaro-forge/25.1:v1 \
+    --view=prgenv-gnu:default,forge # (1)!
 
 $ uenv status # (2)!
 
@@ -45,13 +44,13 @@ Copyright (c) 2023-2025 Linaro Limited. All rights reserved.
 Version: 24.1.2
 ```
 
-1. Loading the `activate` script instead of loading a view for the linaro-forge uenv allows to keep using the compilers from the prgenv-gnu uenv.
+1. The `forge` view provided by the `linaro-forge` uenv is required.
 2. Test that everything has been mounted correctly by looking at `uenv status`.
    There will be warnings if there are problems.
 3. Check that the [DDT debugger][ref-devtools-ddt] is in the path.
 
 !!! note
-    The `linaro-forge` uenv is always mounted at the `/user-tools` mount point, and a script `/user-tools/activate` is provided to load both ddt and map into your environment, without needing to use a view.
+    The `linaro-forge` uenv is always mounted at the `/user-tools` mount point.
 
 ### Install and configure the Linaro client on your local machine
 
