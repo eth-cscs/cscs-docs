@@ -99,7 +99,7 @@ If you would like to participate, please contact Pablo Fernandez ([`pablo.fernan
 
 Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur]. The following images illustrates.
 
-![Inference Service within the CSCS User Portal](../images/services/inference-api-key.png)
+![Inference Service within the CSCS User Portal](../../images/services/inference-api-key.png)
 
 ## API
 
