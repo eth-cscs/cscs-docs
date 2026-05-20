@@ -70,7 +70,7 @@ Once you have your token, it must be provided with every call to the API.
       -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
       -H "Content-Type: application/json" \
       -d '{
-        "model": "apertus-70b-instruct",
+        "model": "Apertus-70B-Instruct-2509",
         "messages": [
           {"role": "user", "content": "Explain gradient descent in one paragraph."}
         ],
