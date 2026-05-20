@@ -20,12 +20,12 @@
 
     Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta, describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
-The LLM Inference API service provides Internet-accessible OpenAI/Anthropic-compatible inference endpoints backed by selected open-weight models (for example Apertus and other vetted models).
-Users consume from a shared pool of LLM models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
+The LLM Inference API service provides Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as Apertus and other vetted models.
+Users consume from a shared pool of models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
 
-Private model deployments are not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
+Private models deployment is not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS does not track user prompts or model responses. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor and improve service quality.
+Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS does not track user prompts or model responses. However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
 
 
 ## Service at a glance
@@ -54,15 +54,14 @@ Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS do
 [](){#ref-inference-api-quickstart}
 ## Quick Start
 
-Before starting, you need an API token (see the the [access guide][ref-inference-api-access]).
-Once you have your token, it must be provided with every call to the API.
+Before using the API, obtain an authentication token by following the [access guide][ref-inference-api-access]. Include this token in every API request.
 
-!!! example "claude code"
+!!! example "Anthropic's `claude`"
     Example environment configuration to be set before starting a `claude` session.
     ```console
     $ export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
     $ export ANTHROPIC_BASE_URL=https://llm-proxy.svc.cscs.ch/v1
-    $ export ANTHROPIC_MODEL=apertus-70b-instruct
+    $ export ANTHROPIC_MODEL=Apertus-70B-Instruct-2509
     $ claude
     ```
 
@@ -92,26 +91,24 @@ Once you have your token, it must be provided with every call to the API.
 
 ### Request access
 
-Early usage of this service requires an invitation.
+Early access to this service requires an invitation.
 If you would like to participate, please contact Pablo Fernandez ([`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch)) describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
 ### Obtain your authentication token
 
-Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur]. The following images illustrates.
+Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur]. The following images illustrates how to retrieve the token.
 
 ![Inference Service within the CSCS User Portal](../../images/services/inference-api-key.png)
 
 ## API
 
-The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs.ch`.
+The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs.ch`, and support standard endpoints, such as:
 
-With common API paths including:
-
-| path | purpose |
+| Path | Purpose |
 | ---- | ------- |
-| `/v1/models`           | query available models |
-| `/v1/chat/completions` | chat completions |
-| `/v1/embeddings`       | get a vector representation of a given input |
+| `/v1/models`           | Query available models |
+| `/v1/chat/completions` | Chat completions |
+| `/v1/embeddings`       | Get a vector representation of a given input |
 
 !!! todo
     Describe API support.
@@ -122,8 +119,8 @@ With common API paths including:
 
 ### Reducing consumption
 
-* longer prompts increase cost and latency
-* future costs may differentiate across models with different computational load
+* Longer prompts increase cost and latency
+* Future costs may differentiate across models with different computational load
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
