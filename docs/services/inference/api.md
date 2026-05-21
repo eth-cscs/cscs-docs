@@ -96,7 +96,7 @@ If you would like to participate, please contact Pablo Fernandez ([`pablo.fernan
 
 ### Obtain your authentication token
 
-Approved projects are given an authentication token, which can be retrieved and managed through [project management portal][ref-account-waldur]. The following images illustrates how to retrieve the token.
+Approved projects receive an authentication token, which can be retrieved and managed through the [project management portal][ref-account-waldur]. The following images illustrate how to retrieve the token from the details page of the inference resource assigned to your project.
 
 ![Inference Service within the CSCS User Portal](../../images/services/inference-api-key.png)
 
