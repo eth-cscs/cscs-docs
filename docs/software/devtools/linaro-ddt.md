@@ -18,7 +18,7 @@ The following guide will walk through the steps required to build and debug an a
 Once the uenv is loaded and activated, the program to debug must be compiled with the `-g` (for CPU) and `-G` (for GPU) debugging flags.
 For example, we can build a CUDA test with a user environment:
 
-```bash
+```bash title='compiling a simple app to debug'
 uenv start prgenv-gnu:24.11:v1 --view=default
 nvcc -c -arch=sm_90 -g -G test_gpu.cu
 mpicxx -g test_cpu.cpp test_gpu.o -o myexe
@@ -28,6 +28,22 @@ mpicxx -g test_cpu.cpp test_gpu.o -o myexe
 
 To use the DDT client with uenv, it must be launched in `Manual Launch` mode
 (assuming that it is connected to [Alps][ref-alps] via `Remote Launch`):
+
+=== "On Alps"
+
+    Log into the system and launch with the `srun` command:
+
+    ```console
+    $ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/24.11,linaro-forge/25.1:v2 --view=default,forge ddt-client  ./myexe
+    ```
+
+    Note that two uenv are selected:
+
+    1. the `prgenv-gnu` uenv is the environment used to compile `myexe`, and is always loaded when building and running `myexe`---you will have to change this to the uenv required in your workflow.
+    2. the `linaro-forge` uenv is loaded with the `forge` view to make the `ddt-client` executable available.
+
+    ??? info "no `activate` script required"
+        Older versions of the `linaro-forge` required starting an `activate` script, which is no longer needed if you use the `forge` view.
 
 === "On local machine"
 
@@ -39,22 +55,6 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode
     (see the "on Alps" tab for how to start the Slurm job).
 
     <img src="https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/0.png" width="600">
-
-=== "On Alps"
-
-    Log into the system and launch with the `srun` command:
-
-    ```console
-    $ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/25.6,linaro-forge/25.1:v2 --view=default,forge ddt-client  ./myexe
-    ```
-
-    Note that two uenv are selected:
-
-    1. the `prgenv-gnu` uenv is the environment used to compile `myexe`, and is always loaded when building and running `myexe`---you will have to change this to the uenv required in your workflow.
-    2. the `linaro-forge` uenv is loaded with the `forge` view to make the `ddt-client` executable available.
-
-    ??? info "no `activate` script required"
-        Older versions of the `linaro-forge` required starting an `activate` script, which is no longer needed if you use the `forge` view.
 
 
 ### Start debugging

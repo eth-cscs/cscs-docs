@@ -17,14 +17,15 @@
 The Linaro [uenv][ref-uenv] is named `linaro-forge`, and the available versions can be determined using the `uenv image find` command, as explained in the [uenv documentation][ref-uenv].
 
 ??? example "Finding available `linaro-forge` versions"
+    Search for `linaro-forge`, in this case there is one version available, and download.
 
     ```console
     $ uenv image find linaro-forge
-    uenv                    arch   system  id                size(MB)  date
-    linaro-forge/24.1.2:v1  gh200  daint   b9c8487cf183a16a     365    2025-04-15
+    uenv                  arch  system  id                size(MB)  date
+    linaro-forge/25.1:v2  zen2  eiger   89a25464e0b3d4f4     385    2026-05-21
 
-    $ uenv image pull linaro-forge/24.1.2:v1
-    pulling b9c8487cf183a16a 100.00% --- 365/365 (0.00 MB/s)
+    $ uenv image pull linaro-forge/25.1:v2
+    pulling 89a25464e0b3d4f4 100.00% --- 385/385 (0.00 MB/s)
     ```
 
 This uenv is configured to be mounted in the `/user-tools` path so that they can be used alongside application and development uenv mounted at `/user-environment`.
@@ -41,10 +42,10 @@ $ uenv status # (2)!
 $ ddt --version # (3)!
 Linaro DDT Part of Linaro Forge.
 Copyright (c) 2023-2025 Linaro Limited. All rights reserved.
-Version: 24.1.2
+Version: 25.1
 ```
 
-1. The `forge` view provided by the `linaro-forge` uenv is required.
+1. The `forge` view provided by the `linaro-forge` uenv makes `ddt` and `map` executables available.
 2. Test that everything has been mounted correctly by looking at `uenv status`.
    There will be warnings if there are problems.
 3. Check that the [DDT debugger][ref-devtools-ddt] is in the path.
@@ -75,8 +76,7 @@ First, start the client on your laptop:
 
 === "Linux"
 
-    !!! warning 
-        
+    !!! warning
         The path will change if you have installed a different version, or if it has been installed in a non-standard installation location.
 
     ```bash
@@ -86,7 +86,7 @@ First, start the client on your laptop:
 === "macOS"
 
     !!! warning
-        
+
         The path will change if you have installed a different version, or if it has been installed in a non-standard installation location.
         Please use the appropriate path and version for your installation.
 
@@ -99,9 +99,9 @@ Open the `Remote Launch` menu and click on `Configure...` then `Add`.
 Examples of the settings are below.
 
 === "Daint"
-    
+
     !!! warning
-        
+
         The `Remote Installation Directory` will change if you are using a different version of the `linaro-forge` uenv.
         Please use the appropriate version for your setup.
 
@@ -113,9 +113,9 @@ Examples of the settings are below.
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Santis"
-    
+
     !!! warning
-        
+
         The `Remote Installation Directory` will change if you are using a different version of the `linaro-forge` uenv.
         Please use the appropriate version for your setup.
 
@@ -128,9 +128,9 @@ Examples of the settings are below.
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Clariden"
-    
+
     !!! warning
-        
+
         The `Remote Installation Directory` will change if you are using a different version of the `linaro-forge` uenv.
         Please use the appropriate version for your setup.
 
@@ -143,9 +143,9 @@ Examples of the settings are below.
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Eiger"
-    
+
     !!! warning
-        
+
         The `Remote Installation Directory` will change if you are using a different version of the `linaro-forge` uenv.
         Please use the appropriate version for your setup.
 
