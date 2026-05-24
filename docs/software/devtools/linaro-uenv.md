@@ -196,6 +196,6 @@ Notes about known issues.
 
 !!! note "AMD GPU support"
 
-    CSCS does not currently have a Linaro license for AMD GPUs.
+    Linaro Forge is supported on both NVIDIA and AMD GPUs at CSCS.
 
 [Linaro desktop client]: https://www.linaroforge.com/downloadForge
