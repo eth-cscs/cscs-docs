@@ -2,8 +2,9 @@
 # LLM Inference API Service
 
 [](){#ref-inference-api-beta}
-!!! under-construction "The LLM Inference API service is in beta"
-    This service is under development, and is available by request to help CSCS build the service.
+!!! under-construction "The LLM Inference API service is in early access"
+    The service is under development, and is available by request to users who want to help CSCS build the service.
+
     During the beta we want to understand the following:
 
     * Single-site deployments vs. geo-redundant deployments for higher availability.
@@ -20,12 +21,15 @@
 
     Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta, describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
-The LLM Inference API service provides Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as Apertus and other vetted models.
+The LLM Inference API service provides Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 Users consume from a shared pool of models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
 
-Private models deployment is not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
+Private model deployment is not supported.
+If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Usage of sensitive or personal data is not allowed. For privacy reasons, CSCS does not track user prompts or model responses. However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
+Usage of sensitive or personal data is not allowed.
+For privacy reasons, CSCS does not track user prompts or model responses.
+However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
 
 
 ## Service at a glance
@@ -96,9 +100,10 @@ If you would like to participate, please contact Pablo Fernandez ([`pablo.fernan
 
 ### Obtain your authentication token
 
-Approved projects receive an authentication token, which can be retrieved and managed through the [project management portal][ref-account-waldur]. The following images illustrate how to retrieve the token from the details page of the inference resource assigned to your project.
+Approved projects receive an authentication token, which can be retrieved and managed through the [project management portal][ref-account-waldur].
+The token can be accessed by selecting "Inference Service" under "Resources" on the left side bar menu on the portal, as demonstrated in the image below:
 
-![Inference Service within the CSCS User Portal](../../images/services/inference-api-key.png)
+![Inference Service within the CSCS User Portal](../../images/services/inference/api-key.png)
 
 ## API
 
