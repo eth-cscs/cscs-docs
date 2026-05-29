@@ -374,25 +374,19 @@ The migration message is currently disabled, because we are not ready to migrate
 
 If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
-!!! warning "Ritom is not ready for storing uenv"
-    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which makes the **uenv Slurm plugin hang when starting jobs with uenv images stored on Ritom**.
-
-    CSCS are testing a new version of uenv (`v9.2.0`) that makes uenv compatible with file systems with squash root enabled, that we plan to deploy on March 25th 2026.
-
-    If you were using uenv before ritom was mounted, uenv will continue using the repository on Capstor until a migration has been performed. However, new users of uenv and some users who saw the migration message will need to make Capstor their default repository location until the fix has been deployed.
-
-    If the system you are using has v9.2.0 installed, there is no need to apply this fix, and you should submit a support request if your issue persists.
-
-    ```console title="version too old"
-    $ uenv --version
-    9.1.0
+!!! warning "Ritom might have access permission problems"
+    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which might give you an error message:
+    ```
+    error: invalid squashfs mount /ritom/scratch/cscs/<your-username>/.uenv-images/images/5ef04b766304650d705a859f939992b90ba9278138bd98e5555763d245ffbca6/store.squashfs:/user-environment - invalid squashfs /user-environment (Permission denied)
+    ```
+    To fix this error the access permissions all the way to the squashfs file must be owned by your primary GID.
+    Use these commands:
+    ```console title="Fix access permission problems"
+    $ chown $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)
+    $ chown --recursive $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)/.uenv-images
     ```
 
-    ```console title="all good: 9.2.0 and later are fixed"
-    $ uenv --version
-    9.2.0
-    ```
-
+    Another option is to use uenv images stored on capstor instead of Ritom.
     If you migrated the default repository from Capstor to Ritom, the old repository on Capstor was not deleted.
     The easiest fix is to remove the Ritom repository, so that uenv falls back to using Capstor.
 
