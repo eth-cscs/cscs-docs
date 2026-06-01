@@ -9,13 +9,27 @@
 [Amber](https://ambermd.org) is a suite of programs for molecular dynamics simulation of biomolecular systems such as proteins, nucleic acids, and small molecules.
 It is widely used in computational chemistry and structural biology, with strong GPU acceleration support through its PMEMD engine.
 
-## License
+!!! note
+    This page documents how to download and install Amber26, which can be freely downloaded and used for non-commercial academic use cases.
+    Older versions had different license terms, that stop CSCS from accessing the source.
 
-Amber is commercial software distributed under a paid academic or commercial license.
-CSCS is not permitted to redistribute Amber binaries or source code, so users must obtain a license independently and compile Amber themselves.
+## Getting Amber
 
-AmberTools, the companion package that includes many analysis and preparation utilities, is free and open source, and is required to build Amber.
-Both packages are distributed from the [Amber website](https://ambermd.org/GetAmber.php), where you can register and purchase a license.
+!!! info "Licensing"
+    Amber is distributed under a dual license, with free access for non-profit academic users, and paid licenses for commercial use.
+    CSCS is not permitted to redistribute Amber binaries or source code, instead users have to independently agree to the license term, then download the source and compile Amber themselves.
+
+    Users are responsible for following the terms of the licensing terms that they agree to when applying for access on the Amber web site.
+
+A full Amber installation will include both AmberTools and Amber, which are downloaded as separate tar balls.
+Both packages are distributed from the [Amber website](https://ambermd.org/GetAmber.php), where you have to enter your name and institution for each 
+
+If you agree to the non-commercial terms, the download will start immediately
+
+After downloading, you will have two files:
+
+* `xxx`
+* `yyy`
 
 ## Building Amber
 
@@ -32,7 +46,11 @@ $ export AMBERHOME=$PWD
 $ export AMBERSRC=$AMBERHOME/pmemd26_src
 ```
 
-### Set up Python
+```
+cmake -DCMAKE_INSTALL_PREFIX=$AMBERHOME/cpu -DCOMPILER=GNU -DMPI=true -DCUDA=false -DOPENMP=true -DDOWNLOAD_MINICONDA=false -DBUILD_PYTHON=true -DPMEMD_ONLY=true $AMBERSRC
+```
+
+### Set
 
 ```
 + numpy
