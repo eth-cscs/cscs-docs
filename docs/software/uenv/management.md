@@ -379,7 +379,8 @@ If the migration is interrupted, the new default repository will not contain all
     ```
     error: invalid squashfs mount /ritom/scratch/cscs/<your-username>/.uenv-images/images/5ef04b766304650d705a859f939992b90ba9278138bd98e5555763d245ffbca6/store.squashfs:/user-environment - invalid squashfs /user-environment (Permission denied)
     ```
-    To fix this error the access permissions all the way to the squashfs file must be owned by your primary GID.
+    If your account was previously part of a now closed CSCS project, your scratch directory may still belong to the older group.
+    To fix this error, the access permissions all the way to the squashfs file must be owned by your current primary group.
     Use these commands:
     ```console title="Fix access permission problems"
     $ chown $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)
