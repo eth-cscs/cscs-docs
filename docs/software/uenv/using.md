@@ -248,7 +248,7 @@ The environment to load can be provided directly to Slurm via three arguments:
 * `--uenv-passthrough`: <span class="v-badge">uenv v10</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
 * `--no-default-view`: <span class="v-badge">uenv v10</span> disable [default views][ref-uenv-views-default].
 
-For example, the flags can be used with srun :
+For example, the flags can be used with srun:
 ```console
 # mount the uenv prgenv-gnu with the view named default
 $ srun --uenv=prgenv-gnu/24.7:v3 --view=default ...
@@ -316,21 +316,14 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 
 * Note how the second call has access to `mpicc`, provided by `prgenv-gnu`.
 
-[](){#ref-uenv-slurm-passthrough}
-### Passthrough behaviour
 
-<span class="v-badge">uenv v10</span>
+[](){#ref-uenv-slurm-envvars}
+### Slurm environment variables
 
-The `--uenv-passthrough` flag controls how a uenv that is already loaded in the calling environment is treated when launching a Slurm step.
-It accepts three values:
+The `SBATCH_UENV`, `SBATCH_UENV_VIEW`, and `SBATCH_UENV_REPO` environment variables can be used to pre-configure the uenv for a batch job.
+Useful in CI/CD pipelines or wrapper scripts where passing flags to `sbatch` is inconvenient:
 
-| value | meaning |
-|-------|---------|
-| `use` | forward the currently loaded uenv into the job (default for `srun`) |
-| `ignore` | start the job with a clean environment, discarding the loaded uenv |
-| `disable` | produce an error if a uenv is loaded and no `--uenv` flag is given (default for `sbatch`/`salloc`) |
-
-The `SBATCH_UENV`, `SBATCH_UENV_VIEW`, and `SBATCH_UENV_REPO` environment variables can be used to pre-configure the uenv for a batch job — useful in CI/CD pipelines or wrapper scripts where passing flags to `sbatch` is inconvenient:
+The following example is equivalent to adding `--uenv` and `--view` to the sbatch call or inside the sbatch script.
 
 ```bash title="setting uenv via environment variables"
 export SBATCH_UENV=prgenv-gnu/25.6:v2
@@ -338,7 +331,84 @@ export SBATCH_UENV_VIEW=default
 sbatch my-job.sh
 ```
 
-These variables are cleared after the job starts and do not propagate to nested `srun` or `sbatch` calls.
+These variables are cleared inside the job, and do not propagate to nested `srun` or `sbatch` calls.
+
+[](){#ref-uenv-slurm-passthrough}
+### Passthrough behaviour
+
+<span class="v-badge">uenv v10</span>
+
+The `--uenv-passthrough` flag controls how a uenv that is already loaded in the calling environment is treated when launching a Slurm step.
+
+The uenv passthrough options accepts accepts three values:
+
+| value | meaning |
+|-------|---------|
+| `use` | forward the currently loaded uenv into the job (default for `srun`) |
+| `ignore` | start the job with a clean environment, discarding the loaded uenv |
+| `disable` | produce an error if a uenv is loaded and no `--uenv` flag is given (default for `sbatch`/`salloc`) |
+
+!!! example "srun passthrough behavior"
+    By default, srun will recreate the uenv environment.
+    Below the `prgenv-gnu` uenv is mounted remotely, and the copy of gcc installed in the uenv is found
+
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ srun which gcc
+    /user-environment/env/default/bin/gcc
+    ```
+
+    To ignore, use `--passthrough=ignore` option, which in our example 
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ srun --uenv-passthrough=ignore which gcc
+    /usr/bin/gcc
+    ```
+
+!!! example "sbatch passthrough behavior"
+    By default, sbatch will raise an error if it is run with a uenv already mounted.
+
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ sbatch ./job.sh
+    error: Calling sbatch/salloc from inside a uenv session is disabled by default.
+    ```
+
+    This is treated as an error because
+
+    1. sbatch jobs should be isolated and reproducible, so it is often not the case
+    2. when sbatch is called from inside an sbatch job,
+
+    The fix for this error is to:
+
+    1. do not start uenv in a running uenv environment.
+    2. explicitly state request that uenv from the calling environment be used or ignored using `--uenv-passthrough`
+
+    The following batch script demonstrates 
+
+    ```bash
+    #SBATCH --nodes=4
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --uenv=prgenv-gnu
+    #SBATCH --view=default
+
+    # this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use
+    srun ./a.out
+
+    # this srun will not use any uenv
+    srun --uenv-passthrough=ignore ./my.exe
+
+    # this srun ignores prgenv-gnu from the calling environment, and uses cp2k instead.
+    srun --uenv=cp2k --view=develop ./build
+
+    # start another sbatch job that does not automatically load
+    # the prgenv-gnu uenv
+    sbatch --uenv-passthrough=ignore ./nested-job
+
+    # start another sbatch job that uses the prgenv-gnu uenv
+    sbatch --uenv-passthrough=use ./nested-job
+    ```
+
 
 ??? warning "Breaking change: calling `sbatch` from inside a uenv session"
     In v10, calling `sbatch` or `salloc` from inside an active `uenv start` session is disabled by default and will produce an error:
