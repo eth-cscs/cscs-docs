@@ -24,7 +24,7 @@ The instructions provided here are for building Amber on [daint][ref-cluster-dai
     Amber is distributed under a dual license, with free access for non-profit academic users, and paid licenses for commercial use.
     CSCS is not permitted to redistribute Amber binaries or source code, instead users have to independently agree to the license term, then download the source and compile Amber themselves.
 
-    Users are responsible for following the terms of the licensing terms that they agree to when applying for access on the Amber web site.
+    Users are responsible for following the terms of the license that they agree to when applying for access on the Amber web site.
 
 A full Amber installation will include both AmberTools and Amber, which are downloaded as separate tar balls.
 Both packages are distributed from the [Amber website](https://ambermd.org/GetAmber.php) (see the "How to obtain AmberTools26" and "How to obtain Amber26" sections respectively), where you have to enter your name and institution for each 
@@ -58,7 +58,7 @@ The `amber/26` uenv provides the compilers and libraries needed to build both a 
     $ uenv image find amber
     uenv          arch   system  id                size(MB)  date
     amber/26:rc1  gh200  daint   763552b8968853b9   9,104    2026-06-03
-    $ uenv image pull build::amber/26:rc1
+    $ uenv image pull amber/26:rc1
     ```
 
 After downloading the Amber source archive `pmemd26.tar.bzw`, extract both into the same directory and set the `AMBER_ROOT` environment variable:
