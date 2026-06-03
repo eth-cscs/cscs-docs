@@ -150,8 +150,8 @@ ninja install
 
 Notes:
 
-* Amber generates an avelanche of warnings, so we pipe stderr to `error.log`
-    * if `make install` fails on one of the steps above, it will print where the error occurred.
+* Amber generates a wall of warnings while building, so we pipe stderr to `error.log`
+    * if `ninja install` fails on one of the steps above, it will print where the error occurred.
 * The `fPIC` flag is required to work around problems with the size of the `COMMON` block on Grace-Hopper
 * Building the Quick tool takes a long time when building AmberTools took hours to build the GPU versions
     * it is disabled when building AmberTools in the script above (`-DBUILD_QUICK=false`).
@@ -167,14 +167,14 @@ Installing Amber is challenging if you want to build only Amber, and have it use
 * vendors dependencies like boost into its source tree, and builds them if they are not found in the calling env
 * installs conda which is, in turn, used to install Python packages.
 
-We want to avoid this, because it will greatly increas the build time of Amber, and lead to the creation of many small files.
+We want to avoid this, because it will greatly increase the build time of Amber, and lead to the creation of many small files.
 
 !!! warning
     The Conda environment installed by the Amber CMake workflow contains 115,000 inodes, which will murder a distributed filesystem.
 
 A specific uenv was configured because of the following requirements:
 
-* CUDA 12.8 is the most recent version of CUDA supported by Ambewr26.
+* CUDA 12.8 is the most recent version of CUDA supported by Amber26.
 * GCC 12.5 is the most recent non-deprecated version of GCC that is compatible with CUDA 12.8.
 * Python with [tkinter](https://docs.python.org/3/library/tkinter.html) support is required by Amber (i.e. `python +tkinter`), which is not the default configuration installed in the `prgenv` uenv.
     * We had to roll back to Python 3.12 as the most recent version
