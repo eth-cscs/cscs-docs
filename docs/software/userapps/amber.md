@@ -22,69 +22,134 @@ It is widely used in computational chemistry and structural biology, with strong
     Users are responsible for following the terms of the licensing terms that they agree to when applying for access on the Amber web site.
 
 A full Amber installation will include both AmberTools and Amber, which are downloaded as separate tar balls.
-Both packages are distributed from the [Amber website](https://ambermd.org/GetAmber.php), where you have to enter your name and institution for each 
+Both packages are distributed from the [Amber website](https://ambermd.org/GetAmber.php) (see the "How to obtain AmberTools26" and "How to obtain Amber26" sections respectively), where you have to enter your name and institution for each 
+If you agree to the non-commercial terms, the download will start immediately.
 
-If you agree to the non-commercial terms, the download will start immediately
+After downloading, the following two files will have been downloaded:
 
-After downloading, you will have two files:
+| file                  | description                 |
+| ----                  | -----------                 |
+| `ambertools26.tar.bz2`| source code for AmberTools  |
+| `pmemd26.tar.bz2`     | source code for Amber/PMEMD |
 
-* `xxx`
-* `yyy`
+Which need to be copied to Alps.
+
+!!! example "copying Amber sources to Daint"
+    Use ssh to create a remoted directory, and scp to copy the Amber source files to the directory.
+    ```console
+    $ ssh daint 'mkdir -p ~/ambersource'
+    $ scp *.tar.bz2 daint:~/ambersource
+    ```
 
 ## Building Amber
 
-Amber is built from source using CMake.
-The [`prgenv-gnu`][ref-uenv-prgenv-gnu] uenv provides the compilers and libraries needed to build both a CPU-only and a CUDA-enabled installation.
+The `amber/26` uenv provides the compilers and libraries needed to build both a CPU-only and a CUDA-enabled installation.
 
-After downloading the Amber source archive `pmemd26.tar.bzw`, extract both into the same directory and set the `AMBERHOME` environment variable:
+!!! example "Downloading the amber/26 uenv"
 
-```console title="extract the source archives"
-$ mkdir amber
-$ cd amber
-$ tar -xjvf pmemd26.tar.bz2
-$ export AMBERHOME=$PWD
-$ export AMBERSRC=$AMBERHOME/pmemd26_src
+    **these docs are draft, and we currently use a `build::` version of the amber uenv - this will be a properly tagged and released version once it has been validated**
+
+    ```console
+    $ uenv image find build::amber
+    uenv                 arch   system  id                size(MB)  date
+    amber/26:2567560372  gh200  daint   c32e5cda1c6a961e   9,125    2026-06-01
+    $ uenv image pull build::amber/26:2567560372
+    pulling c32e5cda1c6a961e 100.00% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9126/9126 (742.62 MB/s)
+    updating amber/26:2567560372@daint%gh200
+    ```
+
+After downloading the Amber source archive `pmemd26.tar.bzw`, extract both into the same directory and set the `AMBER_ROOT` environment variable:
+
+```bash title="extract the source archives"
+# create a directory where we will unpack and compile the sources
+mkdir amber
+cd amber
+export AMBER_ROOT=$(pwd)
+
+# copy the source code tar balls to this directory and extract them
+# extracting the tar balls takes minutes
+cp $HOME/ambersources/*.tar.bz2 .
+tar -xjf ambertools26.tar.bz2
+tar -xjf pmemd26.tar.bz2
+export AMBERTOOLS_SRC=$AMBER_ROOT/ambertools26_src
+export AMBER_SRC=$AMBER_ROOT/pmemd26_src
 ```
+
+```bash
+#
+# configure the build (set to on and off as need be)
+#
+amber_mpi=on
+amber_cuda=on
+amber_openmp=off
+export AMBERHOME=$AMBER_ROOT/amber
+
+#
+# create build paths
+#
+
+AMBERTOOLS_BUILD=$AMBER_ROOT/build-ambertools
+AMBER_BUILD=$AMBER_ROOT/build-amber
+rm -rf $AMBERTOOLS_BUILD $AMBER_BUILD
+mkdir $AMBERTOOLS_BUILD $AMBER_BUILD
+
+#
+# build ambertools
+#
+
+cd $AMBERTOOLS_BUILD
+cmake -DCMAKE_INSTALL_PREFIX=$AMBERHOME -DCOMPILER=GNU \
+      -DMPI=$amber_mpi -DCUDA=$amber_cuda -DOPENMP=$amber_openmp \
+      -DDOWNLOAD_MINICONDA=false -DBUILD_PYTHON=true \
+      $AMBERTOOLS_SRC
+make -j64
+make install
+
+cd $AMBERS_BUILD
+cmake -DCMAKE_INSTALL_PREFIX=$AMBERHOME -DCOMPILER=GNU \
+      -DMPI=$amber_mpi -DCUDA=$amber_cuda -DOPENMP=$amber_openmp \
+      -DDOWNLOAD_MINICONDA=false -DBUILD_PYTHON=false \
+      -DPMEMD_ONLY=true \
+      $AMBER_SRC
+make -j64
+make install
+
+#
+# build amber
+#
+
+```
+
 
 ```
 cmake -DCMAKE_INSTALL_PREFIX=$AMBERHOME/cpu -DCOMPILER=GNU -DMPI=true -DCUDA=false -DOPENMP=true -DDOWNLOAD_MINICONDA=false -DBUILD_PYTHON=true -DPMEMD_ONLY=true $AMBERSRC
 ```
 
-### Set
+## Advanced Notes
 
-```
-+ numpy
-+ scipy
-+ matplotlib
-+ setuptools
-+ pandas
-+ numba
-+ gemmi
-- Bio
-+ rich
-- freesasa
-+ scikit-learn
-+ sympy
-+ pydantic
-+ psutil
-+ networkx
-```
+!!! note
+    These notes are for CSCS staff and adventurous users who want to update or modify the `amber` uenv.
 
-https://packages.spack.io/package.html?name=freesasa
+Installing Amber is challenging if you want to build only Amber, and have it use dependencies provided via a uenv/container/Spack environment, because Amber:
 
-- this needs to be installed using Spack
+* vendors dependencies like boost into its source tree, and builds them if they are not found in the calling env
+* installs conda which is, in turn, used to install Python packages.
 
-```
-export AMBERENV=$AMBERHOME/amberenv
-uv venv $AMBERENV --python=$(which python)
-source $AMBERENV/bin/activate
-uv pip install -r requirements.txt
-export PYTHONPATH=$AMBERENV/lib/python3.14/site-packages:$PATHONPATH
-```
+We want to avoid this, because it will greatly increas the build time of Amber, and lead to the creation of many small files.
 
-This fails during CMake configuration, because the tkinter Python is missing.
-This package is part of Python, optionally configured with `python +tkinter` in Spack, which is missing in the version provided by the uenv.
+!!! warning
+    The Conda environment installed by the Amber CMake workflow contains 115,000 inodes, which will murder a distributed filesystem.
 
+A specific uenv was configured because of the following requirements:
+
+* CUDA 12.8 is the most recent version of CUDA supported by Ambewr26.
+* GCC 12.5 is the most recent non-deprecated version of GCC that is compatible with CUDA 12.8.
+* Python with [tkinter](https://docs.python.org/3/library/tkinter.html) support is required by Amber (i.e. `python +tkinter`), which is not the default configuration installed in the `prgenv` uenv.
+
+The Amber CMake configuration will use versions of required Python packages that are installed on the system, if it can find them during configuration.
+We add all required Python packages to the uenv environment.
+
+One of the dependencies, [`freesasa`](https://pypi.org/project/freesasa/) is not available in Spack, so we install it separately in a `post-install` script.
 
 ### CPU build
 
