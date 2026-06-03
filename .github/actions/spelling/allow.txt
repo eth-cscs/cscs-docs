@@ -2,11 +2,15 @@ ACLs
 ACR
 AMD
 Alpstein
+Apertus
+autoscaling
+auditability
 balfrin
 Balfrin
 Bash
 Besard
 Besso
+Beverin
 Broyden
 Burgdorfer
 CESM
@@ -14,6 +18,7 @@ CFLAGS
 CHARMM
 CHF
 compset
+curated
 COSMA
 CPE
 CPMD
@@ -127,6 +132,8 @@ RPA
 Roboto
 Roothaan
 SHMEM
+SLA
+SLO
 SSHService
 STMV
 Scopi
@@ -279,6 +286,7 @@ pmix
 podman
 prgenv
 preinstalled
+roadmap
 rke
 vms
 alpernetes
@@ -288,6 +296,7 @@ rwx
 rwo
 standalone
 subdomain
+Schuppli
 tls
 kured
 KUbernetes

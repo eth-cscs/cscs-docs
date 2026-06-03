@@ -1,0 +1,43 @@
+[](){#ref-inference}
+# Inference
+
+!!! under-construction "Inference services are in early access"
+    Inference services are under development.
+    We are seeking additional novel use cases, to help shape the service design.
+    Please contact Stefano Schuppli at [`stefano.schuppli@cscs.ch`](mailto:stefano.schuppli@cscs.ch) and Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
+
+Inference services leverage Machine Learning models to generate content from user-provided inputs. We enable the deployment and operation of models and related services without requiring users to manage the underlying infrastructure.
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-layer-group: __Managed Model Access__
+
+    Managed, Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference APIs providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
+
+    [:octicons-arrow-right-24: LLM Inference API service][ref-inference-api]
+
+</div>
+
+<!--
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-layer-group: __Custom Inference Service__
+
+    Designed for users who need to develop and operate ML-centric services (e.g., RAG) and use cases beyond LLMs.
+
+    Internet-accessible Kubernetes namespaces backed by mixed hardware resources, combining Grace-Hopper GPU nodes with commodity CPU-only virtual machines.
+    Resource consumption is based on assigned CPU, GPU, memory, and storage.
+
+    !!! under-construction
+        This service is not yet available for early testing.
+
+-   :fontawesome-solid-layer-group: __Blueprints for re-deployments__ 
+
+    Deployment-ready blueprints for re-creating the GPU Hybrid Namespaces model on segregated infrastructure where stronger privacy, confidentiality, or compliance controls are required.
+    They preserve the same flexibility for custom ML-centric services, resource-based consumption, and mixed-hardware Kubernetes operations, while adapting the platform to stricter isolation boundaries.
+
+    !!! under-construction
+        This service is not yet available.
+
+</div>
+-->
