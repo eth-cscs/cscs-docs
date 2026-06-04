@@ -3,7 +3,7 @@
 
 !!! warning ""
     Amber is [user software][ref-support-user-apps] on Alps.
-    This guide is provided based on our experiences helping users -- however we can't provide the same level of support as we do for [supported software][ref-support-apps].
+    This guide is provided based on our experiences helping users --- however we can't provide the same level of support as we do for [supported software][ref-support-apps].
     See the [main applications page][ref-software] for more information.
 
     Amber provides many options and tools.
