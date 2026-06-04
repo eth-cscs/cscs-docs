@@ -451,6 +451,20 @@ See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
 
+### Slowdown with Nvidia driver 590 and later
+
+The main vClusters have been updated to Nvidia driver version 590.
+Some CP2K workloads have been observed to run slower with this driver version and later.
+
+The slowdown happens when using GPU-aware MPI.
+
+If you are not using COSMA, DLA-Future, or any other library relying on GPU-aware MPI,
+you should disable GPU-aware MPI (enabled by default) by setting the following environment variable:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
 ### ELPA slowdown with 2026.1 on Daint
 
 In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from
