@@ -18,6 +18,58 @@ It is widely used in computational chemistry and structural biology, with strong
 
 The instructions provided here are for building Amber on [daint][ref-cluster-daint] with Grace-Hopper support.
 
+## The Amber uenv
+
+!!! under-construction
+    CSCS currently provides release candidate `rcN` versions of the amber uenv---this will be a properly tagged and released version once it has been validated.
+
+The `amber/26` [uenv][ref-uenv] provides the compilers and libraries needed to build both a CPU-only and a CUDA-enabled installation on the [gh200][ref-alps-gh200-node] system [daint][ref-cluster-daint].
+It provides the following core packages:
+
+* CUDA 12.8: the most recent version of CUDA supported by Amber26
+* GCC 12.5: the most recent version of GCC supported by CUDA 12.8 that has not been deprecated in Spack.
+* Python 3.12: the most recent version of Python that is compatible with all of the external and Amber-specific Python packages.
+
+Additionally, it provides all of the Python packages used by Amber.
+
+!!! example "Downloading the `amber/26` uenv"
+
+    ```console
+    $ uenv image find amber
+    uenv          arch   system  id                size(MB)  date
+    amber/26:rc1  gh200  daint   763552b8968853b9   9,104    2026-06-03
+    $ uenv image pull amber/26:rc1
+    ```
+
+!!! example "Starting the `amber/26` uenv"
+    The `amber/26` uenv must be loaded with the `amber` view both when building and running Amber.
+
+
+    When building Amber, and using the CLI tools, it 
+
+    ```console
+    $ uenv start --view=amber amber/26:rc1
+    $ uenv status
+    amber:/user-environment
+      An environment for building Amber26. Does not include Amber.
+      views:
+        spack: configure spack upstream
+        amber (loaded):
+    ```
+
+    If you frequently use the tools interactively, consider creating an alias for a [custom environment][ref-uenv-customenv] that loads the uenv and also sets the `AMBERHOME` directory.
+
+    When running simulation jobs, add 
+    ```bash
+    ...
+    #SBATCH --uenv=amber/26:rc1
+    #SBATCH --view=amber
+    ...
+
+    # alternatively, use flags to srun
+    srun --uenv=amber/26:rc1 --view=amber ...
+    ```
+
 ## Getting Amber
 
 !!! info "Licensing"
@@ -46,21 +98,6 @@ Which need to be copied to Alps.
     $ scp *.tar.bz2 daint:~/ambersource
     ```
 
-## Building Amber
-
-The `amber/26` uenv provides the compilers and libraries needed to build both a CPU-only and a CUDA-enabled installation.
-
-!!! example "Downloading the `amber/26` uenv"
-
-    **these docs are draft, and we currently provide release candidate `rcN` versions of the amber uenv - this will be a properly tagged and released version once it has been validated**
-
-    ```console
-    $ uenv image find amber
-    uenv          arch   system  id                size(MB)  date
-    amber/26:rc1  gh200  daint   763552b8968853b9   9,104    2026-06-03
-    $ uenv image pull amber/26:rc1
-    ```
-
 After downloading the Amber source archive `pmemd26.tar.bzw`, extract both into the same directory and set the `AMBER_ROOT` environment variable:
 
 ```bash title="extract the source archives"
@@ -78,16 +115,47 @@ export AMBERTOOLS_SRC=$AMBER_ROOT/ambertools26_src
 export AMBER_SRC=$AMBER_ROOT/pmemd26_src
 ```
 
-Then it is time to build Amber and Ambertools.
+It is recommended to check for patches and updates to the source for Amber and Ambertools before building.
+An update tool is provided in the source code for each product.
+It is 
+
+```bash title="check and apply updates"
+cd $AMBERTOOLS_SRC
+./update_amber --help
+./update_amber --check-updates
+./update_amber --update
+
+cd $AMBER_SRC
+./update_pmemd --help
+./update_pmemd --check-updates
+./update_pmemd --update
+```
+
+## Building Amber
+
 We create a single installation directory, `$AMBERHOME` in the script below, and install everything into that one directory.
+
+!!! tip
+    This guide installs Amber in a sub-directory of the path where we have unpacked the Amber source.
+
+    You might want to place the installation path in your [Store]][ref-storage-store] path, for example `export AMBERHOME=$STORE/amber26`, so that all members of your group can access the installation.
 
 It is possible to build and install different versions with and without MPI and GPU support, and install them all in the same location.
 In the script below we configure which options to enable using `amber_mpi`, `amber_cuda` and `amber_openmp` variables.
 You can run through the process multiple times, with different combinations of these variables.
 
+Some notes about the script below:
+
 * The `amber_mpi=off; amber_cuda=off` build is the fastest: do it first to check that everything works.
 * Then build with MPI and GPU support.
 * Read the notes below this script to get more hints before starting.
+* Amber generates a wall of warnings while building, so we pipe stderr to `error.log`
+    * if `ninja install` fails on one of the steps above, it will print where the error occurred.
+* The `fPIC` flag is required to work around problems with the size of the `COMMON` block on Grace-Hopper
+* Building the Quick tool takes a long time when building AmberTools took hours to build the GPU versions
+    * it is disabled when building AmberTools in the script above (`-DBUILD_QUICK=false`).
+    * remove this if you need Quick, and expect to wait for the build to finish.
+
 
 ```bash
 # start the uenv environment
@@ -148,15 +216,6 @@ ninja -j64 2> error.log
 ninja install
 ```
 
-Notes:
-
-* Amber generates a wall of warnings while building, so we pipe stderr to `error.log`
-    * if `ninja install` fails on one of the steps above, it will print where the error occurred.
-* The `fPIC` flag is required to work around problems with the size of the `COMMON` block on Grace-Hopper
-* Building the Quick tool takes a long time when building AmberTools took hours to build the GPU versions
-    * it is disabled when building AmberTools in the script above (`-DBUILD_QUICK=false`).
-    * remove this if you need Quick, and expect to wait for the build to finish.
-
 ## Advanced Notes
 
 !!! note
@@ -177,18 +236,20 @@ A specific uenv was configured because of the following requirements:
 * CUDA 12.8 is the most recent version of CUDA supported by Amber26.
 * GCC 12.5 is the most recent non-deprecated version of GCC that is compatible with CUDA 12.8.
 * Python with [tkinter](https://docs.python.org/3/library/tkinter.html) support is required by Amber (i.e. `python +tkinter`), which is not the default configuration installed in the `prgenv` uenv.
-    * We had to roll back to Python 3.12 as the most recent version
+    * We had to roll back to Python 3.12 as the most recent version that supported all of the packages used and installed by AmberTools.
 
 The Amber CMake configuration will use versions of required Python packages that are installed on the system, if it can find them during configuration.
 We add all required Python packages to the uenv environment.
 
-One of the dependencies, [`freesasa`](https://pypi.org/project/freesasa/) is not available in Spack, so we install it separately in a `post-install` script.
+One of the dependencies, the Python package for [`freesasa`](https://pypi.org/project/freesasa/) is not available in Spack, so we install it separately in a `post-install` script.
 
-Putting this together took the best part of a week of work, and there was still some unfinished business:
+Installing Amber requires a lot of effort for each small improvement in the quality of the installation.
+As such, there is still some unfinished business for the next version:
 
-* Amber has a policy of silently ignoring packages, and trying to build its own copies, for example:
+* Amber has a policy of silently software provided on the system, and trying to build its own copies, for example:
     * The uenv provides well optimised `fftw`, but when building with MPI support, Amber builds its own copy.
     * Amber simply refused to use boost provided by uenv: try to fix that.
-    * Every package you can get into the uenv improves build time because Amber builds the dependencies on a single core, and floods output with warning messages while doing so.
-* Amber is 2-3 years behind in terms of package versions that it supports, and it might be worth trying to lower the versions of some packages for improved stability
-    * e.g. an older version of CMake would produce less warnings.
+    * Every package taken from the uenv improves build time because Amber builds the dependencies on a single core, and generates a flood of warning messages.
+* Amber is 2-3 years behind in terms of package versions that it supports, and it might be worth trying to lower the versions of some packages for improved stability, for example:
+    * an older version of CMake would produce less warnings.
+    * using py-mpi4py 3.x might be preferable, but would probably require downgrading the version of Python to Python 11.
