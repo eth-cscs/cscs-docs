@@ -92,6 +92,8 @@ After downloading, the following two files will have been downloaded:
 Which need to be copied to Alps.
 
 ??? example "Copying Amber sources to Daint"
+    We assume you have SSH set up as described in [Using SSH][ref-ssh].
+
     Use ssh to create a remoted directory, and scp to copy the Amber source files to the directory.
     ```console
     $ ssh daint 'mkdir -p ~/ambersource'
