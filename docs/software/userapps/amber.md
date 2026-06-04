@@ -100,7 +100,7 @@ Which need to be copied to Alps.
     $ scp *.tar.bz2 daint:~/ambersource
     ```
 
-After downloading the Amber source archive `pmemd26.tar.bzw`, extract both into the same directory and set the `AMBER_ROOT` environment variable:
+After downloading the Amber source archive `pmemd26.tar.bz2`, extract both into the same directory and set the `AMBER_ROOT` environment variable:
 
 ```bash title="extract the source archives"
 # create a directory where we will unpack and compile the sources
