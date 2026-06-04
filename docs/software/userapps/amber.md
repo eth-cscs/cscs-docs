@@ -115,9 +115,8 @@ export AMBERTOOLS_SRC=$AMBER_ROOT/ambertools26_src
 export AMBER_SRC=$AMBER_ROOT/pmemd26_src
 ```
 
-It is recommended to check for patches and updates to the source for Amber and Ambertools before building.
-An update tool is provided in the source code for each product.
-It is 
+It is recommended to check for patches and updates to the source for Amber and Ambertools before building, using the update tool provided in the source code for each product.
+Investigate the features of the tool, and check the updates, before applying them.
 
 ```bash title="check and apply updates"
 cd $AMBERTOOLS_SRC
