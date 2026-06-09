@@ -83,7 +83,7 @@ For applications that use both host and device buffers for communication, the fo
 export LD_PRELOAD=/capstor/store/cscs/cscs/public/temp/cuptrgetattr_override.so
 ```
 
-The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580.
+The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580 and later.
 
 !!! warning
     The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA.
