@@ -66,11 +66,11 @@ This section documents known issues related to Cray MPICH on Alps. Resolved issu
 ### Existing Issues
 
 [](){#ref-communication-cray-mpich-cupointergetattribute-slowdown}
-#### Slow CPU buffer communication with NVIDIA driver version 580 and newer
+#### Slow host buffer communication with Nvidia driver version 590 and later
 
 Starting with NVIDIA driver version 580, calls to `cuPointerGetAttribute` with host-allocated buffers became significantly slower.
 Cray MPICH relies on `cuPointerGetAttribute` to determine whether to use host or device code paths for communication.
-For applications that communicate many small CPU buffers this can introduce significant slowdowns.
+For applications that communicate many small host buffers this can introduce significant slowdowns.
 
 For applications that only communicate host buffers, explicitly disabling GPU support for Cray MPICH will allow it to completely skip the host/device buffer check:
 ```bash
