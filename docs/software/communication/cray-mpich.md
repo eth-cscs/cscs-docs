@@ -85,6 +85,26 @@ export LD_PRELOAD=/capstor/store/cscs/cscs/public/temp/cuptrgetattr_override.so
 
 The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580 and later.
 
+??? info "Source code for the `cuPointerGetAttribute` override library"
+    The library is compiled from the following source code:
+
+    ```c title="cuptrgetattr_override.c"
+    #include <cuda.h>
+
+    CUresult cuPointerGetAttribute(void* data, CUpointer_attribute attribute, CUdeviceptr ptr) {
+        CUresult result = cuPointerGetAttributes(1, &attribute, &data, ptr);
+        if (attribute == CU_POINTER_ATTRIBUTE_MEMORY_TYPE && *((unsigned int*)data) == 0) {
+            return CUDA_ERROR_INVALID_VALUE;
+        }
+        return result;
+    }
+    ```
+
+    It can be compiled manually for example with the [prgenv-gnu uenv default view][ref-uenv-prgenv-gnu-how-to-use]:
+    ```bash
+    gcc -shared -o cuptrgetattr_override.so -I/user-environment/env/default/include -fPIC cuptrgetattr_override.c
+    ```
+
 !!! warning
     The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA.
     The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
