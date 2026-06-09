@@ -90,7 +90,7 @@ The library overrides the `cuPointerGetAttribute` function with an implementatio
     The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
 
 !!! warning
-    The shared library may be removed without advance notice.
+    When the issue is resolved upstream the shared library will be removed without advance notice.
 
 [](){#ref-communication-cray-mpich-cache-monitor-disable}
 #### Cray MPICH hangs
