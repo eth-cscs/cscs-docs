@@ -205,3 +205,10 @@ Once connected, you can choose models configured in the config.
 * Detailed self-service telemetry is limited today.
 * Documentation and model-specific configuration transparency are work in progress.
 * Load balancing and other QoS need to be understood.
+
+
+## CSCS-internal inference service
+
+For CSCS staff, an internal inference service is available on CSCS VPN through the https://ai-gateway.svc.cscs.ch URL.
+Usage is otherwise identical to the https://llm-proxy.svc.cscs.ch endpoint.
+For more information and keys, join the #cscs-inference-services Slack channel.
