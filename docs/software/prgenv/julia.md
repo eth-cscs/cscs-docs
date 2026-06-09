@@ -52,7 +52,7 @@ The release schedule is not fixed; new versions will be released, when there is 
         * FI_CXI_DISABLE_HOST_REGISTER=1
         * FI_CXI_RX_MATCH_MODE=software
         * FI_MR_CACHE_MONITOR=userfaultfd
-    * for Reactant, preferences are newly set to automatically use the local `NCCL` library (Reactant_jll preferences)
+    * for Reactant, preferences are newly set (for Reactant_jll) to automatically use the local `NCCL` library
     
     !!! info "HPC key libraries included"
         * cray-mpich/8.1.32
