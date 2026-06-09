@@ -86,11 +86,11 @@ export LD_PRELOAD=/capstor/store/cscs/cscs/public/temp/cuptrgetattr_override.so
 The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580.
 
 !!! warning
-   The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA.
-   The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
+    The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA.
+    The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
 
 !!! warning
-   The shared library may be removed without advance notice.
+    The shared library may be removed without advance notice.
 
 [](){#ref-communication-cray-mpich-cache-monitor-disable}
 #### Cray MPICH hangs
