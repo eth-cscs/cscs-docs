@@ -30,6 +30,13 @@ The multi-node build works on multiple nodes and is based on [Charm++]'s MPI bac
 
     The multi-node version is the only version of NAMD available on [Eiger][ref-cluster-eiger] - single-node is not provided.
 
+!!! note "Changelog"
+
+    !!! note "3.0.2:v1"
+
+        * Updated CUDA from 12.4 to 12.9
+        * Disabled Adaptive MPI (AMPI) in Charm++
+
 ## Single-node build
 
 The single-node build provides the following views:

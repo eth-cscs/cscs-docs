@@ -23,8 +23,12 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     Please check CP2K's [known issues](#known-issues) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
 
 !!! note "Changelog"
+
+    !!! note "2026.1:v2"
+
+        * Updated CUDA from 12.4 to 13.0
     
-    !!! note "2026.1:v1"
+    ??? note "2026.1:v1"
 
         * Added `libtorch` support
         * Added `libvori` support
