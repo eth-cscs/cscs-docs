@@ -82,9 +82,9 @@ There are four Slurm partitions on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 1204       | -    | 12 hours |
-| `debug`  | 1204 (shared with `normal`) | 4 | 1.5 node-hours |
-| `low`    | 1204 (shared with `normal`) | -    | 24 hours |
+| `normal` | most nodes | -    | 12 hours |
+| `debug`  | most nodes (shared with `normal`) plus a few dedicated | 4 | 1.5 node-hours |
+| `low`    | most nodes (shared with `normal`) | -    | 24 hours |
 | `xfer`   | 2          | 1    | 24 hours |
 
 * jobs in the `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
