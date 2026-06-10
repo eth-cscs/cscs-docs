@@ -150,6 +150,14 @@ The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai).
 For more details and for other agents, see their respective documentation pages.
 
+!!! info
+    Both agent frameworks can be launched inside a loaded [uenv][ref-uenv] or [container][ref-container-engine], which will allow the agents to build and run your project.
+
+!!! warning
+    The agents will have access to to your files and are able to submit jobs on behalf of you.
+    This has to be handled very carefully; as a user you are responsible for the actions of the agents that you launch.
+    Compute resources used by agent-launched Slurm jobs will be billed towards your project account.
+
 #### Claude Code
 
 Set the following environment variables before starting a `claude` session.
