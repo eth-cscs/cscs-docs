@@ -42,17 +42,17 @@ The release schedule is not fixed; new versions will be released, when there is 
     * adding `cuTENSOR`
     * adding `papi`
     * upgrading to `cuda@12.9` and `cray-mpich@8.1.32`
-    * for NCCL, environment variables to use slingshot and to optimize communication performance are newly automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see https://docs.cscs.ch/software/communication/nccl/#uenv); the variables set are:
-        * NCCL_NET="AWS Libfabric"
-        * NCCL_NET_GDR_LEVEL=PHB
-        * NCCL_CROSS_NIC=1
-        * NCCL_PROTO=^LL128
-        * FI_CXI_DEFAULT_CQ_SIZE=131072
-        * FI_CXI_DEFAULT_TX_SIZE=16384
-        * FI_CXI_DISABLE_HOST_REGISTER=1
-        * FI_CXI_RX_MATCH_MODE=software
-        * FI_MR_CACHE_MONITOR=userfaultfd
-    * for Reactant, preferences are newly set (for Reactant_jll) to automatically use the local `NCCL` library
+    * for `NCCL`, environment variables to use Slingshot and to optimize communication performance are automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see [the NCCL documentation][https://docs.cscs.ch/software/communication/nccl/#uenv]); the variables set are:
+        * `NCCL_NET="AWS Libfabric"`
+        * `NCCL_NET_GDR_LEVEL=PHB`
+        * `NCCL_CROSS_NIC=1`
+        * `NCCL_PROTO=^LL128`
+        * `FI_CXI_DEFAULT_CQ_SIZE=131072`
+        * `FI_CXI_DEFAULT_TX_SIZE=16384`
+        * `FI_CXI_DISABLE_HOST_REGISTER=1`
+        * `FI_CXI_RX_MATCH_MODE=software`
+        * `FI_MR_CACHE_MONITOR=userfaultfd`
+    * for `Reactant.jl`, preferences are set (for `Reactant_jll`) to automatically use the local `NCCL` library
     
     !!! info "HPC key libraries included"
         * cray-mpich/8.1.32
