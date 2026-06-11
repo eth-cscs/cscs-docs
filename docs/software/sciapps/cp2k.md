@@ -469,6 +469,8 @@ you should disable GPU-aware MPI (enabled by default) by setting the following e
 export MPICH_GPU_SUPPORT_ENABLED=0
 ```
 
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
+
 ### ELPA slowdown with 2026.1 on Daint
 
 In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from
