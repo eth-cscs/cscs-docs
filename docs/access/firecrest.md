@@ -34,6 +34,7 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 | [HPC Platform][ref-platform-hpcp] | https://api.cscs.ch/hpc/firecrest/v2 | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger] |
 | [ML Platform][ref-platform-mlp] | https://api.cscs.ch/ml/firecrest/v2 | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
 | [C&W Platform][ref-platform-cwp] | https://api.cscs.ch/cw/firecrest/v2 | [Santis][ref-cluster-santis] |
+| Beverin | https://api.cscs.ch/beverin/firecrest/v2 | Beverin |
 
 ## Accessing FirecREST
 

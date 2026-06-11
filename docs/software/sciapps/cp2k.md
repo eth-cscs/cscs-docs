@@ -23,8 +23,12 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     Please check CP2K's [known issues](#known-issues) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
 
 !!! note "Changelog"
+
+    !!! note "2026.1:v2"
+
+        * Updated CUDA from 12.4 to 13.0
     
-    !!! note "2026.1:v1"
+    ??? note "2026.1:v1"
 
         * Added `libtorch` support
         * Added `libvori` support
@@ -450,6 +454,22 @@ ninja -j 32
 See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
+
+### Slowdown with Nvidia driver 590 and later
+
+The main vClusters have been updated to Nvidia driver version 590.
+Some CP2K workloads have been observed to run slower with this driver version and later.
+
+The slowdown happens when using GPU-aware MPI.
+
+If you are not using COSMA, DLA-Future, or any other library relying on GPU-aware MPI,
+you should disable GPU-aware MPI (enabled by default) by setting the following environment variable:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
 
 ### ELPA slowdown with 2026.1 on Daint
 

@@ -158,6 +158,9 @@ nav:
       - 'Clusters': services/kubernetes/clusters.md
       - 'Kubernetes Upgrades': services/kubernetes/kubernetes-upgrades.md
       - 'Node OS Updates': services/kubernetes/node-updates.md
+    - 'Inference':
+      - services/inference/index.md
+      - 'LLM Inference API': services/inference/api.md
   - 'Accounts and Projects':
     - accounts/index.md
     - 'Project and Resources Management Tool': accounts/waldur.md
@@ -166,7 +169,7 @@ nav:
     - guides/index.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
-    - 'Gordon Bell 2026': guides/gb2026.md
+    - 'Support Guide': guides/getting-support.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md

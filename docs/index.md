@@ -98,13 +98,15 @@ Learn by doing with our guides and tutorials.
 
     CSCS provides services and software on Alps.
 
-    [:octicons-arrow-right-24: Services Overview](services/index.md)
+    [:octicons-arrow-right-24: Services Overview][ref-services]
 
     Learn about individual services
 
     [:octicons-arrow-right-24: Developer Portal][ref-devportal]
 
-    [:octicons-arrow-right-24: CI/CD for external projects](services/cicd.md)
+    [:octicons-arrow-right-24: CI/CD for external projects][ref-cicd]
+
+    [:octicons-arrow-right-24: Inference services][ref-inference]
 
 
 -   :fontawesome-solid-hammer: __Software__
@@ -149,7 +151,11 @@ If you cannot find the information that you need in the documentation, help is a
 
     Contact the CSCS Service Desk for help.
 
-    [:octicons-arrow-right-24: Service Desk](https://jira.cscs.ch/plugins/servlet/desk)
+    [:octicons-arrow-right-24: Service Desk](https://support.cscs.ch)
+
+    Check our hints for what information to provide for us to help you most effectively:
+
+    [:octicons-arrow-right-24: Support Guide][ref-guide-support]
 
 -   :fontawesome-regular-comments: __Chat__
 
