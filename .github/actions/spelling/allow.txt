@@ -2,6 +2,7 @@ ACR
 AMD
 AMPI
 Alpstein
+Ambertools
 Apertus
 autoscaling
 auditability
@@ -117,6 +118,7 @@ PBE
 PDUs
 PID
 PMPI
+PMEMD
 POSIX
 Parrinello
 Pintarelli
@@ -332,6 +334,7 @@ runtimes
 santis
 sbatch
 scalapack
+scp
 screenshot
 screenshots
 slepc
@@ -367,6 +370,7 @@ terabyte
 testuser
 timeframe
 timelimit
+tkinter
 tmpfs
 todi
 toolbar
