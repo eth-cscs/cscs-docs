@@ -1,8 +1,6 @@
 [](){#ref-alps-storage}
 # Alps Storage
 
-!!! under-construction
-
 The Alps infrastructure offers multiple storage solutions, each with characteristics suited to different workloads and use cases.
 HPC storage is provided by independent clusters, composed of servers and physical storage drives.
 
