@@ -191,7 +191,7 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
 ## Running a uenv
 
 The `uenv run` command can be used to run an application or script in a uenv environment, and return control to the calling shell when the command has finished running.
-While the `uenv start` command is useful for interactive sessions and exerimentation, the `uenv run` command is for use inside scripts, Slurm jobs and automated pipelines.
+While the `uenv start` command is useful for interactive sessions and experimentation, the `uenv run` command is for use inside scripts, Slurm jobs and automated pipelines.
 
 It can also be used to create customized environments.
 See the guide to [creating custom environments][ref-uenv-customenv] for an example.
