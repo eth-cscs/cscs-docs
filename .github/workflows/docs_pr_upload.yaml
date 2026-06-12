@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Download docs from GH artifacts
         id: download-artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v21
         with:
           name: docs
           workflow: docs_pr.yaml
@@ -23,7 +23,7 @@ jobs:
         run: |
             ls -alh
             PR_NBR=$(cat pr_number.txt)
-            curl --data-binary @site.tar.gz -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://cscs-docs-preview.svc.cscs.ch/upload?path=$PR_NBR
+            curl --fail-with-body --data-binary @site.tar.gz -H "Authorization: Bearer ${{ secrets.UPLOAD_TOKEN }}" https://cscs-docs-preview.svc.cscs.ch/upload?path=$PR_NBR
       - name: Post comment with preview URL
         shell: bash
         run: |

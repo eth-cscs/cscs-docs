@@ -54,7 +54,7 @@
 ## Home
 
 The Home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`.
-It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [VAST][ref-alps-vast] file system.
+It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [Vadret][ref-alps-vadret] file system.
 
 !!! example "Home on Daint"
     The Home path for the user `$USER` is mounted at `/users/$USER`.

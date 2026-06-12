@@ -29,7 +29,7 @@ Currently Globus provide the following mount points at CSCS:
 | `/iopsstor/scratch/cscs` | [Iopsstor scratch][ref-alps-iopsstor] |
 | `/capstor/scratch/cscs` | [Capstor scratch][ref-alps-capstor] |
 | `/capstor/store/cscs` | [Store][ref-storage-store] |
-| `/vast/users/cscs` | [Home][ref-alps-vast] |
+| `/vast/users/cscs` | [Home][ref-alps-vadret] |
 
 [](){#ref-data-xfer-internal}
 ## Internal Transfer
