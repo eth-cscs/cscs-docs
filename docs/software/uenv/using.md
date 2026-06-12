@@ -134,7 +134,7 @@ This is very useful for interactive sessions, for example if you want to work in
     $ exit
     ```
 
-!!! note "which shell is used"
+!!! question "which shell is used?"
     `uenv start` starts a new shell, and by default it will use the default shell for the user.
     You can see the default shell by looking at the `$SHELL` environment variable.
     If you want to force a different shell:
@@ -158,12 +158,9 @@ This is very useful for interactive sessions, for example if you want to work in
     The `uenv status` command will report that you have a uenv loaded if that is the case:
     ```console
     $ uenv status
-    prgenv-gnu:/user-environment
-      GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
-      views:
-        spack: configure spack upstream
-        modules: activate modules
-        default:
+    uenv  prgenv-gnu
+      mount  /user-environment
+      views  [default]
     ```
     Unload the active uenv by exiting the current shell before loading the new uenv.
 
@@ -186,7 +183,7 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
     The `uenv start` command is only for creating interactive environments, because it creates an interactive shell.
     For Slurm jobs, and use inside scripts, use the `uenv run` and Slurm integration.
 
-    Because uenv start and run execute commands in a new environment, they [can't be used in bashrc][ref-guides-terminal-bashrc] to configure your environment during login.
+    Because `uenv start` and `uenv run` execute commands in a new environment, they [can't be used in bashrc][ref-guides-terminal-bashrc] to configure your environment during login.
     See our guide for creating [convenient custom environments][ref-uenv-customenv] with uenv for alternatives to `module load` in your `~/.basrhc`.
     
 
@@ -194,8 +191,9 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
 ## Running a uenv
 
 The `uenv run` command can be used to run an application or script in a uenv environment, and return control to the calling shell when the command has finished running.
+While the `uenv start` command is useful for interactive sessions and experimentation, the `uenv run` command is for use inside scripts, Slurm jobs and automated pipelines.
 
-The run command is very useful when scripting complicated workflows, and can be used to create customized environments.
+It can also be used to create customized environments.
 See the guide to [creating custom environments][ref-uenv-customenv] for an example.
 
 !!! info "how is `uenv run` different from `uenv start`?"
@@ -212,21 +210,19 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     uenv run prgenv-gnu/24.11 -- bash
     ```
 
-!!! example "running cmake"
+!!! example "running commands from within a uenv"
     Call the `cmake` provided by the uenv to configure a build with the `default` view loaded:
     ```console
     # run a command
     $ uenv run prgenv-gnu/25.6:v2 --view=default -- cmake -DUSE_GPU=cuda ..
     ```
 
-!!! example "running an application executable"
     Run the GROMACS executable from inside the `gromacs` uenv.
     ```console
     # run an executable:
     $ uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi
     ```
 
-!!! example "running applications with different environments"
     `uenv run` is useful for running multiple applications or scripts in a pipeline or workflow, where each application has separate requirements.
     In this example the pre and post processing stages use `prgenv-gnu`, while the simulation stage uses the `gromacs` uenv.
     ```console
@@ -236,6 +232,35 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./post-processing-script.sh
     ```
 
+!!! example "using alias to create shortcuts"
+    It can be verbose typing the full `uenv run --view=... name/version:tag -- ` in front of each command.
+
+    If you want to use commands from a specific uenv frequently, create an alias:
+
+    ```console
+    # create a shortcut alias for running commands in prgenv-gnu
+    $ alias prg='uenv run --view=default prgenv-gnu/25.11:v1 --'
+
+    #
+    # tools like cmake and gcc can be called: the entire command will run inside
+    # the uenv: isolating the call
+    #
+
+    $ prg cmake --version
+    cmake version 3.31.9
+    $ prg which gcc
+    /user-environment/env/default/bin/gcc
+    ```
+
+    If you have a command that you like to execute from a uenv, it can also be turned into an alias.
+    For example, if you want to use `nvim` from the `editors` uenv:
+
+    ```
+    $ alias nvim='uenv run --view=ed editors/24.7 -- nvim'
+
+    # now edit a file using neovim from the uenv
+    $ nvim main.f90
+    ```
 
 [](){#ref-uenv-slurm}
 ## Slurm integration
@@ -244,9 +269,11 @@ The environment to load can be provided directly to Slurm via three arguments:
 
 * `--uenv`:  a comma-separated list of uenv to mount
 * `--view`:  a comma-separated list of views to load
-* `--repo`:  an alternative (if not set, the default repo in `$SCRATCH/.uenv-images` is used)
+* `--repo`:  customize when repos to search for the requested uenv. See the [`--repo` flag docs][ref-uenv-repo-flag] for more information.
+* `--uenv-passthrough`: <span class="v-badge">uenv v10</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
+* `--no-default-view`: <span class="v-badge">uenv v10</span> disable [default views][ref-uenv-views-default].
 
-For example, the flags can be used with srun :
+For example, the flags can be used with srun:
 ```console
 # mount the uenv prgenv-gnu with the view named default
 $ srun --uenv=prgenv-gnu/24.7:v3 --view=default ...
@@ -282,8 +309,8 @@ The commands can also be used in sbatch scripts to have fine-grained control:
     srun -n4 bash -c 'echo $SLURM_PROCID on $(hostname): $(which emacs)'
 
     echo "==== alternative mount ===="
-    srun -n4 --uenv=prgenv-gnu --view=prgenv-gnu:default bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
-    sbatch output
+    srun -n4 --uenv=prgenv-gnu --view=prgenv-gnu:default \
+        bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
     ```
 
     The sbatch job above would generate output like the following:
@@ -314,6 +341,117 @@ it is possible to override the default uenv by passing a different `--uenv`  and
 
 * Note how the second call has access to `mpicc`, provided by `prgenv-gnu`.
 
+
+[](){#ref-uenv-slurm-envvars}
+### Slurm environment variables
+
+The `SBATCH_UENV`, `SBATCH_UENV_VIEW`, and `SBATCH_UENV_REPO` environment variables can be used to pre-configure the uenv for a batch job.
+Useful in CI/CD pipelines or wrapper scripts where passing flags to `sbatch` is inconvenient:
+
+The following example is equivalent to adding `--uenv` and `--view` to the sbatch call or inside the sbatch script.
+
+```bash title="setting uenv via environment variables"
+export SBATCH_UENV=prgenv-gnu/25.6:v2
+export SBATCH_UENV_VIEW=default
+sbatch my-job.sh
+```
+
+These variables are cleared inside the job, and do not propagate to nested `srun` or `sbatch` calls.
+
+[](){#ref-uenv-slurm-passthrough}
+### Passthrough behaviour
+
+<span class="v-badge">uenv v10</span>
+
+The `--uenv-passthrough` flag controls how a uenv that is already loaded in the calling environment is treated when launching a Slurm step.
+The passthrough option can take one of three values:
+
+| value | meaning |
+|-------|---------|
+| `use`     | forward the currently loaded uenv into the job (default for `srun`) |
+| `ignore`  | start the job with a clean environment, discarding the loaded uenv |
+| `disable` | produce an error if a uenv is loaded and no `--uenv` flag is given (default for `sbatch`/`salloc`) |
+
+!!! example "srun passthrough behavior"
+    By default, srun will recreate the uenv environment.
+    Below the `prgenv-gnu` uenv is mounted remotely, and the copy of gcc installed in the uenv is found
+
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ srun which gcc
+    /user-environment/env/default/bin/gcc
+    ```
+
+    To ignore, use `--passthrough=ignore` option:
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ srun --uenv-passthrough=ignore which gcc
+    /usr/bin/gcc
+    ```
+
+    Note how the default `gcc` in `/usr/bin/gcc` is found because the `prgenv-gnu` uenv is not mounted on the compute node in the `srun` call.
+
+By default, sbatch will raise an error if it is run with a uenv already mounted.
+
+!!! example "sbatch default passthrough behavior"
+    ```console
+    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ sbatch ./job.sh
+    error: Calling sbatch/salloc from inside a uenv session is disabled by default.
+    ```
+
+Calling `sbatch` from within a uenv environment is treated as an error because sbatch jobs should be isolated and reproducible.
+As such, we want to avoid getting different results depending on whether a uenv was mounted when a job is launched.
+
+Most of the time, the fix for this error is to not start uenv in a running uenv environment.
+
+However, there are workflows and situations where `sbatch` must be called with a uenv mounted.
+In these situations, the `--uenv-passthrough` flag can be used to explicitly state how to treat uenv in the calling environment:
+
+!!! example "using `--uenv-passthrough` with `sbatch`"
+    ```bash
+    #SBATCH --nodes=4
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --uenv=prgenv-gnu
+    #SBATCH --view=default
+
+    # this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use
+    srun ./a.out
+
+    # this srun will not use any uenv
+    srun --uenv-passthrough=ignore ./my.exe
+
+    # this srun ignores prgenv-gnu from the calling environment, and uses cp2k instead.
+    srun --uenv=cp2k --view=develop ./build
+
+    # start another sbatch job that does not automatically load
+    # the prgenv-gnu uenv
+    sbatch --uenv-passthrough=ignore ./nested-job
+
+    # start another sbatch job that uses the prgenv-gnu uenv
+    sbatch --uenv-passthrough=use ./nested-job
+    ```
+
+
+??? warning "Breaking change: calling `sbatch` from inside a uenv session"
+    In v10, calling `sbatch` or `salloc` from inside an active `uenv start` session is disabled by default and will produce an error:
+
+    ```console
+    $ uenv start prgenv-gnu/25.6:v2 --view=default
+    $ sbatch my-job.sh
+    error: Calling sbatch/salloc from inside a uenv session is disabled by default.
+    ```
+
+    Use `--uenv-passthrough` to declare your intent explicitly:
+
+    ```console title="submitting a job from inside a uenv session"
+    # inherit the running uenv in the job
+    $ sbatch --uenv-passthrough=use my-job.sh
+
+    # start the job with a clean environment (ignore the running uenv)
+    $ sbatch --uenv-passthrough=ignore my-job.sh
+    ```
+
 [](){#ref-uenv-views}
 ## Views
 
@@ -338,14 +476,11 @@ Views are loaded using the `--view` flag for `uenv start`, `uenv run` and the Sl
 Each uenv can provide more than one view.
 The  [`modules`][ref-uenv-views-modules] and [`spack`][ref-uenv-views-spack] are standard views provided by nearly all uenv.
 
-To find a list of the views in a uenv, use the `uenv status` command when the uenv is running.
-This is a little bit inconvenient, and we will add a command for finding the views in a uenv without having to run it.
+To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image-inspect] without having to mount it first.
 
 !!! example "listing views in a uenv"
-    Use the following `uenv run` trick to list the views in a uenv:
-
     ```console
-    $ uenv run namd -- uenv status
+    $ uenv image inspect namd
     namd:/user-environment
       NAMD: Scalable Molecular Dynamics
       views:
@@ -361,12 +496,56 @@ This is a little bit inconvenient, and we will add a command for finding the vie
     Some uenv, for example the `prgenv-gnu`, have a view named `default`.
 
     This view is not loaded by default if no view is specified with the `--view` flag.
-    We no longer use the name `default` in new uenv, however we continue using the name for uenv like `prgenv-gnu` to minimise user-disruption.
 
+    Uenv v10 introduces support for [default views][ref-uenv-views-default].
 
 !!! info "installing Python venv with uenv"
     Python virtual environments can be created on top of a uenv view.
     However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv][ref-python-uenv-venv].
+
+[](){#ref-uenv-views-default}
+### Default views
+
+<span class='v-badge'>uenv v10</span>
+
+Uenv images can provide a default view.
+When a default view is declared and no `--view` flag is given, that view is loaded automatically.
+
+* To opt out of the automatic default view, use the `--no-default-view` flag;
+* Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
+
+!!! example "using default views"
+    The `uenv inspect` command shows the views in a uenv, and marks defaults (if there are any).
+    In the `linaro-forge` image the `forge` view is a default view:
+    ```console
+    $ uenv inspect linaro-forge
+    repo default:/ritom/scratch/cscs/bcumming/.uenv-images
+    linaro-forge/25.1:v2@starlex%gh200 mount at /user-tools
+    views:
+      spack: configure spack upstream
+      forge (default):
+    ```
+
+    When the uenv is started without a view, the `forge` view is loaded by default.
+    ```
+    $ uenv run linaro-forge -- uenv status
+    uenv  linaro-forge
+      mount  /user-tools
+      views  [forge]
+
+    $ uenv run --no-default-view linaro-forge -- uenv status
+    uenv  linaro-forge
+      mount  /user-tools
+      views  []
+    ```
+
+!!! note
+    Not all uenv provide a default view.
+    This is a new feature, so uenv built before it was introduced will have no default.
+
+    Uenv with no default view work exactly as they did before.
+
+
 
 [](){#ref-uenv-views-modules}
 ### Modules view
@@ -447,4 +626,3 @@ By default, the modules are not activated when a uenv is started, and need to be
 uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies.
 No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv.
 For more information, see our guide on building software with [Spack and uenv][ref-build-uenv-spack].
-

@@ -167,6 +167,40 @@ To view all images that are available for all clusters:
 $ uenv image ls @*
 ```
 
+[](){#ref-uenv-image-inspect}
+### `uenv image inspect`
+
+<span class="v-badge">uenv v9.2</span>
+
+The `uenv image inspect` command shows the views, mount point, and other metadata for a local uenv image without mounting it.
+It is useful for checking what views an image provides before deciding how to use it.
+
+!!! example "inspecting a uenv"
+    ```console
+    $ uenv image inspect namd/3.0:v3
+    namd:/user-environment
+      NAMD: Scalable Molecular Dynamics
+      views:
+        spack: configure spack upstream
+        namd-single-node:
+        namd:
+        modules: activate modules
+        develop-single-node:
+        develop:
+    ```
+
+    ```console
+    $ uenv image inspect prgenv-gnu/24.11:v1
+    prgenv-gnu:/user-environment
+      GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
+      views:
+        spack: configure spack upstream
+        modules: activate modules
+        default:
+    ```
+
+Like other image commands, it accepts a [label][ref-uenv-labels], a uenv id, or a path to a SquashFS file.
+
 [](){#ref-uenv-image-rm}
 ### `uenv image rm`
 
@@ -232,30 +266,120 @@ repo
 ### Creating and using repositories
 
 A repo will automatically be created in your [Scratch path][ref-storage-scratch] attached to the cluster you are on when you first use uenv.
-This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
+This _default repo_ is used by all calls to uenv, unless it is overridden in a configuration file or using the `--repo` CLI flag, both documented below.
 
 !!! question "Where is my repo?"
     The Scratch filesystem used depends on the cluster:
 
-    | cluster | repo path | notes |
-    | ------- | --------- | ----- |
-    | Eiger, Daint | `/capstor/scratch/cscs/$USER/.uenv-images` | will move to `/ritom/scratch/cscs/$USER/.uenv-images` when it replaces capstor in December 2025|
-    | Santis       | `/capstor/scratch/cscs/$USER/.uenv-images` |       |
-    | Clariden     | `/iopsstor/scratch/cscs/$USER/.uenv-images` |       |
-    | Others       | `$SCRATCH/.uenv-images` | `$HOME/.uenv/repo` on systems with no `SCRATCH` defined. |
+    | cluster | repo path |
+    | ------- | --------- |
+    | Eiger, Daint | `/ritom/scratch/cscs/$USER/.uenv-images` |
+    | Santis       | `/capstor/scratch/cscs/$USER/.uenv-images` |
+    | Clariden     | `/iopsstor/scratch/cscs/$USER/.uenv-images` |
+    | Others       | `$SCRATCH/.uenv-images` (falls back to `$HOME/.uenv/repo`) |
 
-The location of your default repo can be changed by setting the `repo` field in the [uenv config file][ref-uenv-configure-options-repo].
-For example, the following would use a shared repo in a project's [Store][ref-storage-store]:
-```
-repo = /capstor/store/cscs/userlab/sm42/team-uenv
+
+[](){#ref-uenv-repo-multiple}
+### Multiple repositories
+
+<span class="v-badge">uenv v10</span>
+
+uenv supports multiple named repositories, which is useful for sharing images within a team or project.
+Repos are configured in the [uenv configuration file][ref-uenv-configure-options-repos] using the `[[repositories]]` array:
+
+```toml title="~/.config/uenv/config.toml"
+[[repositories]]
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
+
+[[repositories]]
+name = "team"
+path = "/capstor/store/cscs/userlab/sm42/uenv-images"
+priority = 30
 ```
 
-The `--repo` flag can also be used to use a specific repo on the command line, for example to list all uenv in the repo ``/capstor/store/cscs/userlab/sm42/team-uenv`:
+With multiple repos configured, `uenv image ls` searches all of them and label each result with its source repo.
 
-```console
-$ uenv --repo=/capstor/store/cscs/userlab/sm42/team-uenv image ls
-```
-Note that the `--repo` flag goes between `uenv` and the command, `image ls` in the example above, and can be used with all uenv commands.
+??? example "uenv image ls output when multiple repos are configured"
+    ```console
+    $ uenv image ls
+    repo default
+      uenv                        arch   system  id                size(MB)  date
+      cp2k/2025.1:v1              gh200  daint   2a56f1df31a4c196   2,693    2025-03-01
+      prgenv-gnu/26.2:v2          gh200  daint   c71fd8d678a6c217   5,191    2026-02-10
+
+    repo test
+      uenv                        arch   system  id                size(MB)  date
+      prgenv-gnu/25.6:v2          gh200  daint   b81fd6ba25e88782   4,191    2025-04-10
+
+    repo team
+      uenv                        arch   system  id                size(MB)  date
+      gromacs/2024:v1             gh200  daint   b58e6406810279d5   3,658    2025-02-12
+    ```
+
+!!! info "where is the `default` repo defined?"
+    The default repo is determined by uenv according to which cluster it is running on, which file systems are attached, and whether those file systems already contain a repository.
+
+    You can check where it has been set on the current system using the `uenv repo status` command to list all repos.
+
+[](){#ref-uenv-repo-priority}
+### Repo priority
+
+The uenv that is selected by the `uenv start`, `uenv run` and the Slurm `--uenv` flag is affected by repo priority.
+Uenv will search through each repo in priority order, and take the first match that it finds.
+That is, if it finds a match in the highest priority repo, it will use that without searching for matches in the other repos.
+
+Commands that modify the repo contents (`uenv image pull`, `uenv image add` and `uenv image rm`) always write to the repo with the highest priority.
+
+To write to a different repo, use the `--repo` flag with the repo name:
+
+??? example "pull an image into the team repo"
+    ```
+    uenv --repo=team image pull cp2k/2025.1:v1
+    ```
+See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
+
+!!! info "what priority does a repo have?"
+    If no priority is specified when creating a repo in a configuration file, it is given priority 10.
+
+    The `default` repo is given priority 9, so it will have higher precedence.
+
+[](){#ref-uenv-repo-flag}
+### The `--repo` flag
+
+The `--repo` flag selects which repos to use for a command.
+It goes between `uenv` and the subcommand and can be used with all uenv commands.
+It accepts a comma-separated list of repos, where each repo is one of a repo name (from the config file), an absolute path, or a `name=path` pair.
+
+!!! example "selecting repos with `--repo`"
+    ```console
+    # by name (defined in config)
+    $ uenv --repo=team image ls
+
+    # by path (no config needed)
+    $ uenv --repo=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+
+    # explicit name=path (ad-hoc, overrides config entirely)
+    $ uenv --repo=team=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+
+    # multiple repos in order of priority
+    $ uenv --repo=test,team image ls
+    ```
+
+The order of repos in a `--repo` list is important: it defines the order of precedence of the repos.
+This means that operations that select a uenv, for example `uenv start`, will search through the repos in the order provided and select 
+
+!!! tip "use `--repo` to override precedence"
+    Repos in a `--repo` list are searched in the order that they are written in the list.
+
+    This is very useful if you want to change the default search order, for example the `default` repo typically has higher precedence than other repos.
+    The following example will changes the search order:
+
+    ```bash
+    uenv --repo=team,default start cp2k/2025.1
+    ```
+
+    If there is a unique image matching `cp2k/2025.1` in the `team` repo, the `default` repo will not be checked.
 
 [](){#ref-uenv-repo-status}
 ### `uenv repo status`

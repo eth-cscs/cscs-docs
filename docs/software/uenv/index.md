@@ -94,24 +94,27 @@ After logging into an [Alps cluster][ref-alps-clusters], you can quickly check t
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-9.1.0
+10.0.1
 ```
 
 [Version 9][ref-uenv-release-notes-v9.0.0] of uenv is installed on the main Alps clusters, specifically the following versions:
 
 | version | description |
 | -- | -- |
-| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
-| [9.1.1][ref-uenv-release-notes-v9.1.1] | a bug fix release, currently being tested. |
+| [9.2.0][ref-uenv-release-notes-v9.2.0] | Currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] |
+| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Santis][ref-cluster-santis] |
+
+!!! note "upgrade on 2026-06-17"
+    The version of uenv will be upgraded to [Version 10][ref-uenv-release-notes-v10.0] on all of [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] during the maintenance on Wednesday June 17.
 
 See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 
 The `uenv` command line tool is the main tool used to interact with uenvs.
 The basic workflow for using a uenv provided by CSCS is:
 
-* search for available images using `uenv image find`
-* download images using `uenv image pull`
-* then start a uenv using `uenv start`
+* search for available images using [`uenv image find`][ref-uenv-image-find]
+* download images using [`uenv image pull`][ref-uenv-image-pull]
+* then start or running a uenv using [`uenv start`][ref-uenv-start] or [`uenv run`][ref-uenv-run]
 
 Take the example of downloading a uenv that provides the [NAMD][ref-uenv-namd] simulation software:
 
@@ -127,6 +130,16 @@ updating namd/3.0:v1@eiger%zen2
 $ uenv image ls
 uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
+
+$ uenv image inspect namd/3.0:v1
+namd/3.0:v1@eiger%zen2 mount at /user-environment
+views:
+  spack: configure spack upstream
+  namd-single-node:
+  namd:
+  modules: activate modules
+  develop-single-node:
+  develop:
 
 $ uenv start namd/3.0:v1
 $ which namd3
