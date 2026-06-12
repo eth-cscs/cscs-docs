@@ -113,7 +113,7 @@ Notice the section `[annotations]` disabling Slurm and CXI hooks.
 
 ## NCCL errors with a dynamically linked AWS OFI NCCL plugin: `libcudart.so could not be found`
 
-When using the `cuda-dl` variant of the [the AWS OFI NCCL hook][ref-ce-aws-ofi-hook] or `artifact` as [network stack source][ref-ce-netstack-source] (default in some vClusters), a dynamically linked AWS OFI NCCL plugin is mounted inside containers.
+When using the `cuda-dl` variant of the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] or `artifact` as [network stack source][ref-ce-netstack-source] (default in some vClusters), a dynamically linked AWS OFI NCCL plugin is mounted inside containers.
 Dynamic linking makes the plugin interoperable across CUDA versions, but also reliant on a non-versioned symlink to the CUDA Runtime Library (e.g. `/usr/local/cuda/lib64/libcudart.so`).
 Such a link might not exist in some old container images, causing an error message at NCCL startup which mentions that `libcudart.so` could not be found.
 
