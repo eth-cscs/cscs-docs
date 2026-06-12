@@ -56,18 +56,18 @@ To use NCCL in a container, enable the [AWS OFI hook][ref-ce-aws-ofi-hook] in th
 
 ```toml
 [env]
-PMIX_MCA_psec="native" # (1)!
+PMIX_MCA_psec="^munge" # (1)!
 
 [annotations]
 com.hooks.aws_ofi_nccl.enabled = "true"    # (2)!
-com.hooks.aws_ofi_nccl.variant = "cuda12"  # (3)!
+com.hooks.aws_ofi_nccl.variant = "cuda-dl"  # (3)!
 ```
 
-1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
+1. Ensures PMIx does not use the Munge security domain, which is not exposed into containers. Otherwise PMIx will print warnings at startup.
 2. Enable the AWS OFI plugin.
-3. Take care to match the major CUDA version installed in the container.
+3. The dynamically-linked (`dl`) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details [here][ref-ce-aws-ofi-hook].
 
-Because NCCL uses OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
+Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
 
 ```console
 $ srun --mpi=pmix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
