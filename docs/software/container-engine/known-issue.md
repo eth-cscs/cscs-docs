@@ -117,7 +117,7 @@ When using the `cuda-dl` variant of the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook]
 Dynamic linking makes the plugin interoperable across CUDA versions, but also reliant on a non-versioned symlink to the CUDA Runtime Library (e.g. `/usr/local/cuda/lib64/libcudart.so`).
 Such a link might not exist in some old container images, causing an error message at NCCL startup which mentions that `libcudart.so` could not be found.
 
-In these cases, we suggest the following paths to work around or solve the issue:
+In these cases, we suggest the following alternatives (pick one) to work around or solve the issue:
 
 1. Use a statically linked AWS OFI NCCL plugin variant from the natively installed host libraries, e.g. for a CUDA 13 image:
    ```toml
