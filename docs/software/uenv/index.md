@@ -94,15 +94,18 @@ After logging into an [Alps cluster][ref-alps-clusters], you can quickly check t
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-9.1.0
+10.0.1
 ```
 
 [Version 9][ref-uenv-release-notes-v9.0.0] of uenv is installed on the main Alps clusters, specifically the following versions:
 
 | version | description |
 | -- | -- |
-| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] |
-| [9.1.1][ref-uenv-release-notes-v9.1.1] | a bug fix release, currently being tested. |
+| [9.2.0][ref-uenv-release-notes-v9.2.0] | Currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] |
+| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Santis][ref-cluster-santis] |
+
+!!! note "upgrade on 2026-06-17"
+    The version of uenv will be upgraded to [Version 10][ref-uenv-release-notes-v10.0] on all of [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] during the maintenance on Wednesday June 17.
 
 See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 

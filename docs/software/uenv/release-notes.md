@@ -1,11 +1,11 @@
 [](){#ref-uenv-release-notes}
 # uenv release notes
 
-The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v10.0.0**.
+The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v10.0.1**.
 You can check the version available on a specific system with the `uenv --version` command.
 
-[](){#ref-uenv-release-notes-v10.0.0}
-## v10.0.0
+[](){#ref-uenv-release-notes-v10.0}
+## v10.0
 
 ### Features
 
@@ -22,16 +22,10 @@ You can check the version available on a specific system with the `uenv --versio
 
 ### Known issues
 
-[](){#ref-uenv-release-notes-v10.0.0-passthrough}
+[](){#ref-uenv-release-notes-v10-passthrough}
 !!! warning "calling `sbatch` from inside a uenv session is now an error"
     In v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default.
     See the [passthrough documentation][ref-uenv-slurm-passthrough] for how to handle this.
-
-[](){#ref-uenv-release-notes-v9.2.0}
-??? info "v9.2.0 feature release"
-    - [feature] `uenv image inspect` — inspect views, mount point, and other metadata without mounting the uenv.
-    - [feature] `--format` flag on `image find` and `image ls` (replaces the removed `--list` flag).
-    - [feature] `uenv image find` and `uenv image ls` now accept partial uenv names.
 
 [](){#ref-uenv-release-notes-v9.0.0}
 ## v9.0.0
@@ -70,6 +64,12 @@ This [version](https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0) will repla
     See the [uenv modules][ref-uenv-error-v9modules] docs for a workaround.
 
 ### Minor and patch releases
+
+[](){#ref-uenv-release-notes-v9.2.0}
+??? info "v9.2.0 feature release"
+    - [feature] `uenv image inspect` — inspect views, mount point, and other metadata without mounting the uenv.
+    - [feature] `--format` flag on `image find` and `image ls` (replaces the removed `--list` flag).
+    - [feature] `uenv image find` and `uenv image ls` now accept partial uenv names.
 
 [](){#ref-uenv-release-notes-v9.1.2}
 ??? info "v9.1.2 bug fix release"

@@ -20,6 +20,21 @@ User settings take precedence over system settings, and CLI flags take precedenc
 
 Use the [`uenv config`][ref-uenv-configure-cmd] command to inspect the active configuration.
 
+!!! example "inspecting uenv configuration"
+    ```
+    $ uenv config
+    configuration-files:
+      system:      /etc/uenv/config.toml
+      user:        /users/robertsmith/.local/aarch64/config/uenv/config.toml
+    uenv-configuration:
+      system:      starlex
+      repos:       default:/ritom/scratch/cscs/robertsmith/.uenv-images
+                   home:/users/robertsmith/testrepo
+      registry:    jfrog.svc.cscs.ch/uenv/deploy
+      artifactory: https://jfrog.svc.cscs.ch/artifactory/uenv
+      color:       on
+      elastic:     http://log.cscs.ch:31311/logs
+    ```
 [](){#ref-uenv-configure-syntax}
 ### Syntax
 
