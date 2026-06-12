@@ -408,7 +408,7 @@ com.hooks.netstack.name = "default"
     The corresponding annotations are optional and only needed to customize the artifact choice.
 
 
-??? example Network stack artifacts installations in more detail
+??? example "Network stack artifacts installations in more detail"
 
     At the time of writing, network stack artifacts are installed using the following directory structure: `<base path>/<architecture>/<version>/<name>`
 
@@ -440,7 +440,7 @@ com.hooks.netstack.name = "default"
     lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:14.0.0 -> gpu:cuda13,cxi:14.0.0,ofi:2.5.1,aws:1.18.0+dl
     ```
 
-    ??? example Listing the full contents of a netstack artifact
+    ??? example "Listing the full contents of a netstack artifact"
 
         ```console
         $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.05.1/shs:13.1.0/
