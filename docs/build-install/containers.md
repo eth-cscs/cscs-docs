@@ -121,7 +121,7 @@ podman push docker://docker.io/<username>/myimage:latest
 
 The Podman image building process can be enhanced by caching intermediate layers and using the cache in subsequent runs.
 
-When building inside a slurm job, [`local-registry`](https://github.com/eth-cscs/local-registry) can be used as container registry for caching purposes.
+When building inside a Slurm job, [`local-registry`](https://github.com/eth-cscs/local-registry) can be used as container registry for caching purposes.
 
    ```console title="Download"
    $ git clone https://github.com/eth-cscs/local-registry.git
