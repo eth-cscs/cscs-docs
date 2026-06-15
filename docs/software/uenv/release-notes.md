@@ -27,6 +27,12 @@ You can check the version available on a specific system with the `uenv --versio
     In v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default.
     See the [passthrough documentation][ref-uenv-slurm-passthrough] for how to handle this.
 
+### Minor and patch releases
+
+[](){#ref-uenv-release-notes-v10.0.1}
+??? info "v10.0.1 feature release"
+    - `uenv status`: fix bug when no view was loaded, or when the name in the uenv meta data did not match that in the database.
+
 [](){#ref-uenv-release-notes-v9.0.0}
 ## v9.0.0
 
