@@ -215,7 +215,7 @@ Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfab
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
 At the moment of writing, the following plugin variants are configured:
 * For NVIDIA GPU nodes: `cuda12`, `cuda13`, `cuda-dl`.
-  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details  [here]()).
+  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details [here](ref-known-issue-dynamic-aws-nccl-plugin)).
   The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
 * For AMD GPU nodes, alongside RCCL: `rocm5`, and `rocm6`.
   Both these variants are statically linked to specific ROCm versions.
