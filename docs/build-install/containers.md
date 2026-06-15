@@ -119,7 +119,7 @@ podman push docker://docker.io/<username>/myimage:latest
 [](){#ref-local-registry}
 ## Caching image layers on a local registry
 
-The podman image building process can be enhanced by caching intermediate layers and use the cache in subsequent runs.
+The Podman image building process can be enhanced by caching intermediate layers and using the cache in subsequent runs.
 
 When building inside a slurm job, [`local-registry`](https://github.com/eth-cscs/local-registry) can be used as container registry for caching purposes.
 
