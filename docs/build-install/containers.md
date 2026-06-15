@@ -131,7 +131,7 @@ When building inside a Slurm job, [`local-registry`](https://github.com/eth-cscs
    $ cd local-registry
    ```
 !!! warning
-    local registry can work only on compute nodes inside a slurm job
+    local-registry can work only on compute nodes inside a Slurm job.
 
    ```console title="Launch interactive slurm job"
    $ srun ... --pty bash
