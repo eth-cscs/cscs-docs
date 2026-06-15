@@ -25,7 +25,7 @@ graphroot = "/dev/shm/$USER/root"
     `/dev/shm` is the mount point of a [tmpfs filesystem](https://www.kernel.org/doc/html/latest/filesystems/tmpfs.html#tmpfs) and is compatible with the user namespaces used by Podman.
     The limitation of this approach  is that container images created during a job allocation are deleted when the job ends.
     Therefore, the image needs to either be pushed to a container registry or imported by the Container Engine before the job allocation finishes.<br/>
-    [Local-registry][ref-local-registry] can be used to enable caching on a filesystem, other than `/dev/shm`, and speed up subsequent build processes.
+    [Local-registry][ref-local-registry] can be used to enable caching on a filesystem other than `/dev/shm`, and speed up subsequent build processes.
 
 You can use
 
