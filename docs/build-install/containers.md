@@ -133,7 +133,7 @@ When building inside a Slurm job, [`local-registry`](https://github.com/eth-cscs
 !!! warning
     local-registry can work only on compute nodes inside a Slurm job.
 
-   ```console title="Launch interactive slurm job"
+   ```console title="Launch interactive Slurm job"
    $ srun ... --pty bash
    ```
 
