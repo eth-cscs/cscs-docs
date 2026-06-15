@@ -152,13 +152,13 @@ When building inside a slurm job, [`local-registry`](https://github.com/eth-cscs
 
 
    ```console title="Build container image using local registry as cache"
-   $ cat ./Containerfile
+   $ cat <CONTAINERFILE>
    FROM ubuntu:latest
    RUN apt update
    RUN apt upgrade -y
 
-   $ podman-cached .
-   Executing: podman build --layers --tls-verify=false --cache-from=<REGISTRY_HOST>:<REGISTRY_PORT>/cache --cache-to=<REGISTRY_HOST>:<REGISTRY_PORT>/cache .
+   $ podman-cached -f <CONTAINERFILE> -t <IMAGE_NAME>:<IMAGE_TAG>
+   Executing: podman build --layers --tls-verify=false --cache-from=<REGISTRY_HOST>:<REGISTRY_PORT>/cache --cache-to=<REGISTRY_HOST>:<REGISTRY_PORT>/cache  -f <CONTAINERFILE> -t <IMAGE_NAME>:<IMAGE_TAG>
    STEP 1/3: FROM ubuntu:latest
    STEP 2/3: RUN apt update
    --> Using cache 7e878891345baea142da9dca42bf131488a317178a162b1388f449f40328eb45
@@ -166,8 +166,11 @@ When building inside a slurm job, [`local-registry`](https://github.com/eth-cscs
    --> 7e878891345b
    STEP 3/3: RUN apt upgrade -y
    --> Using cache 2c8781e264b03ce41c571b6a4d24c8d8472a413ee50073ad662e517f92a0ff2a
+   COMMIT <IMAGE_NAME>:<IMAGE_TAG>
    --> Pushing cache [localhost:5000/cache]:3e44a53a47cd2318f910222fec5ae4f68853c471410d73f52e6b01c4eaec5555
    --> 2c8781e264b0
+   Successfully tagged localhost/<IMAGE_NAME>:<IMAGE_TAG>
+   Successfully tagged localhost/<IMAGE_NAME>:latest
    2c8781e264b03ce41c571b6a4d24c8d8472a413ee50073ad662e517f92a0ff2a
    ```
 
