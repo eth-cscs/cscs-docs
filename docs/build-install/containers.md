@@ -158,7 +158,7 @@ When building inside a slurm job, [`local-registry`](https://github.com/eth-cscs
    RUN apt upgrade -y
 
    $ podman-cached .
-   Executing: podman build --layers --tls-verify=false --cache-from=<REGISTRY_HOST>:<REGISTRY_PORT>/cache -<REGISTRY_HOST>:<REGISTRY_PORT>/cache .
+   Executing: podman build --layers --tls-verify=false --cache-from=<REGISTRY_HOST>:<REGISTRY_PORT>/cache --cache-to=<REGISTRY_HOST>:<REGISTRY_PORT>/cache .
    STEP 1/3: FROM ubuntu:latest
    STEP 2/3: RUN apt update
    --> Using cache 7e878891345baea142da9dca42bf131488a317178a162b1388f449f40328eb45
