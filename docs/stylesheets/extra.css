@@ -106,6 +106,22 @@
   border-color: #121417;
 }
 
+/* version badge: <span class="v-badge">v10+</span> */
+.md-typeset .v-badge {
+  display: inline-block;
+  background-color: #1976D2;
+  color: #ffffff !important;
+  font-size: 0.6em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.2em 0.55em;
+  border-radius: 1em;
+  vertical-align: middle;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
 /* code hilighting */
 
 /* light mode:  pale yellow background, solid black foreground */
