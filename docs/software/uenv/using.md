@@ -262,6 +262,10 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     $ nvim main.f90
     ```
 
+    ??? warning "aliases do not work inside scripts"
+        Aliases are a useful for reducing keystrokes and usability in interactive shells.
+        They do no work by default inside bash scripts, and have other quirks that mean you should prefer using functions instead in scripts.
+
 [](){#ref-uenv-slurm}
 ## Slurm integration
 
@@ -269,7 +273,8 @@ The environment to load can be provided directly to Slurm via three arguments:
 
 * `--uenv`:  a comma-separated list of uenv to mount
 * `--view`:  a comma-separated list of views to load
-* `--repo`:  customize when repos to search for the requested uenv. See the [`--repo` flag docs][ref-uenv-repo-flag] for more information.
+* `--repo`:  specify the repositories to search for the requested uenv.
+             See the [`--repo` flag docs][ref-uenv-repo-flag] for more information.
 * `--uenv-passthrough`: <span class="v-badge">uenv v10.0</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
 * `--no-default-view`: <span class="v-badge">uenv v10.0</span> disable [default views][ref-uenv-views-default].
 

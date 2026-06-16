@@ -367,13 +367,13 @@ It accepts a comma-separated list of repositories where each repositories is one
     ```
 
 The order of repositories in a `--repo` list is important: it defines the order of precedence of the repositories.
-This means that operations that select a uenv, for example `uenv start`, will search through the repositories in the order provided and select 
+This means that operations that select a uenv, for example `uenv start`, will search through the repositories in the order provided.
 
 !!! tip "use `--repo` to override precedence"
     Repositories in a `--repo` list are searched in the order that they are written in the list.
 
-    This is very useful if you want to change the default search order, for example the `default` repositories typically has higher precedence than other repositories.
-    The following example will changes the search order:
+    This is very useful if you want to change the default search order, for example the `default` repository typically has higher precedence than other repositories.
+    The following example changes the search order:
 
     ```bash
     uenv --repo=team,default start cp2k/2025.1
