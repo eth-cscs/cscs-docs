@@ -217,13 +217,13 @@ At the moment of writing, the following plugin variants are configured:
 
 * For NVIDIA GPU nodes: `cuda12`, `cuda13`, `cuda-dl`.
 
-  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details [here][ref-known-issue-dynamic-aws-nccl-plugin]).
+    The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details [here][ref-known-issue-dynamic-aws-nccl-plugin]).
 
-  The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
+    The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
 
 * For AMD GPU nodes, alongside RCCL: `rocm5`, and `rocm6`.
 
-  Both these variants are statically linked to specific ROCm versions.
+    Both these variants are statically linked to specific ROCm versions.
 
 
 !!! tip
