@@ -188,7 +188,7 @@ These environment variables are detailed in the following sections.
 By default, ROMIO detects Ritom as an NFS filesystem and enables NFS-specific file locking semantics.
 These locks can introduce substantial overhead when many MPI ranks access the same file concurrently, particularly during collective write operations.
 
-Setting `ROMIO_FSTYPE_FORCE` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
+Setting `ROMIO_FSTYPE_FORCE='ufs:/ritom/'` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
 For many parallel workloads this can dramatically improve I/O performance.
 
 #### Enable collective buffering
