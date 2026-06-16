@@ -156,6 +156,97 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 [Capstor][ref-alps-capstor] on another hand uses hard disks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
 See for example the [ML filesystem guide][ref-mlp-storage-suitability].
 
+[](){#ref-guides-storage-vast-ritom}
+## VAST tuning on Ritom
+
+Ritom is a scratch space using the VAST Data filesystem accessed over NFS.
+While VAST provides excellent throughput and scalability, its behavior differs from Lustre and other parallel filesystems.
+In particular, MPI-IO libraries may apply NFS-specific optimizations and locking semantics that can significantly reduce performance for collective I/O workloads.
+
+For MPI applications using MPI-IO directly, or through libraries such as HDF5, NetCDF, ADIOS, or parallel checkpointing frameworks, we recommend configuring ROMIO to use collective I/O and to bypass NFS locking behavior.
+
+!!! warning
+    These recommendations are primarily intended for MPICH-derived MPI implementations (including Cray MPICH).
+    Other MPI implementations may use different environment variables or MPI-IO hint mechanisms.
+
+```shell
+export ROMIO_FSTYPE_FORCE='ufs:/ritom/'
+
+export MPIIO_COMMON=':romio_cb_read=enable:romio_cb_write=enable:romio_cb_alltoall=enable'
+export MPIIO_COMMON="${MPIIO_COMMON}:romio_ds_read=enable:romio_ds_write=enable"
+export MPIIO_COMMON="${MPIIO_COMMON}:cb_config_list=#*:*#"
+
+export MPICH_MPIIO_HINTS="*:cb_nodes=${SLURM_NTASKS}${MPIIO_COMMON}"
+```
+
+### Recommended settings
+
+#### `ROMIO_FSTYPE_FORCE='ufs:/ritom/'`
+
+By default, ROMIO detects Ritom as an NFS filesystem and enables NFS-specific file locking semantics.
+These locks can introduce substantial overhead when many MPI ranks access the same file concurrently, particularly during collective write operations.
+
+Setting `ROMIO_FSTYPE_FORCE` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
+For many parallel workloads this can dramatically improve I/O performance.
+
+#### Collective buffering
+
+The following hints enable ROMIO collective buffering:
+
+```shell
+romio_cb_read=enable
+romio_cb_write=enable
+```
+
+Collective buffering aggregates I/O requests from multiple ranks through a set of aggregator processes, reducing the number of individual I/O operations issued to the filesystem.
+This is particularly beneficial when many ranks are writing to a shared file.
+
+#### Data sieving
+
+The following hints enable data sieving:
+
+```shell
+romio_ds_read=enable
+romio_ds_write=enable
+```
+
+Data sieving combines multiple small, non-contiguous accesses into larger I/O operations.
+Applications that perform many small reads or writes may see improved throughput as a result.
+
+#### Aggregator selection
+
+```shell
+cb_config_list=#*:*#
+cb_nodes=${SLURM_NTASKS}
+```
+
+These settings configure all MPI ranks as potential collective I/O aggregators.
+While this is often a good starting point on Ritom, optimal settings may depend on the application's I/O pattern, node count, and file access characteristics.
+
+!!! tip
+    For very large jobs, reducing the number of aggregators may improve performance by decreasing metadata operations and coordination overhead.
+    Users performing large-scale I/O benchmarking may wish to experiment with different values for `cb_nodes`.
+
+### When should these settings be used?
+
+These settings are most beneficial when:
+
+- Multiple MPI ranks access a shared file.
+- Applications use MPI-IO collectively.
+- HDF5 or NetCDF files are written using parallel I/O.
+- Checkpoint/restart data is written from many ranks into a small number of files.
+
+Applications that perform independent file-per-rank I/O may see little benefit.
+
+### Additional considerations
+
+- Whenever possible, prefer large contiguous I/O operations over many small writes.
+- Avoid excessive file open/close operations inside performance-critical loops.
+- For best performance, benchmark with realistic application workloads rather than relying solely on synthetic I/O tests.
+- I/O performance can vary significantly depending on file layout, access pattern, number of clients, and concurrency level.
+  Users are encouraged to validate these settings for their specific workload.
+
+
 [](){#ref-guides-storage-small-files}
 ## Many small files vs. HPC File Systems
 

@@ -132,19 +132,18 @@ error while loading shared libraries: libdcgm.so.3: cannot open shared object fi
     be lost when the container ends. GSSR attempts to detect this scenario and warn
     the user.
 
-## Important behaviour to know
-
-### Overlapping jobs share GPU data
-
-If multiple jobs run on the same GPUs at the same time, they will record the same GPU metrics.  
-This behaviour is normal.
-
 ## Output files
 
-After recording, the default output directory contains raw GPU metrics, e.g.:
+GSSR avoids overwriting metrics from another run by using a directory hierarchy tied to the cluster and jobid.
+The default top-level directory is `gssr_report`.
 
 ```
-gssr_report/<cluster-name>_<jobid>
+gssr_report
+└─── <cluster-name>_<jobid>/
+    └── step_<n>/
+        ├── proc_0.meta.txt
+        ├── proc_0.csv
+        └── proc_<m>.csv
 ```
 
 Most users do not need to inspect these files directly.  
@@ -153,6 +152,7 @@ They are used to generate the report.
 !!!tip
     `gssr-analyze` will generate a single report containing all the jobs in the given directory.
     Alternatively, one can list specific directories to include, e.g., `gssr_report/alps-daint_1234567 gssr_report/alps-clariden_7654321`.
+
 
 ## Troubleshooting
 
@@ -169,6 +169,11 @@ GPU metrics cannot be recreated after a job finishes.
 ### The run was very short
 
 Runs shorter than approximately one minute may not produce useful plots.
+
+### Overlapping jobs share GPU data
+
+If multiple jobs run on the same GPUs at the same time, they will record the same GPU metrics.  
+This behaviour is normal.
 
 ## Command reference
 

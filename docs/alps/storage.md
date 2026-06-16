@@ -57,7 +57,9 @@ Iopsstor has has 20 OSSs, and 2 MDSs.
 [](){#ref-alps-vast}
 ## VAST
 
-The VAST storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
+There are two storage systems based provided by [VAST](https://vastdata.com).
+The smaller capacity VAST system is designed for use as [Home][ref-storage-home] folders, while ritom is provided as a larger scratch space. 
+For high performance applications, some [tuning settings][ref-guides-storage-vast-ritom] are recommended for optimal results.
 
 !!! todo
     small text explaining what VAST is designed to be used for.
