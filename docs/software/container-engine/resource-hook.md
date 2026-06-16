@@ -351,7 +351,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 [](){#ref-ce-netstack-source}
 ### Selecting the network stack source
 
-The [CXI hook][ref-ce-cxi-hook] and [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] inject a set of specialized network libraries, extensions, and dependencies. These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
+The [CXI hook][ref-ce-cxi-hook] and [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] inject a set of specialized network libraries, extensions, and dependencies (more details [here][ref-software-communication]). These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
 
 For convenience, we refer to one such interdependent set of networking-related software as a **network stack**, or *netstack* for short.
 
@@ -386,9 +386,6 @@ Network stack artifacts are built independently by CSCS staff for use with conta
 
     Network stack artifacts are currently fully tested and supported only on GH200 vClusters connected to the [Capstor Store][ref-alps-capstor-store] filesystem.
     Availability will be expanded progressively.
-
-!!! warning
-    Currently, netstack artifacts may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
 
 
 [](){#ref-ce-netstack-artifacts}
