@@ -101,11 +101,9 @@ $ uenv --version
 
 | version | description |
 | -- | -- |
-| [9.2.0][ref-uenv-release-notes-v9.2.0] | Currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] |
-| [9.1.0][ref-uenv-release-notes-v9.1.0] | currently installed on [Santis][ref-cluster-santis] |
-
-!!! note "upgrade on 2026-06-17"
-    The version of uenv will be upgraded to [Version 10][ref-uenv-release-notes-v10.0] on all of [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis] during the maintenance on Wednesday June 17.
+| [10.0][ref-uenv-release-notes-v10.0] | v10.0.1 is installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] as of 2026-06-17|
+| [9.2.0][ref-uenv-release-notes-v9.2.0] | Currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] (upgraded to v10.0.1 on 2026-06-17) |
+| [9.1.0][ref-uenv-release-notes-v9.1.0] | Currently installed on [Santis][ref-cluster-santis]  (upgraded to v10.0.1 on 2026-06-17)|
 
 See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 

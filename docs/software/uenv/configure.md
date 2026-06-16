@@ -67,7 +67,7 @@ Comments start with `#`.
 | [`color`][ref-uenv-configure-options-color] | Use color output | automatically chosen | `true`, `false` |
 | [`system_name`][ref-uenv-configure-options-system] | Override the cluster name | auto-detected from `$CLUSTER_NAME` | cluster name or `"*"` |
 | [`[[repositories]]`][ref-uenv-configure-options-repos] | One or more local image repositories | `$SCRATCH/.uenv-images` | array of `name`/`path` pairs |
-| [`[elastic].url`][ref-uenv-configure-options-elastic] | Elastic logging endpoint | — | set by CSCS in system config |
+| [`[elastic]`][ref-uenv-configure-options-elastic] | Elastic logging configuration | — | set by CSCS in system config |
 
 [](){#ref-uenv-configure-options-color}
 #### `color`
