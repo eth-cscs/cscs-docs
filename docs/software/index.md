@@ -75,4 +75,4 @@ These pages provided documentation for all supported software, and installation 
 
     There is a small list of software that is not allowed on CSCS' systems, or that CSCS can't provide support for.
 
-    [:octicons-arrow-right-24: Prohibited software][ref-software-scivis]
+    [:octicons-arrow-right-24: Prohibited software][ref-software-prohibited]
