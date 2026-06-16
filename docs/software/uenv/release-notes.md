@@ -24,7 +24,7 @@ You can check the version available on a specific system with the `uenv --versio
 
 [](){#ref-uenv-release-notes-v10-passthrough}
 !!! warning "calling `sbatch` from inside a uenv session is now an error"
-    In v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default.
+    Starting with uenv v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default.
     See the [passthrough documentation][ref-uenv-slurm-passthrough] for how to handle this.
 
 ### Minor and patch releases

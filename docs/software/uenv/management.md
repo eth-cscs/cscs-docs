@@ -282,7 +282,7 @@ This _default repo_ is used by all calls to uenv, unless it is overridden in a c
 [](){#ref-uenv-repo-multiple}
 ### Multiple repositories
 
-<span class="v-badge">uenv v10</span>
+<span class="v-badge">uenv v10.0</span>
 
 uenv supports multiple named repositories, which is useful for sharing images within a team or project.
 Repos are configured in the [uenv configuration file][ref-uenv-configure-options-repos] using the `[[repositories]]` array:
@@ -366,13 +366,13 @@ It accepts a comma-separated list of repositories where each repositories is one
     $ uenv --repo=test,team image ls
     ```
 
-The order of repoitoriesin a `--repo` list is important: it defines the order of precedence of the repositories.
+The order of repositories in a `--repo` list is important: it defines the order of precedence of the repositories.
 This means that operations that select a uenv, for example `uenv start`, will search through the repositories in the order provided and select 
 
 !!! tip "use `--repo` to override precedence"
     Repositories in a `--repo` list are searched in the order that they are written in the list.
 
-    This is very useful if you want to change the default search order, for example the `default` repoitories typically has higher precedence than other repositories.
+    This is very useful if you want to change the default search order, for example the `default` repositories typically has higher precedence than other repositories.
     The following example will changes the search order:
 
     ```bash

@@ -270,8 +270,8 @@ The environment to load can be provided directly to Slurm via three arguments:
 * `--uenv`:  a comma-separated list of uenv to mount
 * `--view`:  a comma-separated list of views to load
 * `--repo`:  customize when repos to search for the requested uenv. See the [`--repo` flag docs][ref-uenv-repo-flag] for more information.
-* `--uenv-passthrough`: <span class="v-badge">uenv v10</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
-* `--no-default-view`: <span class="v-badge">uenv v10</span> disable [default views][ref-uenv-views-default].
+* `--uenv-passthrough`: <span class="v-badge">uenv v10.0</span> configure how sbatch and srun [load or ignore uenv environments][ref-uenv-slurm-passthrough] that are already loaded.
+* `--no-default-view`: <span class="v-badge">uenv v10.0</span> disable [default views][ref-uenv-views-default].
 
 For example, the flags can be used with srun:
 ```console
@@ -361,7 +361,7 @@ These variables are cleared inside the job, and do not propagate to nested `srun
 [](){#ref-uenv-slurm-passthrough}
 ### Passthrough behaviour
 
-<span class="v-badge">uenv v10</span>
+<span class="v-badge">uenv v10.0</span>
 
 The `--uenv-passthrough` flag controls how a uenv that is already loaded in the calling environment is treated when launching a Slurm step.
 The passthrough option can take one of three values:
@@ -506,7 +506,7 @@ To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image
 [](){#ref-uenv-views-default}
 ### Default views
 
-<span class='v-badge'>uenv v10</span>
+<span class='v-badge'>uenv v10.0</span>
 
 Uenv images can provide a default view.
 When a default view is declared and no `--view` flag is given, that view is loaded automatically.
