@@ -163,6 +163,8 @@ See for example the [ML filesystem guide][ref-mlp-storage-suitability].
 While VAST provides excellent throughput and scalability, its behavior differs from Lustre and other parallel filesystems.
 In particular, MPI-IO libraries may apply NFS-specific optimizations and locking semantics that can significantly reduce performance for collective I/O workloads.
 
+### Recommended settings
+
 For MPI applications using MPI-IO directly, or through libraries such as HDF5, NetCDF, ADIOS, or parallel checkpointing frameworks, we recommend configuring ROMIO to use collective I/O and to bypass NFS locking behavior.
 
 !!! warning
@@ -172,16 +174,16 @@ For MPI applications using MPI-IO directly, or through libraries such as HDF5, N
 ```shell
 export ROMIO_FSTYPE_FORCE='ufs:/ritom/'
 
-export MPIIO_COMMON=':romio_cb_read=enable:romio_cb_write=enable:romio_cb_alltoall=enable'
+export MPIIO_COMMON='romio_cb_read=enable:romio_cb_write=enable:romio_cb_alltoall=enable'
 export MPIIO_COMMON="${MPIIO_COMMON}:romio_ds_read=enable:romio_ds_write=enable"
-export MPIIO_COMMON="${MPIIO_COMMON}:cb_config_list=#*:*#"
+export MPIIO_COMMON="${MPIIO_COMMON}:cb_config_list=#*:*#:cb_nodes=${SLURM_NTASKS:-1}"
 
-export MPICH_MPIIO_HINTS="*:cb_nodes=${SLURM_NTASKS}${MPIIO_COMMON}"
+export MPICH_MPIIO_HINTS="*:${MPIIO_COMMON}"
 ```
 
-### Recommended settings
+These environment variables are detailed in the following sections.
 
-#### `ROMIO_FSTYPE_FORCE='ufs:/ritom/'`
+#### Disable file locking
 
 By default, ROMIO detects Ritom as an NFS filesystem and enables NFS-specific file locking semantics.
 These locks can introduce substantial overhead when many MPI ranks access the same file concurrently, particularly during collective write operations.
@@ -189,19 +191,20 @@ These locks can introduce substantial overhead when many MPI ranks access the sa
 Setting `ROMIO_FSTYPE_FORCE` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
 For many parallel workloads this can dramatically improve I/O performance.
 
-#### Collective buffering
+#### Enable collective buffering
 
 The following hints enable ROMIO collective buffering:
 
 ```shell
 romio_cb_read=enable
 romio_cb_write=enable
+romio_cb_alltoall=enable
 ```
 
 Collective buffering aggregates I/O requests from multiple ranks through a set of aggregator processes, reducing the number of individual I/O operations issued to the filesystem.
 This is particularly beneficial when many ranks are writing to a shared file.
 
-#### Data sieving
+#### Enable data sieving
 
 The following hints enable data sieving:
 
@@ -213,15 +216,16 @@ romio_ds_write=enable
 Data sieving combines multiple small, non-contiguous accesses into larger I/O operations.
 Applications that perform many small reads or writes may see improved throughput as a result.
 
-#### Aggregator selection
+#### Select aggregation nodes
 
 ```shell
 cb_config_list=#*:*#
-cb_nodes=${SLURM_NTASKS}
+cb_nodes=${SLURM_NTASKS:-1}
 ```
 
 These settings configure all MPI ranks as potential collective I/O aggregators.
 While this is often a good starting point on Ritom, optimal settings may depend on the application's I/O pattern, node count, and file access characteristics.
+If `${SLURM_NTASKS}` is undefined `cb_nodes` will be set to 1.
 
 !!! tip
     For very large jobs, reducing the number of aggregators may improve performance by decreasing metadata operations and coordination overhead.
