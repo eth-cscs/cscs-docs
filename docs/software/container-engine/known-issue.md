@@ -134,7 +134,7 @@ In these cases, we suggest the following alternatives (pick one) to work around 
 
 3. Create a `libcudart.so` at runtime, e.g. for a CUDA 12 image:
     ```console
-    $ srun --environment=example.toml bash -c 'ln -s /usr/local/cuda/lib64/libcudart.so.12 /usr/local/cuda /lib64/libcudart.so && app_binary arg1 arg2'
+    $ srun --environment=example.toml bash -c 'ln -s /usr/local/cuda/lib64/libcudart.so.12 /usr/local/cuda/lib64/libcudart.so && app_binary arg1 arg2'
     ```
 
 ## Using NCCL from remote SSH terminals
