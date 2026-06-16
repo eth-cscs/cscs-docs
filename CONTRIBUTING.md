@@ -6,7 +6,7 @@ Humans can refer to the [online contributing guide](https://docs.cscs.ch/contrib
 
 Agents should:
 
-1. read the contributing guide in its raw form in the `docs/contributing/index.md` file — the spell checker section in particular is not duplicated here.
+1. read the contributing guide in its raw form in the `docs/contributing/index.md` file.
 2. read the rest of this page.
 
 To validate changes, run `./serve build` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
@@ -306,10 +306,3 @@ If the same content needs to appear on multiple pages (e.g. a set of required en
 ```
 
 This keeps the content in sync across pages automatically.
-
-### Spell checker
-
-The CI pipeline runs a spell checker on all pull requests.
-New technical terms, hostnames, software names, and HPC jargon will often be flagged.
-Add unfamiliar-but-correct words (one per line) to `.github/actions/spelling/allow.txt`.
-Words with unusual capitalisation that confuse the checker (e.g. `FirecREST`) should instead be added as a regex pattern to `.github/actions/spelling/patterns.txt`.

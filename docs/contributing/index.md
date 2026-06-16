@@ -97,11 +97,11 @@ Then navigate to GitHub, and create a pull request.
 
 ## Review process
 
-After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
+After you have made a pull request, a CI/CD pipeline will build a copy of the docs with the PR changes.
 A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
 To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
-The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
+The PR will automatically be updated and the preview documentation site will be rebuilt.
 
 !!! tip
     If you think your documentation update could affect specific stakeholders, ping them for a review.
@@ -111,38 +111,6 @@ The PR will automatically be updated, the spell checker will run again, and the 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
     We will start simple, and add more formality as needed.
-
-[](){#ref-contributing-spelling}
-### Spell checker
-
-A spell checker workflow runs on all PRs to help catch simple typos.
-If the spell checker finds words that it considers misspelled, it will add a comment like [this](https://github.com/eth-cscs/cscs-docs/pull/193#issuecomment-3056795496) to the PR, listing the words that it finds misspelled.
-
-The spell checker isn't always right and can be configured to ignore words.
-Most frequently technical terms, project names, etc. will not be in the dictionaries.
-There are three files used to configure words that get ignored:
-
-- `.github/actions/spelling/allow.txt`:
-  This is the main file for whitelisting words.
-  Each line of the file contains a word that is ignored by the spell checker.
-  All lowercase words are matched with any capitalization, while words containing at least one uppercase letter are matched with the given capitalization.
-  Using the capitalized word is useful if you always want to ensure the same spelling, e.g. for names.
-<!--begin no spell check-->
-- `.github/actions/spelling/patterns.txt`:
-  This file is used to ignore words that match a given regular expression.
-  This file is useful to ignore e.g. URLs or markdown references.
-  Words that have unusual capitalization may also need to be added to this file to make sure they are ignored.
-  For example, "FirecREST" is normally recognized as two words: "Firec" and "REST", and adding "FirecREST" to `allow.txt` will not ignore the word.
-  In this case it can be ignored by adding it to `patterns.txt`
-<!--end no spell check-->
-- `.github/actions/spelling/block-delimiters.txt`:
-  This file can be used to ignore words between begin- and end markers.
-  For example, code blocks starting and ending with `` ``` `` are ignored from spell checking as they often contain unusual words not in dictionaries.
-  If adding words to `allow.txt` or `patterns.txt`, or ignoring blocks with `block-delimiters.list`, is not sufficient, you can as a last resort use the HTML comments `<!--begin no spell check-->` and `<!--end no spell check-->` to ignore spell checking for a larger block of text.
-  The comments will not be rendered in the final documentation.
-
-Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
-Only markdown files under the `docs` directory are checked.
 
 [](){#ref-contributing-llms}
 ## Using LLMs and coding agents to write docs
