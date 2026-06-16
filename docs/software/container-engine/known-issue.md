@@ -111,6 +111,32 @@ abc
 
 Notice the section `[annotations]` disabling Slurm and CXI hooks.
 
+[](){#ref-known-issue-dynamic-aws-nccl-plugin}
+## NCCL errors with a dynamically linked AWS OFI NCCL plugin: `libcudart.so could not be found`
+
+When using the `cuda-dl` variant of the [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] or `artifact` as [network stack source][ref-ce-netstack-source] (default in some vClusters), a dynamically linked AWS OFI NCCL plugin is mounted inside containers.
+Dynamic linking makes the plugin interoperable across CUDA versions, but also reliant on a non-versioned symlink to the CUDA Runtime Library (e.g. `/usr/local/cuda/lib64/libcudart.so`).
+Such a link might not exist in some old container images, causing an error message at NCCL startup which mentions that `libcudart.so` could not be found.
+
+In these cases, we suggest the following alternatives (pick one) to work around or solve the issue:
+
+1. Use a statically linked AWS OFI NCCL plugin variant from the natively installed host libraries, e.g. for a CUDA 13 image:
+   ```toml
+   [annotations]
+   com.hooks.netstack.source = "host"
+   com.hooks.aws_ofi_nccl.enabled = "true"
+   com.hooks.aws_ofi_nccl.variant = "cuda13"    # (1)!
+   ```
+
+   1. When using a statically linked plugin, the variant must match exactly the CUDA version in the container.
+
+2. Rebuild the container image and use a new CUDA base image which has `libcudart.so`
+
+3. Create a `libcudart.so` at runtime, e.g. for a CUDA 12 image:
+   ```console
+   $ srun --environment=example.toml bash -c 'ln -s /usr/local/cuda/lib64/libcudart.so.12 /usr/local/cuda/lib64/libcudart.so && app_binary arg1 arg2'
+   ```
+
 ## Using NCCL from remote SSH terminals
 
 We are aware of an issue when enabling both [the AWS OFI NCCL hook][ref-ce-aws-ofi-hook] and [the SSH hook][ref-ce-ssh-hook], and launching programs using NCCL from Bash sessions connected via SSH.
@@ -119,7 +145,7 @@ The issue manifests with messages reporting `Error: network 'AWS Libfabric' not 
 In addition to setting up a server for remote connections, the SSH hook also performs actions intended to improve the user experience. One of these is creating a script to be loaded by Bash in order to propagate the container job environment variables when connecting through SSH.
 The script is translating the value of the `NCCL_NET` variable as `"'AWS Libfabric'"`, that is with additional quotes compared to the original value set by the AWS OFI NCCL hook. The quoted string induces NCCL to look for a network which is not defined, resulting in the unrecoverable error mentioned earlier.
 
-As a workaround, resetting the NCCL_NET variable to the correct value is effective in allowing NCCL to use the AWS OFI plugin and access the Slingshot network, e.g. `export NCCL_NET="AWS Libfabric"`.
+As a workaround, resetting the `NCCL_NET` variable to the correct value is effective in allowing NCCL to use the AWS OFI plugin and access the Slingshot network, e.g. `export NCCL_NET="AWS Libfabric"`.
 
 ## Mounting home directories when using the SSH hook
 
@@ -144,7 +170,7 @@ To avoid any unexpected confusion, users are advised **not** to use `--environme
 [](){#ref-ce-no-user-id}
 ## Container start fails with `id: cannot find name for user ID`
 
-If your slurm job using a container fails to start with an error message similar to:
+If your Slurm job using a container fails to start with an error message similar to:
 ```console
 slurmstepd: error: pyxis: container start failed with error code: 1
 slurmstepd: error: pyxis: container exited too soon

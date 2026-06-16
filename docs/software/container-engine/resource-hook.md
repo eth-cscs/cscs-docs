@@ -204,7 +204,7 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
 ```toml
 com.hooks.aws_ofi_nccl.enabled = "true"
-com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)!
+com.hooks.aws_ofi_nccl.variant = "cuda-dl"   # (1)!
 ```
 
 1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
@@ -213,22 +213,28 @@ The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software ex
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
-At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
+At the moment of writing, the following plugin variants are configured:
+* For NVIDIA GPU nodes: `cuda12`, `cuda13`, `cuda-dl`.
+  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details [here](ref-known-issue-dynamic-aws-nccl-plugin)).
+  The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
+* For AMD GPU nodes, alongside RCCL: `rocm5`, and `rocm6`.
+  Both these variants are statically linked to specific ROCm versions.
+
 
 !!! tip
-    It implicitly enables the [CXI hook][ref-ce-cxi-hook], therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
+    The hook implicitly enables the [CXI hook][ref-ce-cxi-hook], therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
 
 !!! note
-    It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the `NCCL_NET_PLUGIN` variable ([link](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-plugin)) is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
+    The hook sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot, helping prevent application stalls and improving performance, especially when using GPUDirect for RDMA communication.
 
-!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
+!!! example "EDF for the NGC PyTorch 25.11 image with CUDA 13.1"
     ```toml
-    image = "nvcr.io#nvidia/pytorch:22.12-py3"
+    image = "nvcr.io/nvidia/pytorch:25.11-py3"
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 
     [annotations]
     com.hooks.aws_ofi_nccl.enabled = "true"
-    com.hooks.aws_ofi_nccl.variant = "cuda11"
+    com.hooks.aws_ofi_nccl.variant = "cuda-dl"
     ```
 
 [](){#ref-ce-ssh-hook}
@@ -302,7 +308,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 !!! example "Using the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda-mps.toml"
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
+    image = "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
     [annotations]
     com.hooks.nvidia_cuda_mps.enabled = "true"
@@ -315,7 +321,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 ??? example "Available GPUs and oversubscription error *without* the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda.toml"
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)!
+    image = "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)!
     ```
 
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
@@ -345,7 +351,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 [](){#ref-ce-netstack-source}
 ### Selecting the network stack source
 
-The [CXI hook][ref-ce-cxi-hook] and [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] inject a set of specialized network libraries, extensions, and dependencies. These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
+The [CXI hook][ref-ce-cxi-hook] and [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] inject a set of specialized network libraries, extensions, and dependencies (more details [here][ref-software-communication]). These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
 
 For convenience, we refer to one such interdependent set of networking-related software as a **network stack**, or *netstack* for short.
 
@@ -380,9 +386,6 @@ Network stack artifacts are built independently by CSCS staff for use with conta
 
     Network stack artifacts are currently fully tested and supported only on GH200 vClusters connected to the [Capstor Store][ref-alps-capstor-store] filesystem.
     Availability will be expanded progressively.
-
-!!! warning
-    Currently, netstack artifacts may not be compatible with the Slurm usage inside a containerized SBATCH script (e.g., `srun` inside `sbatch` with `--environment`).
 
 
 [](){#ref-ce-netstack-artifacts}
