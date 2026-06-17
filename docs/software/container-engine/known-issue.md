@@ -121,21 +121,21 @@ Such a link might not exist in some old container images, causing an error messa
 In these cases, we suggest the following alternatives (pick one) to work around or solve the issue:
 
 1. Use a statically linked AWS OFI NCCL plugin variant from the natively installed host libraries, e.g. for a CUDA 13 image:
-   ```toml
-   [annotations]
-   com.hooks.netstack.source = "host"
-   com.hooks.aws_ofi_nccl.enabled = "true"
-   com.hooks.aws_ofi_nccl.variant = "cuda13"    # (1)!
-   ```
+    ```toml
+    [annotations]
+    com.hooks.netstack.source = "host"
+    com.hooks.aws_ofi_nccl.enabled = "true"
+    com.hooks.aws_ofi_nccl.variant = "cuda13"    # (1)!
+    ```
 
-   1. When using a statically linked plugin, the variant must match exactly the CUDA version in the container.
+    1. When using a statically linked plugin, the variant must match exactly the CUDA version in the container.
 
 2. Rebuild the container image and use a new CUDA base image which has `libcudart.so`
 
 3. Create a `libcudart.so` at runtime, e.g. for a CUDA 12 image:
-   ```console
-   $ srun --environment=example.toml bash -c 'ln -s /usr/local/cuda/lib64/libcudart.so.12 /usr/local/cuda/lib64/libcudart.so && app_binary arg1 arg2'
-   ```
+    ```console
+    $ srun --environment=example.toml bash -c 'ln -s /usr/local/cuda/lib64/libcudart.so.12 /usr/local/cuda/lib64/libcudart.so && app_binary arg1 arg2'
+    ```
 
 ## Using NCCL from remote SSH terminals
 
