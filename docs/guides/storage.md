@@ -111,7 +111,7 @@ To set up a default so all newly created folders and dirs inside or your desired
     ```
 
 !!! info
-    For more information read the `setfacl` man page: `man setfacl`.
+    For more information read the `setfacl` man page: [`man setfacl`](https://linux.die.net/man/1/setfacl).
 
 [](){#ref-guides-storage-lustre}
 ## Lustre tuning
@@ -127,23 +127,27 @@ The data itself is subdivided in blocks of size `<blocksize>` and is stored by O
 The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories inheriting them from their parent directory.
 The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path.
 For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
-The simplest way to have the correct layout is to copy to a directory with the correct layout
+
+Striping settings on a directory are only applied to files added after the command is run. 
+The simplest way to have the correct layout is to copy to a directory with the correct layout.
 
 !!! tip "A block size of 4MB gives good throughput, without being overly big..."
     ... so it is a good choice when reading a file sequentially or in large chunks, but if one reads shorter chunks in random order it might be better to reduce the size, the performance will be smaller, but the performance of your application might actually increase.
     See the [Lustre documentation](https://doc.lustre.org/lustre_manual.xhtml#managingstripingfreespace) for more information.
 
-
 !!! example "Settings for large files"
-    ```console
-    lfs setstripe --stripe-count -1 --stripe-size 4M <big_files_dir>`
+    ```bash
+    lfs setstripe --stripe-count 32 --stripe-size 4M <big_files_dir>
     ```
+
+    *Remember:* Settings applied with `lfs setstripe` only apply to files added to the directory after this command.
+
 Lustre also supports composite layouts, switching from one layout to another at a given size `--component-end` (`-E`).
 With it it is possible to create a Progressive file layout switching `--stripe-count` (`-c`), `--stripe-size` (`-S`), so that fewer locks are required for smaller files, but load is distributed for larger files.
 
 !!! example "Good default settings"
-    ```console
-    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M <base_dir>
+    ```bash
+    lfs setstripe --component-end 4M --stripe-count 1 --component-end 64M --stripe-count 4 --component-end -1 --stripe-count 32 --stripe-size 4M <base_dir>
     ```
 
 ### Iopsstor vs Capstor
@@ -151,6 +155,106 @@ With it it is possible to create a Progressive file layout switching `--stripe-c
 [Iopsstor][ref-alps-iopsstor] uses SSD as OST, thus random access is quick, and the performance of the single OST is high.
 [Capstor][ref-alps-capstor] on another hand uses hard disks, it has a larger capacity, and  it also have many more OSS, thus the total bandwidth is larger.
 See for example the [ML filesystem guide][ref-mlp-storage-suitability].
+
+[](){#ref-guides-storage-vast-ritom}
+## VAST tuning on Ritom
+
+[Ritom][ref-alps-ritom] is a scratch space using the VAST Data filesystem accessed over NFS.
+While VAST provides excellent throughput and scalability, its behavior differs from Lustre and other parallel filesystems.
+In particular, MPI-IO libraries may apply NFS-specific optimizations and locking semantics that can significantly reduce performance for collective I/O workloads.
+
+### Recommended settings
+
+For MPI applications using MPI-IO directly, or through libraries such as HDF5, NetCDF, ADIOS, or parallel checkpointing frameworks, we recommend configuring ROMIO to use collective I/O and to bypass NFS locking behavior.
+
+!!! warning
+    These recommendations are primarily intended for MPICH-derived MPI implementations (including Cray MPICH).
+    Other MPI implementations may use different environment variables or MPI-IO hint mechanisms.
+
+```shell
+export ROMIO_FSTYPE_FORCE='ufs:/ritom/'
+
+export MPIIO_COMMON='romio_cb_read=enable:romio_cb_write=enable:romio_cb_alltoall=enable'
+export MPIIO_COMMON="${MPIIO_COMMON}:romio_ds_read=enable:romio_ds_write=enable"
+export MPIIO_COMMON="${MPIIO_COMMON}:cb_config_list=#*:*#:cb_nodes=${SLURM_NTASKS:-1}"
+
+export MPICH_MPIIO_HINTS="*:${MPIIO_COMMON}"
+```
+
+These environment variables are detailed in the following sections.
+
+#### Disable file locking
+
+By default, ROMIO detects Ritom as an NFS filesystem and enables NFS-specific file locking semantics.
+These locks can introduce substantial overhead when many MPI ranks access the same file concurrently, particularly during collective write operations.
+
+Setting `ROMIO_FSTYPE_FORCE='ufs:/ritom/'` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
+For many parallel workloads this can dramatically improve I/O performance.
+
+!!! info
+    NFS lock overhead is unnecessary and can be safely bypassed on VAST, when using ROMIO's collective buffering.
+
+    When `romio_cb_write=enable` is set, ROMIO's collective buffering partitions files into non-overlapping file domains and assigns each domain to an aggregator process, so no two processes ever write to the same region of a file.
+
+#### Enable collective buffering
+
+The following hints enable ROMIO collective buffering:
+
+```shell
+romio_cb_read=enable
+romio_cb_write=enable
+romio_cb_alltoall=enable
+```
+
+Collective buffering aggregates I/O requests from multiple ranks through a set of aggregator processes, reducing the number of individual I/O operations issued to the filesystem.
+This is particularly beneficial when many ranks are writing to a shared file.
+
+#### Enable data sieving
+
+The following hints enable data sieving:
+
+```shell
+romio_ds_read=enable
+romio_ds_write=enable
+```
+
+Data sieving combines multiple small, non-contiguous accesses into larger I/O operations.
+Applications that perform many small reads or writes may see improved throughput as a result.
+
+#### Select aggregation nodes
+
+```shell
+cb_config_list=#*:*#
+cb_nodes=${SLURM_NTASKS:-1}
+```
+
+These settings configure all MPI ranks as potential collective I/O aggregators.
+While this is often a good starting point on Ritom, optimal settings may depend on the application's I/O pattern, node count, and file access characteristics.
+If `${SLURM_NTASKS}` is undefined `cb_nodes` will be set to 1.
+
+!!! tip
+    For very large jobs, reducing the number of aggregators may improve performance by decreasing metadata operations and coordination overhead.
+    Users performing large-scale I/O benchmarking may wish to experiment with different values for `cb_nodes`.
+
+### When should these settings be used?
+
+These settings are most beneficial when:
+
+- Multiple MPI ranks access a shared file.
+- Applications use MPI-IO collectively.
+- HDF5 or NetCDF files are written using parallel I/O.
+- Checkpoint/restart data is written from many ranks into a small number of files.
+
+Applications that perform independent file-per-rank I/O may see little benefit.
+
+### Additional considerations
+
+- Whenever possible, prefer large contiguous I/O operations over many small writes.
+- Avoid excessive file open/close operations inside performance-critical loops.
+- For best performance, benchmark with realistic application workloads rather than relying solely on synthetic I/O tests.
+- I/O performance can vary significantly depending on file layout, access pattern, number of clients, and concurrency level.
+  Users are encouraged to validate these settings for their specific workload.
+
 
 [](){#ref-guides-storage-small-files}
 ## Many small files vs. HPC File Systems
@@ -169,7 +273,7 @@ At first it can seem strange that a "high-performance" file system is significan
 Meta data lookups on Lustre are expensive compared to your laptop, where the local file system is able to aggressively cache meta data.
 
 [](){#ref-guides-storage-venv}
-### Python virtual environments with uenv
+### Squash Python virtual environments with uenv
 
 Python virtual environments can be very slow on Lustre, for example a simple `import numpy` command run on Lustre might take seconds, compared to milliseconds on your laptop.
 
@@ -187,7 +291,7 @@ This file can be mounted as a read-only [Squashfs](https://en.wikipedia.org/wiki
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow.
+The first step is to create the virtual environment using the usual workflow described in the [Python environment documentation][ref-python-uenv-venv].
 
 === "uv"
 
@@ -199,9 +303,13 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
+
     # create and activate a new relocatable venv using uv
-    # in this case we explicitly select python 3.12
-    uv venv -p 3.12 --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
+    # in this case we explicitly select the python interpreter from the uenv view
+    uv venv --python $(which python) --system-site-packages --seed --relocatable --link-mode=copy /dev/shm/sqfs-demo/.venv
     cd /dev/shm/sqfs-demo
     source .venv/bin/activate
 
@@ -225,12 +333,16 @@ The first step is to create the virtual environment using the usual workflow.
     # and other useful tools
     uenv start prgenv-gnu/24.11:v1 --view=default
 
+    # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
+    unset PYTHONPATH
+    export PYTHONUSERBASE=/user-environment/env/default
+
     # for the example create a working path on SCRATCH
     mkdir $SCRATCH/sqfs-demo
     cd $SCRATCH/sqfs-demo
 
     # create and activate the empty venv
-    python -m venv ./.venv
+    python -m venv --system-site-packages ./.venv
     source ./.venv/bin/activate
 
     # install software in the virtual environment

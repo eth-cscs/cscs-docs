@@ -1,9 +1,9 @@
 [](){#ref-uenv-build}
-# Building uenv
+# Building uenvs
 
 ## uenv build service
 
-CSCS provides a build service for uenv that takes as its input a uenv recipe, and builds the uenv using the same pipeline used to build the officially supported uenv.
+CSCS provides a build service for uenvs that takes as its input a uenv recipe, and builds the uenv using the same pipeline used to build the officially supported uenv.
 
 The command takes two arguments:
 

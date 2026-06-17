@@ -93,16 +93,16 @@ Initial working directory when the container starts.
 
 ### `entrypoint`
 
- |             |        |
- |-------------|--------|
- | **Type**    | bool   |
- | **Default** | `true` |
+ |             |         |
+ |-------------|---------|
+ | **Type**    | bool    |
+ | **Default** | `false` |
 
 If true, run the entrypoint from the container image.
 
 !!! example
     ```toml
-    entrypoint = false
+    entrypoint = true
     ```
 
 ### `writable`
@@ -168,15 +168,15 @@ Environment variables to set in the container. Empty string values will unset th
      * Basic `env` block
         ```toml
         [env]
-        MY_RUN = "production",
+        MY_RUN = "production"
         DEBUG = "false"
         ```
 
      * Use of environment variable expansion
         ```toml
         [env]
-        MY_NODE = "${VAR_FROM_HOST}",
-        PATH = "${PATH}:/custom/bin", 
+        MY_NODE = "${VAR_FROM_HOST}"
+        PATH = "${PATH}:/custom/bin"
         DEBUG = "true"
         ```
 

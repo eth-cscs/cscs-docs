@@ -70,7 +70,7 @@ The LTS authenticates users based on the CSCS authentication service, therefore 
 
 ### Authorization
 
-LTS data collections belong to a CSCS project: data can be stored in the LTS service after the principal investigator of the project has granted a project member the permissions to store data on behalf of the project. This is done by enabling the LTS facility for the user on the [CSCS Account and Resources Management Tool](https://account.cscs.ch).
+LTS data collections belong to a CSCS project: data can be stored in the LTS service after the principal investigator of the project has granted a project member the permissions to store data on behalf of the project. This is done by enabling the LTS facility for the user on the [CSCS project management portal](https://portal.cscs.ch).
 
 ## Data collection creation Workflow
 

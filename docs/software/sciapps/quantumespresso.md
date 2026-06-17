@@ -1,6 +1,10 @@
 [](){#ref-uenv-quantumespresso}
 # Quantum ESPRESSO
 
+!!! info ""
+    Quantum ESPRESSO is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [Quantum ESPRESSO](https://www.quantum-espresso.org/) is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials:
 
 * `pw.x`: Plane-Wave Self-Consistent Field (PWscf)

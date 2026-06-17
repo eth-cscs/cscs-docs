@@ -1,6 +1,10 @@
 [](){#ref-uenv-cp2k}
 # CP2K
 
+!!! info ""
+    CP2K is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [CP2K] is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid
 state, liquid, molecular, periodic, material, crystal, and biological systems.
 
@@ -15,7 +19,22 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     [CP2K] is provided on [ALPS][platforms-on-alps] via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
-??? note "Changelog"
+!!! warning "Known issues"
+    Please check CP2K's [known issues](#known-issues) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
+
+!!! note "Changelog"
+
+    !!! note "2026.1:v2"
+
+        * Updated CUDA from 12.4 to 13.0
+    
+    ??? note "2026.1:v1"
+
+        * Added `libtorch` support
+        * Added `libvori` support
+        * Removed `cp2k-dlaf` view; DLA-Future is now integrated in the `cp2k` view
+        * The default `ELPA_KERNEL` changed from `GENERIC` to `NVIDIA_GPU` on Daint
+          * This can cause a slowdown in some workflows, see [known issues](#known-issues) for details
 
     ??? note "2025.1"
 
@@ -36,7 +55,7 @@ On our systems, CP2K is built with the following dependencies:
 * [COSMA]
 * [Cray MPICH]
 * [DBCSR]
-* [DLA-Future] (from `cp2k@2025.1` onwards, only in `cp2k-dlaf` view)
+* [DLA-Future] (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
 * [dftd4] (from `cp2k@2025.1` onwards)
 * [ELPA]
 * [FFTW]
@@ -48,23 +67,24 @@ On our systems, CP2K is built with the following dependencies:
 * [SIRIUS]
 * [Spglib]
 * [spla]
+* [libtorch] (from `cp2k@2026.1` onwards)
+* [libvori] (from `cp2k@2026.1` onwards)
 
 !!! note "GPU-aware MPI"
     [COSMA] and [DLA-Future] are built with [GPU-aware MPI][ref-communication-cray-mpich-gpu-aware], which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`.
-    On the HPC platform, `MPICH_GPU_SUPPORT_ENABLED=1` is set by
-    default.
+    On [Daint][ref-cluster-daint], `MPICH_GPU_SUPPORT_ENABLED=1` is set by default.
 
 !!! note "CUDA cache path for JIT compilation"
     [DBCSR] uses JIT compilation for CUDA kernels.
     The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation.
     Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`.
-    On the HPC platform, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by
-    default.
+    On [Daint][ref-cluster-daint], `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by default.
 
 ## Running CP2K
 
-### Running on the HPC platform
+### Running on Daint
 
+[Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
 To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
 MPS] daemon so that multiple MPI ranks can use the same GPU.
 
@@ -104,10 +124,10 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
    `SLURM_CPUS_PER_TASK`.
 
 5. [DBCSR] relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead.
-   This is set by default on the HPC platform, but it's set here explicitly as it's essential to avoid performance degradation.
+   This is set by default on [Daint][ref-cluster-daint], but it's set here explicitly as it's essential to avoid performance degradation.
 
 6. CP2K's dependencies use GPU-aware MPI, which requires enabling support at runtime.
-   This is set by default on the HPC platform, but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
+   This is set by default on [Daint][ref-cluster-daint], but it's set here explicitly as it's a requirement in general for enabling GPU-aware MPI.
 
 
 * Change <ACCOUNT> to your project account name
@@ -345,7 +365,7 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
    for good performance. With [Intel MKL], this is not necessary and one can set `OMP_NUM_THREADS` to
    `SLURM_CPUS_PER_TASK`.
 
-* Change <ACCOUNT> to your project account name
+* Change `<ACCOUNT>` to your project account name
 * Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
 * Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
 * Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
@@ -353,6 +373,7 @@ srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
 !!! warning
 
     The `--cpu-bind=socket` option is necessary to get good performance.
+    If running with DLA-Future, use `--cpu-bind=cores` instead.
 
 ??? info "Running regression tests"
 
@@ -379,20 +400,30 @@ uenv start --view=develop <CP2K_UENV> # (1)!
 cd <PATH_TO_CP2K_SOURCE> # (2)!
 
 mkdir build && cd build
+
+Torch_DIR=$(dirname $(find /user-environment/linux-neoverse_v2/ -name TorchConfig.cmake -type f)) \ # (4)!
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
-    -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
+    -DCMAKE_CUDA_HOST_COMPILER=mpic++ \ # (3)!
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCP2K_USE_MPI=ON \
     -DCP2K_USE_LIBXC=ON \
     -DCP2K_USE_LIBINT2=ON \
+    -DCP2K_USE_FFTW3=ON \
     -DCP2K_USE_SPGLIB=ON \
     -DCP2K_USE_ELPA=ON \
     -DCP2K_USE_SPLA=ON \
+    -DCP2K_USE_SPLA_GEMM_OFFLOADING=ON \
     -DCP2K_USE_SIRIUS=ON \
     -DCP2K_USE_COSMA=ON \
     -DCP2K_USE_PLUMED=ON \
+    -DCP2K_USE_VORI=ON \
     -DCP2K_USE_DFTD4=ON \
     -DCP2K_USE_DLAF=ON \
-    -DCP2K_USE_ACCEL=CUDA -DCP2K_WITH_GPU=H100 \ # (4)!
+    -DCP2K_USE_LIBTORCH=ON \
+    -DCP2K_USE_SPGLIB=ON \
+    -DCP2K_USE_GRPP=ON \
+    -DCP2K_USE_ACCEL=CUDA -DCMAKE_CUDA_ARCHITECTURES=90 \
     ..
 
 ninja -j 32
@@ -402,7 +433,9 @@ ninja -j 32
 
 2. Go to the CP2K source directory
 
-3. The `H100` option enables the `sm_90` architecture for the CUDA backend
+3. Make sure `mpic++` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
+
+4. Explicitly tell CMake where to find PyTorch's `TorchConfig.cmake`
 
 !!! note "Eiger: `libxsmm`"
 
@@ -421,6 +454,61 @@ ninja -j 32
 See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
+
+### Slowdown with Nvidia driver 590 and later
+
+The main vClusters have been updated to Nvidia driver version 590.
+Some CP2K workloads have been observed to run slower with this driver version and later.
+
+The slowdown happens when using GPU-aware MPI.
+
+If you are not using COSMA, DLA-Future, or any other library relying on GPU-aware MPI,
+you should disable GPU-aware MPI (enabled by default) by setting the following environment variable:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+Note that COSMA is the default parallel dense matrix-matrix multiplication library. To ensure successful completion of
+CP2K calculations without GPU-aware MPI, add the following to the `&GLOBAL` input section. For all but RPA calculations,
+the performance impact of not using COSMA is negligible.
+
+```bash
+&FM
+  TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+&END FM
+```
+
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
+
+### ELPA slowdown with 2026.1 on Daint
+
+In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from
+`GENERIC` (used by default before 2026.1) to `NVIDIA_GPU` (used by default from 2026.1 onwards) on Daint.
+
+For some workloads the `GENERIC` kernel is faster than `NVIDIA_GPU`.
+It is possible to recover the old behaviour by explicitly setting the `ELPA_KERNEL`:
+```
+&GLOBAL
+    ELPA_KERNEL GENERIC
+&END GLOBAL
+```
+
+You should benchmark your workload to see which kernel is faster for your specific case.
+
+### Older uenv versions on Eiger
+
+After the migration to Eiger.Alps, calculations relying on older uenv versions (`2024.1:v1`, `2024.2:v1`, `2024.3:v1`) sometimes crash unexpectedly with a segmentation fault. The problem has been identify as coming from the `libxsmm` library, used as a backend in DBCSR. To avoid this issue, it is recommended to upgrade to a newer uenv.
+
+In case a specific `2024.x` version of CP2K is required, crashes can be avoided by switching to the `BLAS` backend of DBCSR. This can be done by adding the following in the `&GLOBAL` subsection of the input file:
+
+```bash
+&GLOBAL
+    &DBCSR
+        MM_DRIVER BLAS
+    &END DBCSR
+&END GLOBAL
+```
 
 ### DLA-Future
 
@@ -526,3 +614,5 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
 [Slurm]: https://slurm.schedmd.com/
 [CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
+[libvori]: https://brehm-research.de/libvori.php
+[libtorch]: https://docs.pytorch.org/cppdocs/installing.html

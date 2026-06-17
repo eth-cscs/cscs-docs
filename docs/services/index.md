@@ -1,3 +1,4 @@
+[](){#ref-services}
 # Services
 
 <div class="grid cards" markdown>
@@ -7,10 +8,22 @@
 
     [:octicons-arrow-right-24: CI/CD][ref-cicd]
 
--   :fontawesome-solid-mountain-sun: __FirecREST__
+-   :material-garage-variant-lock: __Developer Portal__
 
-    FirecREST is a RESTful API for programmatically accessing High-Performance Computing resources.
+    Enables CSCS users to create and manage subscriptions to an API.
 
-    [:octicons-arrow-right-24: FirecREST][ref-firecrest]
+    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
+
+-   :fontawesome-solid-dharmachakra: __Kubernetes__
+
+    Kubernetes platform for automating deployment, scaling, and management of containerized applications.
+
+    [:octicons-arrow-right-24: Kubernetes][ref-kubernetes]
+
+-   :fontawesome-solid-robot: __Inference__
+
+    Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
+
+    [:octicons-arrow-right-24: Inference][ref-inference]
 </div>
 

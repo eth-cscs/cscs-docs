@@ -1,6 +1,10 @@
 [](){#ref-uenv-vasp}
 # VASP
 
+!!! info ""
+    VASP is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 The Vienna Ab initio Simulation Package ([VASP]) is a computer program for atomic scale materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics, from first principles.
 
 VASP computes an approximate solution to the many-body Schrödinger equation, either within density functional theory (DFT), solving the Kohn-Sham equations, or within the Hartree-Fock (HF) approximation, solving the Roothaan equations.
@@ -26,7 +30,7 @@ These are coupled to highly efficient Broyden and Pulay density mixing schemes t
 
 ## Running VASP
 
-### Running on the HPC platform
+### Running on Daint
 A precompiled uenv containing VASP with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support is available.
 Due to license restrictions, the VASP images are not directly accessible in the same way as other applications.
 
@@ -64,7 +68,7 @@ srun vasp_std
     This is not required when using the CUDA MPS wrapper for oversubscription of GPUs.
 
 !!! note
-    VASP relies on CUDA-aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On the HPC platform including `daint`, this is set by default and does not have to be included in Slurm scripts.
+    VASP relies on CUDA-aware MPI, which requires `MPICH_GPU_SUPPORT_ENABLED=1` to be set when using Cray MPICH. On [Daint][ref-cluster-daint], this is set by default and does not have to be included in Slurm scripts.
 
 
 

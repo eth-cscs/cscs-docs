@@ -1,21 +1,760 @@
-[](){#ref-uenv-pytorch}
+[](){#ref-software-pytorch}
 # PyTorch
 
-The PyTorch software stack was designed with the intention of being able to run [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training workloads out of the box.
+!!! info ""
+    PyTorch is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
+PyTorch is available both as a container with the [Container Engine (CE)][ref-container-engine] and a [uenv][ref-uenv] software stack. The best choice for your use case depends on the amount of control required over the lower level libraries.
+
+While NGC provides an optimized build of PyTorch with many dependencies included, uenv allows a more flexible choice of lower level libraries and represents a thinner layer over the host system. Both options can be customized - a container via a Dockerfile and a uenv (in advanced use cases) via its recipe and both, additionally, via Python virtual environments built on top. Due to the simplicity and reproducible performance, containers are generally the recommended default for most users.
+
+[](){#ref-ce-pytorch}
+## Running PyTorch with the Container Engine (recommended)
+
+Running PyTorch from a container ensures maximum portability, reproducibility, and ease of use across machines. This is achieved by 
+
+1. selecting an appropriate base image and customizing it in a Dockerfile
+2. defining the container runtime environment in an EDF
+3. (optionally) extending with a virtual environment
+4. submitting jobs with CE in SLURM 
+
+!!! example
+    These steps are illustrated in the [machine learning tutorials][ref-tutorials-ml] and the instructions detailed in the [podman build guide][ref-build-containers].
+
+!!! info "Preliminary steps"
+    Before proceeding with the next steps, make sure you have storage for podman configured as in the [build guide][ref-build-containers-configure-podman] and make sure to apply [recommended Lustre settings][ref-guides-storage-lustre] to every directory (e.g. `$SCRATCH/ce-images`) dedicated to container images before importing them with enroot. This is necessary to guarantee good filesystem performance.
+
+    ```bash
+    lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images # (1)!
+    ```
+
+    1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
+
+
+### Select the base image
+
+For most applications, the [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) give an overview of installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the [podman build guide][ref-build-containers].
+
+### Define Container Runtime Environment
+
+Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted from the host and a working directory for the process in the container to start in as in the [quickstart examples for CE][ref-container-engine].
+
+Apart from this, there are specific features relevant for machine learning made available through [annotations][ref-ce-annotations], which customize the container at runtime.
+
+* When using NCCL inside the container, include the [aws-ofi-nccl][ref-ce-aws-ofi-hook] plugin which enables the container to interface with the host's libfabric and, thus, use the Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
+* An [SSH annotation][ref-ce-ssh-hook] allows adding a light-weight SSH server to the container without the need to modify the container image
+
+A resulting example TOML file following best practices may look like
+
+```toml  title="$HOME/my-app/ngc-pytorch-my-app-25.06.toml"
+image = "${SCRATCH}/ce-images/ngc-pytorch-my-app+25.06.sqsh" # (1)!
+
+mounts = [
+    "/capstor",
+    "/iopsstor",
+    "/users/${USER}/my-app"
+] # (2)!
+
+workdir = "${HOME}/my-app" # (3)!
+
+[annotations]
+com.hooks.aws_ofi_nccl.enabled = "true" # (4)!
+com.hooks.aws_ofi_nccl.variant = "cuda12"
+
+[env]
+NCCL_DEBUG = "INFO" # (5)!
+CUDA_CACHE_DISABLE = "1" # (6)!
+TORCH_NCCL_ASYNC_ERROR_HANDLING = "1" # (7)!
+MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
+```
+
+1. It is important to use curly braces for environment variables used in the EDF
+2. The path `/users` is not mounted as a whole since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
+3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
+4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin][ref-ce-aws-ofi-hook]. While not strictly needed for single node workloads, it is good practice to keep it always on.
+5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario. Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys).
+6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
+7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
+8. Disable GPU support in MPICH, as it can lead to deadlocks when using together with NCCL
+
+??? note "Access to SLURM from inside the container"
+    In case access to SLURM is required from inside the container, you can add the following lines to the mounts above:
+
+    ```toml
+    ...
+
+    mounts = [
+       "/capstor",
+       "/iopsstor",
+       "/users/${USER}/my-app",
+       "/etc/slurm", # (1)!
+       "/usr/lib64/libslurm-uenv-mount.so",
+       "/etc/container_engine_pyxis.conf"
+    ]
+
+    ...
+    ```
+
+    1. Enable Slurm commands (together with two subsequent mounts)
+
+!!! note "Best practice for production jobs"
+
+    For stability and reproducibility, use self-contained containers for production jobs. Using code mounted from the distributed filesystem may leave compiled artefacts behind that can result in unintentional runtime errors when e.g. swapping the container image. In particular, it is recommended to avoid mounting all of `$HOME`, so that environments are properly isolated and e.g. the Triton cache (that by default ends up in `$HOME/.triton`) resides in an ephemeral location of the filesystem.
+
+!!! note "Collaborating in Git"
+
+     For reproducibility, it is recommended to always track the Dockerfile, EDF and an optional virtual environment specification alongside your application code in a Git repository.
+
+[](){#ref-ce-pytorch-venv}
+### (Optionally) extend container with virtual environment
+
+While production jobs should include as many dependencies as possible in the container image, during development it can be convenient to manage frequently changing packages in a virtual environment built on top of the container image. This can include both dependencies and actively developed packages (that can be installed in editable mode with `pip install -e .`).
+
+To create such a virtual environment, _inside the container_ use the Python `venv` module with the option `--system-site-packages` to ensure that packages are installed _in addition_ to the existing packages. Without this option, packages may accidentally be re-installed shadowing a version that is already present in the container.
+A workflow installing additional packages in a virtual environment may look like this:
+
+```console
+[clariden-lnXXX]$ srun -A <ACCOUNT> \
+  --environment=./ngc-pytorch-my-app-25.06.toml --pty bash # (1)!
+user@nidYYYYYY$ python -m venv --system-site-packages venv-ngc-pt-25.06 # (2)!
+user@nidYYYYYY$ source venv-ngc-pt-25.06/bin/activate # (3)!
+(venv-ngc-pt-25.06) user@nidYYYYYY$ pip install <package>  # (3)!
+(venv-ngc-pt-25.06) user@nidYYYYYY$ exit
+```
+
+1. Allocate an interactive session on a compute node
+2. Create a virtual environment on top of the existing Python installation in the container (only necessary the first time)
+3. Activate the newly created virtual environment (always necessary when running a Slurm job)
+4. Install additional packages (only run this from a single process to avoid race conditions)
+
+The changes made to the virtual environment will outlive the container as they are persisted on the distributed filesystem.
+
+!!! note
+    Keep in mind that:
+
+     * this virtual environment is _specific_ to this particular container and won't actually work unless you are using it from inside this container - it relies on the resources packaged inside the container.
+     * every Slurm job making use of this virtual environment will need to activate it first (_inside_ the `srun` command). 
+
+
+### Submit jobs with the Container Engine in Slurm 
+
+A general template for a Pytorch distributed training job with Slurm in analogy to the [last tutorial][software-ml-llm-nanotron-tutorial] may look like
+
+```bash title="$HOME/my-app/submit-dist-train.sh"
+#!/bin/bash
+#SBATCH --account=<ACCOUNT>
+#SBATCH --job-name=dist-train-ddp
+#SBATCH --time=01:00:00
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=4
+#SBATCH --output=logs/slurm-%x-%j.log
+# (1)!
+
+set -x
+
+ulimit -c 0 # (2)!
+
+ # (3)!
+ # (4)!
+srun -ul --environment=./ngc-pytorch-my-app-25.06.toml bash -c "
+    . venv-ngc-pt-25.06/bin/activate  # activate (optional) venv
+
+--8<-- "docs/software/ml/torch_distributed_env_vars"
+    python dist-train.py <dist-train-args>
+"
+```
+
+1. If `#SBATCH --error=...` is not specified, `#SBATCH --output` will also contain stderr (error messages)
+2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
+3. Loading the virtual environment is mandatory within every `srun` command if it is used to manage packages.
+4. The environment variables are set to initialize PyTorch's distributed module through the environment (cf. [docs](https://docs.pytorch.org/docs/stable/distributed.html#environment-variable-initialization)).
+
+
+For further details on execution logic, job monitoring and data management, please refer to the [nanotron tutorial][software-ml-llm-nanotron-tutorial] (which in particular also explains the usage of `torchrun` with Slurm). Make sure to apply [recommended Lustre settings][ref-guides-storage-lustre] to datasets, models and container images persisted to the distributed filesystem.
+
+!!! warning "#SBATCH --environment"
+    The operations performed before the `srun` command are executed in the host environment of a single compute node in the allocation. If you need to perform these steps in the container environment as well, you can alternatively use the `#SBATCH --environment=path/to/ngc-pytorch-my-app-25.06.toml` option _instead of_ using `--environment` with `srun`.
+
+    Use of the `--environment` option for `sbatch` is still considered experimental and could result in unexpected behavior. In particular, avoid mixing `#SBATCH --environment` and `srun --environment` in the same job.
+
+    Use of `--environment` is currently only recommended for the `srun` command. 
+
+!!! note "Optimizing large-scale training jobs"
+    The following settings were established to **improve compute throughput** of LLM training in [Megatron-LM](https://github.com/NVIDIA/Megatron-LM):
+
+    * Extensively evaluate all possible parallelization dimensions, including data-, tensor- and pipeline parallelism (including virtual pipeline parallelism) and more, when available. Identify storage-related bottlenecks by isolating data loading/generation operations into a separate benchmark.
+
+    * [Disabling transparent huge pages][ref-slurm-features-thp] and [enabling the Nvidia vboost feature][ref-slurm-features-vboost] has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
+       ```bash
+       #SBATCH -C thp_never&nvidia_vboost_enabled
+       ```
+
+    * The argument `--ddp-bucket-size` controls the level of grouping of many small data-parallel communications into bigger ones and setting it to a high value can improve throughput (model-dependent, e.g. `10000000000`).
+
+    * If in doubt about communication performance with NCCL at scale, use the [`NCCL_DEBUG`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug) environment variable to validate that the aws-ofi-nccl plugin has been properly initialized and libfabric was recognized (further subsystems can be monitored with [`NCCL_DEBUG_SUBSYS`](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys)). If the issue persists, use [nccl-tests](https://github.com/NVIDIA/nccl-tests) with the relevant communication patterns to check if the scaling behavior can be reproduced and contact CSCS support.
+
+    Additionally, consider the **best practice for checkpointing and data management**:
+
+    * Following the advice on [filesystems][ref-storage-fs], write checkpoints (sequential write) to `/capstor/scratch` and place randomly accessed training data (many small random reads) on `/iopsstor/scratch`. Use the [data transfer instructions][ref-data-xfer] to move data to/from `/capstor/store`. Make sure to apply recommended [Lustre settings][ref-guides-storage-lustre] on all directories containing significant amount of data, including those containing container images and managed by other tools (e.g. the HuggingFace cache, see [`HF_HOME`](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome) in the [this tutorial][software-ml-llm-inference-tutorial]). In case your workload continues to be limited by filesystem performance, contact CSCS support.
+
+    * Regularly adjust checkpoint writing intervals to the current overhead induced by writing a checkpoint ($T_1$) and mean time between job failures ($T_2$). As a first order approximation use a checkpointing interval of $\sqrt{2 T_1 T_2}$ (derived by [Young](https://doi.org/10.1145/361147.361115) and [Daly](https://doi.org/10.1016/j.future.2004.11.016)).
+
+    * Avoid activities that put excessive load on third party services (such as web scraping or bulk downloads) in line with the [guidelines on Internet Access on Alps][ref-guides-internet-access-ext].
+
+    Adjust for **cluster availability**:
+
+    * Submit your jobs with a Slurm time limit compatible with reservations (such as maintenance windows, cf. `scontrol show res`) to be able to get scheduled.
+
+??? info "Debugging segmentation faults"
+    Application crashes with segmentation faults can be investigated by inspecting core dump files that contain an image of the process memory at the time of the crash. For this purpose, you can load the core dump file with `cuda-gdb` installed in the container and look at the stack trace with `bt`. Note that in order to generate core dump files the line `ulimit -c 0` must be commented out in the above sbatch script.
+
+### Known Issues
+
+The [Release Notes](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) of every NGC PyTorch container contain a selected list of known issues.
+
+??? info "Errors hidden by failures in UCX signal handler"
+    Application errors may trigger the UCX signal handler in the NGC container, which has caused secondary failures in the past, shadowing the initial error trace. These secondary failures may be significantly harder to fix than the initial problem.
+    
+    An example is the following trace from the NGC PyTorch 25.01 with Megatron-LM:
+    ```console
+    640: [nid007306:244443:0:244443] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x455)
+    640: ==== backtrace (tid: 244443) ====
+    640:  0  /opt/hpcx/ucx/lib/libucs.so.0(ucs_handle_error+0x2cc) [0x4000d2b214dc]
+    640:  1  /opt/hpcx/ucx/lib/libucs.so.0(+0x3168c) [0x4000d2b2168c]
+    640:  2  /opt/hpcx/ucx/lib/libucs.so.0(+0x319b8) [0x4000d2b219b8]
+    640:  3  linux-vdso.so.1(__kernel_rt_sigreturn+0) [0x4000347707dc]
+    640:  4  /usr/local/cuda/lib64/libnvrtc.so.12.8.61(+0x935000) [0x400140a25000]
+    640:  5  [0x3d5c5e58]
+    640: =================================
+    srun: error: nid007306: task 640: Segmentation fault
+    srun: Terminating StepId=348680.1
+    ```
+    In this case, the segmentation fault in the UCX signal handler (`ucs_handle_error`) was due to a broken NVRTC in the container. However, to obtain the trace of the initial error (which was unrelated), it was necessary to disable the UCX signal handler by setting the following environment variable in the sbatch script:
+    ```bash
+    export UCX_HANDLE_ERRORS=none
+    ```
+
+??? info "Avoid `--defer-embedding-wgrad-compute` in Megatron-LM"
+    In Megatron-LM, avoid using the option `--defer-embedding-wgrad-compute` to delay the embedding gradient computation as it can lead to an incorrect gradient norm that changes upon resuming at different scale.
+
+[](){#ref-uenv-pytorch}
+## Running PyTorch with a uenv
+
+The PyTorch uenv software stack was designed with the intention of being able to run [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)-based pre-training workloads out of the box.
 Thus, it comes with batteries included and does not just provide the bare [PyTorch framework](https://github.com/pytorch/pytorch).
 
 !!! note "uenv"
 
-    [PyTorch][ref-uenv-pytorch] is provided via [uenv][ref-uenv].
+    The [PyTorch uenv][ref-uenv-pytorch] is provided via the tool [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
-## Versioning
+### Versioning
 
 The PyTorch uenv is versioned according to the PyTorch version it provides.
 
 | version   | node types | system                  |
 |-----------|------------|-------------------------|
-| v2.6.0     | gh200      | clariden, daint         |
+| v2.9.1    | gh200      | clariden, daint, santis |
+| v2.8.0    | gh200      | clariden, daint, santis |
+| v2.6.0    | gh200      | clariden, daint         |
+
+=== "v2.9.1"
+
+    ??? info "non-Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `abseil-cpp` | `20250814.1` |
+        | `autoconf` | `2.72` |
+        | `automake` | `1.16.5` |
+        | `aws-ofi-nccl` | `1.18.0` |
+        | `bc` | `1.07.1` |
+        | `berkeley-db` | `18.1.40` |
+        | `binutils` | `2.45` |
+        | `bison` | `3.8.2` |
+        | `boost` | `1.89.0` |
+        | `bzip2` | `1.0.8` |
+        | `ca-certificates-mozilla` | `2025-08-12` |
+        | `c-ares` | `1.28.1` |
+        | `cassini-headers` | `git.release/shs-13.0.0=13.0.0` |
+        | `c-blosc` | `1.21.6` |
+        | `check` | `0.15.2` |
+        | `cmake` | `3.31.9` |
+        | `compiler-wrapper` | `1.0` |
+        | `cpuinfo` | `2025-03-21` |
+        | `cray-gtl` | `9.0.0` |
+        | `cray-mpich` | `9.0.0` |
+        | `cray-pals` | `1.3.2` |
+        | `cray-pmi` | `6.1.15` |
+        | `cublasmp` | `0.5.0.898` |
+        | `cuda` | `12.9.1` |
+        | `cudnn` | `9.8.0.87-12` |
+        | `curl` | `8.17.0` |
+        | `cusparselt` | `0.8.1-cuda120` |
+        | `cutensor` | `2.0.1.2` |
+        | `cutlass` | `4.1.0` |
+        | `cxi-driver` | `git.release/shs-13.0.0=13.0.0` |
+        | `diffutils` | `3.12` |
+        | `dynolog` | `0.5.0` |
+        | `ed` | `1.4` |
+        | `eigen` | `5.0.1` |
+        | `expat` | `2.7.3` |
+        | `faiss` | `1.8.0` |
+        | `fftw` | `3.3.10` |
+        | `findutils` | `4.10.0` |
+        | `flex` | `2.6.3` |
+        | `fmt` | `12.1.0` |
+        | `fp16` | `2020-05-14` |
+        | `fxdiv` | `2020-04-17` |
+        | `gcc` | `14.2.0` |
+        | `gcc-runtime` | `14.2.0` |
+        | `gdbm` | `1.25` |
+        | `gdrcopy` | `2.5.1` |
+        | `gettext` | `0.23.1` |
+        | `git` | `2.52.0` |
+        | `glibc` | `2.31` |
+        | `gmake` | `4.4.1` |
+        | `gnuconfig` | `2024-07-27` |
+        | `gsl` | `2.8` |
+        | `hdf5` | `1.14.6` |
+        | `hwloc` | `2.12.2` |
+        | `hydra` | `4.2.1` |
+        | `json-c` | `0.18` |
+        | `krb5` | `1.21.3` |
+        | `libaec` | `1.1.4` |
+        | `libaio` | `0.3.113` |
+        | `libbsd` | `0.12.2` |
+        | `libconfig` | `1.7.3` |
+        | `libcxi` | `git.release/shs-13.0.0=13.0.0` |
+        | `libedit` | `3.1-20240808` |
+        | `libfabric` | `2.4.0-dev` |
+        | `libffi` | `3.5.2` |
+        | `libfuse` | `2.9.9` |
+        | `libgit2` | `1.9.1` |
+        | `libiconv` | `1.18` |
+        | `libidn2` | `2.3.7` |
+        | `libjpeg-turbo` | `3.0.4` |
+        | `libmd` | `1.1.0` |
+        | `libnl` | `3.3.0` |
+        | `libpciaccess` | `0.17` |
+        | `libpng` | `1.6.47` |
+        | `libpthread-stubs` | `0.5` |
+        | `libsigsegv` | `2.14` |
+        | `libssh2` | `1.11.1` |
+        | `libtool` | `2.4.7` |
+        | `libtree` | `3.1.1` |
+        | `libunistring` | `1.2` |
+        | `libunwind` | `master` |
+        | `liburing` | `2.12` |
+        | `libuv` | `1.48.0` |
+        | `libxau` | `1.0.12` |
+        | `libxcb` | `1.17.0` |
+        | `libxcrypt` | `4.4.38` |
+        | `libxdmcp` | `1.1.5` |
+        | `libxml2` | `2.13.5` |
+        | `libyaml` | `0.2.5` |
+        | `lm-sensors` | `3-6-0` |
+        | `lua` | `5.4.6` |
+        | `lz4` | `1.10.0` |
+        | `m4` | `1.4.20` |
+        | `magma` | `2.9.0` |
+        | `meson` | `1.8.5` |
+        | `nasm` | `2.16.03` |
+        | `nccl` | `2.29.2-1` |
+        | `nccl-tests` | `2.17.6` |
+        | `ncurses` | `6.5-20250705` |
+        | `netcdf-c` | `4.9.3` |
+        | `netcdf-cxx` | `4.2` |
+        | `netcdf-fortran` | `4.6.2` |
+        | `nghttp2` | `1.67.1` |
+        | `ninja` | `1.13.0` |
+        | `nlohmann-json` | `3.12.0` |
+        | `numactl` | `2.0.19` |
+        | `nvidia-mathdx` | `25.06.1-cuda12` |
+        | `nvshmem` | `3.4.5` |
+        | `nvtx` | `3.2.1` |
+        | `openblas` | `0.3.30` |
+        | `openssh` | `9.9p1` |
+        | `openssl` | `3.6.0` |
+        | `osu-micro-benchmarks` | `7.5.2` |
+        | `papi` | `7.2.0` |
+        | `patchelf` | `0.17.2` |
+        | `pcre2` | `10.44` |
+        | `pcre` | `8.45` |
+        | `perl` | `5.42.0` |
+        | `pigz` | `2.8` |
+        | `pkgconf` | `2.5.1` |
+        | `prometheus-cpp` | `1.3.0` |
+        | `protobuf` | `33.1` |
+        | `psimd` | `2020-05-17` |
+        | `pthreadpool` | `2023-08-29` |
+        | `python` | `3.12.12` |
+        | `python-venv` | `1.0` |
+        | `rdma-core-mock` | `60.1` |
+        | `re2` | `2024-07-02` |
+        | `re2c` | `3.1` |
+        | `readline` | `8.3` |
+        | `rust` | `1.89.0` |
+        | `rust-bootstrap` | `1.89.0` |
+        | `sed` | `4.9` |
+        | `sleef` | `3.8` |
+        | `snappy` | `1.2.1` |
+        | `sqlite` | `3.50.4` |
+        | `swig` | `4.1.1` |
+        | `tar` | `1.35` |
+        | `texinfo` | `7.2` |
+        | `ucc` | `1.6.0` |
+        | `ucx` | `1.19.1` |
+        | `unzip` | `6.0` |
+        | `util-linux-uuid` | `2.41` |
+        | `util-macros` | `1.20.1` |
+        | `valgrind` | `3.26.0` |
+        | `which` | `2.21` |
+        | `xcb-proto` | `1.17.0` |
+        | `xcb-util` | `0.4.1` |
+        | `xcb-util-cursor` | `0.1.5` |
+        | `xcb-util-image` | `0.4.1` |
+        | `xcb-util-renderutil` | `0.3.10` |
+        | `xpmem` | `2.9.6` |
+        | `xproto` | `7.0.31` |
+        | `xz` | `5.6.3` |
+        | `zlib` | `1.3.1` |
+        | `zlib-ng` | `2.2.4` |
+        | `zstd` | `1.5.7` |
+
+    ??? info "Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `absl-py` | `1.4.0` |
+        | `annotated-types` | `0.7.0` |
+        | `apex` | `0.1` |
+        | `certifi` | `2025.7.14` |
+        | `charset-normalizer` | `3.4.4` |
+        | `cuda-bindings` | `12.9.1` |
+        | `cuda-core` | `0.2.0` |
+        | `cuda-pathfinder` | `1.2.3` |
+        | `cuda-python` | `12.9.1` |
+        | `Cython` | `3.2.3` |
+        | `einops` | `0.8.1` |
+        | `faiss` | `1.8.0` |
+        | `filelock` | `3.19.1` |
+        | `fsspec` | `2025.9.0` |
+        | `grpcio` | `1.75.0` |
+        | `hf-xet` | `1.2.0` |
+        | `huggingface_hub` | `0.36.0` |
+        | `idna` | `3.10` |
+        | `importlib_metadata` | `8.7.0` |
+        | `iniconfig` | `2.1.0` |
+        | `Jinja2` | `3.1.6` |
+        | `lightning-utilities` | `0.11.2` |
+        | `Markdown` | `3.4.1` |
+        | `MarkupSafe` | `3.0.2` |
+        | `meson` | `1.8.5` |
+        | `ml_dtypes` | `0.5.3` |
+        | `mpi4py` | `4.1.1` |
+        | `mpmath` | `1.3.0` |
+        | `nanobind` | `2.8.0` |
+        | `networkx` | `3.5` |
+        | `numpy` | `2.4.1` |
+        | `nvshmem4py-cu12` | `0.1.2` |
+        | `nvtx` | `0.2.12` |
+        | `onnx` | `1.20.0` |
+        | `onnx-ir` | `0.1.12` |
+        | `onnxscript` | `0.5.6.dev20260122` |
+        | `packaging` | `25.0` |
+        | `pillow` | `12.1.0` |
+        | `pip` | `25.1.1` |
+        | `pluggy` | `1.6.0` |
+        | `protobuf` | `6.33.1` |
+        | `pybind11` | `3.0.1` |
+        | `pyclibrary` | `0.2.2` |
+        | `pydantic` | `2.12.4` |
+        | `pydantic_core` | `2.41.5` |
+        | `Pygments` | `2.19.2` |
+        | `pyparsing` | `3.2.5` |
+        | `pytest` | `9.0.0` |
+        | `PyYAML` | `6.0.3` |
+        | `regex` | `2025.11.3` |
+        | `requests` | `2.32.5` |
+        | `safetensors` | `0.6.2` |
+        | `setuptools` | `79.0.1` |
+        | `six` | `1.17.0` |
+        | `sympy` | `1.14.0` |
+        | `tensorboard` | `2.20.0` |
+        | `tensorboard_data_server` | `0.7.0` |
+        | `tokenizers` | `0.22.1` |
+        | `torch` | `2.9.1` |
+        | `torchaudio` | `2.9.1+a224ab2` |
+        | `torchmetrics` | `1.8.2` |
+        | `torchvision` | `0.24.1` |
+        | `tqdm` | `4.67.1` |
+        | `transformer_engine` | `2.11.0+c188b53` |
+        | `transformers` | `4.57.0` |
+        | `triton` | `3.5.1` |
+        | `typing_extensions` | `4.15.0` |
+        | `typing-inspection` | `0.4.2` |
+        | `urllib3` | `2.5.0` |
+        | `Werkzeug` | `3.1.3` |
+        | `zipp` | `3.23.0` |
+
+=== "v2.8.0"
+
+    ??? info "non-Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `abseil-cpp` | `20250814.1`|
+        | `alsa-lib` | `1.2.3.2`|
+        | `autoconf` | `2.72`|
+        | `automake` | `1.16.5`|
+        | `aws-ofi-nccl` | `1.17.1`|
+        | `bc` | `1.07.1`|
+        | `berkeley-db` | `18.1.40`|
+        | `binutils` | `2.45`|
+        | `bison` | `3.8.2`|
+        | `boost` | `1.88.0`|
+        | `bzip2` | `1.0.8`|
+        | `ca-certificates-mozilla` | `2025-08-12`|
+        | `c-ares` | `1.28.1`|
+        | `cassini-headers` | `git.59b6de6a91d9637809677c50cc48b607a91a9acb`|
+        | `c-blosc` | `1.21.6`|
+        | `check` | `0.15.2`|
+        | `cmake` | `3.31.9`|
+        | `compiler-wrapper` | `1.0`|
+        | `cpuinfo` | `2025-03-21`|
+        | `cray-gtl` | `8.1.32`|
+        | `cray-mpich` | `8.1.32`|
+        | `cray-pals` | `1.3.2`|
+        | `cray-pmi` | `6.1.15`|
+        | `cublasmp` | `0.5.0.898`|
+        | `cuda` | `12.9.0`|
+        | `cudnn` | `9.8.0.87-12`|
+        | `cudss` | `0.7.0`|
+        | `curl` | `8.15.0`|
+        | `cusparselt` | `0.8.1-cuda120`|
+        | `cutensor` | `2.0.1.2`|
+        | `cutlass` | `4.1.0`|
+        | `cxi-driver` | `git.08deb056fac4ca8b0d3d39b5f7cc0dad019ee266`|
+        | `diffutils` | `3.12`|
+        | `dynolog` | `0.5.0`|
+        | `ed` | `1.4`|
+        | `eigen` | `5.0.0`|
+        | `expat` | `2.7.3`|
+        | `faiss` | `1.8.0`|
+        | `ffmpeg` | `6.1.1`|
+        | `fftw` | `3.3.10`|
+        | `findutils` | `4.10.0`|
+        | `flac` | `1.5.0`|
+        | `flex` | `2.6.3`|
+        | `fmt` | `12.1.0`|
+        | `fp16` | `2020-05-14`|
+        | `fxdiv` | `2020-04-17`|
+        | `gcc` | `14.2.0`|
+        | `gcc-runtime` | `14.2.0`|
+        | `gdbm` | `1.25`|
+        | `gdrcopy` | `2.5.1`|
+        | `gettext` | `0.23.1`|
+        | `git` | `2.48.1`|
+        | `glibc` | `2.31`|
+        | `gmake` | `4.4.1`|
+        | `gnuconfig` | `2024-07-27`|
+        | `gsl` | `2.8`|
+        | `hdf5` | `1.14.6`|
+        | `hwloc` | `2.12.2`|
+        | `hydra` | `4.2.1`|
+        | `json-c` | `0.18`|
+        | `kokkos` | `4.7.01`|
+        | `kokkos-kernels` | `4.7.01`|
+        | `kokkos-nvcc-wrapper` | `4.7.01`|
+        | `kokkos-tools` | `develop`|
+        | `krb5` | `1.21.3`|
+        | `libaec` | `1.1.4`|
+        | `libaio` | `0.3.113`|
+        | `libbsd` | `0.12.2`|
+        | `libconfig` | `1.7.3`|
+        | `libcxi` | `git.be1f7149482581ad589a124e5f6764b9d20d2d45`|
+        | `libedit` | `3.1-20240808`|
+        | `libfabric` | `2.3.1`|
+        | `libffi` | `3.5.2`|
+        | `libfuse` | `2.9.9`|
+        | `libgit2` | `1.9.1`|
+        | `libiconv` | `1.18`|
+        | `libidn2` | `2.3.7`|
+        | `libjpeg-turbo` | `3.0.4`|
+        | `libmd` | `1.1.0`|
+        | `libnl` | `3.3.0`|
+        | `libogg` | `1.3.6`|
+        | `libpciaccess` | `0.17`|
+        | `libpng` | `1.6.47`|
+        | `libpthread-stubs` | `0.5`|
+        | `libsigsegv` | `2.14`|
+        | `libssh2` | `1.11.1`|
+        | `libtool` | `2.4.7`|
+        | `libtree` | `3.1.1`|
+        | `libunistring` | `1.2`|
+        | `libunwind` | `master`|
+        | `liburing` | `2.12`|
+        | `libuv` | `1.48.0`|
+        | `libvorbis` | `1.3.7`|
+        | `libxau` | `1.0.12`|
+        | `libxcb` | `1.17.0`|
+        | `libxcrypt` | `4.4.38`|
+        | `libxdmcp` | `1.1.5`|
+        | `libxml2` | `2.13.5`|
+        | `libyaml` | `0.2.5`|
+        | `lm-sensors` | `3-6-0`|
+        | `lua` | `5.4.6`|
+        | `lz4` | `1.10.0`|
+        | `m4` | `1.4.20`|
+        | `magma` | `2.9.0`|
+        | `meson` | `1.8.5`|
+        | `metis` | `5.1.0`|
+        | `nasm` | `2.16.03`|
+        | `nccl` | `2.28.7-1`|
+        | `nccl-tests` | `2.16.3`|
+        | `ncurses` | `6.5-20250705`|
+        | `netcdf-c` | `4.9.3`|
+        | `netcdf-cxx` | `4.2`|
+        | `netcdf-fortran` | `4.6.2`|
+        | `netlib-scalapack` | `2.2.2`|
+        | `nghttp2` | `1.67.1`|
+        | `ninja` | `1.13.0`|
+        | `nlohmann-json` | `3.12.0`|
+        | `numactl` | `2.0.18`|
+        | `nvidia-mathdx` | `25.06.1-cuda12`|
+        | `nvshmem` | `3.4.5`|
+        | `nvtx` | `3.2.1`|
+        | `openblas` | `0.3.30`|
+        | `openssh` | `9.9p1`|
+        | `openssl` | `3.6.0`|
+        | `opus` | `1.5.2`|
+        | `osu-micro-benchmarks` | `7.5.1`|
+        | `papi` | `7.2.0`|
+        | `patchelf` | `0.17.2`|
+        | `pcre2` | `10.44`|
+        | `pcre` | `8.45`|
+        | `perl` | `5.42.0`|
+        | `pigz` | `2.8`|
+        | `pkgconf` | `2.5.1`|
+        | `prometheus-cpp` | `1.3.0`|
+        | `protobuf` | `33.0`|
+        | `psimd` | `2020-05-17`|
+        | `pthreadpool` | `2023-08-29`|
+        | `py-mpi4py` | `4.0.1`|
+        | `py-setuptools` | `79.0.1`|
+        | `python` | `3.12.12`|
+        | `python-venv` | `1.0`|
+        | `py-wheel` | `0.45.1`|
+        | `rdma-core` | `31.0`|
+        | `re2` | `2024-07-02`|
+        | `re2c` | `3.1`|
+        | `readline` | `8.3`|
+        | `rust` | `1.91.0`|
+        | `rust-bootstrap` | `1.91.0`|
+        | `sleef` | `3.8`|
+        | `snappy` | `1.2.1`|
+        | `sox` | `14.4.2`|
+        | `sqlite` | `3.50.4`|
+        | `superlu` | `7.0.0`|
+        | `swig` | `4.1.1`|
+        | `tar` | `1.35`|
+        | `texinfo` | `7.2`|
+        | `ucc` | `1.5.1`|
+        | `ucx` | `1.19.0`|
+        | `unzip` | `6.0`|
+        | `util-linux-uuid` | `2.41`|
+        | `util-macros` | `1.20.1`|
+        | `valgrind` | `3.25.1`|
+        | `xcb-proto` | `1.17.0`|
+        | `xcb-util` | `0.4.1`|
+        | `xcb-util-cursor` | `0.1.5`|
+        | `xcb-util-image` | `0.4.1`|
+        | `xcb-util-renderutil` | `0.3.10`|
+        | `xpmem` | `2.9.6`|
+        | `xproto` | `7.0.31`|
+        | `xz` | `5.6.3`|
+        | `zlib` | `1.3.1`|
+        | `zlib-ng` | `2.2.4`|
+        | `zstd` | `1.5.7`|
+
+    ??? info "Python packages exposed via the `default` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `absl-py`                 | `1.4.0`|
+        | `annotated-types`         | `0.7.0`|
+        | `apex`                    | `0.1`|
+        | `astunparse`              | `1.6.3`|
+        | `certifi`                 | `2025.7.14`|
+        | `charset-normalizer`      | `3.4.4`|
+        | `cuda-bindings`           | `12.9.0`|
+        | `cuda-core`               | `0.2.0`|
+        | `cutlass_library`         | `4.0.0`|
+        | `Cython`                  | `3.1.3`|
+        | `einops`                  | `0.8.1`|
+        | `faiss`                   | `1.8.0`|
+        | `filelock`                | `3.19.1`|
+        | `fsspec`                  | `2025.9.0`|
+        | `grpcio`                  | `1.75.0`|
+        | `hf-xet`                  | `1.2.0`|
+        | `huggingface_hub`         | `0.36.0`|
+        | `idna`                    | `3.10`|
+        | `importlib_metadata`      | `7.0.1`|
+        | `iniconfig`               | `2.1.0`|
+        | `Jinja2`                  | `3.1.6`|
+        | `lightning-utilities`     | `0.11.2`|
+        | `Markdown`                | `3.4.1`|
+        | `MarkupSafe`              | `3.0.2`|
+        | `meson`                   | `1.8.5`|
+        | `ml_dtypes`               | `0.5.3`|
+        | `mpi4py`                  | `4.0.1`|
+        | `mpmath`                  | `1.3.0`|
+        | `networkx`                | `3.5`|
+        | `numpy`                   | `2.3.4`|
+        | `nvshmem4py-cu12`         | `0.1.2`|
+        | `nvtx`                    | `0.2.12`|
+        | `onnx`                    | `1.19.1`|
+        | `onnx-ir`                 | `0.1.12`|
+        | `onnxscript`              | `0.5.6.dev20251104`|
+        | `packaging`               | `25.0`|
+        | `pillow`                  | `12.0.0`|
+        | `pip`                     | `25.1.1`|
+        | `pluggy`                  | `1.6.0`|
+        | `protobuf`                | `6.33.0`|
+        | `pybind11`                | `3.0.1`|
+        | `pyclibrary`              | `0.2.2`|
+        | `pycute`                  | `4.0.0`|
+        | `pydantic`                | `2.10.1`|
+        | `pydantic_core`           | `2.27.1`|
+        | `Pygments`                | `2.19.2`|
+        | `pyparsing`               | `3.2.5`|
+        | `pytest`                  | `8.4.1`|
+        | `PyYAML`                  | `6.0.3`|
+        | `regex`                   | `2025.11.3`|
+        | `requests`                | `2.32.5`|
+        | `safetensors`             | `0.6.2`|
+        | `setuptools`              | `79.0.1`|
+        | `six`                     | `1.17.0`|
+        | `sympy`                   | `1.13.3`|
+        | `tensorboard`             | `2.20.0`|
+        | `tensorboard_data_server` | `0.7.0`|
+        | `tokenizers`              | `0.22.1`|
+        | `torch`                   | `2.8.0`|
+        | `torchaudio`              | `2.8.0a0+6e1c7fe`|
+        | `torchmetrics`            | `1.8.2`|
+        | `torchvision`             | `0.23.0`|
+        | `tqdm`                    | `4.67.1`|
+        | `transformer_engine`      | `2.8.0+40c69e75`|
+        | `transformers`            | `4.57.0`|
+        | `triton`                  | `3.4.0`|
+        | `typing_extensions`       | `4.14.1`|
+        | `urllib3`                 | `2.5.0`|
+        | `vllm`                    | `0.11.1.dev0+gb8b302cde.d19800101.cu129`|
+        | `Werkzeug`                | `3.1.3`|
+        | `wheel`                   | `0.45.1`|
+        | `zipp`                    | `3.17.0`|
 
 === "v2.6.0"
 
@@ -241,7 +980,7 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
 
 
 [](){#ref-uenv-pytorch-how-to-use}
-## How to use
+### How to use
 
 There are two ways to access the software provided by the uenv, once it has been started.
 
@@ -249,8 +988,8 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
-    ```console title="Test mpi compilers and python provided by pytorch/v2.6.0"
-    $ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
+    ```console title="Test mpi compilers and python provided by pytorch/v2.8.0"
+    $ uenv start pytorch/v2.8.0:v1 --view=default # (1)!
 
     $ which python # (2)!
     /user-environment/env/default/bin/python
@@ -276,69 +1015,44 @@ There are two ways to access the software provided by the uenv, once it has been
 
     The pytorch uenv can also be used as a base for building software with Spack, because it provides compilers, MPI, Python and common packages like HDF5.
 
-    [Check out the guide for using Spack with uenv][ref-building-uenv-spack].
+    [Check out the guide for using Spack with uenv][ref-build-uenv-spack].
 
 [](){#ref-uenv-pytorch-venv}
-## Adding Python packages on top of the uenv
+### Adding Python packages on top of the uenv
 
-Uenvs are read-only, and cannot be modified. However, it is possible to add Python packages on top of the uenv using virtual environments.
+Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages.
+Please refer to the [guide for installing Python virtual environments on uenv][ref-python-uenv-venv] and the [guide on performance][ref-guides-storage-venv] for more details on:
 
-```console title="Creating a virtual environment on top of the uenv"
-$ uenv start pytorch/v2.6.0:v1 --view=default # (1)!
+- creating and managing virtual environments on top of uenvs;
+- best practices and caveats when using virtual environments with uenvs;
+- and, troubleshooting common issues.
 
-$ python -m venv --system-site-packages ./my-venv # (2)!
-
-$ source ./my-venv/bin/activate # (3)!
-
-(my-venv) $ pip install <package> # (4)!
-
-(my-venv) $ deactivate # (5)!
-
-$ exit # (6)!
-```
-
-1. The `default` view is recommended, as it loads all the packages provided by the uenv.
-   This is important for PyTorch to work correctly, as it relies on the CUDA and NCCL libraries provided by the uenv.
-2. The virtual environment is created in the current working directory, and can be activated and deactivated like any other Python virtual environment.
-3. Activating the virtual environment will override the Python executable provided by the uenv, and use the one from the virtual environment instead.
-   This is important to ensure that the packages installed in the virtual environment are used.
-4. The virtual environment can be used to install any Python package.
-5. The virtual environment can be deactivated using the `deactivate` command.
-   This will restore the original Python executable provided by the uenv.
-6. The uenv can be exited using the `exit` command or by typing `ctrl-d`.
-
-
-!!! note "Squashing the virtual environment"
-    Python virtual environments can be slow on the parallel Lustre file system due to the amount of small files and potentially many processes accessing it.
-    If this becomes a bottleneck, consider [squashing the venv][ref-guides-storage-venv] into its own memory-mapped, read-only file system to enhance scalability and reduce load times.
-
-Alternatively one can use the uenv as [upstream Spack instance][ref-building-uenv-spack] to to add both Python and non-Python packages.
-However, this workflow is more involved and intended for advanced Spack users.
-
-## Running PyTorch jobs with Slurm
+### Running PyTorch jobs with Slurm
 
 ```bash title="Slurm sbatch script"
 #!/bin/bash
-#SBATCH --job-name=myjob
-#SBATCH --nodes=1
+#SBATCH --account=<ACCOUNT>
+#SBATCH --job-name=dist-train-ddp
+#SBATCH --time=01:00:00
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=72
-#SBATCH --time=00:30:00
+#SBATCH --output=logs/slurm-%x-%j.log
 # (1)!
-#SBATCH --uenv=pytorch/v2.6.0:/user-environment
+#SBATCH --uenv=pytorch/v2.8.0:/user-environment
 #SBATCH --view=default
+
+set -x
+
+ulimit -c 0 # (2)!
 
 #################################
 # OpenMP environment variables #
 #################################
-export OMP_NUM_THREADS=8 # (2)!
+export OMP_NUM_THREADS=8 # (3)!
 
 #################################
 # PyTorch environment variables #
 #################################
-export MASTER_ADDR=$(hostname) # (3)!
-export MASTER_PORT=29500
-export WORLD_SIZE=$SLURM_NPROCS
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
 export TRITON_HOME=/dev/shm/ # (5)!
 
@@ -360,30 +1074,30 @@ export CUDA_CACHE_DISABLE=1 # (7)!
 
 # (9)!
 # (10)!
-srun bash -c "
-    export RANK=\$SLURM_PROCID
-    export LOCAL_RANK=\$SLURM_LOCALID
-    . ./my-venv/bin/activate
-    python myscript.py
+srun -ul bash -c "
+    . ./venv-uenv-pt2.8-v1/bin/activate
+
+--8<-- "docs/software/ml/torch_distributed_env_vars"
+    python dist-train.py <dist-train-args>
 "
 ```
 
 1. The `--uenv` option is used to specify the uenv to use for the job.
    The `--view=default` option is used to load all the packages provided by the uenv.
-2. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
+3. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
    The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
    The optimal number depends on the workload and should be determined by testing.
    Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
-3. These variables are used by PyTorch to initialize the distributed backend.
-   The `MASTER_ADDR`, `MASTER_PORT` and `WORLD_SIZE` variables are used to determine the address and port of the master node.
-   Additionally we also need `RANK` and `LOCAL_RANK` but these must be set per-process, see below.
 4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
 5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
-   This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it.
+   This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it. Avoid this setting with the container engine as it may lead to errors related to mount settings of `/dev/shm` (use a filesystem path inside the container instead).
 6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
 7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
-8. These variables should always be set for correctness and optimal performance when using NCCL, see [the detailed explanation][ref-communication-nccl].
-9. `RANK` and `LOCAL_RANK` are set per-process by the Slurm job launcher.
-10. Activate the virtual environment created on top of the uenv (if any).
+8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation][ref-communication-nccl].
+9. Activate the virtual environment created on top of the uenv (if any).
    Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
+10. The environment variables are used by PyTorch to initialize the distributed backend.
+   The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node.
+   Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.
 

@@ -29,7 +29,7 @@ Currently Globus provide the following mount points at CSCS:
 | `/iopsstor/scratch/cscs` | [Iopsstor scratch][ref-alps-iopsstor] |
 | `/capstor/scratch/cscs` | [Capstor scratch][ref-alps-capstor] |
 | `/capstor/store/cscs` | [Store][ref-storage-store] |
-| `/vast/users/cscs` | [Home][ref-alps-vast] |
+| `/vast/users/cscs` | [Home][ref-alps-vadret] |
 
 [](){#ref-data-xfer-internal}
 ## Internal Transfer
@@ -43,6 +43,7 @@ cp
 mv
 rm
 rsync
+rclone
 ```
 
 You can adjust the Slurm batch script below to transfer your input data on `$SCRATCH`, setting the variable command to the unix command that you intend to use, choosing from the list given above:

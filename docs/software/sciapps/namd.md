@@ -1,6 +1,10 @@
 [](){#ref-uenv-namd}
 # NAMD
 
+!!! info ""
+    NAMD is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [NAMD] is a parallel molecular dynamics code based on [Charm++], designed for high-performance simulations of large biomolecular systems.
 
 !!! danger "Licensing Terms and Conditions"
@@ -25,6 +29,13 @@ The multi-node build works on multiple nodes and is based on [Charm++]'s MPI bac
 !!! warning "Eiger"
 
     The multi-node version is the only version of NAMD available on [Eiger][ref-cluster-eiger] - single-node is not provided.
+
+!!! note "Changelog"
+
+    !!! note "3.0.2:v1"
+
+        * Updated CUDA from 12.4 to 12.9
+        * Disabled Adaptive MPI (AMPI) in Charm++
 
 ## Single-node build
 

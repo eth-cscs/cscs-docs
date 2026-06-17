@@ -4,6 +4,51 @@
 This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
 This means that everybody, CSCS staff and the CSCS user community can contribute to the documentation.
 
+## Making suggestions or small changes
+
+If you have a suggestion, comment or small change to make when reading the documentation, there are three ways to reach out.
+
+1.  **Edit the page inline**: click on the :material-pencil: icon on the top right hand corner of each page, and make the change inline. When you click "commit", and create a pull request, which will then be reviewed by the CSCS docs team.
+1.  **Create a GitHub issue**: create an issue on the [issue page](https://github.com/eth-cscs/cscs-docs/issues) on the GitHub repository.
+1.  **Create a CSCS service desk ticket**: create a ticket on the CSCS service desk.
+    This is useful if you don't have a GitHub account, or would prefer not to use Github.
+
+## Before starting
+
+The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewed and merged as quickly as possible.
+
+??? question "Who are the core team?"
+    The docs core team are:
+
+    * Ben Cumming (@bcumming);
+    * Mikael Simberg (@msimberg);
+    * and Rocco Meli (@RMeli).
+
+    We are volunteers for this role, who care about the quality of CSCS documentation!
+
+!!! tip "Before contributing"
+    Please read the [guidelines][] and [style guide][] before making any contribution.
+    Consistency and common practices make it easier for users to read and navigate the documentation, make it easier for regular contributors to write, and avoid style debates.
+    We try to strike a balance between following the guidelines and letting authors write in a style that is comfortable for them.
+
+    To speed up the merge process and avoid lengthy style discussions, we reserve the right to make changes to pull requests to bring it into line with the guidelines.
+    The core team will also update pages when they are out of date or when the style guidelines change.
+!!! tip "Before making large contributions"
+    If you plan to make large changes, like adding documentation for a new tool/service or refactoring existing documentation, __reach out to the core team__ before starting.
+
+    This will mean that the changes are consistent with other parts of the documentation, streamline the review process, and to avoid misunderstandings.
+
+### Code owners
+
+Many sections have individual staff that follow them.
+This is codified in the [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS) file in the repository.
+The code owners are notified when there is a change to their pages, and can review the changes.
+
+If you want to follow changes to a page or section, add your name to the CODEOWNERS.
+
+!!! note
+    Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.
+
 ## Getting started
 
 We use the GitHub fork and pull request model for development:
@@ -52,18 +97,22 @@ Then navigate to GitHub, and create a pull request.
 
 ## Review process
 
-Documentation is maintained by everybody - so don't be afraid to jump in and make changes or fixes where you see the need or the potential.
+After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
+A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
-If you plan to make significant changes, please discuss them with an [issue](https://github.com/eth-cscs/cscs-docs/issues) beforehand, to ensure the changes will fit into the larger documentation structure.
+To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
+The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
 
-If you think your documentation update could affect specific stakeholders, ping them for a review.
-The same applies if you are not getting get a timely reply for your pull request.
-You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
+!!! tip
+    If you think your documentation update could affect specific stakeholders, ping them for a review.
+    You can get some hints of whom to contact by looking at [CODEOWNERS](https://github.com/eth-cscs/cscs-docs/blob/main/.github/CODEOWNERS).
+    If they don't reply in a timely manner, reach out to the core docs team to expedite the process.
 
 !!! note
     To minimise the overhead of the contributing to the documentation and speed up "time-to-published-docs" we do not have a formal review process.
     We will start simple, and add more formality as needed.
 
+[](){#ref-contributing-spelling}
 ### Spell checker
 
 A spell checker workflow runs on all PRs to help catch simple typos.
@@ -94,6 +143,26 @@ There are three files used to configure words that get ignored:
 
 Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
 Only markdown files under the `docs` directory are checked.
+
+[](){#ref-contributing-llms}
+## Using LLMs and coding agents to write docs
+
+Feel free to use your favourite CLI coding agent to help write your contributions.
+We provide a `CONTRIBUTING.md` file with guidance for models and links to this guide, along with `AGENTS.md` and `CLAUDE.md` files that point to `CONTRIBUTING.md`.
+Ensure your tool is using these guides (most tools should automatically find one of them).
+
+!!! tip "Please check the LLM output"
+    If the LLM gets the docs right first time, that's great!
+
+    But reviewers read every contribution carefully---please do not submit AI output without carefully checking it, as it puts an unfair burden on them.
+
+!!! warning "Contributors are responsible for content"
+    Contributors are responsible for the content that they submit, regardless of whether an AI agent was used to help write it.
+    This includes ensuring that:
+
+    * you have the right to contribute it under the [CC0 1.0 public domain dedication](https://github.com/eth-cscs/cscs-docs?tab=CC0-1.0-1-ov-file) that applies to the docs (i.e. it contains no third-party copyrighted text);
+    * the contribution provides guidance that is correct and tested;
+    * the contribution is professional and respectful.
 
 [](){#ref-contributing-guidelines}
 ## Guidelines
@@ -173,6 +242,17 @@ Screenshots can help readers follow steps on guides. Think if you need to show t
 
 Often, screenshots can quickly become obsolete, so you may want to complement (or maybe even replace) some with text descriptions.
 
+!!! tip
+    Screen shots take up space in the git repository.
+
+    It might be "only a few hundred kilobytes" for a picture, but over the lifetime of the git repository this adds up to slow down source code cloning and CI/CD pipelines.
+
+!!! tip
+    Avoid using screen shots that do not directly contribute to the documentation.
+
+    For example, showing a screen shot with markers that are used to explain non-trivial steps that a user should follow is good documentation.
+    On the other hand, a screenshot that says "this is a screenshot of the tool" adds no value, and draws the readers attention away from documentation.
+
 #### Diagrams
 
 Diagrams can help readers understand more abstract concepts like processes or architectures. We suggest you use [mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams#creating-mermaid-diagrams). Such format makes diagrams easy to maintain and removes the need to commit image files in the repository.
@@ -213,7 +293,7 @@ If you need more hand-crafted diagrams, we suggest you use [draw.io](https://www
 
 Turn off automatic line breaks in your text editor, and stick to one sentence per line in paragraphs of text.
 
-See the good and bad examples below for an example of of what happens when a change to a sentence forces a line rebalance:
+See the good and bad examples below for an example of what happens when a change to a sentence forces a line rebalance:
 
 === "good"
     Before:
@@ -261,7 +341,7 @@ Integrating information into the main documentation requires some care to identi
 Adding the information to a FAQ is easier, but the result is information about a topic distributed between the docs and FAQ questions, which ultimately makes the documentation harder to search.
 
 FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
-If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
+If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-known-issues].
 
 
 ### Small contributions
@@ -287,7 +367,13 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 
 ### Headings are written in sentence case
 
-Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning all words are capitalized except for minor words.
+Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning just the first word and names are capitalized.
+
+### Do not use bold for emphasis
+
+Avoid using `**bold**` to stress individual words or phrases in prose.
+If something is important, make it clear through sentence structure and word choice.
+Bold is acceptable when introducing a defined term for the first time, but even then should be used sparingly.
 
 ### Avoid nesting headings too deep
 
@@ -380,9 +466,18 @@ As a placeholder for documentation that needs to be written.
 
 Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
 The documentation uses [pygments](https://pygments.org) for highlighting.
-See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
+The language of a code block is set by its *lexer* — the name written after the opening triple backticks.
+See the [list of available lexers](https://pygments.org/docs/lexers/#).
 
-Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for interactive sessions with prompt-output pairs:
+Use `title=...` whenever possible to give the block a descriptive heading, as shown in the examples below.
+
+For an interactive shell session that shows both the commands you type and the output they produce, use:
+
+* [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for bash/zsh — write the prompt as `$`
+* [`pwsh-session`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellSessionLexer) for PowerShell — write the prompt as `PS>`
+
+These lexers highlight prompts, commands and output.
+They also let the copy button strip prompts and output, so only the runnable commands are copied.
 
 === "Markdown"
 
@@ -401,19 +496,10 @@ Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSess
     ```
 
 !!! warning
-    `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
+    `terminal` is not a valid lexer, but neither MkDocs nor pygments will warn you.
     The text will be rendered without highlighting.
 
-!!! warning
-    Use `$` as the prompt character, optionally preceded by text.
-    `>` as the prompt character will not be highlighted correctly.
-
-Note the use of `title=...`, which will give the code block a heading.
-
-!!! tip
-    Include a title whenever possible to describe what the code block does or is.
-
-If you want to display commands without output that can easily be copied, use `bash` as the language:
+For command-only blocks (no prompt, no output), use [`bash`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashLexer) or [`powershell`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellLexer):
 
 === "Markdown"
 
@@ -428,3 +514,53 @@ If you want to display commands without output that can easily be copied, use `b
     ```bash title="Hello, world!"
     echo "Hello, world!"
     ```
+
+### Avoiding repetition using snippets
+
+It can be useful to repeat information on different pages to increase visibility for users.
+If possible, prefer linking to a primary section describing a topic instead of fully repeating text on different pages.
+However, if you believe it's beneficial to actually repeat the content, consider using [snippets](https://facelessuser.github.io/pymdown-extensions/extensions/snippets/) to avoid repeated information getting out of sync on different pages.
+Snippets allow including the contents of a text file in multiple places of the documentation.
+
+For example, the recommended NCCL environment variables are defined in a text file [`docs/software/commuinication/nccl_env_vars`](https://github.com/eth-cscs/cscs-docs/blob/main/docs/software/communication/nccl_env_vars) and included on multiple pages because it's essential that users of NCCL notice and use the environment variables.
+
+Snippets are included with `--8<-- path/to/snippet`.
+For example, to include the recommended NCCL environment variables, do the following:
+
+=== "Markdown"
+
+    ````markdown
+    ```bash
+    ;--8<-- "docs/software/communication/nccl_env_vars"
+    ```
+    ````
+
+=== "Rendered"
+
+    ```bash title="Recommended NCCL environment variables"
+    --8<-- "docs/software/communication/nccl_env_vars"
+    ```
+
+## Documentation structure
+
+Here we describe a high-level overview of the documentation layout and organisation.
+
+!!! under-construction
+    This section is mostly incomplete, and will be expanded over time.
+
+Note that the directory layout, where markdown files are stored in the repository, does not strictly reflect the section of the documentation where the content is displayed because:
+
+* the URL of a page is decided by its location in the directory tree, not in the table of contents.
+  If a page is moved in the ToC, we are conservative about moving the file, so that urls don't break.
+* pages can be included in multiple locations in the ToC (not a feature that we use very often).
+
+### Tutorials
+
+All tutorials are stored in the `/docs/tutorials` directory.
+Currently we only have ML tutorials in `/docs/tutorials/ml`.
+
+There is no top level "Tutorials" section, instead tutorial content can be included directly in the docs where most appropriate.
+The ML tutorials, for example, are alongside the PyTorch documentation in the Applications and Frameworks material.
+
+!!! note "rationale"
+    Group all tutorial content together in the directory structure so that the url of specific tutorials won't change when they are moved around.

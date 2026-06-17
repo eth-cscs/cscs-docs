@@ -106,6 +106,22 @@
   border-color: #121417;
 }
 
+/* version badge: <span class="v-badge">v10+</span> */
+.md-typeset .v-badge {
+  display: inline-block;
+  background-color: #1976D2;
+  color: #ffffff !important;
+  font-size: 0.6em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.2em 0.55em;
+  border-radius: 1em;
+  vertical-align: middle;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
 /* code hilighting */
 
 /* light mode:  pale yellow background, solid black foreground */
@@ -144,5 +160,13 @@
   border-right: 2px solid #707070;
   border-top: 2px solid #707070;
   border-radius: 2px;
+}
+
+/* Strip prompts (.gp) and output (.go) from the copy button in session
+   code blocks (console, pwsh-session). Material toggles data-md-copying
+   only during the copy click, so manual selection still gets everything. */
+[data-md-copying] .gp,
+[data-md-copying] .go {
+  display: none;
 }
 

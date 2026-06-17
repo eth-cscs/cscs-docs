@@ -34,6 +34,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
     * GPU-aware communication
     * **slingshot is not infiniband - there is no NVSwitch**
 
+[](){#ref-alps-nodes}
 ## Alps Nodes
 
 Alps was installed in phases, starting with the installation of 1024 AMD Rome dual socket CPU nodes in 2020, through to the main installation of 2,688 Grace-Hopper nodes in 2024.
@@ -63,7 +64,7 @@ There are 24 cabinets, in 4 rows with 6 cabinets per row, and each cabinet conta
 * 2 nodes per blade
 
 !!! info "Why 7 blades per chassis?"
-    A chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each GPU.
+    A chassis can contain up to 8 blades, however Alps' gh200 chassis are underpopulated so that we can increase the amount of power delivered to each GPU without exceeding the power limit of each cabinet.
 
 Each node contains four Grace-Hopper modules and four corresponding network interface cards (NICs) per blade, as illustrated below:
 
@@ -100,7 +101,7 @@ These nodes have two [AMD Epyc 7742](https://en.wikichip.org/wiki/amd/epyc/7742)
 !!! note "Not all memory is available"
     The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.
 
-    The amount of memory available to your job also depends on the number of MPI ranks per node -- each MPI rank has a memory overhead.
+    The amount of memory available to your job also depends on the number of MPI ranks per node---each MPI rank has a memory overhead.
 
 A schematic of a *standard memory node* below illustrates the CPU cores and [NUMA nodes](https://www.kernel.org/doc/html/v4.18/vm/numa.html).(1)
 {.annotate}
@@ -129,7 +130,7 @@ The Grizzly Peak blades contain two nodes, where each node has:
 * 512 GB DDR4 Memory
 * 4 NVIDIA A100 GPUs with 80 GB HBM3 memory each
     * The MCH system is the same, except the A100 have 96 GB of memory.
-* 4 NICs -- one per GPU.
+* 4 NICs---one per GPU.
 
 [](){#ref-alps-mi200-node}
 ### AMD MI250x GPU Nodes

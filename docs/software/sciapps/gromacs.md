@@ -1,6 +1,10 @@
 [](){#ref-uenv-gromacs}
 # GROMACS
 
+!!! info ""
+    GROMACS is [supported software][ref-support-apps] on Alps.
+    See the [main applications page][ref-software] for more information.
+
 [GROMACS] (GROningen Machine for Chemical Simulations) is a versatile and widely-used open source package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.
 
 It is primarily designed for biochemical molecules like proteins, lipids and nucleic acids that have a lot of complicated bonded interactions, but since GROMACS is extremely fast at calculating the non-bonded interactions (that usually dominate simulations) many groups are also using it for research on non-biological systems, e.g. polymers.
@@ -10,9 +14,20 @@ It is primarily designed for biochemical molecules like proteins, lipids and nuc
     [GROMACS] is provided on [Alps][ref-alps-platforms] via [uenv][ref-uenv].
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
-## Licensing terms & conditions
+??? note "Licensing terms and conditions"
 
-GROMACS is a joint effort, with contributions from developers around the world: users agree to acknowledge use of GROMACS in any reports or publications of results obtained with the Software (see [GROMACS Homepage](https://www.gromacs.org/about.html) for details).
+    GROMACS is a joint effort, with contributions from developers around the world: users agree to acknowledge use of GROMACS in any reports or publications of results obtained with the Software (see [GROMACS Homepage](https://www.gromacs.org/about.html) for details).
+
+!!! note "Changelog"
+
+    !!! note "2025.0:v1"
+
+        * Updated to GROMACS 2025
+        * Unified view for GROMACS and PLUMED
+            * Only a single `gromacs` view is provided, which exposes both GROMACS 2025 and PLUMED 2.10.0.
+        * PLUMED links to PyTorch 2.8.0 (non-distributed version)
+        * Patched GROMACS 2025 to fix [gromacs#5292](https://gitlab.com/gromacs/gromacs/-/issues/5292)
+        * Patched PLUMED 2.10.0 with [plumed#1313](https://github.com/plumed/plumed2/pull/1313)
 
 ## Key features
 
@@ -35,7 +50,7 @@ GROMACS is a joint effort, with contributions from developers around the world: 
 On Alps, we provide pre-built user environments containing GROMACS alongside all the required dependencies for the GH200 hardware setup. To access the `gmx_mpi` executable, we do the following:
 
 ```bash
-uenv image find 							  # list available images
+uenv image find                               # list available images
 
 uenv image pull gromacs/VERSION:TAG.          # copy version:tag from the list above
 uenv start gromacs/VERSION:TAG --view=gromacs # load the gromacs view
@@ -102,18 +117,31 @@ This submission script is only representative. Users must run their input files 
 
 !!! note "Configuration hints"
 
-	- Each Grace CPU has 72 cores, but a small number of them are used for the underlying processes such as runtime daemons. So all 72 cores are not available for compute. To be safe, do not exceed more than 64 OpenMP threads on a single CPU even if it leads to a handful of cores idling.
-	- Each node has 4 Grace CPUs and 4 Hopper GPUs. When running 8 MPI ranks (meaning two per CPU), keep in mind to not ask for more than 32 OpenMP threads per rank. That way no more than 64 threads will be running on a single CPU.
-	- Try running both 64 OMP threads x 1 MPI rank and 32 OMP threads x 2 MPI ranks configurations for the test problems and pick the one giving better performance. While using multiple GPUs, the latter can be faster by 5-10%.
-	- `-update gpu` may not be possible for problems that require constraints on all atoms. In such cases, the update (integration) step will be performed on the CPU. This can lead to performance loss of at least 10% on a single GPU. Due to the overheads of additional data transfers on each step, this will also lead to lower scaling performance on multiple GPUs.
-	- When running on a single GPU, one can either configure the simulation with 1-2 MPI ranks with `-gpu_id` as `0`, or try running the simulation with a small number of parameters and let GROMACS run with defaults/inferred parameters with a command like the following in the Slurm script:
-	`srun ./mps-wrapper.sh -- gmx_mpi mdrun -s input.tpr -ntomp 64`
-	- Given the compute throughput of each Grace-Hopper module (single CPU+GPU), **for smaller-sized problems, it is possible that a single-GPU run is the fastest**. This may happen when the overheads of domain decomposition, communication and orchestration exceed the benefits of parallelism across multiple GPUs. In our test cases, a single Grace-Hopper module (1 CPU+GPU) has consistently shown a 6-8x performance speedup over a single node on Piz Daint (Intel Xeon Broadwell + P100).
-	- Try runs with and without specifying the GPU IDs explicitly with `-gpu_id 0123`. For the multi-node case, removing it might yield the best performance.
+    - Each Grace CPU has 72 cores, but a small number of them are used for the underlying processes such as runtime daemons. So all 72 cores are not available for compute. To be safe, do not exceed more than 64 OpenMP threads on a single CPU even if it leads to a handful of cores idling.
+    - Each node has 4 Grace CPUs and 4 Hopper GPUs. When running 8 MPI ranks (meaning two per CPU), keep in mind to not ask for more than 32 OpenMP threads per rank. That way no more than 64 threads will be running on a single CPU.
+    - Try running both 64 OMP threads x 1 MPI rank and 32 OMP threads x 2 MPI ranks configurations for the test problems and pick the one giving better performance. While using multiple GPUs, the latter can be faster by 5-10%.
+    - `-update gpu` may not be possible for problems that require constraints on all atoms. In such cases, the update (integration) step will be performed on the CPU. This can lead to performance loss of at least 10% on a single GPU. Due to the overheads of additional data transfers on each step, this will also lead to lower scaling performance on multiple GPUs.
+    - When running on a single GPU, one can either configure the simulation with 1-2 MPI ranks with `-gpu_id` as `0`, or try running the simulation with a small number of parameters and let GROMACS run with defaults/inferred parameters with a command like the following in the Slurm script:
+    `srun ./mps-wrapper.sh -- gmx_mpi mdrun -s input.tpr -ntomp 64`
+    - Given the compute throughput of each Grace-Hopper module (single CPU+GPU), **for smaller-sized problems, it is possible that a single-GPU run is the fastest**. This may happen when the overheads of domain decomposition, communication and orchestration exceed the benefits of parallelism across multiple GPUs. In our test cases, a single Grace-Hopper module (1 CPU+GPU) has consistently shown a 6-8x performance speedup over a single node on Piz Daint (Intel Xeon Broadwell + P100).
+    - Try runs with and without specifying the GPU IDs explicitly with `-gpu_id 0123`. For the multi-node case, removing it might yield the best performance.
+
+### PLUMED
+
+The PLUMED interface looks for the `PLUMED_KERNEL` environment variable, which should contain the path and the name of a shared object containing the PLUMED kernel (usually called `libplumedKernel.so`). Make sure to appropriately set this variable before running GROMACS.
+
+!!! tip "Find `libplumedKernel.so`"
+
+    After loading a view providing PLUMED, you can find the path to the PLUMED kernel shared object by running the following command:
+    ```bash
+    find /user-environment/ -name libplumedKernel.so -type f
+    ```
+
+    Using `-type f` excludes the different symbolic links generated by the different views.
 
 ## Scaling
 
-Benchmarking is done with large MD simulations of systems of 1.4 million and 3 million atoms, in order to fully saturate the GPUs, from the [HECBioSim Benchmark Suite](https://www.hecbiosim.ac.uk/access-hpc/benchmarks).
+Benchmarking is done with large MD simulations of systems of 1.4 million and 3 million atoms, in order to fully saturate the GPUs, from the [HECBioSim Benchmark Suite](https://www.hecbiosim.ac.uk/access-hpc/hpc-benchmarking-suite).
 
 In addition, the STMV (~1 million atom) benchmark that NVIDIA publishes on its [website](https://developer.nvidia.com/hpc-application-performance) was also tested for comparison. 
 
@@ -154,10 +182,10 @@ Protein atoms = 86,996  Lipid atoms = 867,784  Water atoms = 2,041,230  Ions = 1
 
 !!! warning "Known Performance/Scaling Issues"
 
-	- The currently provided build of GROMACS allows **only one MPI rank to be dedicated for PME** with `-nmpe 1`. This becomes a serious performance limitation for larger systems where the non-PME ranks finish their work before the PME rank leading to unwanted load imbalances across ranks. This limitation is targeted to be fixed in the subsequent releases of our builds of user environments.
-	- The above problem is especially critical for large problem sizes (1+ million atom systems) but is far less apparent in small and medium sized runs.
-	- If the problem allows the integration step to take place on the GPU with `-update gpu`, that can lead to significant performance and scaling gains as it allows an even greater part of the computations to take place on the GPU.
-	- A single node of the GH200 cluster offers 4x CPU+GPU. For problems that can benefit from scaling beyond a single node, use the flag `export FI_CXI_RX_MATCH_MODE=software` in the SBATCH script. The best use of resources in terms of node-hours might be achieved on a single node for most simulations.
+    - The currently provided build of GROMACS allows **only one MPI rank to be dedicated for PME** with `-nmpe 1`. This becomes a serious performance limitation for larger systems where the non-PME ranks finish their work before the PME rank leading to unwanted load imbalances across ranks. This limitation is targeted to be fixed in the subsequent releases of our builds of user environments.
+    - The above problem is especially critical for large problem sizes (1+ million atom systems) but is far less apparent in small and medium sized runs.
+    - If the problem allows the integration step to take place on the GPU with `-update gpu`, that can lead to significant performance and scaling gains as it allows an even greater part of the computations to take place on the GPU.
+    - A single node of the GH200 cluster offers 4x CPU+GPU. For problems that can benefit from scaling beyond a single node, use the flag `export FI_CXI_RX_MATCH_MODE=software` in the SBATCH script. The best use of resources in terms of node-hours might be achieved on a single node for most simulations.
 
 ### Building GROMACS from Source
 
@@ -170,15 +198,15 @@ cd <PATH_TO_GROMACS_SOURCE> # (2)!
 
 mkdir build && cd build
 cmake \
-	-DCMAKE_C_COMPILER=gcc \
-	-DCMAKE_CXX_COMPILER=g++ \
-	-DGMX_MPI=on \
-	-DGMX_GPU=CUDA \
-	-GMX_CUDA_TARGET_SM="90" \ # for the Hopper GPUs
-	-DGMX_SIMD=ARM_NEON_ASIMD \ # for the Grace CPUs
-	-DGMX_DOUBLE=off \ # turn on double precision only if useful
-	-DCMAKE_INSTALL_PREFIX=/custom/gromacs/install/path
-	..
+    -DCMAKE_C_COMPILER=gcc \
+    -DCMAKE_CXX_COMPILER=g++ \
+    -DGMX_MPI=on \
+    -DGMX_GPU=CUDA \
+    -GMX_CUDA_TARGET_SM="90" \ # for the Hopper GPUs
+    -DGMX_SIMD=ARM_NEON_ASIMD \ # for the Grace CPUs
+    -DGMX_DOUBLE=off \ # turn on double precision only if useful
+    -DCMAKE_INSTALL_PREFIX=/custom/gromacs/install/path
+    ..
 
 make
 make check
