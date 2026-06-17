@@ -132,7 +132,7 @@ nav:
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Prohibited Software': software/unsupported.md
+    - 'Prohibited Software': software/prohibited.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md
     - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
