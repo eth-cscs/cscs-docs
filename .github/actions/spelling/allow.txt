@@ -1,11 +1,16 @@
-ACLs
 ACR
 AMD
+AMPI
 Alpstein
+Apertus
+autoscaling
+auditability
 balfrin
 Balfrin
+Bash
 Besard
 Besso
+Beverin
 Broyden
 Burgdorfer
 CESM
@@ -13,6 +18,7 @@ CFLAGS
 CHARMM
 CHF
 compset
+curated
 COSMA
 CPE
 CPMD
@@ -113,10 +119,12 @@ PID
 PMPI
 POSIX
 Parrinello
+Passthrough
 Pintarelli
 Piz
 Plesset
 Podladchikov
+PowerShell
 Pulay
 RCCL
 RDMA
@@ -125,6 +133,9 @@ RPA
 Roboto
 Roothaan
 SHMEM
+SHS
+SLA
+SLO
 SSHService
 STMV
 Scopi
@@ -134,8 +145,11 @@ TOTP
 UANs
 UIs
 UserLab
+Vadret
 Wannier
+WSL
 XDG
+Zsh
 Zumsteinspitz
 aarch
 acfdt
@@ -266,6 +280,8 @@ osts
 osu
 papi
 paraview
+passphrase
+passthrough
 parmetis
 petsc
 pme
@@ -274,7 +290,9 @@ pmix
 podman
 prgenv
 preinstalled
+roadmap
 rke
+vadret
 vms
 alpernetes
 kubeconfig
@@ -283,6 +301,7 @@ rwx
 rwo
 standalone
 subdomain
+Schuppli
 tls
 kured
 KUbernetes
@@ -313,6 +332,7 @@ rowspan
 rpath
 runtime
 runtimes
+salloc
 santis
 sbatch
 scalapack

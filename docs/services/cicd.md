@@ -122,6 +122,9 @@ Enter all fields for FirecREST, i.e.,
         `FirecREST-HPC` for the HPC platform.
         It is not mandatory to subscribe to the `ciext-container-builder` API to use pure CI workflows (this API is only used for building manually container images).
 
+    !!! tip "Service accounts"
+        [Service accounts][ref-service-accounts] only use an API key. You need to enter the string `api-key` for the Consumer Key, and the generated API key as Consumer Secret.
+
 1. **(Optional) Private project**: If your Git repository is a private repository make sure to check the `Private repository` box and follow the instructions to add an SSH key to your Git repository.
 
 1. **Add notification token**: On the setup page you will also find the field `Notification token`.
@@ -1444,6 +1447,9 @@ The documented runners above, set the correct `F7T_TOKEN_URL`  and `F7T_URL` for
 When you are running on the [f7t-controller](#f7t-controller) runner, then you might have to modify the default variables, because this runner is not targeting a specific cluster, but it can target different clusters in the same job.
 Targeting different clusters in the same job can require to provide different `F7T_URL`.
 The `F7T_TOKEN_URL` is currently the same for all clusters.
+
+!!! tip "Service accounts"
+    [Service accounts][ref-service-accounts] only use an API key. You need to enter the string `api-key` for the client ID, and the generated API key as client secret.
 
 ## Example projects
 A couple of projects which use this CI setup.

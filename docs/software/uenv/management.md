@@ -121,7 +121,7 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
 [](){#ref-uenv-image-ls}
 ### `uenv image ls`
 
-To view all uenv that are available and ready to run from your repo, use the `uenv image ls` command:
+To view all uenv that are available and ready to run from your repository, use the `uenv image ls` command:
 
 !!! example "listing downloaded uenv"
     ```console
@@ -159,7 +159,7 @@ To view all uenv that are available and ready to run from your repo, use the `ue
 
 !!! example "filtering downloaded uenv"
 
-This command will show you all images that have been downloaded to your repo, and labelled for the current cluster.
+This command will show you all images that have been downloaded to your repository, and labelled for the current cluster.
 The examples above were executed on [Daint][ref-cluster-daint] (see the `system` column in the output).
 To view all images that are available for all clusters:
 
@@ -167,12 +167,46 @@ To view all images that are available for all clusters:
 $ uenv image ls @*
 ```
 
+[](){#ref-uenv-image-inspect}
+### `uenv image inspect`
+
+<span class="v-badge">uenv v9.2</span>
+
+The `uenv image inspect` command shows the views, mount point, and other metadata for a local uenv image without mounting it.
+It is useful for checking what views an image provides before deciding how to use it.
+
+!!! example "inspecting a uenv"
+    ```console
+    $ uenv image inspect namd/3.0:v3
+    namd:/user-environment
+      NAMD: Scalable Molecular Dynamics
+      views:
+        spack: configure spack upstream
+        namd-single-node:
+        namd:
+        modules: activate modules
+        develop-single-node:
+        develop:
+    ```
+
+    ```console
+    $ uenv image inspect prgenv-gnu/24.11:v1
+    prgenv-gnu:/user-environment
+      GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
+      views:
+        spack: configure spack upstream
+        modules: activate modules
+        default:
+    ```
+
+Like other image commands, it accepts a [label][ref-uenv-labels], a uenv id, or a path to a SquashFS file.
+
 [](){#ref-uenv-image-rm}
 ### `uenv image rm`
 
-To remove downloaded images from your repo, use the `uenv image rm` command.
+To remove downloaded images from your repository, use the `uenv image rm` command.
 
-!!! example "removing uenv from a repo"
+!!! example "removing uenv from a repository"
     In the following examples
     ```console
     $ uenv image ls
@@ -203,9 +237,9 @@ To remove downloaded images from your repo, use the `uenv image rm` command.
 [](){#ref-uenv-image-add}
 ### `uenv image add`
 
-To add a uenv SquashFS file to a repo, so that it can be used with a [label][ref-uenv-labels], use the `uenv image add` command.
+To add a uenv SquashFS file to a repository, so that it can be used with a [label][ref-uenv-labels], use the `uenv image add` command.
 
-!!! example "add an image to the default repo"
+!!! example "add an image to the default repository"
     ```console
     $ uenv image add myenv/24.7:v1@eiger%zen2 ./store.squashfs
     ```
@@ -231,38 +265,128 @@ repo
 
 ### Creating and using repositories
 
-A repo will automatically be created in your [Scratch path][ref-storage-scratch] attached to the cluster you are on when you first use uenv.
-This _default repo_ is used by all calls to uenv, unless it is overridden using the options in this section.
+A repository will automatically be created in your [Scratch path][ref-storage-scratch] attached to the cluster you are on when you first use uenv.
+This _default repo_ is used by all calls to uenv, unless it is overridden in a configuration file or using the `--repo` CLI flag, both documented below.
 
-!!! question "Where is my repo?"
+!!! question "Where is my repository?"
     The Scratch filesystem used depends on the cluster:
 
-    | cluster | repo path | notes |
-    | ------- | --------- | ----- |
-    | Eiger, Daint | `/capstor/scratch/cscs/$USER/.uenv-images` | will move to `/ritom/scratch/cscs/$USER/.uenv-images` when it replaces capstor in December 2025|
-    | Santis       | `/capstor/scratch/cscs/$USER/.uenv-images` |       |
-    | Clariden     | `/iopsstor/scratch/cscs/$USER/.uenv-images` |       |
-    | Others       | `$SCRATCH/.uenv-images` | `$HOME/.uenv/repo` on systems with no `SCRATCH` defined. |
+    | cluster | repo path |
+    | ------- | --------- |
+    | Eiger, Daint | `/ritom/scratch/cscs/$USER/.uenv-images` |
+    | Santis       | `/capstor/scratch/cscs/$USER/.uenv-images` |
+    | Clariden     | `/iopsstor/scratch/cscs/$USER/.uenv-images` |
+    | Others       | `$SCRATCH/.uenv-images` (falls back to `$HOME/.uenv/repo`) |
 
-The location of your default repo can be changed by setting the `repo` field in the [uenv config file][ref-uenv-configure-options-repo].
-For example, the following would use a shared repo in a project's [Store][ref-storage-store]:
-```
-repo = /capstor/store/cscs/userlab/sm42/team-uenv
+
+[](){#ref-uenv-repo-multiple}
+### Multiple repositories
+
+<span class="v-badge">uenv v10.0</span>
+
+uenv supports multiple named repositories, which is useful for sharing images within a team or project.
+Repos are configured in the [uenv configuration file][ref-uenv-configure-options-repos] using the `[[repositories]]` array:
+
+```toml title="~/.config/uenv/config.toml"
+[[repositories]]
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
+
+[[repositories]]
+name = "team"
+path = "/capstor/store/cscs/userlab/sm42/uenv-images"
+priority = 30
 ```
 
-The `--repo` flag can also be used to use a specific repo on the command line, for example to list all uenv in the repo ``/capstor/store/cscs/userlab/sm42/team-uenv`:
+With multiple repositories configured, `uenv image ls` searches all of them and label each result with its source repository.
 
-```console
-$ uenv --repo=/capstor/store/cscs/userlab/sm42/team-uenv image ls
-```
-Note that the `--repo` flag goes between `uenv` and the command, `image ls` in the example above, and can be used with all uenv commands.
+??? example "uenv image ls output when multiple repositories are configured"
+    ```console
+    $ uenv image ls
+    repo default
+      uenv                        arch   system  id                size(MB)  date
+      cp2k/2025.1:v1              gh200  daint   2a56f1df31a4c196   2,693    2025-03-01
+      prgenv-gnu/26.2:v2          gh200  daint   c71fd8d678a6c217   5,191    2026-02-10
+
+    repo test
+      uenv                        arch   system  id                size(MB)  date
+      prgenv-gnu/25.6:v2          gh200  daint   b81fd6ba25e88782   4,191    2025-04-10
+
+    repo team
+      uenv                        arch   system  id                size(MB)  date
+      gromacs/2024:v1             gh200  daint   b58e6406810279d5   3,658    2025-02-12
+    ```
+
+!!! info "where is the `default` repository defined?"
+    The default repository is determined by uenv according to which cluster it is running on, which file systems are attached, and whether those file systems already contain a repository.
+
+    You can check where it has been set on the current system using the `uenv repo status` command to list all repositories.
+
+[](){#ref-uenv-repo-priority}
+### Repository priority
+
+The uenv that is selected by the `uenv start`, `uenv run` and the Slurm `--uenv` flag is affected by repository priority.
+Uenv will search through each repository in priority order, and take the first match that it finds.
+That is, if it finds a match in the highest priority repository, it will use that without searching for matches in the other repositories.
+
+Commands that modify the repository contents (`uenv image pull`, `uenv image add` and `uenv image rm`) always write to the repository with the highest priority.
+
+To write to a different repository, use the `--repo` flag with the repository name:
+
+??? example "pull an image into the team repo"
+    ```
+    uenv --repo=team image pull cp2k/2025.1:v1
+    ```
+See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
+
+!!! info "what priority does a repository have?"
+    If no priority is specified when creating a repository in a configuration file, it is given priority 10.
+
+    The `default` repository is given priority 9, so it will have higher precedence.
+
+[](){#ref-uenv-repo-flag}
+### The `--repo` flag
+
+The `--repo` flag selects which repositories to use for a command.
+It goes between `uenv` and the subcommand and can be used with all uenv commands.
+It accepts a comma-separated list of repositories where each repositories is one of a repositories name (from the config file), an absolute path, or a `name=path` pair.
+
+!!! example "selecting repositories with `--repo`"
+    ```console
+    # by name (defined in config)
+    $ uenv --repo=team image ls
+
+    # by path (no config needed)
+    $ uenv --repo=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+
+    # explicit name=path (ad-hoc, overrides config entirely)
+    $ uenv --repo=team=/capstor/store/cscs/userlab/sm42/uenv-images image ls
+
+    # multiple repositories in order of priority
+    $ uenv --repo=test,team image ls
+    ```
+
+The order of repositories in a `--repo` list is important: it defines the order of precedence of the repositories.
+This means that operations that select a uenv, for example `uenv start`, will search through the repositories in the order provided.
+
+!!! tip "use `--repo` to override precedence"
+    Repositories in a `--repo` list are searched in the order that they are written in the list.
+
+    This is very useful if you want to change the default search order, for example the `default` repository typically has higher precedence than other repositories.
+    The following example changes the search order:
+
+    ```bash
+    uenv --repo=team,default start cp2k/2025.1
+    ```
+
+    If there is a unique image matching `cp2k/2025.1` in the `team` repository, the `default` repository will not be checked.
 
 [](){#ref-uenv-repo-status}
 ### `uenv repo status`
 
 The `uenv repo status` command provides information about a repository.
-By default, `uenv repo status` will print information about the default repo.
-To get the status of a different repo, provide it as an optional positional argument:
+By default, `uenv repo status` will print information about the default repository.
+To get the status of a different repository, provide it as an optional positional argument:
 
 !!! example ""
     ```console
@@ -282,13 +406,13 @@ The information provided includes:
 
 Warnings are printed if:
 
-* the repo is on a Lustre file system and contains unstriped images;
-* the repo is in inconsistent state;
-* or, if the repo database needs updating.
+* the repository is on a Lustre file system and contains unstriped images;
+* the repository is in inconsistent state;
+* or, if the repository database needs updating.
 
 If a warning is printed, it is possible to fix the issues by running the [`repo update`][ref-uenv-repo-update] command.
 
-??? question "what is an inconsistent repo?"
+??? question "what is an inconsistent repository?"
     A repository is inconsistent if one or more uenv images have been removed without updating the database.
     This should not happen to repositories in the default location, which are protected from [cleanup policies][ref-storage-cleanup].
     However, if you are using a non-standard location, infrequently used images may be removed by Scratch cleanup.
@@ -297,11 +421,11 @@ If a warning is printed, it is possible to fix the issues by running the [`repo 
 [](){#ref-uenv-repo-update}
 ### `uenv repo update`
 
-The repo update command can upgrade or fix issues in a repository, if needed.
+The repository update command can upgrade or fix issues in a repository, if needed.
 Currently two updates are applied:
 
-- apply Lustre striping if the repo is on a Lustre file system and no striping has already been applied;
-- remove uenv from the database if their squashfs file does not exist which can occur to repos on non-default locations that are subject to clean up policies.
+- apply Lustre striping if the repository is on a Lustre file system and no striping has already been applied;
+- remove uenv from the database if their squashfs file does not exist which can occur to repositories on non-default locations that are subject to clean up policies.
 
 ```console
 # apply all updates to the default repo
@@ -316,7 +440,7 @@ $ uenv repo update /capstor/scratch/cscs/$USER/my-other-repo
 
 !!! note "Lustre striping"
     uenv 9.1.0 applies Lustre striping to new repositories by default.
-    Striping only needs to be applied once to repos created with older versions, and only has to be applied once.
+    Striping only needs to be applied once to repositories created with older versions, and only has to be applied once.
 
     As a general rule, striping is only needed for workloads that run at very large scale, on hundreds of nodes.
 
@@ -326,25 +450,25 @@ $ uenv repo update /capstor/scratch/cscs/$USER/my-other-repo
 [](){#ref-uenv-repo-migrate}
 ### `uenv repo migrate`
 
-The repo migrate command copies a repository to a new location.
+The `repo migrate` command copies a repository to a new location.
 
 There are two main use cases:
 
-1. copying a repo to a new location;
-2. and, updating a target repo to include all images from another repo.
+1. copying a repository to a new location;
+2. and, updating a target repository to include all images from another repository.
 
-The command takes two arguments, a source and destination repo:
+The command takes two arguments, a source and destination repository:
 ```
 $ uenv repo migrate [source] [destination]
 ```
 
-If the destination repo does not exist, it is created and a populated with a complete copy of the source repo.
+If the destination repository does not exist, it is created and a populated with a complete copy of the source repository.
 Otherwise, all images from the source are copied into destination, with only missing images copied (effectively synchronizing the destination with the source).
 
-If only one argument is passed, the default repo is used as the source.
+If only one argument is passed, the default repository is used as the source.
 
 !!! warning
-    Migration of large repos can take a significant amount of time - budget roughly 30 minutes.
+    Migration of large repositories can take a significant amount of time - budget roughly 30 minutes.
     If migration is cancelled by the user, or by a system issue, it can be resumed with the same command, which will continue from where the migration was when canceled.
 
 #### Migration to Ritom
@@ -374,25 +498,20 @@ The migration message is currently disabled, because we are not ready to migrate
 
 If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
-!!! warning "Ritom is not ready for storing uenv"
-    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which makes the **uenv Slurm plugin hang when starting jobs with uenv images stored on Ritom**.
-
-    CSCS are testing a new version of uenv (`v9.2.0`) that makes uenv compatible with file systems with squash root enabled, that we plan to deploy on March 25th 2026.
-
-    If you were using uenv before ritom was mounted, uenv will continue using the repository on Capstor until a migration has been performed. However, new users of uenv and some users who saw the migration message will need to make Capstor their default repository location until the fix has been deployed.
-
-    If the system you are using has v9.2.0 installed, there is no need to apply this fix, and you should submit a support request if your issue persists.
-
-    ```console title="version too old"
-    $ uenv --version
-    9.1.0
+!!! warning "Ritom might have access permission problems"
+    Ritom is currently mounted on Daint and Eiger, however it was mounted with [squash root](https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs) enabled, which might give you an error message:
+    ```
+    error: invalid squashfs mount /ritom/scratch/cscs/<your-username>/.uenv-images/images/5ef04b766304650d705a859f939992b90ba9278138bd98e5555763d245ffbca6/store.squashfs:/user-environment - invalid squashfs /user-environment (Permission denied)
+    ```
+    If your account was previously part of a now closed CSCS project, your scratch directory may still belong to the older group.
+    To fix this error, the access permissions all the way to the squashfs file must be owned by your current primary group.
+    Use these commands:
+    ```console title="Fix access permission problems"
+    $ chown $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)
+    $ chown --recursive $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)/.uenv-images
     ```
 
-    ```console title="all good: 9.2.0 and later are fixed"
-    $ uenv --version
-    9.2.0
-    ```
-
+    Another option is to use uenv images stored on capstor instead of Ritom.
     If you migrated the default repository from Capstor to Ritom, the old repository on Capstor was not deleted.
     The easiest fix is to remove the Ritom repository, so that uenv falls back to using Capstor.
 

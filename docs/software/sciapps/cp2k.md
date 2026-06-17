@@ -23,8 +23,12 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
     Please check CP2K's [known issues](#known-issues) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
 
 !!! note "Changelog"
+
+    !!! note "2026.1:v2"
+
+        * Updated CUDA from 12.4 to 13.0
     
-    !!! note "2026.1:v1"
+    ??? note "2026.1:v1"
 
         * Added `libtorch` support
         * Added `libvori` support
@@ -400,7 +404,7 @@ mkdir build && cd build
 Torch_DIR=$(dirname $(find /user-environment/linux-neoverse_v2/ -name TorchConfig.cmake -type f)) \ # (4)!
 CC=mpicc CXX=mpic++ FC=mpifort cmake \
     -GNinja \
-    -DCMAKE_CUDA_HOST_COMPILER=mpicc \ # (3)!
+    -DCMAKE_CUDA_HOST_COMPILER=mpic++ \ # (3)!
     -DCMAKE_BUILD_TYPE=Release \
     -DCP2K_USE_MPI=ON \
     -DCP2K_USE_LIBXC=ON \
@@ -429,7 +433,7 @@ ninja -j 32
 
 2. Go to the CP2K source directory
 
-3. Make sure `mpicc` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
+3. Make sure `mpic++` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
 
 4. Explicitly tell CMake where to find PyTorch's `TorchConfig.cmake`
 
@@ -450,6 +454,32 @@ ninja -j 32
 See [manual.cp2k.org/CMake] for more details.
 
 ## Known issues
+
+### Slowdown with Nvidia driver 590 and later
+
+The main vClusters have been updated to Nvidia driver version 590.
+Some CP2K workloads have been observed to run slower with this driver version and later.
+
+The slowdown happens when using GPU-aware MPI.
+
+If you are not using COSMA, DLA-Future, or any other library relying on GPU-aware MPI,
+you should disable GPU-aware MPI (enabled by default) by setting the following environment variable:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+Note that COSMA is the default parallel dense matrix-matrix multiplication library. To ensure successful completion of
+CP2K calculations without GPU-aware MPI, add the following to the `&GLOBAL` input section. For all but RPA calculations,
+the performance impact of not using COSMA is negligible.
+
+```bash
+&FM
+  TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+&END FM
+```
+
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
 
 ### ELPA slowdown with 2026.1 on Daint
 

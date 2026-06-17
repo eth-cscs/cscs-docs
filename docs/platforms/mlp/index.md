@@ -46,14 +46,14 @@ There are three main file systems mounted on the MLP clusters Clariden and Brist
 
 | type |mount | filesystem |
 | -- | -- | -- |
-| Home | `/users/$USER` | [VAST][ref-alps-vast] |
+| Home | `/users/$USER` | [Vadret][ref-alps-vadret] |
 | Scratch | `/iopsstor/scratch/cscs/$USER` | [Iopsstor][ref-alps-iopsstor] |
 |         | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
 | Project | `/capstor/store/cscs/swissai/<project>` | [Capstor][ref-alps-capstor] |
 
 ### Home
 
-Every user has a home path (`$HOME`) mounted at `/users/$USER` on the [VAST][ref-alps-vast] filesystem.
+Every user has a home path (`$HOME`) mounted at `/users/$USER` on the [Vadret][ref-alps-vadret] filesystem.
 The home directory has 50 GB of capacity, and is intended for configuration, small software packages and scripts.
 
 ### Scratch
@@ -66,7 +66,8 @@ Scratch is per user - each user gets separate scratch path and quota.
 * There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`.
 
 !!! warning "scratch cleanup policy"
-    Files that have not been accessed in 30 days are automatically deleted.
+    - Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
+    - Files on `/capstor/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
 
     **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
 

@@ -395,6 +395,16 @@ lmp ...
     pip install mace-torch cuequivariance-torch cuequivariance cuequivariance-ops-torch-cu12 cupy-cuda12x
     ```
 
+    !!! warning "`triton`"
+
+        If you are using a (custom) uenv where PyTorch is provided by the uenv itself,
+        make sure `triton` is installed in the venv,
+        otherwise `cuequivariance_ops_torch` can't be imported leading to poor performance.
+
+        ```bash
+        pip install triton
+        ```
+
     Convert your MACE model to LAMMPS format using the provided conversion script:
 
     ```bash

@@ -135,18 +135,71 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
 
 ### Scheduled maintenance
 
-!!! todo "move this to HPCP top level docs"
-    Wednesday mornings 8:00-12:00 CET are reserved for periodic updates, with services potentially unavailable during this time frame. If the batch queues must be drained (for redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
+One Wednesday per month is reserved for planned maintenance (usually around the middle of the month). If the batch queues must be drained (for redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
 
-    Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced via the [CSCS status page](https://status.cscs.ch).
 
 ### Change log
 
-!!! change "2025-05-21"
+!!! change "2026-06-17"
+    !!! note "Operating Environment and Networking Stack"
+    - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
+    - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
+    - Improved Ritom performance, see also [VAST tuning][ref-guides-storage-vast-ritom] for individual IO tuning parameters
+
+    !!! note "Container Engine"
+    - Updated Container Engine to v26.06.1
+    - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
+        - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
+    - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
+    - Environment variables:
+    We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the [Alps Extended Images][ref-software-extended-images], i.e., they bring both environments into sync.
+    ```
+    CUDA_CACHE_DISABLE="1"
+    ```
+    This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
+    Further information regarding the CUDA cache can be found at [https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/](https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/).
+    ```
+    NCCL_CROSS_NIC="0":, (changed from "1")
+    NCCL_PXN_DISABLE="1" (previously unset)
+    NCCL_P2P_LEVEL="NVL" (previously unset)
+    NCCL_NET_GDR_C2C="1" (previously unset)
+    NCCL_NET_GDR_READ="1" (previously unset)
+    NCCL_PROTO="^LL128" (previously unset)
+    NCCL_NCHANNELS_PER_NET_PEER="4" (previously unset)
+    ```
+    Information about the variables can be found at [https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
+    ```
+    FI_CXI_RDZV_PROTO="alt_read" (previously unset)
+    FI_CXI_RDZV_EAGER_SIZE="0" (previously unset)
+    FI_CXI_RDZV_GET_MIN="0" (previously unset)
+    FI_CXI_RDZV_THRESHOLD="0" (previously unset)
+    FI_MR_CACHE_MAX_SIZE="-1" (previously unset)
+    FI_MR_CACHE_MAX_COUNT="524288" (previously unset)
+    FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD="16777216" (previously unset)
+    ```
+    Information about the variables can be found at: https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html
+
+    Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation. 
+
+    !!! note "Uenv"
+    - Upgraded Uenv from version 9.2.0 to 10.0.1.
+    - Features:
+        - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+        - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
+        - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+        - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
+        - Improved bash completion for uenv labels and file paths.
+    - Fixes:
+        - Changed a hard error to a warning when image metadata is not attached in the registry.
+        - Fixed a latent bug parsing date strings in image metadata.
+    - [uenv changelog][ref-uenv-release-notes-v10.0]
+
+??? change "2025-05-21"
     Minor enhancements to system configuration have been applied.
     These changes should reduce the frequency of compute nodes being marked as `NOT_RESPONDING` by the workload manager, while we continue to investigate the issue
 
-!!! change "2025-05-14"
+??? change "2025-05-14"
     ??? note "Performance hotfix"
         The [access-counter-based memory migration feature](https://developer.nvidia.com/blog/cuda-toolkit-12-4-enhances-support-for-nvidia-grace-hopper-and-confidential-computing/#access-counter-based_migration_for_nvidia_grace_hopper_memory) in the NVIDIA driver for Grace Hopper is disabled to address performance issues affecting NCCL-based workloads (e.g. LLM training)
 
@@ -157,7 +210,7 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
     ??? note "Enroot update"
         The container runtime is upgraded from version 2.12.0 to 2.13.0. This update includes libfabric version 1.22.0 (previously 1.15.2.0), which has demonstrated improved performance during LLM checkpointing
 
-!!! change "2025-04-30"
+??? change "2025-04-30"
     ??? note "uenv is updated from v7.0.1 to v8.1.0"
         [Release notes][ref-uenv-release-notes-v8.1.0]
 
@@ -181,4 +234,5 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
 !!! todo
     Most of these issues (see original [KB docs](https://confluence.cscs.ch/spaces/KB/pages/868811400/Daint.Alps#Daint.Alps-Knownissues)) should be consolidated in a location where they can be linked to by all clusters.
 
-    We have some "know issues" documented under [communication libraries][ref-communication-cray-mpich], however these might be a bit too disperse for centralised linking.
+    We have some "known issues" documented under [communication libraries][ref-communication-cray-mpich], however these might be a bit too disperse for centralised linking.
+

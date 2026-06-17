@@ -64,6 +64,7 @@ xdgbase=$HOME/.local/$(uname -m)
 export XDG_DATA_HOME=$xdgbase/share
 export XDG_CONFIG_HOME=$xdgbase/config
 export XDG_STATE_HOME=$xdgbase/state
+export XDG_CACHE_HOME=$xdgbase/cache
 
 # set PATH to look for in architecture specific path:
 # - on x86: $HOME/.local/x86_64/bin

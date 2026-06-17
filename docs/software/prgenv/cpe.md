@@ -13,12 +13,11 @@ The CPE will be familiar to users of previous CSCS systems, including Piz Daint,
 It provides modules for programming environments including `Prgenv-gnu` and `Prgenv-cray`, and packages like `cray-python` and `cray-fftw`.
 
 
-??? warning "The `cray` module is deprecated"
-    On [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] the outdated version 24.7 of CPE is installed, and can be loaded using the `cray` module.
+??? Warning "The `cray` module is deprecated"
+    [Eiger][ref-cluster-eiger] currently has CPE 24.7 installed. This version is outdated and can be loaded using the `cray` module. 
 
-    * this module will be removed soon (the timeline will be communicated to the community);
-    * this version of CPE is out of date, and is missing key updates required for compatibility and performance for `gh200` on Daint.
-    * CSCS can't provide support when the `cray` module is loaded.
+    * This module will be removed in mid 2026 
+    * CSCS won't provide support when the `cray` module is loaded.
 
     The recommended method for building and running software is to use [uenv][ref-uenv] or [containers][ref-container-engine].
     See the [programming environment][ref-software-prgenvs] documentation for alternative programming environments.
