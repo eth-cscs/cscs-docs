@@ -42,7 +42,7 @@ The release schedule is not fixed; new versions will be released, when there is 
     * adding `cuTENSOR`
     * adding `papi`
     * upgrading to `cuda@12.9` and `cray-mpich@8.1.32`
-    * for `NCCL`, environment variables to use Slingshot and to optimize communication performance are automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see [the NCCL documentation][https://docs.cscs.ch/software/communication/nccl/#uenv]); the variables set are:
+    * for `NCCL`, environment variables to use Slingshot and to optimize communication performance are automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see [the NCCL documentation][ref-communication-nccl-uenv]); the variables set are:
         * `NCCL_NET="AWS Libfabric"`
         * `NCCL_NET_GDR_LEVEL=PHB`
         * `NCCL_CROSS_NIC=1`
