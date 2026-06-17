@@ -127,7 +127,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - Updated default Enroot to CSCS_2026_05_1
             - Merged updates and fixes from NVIDIA upstream code v4.x releases.
             - Fixed import of images with multi-line OCI labels
-        - AWS OFI NCCL hook: NCCL, CXI and OFI evnrionment variables are now aligned with those set in Alps Extended Images
+        - AWS OFI NCCL hook: NCCL, CXI and OFI environment variables are now aligned with those set in Alps Extended Images
         - PMIx hook: Use PMIx environment variables instead of `scontrol` call to determine bind mount paths(reflects change in upstream Enroot code)
         - DCGM hook: libraries with full ABI string versions are no longer mounted
         - `mksquashfs` now exits upon encountering errors which would be ignored by default and could result in incomplete squashfs images being created during import.
