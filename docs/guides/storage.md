@@ -191,6 +191,11 @@ These locks can introduce substantial overhead when many MPI ranks access the sa
 Setting `ROMIO_FSTYPE_FORCE='ufs:/ritom/'` causes ROMIO to treat files under `/ritom` as a local Unix filesystem (`ufs`) and disables these NFS-specific behaviors.
 For many parallel workloads this can dramatically improve I/O performance.
 
+!!! info
+    NFS lock overhead is unnecessary and can be safely bypassed on VAST, when using ROMIO's collective buffering.
+
+    When `romio_cb_write=enable` is set, ROMIO's collective buffering partitions files into non-overlapping file domains and assigns each domain to an aggregator process, so no two processes ever write to the same region of a file.
+
 #### Enable collective buffering
 
 The following hints enable ROMIO collective buffering:
