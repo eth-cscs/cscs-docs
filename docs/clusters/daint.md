@@ -146,6 +146,7 @@ Daint can also be accessed using [FirecREST][ref-firecrest] at the `https://api.
     !!! note "Operating Environment and Networking Stack"
     - Update HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
     - Update Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
+    - Improve Ritom performance, see also [VAST tuning][ref-guides-storage-vast-ritom] for individual IO tuning parameters
 
     !!! note "Container Engine"
     - Update Container Engine to v26.06.1
