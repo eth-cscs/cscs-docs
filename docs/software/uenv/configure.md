@@ -2,74 +2,164 @@
 # Configuring uenvs
 
 The uenv tools are designed to work out of the box, with zero configuration for most users.
-There is support for limited per-user configuration via a configuration file, which will be expanded as we add features that make it easier for groups and communities to manage their own environments.
+There is support for per-user configuration via a [TOML](https://toml.io/en/) configuration file, which can be used to set preferences and configure multiple repositories.
 
 ## User configuration
 
-Uenv is configured using a text configuration file.
+[](){#ref-uenv-configure-file}
+### Configuration file
 
-The location of the configuration file follows the [XDG base directory specification](https://specifications.freedesktop.org/basedir-spec/latest/), with the location defined as follows:
+The location of the configuration file follows the [XDG base directory specification](https://specifications.freedesktop.org/basedir-spec/latest/):
 
-* If the `XDG_CONFIG_HOME` environment variable is set, use `$XDG_CONFIG_HOME/uenv/config`.
-* Otherwise use the default location `$HOME/.config/uenv/config`.
+* If the `XDG_CONFIG_HOME` environment variable is set, use `$XDG_CONFIG_HOME/uenv/config.toml`.
+* Otherwise use the default location `$HOME/.config/uenv/config.toml`.
 
+A system-wide configuration file may also be present at `/etc/uenv/config.toml`.
+This file is managed by CSCS and sets system defaults such as the registry endpoint and elastic logging.
+User settings take precedence over system settings, and CLI flags take precedence over both.
+
+Use the [`uenv config`][ref-uenv-configure-cmd] command to inspect the active configuration.
+
+!!! example "inspecting uenv configuration"
+    ```
+    $ uenv config
+    configuration-files:
+      system:      /etc/uenv/config.toml
+      user:        /users/robertsmith/.local/aarch64/config/uenv/config.toml
+    uenv-configuration:
+      system:      starlex
+      repos:       default:/ritom/scratch/cscs/robertsmith/.uenv-images
+                   home:/users/robertsmith/testrepo
+      registry:    jfrog.svc.cscs.ch/uenv/deploy
+      artifactory: https://jfrog.svc.cscs.ch/artifactory/uenv
+      color:       on
+      elastic:     http://log.cscs.ch:31311/logs
+    ```
+[](){#ref-uenv-configure-syntax}
 ### Syntax
 
-The configuration file uses a simple `key = value` syntax, with comments starting with `#`:
+The configuration file uses [TOML v1.0](https://toml.io/en/) syntax.
+Comments start with `#`.
 
-```ini
-# this is a comment
+!!! example "example configuration file"
+    ```toml
+    # enable color output
+    color = true
 
-# the following are equivalent
-color = true
-color=true
-```
+    # override the system name (use "*" to match all clusters)
+    system_name = "daint"
 
-Notes on the syntax:
+    # define one or more repositories
+    [[repositories]]
+    name = "test"
+    path = "/capstor/scratch/cscs/username/test-repo"
 
-* keys are case-sensitive: `color` and `Color` are not equivalent.
-* all keys are lower case
-* white space is trimmed from keys and values, e.g.: `color = true` will be parsed as `key='color'` and `value='true'`.
+    [[repositories]]
+    name = "team"
+    path = "/store/g123/shared/uenv-images"
+    ```
 
+[](){#ref-uenv-configure-options}
 ### Options
 
-| key       | description | default     | values  |
-| ---       | ----------- | --------    | ------  |
-| [`color`][ref-uenv-configure-options-color]   | Use color output  | automatically chosen according to environment | `true`, `false` |
-| [`repo`][ref-uenv-configure-options-repo]    | The default repo location for downloaded uenv images  | `$SCRATCH/.uenv-images`  | An absolute path |
-| [`elasticsearch`][ref-uenv-configure-options-elastic]   | Elastic logging API end point | - | http://log.cscs.ch:31311/logs |
+| key | description | default | values |
+| --- | ----------- | ------- | ------ |
+| [`color`][ref-uenv-configure-options-color] | Use color output | automatically chosen | `true`, `false` |
+| [`system_name`][ref-uenv-configure-options-system] | Override the cluster name | auto-detected from `$CLUSTER_NAME` | cluster name or `"*"` |
+| [`[[repositories]]`][ref-uenv-configure-options-repos] | One or more local image repositories | `$SCRATCH/.uenv-images` | array of `name`/`path` pairs |
+| [`[elastic]`][ref-uenv-configure-options-elastic] | Elastic logging configuration | — | set by CSCS in system config |
 
 [](){#ref-uenv-configure-options-color}
 #### `color`
 
-By default, uenv will generate color output according to the following:
+By default, uenv will generate color output according to the following priority:
 
-* if `--no-color` is passed, color output is disabled
-* else if `color` is set in the config file, use that setting
-* else if the `NO_COLOR` environment variable is defined color output is disabled
-* else if the terminal is not TTY disable color
-* else enable color output
+* if `--no-color` is passed on the CLI, color output is disabled;
+* else if `color` is set in the config file, use that setting;
+* else if the `NO_COLOR` environment variable is defined, color output is disabled;
+* else if the terminal is not a TTY, disable color;
+* else enable color output.
 
-[](){#ref-uenv-configure-options-repo}
-#### `repo`
+[](){#ref-uenv-configure-options-system}
+#### `system_name`
 
-The default repo location for downloaded uenv images.
-The repo is selected according to the following process:
+Overrides the automatic cluster detection used to filter uenv search results and labels.
+By default, uenv reads the `$CLUSTER_NAME` environment variable set on each Alps cluster.
 
-* if the `--repo` CLI argument is given, use that setting
-* else if `repo` is set in the config file, use that setting
-* else use the default value of `$SCRATCH/.uenv-images`
+Setting `system_name = "*"` disables system filtering, showing images for all clusters.
+This is equivalent to the `@*` label syntax and the `--system=*` CLI flag:
 
-Note that the default location is system-specific, and may not match the actual `SCRATCH` environment variable.
+```bash title="equivalent ways to search across all systems"
+# in config.toml
+system_name = "*"
+
+# via the global --system flag (overrides the config file)
+uenv --system='*' image find prgenv-gnu
+
+# via the label syntax
+uenv image find prgenv-gnu@'*'
+```
+
+[](){#ref-uenv-configure-options-repos}
+#### `[[repositories]]`
+
+Multiple [repositories][ref-uenv-repo] can be configured as a TOML array-of-tables.
+
+```toml title="defining multiple repositories"
+[[repositories]]
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
+
+[[repositories]]
+name = "team"
+path = "/store/g123/shared/uenv-images"
+priority = 30
+```
+
+Each entry requires a `name`, a `path`, and an optional `priority`:
+
+| | required | description | default |
+| - | --- | --- | --- |
+| `name` | yes | the name used to refer to a repo | - |
+| `path` | yes | the absolute path of the repo | - |
+| `priority` | no | determines the order in which repos are searched | 10 |
+
+The priority of each repo determines the order in which they will be searched, from lowest to highest.
+The default priority for repos is 10, and the priority of the default user repo is 9, so the default repo has the highest precedence.
+
+The [`--repo`][ref-uenv-repo-flag] CLI flag can reference a repository by name or by path, and overrides the priority ordering specified by the configuration.
 
 [](){#ref-uenv-configure-options-elastic}
-#### `elasticsearch`
+#### `[elastic]`
 
 !!! warning "do not modify"
-    This option is set in the system configuration file, normally installed at `/etc/uenv/config`.
-    This file is used to set system-wide defaults, and can only be modified by system engineers.
+    This section is set in the system configuration file at `/etc/uenv/config.toml`.
+    It can only be modified by CSCS system engineers.
 
-The location of the elastic logging service used to log uenv usage in SLURM jobs.
-This value has to be set to the specific API end point of the CSCS elastic service, otherwise no logging will be performed.
+The elastic logging configuration used to log uenv usage in Slurm jobs.
+CSCS uses this to understand uenv usage and improve the quality of the uenv service.
 
-CSCS uses this information to understand uenv usage, in order to improve the quality of the uenv service.
+```toml title="elastic logging (system config only)"
+[elastic]
+url = "http://log.cscs.ch:31311/logs"
+```
+
+[](){#ref-uenv-configure-cmd}
+## The `uenv config` command
+
+The `uenv config` command prints the active configuration and the paths of the configuration files that were loaded.
+It is useful for diagnosing configuration issues.
+
+!!! example "inspecting the active configuration"
+    ```console
+    $ uenv config
+    configuration-files:
+      system:      /etc/uenv/config.toml
+      user:        /home/username/.config/uenv/config.toml
+    uenv-configuration:
+      system:      daint
+      repos:       main:/capstor/scratch/cscs/username/.uenv-images
+      registry:    registry.cscs.ch/cscs
+      color:       on
+      elastic:     http://log.cscs.ch:31311/logs
+    ```

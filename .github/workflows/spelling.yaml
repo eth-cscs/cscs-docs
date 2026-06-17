@@ -10,6 +10,11 @@ on:
   issue_comment:
     types: ['created']
 
+# Workaround for the archival of check-spelling/check-spelling (archived 2026-06-16).
+# see: https://github.com/microsoft/intelligent-terminal/pull/311
+env:
+  INPUT_IGNORE_SECURITY_ADVISORY: Sorry
+
 jobs:
   spelling:
     name: Check Spelling
