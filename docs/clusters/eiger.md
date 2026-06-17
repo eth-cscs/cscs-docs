@@ -178,7 +178,27 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-06-05 Early access phase"
+!!! change "2026-06-17"
+    !!! note "Uenv"
+    - Upgrade uenv from version 9.2.0 to 10.0.1.
+    - Features:
+        - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+        - Default views: uenv images can declare a view to load automatically when no --view flag is given.
+        - Advanced Slurm workflows: the --uenv-passthrough flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+        - New global --system flag to override the cluster name on the CLI (e.g. uenv --system='*' image find).
+        - Improved bash completion for uenv labels and file paths.
+    - Fixes:
+        - Changed a hard error to a warning when image metadata is not attached in the registry.
+        - Fixed a latent bug parsing date strings in image metadata.
+    - [uenv changelog][ref-uenv-release-notes-v10.0]
+
+    !!! note "Container Engine"
+    - Update Container Engine to v26.06.1
+    - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g. libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
+        - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
+    - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
+
+??? change "2025-06-05 Early access phase"
     Early access phase is open
 
 ??? change "2025-05-23 Creation of Eiger on Alps"
