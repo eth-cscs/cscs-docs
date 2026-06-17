@@ -133,6 +133,7 @@ RPA
 Roboto
 Roothaan
 SHMEM
+SHS
 SLA
 SLO
 SSHService
@@ -331,6 +332,7 @@ rowspan
 rpath
 runtime
 runtimes
+salloc
 santis
 sbatch
 scalapack
