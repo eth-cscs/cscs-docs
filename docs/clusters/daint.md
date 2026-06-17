@@ -157,8 +157,8 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     ```
     CUDA_CACHE_DISABLE="1"
     ```
-    This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
-    Some more information on the CUFA cache can be found at: https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/.
+    This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
+    Further information regarding the CUDA cache can be found at: https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/.
     ```
     NCCL_CROSS_NIC="0":, (changed from "1")
     NCCL_PXN_DISABLE="1" (previously unset)
@@ -180,13 +180,13 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     ```
     Information about the variables can be found at: https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html
 
-    Our testing has shown performance gains from these new defaults, however we want to make you aware of these changes, especially if you see performance degradations.
+    Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation. 
 
     !!! note "Uenv"
     - Upgraded Uenv from version 9.2.0 to 10.0.1.
     - Features:
         - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
-        - Default views: uenv images can declare a view to load automatically when no `--view` flag is given.
+        - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
         - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
         - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
         - Improved bash completion for uenv labels and file paths.
