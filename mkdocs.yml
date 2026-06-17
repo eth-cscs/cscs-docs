@@ -132,6 +132,7 @@ nav:
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
+      - 'Ascent': software/sciviz/ascent.md
     - 'Prohibited Software': software/prohibited.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md

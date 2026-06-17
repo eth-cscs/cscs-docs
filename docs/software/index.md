@@ -65,6 +65,8 @@ These pages provided documentation for all supported software, and installation 
 
     [:octicons-arrow-right-24: Paraview][ref-uenv-paraview]
 
+    [:octicons-arrow-right-24: Ascent][ref-uenv-ascent]
+
 -   :fontawesome-solid-brush: [__Commercial Software__][ref-software-commercial]
 
     [:octicons-arrow-right-24: Matlab][ref-software-matlab]
