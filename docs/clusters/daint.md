@@ -158,7 +158,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     CUDA_CACHE_DISABLE="1"
     ```
     This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
-    Further information regarding the CUDA cache can be found at: https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/.
+    Further information regarding the CUDA cache can be found at [https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/](https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/).
     ```
     NCCL_CROSS_NIC="0":, (changed from "1")
     NCCL_PXN_DISABLE="1" (previously unset)
@@ -168,7 +168,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     NCCL_PROTO="^LL128" (previously unset)
     NCCL_NCHANNELS_PER_NET_PEER="4" (previously unset)
     ```
-    Information about the variables can be found at: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html
+    Information about the variables can be found at [https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
     ```
     FI_CXI_RDZV_PROTO="alt_read" (previously unset)
     FI_CXI_RDZV_EAGER_SIZE="0" (previously unset)
