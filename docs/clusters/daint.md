@@ -178,7 +178,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     FI_MR_CACHE_MAX_COUNT="524288" (previously unset)
     FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD="16777216" (previously unset)
     ```
-    Information about the variables can be found at: https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html
+    Information about the variables can be found at [https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html](https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html).
 
     Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation. 
 
@@ -230,9 +230,3 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     1. Small changes in kernel tuning parameters
 
 ### Known issues
-
-!!! todo
-    Most of these issues (see original [KB docs](https://confluence.cscs.ch/spaces/KB/pages/868811400/Daint.Alps#Daint.Alps-Knownissues)) should be consolidated in a location where they can be linked to by all clusters.
-
-    We have some "known issues" documented under [communication libraries][ref-communication-cray-mpich], however these might be a bit too disperse for centralised linking.
-
