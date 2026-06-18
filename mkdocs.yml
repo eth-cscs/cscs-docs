@@ -147,7 +147,6 @@ nav:
     - storage/index.md
     - 'File Systems': storage/filesystems.md
     - 'Data Transfer': storage/transfer.md
-    - 'Long Term Storage': storage/longterm.md
     - 'Object Storage': storage/object.md
   - 'Services':
     - services/index.md
