@@ -230,9 +230,3 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     1. Small changes in kernel tuning parameters
 
 ### Known issues
-
-!!! todo
-    Most of these issues (see original [KB docs](https://confluence.cscs.ch/spaces/KB/pages/868811400/Daint.Alps#Daint.Alps-Knownissues)) should be consolidated in a location where they can be linked to by all clusters.
-
-    We have some "known issues" documented under [communication libraries][ref-communication-cray-mpich], however these might be a bit too disperse for centralised linking.
-
