@@ -42,7 +42,8 @@ However, even when not running on login nodes other resources are limited and ca
 - overload the Slurm scheduler with many small jobs, or
 - submit excessive network requests from Alps.
 
-We recommend running agents either on compute nodes (if your development or workflow environment is containerized, [run the agent inside the container][ref-container-engine] with [only necessary directories mounted][ref-ce-edf-reference-mounts]) or on your local computer with limited Slurm or FirecREST jobs allowed.
+We recommend running agents either on compute nodes or on your local computer with limited Slurm or FirecREST jobs allowed.
+When running on a compute node, [run the agent inside a container][ref-container-engine] with [only necessary directories mounted][ref-ce-edf-reference-mounts] or inside a [uenv][ref-uenv] to give the agent access to build tools and dependencies for your project.
 See the [sandboxing section][ref-coding-agents-sandboxing] below for more pointers on restricting coding agents.
 
 [](){#ref-coding-agents-sandboxing}
