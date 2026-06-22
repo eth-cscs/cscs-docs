@@ -342,6 +342,7 @@ spglib
 sphericart
 spla
 squashfs
+srt
 srun
 ssh
 sshservice

@@ -142,10 +142,12 @@ The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs
     Describe API support.
     If we provide both OpenAI and Anthropic APIs, is it sufficient to provide links to external documentation for these APIs, with notes about any differences?
 
-## Reducing consumption
+## Reducing token consumption
 
 * Longer prompts increase cost and latency
 * Future costs may differentiate across models with different computational load
+
+!!! todo "This section needs expansion or removal, this is not unique to the CSCS inference API"
 
 [](){#ref-inference-api-coding-agents-setup}
 ## Setting up coding agents to use the inference service

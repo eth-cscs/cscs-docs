@@ -29,7 +29,7 @@ See the [inference API documentation][ref-inference-api-coding-agents-setup] for
 [](){#ref-coding-agents-methods}
 ## Running on Alps
 
-There are different ways in which one can run coding agents "on Alps":
+Coding agents can be run on Alps in different ways:
 
 - running the agent on a login node,
 - running the agent on a compute node, or
@@ -48,8 +48,8 @@ See the [sandboxing section][ref-coding-agents-sandboxing] below for more pointe
 [](){#ref-coding-agents-sandboxing}
 ### Sandboxing
 
-Most agents will by default only have read or write access to files within the working directory in which the agent is launched.
-This provides a basic level of protection against unwanted and irreversible actions done by agents.
+Most agents will by default give access only to files within the working directory in which the agent is launched.
+This provides a basic level of protection against unwanted and irreversible actions taken by agents.
 Sandboxing can provide stronger protection.
 
 We highly recommend consulting your coding agent's documentation for instructions on how to restrict commands and filesystem access. See for example:
@@ -63,13 +63,13 @@ This is particularly important if you are new to coding agents, but is important
 !!! info "Anthropic srt uenv"
     On the [daint cluster][ref-cluster-daint] a preview [uenv][ref-uenv] containing the [Anthropic Sandbox Runtime (srt)](https://github.com/anthropic-experimental/sandbox-runtime) is available in the `build::` namespace:
     
-    ```console
+    ```console title="Pulling and using the srt uenv"
     $ uenv image find build::srt
     uenv                 arch   system  id                size(MB)  date
     srt/26.4:2590682466  gh200  daint   ae6b951e8de7276f     969    2026-06-10
     $ uenv image pull build::srt
     $ uenv start srt/26.4 --view=srt
-    $ srt curl "anthropic.com" # if configured appropriately
+    $ srt curl "anthropic.com"
     Connection blocked by network allowlist
     ```
     
