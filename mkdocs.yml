@@ -167,6 +167,7 @@ nav:
     - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
+    - 'Coding Agents on Alps': guides/coding-agents.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Support Guide': guides/getting-support.md
