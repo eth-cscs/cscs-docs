@@ -469,6 +469,18 @@ you should disable GPU-aware MPI (enabled by default) by setting the following e
 export MPICH_GPU_SUPPORT_ENABLED=0
 ```
 
+Note that COSMA is the default parallel dense matrix-matrix multiplication library. To ensure successful completion of
+CP2K calculations without GPU-aware MPI, add the following to the `&GLOBAL` input section. For all but RPA calculations,
+the performance impact of not using COSMA is negligible.
+
+```bash
+&FM
+  TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+&END FM
+```
+
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
+
 ### ELPA slowdown with 2026.1 on Daint
 
 In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from

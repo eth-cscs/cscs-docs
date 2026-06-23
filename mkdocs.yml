@@ -132,7 +132,8 @@ nav:
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Prohibited Software': software/unsupported.md
+      - 'Ascent': software/sciviz/ascent.md
+    - 'Prohibited Software': software/prohibited.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md
     - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -262,3 +263,4 @@ markdown_extensions:
 extra_javascript:
  - javascripts/mathjax.js
  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+ - javascripts/version-badges.js

@@ -25,6 +25,8 @@ graphroot = "/dev/shm/$USER/root"
     `/dev/shm` is the mount point of a [tmpfs filesystem](https://www.kernel.org/doc/html/latest/filesystems/tmpfs.html#tmpfs) and is compatible with the user namespaces used by Podman.
     The limitation of this approach  is that container images created during a job allocation are deleted when the job ends.
     Therefore, the image needs to either be pushed to a container registry or imported by the Container Engine before the job allocation finishes.
+    
+    [Local-registry][ref-local-registry] can be used to enable caching on a filesystem other than `/dev/shm`, and speed up subsequent build processes.
 
 You can use
 
@@ -114,3 +116,87 @@ podman tag <image:tag> docker.io/<username>/myimage:latest
 # Push the image to the repository of your choice
 podman push docker://docker.io/<username>/myimage:latest
 ```
+
+[](){#ref-local-registry}
+## Caching image layers on a local registry
+
+The Podman image building process can be enhanced by caching intermediate layers and using the cache in subsequent runs.
+
+When building inside a Slurm job, [`local-registry`](https://github.com/eth-cscs/local-registry) can be used as container registry for caching purposes.
+
+   ```console title="Download"
+   $ git clone https://github.com/eth-cscs/local-registry.git
+   Cloning into 'local-registry'...
+   ...
+   Receiving objects: 100% (6/6), done.
+   $ cd local-registry
+   ```
+!!! warning
+    local-registry can work only on compute nodes inside a Slurm job.
+
+   ```console title="Launch interactive Slurm job"
+   $ srun ... --pty bash
+   ```
+
+   ```console title="Ensure filesystem folder exists"
+   $ mkdir <CHOSEN_REGISTRY_DIRPATH>
+   ```
+
+   ```console title="Setup and start registry"
+   $ . env-registry && registry up <CHOSEN_REGISTRY_DIRPATH>
+   Local registry started on folder <CHOSEN_REGISTRY_DIRPATH>
+   The address is:
+   <REGISTRY_HOST>:<REGISTRY_PORT>
+   ```
+!!! info
+    `<CHOSEN_REGISTRY_DIRPATH>` can be omitted if unchanged
+
+
+   ```console title="Build container image using local registry as cache"
+   $ cat <CONTAINERFILE>
+   FROM ubuntu:latest
+   RUN apt update
+   RUN apt upgrade -y
+
+   $ podman-cached -f <CONTAINERFILE> -t <IMAGE_NAME>:<IMAGE_TAG> .
+   Executing: podman build --layers --tls-verify=false --cache-from=<REGISTRY_HOST>:<REGISTRY_PORT>/cache --cache-to=<REGISTRY_HOST>:<REGISTRY_PORT>/cache  -f <CONTAINERFILE> -t <IMAGE_NAME>:<IMAGE_TAG> .
+   STEP 1/3: FROM ubuntu:latest
+   STEP 2/3: RUN apt update
+   --> Using cache 7e878891345baea142da9dca42bf131488a317178a162b1388f449f40328eb45
+   --> Pushing cache [localhost:5000/cache]:3e03c073728436d9337daacb491169e6cb3868d4f0f9385058d8333dc62eb903
+   --> 7e878891345b
+   STEP 3/3: RUN apt upgrade -y
+   --> Using cache 2c8781e264b03ce41c571b6a4d24c8d8472a413ee50073ad662e517f92a0ff2a
+   COMMIT <IMAGE_NAME>:<IMAGE_TAG>
+   --> Pushing cache [localhost:5000/cache]:3e44a53a47cd2318f910222fec5ae4f68853c471410d73f52e6b01c4eaec5555
+   --> 2c8781e264b0
+   Successfully tagged localhost/<IMAGE_NAME>:<IMAGE_TAG>
+   Successfully tagged localhost/<IMAGE_NAME>:latest
+   2c8781e264b03ce41c571b6a4d24c8d8472a413ee50073ad662e517f92a0ff2a
+   ```
+
+   ```console title="Stop registry"
+   $ registry down
+   local registry is stopped.
+   ```
+
+Additional commands can be used to manage the local registry:
+
+   ```console title="Check registry status (UP)"
+   $ registry status
+   local registry is running at:
+   <REGISTRY_HOST>:<REGISTRY_PORT>
+   ```
+
+   ```console title="Check registry status (DOWN)"
+   $ registry status
+   local registry is stopped.
+   ```
+
+   ```console title="Delete registry (when data is not needed anymore)"
+   $ registry delete
+   Removing directory <CHOSEN_REGISTRY_DIRPATH> content ... [DONE]
+   Removing configuration file <HOME>/.local_registry/registry.conf ... [DONE]
+
+   local registry is DELETED.
+   ```

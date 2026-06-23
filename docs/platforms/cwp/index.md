@@ -31,13 +31,13 @@ There are three main file systems mounted on the CWP system Santis.
 
 | type |mount | filesystem |
 | -- | -- | -- |
-| Home | /users/$USER | [VAST][ref-alps-vast] |
+| Home | /users/$USER | [Vadret][ref-alps-vadret] |
 | Scratch | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
 | Project | `/capstor/store/cscs/userlab/<project>` | [Capstor][ref-alps-capstor] |
 
 ### Home
 
-Every user has a [home][ref-storage-home] path (`$HOME`) mounted at `/users/$USER` on the [VAST][ref-alps-vast] filesystem.
+Every user has a [home][ref-storage-home] path (`$HOME`) mounted at `/users/$USER` on the [Vadret][ref-alps-vadret] filesystem.
 The home directory has 50 GB of capacity, and is intended for configuration, small software packages and scripts.
 
 ### Scratch
