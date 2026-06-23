@@ -154,6 +154,7 @@ acfdt
 acl
 admin
 admins
+agentic
 artifactory
 autodetection
 aws
@@ -328,6 +329,7 @@ rowspan
 rpath
 runtime
 runtimes
+sandboxing
 santis
 sbatch
 scalapack
