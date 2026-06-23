@@ -35,7 +35,7 @@ Coding agents can be run on Alps in different ways:
 - running the agent on a compute node, or
 - running the agent locally and submitting jobs over [SSH][ref-ssh] and [Slurm][ref-slurm] or via [FirecREST][ref-firecrest].
 
-We recommend _not_ running agents on login nodes because of the potential for unintended high resource usage on a shared resource.
+We ask _not_ running agents on login nodes because of the potential for unintended high resource usage on a shared resource.
 However, even when not running on login nodes other resources are limited and care should be taken for example to not:
 
 - overload the [filesystems][ref-storage-fs],
