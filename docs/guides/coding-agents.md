@@ -46,6 +46,10 @@ We recommend running agents either on compute nodes or on your local computer wi
 When running on a compute node, [run the agent inside a container][ref-container-engine] with [only necessary directories mounted][ref-ce-edf-reference-mounts] or inside a [uenv][ref-uenv] to give the agent access to build tools and dependencies for your project.
 See the [sandboxing section][ref-coding-agents-sandboxing] below for more pointers on restricting coding agents.
 
+!!! note "uenvs do not restrict access to the host system"
+    While containers provide some isolation from the host system, uenvs provide no isolation.
+    uenvs only provide additional software on top of the host system.
+
 [](){#ref-coding-agents-sandboxing}
 ### Sandboxing
 
