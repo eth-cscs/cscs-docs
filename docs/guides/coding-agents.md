@@ -56,7 +56,7 @@ Sandboxing can provide stronger protection.
 We highly recommend consulting your coding agent's documentation for instructions on how to restrict commands and filesystem access. See for example:
 
 - Claude Code documentation on [sandboxing](https://code.claude.com/docs/en/sandbox-environments) or [permissions](https://code.claude.com/docs/en/permissions)
-- Opencode documentation on [permissions](https://opencode.ai/docs/permissions)
+- OpenCode documentation on [permissions](https://opencode.ai/docs/permissions)
 
 We recommend starting with restrictive permissions and progressively whitelisting or approving commands manually as you get to know the behaviour of your particular coding agent and model on Alps.
 This is particularly important if you are new to coding agents, but is important even if you have used them in the past and are moving workflows to Alps.
