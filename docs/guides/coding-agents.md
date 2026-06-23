@@ -16,7 +16,7 @@ This page covers Alps-specific considerations for running coding agents, regardl
     - Coding agents may inadvertently submit many jobs, consume node hours, or modify files in unintended ways.
       Not following the [Fair Usage of Shared Resources][ref-policies-fair-use] may result in access being revoked.
     - CSCS takes no responsibility for files deleted, quotas being exhausted, or other unintended behaviour by agents.
-    - CSCS takes no responsibility for data inadvertently shared with third party LLM providers.
+    - CSCS takes no responsibility for data inadvertently shared by your agent with third party LLM providers.
 
 The [LLM inference service hosted by CSCS][ref-inference-api] can be used as a provider in most coding agents.
 See the [inference API documentation][ref-inference-api-coding-agents-setup] for instructions on how to set up the most common agents to use the CSCS-hosted inference service.
