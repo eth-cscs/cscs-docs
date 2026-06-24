@@ -186,7 +186,8 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
     srun --ntasks=4 --cpu-bind=socket ./mps-wrapper.sh ./parallel_jobs.sh
     ```
 
-    The `parallel_jobs.sh` script describes how the resources are equally split over 4 independent calculations:
+    The `parallel_jobs.sh` script describes how the resources are equally split over 4 independent calculations. Note
+    that the all `srun` calls run on the same allocation, as defined in the submission script above.
 
     ```bash title="parallel_jobs.sh"
     #!/bin/bash -l
@@ -223,8 +224,8 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
     export OMP_NUM_THREADS=$((72/$nranks_per_calc - 1))
     ulimit -s unlimited
 
+    # First calculation on GPU 0 and CPU cores 0-71
     if [[ $SLURM_LOCALID -eq 0 ]]; then
-        # First calculation on GPU 0 and CPU cores 0-71
         CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-0 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-0 \
         srun -u --overlap \
                 --cpu-bind=$mask0,verbose \
@@ -234,7 +235,12 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
                 cp2k.psmp -i H2O-128.inp \
                 & j0=$!
 
-        # Second calculation on GPU 1 and CPU cores 72-143
+        # wait for calculation to finish
+        wait $j0
+    fi
+
+    # Second calculation on GPU 1 and CPU cores 72-143
+    if [[ $SLURM_LOCALID -eq 1 ]]; then
         CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-1 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-1 \
         srun -u --overlap \
                 --cpu-bind=$mask1,verbose \
@@ -244,7 +250,12 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
                 cp2k.psmp -i H2O-128.inp \
                 & j1=$!
 
-        # Third calculation on GPU 2 and CPU cores 144-215
+        # wait for calculation to finish
+        wait $j1
+    fi
+
+    # Third calculation on GPU 2 and CPU cores 144-215
+    if [[ $SLURM_LOCALID -eq 2 ]]; then
         CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-2 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-2 \
         srun -u --overlap \
                 --cpu-bind=$mask2,verbose \
@@ -254,7 +265,12 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
                 cp2k.psmp -i H2O-128.inp \
                 & j2=$!
 
-        # Fourth calculation on GPU 3 and CPU cores 216-287
+        # wait for calculation to finish
+        wait $j2
+    fi
+
+    # Fourth calculation on GPU 3 and CPU cores 216-287
+    if [[ $SLURM_LOCALID -eq 3 ]]; then
         CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-3 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-3 \
         srun -u --overlap \
                 --cpu-bind=$mask3,verbose \
@@ -264,8 +280,8 @@ GH200 nodes offer a very large amount of computing resources, and some calculati
                 cp2k.psmp -i H2O-128.inp \
                 & j3=$!
 
-        # Wait for all calculations to finish
-        wait $j0 $j1 $j2 $j3
+        # wait for calculation to finish
+        wait $j3
     fi
     ```
 
