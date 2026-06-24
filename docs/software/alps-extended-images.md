@@ -130,15 +130,17 @@ To use an image directly on Alps via an EDF environment file, set the image to t
         "/iopsstor/",
     ]
     writable = true
+    entrypoint = true # (2)!
     [env]
-    PMIX_MCA_psec = "native" # (2)!
+    PMIX_MCA_psec = "native" # (3)!
     [annotations]
-    com.hooks.cxi.enabled = "false" # (3)!
+    com.hooks.cxi.enabled = "false" # (4)!
     ```
 
     1. Images will be pulled directly from CSCS' `jfrog` artifactory
-    2. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
-    3. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
+    2. `entrypoint = true` is recommended for Alps Extended Images. The images initialize Alps-specific runtime settings through the NVIDIA container entrypoint, which sources the hooks under `/opt/nvidia/entrypoint.d`. Without this setting, runtimes that do not start containers through a login shell may not initialize the Alps environment.
+    3. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
+    4. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 
 === "EDF pulling from GHCR"
 
@@ -150,24 +152,32 @@ To use an image directly on Alps via an EDF environment file, set the image to t
         "/iopsstor/",
     ]
     writable = true
+    entrypoint = true # (2)!
     [env]
-    PMIX_MCA_psec = "native" # (2)!
+    PMIX_MCA_psec = "native" # (3)!
     [annotations]
-    com.hooks.cxi.enabled = "false" # (3)!
+    com.hooks.cxi.enabled = "false" # (4)!
     ```
 
     1. Images will be pulled directly from CSCS' `jfrog` artifactory
-    2. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
-    3. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
+    2. `entrypoint = true` is recommended for Alps Extended Images. The images initialize Alps-specific runtime settings through the NVIDIA container entrypoint, which sources the hooks under `/opt/nvidia/entrypoint.d`. Without this setting, runtimes that do not start containers through a login shell may not initialize the Alps environment.
+    3. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
+    4. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 
 !!! danger
 
+    - Set `entrypoint = true` in the EDF when using Alps Extended Images
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
     - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
     - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
     - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
+!!! note "Why `entrypoint = true` is recommended"
+
+    Alps Extended Images install runtime environment settings for the optimized networking stack inside the container image. These settings are initialized by the NVIDIA container entrypoint.
+
+    Current Enroot/Pyxis-based workflows may also initialize the environment through login-shell profile sourcing, but this is runtime-specific behavior and should not be relied on for portability. Setting `entrypoint = true` makes the EDF explicitly run the image entrypoint, which is the recommended and future-proof initialization path.
 
 When launching your application with `sbatch` and `srun`, make sure to include the necessary flags for optimal performance and correct behavior, for example:
 
