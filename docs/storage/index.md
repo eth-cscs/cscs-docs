@@ -18,14 +18,6 @@
 
     [:octicons-arrow-right-24: Data Transfer](transfer.md)
 
--   :fontawesome-solid-box-archive: __Long Term Storage__
-
-    ---
-
-    The Long Term Storage (LTS) service enables CSCS users to preserve their scientific data and ensures that it can be publicly accessed through a persistent identifier.
-
-    [:octicons-arrow-right-24: LTS](longterm.md)
-
 -   :fontawesome-solid-database: __Object Storage__
 
     ---
