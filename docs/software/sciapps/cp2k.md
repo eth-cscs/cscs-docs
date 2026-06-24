@@ -53,7 +53,7 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 On our systems, CP2K is built with the following dependencies:
 
 * [COSMA]
-* [Cray MPICH]
+* [Cray MPICH][ref-communication-cray-mpich]
 * [DBCSR]
 * [DLA-Future] (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
 * [dftd4] (from `cp2k@2025.1` onwards)
@@ -85,8 +85,7 @@ On our systems, CP2K is built with the following dependencies:
 ### Running on Daint
 
 [Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
-To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
-MPS] daemon so that multiple MPI ranks can use the same GPU.
+To start a job, two bash scripts are potentially required: a [Slurm][ref-slurm] submission script, and a wrapper to start the [CUDA MPS][ref-slurm-gh200-multi-rank-per-gpu] daemon so that multiple MPI ranks can use the same GPU.
 
 ```bash title="run_cp2k.sh"
 #!/bin/bash -l
@@ -611,8 +610,5 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [ScaLAPACK]: https://www.netlib.org/scalapack/
 [OpenBLAS]: http://www.openmathlib.org/OpenBLAS/
 [Intel MKL]: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
-[Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
-[Slurm]: https://slurm.schedmd.com/
-[CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
 [libvori]: https://brehm-research.de/libvori.php
 [libtorch]: https://docs.pytorch.org/cppdocs/installing.html
