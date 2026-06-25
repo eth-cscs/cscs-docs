@@ -173,7 +173,7 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
     - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
-!!! note "Why `entrypoint = true` is recommended"
+!!! question "Why is `entrypoint = true` recommended?"
 
     Alps Extended Images install runtime environment settings for the optimized networking stack inside the container image. These settings are initialized by the NVIDIA container entrypoint.
 
