@@ -177,7 +177,8 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
     Alps Extended Images install runtime environment settings for the optimized networking stack inside the container image. These settings are initialized by the NVIDIA container entrypoint.
 
-    Current Enroot/Pyxis-based workflows may also initialize the environment through login-shell profile sourcing, but this is runtime-specific behavior and should not be relied on for portability. Setting `entrypoint = true` makes the EDF explicitly run the image entrypoint, which is the recommended and future-proof initialization path.
+    Current Enroot/Pyxis-based workflows may also initialize the environment through login-shell profile sourcing, but this is runtime-specific behavior and should not be relied on for portability.
+    The future-proof and recommended method is to set `entrypoint = true`, to ensure that the image `entrypoint` is always run.
 
 When launching your application with `sbatch` and `srun`, make sure to include the necessary flags for optimal performance and correct behavior, for example:
 
