@@ -59,7 +59,7 @@ However, CSCS collects infrastructure metrics and telemetry, including prompt an
 ## Quick Start
 
 Before using the API, obtain a key by following the [access guide][ref-inference-api-access].
-Include this API Key in every API request.
+Include this API key in every API request.
 
 Query available models using the `/models` endpoint:
 ```bash
