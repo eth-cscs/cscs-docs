@@ -58,58 +58,68 @@ However, CSCS collects infrastructure metrics and telemetry, including prompt an
 [](){#ref-inference-api-quickstart}
 ## Quick Start
 
-Before using the API, obtain an authentication token by following the [access guide][ref-inference-api-access].
-Include this token in every API request.
+Before using the API, obtain a key by following the [access guide][ref-inference-api-access].
+Include this API key in every API request.
 
 Query available models using the `/models` endpoint:
 ```bash
-curl -X GET "https://llm-proxy.svc.cscs.ch/v1/models" \
-  -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
+curl -X GET "https://api.inference.cscs.ch/v1/models" \
+  -H "Authorization: Bearer <API_KEY>" \
   -H "Content-Type: application/json"
 ```
 
 To get a response using the Apertus 70B model do (piped into `jq` for pretty output):
 ```console
-$ curl -X POST "https://llm-proxy.svc.cscs.ch/chat/completions" \
-    -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
+$ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
+    -H "Authorization: Bearer <API_KEY>" \
     -H "Content-Type: application/json" \
     -d '{
-      "model": "Apertus-70B-Instruct-2509",
+      "model": "swiss-ai/Apertus-70B-Instruct-2509",
       "messages": [
         {"role": "user", "content": "Explain gradient descent in one paragraph."}
       ],
       "temperature": 0.2
     }' | jq
+
+```
+```console
 {
-  "id": "chatcmpl-f11032007bc340a88db62b46fac1224a",
-  "created": 1780997039,
-  "model": "Apertus-70B-Instruct-2509",
+  "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
   "object": "chat.completion",
+  "created": 1782485315,
+  "model": "swiss-ai/Apertus-70B-Instruct-2509",
   "choices": [
     {
-      "finish_reason": "stop",
       "index": 0,
       "message": {
-        "content": "Gradient descent is an optimization algorithm used in machine learning to minimize the cost function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost fu
-nction. This is done by calculating the gradient of the cost function with respect to each parameter, which gives the direction of the steepest increase. The algorithm then takes a step in the opposite direction of this gradient, effectively
- moving downhill on the cost function landscape. The size of the step, or the learning rate, determines how quickly the algorithm converges to the minimum. The process is repeated until the algorithm converges to a minimum, which ideally cor
-responds to the optimal set of parameters for the model. Gradient descent is a fundamental concept in deep learning and is used in various variants such as stochastic gradient descent, mini-batch gradient descent, and more.",
         "role": "assistant",
-        "provider_specific_fields": {
-          "refusal": null
-        }
+        "content": "Gradient descent is a fundamental optimization algorithm used in machine learning to minimize the cost or loss function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost function, which is determined by the negative of the gradient of the cost function with respect to the parameters. The gradient points in the direction of the greatest increase of the function, so by moving in the opposite direction (negative gradient), the algorithm reduces the cost. The step size, or learning rate, determines how much to adjust the parameters in each iteration. If the learning rate is too small, the algorithm may take too long to converge; if it's too large, the algorithm may overshoot the minimum and fail to converge. Gradient descent is widely used in training neural networks and other machine learning models.",
+        "refusal": null,
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": null
       },
-      "provider_specific_fields": {
-        "token_ids": null,
-        "stop_reason": null
-      }
+      "logprobs": null,
+      "finish_reason": "stop",
+      "stop_reason": null,
+      "token_ids": null,
+      "routed_experts": null
     }
   ],
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.23.0-tp4-712aba24",
   "usage": {
-    "completion_tokens": 169,
     "prompt_tokens": 69,
-    "total_tokens": 238
-  }
+    "total_tokens": 233,
+    "completion_tokens": 164,
+    "prompt_tokens_details": null
+  },
+  "prompt_logprobs": null,
+  "prompt_token_ids": null,
+  "prompt_text": null,
+  "kv_transfer_params": null
 }
 ```
 
@@ -130,7 +140,7 @@ The token can be accessed by selecting "Inference Service" under "Resources" on 
 
 ## API
 
-The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs.ch`, and support standard endpoints, such as:
+The service is accessed through the gateway base URL `https://api.inference.cscs.ch`, and support standard endpoints, such as:
 
 | Path | Purpose |
 | ---- | ------- |
@@ -163,9 +173,9 @@ For more details and for other agents, see their respective documentation pages.
 Set the following environment variables before starting a `claude` session.
 
 ```bash
-export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
-export ANTHROPIC_BASE_URL=https://llm-proxy.svc.cscs.ch/v1
-export ANTHROPIC_MODEL=Apertus-70B-Instruct-2509
+export ANTHROPIC_API_KEY=<API_KEY>
+export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch/v1
+export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
 claude
 ```
 
@@ -181,11 +191,11 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
       "npm": "@ai-sdk/openai-compatible",
       "name": "CSCS Inference",
       "options": {
-        "baseURL": "https://llm-proxy.svc.cscs.ch/v1"
+        "baseURL": "https://api.inference.cscs.ch/v1"
       },
       "models": {
-        "Apertus-70B-Instruct-2509": {
-          "name": "Apertus 70B"
+        "moonshotai/Kimi-K2.7-Code": {
+          "name": "Kimi K2.7-Code"
         }
       }
     }
@@ -214,9 +224,3 @@ Once connected, you can choose models configured in the config.
 * Documentation and model-specific configuration transparency are work in progress.
 * Load balancing and other QoS need to be understood.
 
-
-## CSCS-internal inference service
-
-For CSCS staff, an internal inference service is available on CSCS VPN through the https://ai-gateway.svc.cscs.ch URL.
-Usage is otherwise identical to the https://llm-proxy.svc.cscs.ch endpoint.
-For more information and keys, join the #cscs-inference-services Slack channel.
