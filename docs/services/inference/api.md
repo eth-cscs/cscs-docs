@@ -173,9 +173,11 @@ Once your project has been approved, follow the steps below to set up access.
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
-The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur].
-Navigate to your project, select the "Resources" tab and press the "Add" button.
-Under the "Add resource" selector, choose the "Inference Service" category and the "Inference API" offering.
+The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur]:
+
+- Click the "Add resource" button in the top left of the UI.
+- Select your project from the dropdown.
+- Choose the "Inference Service" category and the "Inference API" offering.
 
 !!! note
     If you are a project member, ask your PI to create the inference resource first.
