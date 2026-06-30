@@ -156,6 +156,7 @@ acfdt
 acl
 admin
 admins
+agentic
 artifactory
 autodetection
 aws
@@ -334,6 +335,7 @@ rpath
 runtime
 runtimes
 salloc
+sandboxing
 santis
 sbatch
 scalapack
@@ -348,6 +350,7 @@ spglib
 sphericart
 spla
 squashfs
+srt
 srun
 ssh
 sshservice

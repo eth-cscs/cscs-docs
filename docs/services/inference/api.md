@@ -152,23 +152,20 @@ The service is accessed through the gateway base URL `https://api.inference.cscs
     Describe API support.
     If we provide both OpenAI and Anthropic APIs, is it sufficient to provide links to external documentation for these APIs, with notes about any differences?
 
-[](){#ref-inference-api-guides}
-## Guides
+## Reducing token consumption
 
-### Setting up coding agents to use the inference service
+* Longer prompts increase cost and latency
+* Future costs may differentiate across models with different computational load
 
-Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai).
-For more details and for other agents, see their respective documentation pages.
+!!! todo "This section needs expansion or removal, this is not unique to the CSCS inference API"
 
-!!! info
-    Both agent frameworks can be launched inside a loaded [uenv][ref-uenv] or [container][ref-container-engine], which will allow the agents to build and run your project.
+[](){#ref-inference-api-coding-agents-setup}
+## Setting up coding agents to use the inference service
 
-!!! warning
-    The agents will have access to to your files and are able to submit jobs on behalf of you.
-    This has to be handled very carefully; as a user you are responsible for the actions of the agents that you launch.
-    Compute resources used by agent-launched Slurm jobs will be billed towards your project account.
+Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
+For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
-#### Claude Code
+### Claude Code
 
 Set the following environment variables before starting a `claude` session.
 
@@ -179,7 +176,7 @@ export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
 claude
 ```
 
-#### OpenCode
+### OpenCode
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.json`).
 
@@ -210,11 +207,6 @@ Once connected, you can choose models configured in the config.
 !!! info
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
-
-### Reducing consumption
-
-* Longer prompts increase cost and latency
-* Future costs may differentiate across models with different computational load
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
