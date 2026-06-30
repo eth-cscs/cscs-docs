@@ -15,26 +15,49 @@ To reduce the burden on users and ensure best-in-class performance, we provide p
 The images are hosted on [github](https://github.com/orgs/eth-cscs/packages?repo_name=alps-extended-images) through github's Container Registry (GHCR) and are also mirrored on CSCS' internal `jfrog` artifactory for optimal performance when pulling images directly on Alps.
 The latter is only accessible from within the Alps environment, while the GHCR is publicly accessible and can be pulled from anywhere.
 
-=== "alps5"
+=== "alps6"
 
     | Base Image                                   | Jfrog URI                                                                        | GHCR URI                                                                |
     | :------------------------------------------- | :------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
-    | `nvcr.io/nvidia/pytorch:26.02-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps5`     |
-    | `nvcr.io/nvidia/pytorch:26.01-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.01-py3-alps5`     |
-    | `nvcr.io/nvidia/pytorch:25.12-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:12.12-py3-alps5`     |
-    | `nvcr.io/nvidia/nemo:26.02`                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps5`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps5`        |
-    | `nvcr.io/nvidia/nemo:25.11.01`                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps5`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps5`     |
-    | `nvcr.io/nvidia/physicsnemo/physicsnemo:25.11` | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps5` |
+    | `nvcr.io/nvidia/pytorch:26.02-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps6` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps6`     |
+    | `nvcr.io/nvidia/pytorch:26.01-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps6` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.01-py3-alps6`     |
+    | `nvcr.io/nvidia/pytorch:25.12-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps6` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:12.12-py3-alps6`     |
+    | `nvcr.io/nvidia/nemo:26.02`                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps6`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps6`        |
+    | `nvcr.io/nvidia/nemo:25.11.01`                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps6`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps6`     |
+    | `nvcr.io/nvidia/physicsnemo/physicsnemo:25.11` | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps6` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps6` |
 
     Network Stack: libraries and versions
 
     | Library          | Version        | Notes                        |
     | :--------------- | :------------- | :--------------------------- |
-    | `libfabric`      | `2.5.1`        |  |
+    | `libfabric`      | `2.6.0`        |  |
     | `NCCL`           | `2.30.7-1`    |  |
     | `aws-ofi-plugin` | `git-423a007` | Built from commit `423a0073356529a93fd86191f20e27e6b7d84849` |
     | `nvshmem`        | `3.6.5-0`      | |
     | `OpenMPI`        | `5.0.10`        | |
+
+=== "alps5"
+
+    ??? warning "The alps4 images are deprecated"
+
+        | Base Image                                   | Jfrog URI                                                                        | GHCR URI                                                                |
+        | :------------------------------------------- | :------------------------------------------------------------------------------- | :---------------------------------------------------------------------- |
+        | `nvcr.io/nvidia/pytorch:26.02-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps5`     |
+        | `nvcr.io/nvidia/pytorch:26.01-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.01-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.01-py3-alps5`     |
+        | `nvcr.io/nvidia/pytorch:25.12-py3`             | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:25.12-py3-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:12.12-py3-alps5`     |
+        | `nvcr.io/nvidia/nemo:26.02`                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps5`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps5`        |
+        | `nvcr.io/nvidia/nemo:25.11.01`                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps5`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps5`     |
+        | `nvcr.io/nvidia/physicsnemo/physicsnemo:25.11` | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps5` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps5` |
+
+        Network Stack: libraries and versions
+
+        | Library          | Version        | Notes                        |
+        | :--------------- | :------------- | :--------------------------- |
+        | `libfabric`      | `2.5.1`        |  |
+        | `NCCL`           | `2.30.7-1`    |  |
+        | `aws-ofi-plugin` | `git-423a007` | Built from commit `423a0073356529a93fd86191f20e27e6b7d84849` |
+        | `nvshmem`        | `3.6.5-0`      | |
+        | `OpenMPI`        | `5.0.10`        | |
 
 === "alps4"
 
@@ -48,9 +71,9 @@ The latter is only accessible from within the Alps environment, while the GHCR i
         | `nvcr.io/nvidia/nemo:26.02`                    | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:26.02-alps4`        | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:26.02-py3-alps4`        |
         | `nvcr.io/nvidia/nemo:25.11.01`                 | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-nemo:25.11.01-alps4`     | `ghcr.io/eth-cscs/alps-extended-images/ngc-nemo:25.11.01-py3-alps4`     |
         | `nvcr.io/nvidia/physicsnemo/physicsnemo:25.11` | `jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-physicsnemo:25.11-alps4` | `ghcr.io/eth-cscs/alps-extended-images/ngc-physicsnemo:25.11-py3-alps4` |
-    
+
         Network Stack: libraries and versions
-    
+
         | Library          | Version        | Notes                        |
         | :--------------- | :------------- | :--------------------------- |
         | `libfabric`      | `2.5.0a1`      | Built from commit `79fd4514977a8f15844fbe26df9f5930eb96311a` + patch (removing dependency on `shs-14` API, which is not available on Alps) |
@@ -78,7 +101,6 @@ The latter is only accessible from within the Alps environment, while the GHCR i
         | `aws-ofi-plugin` | `git-394ae7b*` | Built from commit `394ae7b20dd0e6b4e5f63652e15e9da100d5fe83` + patched by applying `https://github.com/aws/aws-ofi-nccl/pull/1056` |
         | `nvshmem`        | `3.4.5-0`      | |
         | `OpenMPI`        | `5.0.9`        | |
-
 
 === "alps2"
 
@@ -124,50 +146,61 @@ To use an image directly on Alps via an EDF environment file, set the image to t
 
     ```toml
     # (1)!
-    image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5"
+    image = "jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps6"
     mounts = [
         "/capstor/",
         "/iopsstor/",
     ]
     writable = true
+    entrypoint = true # (2)!
     [env]
-    PMIX_MCA_psec = "native" # (2)!
+    PMIX_MCA_psec = "native" # (3)!
     [annotations]
-    com.hooks.cxi.enabled = "false" # (3)!
+    com.hooks.cxi.enabled = "false" # (4)!
     ```
 
     1. Images will be pulled directly from CSCS' `jfrog` artifactory
-    2. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
-    3. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
+    2. `entrypoint = true` is recommended for Alps Extended Images. The images initialize Alps-specific runtime settings through the NVIDIA container entrypoint, which sources the hooks under `/opt/nvidia/entrypoint.d`. Without this setting, runtimes that do not start containers through a login shell may not initialize the Alps environment.
+    3. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
+    4. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 
 === "EDF pulling from GHCR"
 
     ```toml
     # (1)!
-    image = "ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps5"
+    image = "ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps6"
     mounts = [
         "/capstor/",
         "/iopsstor/",
     ]
     writable = true
+    entrypoint = true # (2)!
     [env]
-    PMIX_MCA_psec = "native" # (2)!
+    PMIX_MCA_psec = "native" # (3)!
     [annotations]
-    com.hooks.cxi.enabled = "false" # (3)!
+    com.hooks.cxi.enabled = "false" # (4)!
     ```
 
     1. Images will be pulled directly from CSCS' `jfrog` artifactory
-    2. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
-    3. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
+    2. `entrypoint = true` is recommended for Alps Extended Images. The images initialize Alps-specific runtime settings through the NVIDIA container entrypoint, which sources the hooks under `/opt/nvidia/entrypoint.d`. Without this setting, runtimes that do not start containers through a login shell may not initialize the Alps environment.
+    3. Pertinent environment variables for optimal network performance are already set in the container image. `PMIX_MCA_psec = "native"` is recommended here in order to avoid warnings at initialization.
+    4. The `CXI` hook **must** be disabled such that the container images network libraries have priority over the host system's libraries.
 
 !!! danger
 
+    - Set `entrypoint = true` in the EDF when using Alps Extended Images
     - Do **not** use the `aws_ofi_nccl` hook annotation  
     - Explicitly **disable** the `cxi` hook
     - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
     - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
     - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
 
+!!! question "Why is `entrypoint = true` recommended?"
+
+    Alps Extended Images install runtime environment settings for the optimized networking stack inside the container image. These settings are initialized by the NVIDIA container entrypoint.
+
+    Current Enroot/Pyxis-based workflows may also initialize the environment through login-shell profile sourcing, but this is runtime-specific behavior and should not be relied on for portability.
+    The future-proof and recommended method is to set `entrypoint = true`, to ensure that the image `entrypoint` is always run.
 
 When launching your application with `sbatch` and `srun`, make sure to include the necessary flags for optimal performance and correct behavior, for example:
 
@@ -226,13 +259,13 @@ Extended images can also be pulled using Podman
 === "Pulling with Podman from Jfrog"
 
     ```bash
-    podman pull jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5
+    podman pull jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps6
     ```
 
 === "Pulling with Podman from GHCR"
 
     ```bash
-    podman pull ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps5
+    podman pull ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps6
     ```
 
 and/or be used as base images in your own Containerfiles:
@@ -240,13 +273,13 @@ and/or be used as base images in your own Containerfiles:
 === "Pulling with Podman from Jfrog"
 
     ```dockerfile
-    FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5
+    FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps6
     ```
 
 === "Pulling with Podman from GHCR"
 
     ```dockerfile
-    FROM ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps5
+    FROM ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps6
     ```
 
 For further information, please see the [guide to building container images on Alps][ref-build-containers].
@@ -256,7 +289,7 @@ For further information, please see the [guide to building container images on A
 Alps Extended Images include OCI labels with provenance metadata (for example, source repository, commit SHA, and build time). You can inspect these labels with `podman`.
 
 ```bash title="Pull image and inspect labels"
-IMAGE="jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps5"
+IMAGE="jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-alps6"
 
 # Pull the image
 podman pull "$IMAGE"
