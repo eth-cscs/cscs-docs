@@ -21,7 +21,7 @@
 
     Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta, describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
-The LLM Inference API service provides Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
+The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 Users consume from a shared pool of models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
 
 Private model deployment is not supported.
@@ -30,7 +30,6 @@ If you are interested to deploy a model that is not available in this service, w
 Usage of sensitive or personal data is not allowed.
 For privacy reasons, CSCS does not track user prompts or model responses.
 However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
-
 
 ## Service at a glance
 
@@ -56,108 +55,175 @@ However, CSCS collects infrastructure metrics and telemetry, including prompt an
 </div>
 
 [](){#ref-inference-api-quickstart}
-## Quick Start
+## Quick start
 
-Before using the API, obtain a key by following the [access guide][ref-inference-api-access].
+Before using the API, obtain a key by following the [access section][ref-inference-api-access].
 Include this API key in every API request.
+The base URL for the inference API is `https://api.inference.cscs.ch/v1`.
 
-Query available models using the `/models` endpoint:
+!!! note
+    The examples below assume that the `CSCS_INFERENCE_API_KEY` environment variable is set to your API key.
+    Please store it in a safe location using a password manager, not in e.g. `~/.bashrc`.
+
+Query available models using the `/v1/models` endpoint:
 ```bash
 curl -X GET "https://api.inference.cscs.ch/v1/models" \
-  -H "Authorization: Bearer <API_KEY>" \
+  -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
   -H "Content-Type: application/json"
 ```
 
-To get a response using the Apertus 70B model do (piped into `jq` for pretty output):
-```console
-$ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
-    -H "Authorization: Bearer <API_KEY>" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "model": "swiss-ai/Apertus-70B-Instruct-2509",
-      "messages": [
-        {"role": "user", "content": "Explain gradient descent in one paragraph."}
+??? info "Example `/v1/models` response"
+    ```console
+    $ curl -s -X POST "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
+    {
+      "data": [
+        {
+          "id": "swiss-ai/Apertus-70B-Instruct-2509",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-8B-Instruct-2509",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "apertus-ai/Apertus-v1.5-8B-Prerelease-2606",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "zai-org/GLM-5.2",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "moonshotai/Kimi-K2.7-Code",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        }
       ],
-      "temperature": 0.2
-    }' | jq
+      "object": "list"
+    }
+    ```
+
+Get a response using the Apertus 70B model using the `/v1/chat/completions` endpoint:
+```bash
+curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
+    -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
 
 ```
-```console
-{
-  "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
-  "object": "chat.completion",
-  "created": 1782485315,
-  "model": "swiss-ai/Apertus-70B-Instruct-2509",
-  "choices": [
+
+??? info "Example `/v1/chat/completions` response"
+    ```console
+    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
     {
-      "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "Gradient descent is a fundamental optimization algorithm used in machine learning to minimize the cost or loss function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost function, which is determined by the negative of the gradient of the cost function with respect to the parameters. The gradient points in the direction of the greatest increase of the function, so by moving in the opposite direction (negative gradient), the algorithm reduces the cost. The step size, or learning rate, determines how much to adjust the parameters in each iteration. If the learning rate is too small, the algorithm may take too long to converge; if it's too large, the algorithm may overshoot the minimum and fail to converge. Gradient descent is widely used in training neural networks and other machine learning models.",
-        "refusal": null,
-        "annotations": null,
-        "audio": null,
-        "function_call": null,
-        "tool_calls": [],
-        "reasoning": null
+      "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
+      "object": "chat.completion",
+      "created": 1782485315,
+      "model": "swiss-ai/Apertus-70B-Instruct-2509",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Gradient descent is a fundamental optimization algorithm used in machine learning to minimize the cost or loss function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost function, which is determined by the negative of the gradient of the cost function with respect to the parameters. The gradient points in the direction of the greatest increase of the function, so by moving in the opposite direction (negative gradient), the algorithm reduces the cost. The step size, or learning rate, determines how much to adjust the parameters in each iteration. If the learning rate is too small, the algorithm may take too long to converge; if it's too large, the algorithm may overshoot the minimum and fail to converge. Gradient descent is widely used in training neural networks and other machine learning models.",
+            "refusal": null,
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "tool_calls": [],
+            "reasoning": null
+          },
+          "logprobs": null,
+          "finish_reason": "stop",
+          "stop_reason": null,
+          "token_ids": null,
+          "routed_experts": null
+        }
+      ],
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.23.0-tp4-712aba24",
+      "usage": {
+        "prompt_tokens": 69,
+        "total_tokens": 233,
+        "completion_tokens": 164,
+        "prompt_tokens_details": null
       },
-      "logprobs": null,
-      "finish_reason": "stop",
-      "stop_reason": null,
-      "token_ids": null,
-      "routed_experts": null
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
     }
-  ],
-  "service_tier": null,
-  "system_fingerprint": "vllm-0.23.0-tp4-712aba24",
-  "usage": {
-    "prompt_tokens": 69,
-    "total_tokens": 233,
-    "completion_tokens": 164,
-    "prompt_tokens_details": null
-  },
-  "prompt_logprobs": null,
-  "prompt_token_ids": null,
-  "prompt_text": null,
-  "kv_transfer_params": null
-}
-```
+    ```
 
 [](){#ref-inference-api-access}
 ## Access
 
-### Request access
+During the early access phase, PIs should first contact Pablo Fernandez ([`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch)) to express interest and describe their use case.
+Once your project has been approved, follow the steps below to set up access.
 
-Early access to this service requires an invitation.
-If you would like to participate, please contact Pablo Fernandez ([`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch)) describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
+[](){#ref-inference-api-access-resource}
+### Create an inference resource
 
-### Obtain your authentication token
+The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur].
+Navigate to your project, select the "Resources" tab and press the "Add" button.
+Under the "Add resource" selector, choose the "Inference Service" category and the "Inference API" offering.
 
-Approved projects receive an authentication token, which can be retrieved and managed through the [project management portal][ref-account-waldur].
-The token can be accessed by selecting "Inference Service" under "Resources" on the left side bar menu on the portal, as demonstrated in the image below:
+!!! note
+    If you are a project member, ask your PI to create the inference resource first.
 
-![Inference Service within the CSCS User Portal](../../images/services/inference/api-key.png)
+[](){#ref-inference-api-access-key}
+### Create an API key
 
+Once an inference resource has been created for your project, any project member can create API keys through the inference API UI.
+
+1. Navigate to the [Inference API UI](https://ui.inference.cscs.ch/login).
+1. Click "Sign In with CSCS Account" and authenticate.
+1. Expand the inference resource created by the PI.
+1. Press "Add Key".
+1. Enter a key alias for the key.
+     - Choose a memorable name that you can distinguish among other keys in your project and resource.
+     - The key alias is not the unique identifier of the key. The key id that is displayed after generating a key is the unique identifier.
+     - The user who created the key is recorded and displayed after the key has been created.
+1. Optionally set a token budget, reset period, or restrict the available models.
+     - The default token budget is unlimited (the inference resource has limited token budget visible under the inference resource in the UI).
+     - The reset period can be set to daily or monthly, and defaults to monthly.
+     - All available models are selected by default. You can restrict which models will be available for the key by unselecting the "ALL" option and selecting which models to make available.
+1. Click "Create Key".
+1. Copy the generated key and store securely, for example in a password manager. The key will be displayed once.
+1. Test that the key works by following the [quick start guide][ref-inference-api-quickstart].
+
+!!! info "Viewing key usage"
+    After creating a key, you can sign in to the Inference API UI with the key ("Sign in with access token" below the CSCS account login) to view usage statistics for that specific key.
+
+!!! warning "Token accounting"
+    Currently all input and output tokens are counted equally in the token budget.
+    This is subject to change, with input and output tokens having different cost.
+
+[](){#ref-inference-api-endpoints}
 ## API
 
-The service is accessed through the gateway base URL `https://api.inference.cscs.ch`, and support standard endpoints, such as:
+The base URL for the inference API is `https://api.inference.cscs.ch/v1`.
+The following OpenAI- and Anthropic-compatible endpoints are available.
 
-| Path | Purpose |
-| ---- | ------- |
-| `/v1/models`           | Query available models |
-| `/v1/chat/completions` | Chat completions |
+
+| Path                   | Purpose                                      |
+|------------------------|----------------------------------------------|
+| `/v1/models`           | Query available models                       |
+| `/v1/chat/completions` | Chat completions (OpenAI)                    |
+| `/v1/messages`         | Chat completions (Anthropic)                 |
 | `/v1/embeddings`       | Get a vector representation of a given input |
 
-!!! todo
-    Describe API support.
-    If we provide both OpenAI and Anthropic APIs, is it sufficient to provide links to external documentation for these APIs, with notes about any differences?
-
-## Reducing token consumption
-
-* Longer prompts increase cost and latency
-* Future costs may differentiate across models with different computational load
-
-!!! todo "This section needs expansion or removal, this is not unique to the CSCS inference API"
+When using the endpoints for example [through agents][ref-inference-api-coding-agents-setup], the framework will handle API requests for you.
+For information on how to use the endpoints directly, see the [OpenAI](https://developers.openai.com/api/reference/overview) and [Anthropic](https://platform.claude.com/docs/en/api/overview) documentation.
 
 [](){#ref-inference-api-coding-agents-setup}
 ## Setting up coding agents to use the inference service
@@ -170,7 +236,8 @@ For more information on using coding agents on Alps, see the [coding agents guid
 Set the following environment variables before starting a `claude` session.
 
 ```bash
-export ANTHROPIC_API_KEY=<API_KEY>
+export ANTHROPIC_API_KEY=$CSCS_INFERENCE_API_KEY
+
 export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch/v1
 export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
 claude
@@ -178,9 +245,9 @@ claude
 
 ### OpenCode
 
-Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.json`).
+Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-```json title="configure opencode for the cscs llm inference api"
+```json title="OpenCode configuration for the inference API"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -207,11 +274,11 @@ Once connected, you can choose models configured in the config.
 !!! info
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
+    Use the `/v1/models` endpoint to list available models for your key.
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
 
-* Project key management is still evolving; currently one key is issued per project and rotation requires contacting the team.
 * Detailed self-service telemetry is limited today.
 * Documentation and model-specific configuration transparency are work in progress.
 * Load balancing and other QoS need to be understood.
