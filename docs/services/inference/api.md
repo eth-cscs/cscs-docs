@@ -9,10 +9,7 @@ Users consume tokens from a shared pool of models where requests are efficiently
 In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Usage of sensitive or personal data is not allowed.
-For privacy reasons, CSCS does not track user prompts or model responses. 
-However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
-Models are trained by others, have biases and are aligned to the creator's principles. Even though our service does not send data outside CSCS, we highly recommend to always audit their results.
+Your privacy and the confidentiality of your data are paramount to us. CSCS does not track user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive or personal data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality. Because these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results.
 
 ## Service at a glance
 
