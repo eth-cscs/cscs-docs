@@ -2,34 +2,17 @@
 # LLM Inference API Service
 
 [](){#ref-inference-api-beta}
-!!! under-construction "The LLM Inference API service is in early access"
-    The service is under development, and is available by request to users who want to help CSCS build the service.
-
-    During the beta we want to understand the following:
-
-    * Single-site deployments vs. geo-redundant deployments for higher availability.
-    * Usage patterns (e.g. scale-to-zero on inactivity, vs. keep warm with a minimum replica count).
-    * Which models that should be offered, and under which conditions?
-    * The trade-off between existing capacity and future cost.
-    * What are the appropriate accounting metrics?
-
-    During the beta users should expect that:
-
-    * Capacity and availability is limited. Downtimes and slowdowns are to be expected.
-    * The models that are available can change over time.
-    * Access to the Beta is upon invitation, without any cost.
-
-    Please contact Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested to participate in the Beta, describing your use case, relevant project or organizational context, and an estimate of your expected requirements including load, preferred models, and availability expectations.
 
 The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
-Users consume from a shared pool of models where requests are efficiently multiplexed across shared serving capacity, without needing to deploy, patch, scale, or operate the underlying serving stack.
+Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
-Private model deployment is not supported.
+In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
 Usage of sensitive or personal data is not allowed.
-For privacy reasons, CSCS does not track user prompts or model responses.
+For privacy reasons, CSCS does not track user prompts or model responses. 
 However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, in order to monitor the service quality.
+Models are trained by others, have biases and are aligned to the creator's principles. Even though our service does not send data outside CSCS, we highly recommend to always audit their results.
 
 ## Service at a glance
 
@@ -167,9 +150,6 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
-During the early access phase, PIs should first contact Pablo Fernandez ([`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch)) to express interest and describe their use case.
-Once your project has been approved, follow the steps below to set up access.
-
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
@@ -187,20 +167,11 @@ The PI or deputy PI of your project must first create an inference resource in t
 
 Once an inference resource has been created for your project, any project member can create API keys through the inference API UI.
 
-1. Navigate to the [Inference API UI](https://ui.inference.cscs.ch/login).
-1. Click "Sign In with CSCS Account" and authenticate.
-1. Expand the inference resource created by the PI.
-1. Press "Add Key".
-1. Enter a key alias for the key.
-     - Choose a memorable name that you can distinguish among other keys in your project and resource.
-     - The key alias is not the unique identifier of the key. The key id that is displayed after generating a key is the unique identifier.
-     - The user who created the key is recorded and displayed after the key has been created.
-1. Optionally set a token budget, reset period, or restrict the available models.
-     - The default token budget is unlimited (the inference resource has limited token budget visible under the inference resource in the UI).
-     - The reset period can be set to daily or monthly, and defaults to monthly.
-     - All available models are selected by default. You can restrict which models will be available for the key by unselecting the "ALL" option and selecting which models to make available.
-1. Click "Create Key".
-1. Copy the generated key and store securely, for example in a password manager. The key will be displayed once.
+1. Navigate to the [Inference API UI](https://ui.inference.cscs.ch/login) and authenticate.
+1. Expand the inference resource created by the PI and press "Add Key".
+     - Enter a key alias for the key. Choose a memorable name that you can distinguish among other keys in your project and resource.
+     - Optionally set a token budget, reset period, or restrict the available models. Please note that the global resource limits apply as well.
+1. Click "Create Key" and copy the generated key and store securely, for example in a password manager. The key will be displayed once.
 1. Test that the key works by following the [quick start guide][ref-inference-api-quickstart].
 
 !!! info "Viewing key usage"
@@ -281,7 +252,8 @@ Once connected, you can choose models configured in the config.
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
 
-* Detailed self-service telemetry is limited today.
+* Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
-* Load balancing and other QoS need to be understood.
+* The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
+* Billing the costs of the service against the current CSCS project's budget is work in progress.
 
