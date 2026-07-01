@@ -58,37 +58,70 @@ However, CSCS collects infrastructure metrics and telemetry, including prompt an
 [](){#ref-inference-api-quickstart}
 ## Quick Start
 
-Before using the API, obtain an authentication token by following the [access guide][ref-inference-api-access]. Include this token in every API request.
+Before using the API, obtain a key by following the [access guide][ref-inference-api-access].
+Include this API key in every API request.
 
-!!! example "Anthropic's `claude`"
-    Example environment configuration to be set before starting a `claude` session.
-    ```console
-    $ export ANTHROPIC_API_KEY=<AUTHENTICATION_TOKEN>
-    $ export ANTHROPIC_BASE_URL=https://llm-proxy.svc.cscs.ch/v1
-    $ export ANTHROPIC_MODEL=Apertus-70B-Instruct-2509
-    $ claude
-    ```
+Query available models using the `/models` endpoint:
+```bash
+curl -X GET "https://api.inference.cscs.ch/v1/models" \
+  -H "Authorization: Bearer <API_KEY>" \
+  -H "Content-Type: application/json"
+```
 
-!!! example "List available models"
-    ```console
-    $ curl -X GET "https://llm-proxy.svc.cscs.ch/v1/models" \
-      -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
-      -H "Content-Type: application/json"
-    ```
+To get a response using the Apertus 70B model do (piped into `jq` for pretty output):
+```console
+$ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
+    -H "Authorization: Bearer <API_KEY>" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "model": "swiss-ai/Apertus-70B-Instruct-2509",
+      "messages": [
+        {"role": "user", "content": "Explain gradient descent in one paragraph."}
+      ],
+      "temperature": 0.2
+    }' | jq
 
-!!! example "Chat completion request"
-    ```console
-    $ curl -X POST "https://llm-proxy.svc.cscs.ch/chat/completions" \
-      -H "Authorization: Bearer <AUTHENTICATION_TOKEN>" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "model": "Apertus-70B-Instruct-2509",
-        "messages": [
-          {"role": "user", "content": "Explain gradient descent in one paragraph."}
-        ],
-        "temperature": 0.2
-      }'
-    ```
+```
+```console
+{
+  "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
+  "object": "chat.completion",
+  "created": 1782485315,
+  "model": "swiss-ai/Apertus-70B-Instruct-2509",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Gradient descent is a fundamental optimization algorithm used in machine learning to minimize the cost or loss function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost function, which is determined by the negative of the gradient of the cost function with respect to the parameters. The gradient points in the direction of the greatest increase of the function, so by moving in the opposite direction (negative gradient), the algorithm reduces the cost. The step size, or learning rate, determines how much to adjust the parameters in each iteration. If the learning rate is too small, the algorithm may take too long to converge; if it's too large, the algorithm may overshoot the minimum and fail to converge. Gradient descent is widely used in training neural networks and other machine learning models.",
+        "refusal": null,
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop",
+      "stop_reason": null,
+      "token_ids": null,
+      "routed_experts": null
+    }
+  ],
+  "service_tier": null,
+  "system_fingerprint": "vllm-0.23.0-tp4-712aba24",
+  "usage": {
+    "prompt_tokens": 69,
+    "total_tokens": 233,
+    "completion_tokens": 164,
+    "prompt_tokens_details": null
+  },
+  "prompt_logprobs": null,
+  "prompt_token_ids": null,
+  "prompt_text": null,
+  "kv_transfer_params": null
+}
+```
 
 [](){#ref-inference-api-access}
 ## Access
@@ -107,7 +140,7 @@ The token can be accessed by selecting "Inference Service" under "Resources" on 
 
 ## API
 
-The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs.ch`, and support standard endpoints, such as:
+The service is accessed through the gateway base URL `https://api.inference.cscs.ch`, and support standard endpoints, such as:
 
 | Path | Purpose |
 | ---- | ------- |
@@ -119,13 +152,61 @@ The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs
     Describe API support.
     If we provide both OpenAI and Anthropic APIs, is it sufficient to provide links to external documentation for these APIs, with notes about any differences?
 
-[](){#ref-inference-api-guides}
-## Guides
-
-### Reducing consumption
+## Reducing token consumption
 
 * Longer prompts increase cost and latency
 * Future costs may differentiate across models with different computational load
+
+!!! todo "This section needs expansion or removal, this is not unique to the CSCS inference API"
+
+[](){#ref-inference-api-coding-agents-setup}
+## Setting up coding agents to use the inference service
+
+Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
+For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
+
+### Claude Code
+
+Set the following environment variables before starting a `claude` session.
+
+```bash
+export ANTHROPIC_API_KEY=<API_KEY>
+export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch/v1
+export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
+claude
+```
+
+### OpenCode
+
+Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.json`).
+
+```json title="configure opencode for the cscs llm inference api"
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "cscs": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "CSCS Inference",
+      "options": {
+        "baseURL": "https://api.inference.cscs.ch/v1"
+      },
+      "models": {
+        "moonshotai/Kimi-K2.7-Code": {
+          "name": "Kimi K2.7-Code"
+        }
+      }
+    }
+  }
+}
+```
+
+Start OpenCode and run the `/connect` command.
+Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
+Once connected, you can choose models configured in the config.
+
+!!! info
+    OpenCode does not auto-discover available models.
+    Models have to be explicitly configured in the config.
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
@@ -134,3 +215,4 @@ The service is accessed through the gateway base URL `https://llm-proxy.svc.cscs
 * Detailed self-service telemetry is limited today.
 * Documentation and model-specific configuration transparency are work in progress.
 * Load balancing and other QoS need to be understood.
+

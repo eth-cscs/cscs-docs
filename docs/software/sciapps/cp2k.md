@@ -53,7 +53,7 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 On our systems, CP2K is built with the following dependencies:
 
 * [COSMA]
-* [Cray MPICH]
+* [Cray MPICH][ref-communication-cray-mpich]
 * [DBCSR]
 * [DLA-Future] (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
 * [dftd4] (from `cp2k@2025.1` onwards)
@@ -85,8 +85,7 @@ On our systems, CP2K is built with the following dependencies:
 ### Running on Daint
 
 [Daint][ref-cluster-daint] nodes have [four GH200 GPUs][ref-alps-gh200-node] that have to be configured properly for best performance.
-To start a job, two bash scripts are potentially required: a [Slurm] submission script, and a wrapper to start the [CUDA
-MPS] daemon so that multiple MPI ranks can use the same GPU.
+To start a job, two bash scripts are potentially required: a [Slurm][ref-slurm] submission script, and a wrapper to start the [CUDA MPS][ref-slurm-gh200-multi-rank-per-gpu] daemon so that multiple MPI ranks can use the same GPU.
 
 ```bash title="run_cp2k.sh"
 #!/bin/bash -l
@@ -165,6 +164,125 @@ sbatch run_cp2k.sh
          In the example above, we use 32 MPI ranks with 8 OpenMP threads, for a total of 64 cores per GPU and 256 cores
          per node. Experiments have shown that CP2K performs and scales better when the number of MPI ranks is a power
          of 2, even if some cores are left idling. 
+
+[](){#ref-4-cp2k-calculation-1-node}
+#### Running multiple CP2K calculations simultaneously on a single Daint node
+GH200 nodes offer a very large amount of computing resources, and some calculations are simply too small to make use of these resources efficiently. A symptom of that is when running on 2 nodes is barely faster, or even slower, than a single node. If the scientific investigation permits, up to 4 independent CP2K calculations can run in parallel on a single node, each using 72 CPU cores and a GPU. This could typically be the case when running various MD trajectories at different temperatures, or with different starting configurations. For optimal resource utilization, the 4 calculations should have similar wall times. The `H2O-128.inp` benchmark from the CP2K [git repository](https://github.com/cp2k/cp2k/blob/support/v2026.1/benchmarks/QS/H2O-128.inp) is one such an example (the wall time on 1 and 2 nodes is roughly equivalent). Below is a Slurm submission script launching 4 `H2O-128.inp` benchmark calculations simultaneously:
+
+??? example "Running 4 independent CP2K calculations on a single node"
+    ```bash title="run_cp2k_on_split_node.sh"
+    #!/bin/bash -l
+
+    #SBATCH --job-name=cp2k-job
+    #SBATCH --time=00:30:00
+    #SBATCH --nodes=1
+    #SBATCH --account=<ACCOUNT>
+    #SBATCH --hint=nomultithread
+    #SBATCH --no-requeue
+    #SBATCH --uenv=<CP2K_UENV>
+    #SBATCH --view=cp2k
+
+    srun --ntasks=4 --cpu-bind=socket ./mps-wrapper.sh ./parallel_jobs.sh
+    ```
+
+    The `parallel_jobs.sh` script describes how the resources are equally split over 4 independent calculations. Note
+    that the all `srun` calls run on the same allocation, as defined in the submission script above.
+
+    ```bash title="parallel_jobs.sh"
+    #!/bin/bash -l
+
+    # Set the number of MPI ranks per calculation (one calculation per GPU, 4 in total).
+    # The number of OMP threads is automatically inferred.
+    nranks_per_calc=8
+    if !((nranks_per_calc > 0 && 72 % nranks_per_calc == 0)); then
+        echo "Error: the number of ranks per calculation must be an integer divisor of 72 (# CPU cores per GPU)" >&2
+        exit 1
+    fi
+    ncpus=$((288/$nranks_per_calc)) # do not modify this line
+
+    # Important note: with the --overlap option, each srun job will share resources. Therefore, we allocate all resources
+    # for each job, i.e. nranks_per_calc*ncpus==288, and distribute the work with different CPU and GPU masks.
+    if !((nranks_per_calc * ncpus == 288)); then
+        echo "Error: all resources MUST be allocated for each calculation" >&2
+        exit 1
+    fi
+
+    # CPU masks to ensure each calculation runs on a different set of CPU cores, close to a given GPU.
+    mask0="mask_cpu:0xffffffffffffffffff"                                                        # cores 0-71
+    mask1="mask_cpu:0xffffffffffffffffff000000000000000000"                                      # cores 72-143
+    mask2="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000"                    # cores 144-215
+    mask3="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000000000000000000000"  # cores 216-287
+
+    # mps-wrapper.sh starts the MPS daemons for each GPU, and creates directories for piping and logging.
+    mps_prefix="/tmp/$(id -un)/slurm-${SLURM_JOBID}.0/nvidia" # hardcoded stepid 0 (not exported by mps-wrapper.sh)
+
+    # Usual CP2K environment variables
+    export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache"
+    export MPICH_GPU_SUPPORT_ENABLED=1
+    export MPICH_MALLOC_FALLBACK=1
+    export OMP_NUM_THREADS=$((72/$nranks_per_calc - 1))
+    ulimit -s unlimited
+
+    # First calculation on GPU 0 and CPU cores 0-71
+    if [[ $SLURM_LOCALID -eq 0 ]]; then
+        CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-0 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-0 \
+        srun -u --overlap \
+                --cpu-bind=$mask0,verbose \
+                --ntasks=$nranks_per_calc \
+                --cpus-per-task=$ncpus \
+                --output="output0.out" \
+                cp2k.psmp -i H2O-128.inp \
+                & j0=$!
+
+        # wait for calculation to finish
+        wait $j0
+    fi
+
+    # Second calculation on GPU 1 and CPU cores 72-143
+    if [[ $SLURM_LOCALID -eq 1 ]]; then
+        CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-1 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-1 \
+        srun -u --overlap \
+                --cpu-bind=$mask1,verbose \
+                --ntasks=$nranks_per_calc \
+                --cpus-per-task=$ncpus \
+                --output="output1.out" \
+                cp2k.psmp -i H2O-128.inp \
+                & j1=$!
+
+        # wait for calculation to finish
+        wait $j1
+    fi
+
+    # Third calculation on GPU 2 and CPU cores 144-215
+    if [[ $SLURM_LOCALID -eq 2 ]]; then
+        CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-2 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-2 \
+        srun -u --overlap \
+                --cpu-bind=$mask2,verbose \
+                --ntasks=$nranks_per_calc \
+                --cpus-per-task=$ncpus \
+                --output="output2.out" \
+                cp2k.psmp -i H2O-128.inp \
+                & j2=$!
+
+        # wait for calculation to finish
+        wait $j2
+    fi
+
+    # Fourth calculation on GPU 3 and CPU cores 216-287
+    if [[ $SLURM_LOCALID -eq 3 ]]; then
+        CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-3 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-3 \
+        srun -u --overlap \
+                --cpu-bind=$mask3,verbose \
+                --ntasks=$nranks_per_calc \
+                --cpus-per-task=$ncpus \
+                --output="output3.out" \
+                cp2k.psmp -i H2O-128.inp \
+                & j3=$!
+
+        # wait for calculation to finish
+        wait $j3
+    fi
+    ```
 
 
 ??? info "Running regression tests"
@@ -469,6 +587,18 @@ you should disable GPU-aware MPI (enabled by default) by setting the following e
 export MPICH_GPU_SUPPORT_ENABLED=0
 ```
 
+Note that COSMA is the default parallel dense matrix-matrix multiplication library. To ensure successful completion of
+CP2K calculations without GPU-aware MPI, add the following to the `&GLOBAL` input section. For all but RPA calculations,
+the performance impact of not using COSMA is negligible.
+
+```bash
+&FM
+  TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+&END FM
+```
+
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page][ref-communication-cray-mpich-cupointergetattribute-slowdown] for an alternative workaround.
+
 ### ELPA slowdown with 2026.1 on Daint
 
 In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from
@@ -599,8 +729,5 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [ScaLAPACK]: https://www.netlib.org/scalapack/
 [OpenBLAS]: http://www.openmathlib.org/OpenBLAS/
 [Intel MKL]: https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
-[Cray MPICH]: https://docs.nersc.gov/development/programming-models/mpi/cray-mpich/
-[Slurm]: https://slurm.schedmd.com/
-[CUDA MPS]: https://docs.nvidia.com/deploy/mps/index.html
 [libvori]: https://brehm-research.de/libvori.php
 [libtorch]: https://docs.pytorch.org/cppdocs/installing.html

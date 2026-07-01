@@ -369,6 +369,12 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 
 Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning just the first word and names are capitalized.
 
+### Do not use bold for emphasis
+
+Avoid using `**bold**` to stress individual words or phrases in prose.
+If something is important, make it clear through sentence structure and word choice.
+Bold is acceptable when introducing a defined term for the first time, but even then should be used sparingly.
+
 ### Avoid nesting headings too deep
 
 Nesting headings up to three levels is generally ok.

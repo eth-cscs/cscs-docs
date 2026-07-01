@@ -1,7 +1,7 @@
 [](){#ref-software-prohibited}
 # Prohibited software
 
-The use of the following applications prohibited from use on CSCS systems.
+The use of the following applications is prohibited on CSCS systems.
 
 | Software | Use | Reason Prohibited |
 | ---      | --- | ---               |

@@ -46,7 +46,7 @@ There are three main file systems mounted on the MLP clusters Clariden and Brist
 
 | type |mount | filesystem |
 | -- | -- | -- |
-| Home | `/users/$USER` | [VAST][ref-alps-vast] |
+| Home | `/users/$USER` | [Vadret][ref-alps-vadret] |
 | Scratch | `/iopsstor/scratch/cscs/$USER` | [Iopsstor][ref-alps-iopsstor] |
 |         | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
 | Project | `/capstor/store/cscs/swissai/<project>` | [Capstor][ref-alps-capstor] |
@@ -66,7 +66,7 @@ Two scratch file systems are mounted, on hardware tuned for different access pat
 
 ### Home
 
-Every user has a home path (`$HOME`) mounted at `/users/$USER` on the [VAST][ref-alps-vast] filesystem.
+Every user has a home path (`$HOME`) mounted at `/users/$USER` on the [Vadret][ref-alps-vadret] filesystem.
 The home directory has 50 GB of capacity, and is intended for configuration, small software packages and scripts.
 
 ### Scratch

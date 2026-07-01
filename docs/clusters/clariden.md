@@ -101,6 +101,10 @@ The `debug` partition has additional per-user limits enforced by its QoS:
 
 The `debug` partition is scheduled at a higher priority than `normal`, so debug jobs are placed ahead of `normal` jobs in the queue and typically start sooner. Preemption is disabled, so debug jobs never interrupt running `normal` jobs: they simply use idle nodes as soon as these become available. The tight per-user limits make the partition unsuitable for production workloads while keeping it responsive for short debug sessions.
 
+!!! warning "The `debug` partition is for debugging and testing only"
+    The `debug` partition is reserved for short, interactive debugging and testing sessions, and must not be used to run production workloads or to otherwise circumvent the per-user limits.
+    Usage of the partition is monitored: workloads that are not genuine debugging or testing will be flagged and reported.
+
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ??? example "how to check the number of nodes on the system"

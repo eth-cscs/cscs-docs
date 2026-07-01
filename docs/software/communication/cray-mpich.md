@@ -65,6 +65,53 @@ This section documents known issues related to Cray MPICH on Alps. Resolved issu
 
 ### Existing Issues
 
+[](){#ref-communication-cray-mpich-cupointergetattribute-slowdown}
+#### Slow host buffer communication with Nvidia driver version 590 and later
+
+Starting with NVIDIA driver version 580, calls to `cuPointerGetAttribute` with host-allocated buffers became significantly slower.
+Cray MPICH relies on `cuPointerGetAttribute` to determine whether to use host or device code paths for communication.
+For applications that communicate many small host buffers this can introduce significant slowdowns.
+
+For applications that only communicate host buffers, explicitly disabling GPU support for Cray MPICH will allow it to completely skip the host/device buffer check:
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+For applications that use both host and device buffers for communication, the following shared library can be preloaded to almost fully restore performance:
+
+```bash
+export LD_PRELOAD=/capstor/store/cscs/cscs/public/temp/cuptrgetattr_override.so
+```
+
+The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580 and later.
+
+??? info "Source code for the `cuPointerGetAttribute` override library"
+    The library is compiled from the following source code:
+
+    ```c title="cuptrgetattr_override.c"
+    #include <cuda.h>
+
+    CUresult cuPointerGetAttribute(void* data, CUpointer_attribute attribute, CUdeviceptr ptr) {
+        CUresult result = cuPointerGetAttributes(1, &attribute, &data, ptr);
+        if (attribute == CU_POINTER_ATTRIBUTE_MEMORY_TYPE && *((unsigned int*)data) == 0) {
+            return CUDA_ERROR_INVALID_VALUE;
+        }
+        return result;
+    }
+    ```
+
+    It can be compiled manually for example with the [prgenv-gnu uenv default view][ref-uenv-prgenv-gnu-how-to-use]:
+    ```bash
+    gcc -shared -o cuptrgetattr_override.so -I/user-environment/env/default/include -fPIC cuptrgetattr_override.c
+    ```
+
+!!! warning
+    The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA.
+    The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
+
+!!! warning
+    When the issue is resolved upstream the shared library will be removed without advance notice.
+
 [](){#ref-communication-cray-mpich-cache-monitor-disable}
 #### Cray MPICH hangs
 
