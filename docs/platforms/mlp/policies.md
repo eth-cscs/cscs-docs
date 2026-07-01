@@ -10,7 +10,7 @@ Formulas and worked examples for compute consumption are collected in the [appen
 [](){#ref-mlp-policies-types}
 ## Project types
 
-Every MLP project is either small or large depending on the type of proposal submitted (but a large proposal can be reduced to a small grant instead of being rejected).
+Every MLP project is either small or large depending on the type of proposal submitted (large proposal can be reduced to a small grant instead of being rejected).
 The type determines the project's duration and how its start date is set.
 The compute budget is only a guideline for which type to apply for.
 For more information see the [Swiss AI Initiative Compute Grants](https://www.swiss-ai.org/compute-grants).
@@ -41,7 +41,7 @@ Recorded for every project at proposal time, and managed through the [project ma
 ## Compute budget
 
 Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit in CHF according to node-hour [price for swiss institutions](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) at the start of the project. The cost per hour is fixed for the whole duration of the project (the price can be seen in the resource).
-Because a [GH200 node][ref-alps-gh200-node] has four GPUs, one node-hour of a GH200 node corresponds to 4 GPUh.
+Because a [GH200 node][ref-alps-gh200-node] has four GPUs, one node-hour of a GH200 node costs 4 GPUh.
 The jobs that you submit get billed according to the node-hours that they run.
 
 [](){#ref-mlp-job-cost-example}
@@ -56,10 +56,52 @@ The expected consumption is also used to set your scheduling priority through [S
 * Each month also has a minimal consumption — the expected amount reduced by a grace of 15% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.
 
 If you use up your credit before the end of the project, you can run extra jobs in the [`low` partition][ref-cluster-clariden].
-This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped.
+This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget.
 Once that is also exhausted, the project can no longer use compute resources.
 
 See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
+
+<div class="diagram">
+<svg viewBox="0 0 1160 320" width="100%" role="img"
+     aria-label="Top: three example months of usage as bars against two thresholds, an expected line and a minimal line below it separated by the grace. Above expected is fine, in between rolls over, below the minimal the gap is lost. Bottom: the project timeline, 6 or 12 months, then compute stops, then a 90-day grace period in which the project stays active for data retrieval only, then it closes.">
+  <g font-family="Inter, sans-serif">
+        <text x="90" y="20" font-size="13" font-weight="600" fill="#888888" letter-spacing="0.6">IN ANY GIVEN MONTH</text>
+        <rect x="140" y="52"  width="100" height="128" fill="#9A9AA0"/>
+    <rect x="320" y="90"  width="100" height="90"  fill="#9A9AA0"/>
+    <rect x="500" y="148" width="100" height="32"  fill="#9A9AA0"/>
+        <rect x="500" y="112" width="100" height="36" fill="#F3E0E1" stroke="#D61F26" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="550" y="136" font-size="13" font-weight="600" fill="#D61F26" text-anchor="middle">lost</text>
+        <line x1="100" y1="70"  x2="800" y2="70"  stroke="#D61F26" stroke-width="2"   stroke-dasharray="7 5"/>
+    <line x1="100" y1="112" x2="800" y2="112" stroke="#D61F26" stroke-width="1.5" stroke-dasharray="3 4"/>
+    <line x1="100" y1="180" x2="820" y2="180" stroke="#E5E5E5" stroke-width="2"/>
+    <text x="810" y="75"  font-size="15" font-weight="600" fill="#D61F26">expected</text>
+    <text x="810" y="117" font-size="15" font-weight="600" fill="#D61F26">minimal</text>
+        <line x1="990" y1="70" x2="990" y2="112" stroke="#D61F26" stroke-width="1.5"/>
+    <line x1="984" y1="70" x2="996" y2="70"  stroke="#D61F26" stroke-width="1.5"/>
+    <line x1="984" y1="112" x2="996" y2="112" stroke="#D61F26" stroke-width="1.5"/>
+    <text x="1006" y="86"  font-size="13" font-weight="600" fill="#D61F26">grace</text>
+    <text x="1006" y="104" font-size="12" fill="#555555">15–50%, by budget size</text>
+        <g text-anchor="middle" fill="#1A1A1A">
+      <text x="190" y="202" font-size="14" font-weight="600">you go faster</text>
+      <text x="190" y="220" font-size="12" fill="#555555">fine — lower priority while ahead</text>
+      <text x="370" y="202" font-size="14" font-weight="600">you go slower</text>
+      <text x="370" y="220" font-size="12" fill="#555555">the rest rolls over</text>
+      <text x="550" y="202" font-size="14" font-weight="600">you fall below</text>
+      <text x="550" y="220" font-size="12" fill="#555555">that credit is gone</text>
+    </g>
+        <line x1="90" y1="240" x2="1140" y2="240" stroke="#F0F0F0" stroke-width="1"/>
+    <text x="90" y="262" font-size="13" font-weight="600" fill="#888888" letter-spacing="0.6">OVER THE WHOLE PROJECT</text>
+    <line x1="380" y1="288" x2="870" y2="288" stroke="#9A9AA0" stroke-width="5"/>
+    <line x1="870" y1="288" x2="1060" y2="288" stroke="#D61F26" stroke-width="5"/>
+    <line x1="870" y1="274" x2="870" y2="302" stroke="#1A1A1A" stroke-width="2"/>
+    <line x1="1060" y1="278" x2="1060" y2="298" stroke="#1A1A1A" stroke-width="2"/>
+    <text x="625" y="310" font-size="13" fill="#555555" text-anchor="middle">6 or 12 months</text>
+    <text x="870" y="264" font-size="14" font-weight="600" text-anchor="middle">compute stops</text>
+    <text x="965" y="310" font-size="13" font-weight="600" fill="#D61F26" text-anchor="middle">90 days grace — data only</text>
+    <text x="1074" y="293" font-size="13" fill="#555555">closes</text>
+  </g>
+</svg>
+</div>
 
 [](){#ref-mlp-policies-storage}
 ## Storage budget
@@ -82,7 +124,7 @@ See the general [data retention policies][ref-policies] for how long data is kep
 [](){#ref-mlp-policies-other}
 ## Other resources
 
-The main resource for the computation is [Clariden]/, it is the one where we guarantee
+The main resource for the computation is [Clariden][ref-cluster-clariden], it is the one where we guarantee
 availability of the computational resources (if you use them gradually).
 Depending on the project you might also access to other resources.
 
@@ -94,7 +136,7 @@ Currently storage is not explicitly part of the credit, but the other resources 
 on your credit, using them reduces the credit and thus the node hours that can be used on
 clariden.
 Please note that the availability of other resources is not necessarily guaranteed, and
-can be limited and on a best effort basis like bristen.
+can be limited and on a best effort basis (like bristen).
 
 [](){#ref-mlp-policies-start}
 ## Start
