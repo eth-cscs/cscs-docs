@@ -9,7 +9,7 @@ Users consume tokens from a shared pool of models where requests are efficiently
 In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Privacy and confidentiality are an essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
+Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
 
 
 ## Service at a glance
@@ -36,7 +36,7 @@ Privacy and confidentiality are an essential to us. CSCS does not record user pr
 </div>
 
 !!! note
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open - including data, methods and alignment principles - and is compliant with the EU AI Act. A global foundation to build on!
+    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
 
 
 [](){#ref-inference-api-quickstart}
