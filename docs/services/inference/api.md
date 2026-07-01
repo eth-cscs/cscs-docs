@@ -6,14 +6,11 @@
 The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
-In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
+In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Your privacy and the confidentiality of your data are paramount to us.
-CSCS does not track user prompts or model responses, and your data does not leave the infrastructure we control.
-Nevertheless, including sensitive or personal data in your prompts is not allowed.
-CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
-Because these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results.
+Privacy and confidentiality are an essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
+
 
 ## Service at a glance
 
@@ -23,9 +20,9 @@ Because these models are trained by others, have inherent biases, and are aligne
 
   Standard API access over HTTPS using familiar client libraries and tooling.
 
-* :material-robot-outline: **Curated models**
+* :material-robot-outline: **Curated frontier models**
 
-  Selected models are made available and updated centrally.
+  Selected SOTA models are made available and updated centrally.
 
 * :material-cloud-check: **No infrastructure management**
 
@@ -34,9 +31,13 @@ Because these models are trained by others, have inherent biases, and are aligne
 * :material-shield-lock: **Sovereign and private**
 
   Your data is yours and is processed entirely within CSCS in Switzerland.
-  Prompts and responses are not tracked.
+  Prompts and responses are not recorded.
 
 </div>
+
+!!! note
+    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open - including data, methods and alignment principles - and is compliant with the EU AI Act. A global foundation to build on!
+
 
 [](){#ref-inference-api-quickstart}
 ## Quick start
