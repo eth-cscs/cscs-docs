@@ -98,10 +98,10 @@ Then navigate to GitHub, and create a pull request.
 ## Review process
 
 After you have made a pull request, a CI/CD pipeline will run the [spell checker][ref-contributing-spelling] and build a copy of the docs with the PR changes.
-A temporary "TDS" copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://docs.tds.cscs.ch/$PR`, where `PR` is the number of the pull request.
+A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
 To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork.
-The PR will automatically be updated, the spell checker will run again, and the TDS documentation site will be rebuilt.
+The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
 
 !!! tip
     If you think your documentation update could affect specific stakeholders, ping them for a review.
@@ -143,6 +143,26 @@ There are three files used to configure words that get ignored:
 
 Additionally, the file `.github/actions/spelling/only.txt` contains a list of regular expressions used to match which files to check.
 Only markdown files under the `docs` directory are checked.
+
+[](){#ref-contributing-llms}
+## Using LLMs and coding agents to write docs
+
+Feel free to use your favourite CLI coding agent to help write your contributions.
+We provide a `CONTRIBUTING.md` file with guidance for models and links to this guide, along with `AGENTS.md` and `CLAUDE.md` files that point to `CONTRIBUTING.md`.
+Ensure your tool is using these guides (most tools should automatically find one of them).
+
+!!! tip "Please check the LLM output"
+    If the LLM gets the docs right first time, that's great!
+
+    But reviewers read every contribution carefully---please do not submit AI output without carefully checking it, as it puts an unfair burden on them.
+
+!!! warning "Contributors are responsible for content"
+    Contributors are responsible for the content that they submit, regardless of whether an AI agent was used to help write it.
+    This includes ensuring that:
+
+    * you have the right to contribute it under the [CC0 1.0 public domain dedication](https://github.com/eth-cscs/cscs-docs?tab=CC0-1.0-1-ov-file) that applies to the docs (i.e. it contains no third-party copyrighted text);
+    * the contribution provides guidance that is correct and tested;
+    * the contribution is professional and respectful.
 
 [](){#ref-contributing-guidelines}
 ## Guidelines
@@ -321,7 +341,7 @@ Integrating information into the main documentation requires some care to identi
 Adding the information to a FAQ is easier, but the result is information about a topic distributed between the docs and FAQ questions, which ultimately makes the documentation harder to search.
 
 FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts.
-If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-faq].
+If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page][ref-ssh-known-issues].
 
 
 ### Small contributions
@@ -348,6 +368,12 @@ They should be followed for most cases, but as a guideline it can be broken, _wi
 ### Headings are written in sentence case
 
 Use [sentence case](https://en.wikipedia.org/wiki/Letter_case#Sentence_case) for headings, meaning just the first word and names are capitalized.
+
+### Do not use bold for emphasis
+
+Avoid using `**bold**` to stress individual words or phrases in prose.
+If something is important, make it clear through sentence structure and word choice.
+Bold is acceptable when introducing a defined term for the first time, but even then should be used sparingly.
 
 ### Avoid nesting headings too deep
 
@@ -440,9 +466,18 @@ As a placeholder for documentation that needs to be written.
 
 Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
 The documentation uses [pygments](https://pygments.org) for highlighting.
-See [list of available lexers](https://pygments.org/docs/lexers/#) for the languages that you can use for code blocks.
+The language of a code block is set by its *lexer* — the name written after the opening triple backticks.
+See the [list of available lexers](https://pygments.org/docs/lexers/#).
 
-Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for interactive sessions with prompt-output pairs:
+Use `title=...` whenever possible to give the block a descriptive heading, as shown in the examples below.
+
+For an interactive shell session that shows both the commands you type and the output they produce, use:
+
+* [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSessionLexer) for bash/zsh — write the prompt as `$`
+* [`pwsh-session`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellSessionLexer) for PowerShell — write the prompt as `PS>`
+
+These lexers highlight prompts, commands and output.
+They also let the copy button strip prompts and output, so only the runnable commands are copied.
 
 === "Markdown"
 
@@ -461,19 +496,10 @@ Use [`console`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashSess
     ```
 
 !!! warning
-    `terminal` is not a valid lexer, but MkDocs or pygments will not warn about using it as a language.
+    `terminal` is not a valid lexer, but neither MkDocs nor pygments will warn you.
     The text will be rendered without highlighting.
 
-!!! warning
-    Use `$` as the prompt character, optionally preceded by text.
-    `>` as the prompt character will not be highlighted correctly.
-
-Note the use of `title=...`, which will give the code block a heading.
-
-!!! tip
-    Include a title whenever possible to describe what the code block does or is.
-
-If you want to display commands without output that can easily be copied, use `bash` as the language:
+For command-only blocks (no prompt, no output), use [`bash`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashLexer) or [`powershell`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellLexer):
 
 === "Markdown"
 

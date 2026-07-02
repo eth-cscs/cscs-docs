@@ -51,11 +51,21 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-earth-oceania: [__Climate and Weather__][ref-software-climate]
 
+    [:octicons-arrow-right-24: netcdf-tools][ref-uenv-netcdf-tools]
+
+-   :fontawesome-solid-earth-oceania: [__User Applications__][ref-software-userapps]
+
     [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
+
+    [:octicons-arrow-right-24: ESMF and CESM][ref-software-cesm]
+
+    [:octicons-arrow-right-24: ORCA][ref-software-orca]
 
 -   :fontawesome-solid-brush: [__Scientific Visualisation__][ref-software-scivis]
 
     [:octicons-arrow-right-24: Paraview][ref-uenv-paraview]
+
+    [:octicons-arrow-right-24: Ascent][ref-uenv-ascent]
 
 -   :fontawesome-solid-brush: [__Commercial Software__][ref-software-commercial]
 
@@ -67,4 +77,4 @@ These pages provided documentation for all supported software, and installation 
 
     There is a small list of software that is not allowed on CSCS' systems, or that CSCS can't provide support for.
 
-    [:octicons-arrow-right-24: Prohibited software][ref-software-scivis]
+    [:octicons-arrow-right-24: Prohibited software][ref-software-prohibited]

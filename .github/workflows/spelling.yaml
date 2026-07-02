@@ -10,6 +10,11 @@ on:
   issue_comment:
     types: ['created']
 
+# Workaround for the archival of check-spelling/check-spelling (archived 2026-06-16).
+# see: https://github.com/microsoft/intelligent-terminal/pull/311
+env:
+  INPUT_IGNORE_SECURITY_ADVISORY: Sorry
+
 jobs:
   spelling:
     name: Check Spelling
@@ -28,7 +33,8 @@ jobs:
     steps:
     - name: check-spelling
       id: spelling
-      uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      #uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      uses: check-spelling/check-spelling@92453f59cac8985482dfc301a8ece4c6d7de8a0c
       with:
         suppress_push_for_open_pull_request: ${{ github.actor != 'dependabot[bot]' && 1 }}
         checkout: true
@@ -56,7 +62,8 @@ jobs:
     if: (success() || failure()) && needs.spelling.outputs.followup && contains(github.event_name, 'pull_request')
     steps:
     - name: comment
-      uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      #uses: check-spelling/check-spelling@2d5f9dd9d2d43584d36e4ae03a3508eff411eda9
+      uses: check-spelling/check-spelling@92453f59cac8985482dfc301a8ece4c6d7de8a0c
       with:
         checkout: true
         task: ${{ needs.spelling.outputs.followup }}

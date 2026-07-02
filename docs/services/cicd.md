@@ -120,22 +120,25 @@ Enter all fields for FirecREST, i.e.,
         If you don't already know how to obtain FirecREST credentials, you can find more information on [CSCS Developer Portal][ref-devportal].
         You must subscribe your application to the FirecREST API of the platform to which you want to submit jobs, e.g.
         `FirecREST-HPC` for the HPC platform.
-        If `v2` is available for your platform, then subscribe to `v2` of the API, otherwise `v1` will work too.
         It is not mandatory to subscribe to the `ciext-container-builder` API to use pure CI workflows (this API is only used for building manually container images).
+
+    !!! tip "Service accounts"
+        [Service accounts][ref-service-accounts] only use an API key. You need to enter the string `api-key` for the Consumer Key, and the generated API key as Consumer Secret.
 
 1. **(Optional) Private project**: If your Git repository is a private repository make sure to check the `Private repository` box and follow the instructions to add an SSH key to your Git repository.
 
 1. **Add notification token**: On the setup page you will also find the field `Notification token`.
+By clicking on the small triangle next to `Notification token`, you will find instructions on how to generate a token on GitHub.
 The token is live tested, and you will see a green checkmark when the token is valid and can be used by the CI.
 It is mandatory to add a token so that your Git repository will be notified about the status of the build jobs.
 You cannot save anything as long as the notification token is invalid.
-(Click on the small triangle to get further instructions)
 
-1. **Add webhook**: On the CI setup page you will find the `Setup webhook details` button (go to the [CI overview](https://cicd-ext-mw.cscs.ch), then the project, and there is a blue button with the text `Setup webhook details`).
+1. **Add webhook**: On the CI setup page you will find the `Webhook setup details` button (go to the [CI overview](https://cicd-ext-mw.cscs.ch), then the project, and there is a blue button with the text `Webhook setup details`
+on the top left of the page under the Repository ID number).
 If you click on it you will see all the entries which have to be added to a new webhook in your Git repository.
 Follow the link given there to your repository, and add the webhook with the given entries.
 
-1. **Default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches.
+1. **(Optional) Add default trusted users and default CI-enabled branches**: Provide the default list of trusted users and CI-enabled branches.
 The global configuration will apply to all pipelines that do not overwrite it explicitly.
 
 1. **Pipeline default**: Your first pipeline has the name `default`.
@@ -153,7 +156,7 @@ See the [Hello World Tutorial](#ref-cicd-containerized-tutorial) for a simple ya
 
 #### Clarifications and pitfalls to the above-mentioned steps
 !!! info
-    This section exemplifies on GitHub, but similar settings are available on GitLab and Bitbucket
+    This section exemplifies on GitHub, but similar settings are available on GitLab and Bitbucket.
 
 The `notification token` setup step is crucial, because this is the number one entrypoint for receiving initial feedback on any errors.
 You will not be able to save any changes on the CI setup page, as long as the notification token is invalid.
@@ -499,6 +502,10 @@ Have a look at the definition of the block `.dynamic-image-name` in the file [.c
 ### Image cleanup
 Images pushed to [CSCS_REGISTRY_PATH](#ci-variables) are cleaned daily according to the following rules:
 
+* Cached build layers are  deleted  if they are older than 5 days. These directories are affected
+    * `/build_cache/*`
+    * `/buildcache/*`
+    * `/cache/*`
 * No deletion if total storage usage < 300GB
 * No deletion of images newer than 30 days
 * First cleanup excluding folders `base`, `baseimg`, `baseimage`, `deploy`, `deployment`
@@ -901,6 +908,14 @@ This variable can be:
       This is useful to disable rebuilding of base containers.
       See section [dependency management](#dependency-management).
 
+##### `CSCS_BUILD_CACHE`
+Optional variable, example value: `$CSCS_REGISTRY_PATH/build_cache`
+
+This allows to enable layer caching during image builds.
+The layers are cached in a docker registry.
+For fast layer download/upload it is recommended to use `$CSCS_REGISTRY_PATH/build_cache`.
+Layers cached in `$CSCS_REGISTRY_PATH/build_cache` are [cleaned up automatically](#image-cleanup).
+
 ##### `SECONDARY_REGISTRY`
 Optional variable, example value: `docker.io/username/my_image:1.0`
 
@@ -932,6 +947,28 @@ Optional variable
 If `$PERSIST_IMAGE_NAME` is not inside the CSCS default registry, then you have to provide the credentials for pushing to the registry.
 For security you should store a secret variable on the CI setup page, and forward it in the job yaml.
 If possible do not use your password, but create an access token.
+
+##### `KUBERNETES_CPU_REQUEST`
+Optional variable, default is 16
+
+Number of CPUs minimally needed to schedule this job.
+
+##### `KUBERNETES_CPU_LIMIT`
+Optional variable, default is 64
+
+Limit the job to use at most that many CPUs.
+
+##### `KUBERNETES_MEMORY_REQUEST`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
+
+The amount of memory minimally needed to schedule the job.
+
+##### `KUBERNETES_MEMORY_LIMIT`
+Optional variable, default is `32Gi` (zen2), `64Gi` (gh200)
+
+Limit the job to use at most this much memory.
+You will get an OOM (out-of-memory) error, if you exceed the limit.
+
 
 #### Build arguments
 Build arguments are configured with the variable [`DOCKER_BUILD_ARGS`](#docker_build_args).
@@ -1410,6 +1447,9 @@ The documented runners above, set the correct `F7T_TOKEN_URL`  and `F7T_URL` for
 When you are running on the [f7t-controller](#f7t-controller) runner, then you might have to modify the default variables, because this runner is not targeting a specific cluster, but it can target different clusters in the same job.
 Targeting different clusters in the same job can require to provide different `F7T_URL`.
 The `F7T_TOKEN_URL` is currently the same for all clusters.
+
+!!! tip "Service accounts"
+    [Service accounts][ref-service-accounts] only use an API key. You need to enter the string `api-key` for the client ID, and the generated API key as client secret.
 
 ## Example projects
 A couple of projects which use this CI setup.

@@ -42,9 +42,9 @@ Users are encouraged to use containers on Clariden.
 
 * Jobs using containers can be easily set up and submitted using the [container engine][ref-container-engine].
 * To build images, see the [guide to building container images on Alps][ref-build-containers].
-* Base images which include the necessary libraries and compilers are for example available from the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers):
-    * [HPC NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc)
-    * [PyTorch NGC container](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch)
+* The [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers) provides containers with pre-built ML software stacks:
+    * **Recommended**: [Alps extended images][ref-software-extended-images] provided by CSCS are customized versions of NGC images optimized for the Alps network.
+    * Or start with base images from the [Nvidia NGC Catalog](https://catalog.ngc.nvidia.com/containers), for example the [HPC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc) and [PyTorch](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch) images --- note that you will have to use [container hooks][ref-ce-annotations] to get optimal network performance.
 
 Alternatively, [uenv][ref-uenv] are also available on Clariden. Currently deployed on Clariden:
 
@@ -73,21 +73,37 @@ For detailed instructions and best practices with ML frameworks, please refer to
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There are two Slurm partitions on the system:
+There are four Slurm partitions on the system:
 
 * the `normal` partition is for all production workloads.
-* the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
+* the `debug` partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as `normal`, with tight per-user limits to keep it focused on its intended use case.
+* the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | 1204       | -    | 12 hours |
-| `debug`  | 24         | 2    | 1.5 node-hours |
+| `normal` | most nodes | -    | 12 hours |
+| `debug`  | most nodes (shared with `normal`) plus a few dedicated | 4 | 1.5 node-hours |
+| `low`    | most nodes (shared with `normal`) | -    | 24 hours |
 | `xfer`   | 2          | 1    | 24 hours |
 
-* nodes in the `normal` and `debug` partitions are not shared
+* jobs in the `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
+* the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `normal` is full
+* because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
 * nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
+
+The `debug` partition has additional per-user limits enforced by its QoS:
+
+* max 1 running job per user
+* max 2 submitted jobs per user (1 running + 1 pending)
+* max 90 node·minutes per job (e.g. 1 node × 90 min, 2 nodes × 45 min, or 4 nodes × 22 min)
+
+The `debug` partition is scheduled at a higher priority than `normal`, so debug jobs are placed ahead of `normal` jobs in the queue and typically start sooner. Preemption is disabled, so debug jobs never interrupt running `normal` jobs: they simply use idle nodes as soon as these become available. The tight per-user limits make the partition unsuitable for production workloads while keeping it responsive for short debug sessions.
+
+!!! warning "The `debug` partition is for debugging and testing only"
+    The `debug` partition is reserved for short, interactive debugging and testing sessions, and must not be used to run production workloads or to otherwise circumvent the per-user limits.
+    Usage of the partition is monitored: workloads that are not genuine debugging or testing will be flagged and reported.
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
@@ -96,9 +112,10 @@ See the Slurm documentation for instructions on how to run jobs on the [Grace-Ho
     ```console
     $ sinfo --format "| %20R | %10D | %10s | %10l | %10A |"
     | PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |
-    | debug                | 32         | 1-2        | 30:00      | 3/29       |
-    | normal               | 1266       | 1-infinite | 1-00:00:00 | 812/371    |
-    | xfer                 | 2          | 1          | 1-00:00:00 | 1/1        |
+    | debug                | 1384       | 1-4        | 1:30:00    | 1260/82    |
+    | normal               | 1359       | 1-infinite | 12:00:00   | 1254/65    |
+    | low                  | 1359       | 1-infinite | 1-00:00:00 | 1254/65    |
+    | xfer                 | 2          | 1          | 1-00:00:00 | 2/0        |
     ```
     The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 

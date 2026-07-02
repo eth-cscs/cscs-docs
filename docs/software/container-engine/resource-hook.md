@@ -204,31 +204,42 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 
 ```toml
 com.hooks.aws_ofi_nccl.enabled = "true"
-com.hooks.aws_ofi_nccl.variant = "cuda12"   # (1)
+com.hooks.aws_ofi_nccl.variant = "cuda-dl"   # (1)!
 ```
 
 1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
-The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
+The [AWS OFI NCCL plugin](https://github.com/aws/aws-ofi-nccl) is a software extension that allows the [NCCL](https://developer.nvidia.com/nccl) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/latest/) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect.
 Also see [NCCL][ref-communication-nccl] and [libfabric][ref-communication-libfabric] for more information on using the libraries on Alps.
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image.
-At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` (to be used on NVIDIA GPU nodes), `rocm5`, and `rocm6` (to be used on AMD GPU nodes alongside RCCL).
+At the moment of writing, the following plugin variants are configured:
+
+* For NVIDIA GPU nodes: `cuda12`, `cuda13`, `cuda-dl`.
+
+    The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don't provide generic symlinks to the CUDA Runtime (more details [here][ref-known-issue-dynamic-aws-nccl-plugin]).
+
+    The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
+
+* For AMD GPU nodes, alongside RCCL: `rocm5`, and `rocm6`.
+
+    Both these variants are statically linked to specific ROCm versions.
+
 
 !!! tip
-    It implicitly enables the [CXI hook][ref-ce-cxi-hook], therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
+    The hook implicitly enables the [CXI hook][ref-ce-cxi-hook], therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it's unnecessary to also enable the CXI hook separately in the EDF.
 
 !!! note
-    It sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot. In particular, the `NCCL_NET_PLUGIN` variable ([link](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-plugin)) is set to force NCCL to load the specific network plugin mounted by the hook. This is useful because certain container images (for example, those from NGC repositories) might already ship with a default NCCL plugin. Other environment variables help prevent application stalls and improve performance when using GPUDirect for RDMA communication.
+    The hook sets environment variables to control the behavior of NCCL and the libfabric CXI provider for Slingshot, helping prevent application stalls and improving performance, especially when using GPUDirect for RDMA communication.
 
-!!! example "EDF for the NGC PyTorch 22.12 image with Cuda 11"
+!!! example "EDF for the NGC PyTorch 25.11 image with CUDA 13.1"
     ```toml
-    image = "nvcr.io#nvidia/pytorch:22.12-py3"
+    image = "nvcr.io/nvidia/pytorch:25.11-py3"
     mounts = ["/capstor/scratch/cscs/${USER}:/capstor/scratch/cscs/${USER}"]
 
     [annotations]
     com.hooks.aws_ofi_nccl.enabled = "true"
-    com.hooks.aws_ofi_nccl.variant = "cuda11"
+    com.hooks.aws_ofi_nccl.variant = "cuda-dl"
     ```
 
 [](){#ref-ce-ssh-hook}
@@ -236,7 +247,7 @@ At the moment of writing, 4 plugin variants are configured: `cuda11`, `cuda12` 
 
 ```toml
 com.hooks.ssh.enabled = "true"
-com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)
+com.hooks.ssh.authorize_ssh_key = "<public-key>"    # (1)!
 ```
 
 1. Replace `<public-key>` with the path to your SSH public key file.
@@ -302,7 +313,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 !!! example "Using the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda-mps.toml"
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
+    image = "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"
 
     [annotations]
     com.hooks.nvidia_cuda_mps.enabled = "true"
@@ -315,7 +326,7 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
 
 ??? example "Available GPUs and oversubscription error *without* the CUDA MPS hook"
     ```toml title="EDF: vectoradd-cuda.toml"
-    image = "nvcr.io#nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)
+    image = "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubuntu22.04"   # (1)!
     ```
 
     1. This EDF uses the CUDA vector addition sample from NVIDIA's NGC catalog.
@@ -327,13 +338,13 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     GPU 2: GH200 120GB (UUID: GPU-...)
     GPU 3: GH200 120GB (UUID: GPU-...)
 
-    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (1)
+    $ srun -t2 -N1 -n4 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (1)!
     Test PASSED
     Test PASSED
     Test PASSED
     Test PASSED
 
-    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)
+    $ srun -t2 -N1 -n5 --environment=vectoradd-cuda /cuda-samples/vectorAdd | grep "Test PASSED"    # (2)!
     Failed to allocate device vector A (error code CUDA-capable device(s) is/are busy or unavailable)!
     srun: error: ...
     ```
@@ -341,10 +352,161 @@ The hook can be activated by setting the `com.hooks.nvidia_cuda_mps.enabled` to 
     1. 4 processes run successfully.
     2. More than 4 concurrent processes result in oversubscription errors.
 
-## Accessing  NVIDIA GPUs
+
+[](){#ref-ce-netstack-source}
+### Selecting the network stack source
+
+The [CXI hook][ref-ce-cxi-hook] and [AWS OFI NCCL hook][ref-ce-aws-ofi-hook] inject a set of specialized network libraries, extensions, and dependencies (more details [here][ref-software-communication]). These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
+
+For convenience, we refer to one such interdependent set of networking-related software as a **network stack**, or *netstack* for short.
+
+Container Engine hooks can obtain the network stack from different sources. Use the `com.hooks.netstack.source` annotation to select the source, e.g.:
+
+```toml
+com.hooks.netstack.source = "artifact"
+```
+
+The following values are currently supported:
+
+* `host`: use the native libraries installed on the host system.
+* `artifact`: use a **network stack artifact**, a standalone netstack built specifically for mounting inside containers and minimizing compatibility issues.
+
+Host libraries are provided by the system vendor and match a specific system configuration. Injecting them requires overriding all corresponding libraries inside the container, which can cause compatibility issues. Host libraries are also tied to vendor-defined settings, and their available versions and update frequency depend on several factors.
+
+Network stack artifacts are built independently by CSCS staff for use with containers on Alps. They reduce compatibility issues by searching for their dependencies in a separate directory, configured through `rpath` at build time. This leaves most container libraries unchanged. Artifacts are available in multiple [versions and variants][ref-ce-netstack-artifacts], and they are not tied to operating-system changes, while remaining tuned for Slingshot performance.
+
+!!! info
+
+    Default network stack sources are already configured for all vClusters.
+    The `com.hooks.netstack.source` annotation is optional and is only needed to override the vCluster default.
+
+    At the time of writing, the Clariden and Daint vClusters use `artifact` as the default source.
+    All other vClusters use `host`.
+
+!!! note
+
+    When using network stack artifacts, the `com.hooks.aws_ofi_nccl.variant` annotation is ignored because all artifacts use dynamically linked AWS OFI NCCL plugins.
+
+!!! warning "Artifact availability"
+
+    Network stack artifacts are currently fully tested and supported only on GH200 vClusters connected to the [Capstor Store][ref-alps-capstor-store] filesystem.
+    Availability will be expanded progressively.
+
+
+[](){#ref-ce-netstack-artifacts}
+### Selecting network stack artifacts
+
+Network stack artifacts are organized by **version** and **named variant**:
+
+- A **version** identifies a release of the network stack. It determines the combination of versions used for key connectivity components, such as libfabric and the AWS OFI NCCL plugin.
+- Within each version, a **named variant** identifies a build intended for a particular combination of underlying platform components, such as CUDA or the Slingshot user-space software.
+
+The version selects a release of the network stack. The named variant makes it possible to choose a build compatible with the relevant container software and host drivers.
+
+Specific artifacts can be selected by version and name using the following EDF annotations:
+
+```toml
+com.hooks.netstack.version = "latest"
+com.hooks.netstack.name = "default"
+```
+
+!!! tip
+
+    Default values for the network stack version and name are already configured for all vClusters.
+    The corresponding annotations are optional and only needed to customize the artifact choice.
+
+
+??? example "Network stack artifacts installations in more detail"
+
+    At the time of writing, network stack artifacts are installed using the following directory structure: `<base path>/<architecture>/<version>/<name>`
+
+    On Alps vClusters connected to Capstor, the base path is currently `/capstor/store/cscs/cscs/public/containers/netstack/`.
+
+    Architecture directories use the values reported by `uname -m`, such as `aarch64` or `x86_64`.
+
+    For example, on a GH200 vCluster, the installed versions can be listed as follows:
+
+    ```console
+    $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/
+    total 8
+    drwxrwsr-x+ 6 gwalee csstaff 4096 May  6 12:42 26.02.1
+    drwxrwsr-x+ 5 gwalee csstaff 4096 May  5 17:01 26.05.1
+    lrwxrwxrwx  1 gwalee csstaff    8 May  6 12:35 latest -> 26.05.1/
+    ```
+
+    The named variants available within a given version directory can be listed as follows:
+
+    ```console
+    $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.05.1
+    total 12
+    lrwxrwxrwx  1 gwalee csstaff   46 May  4 15:11 default -> gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl/
+    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:43 gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl
+    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:42 gpu:cuda13,cxi:13.1.0,ofi:2.5.1,aws:1.18.0+dl
+    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:43 gpu:cuda13,cxi:14.0.0,ofi:2.5.1,aws:1.18.0+dl
+    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:12.0.1 -> gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl
+    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:13.1.0 -> gpu:cuda13,cxi:13.1.0,ofi:2.5.1,aws:1.18.0+dl
+    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:14.0.0 -> gpu:cuda13,cxi:14.0.0,ofi:2.5.1,aws:1.18.0+dl
+    ```
+
+    ??? example "Listing the full contents of a netstack artifact"
+
+        ```console
+        $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.05.1/shs:13.1.0/
+        total 25444
+        -rwxr-xr-x+ 1 gwalee csstaff  197960 May  4 10:43 libbrotlicommon.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   66984 May  4 10:43 libbrotlidec.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   66992 May  4 10:43 libcom_err.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff 4283944 May  4 10:43 libcrypto.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff 1754432 May  4 10:43 libc.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  666776 May  4 10:43 libcurl.so.4
+        -rwxr-xr-x+ 1 gwalee csstaff  396656 May  4 10:43 libcxi.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff 2036112 May  4 10:43 libfabric.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   67744 May  4 10:43 libffi.so.8
+        -rwxr-xr-x+ 1 gwalee csstaff  135112 May  4 10:43 libgcc_s.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  540712 May  4 10:43 libgmp.so.10
+        -rwxr-xr-x+ 1 gwalee csstaff 2157896 May  4 10:43 libgnutls.so.30
+        -rwxr-xr-x+ 1 gwalee csstaff  339400 May  4 10:43 libgssapi_krb5.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  339832 May  4 10:43 libhogweed.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  402304 May  4 10:43 libhwloc.so.15
+        -rwxr-xr-x+ 1 gwalee csstaff  132856 May  4 10:43 libidn2.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  136496 May  4 10:43 libjson-c.so.5
+        -rwxr-xr-x+ 1 gwalee csstaff  201040 May  4 10:43 libk5crypto.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff   67880 May  4 10:43 libkeyutils.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  876960 May  4 10:43 libkrb5.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff   69776 May  4 10:43 libkrb5support.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff   69784 May  4 10:43 liblber-2.5.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  415240 May  4 10:43 libldap-2.5.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  609784 May  4 10:43 libm.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  530152 May  4 10:43 libnccl-net.so
+        -rwxr-xr-x+ 1 gwalee csstaff  343760 May  4 10:43 libnettle.so.8
+        -rwxr-xr-x+ 1 gwalee csstaff  204168 May  4 10:43 libnghttp2.so.14
+        -rwxr-xr-x+ 1 gwalee csstaff  206136 May  4 10:43 libnl-3.so.200
+        -rwxr-xr-x+ 1 gwalee csstaff 1316064 May  4 10:43 libp11-kit.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  132792 May  4 10:43 libpsl.so.5
+        -rwxr-xr-x+ 1 gwalee csstaff   68760 May  4 10:43 libresolv.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  136232 May  4 10:43 librtmp.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  134224 May  4 10:43 libsasl2.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  477248 May  4 10:43 libssh.so.4
+        -rwxr-xr-x+ 1 gwalee csstaff  680960 May  4 10:43 libssl.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff 2567464 May  4 10:43 libstdc++.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  133344 May  4 10:43 libtasn1.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  201968 May  4 10:43 libudev.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff 1790736 May  4 10:43 libunistring.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff   67048 May  4 10:43 libxpmem.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  134016 May  4 10:43 libz.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  805792 May  4 10:43 libzstd.so.1
+        -rw-r--r--+ 1 gwalee csstaff    3435 May  4 10:42 ORIGIN
+        ```
+
+    Within installation trees, symlinks are provided for convenience in selecting the latest version or the most commonly recommended variant.
+
+    Variant names and symbolic links may change in the future. When selecting a specific artifact, please refer to the versions and variants available in the installation tree.
+
+
+## Accessing NVIDIA GPUs
 
 The Container Engine leverages components from the NVIDIA Container Toolkit to expose NVIDIA GPU devices inside containers.
-GPU device files are always mounted in containers, and the NVIDIA driver user space components are  mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
+GPU device files are always mounted in containers, and the NVIDIA driver user space components are mounted if the `NVIDIA_VISIBLE_DEVICES` environment variable is not empty, unset or set to `void`.
 `NVIDIA_VISIBLE_DEVICES` is already set in container images officially provided by NVIDIA to enable all GPUs available on the host system.
 Such images are frequently used to containerize CUDA applications, either directly or as a base for custom images, thus in many cases no action is required to access GPUs.
 

@@ -25,7 +25,7 @@ jobs:
       - run: |
           pip install -r requirements.txt
       - run: rm -rf site
-      - run: "sed -i -e 's|^#\\?site_url:.*|site_url: https://docs.tds.cscs.ch/${{ github.event.pull_request.number }}|' mkdocs.yml"
+      - run: "sed -i -e 's|^#\\?site_url:.*|site_url: https://cscs-docs-preview.svc.cscs.ch/${{ github.event.pull_request.number }}|' mkdocs.yml"
       - run: cat mkdocs.yml
       - run: mkdocs build --strict
       - run: |

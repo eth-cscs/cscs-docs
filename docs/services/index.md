@@ -1,3 +1,4 @@
+[](){#ref-services}
 # Services
 
 <div class="grid cards" markdown>
@@ -18,5 +19,11 @@
     Kubernetes platform for automating deployment, scaling, and management of containerized applications.
 
     [:octicons-arrow-right-24: Kubernetes][ref-kubernetes]
+
+-   :fontawesome-solid-robot: __Inference__
+
+    Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
+
+    [:octicons-arrow-right-24: Inference][ref-inference]
 </div>
 
