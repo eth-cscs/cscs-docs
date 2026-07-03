@@ -14,7 +14,6 @@ Säntis
 ScaLAPACK
 VSCode
 aarch64
-GPUh
 WSO2
 
 # markdown figure
