@@ -57,7 +57,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/cscs-key
 ### Configure SSH
 
 Add the following to your `~/.ssh/config` file.
-Replace `course_XXXXX` with your course username, and replace `daint` with the cluster your course uses if it is different — your course organisers will tell you which one to use.
+Replace `course_XXXXX` with your course username, and replace `daint` with the cluster your course uses.
 
 ```text title="~/.ssh/config"
 Host ela
