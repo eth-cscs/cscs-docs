@@ -211,9 +211,9 @@ For more information on using coding agents on Alps, see the [coding agents guid
 Set the following environment variables before starting a `claude` session.
 
 ```bash
-export ANTHROPIC_API_KEY=$CSCS_INFERENCE_API_KEY
+export ANTHROPIC_AUTH_TOKEN=$CSCS_INFERENCE_API_KEY
 
-export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch/v1
+export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch
 export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
 claude
 ```
