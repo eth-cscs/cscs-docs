@@ -172,6 +172,7 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Support Guide': guides/getting-support.md
+    - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
