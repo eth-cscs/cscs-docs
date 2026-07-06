@@ -4,6 +4,8 @@
 This guide walks course participants through everything needed to access a CSCS cluster for a course, from creating an account to connecting over SSH.
 It is a streamlined path through the more detailed [account][ref-account-management], [MFA][ref-mfa] and [SSH][ref-ssh] documentation, which you can follow if you run into trouble or want more background.
 
+## Check your email
+
 You should have received an invitation email from CSCS that contains a link to create your account and your course username, which looks like `course_XXXXX`.
 
 !!! note "You will sign your key once per day"
@@ -22,7 +24,7 @@ See [creating an account][ref-account-create] for a full walkthrough with screen
 The first time you sign in to a CSCS web application, for example [portal.cscs.ch](https://portal.cscs.ch), you are prompted to enroll in multi-factor authentication (MFA).
 This is required for all CSCS services.
 
-To enroll, install a [TOTP](https://en.wikipedia.org/wiki/Time-based_one-time_password) authenticator app such as Google Authenticator on your phone, then follow the on-screen instructions: scan the displayed QR code with the app and enter the 6-digit one-time password it generates to finish the setup.
+To enroll, install a TOTP authenticator app such as Google Authenticator on your phone, then follow the on-screen instructions: scan the displayed QR code with the app and enter the 6-digit one-time password it generates to finish the setup.
 
 See [configure the authenticator][ref-mfa-configure-otp] for the detailed procedure.
 
@@ -36,15 +38,11 @@ The steps in this section only need to be done once.
 ### Install `cscs-key`
 
 `cscs-key` is the CSCS command-line tool for signing and managing your SSH keys.
-On macOS and Linux the simplest way to install it is with [Homebrew](https://brew.sh):
+Follow the [installation instructions][ref-ssh-cli] to install it on your machine.
 
-```console title="install cscs-key with Homebrew"
-$ brew install eth-cscs/tap/cscs-key
-$ cscs-key --version
-cscs-key 1.1.0
-```
-
-If you are not using Homebrew, or you are on Windows, follow the [installation instructions][ref-ssh-cli] for a pre-built binary.
+!!! note "Prefer not to install anything?"
+    You can manage and sign your key entirely in the browser with the [web dashboard][ref-ssh-key-management] at [user-account.cscs.ch](https://user-account.cscs.ch).
+    If you go this route, sign your key there instead of running `cscs-key sign` below.
 
 ### Generate an SSH key
 
