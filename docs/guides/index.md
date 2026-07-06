@@ -31,4 +31,10 @@ The guides are grouped around top-level topics.
 
     [:octicons-arrow-right-24: Support Guide][ref-guide-support]
 
+-   :fontawesome-solid-graduation-cap: __Course Account Setup__
+
+    Step-by-step setup for course participants, from creating an account to connecting over SSH.
+
+    [:octicons-arrow-right-24: Course Account Setup][ref-guides-course-account]
+
 </div>
