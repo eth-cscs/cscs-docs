@@ -432,3 +432,14 @@ Scalasca
 tracefile
 Vampir
 XAmz
+SYCL
+DPC
+dpcpp
+llvmdpcpp
+oneAPI
+oneDPL
+oneMKL
+oneTBB
+nvptx
+Neoverse
+mpicxx
