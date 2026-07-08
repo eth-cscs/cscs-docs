@@ -2,7 +2,7 @@
 # prgenv-gnu-dpcpp
 
 Provides the [`prgenv-gnu`][ref-uenv-prgenv-gnu] toolchain together with the Intel DPC++ (SYCL) compiler with a CUDA backend.
-It is for building SYCL applications that target the [GH200][ref-alps-gh200-node] GPUs on Alps aarch64 systems.
+It is for building SYCL applications that target the [gh200][ref-alps-gh200-node] nodes on Alps.
 
 !!! note "experimental and not officially supported"
     `prgenv-gnu-dpcpp` is experimental and not officially supported.
