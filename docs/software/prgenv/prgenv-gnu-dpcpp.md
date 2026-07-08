@@ -18,7 +18,7 @@ It is for building SYCL applications that target the [gh200][ref-alps-gh200-node
 The naming scheme is `prgenv-gnu-dpcpp/<version>`, where `<version>` tracks the [`prgenv-gnu`][ref-uenv-prgenv-gnu] version it extends, in the `YY.M[M]` format (for example `25.11` for November 2025).
 
 The release schedule is not fixed.
-New versions are released when the underlying `prgenv-gnu` version is updated, or when there is a compelling reason.
+New versions will be released to match an underlying `prgenv-gnu` based on user requests: contact the CSCS [service desk](https://jira.cscs.ch/plugins/servlet/desk) for an updated version.
 
 | version | node types | system |
 |---------|------------|--------|
