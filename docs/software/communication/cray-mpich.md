@@ -70,7 +70,7 @@ This section documents known issues related to Cray MPICH on Alps. Resolved issu
 
 !!! info ""
     This issue will be fixed in Cray MPICH 9.2, which will be released in September 2026.
-    CSCS is exploring the possibility of providing a pre-release for affected users: contact [CSCS support](https://jira.cscs.ch/plugins/servlet/desk) if you want to test it.
+    CSCS is exploring the possibility of providing a pre-release for affected users: contact [CSCS support](https://support.cscs.ch) if you want to test it.
 
 Starting with NVIDIA driver version 580, calls to `cuPointerGetAttribute` with host-allocated buffers became significantly slower.
 Cray MPICH relies on `cuPointerGetAttribute` to determine whether to use host or device code paths for communication.
