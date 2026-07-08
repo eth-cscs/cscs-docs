@@ -21,11 +21,6 @@ For example:
 
     Same as [`prgenv-gnu`][ref-uenv-prgenv-gnu] but with OpenMPI instead of Cray MPICH.
 
--   :fontawesome-solid-layer-group: [__prgenv-gnu-dpcpp__][ref-uenv-prgenv-gnu-dpcpp] uenv
-
-    Extends [`prgenv-gnu`][ref-uenv-prgenv-gnu] with the Intel DPC++ (SYCL) compiler for [GH200][ref-alps-gh200-node] GPUs.
-    Experimental and not officially supported.
-
 -   :fontawesome-solid-layer-group: [__prgenv-nvfortran__][ref-uenv-prgenv-nvfortran] uenv
 
     Provides a set of tools and libraries for building applications that need the NVIDIA Fortran compiler, commonly required for OpenACC and CUDA-Fortran applications.
@@ -41,6 +36,10 @@ For example:
 -   :fontawesome-solid-layer-group: [__prgenv-intel__][ref-uenv-prgenv-intel] uenv
 
     Provides a set of tools and libraries for building applications with the intel OneAPI compilers on [Eiger][ref-cluster-eiger].
+
+-   :fontawesome-solid-layer-group: [__prgenv-dpcpp__][ref-uenv-prgenv-dpcpp] uenv
+
+    Extends [`prgenv-gnu`][ref-uenv-prgenv-gnu] with the Intel DPC++ (SYCL) compiler for [GH200][ref-alps-gh200-node] GPUs.
 
 </div>
 

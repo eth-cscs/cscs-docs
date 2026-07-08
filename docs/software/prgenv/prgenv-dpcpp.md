@@ -1,21 +1,21 @@
-[](){#ref-uenv-prgenv-gnu-dpcpp}
-# prgenv-gnu-dpcpp
-
-Provides the [`prgenv-gnu`][ref-uenv-prgenv-gnu] toolchain together with the Intel DPC++ (SYCL) compiler with a CUDA backend.
-It is for building SYCL applications that target the [gh200][ref-alps-gh200-node] nodes on Alps.
+[](){#ref-uenv-prgenv-dpcpp}
+# prgenv-dpcpp
 
 !!! note "experimental and not officially supported"
-    `prgenv-gnu-dpcpp` is experimental and not officially supported.
+    `prgenv-dpcpp` is experimental and not officially supported.
     It is provided as-is and may break or be removed on system upgrades.
     It is currently deployed only on [Daint][ref-cluster-daint].
 
     Try [`prgenv-gnu`][ref-uenv-prgenv-gnu] first, because it is better tested and better supported.
-    Use `prgenv-gnu-dpcpp` only if you specifically need the DPC++ (SYCL) compiler; it provides the same package set as `prgenv-gnu/25.11`, plus DPC++.
+    Use `prgenv-dpcpp` only if you specifically need the DPC++ (SYCL) compiler; it provides the same package set as `prgenv-gnu/25.11`, plus DPC++.
 
-[](){#ref-uenv-prgenv-gnu-dpcpp-versioning}
+Provides the [`prgenv-gnu`][ref-uenv-prgenv-gnu] toolchain together with the Intel DPC++ (SYCL) compiler with a CUDA backend.
+It is for building SYCL applications that target the [gh200][ref-alps-gh200-node] nodes on Alps.
+
+[](){#ref-uenv-prgenv-dpcpp-versioning}
 ## Versioning
 
-The naming scheme is `prgenv-gnu-dpcpp/<version>`, where `<version>` tracks the [`prgenv-gnu`][ref-uenv-prgenv-gnu] version it extends, in the `YY.M[M]` format (for example `25.11` for November 2025).
+The naming scheme is `prgenv-dpcpp/<version>`, where `<version>` tracks the [`prgenv-gnu`][ref-uenv-prgenv-gnu] version it extends, in the `YY.M[M]` format (for example `25.11` for November 2025).
 
 The release schedule is not fixed.
 New versions will be released to match an underlying `prgenv-gnu` based on user requests: contact the CSCS [service desk](https://jira.cscs.ch/plugins/servlet/desk) for an updated version.
@@ -45,19 +45,19 @@ Versions are provided for as long as practical, and system upgrades may force an
     ??? info "packages"
         The package set is the same as [`prgenv-gnu`][ref-uenv-prgenv-gnu] `25.11` (Boost, HDF5, NetCDF, Kokkos, FFTW, OpenBLAS, ScaLAPACK, NCCL, Python and so on; see its page for the full list with versions), with the DPC++ compiler ([llvmdpcpp](https://github.com/intel/llvm)) added.
 
-[](){#ref-uenv-prgenv-gnu-dpcpp-how-to-use}
+[](){#ref-uenv-prgenv-dpcpp-how-to-use}
 ## How to use
 
-There are three ways to access the software provided by `prgenv-gnu-dpcpp`, once it has been started.
+There are three ways to access the software provided by `prgenv-dpcpp`, once it has been started.
 
 === "the `default` view"
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
-    !!! example "test the DPC++ compiler provided by prgenv-gnu-dpcpp/25.11"
+    !!! example "test the DPC++ compiler provided by prgenv-dpcpp/25.11"
         ```console title="start the uenv and check the compiler"
         # start using the default view
-        $ uenv start --view=default prgenv-gnu-dpcpp/25.11:v1
+        $ uenv start --view=default prgenv-dpcpp/25.11:v1
 
         # the DPC++ (SYCL) compiler is available
         $ which clang++
@@ -84,9 +84,9 @@ There are three ways to access the software provided by `prgenv-gnu-dpcpp`, once
     The uenv provides modules for all of the software packages, which can be made available by using the `modules` view.
     No modules are loaded when a uenv starts, and have to be loaded individually using `module load`.
 
-    !!! example "start prgenv-gnu-dpcpp and list the provided modules"
+    !!! example "start prgenv-dpcpp and list the provided modules"
         ```console title="list the modules provided by the uenv"
-        $ uenv start prgenv-gnu-dpcpp/25.11:v1 --view=modules
+        $ uenv start prgenv-dpcpp/25.11:v1 --view=modules
         $ module avail
         ```
 
