@@ -259,7 +259,7 @@ You can now configure the provider by adding something like the following to `ch
 ```json title="VSCode configuration for the inference API"
 [
 	{
-		"name": "CSCS AI Gateway",
+		"name": "CSCS Inference",
 		"vendor": "customendpoint",
 		"apiKey": "${input:chat.lm.secret.15d32100}",
 		"apiType": "chat-completions",
