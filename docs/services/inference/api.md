@@ -302,7 +302,11 @@ The settings for `streaming` and `vision` are needed, but `maxInputTokens` and `
 The Kimi 2.7 model has a context size of 256K and GLM-5.2 1M tokens, it might be better to leave these values unset and allow vscode to discover values. 
 Once setup, click on the "Update API key" and insert your key, the value in the api key will be updated and obscured (not stored in plain text).
 
-Note: VSCode has shown some instability with the CSCS inference service - you will possibly see Kimi/GLM thinking, working, processing and producing diffs to your code and then produce a "No Response error" than stops you continuing. This appears to be a vscode issue that is open and hopefully fixed soon. Other tools like OpenCode do not seem to have any problems with the inference service. You can usually continue, but have lost whatever the last message the model was delivering (but code edits are usually usable).
+!!! note
+    VSCode has shown some instability with the CSCS inference service - you will possibly see Kimi/GLM thinking, working, processing and producing diffs to your code and then produce a "No Response error" than stops you continuing.
+    This appears to be a VSCode issue that is open and hopefully fixed soon.
+    Other tools like OpenCode do not seem to have any problems with the inference service.
+    You can usually continue, but have lost whatever the last message the model was delivering (but code edits are usually usable).
 
 
 [](){#ref-inference-api-issues}
