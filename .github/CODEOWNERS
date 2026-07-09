@@ -1,17 +1,20 @@
 * @bcumming @msimberg @RMeli
 docs/access/jupyterlab.md @rsarm
+docs/access/ssh @rjanalik
+docs/alps/storage.md @mpasserini
 docs/clusters/besso.md @victorusu
-docs/services/firecrest.md @jpdorsch @ekouts @theely @ibonesana-ethz
+docs/running/hyperqueue.md @rjanalik
 docs/services/devportal.md @jpdorsch @ekouts @theely @ibonesana-ethz
+docs/services/firecrest.md @jpdorsch @ekouts @theely @ibonesana-ethz
+docs/services/inference @msimberg @naevtamarkus
 docs/services/kubernetes @eliaoggian
 docs/software/communication @Madeeks @msimberg
 docs/software/devtools/linaro @jgphpc
 docs/software/devtools/vihps @jgphpc
+docs/software/ml @boeschf @henrique @lukasgd
 docs/software/prgenv/linalg.md @finkandreas @msimberg
 docs/software/sciapps/cp2k.md @abussy @RMeli
-docs/software/sciapps/lammps.md @RMeli
 docs/software/sciapps/gromacs.md @kanduri
+docs/software/sciapps/lammps.md @RMeli
 docs/software/sciviz @jfavre @albestro
-docs/software/ml @boeschf @henrique @lukasgd
 docs/storage @mpasserini
-docs/alps/storage.md @mpasserini

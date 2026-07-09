@@ -28,8 +28,7 @@ On Windows, choose the PowerShell tab for the native binary, or the Linux tab wh
 
 === "Homebrew (macOS, Linux)"
     ```console title="install cscs-key from Homebrew"
-    $ brew tap eth-cscs/tap
-    $ brew install cscs-key
+    $ brew install eth-cscs/tap/cscs-key
     $ cscs-key --version
     cscs-key 1.1.0
     ```

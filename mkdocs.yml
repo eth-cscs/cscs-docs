@@ -133,7 +133,8 @@ nav:
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Prohibited Software': software/unsupported.md
+      - 'Ascent': software/sciviz/ascent.md
+    - 'Prohibited Software': software/prohibited.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md
     - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -168,9 +169,11 @@ nav:
     - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
+    - 'Coding Agents on Alps': guides/coding-agents.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Support Guide': guides/getting-support.md
+    - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
@@ -262,3 +265,4 @@ markdown_extensions:
 extra_javascript:
  - javascripts/mathjax.js
  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+ - javascripts/version-badges.js
