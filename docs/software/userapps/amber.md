@@ -49,15 +49,17 @@ You do **not** need to install any Python packages by hand --- everything Amber'
     ```console
     $ uenv image find amber
     uenv          arch   system  id                size(MB)  date
-    amber/26.6:rc2  gh200  daint   ...                ...       ...
-    $ uenv image pull amber/26.6:rc2
+    amber/26:rc1  gh200  daint   763552b8968853b9   9,104    2026-06-03
+    amber/26:rc2  gh200  daint   e6a5e0db6d9071e1   9,104    2026-06-08
+    amber/26:rc3  gh200  daint   60fe8c184669d520   8,327    2026-07-09
+    $ uenv image pull amber/26.6:rc3
     ```
 
 !!! example "Starting the `amber/26.6` uenv"
     The `amber/26.6` uenv must be loaded with the **`amber` view** both when building and when running Amber.
 
     ```console
-    $ uenv start --view=amber amber/26.6:rc2
+    $ uenv start --view=amber amber/26.6:rc3
     $ uenv status
     amber:/user-environment
       An environment for building Amber26. Does not include Amber.
@@ -129,7 +131,7 @@ $AMBER_ROOT/pmemd26_src/          # Amber / PMEMD
     Review what the updater will do before applying it --- applied updates change your source tree.
 
     ```bash
-    uenv start --view=amber amber/26.6:rc2
+    uenv start --view=amber amber/26.6:rc3
     cd $AMBER_ROOT/ambertools26_src && ./update_amber --check-updates
     cd $AMBER_ROOT/pmemd26_src      && ./update_pmemd --check-updates
     # apply with: ./update_amber --update   and   ./update_pmemd --update
@@ -142,7 +144,7 @@ It builds **AmberTools** first and then **Amber/PMEMD**, installing both into a 
 
 ```bash title="build Amber (MPI + CUDA, for GH200)"
 # 1. start the uenv with the amber view
-uenv start --view=amber amber/26.6:rc2
+uenv start --view=amber amber/26.6:rc3
 
 # 2. point at your extracted sources (from the previous step)
 export AMBER_ROOT=$SCRATCH/amber
@@ -186,7 +188,7 @@ Activate the installation and run a short simulation on a GPU to confirm everyth
 `amber.sh` sets `AMBERHOME` and puts the Amber tools on your `PATH`.
 
 ```bash title="single-GPU smoke test"
-uenv start --view=amber amber/26.6:rc2
+uenv start --view=amber amber/26.6:rc3
 source $AMBER_ROOT/amber26/amber.sh      # sets AMBERHOME + PATH
 
 # use the small GB test case shipped with the sources
@@ -237,7 +239,7 @@ Each MPI rank uses one GPU; the [gh200][ref-alps-gh200-node] nodes have 4 GPUs.
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-node=4
 #SBATCH --time=01:00:00
-#SBATCH --uenv=amber/26.6:rc2
+#SBATCH --uenv=amber/26.6:rc3
 #SBATCH --view=amber
 
 source $SCRATCH/amber/amber26/amber.sh
