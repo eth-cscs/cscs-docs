@@ -252,11 +252,11 @@ Once connected, you can choose models configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
 
 ### VSCode
-Visual studio code can be configured to use the cscs inference API.
-At the bottom of your chat panel where the models are selected, The menu item "Pick Models" has an "Other Models" setting with a gear icon. Click on that and bring up the language models then "Add Model" and insert CSCS Gateway (or whatever text you want to tell yourself that this is a CSCS inference service, not oone of the built in providers). You can now configure that by adding something like this (Names of models are up to you to choose but the `id` must be exactly as returned by the models query mentioned earlier)
 
-Contents of `chatLanguageModels.json` should look similar to 
-```
+At the bottom of your chat panel where models are selected, the menu item "Pick Models" has an "Other Models" setting with a gear icon.
+Click on "Other Models" to bring up the language models, then select "Add Model" and insert "CSCS Inference" (you can choose the name freely as long as it doesn't conflict with other providers).
+You can now configure the provider by adding something like the following to `chatLanguageModels.json`: 
+```json title="VSCode configuration for the inference API"
 [
 	{
 		"name": "CSCS AI Gateway",
