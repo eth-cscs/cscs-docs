@@ -15,6 +15,9 @@ However, CSCS collects infrastructure metrics and telemetry, including prompt an
 
 The [CSCS policies][ref-policies] apply to users of the inference service.
 
+For use of coding agents on and around Alps, see the [coding agents on Alps guide][ref-coding-agents].
+The inference API [can be used with most coding agents][ref-inference-api-coding-agents-setup].
+
 <div class="grid cards" markdown>
 -   <p style="text-align:center">Visit <a href="https://inference.status.cscs.ch/">inference.status.cscs.ch</a> for the status of the inference service, models, and latest announcements.</p>
 </div>
