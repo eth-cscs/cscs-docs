@@ -384,6 +384,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+transitioning
 treesitter
 trilinos
 trl
