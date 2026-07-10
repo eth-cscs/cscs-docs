@@ -34,11 +34,14 @@ Privacy and confidentiality are essential to us. CSCS does not record user promp
   Your data is yours and is processed entirely within CSCS in Switzerland.
   Prompts and responses are not recorded.
 
+* :material-pillar: **Hosted Apertus**
+
+  The fully open [Apertus](https://apertvs.ai) model is hosted on this service.
+  We highly recommend trying it out for your workflows.
+  Apertus is built on open data, methods and alignment principles, and is compliant with the EU AI Act.
+  A global foundation to build on!
+
 </div>
-
-!!! note
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
-
 
 [](){#ref-inference-api-quickstart}
 ## Quick start
