@@ -136,6 +136,7 @@ SHMEM
 SHS
 SLA
 SLO
+SOTA
 SSHService
 STMV
 Scopi
