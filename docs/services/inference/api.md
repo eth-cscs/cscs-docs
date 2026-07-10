@@ -2,12 +2,18 @@
 # LLM Inference API Service
 
 The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
-Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
+The service focuses on providing a small set of curated models over every possible model for every use case.
+If you are interested in deploying a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
+CSCS will also regularly reevaluate the models provided to make sure the best possible models are available.
 
-In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
-If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
+!!! note
+    Because most of the provided models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
+Privacy and confidentiality are essential to us.
+CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control.
+However, CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
+
+The [CSCS policies][ref-policies] apply to users of the inference service.
 
 <div class="grid cards" markdown>
 -   <p style="text-align:center">Visit <a href="https://inference.status.cscs.ch/">inference.status.cscs.ch</a> for the status of the inference service, models, and latest announcements.</p>
