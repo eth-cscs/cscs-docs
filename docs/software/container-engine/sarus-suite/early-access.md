@@ -16,7 +16,7 @@
     * [HPC features][ref-sarus-suite-hpc-features] are enabled primarily through [CDI specs](https://github.com/cncf-tags/container-device-interface) and the [device array][ref-sarus-suite-edf-device-array], not annotations. Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
     * CXI libfabric replacement is not enabled by default.
     * The CXI CDI relies on an old Sarus 1.7.0 hook for libfabric replacement. When activated, the hook requires a libfabric to be present inside the container. Enabling the CXI CDI with a container that does not have libfabric results in an error.
-    * CXI and AWS OFI NCCL CDIs cannot handle replacement of multiple libfabrics or plugins inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
+    * CXI and AWS OFI NCCL CDI specs cannot handle replacement of multiple libfabric or plugin libraries inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
     * Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
     * SquashFS mounts from EDFs are not supported yet.
     * PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.
@@ -383,7 +383,7 @@ docker.io/library/alpine                                           3.22         
 
 ## Skybox: the Slurm Integration
 
-**Skybox** is a SPANK plugin that integrates EDF-defined Podman containers into the Slurm job lifecycle. It fulfills the same role as **Pyxis** in the current CE production setup.
+**Skybox** is a SPANK plugin that integrates EDF-defined Podman containers into the Slurm job life cycle. It fulfills the same role as **Pyxis** in the current CE production setup.
 
 Skybox:
 
@@ -422,7 +422,7 @@ PRETTY_NAME="Ubuntu 24.04.3 LTS"
 [](){#ref-sarus-suite-hpc-features}
 ## Enabling HPC Features
 
-In current deployments of Sarus Suite, HPC features are enabled primarily through **CDIs**, not annotations.
+In current deployments of Sarus Suite, HPC features are enabled primarily through **CDI specs**, not annotations.
 Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
 
 !!! info "Default devices"
@@ -500,7 +500,7 @@ Individual parameters from the system-wide configuration can be overridden at th
 
 CDI specs are normally set by system administrators and/or automated provisioning mechanisms. As stated by the CDI standard, the default locations of CDI files are `/etc/cdi/` and `/var/run/cdi/`.
 
-Given the current limitations in the CXI and AWS plugin CDIs (as mentioned in the related section), in some use cases it is useful to have Podman access custom CDIs.
+Given the current limitations in the CXI and AWS plugin CDI specs (as mentioned in the related section), in some use cases it is useful to have Podman access custom CDI files.
 
 The locations where Podman looks for CDI files can be controlled by redefining the `cdi_spec_dirs` parameter in the user-specific `containers.conf` file (`$HOME/.config/containers/containers.conf`), for example:
 

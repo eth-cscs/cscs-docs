@@ -27,7 +27,7 @@ Sarus Suite:
     * [HPC features][ref-sarus-suite-hpc-features] are enabled primarily through [CDI specs](https://github.com/cncf-tags/container-device-interface) and the [device array][ref-sarus-suite-edf-device-array], not annotations. Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
     * CXI libfabric replacement is not enabled by default.
     * The CXI CDI relies on an old Sarus 1.7.0 hook for libfabric replacement. When activated, the hook requires a libfabric to be present inside the container. Enabling the CXI CDI with a container that does not have libfabric results in an error.
-    * CXI and AWS OFI NCCL CDIs cannot handle replacement of multiple libfabrics or plugins inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
+    * CXI and AWS OFI NCCL CDI specs cannot handle replacement of multiple libfabric or plugin libraries inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
     * Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
     * SquashFS mounts from EDFs are not supported yet.
     * PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.

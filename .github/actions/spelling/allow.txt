@@ -134,6 +134,7 @@ Roboto
 Roothaan
 SHMEM
 SHS
+Skybox
 SLA
 SLO
 SSHService
@@ -337,6 +338,7 @@ runtimes
 salloc
 sandboxing
 santis
+sarusctl
 sbatch
 scalapack
 screenshot
