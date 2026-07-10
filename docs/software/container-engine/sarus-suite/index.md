@@ -55,7 +55,7 @@ The key user-visible difference of using Sarus Suite from the production Contain
 For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows:
 
 ```console
-$ srun -N2 --gpus-per-node=4 --mpi=pmix --edf=aei-alps6 --network=disable_rdzv_get all_reduce_perf -b 1M -e 128M -f2
+$ srun -A <account> -N2 --gpus-per-node=4 --mpi=pmix --edf=extended-image-alps6 --network=disable_rdzv_get all_reduce_perf -b 1M -e 128M -f2
 # nccl-tests version 2.18.2 nccl-headers=23007 nccl-library=23007
 # Collective test starting: all_reduce_perf
 # nThread 1 nGpus 1 minBytes 1048576 maxBytes 134217728 step: 2(factor) warmup iters: 1 iters: 20 agg iters: 1 validation: 1 graph: 0 unalign: 0
