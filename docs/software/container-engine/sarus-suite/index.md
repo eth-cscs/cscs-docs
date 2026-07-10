@@ -1,4 +1,4 @@
-## Sarus Suite & Podman on Alps — Early Access
+# Sarus Suite & Podman on Alps — Early Access
 
 This section provides starting documentation for using [Sarus Suite](https://github.com/sarus-suite) on Alps. Sarus Suite is a collection of components that enable the use of [Podman](https://podman.io/) for running containers at scale in HPC workloads.
 
