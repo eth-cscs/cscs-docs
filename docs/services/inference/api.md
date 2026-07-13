@@ -169,6 +169,13 @@ The available models can also be listed for a given API key using the [`models` 
 An inference resource must be created for your project before any project member can create API keys.
 The PI or deputy PI can do this in one of two ways, depending on the allocation type of your project.
 
+In both cases the resource is assigned a number of node hours drawn from your project's allocation.
+These node hours are deducted from the allocation and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
+
+??? example "worked example (rate as of 1 July 2026)"
+    At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours corresponds to CHF 5,380 of inference credits.
+    Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
+
 === "Self-service"
     The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
 
@@ -187,11 +194,6 @@ The PI or deputy PI can do this in one of two ways, depending on the allocation 
 
     !!! warning "node hours are required"
         We cannot process the request without the number of node hours to allocate.
-        The node hours you specify are deducted from your allocation and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
-
-    ??? example "worked example (rate as of 1 July 2026)"
-        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours corresponds to CHF 5,380 of inference credits.
-        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
