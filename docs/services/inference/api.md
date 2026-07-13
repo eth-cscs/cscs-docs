@@ -5,8 +5,6 @@
 [](){#ref-inference-api}
 # LLM Inference API Service
 
-[](){#ref-inference-api-beta}
-
 The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
