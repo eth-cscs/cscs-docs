@@ -158,6 +158,8 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
+Access to the inference service is granted at the project level.
+
 [](){#ref-inference-api-available-models}
 ### Available models and pricing
 
@@ -167,14 +169,32 @@ The available models can also be listed for a given API key using the [`models` 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
-The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur]:
+An inference resource must be created for your project before any project member can create API keys.
+Which procedure applies depends on the organization your project belongs to: projects in the SwissAI organization can create the resource directly in the project management portal (self-service), while projects from other organizations must request it through the CSCS Service Desk.
 
-- Click the "Add resource" button in the top left of the UI.
-- Select your project from the dropdown.
-- Choose the "Inference Service" category and the "Inference API" offering.
+=== "Self-service (SwissAI)"
+    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
 
-!!! note
-    If you are a project member, ask your PI to create the inference resource first.
+    - Click the "Add resource" button in the top left of the UI.
+    - Select your project from the dropdown.
+    - Choose the "Inference Service" category and the `inference-api-u` offering.
+
+    The credit for the inference resource is taken from your project's credit.
+
+    If you are a project member, ask your PI or deputy PI to create the resource for you.
+
+=== "Service Desk (other organizations)"
+    As self-service is not available for your project, the PI or Deputy PI should create a ticket at the [CSCS Service Desk](https://support.cscs.ch) with the following details:
+
+    - Service: Inference Service
+    - Request: add an inference resource to project `<your project ID>`
+    - Node hours to assign to the resource: `<amount>` from `<cluster>`
+
+    The node hours you specify are deducted from your project's node hours on `<cluster>` and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
+
+    ??? example "worked example (rate as of 1 July 2026)"
+        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits.
+        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
