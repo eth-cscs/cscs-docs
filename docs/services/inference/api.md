@@ -1,3 +1,7 @@
+<div class="grid cards" markdown>
+-   <p style="text-align:center">Visit <a href="https://inference.status.cscs.ch/">inference.status.cscs.ch</a> for the status of the inference service, models, and latest announcements.</p>
+</div>
+
 [](){#ref-inference-api}
 # LLM Inference API Service
 
@@ -10,7 +14,6 @@ In order to maximize utilization and reduce costs, a reduced set of models is av
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
 Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
-
 
 ## Service at a glance
 
@@ -151,6 +154,12 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 
 [](){#ref-inference-api-access}
 ## Access
+
+[](){#ref-inference-api-available-models}
+### Available models and pricing
+
+Available models, along with pricing information, are listed on the [cscs2go Inference API page](https://2go.cscs.ch/offering/swiss_academia/#inference-api).
+The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI page when creating a new key.
 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
