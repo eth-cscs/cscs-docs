@@ -167,7 +167,7 @@ The available models can also be listed for a given API key using the [`models` 
 ### Create an inference resource
 
 An inference resource must be created for your project before any project member can create API keys.
-The procedure you use depends on your project's allocation type: for some projects the PI or deputy PI can create the resource directly in the project management portal (self-service), while others must request it through the CSCS Service Desk.
+Which procedure applies depends on the organization your project belongs to: projects in the SwissAI organization can create the resource directly in the project management portal (self-service), while projects from other organizations must request it through the CSCS Service Desk.
 
 === "Self-service (SwissAI)"
     The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
