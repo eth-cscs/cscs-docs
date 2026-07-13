@@ -7,13 +7,15 @@
 
 [](){#ref-inference-api-beta}
 
-The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
-Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
+The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
+CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
-In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
+In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
+Privacy and confidentiality are essential to us.
+CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control.
+Usage follows the [CSCS user regulations][ref-policies-user-regulations].
 
 ## Service at a glance
 
@@ -39,7 +41,8 @@ Privacy and confidentiality are essential to us. CSCS does not record user promp
 </div>
 
 !!! note
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
+    Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. 
+    We recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
 
 
 [](){#ref-inference-api-quickstart}
@@ -188,10 +191,6 @@ Once an inference resource has been created for your project, any project member
 !!! info "Viewing key usage"
     After creating a key, you can sign in to the Inference API UI with the key ("Sign in with access token" below the CSCS account login) to view usage statistics for that specific key.
 
-!!! warning "Token accounting"
-    Currently all input and output tokens are counted equally in the token budget.
-    This is subject to change, with input and output tokens having different cost.
-
 [](){#ref-inference-api-endpoints}
 ## API
 
@@ -266,5 +265,4 @@ Once connected, you can choose models configured in the config.
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* Billing the costs of the service against the current CSCS project's budget is work in progress.
-
+* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.
