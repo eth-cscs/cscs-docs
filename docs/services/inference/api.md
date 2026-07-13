@@ -279,6 +279,12 @@ Once connected, you can choose models configured in the config.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
 
+[](){#ref-inference-api-announcements}
+## Announcements
+
+Service announcements, including planned maintenance and changes to the available models, are posted in the `#inference-service` channel of the CSCS User Slack.
+See [get in touch][ref-get-in-touch] to join the Slack workspace.
+
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
 
