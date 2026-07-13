@@ -187,7 +187,11 @@ The PI or deputy PI can do this in one of two ways, depending on what is availab
 
     !!! warning "node hours are required"
         We cannot process the request without the number of node hours to allocate.
-        On [Clariden][ref-cluster-clariden], one node hour costs CHF 2.69, and the node hours you specify are converted into inference credits for the resource.
+        The node hours you specify are converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
+
+    ??? example "worked example (rate as of 1 July 2026)"
+        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours corresponds to CHF 5,380 of inference credits.
+        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
