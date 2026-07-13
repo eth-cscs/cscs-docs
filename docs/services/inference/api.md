@@ -167,14 +167,7 @@ The available models can also be listed for a given API key using the [`models` 
 ### Create an inference resource
 
 An inference resource must be created for your project before any project member can create API keys.
-The PI or deputy PI can do this in one of two ways, depending on the allocation type of your project.
-
-In both cases the resource is assigned a number of node hours drawn from your project's allocation.
-These node hours are deducted from the allocation and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
-
-??? example "worked example (rate as of 1 July 2026)"
-    At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours corresponds to CHF 5,380 of inference credits.
-    Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
+The path you use depends on your project's allocation type: for some projects the PI or deputy PI can create the resource directly in the project management portal (self-service), while others must request it through the CSCS Service Desk.
 
 === "Self-service"
     The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
@@ -183,6 +176,8 @@ These node hours are deducted from the allocation and converted into inference c
     - Select your project from the dropdown.
     - Choose the "Inference Service" category and the `inference-api-u` offering.
 
+    The credit for the inference resource is taken from your project's credit.
+
     If you are a project member, ask your PI or deputy PI to create the resource for you.
 
 === "Service Desk"
@@ -190,10 +185,16 @@ These node hours are deducted from the allocation and converted into inference c
 
     - Service: Inference Service
     - Request: add an inference resource to project `<your project ID>`
-    - Node hours to assign to the resource, drawn from your project's allocation: `<amount>`
+    - Node hours to assign to the resource: `<amount>`
+
+    The node hours you specify are deducted from your project's node hours and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
 
     !!! warning "node hours are required"
         We cannot process the request without the number of node hours to allocate.
+
+    ??? example "worked example (rate as of 1 July 2026)"
+        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours corresponds to CHF 5,380 of inference credits.
+        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
