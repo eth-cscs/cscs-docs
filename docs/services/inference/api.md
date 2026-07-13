@@ -155,6 +155,12 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
+[](){#ref-inference-api-available-models}
+### Available models and pricing
+
+Available models, along with pricing information, are listed on the [cscs2go Inference API page](https://2go.cscs.ch/offering/swiss_academia/#inference-api).
+The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI page when creating a new key.
+
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
@@ -202,12 +208,6 @@ The following OpenAI- and Anthropic-compatible endpoints are available.
 
 When using the endpoints for example [through agents][ref-inference-api-coding-agents-setup], the framework will handle API requests for you.
 For information on how to use the endpoints directly, see the [OpenAI](https://developers.openai.com/api/reference/overview) and [Anthropic](https://platform.claude.com/docs/en/api/overview) documentation.
-
-[](){#ref-inference-api-available-models}
-## Available models and pricing
-
-Available models, along with pricing information, are listed on the [cscs2go Inference API page](https://2go.cscs.ch/offering/swiss_academia/#inference-api).
-The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI page when creating a new key.
 
 [](){#ref-inference-api-coding-agents-setup}
 ## Setting up coding agents to use the inference service
