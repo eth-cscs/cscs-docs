@@ -4,7 +4,7 @@
 
 The CSCS [code of conduct](code-of-conduct.md) outlines the responsibilities and proper practices for the CSCS user community.
 
-The [User Regulations](regulations.md) define the basic guidelines for the usage of CSCS computing resources. The right to access CSCS resources may be revoked to whoever breaches any of the user regulations.
+The [User Regulations][ref-policies-user-regulations] define the basic guidelines for the usage of CSCS computing resources. The right to access CSCS resources may be revoked to whoever breaches any of the user regulations.
 
 The [User Support Policies](support.md), the [Slack Code of Conduct](slack.md) and the [Scheduled Maintenance and System Unavailability Policies](maintenance.md) provide additional information on support services, the regulations of the Users Slack space and the scheduled maintenance events.
 

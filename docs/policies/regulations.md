@@ -1,3 +1,4 @@
+[](){#ref-policies-user-regulations}
 # User Regulations
 
 The User Regulations define the basic guidelines for the usage of CSCS computing resources.
