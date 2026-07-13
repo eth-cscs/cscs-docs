@@ -7,13 +7,15 @@
 
 [](){#ref-inference-api-beta}
 
-The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models. 
+The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
 In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Usage follows CSCS [user regulations](https://www.cscs.ch/services/user-regulations).
+Privacy and confidentiality are essential to us.
+CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control.
+Usage follows the [CSCS user regulations][ref-policies-user-regulations].
 
 ## Service at a glance
 
@@ -38,10 +40,9 @@ Privacy and confidentiality are essential to us. CSCS does not record user promp
 
 </div>
 
-
 !!! note
     Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. 
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
+    We recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
 
 
 [](){#ref-inference-api-quickstart}
