@@ -134,6 +134,7 @@ Roboto
 Roothaan
 SHMEM
 SHS
+Skybox
 SLA
 SLO
 SOTA
@@ -338,6 +339,7 @@ runtimes
 salloc
 sandboxing
 santis
+sarusctl
 sbatch
 scalapack
 screenshot
@@ -383,6 +385,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+transitioning
 treesitter
 trilinos
 trl
@@ -433,3 +436,13 @@ Scalasca
 tracefile
 Vampir
 XAmz
+SYCL
+DPC
+dpcpp
+llvmdpcpp
+oneAPI
+DPL
+TBB
+nvptx
+Neoverse
+mpicxx
