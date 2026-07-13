@@ -137,6 +137,7 @@ SHS
 Skybox
 SLA
 SLO
+SOTA
 SSHService
 STMV
 Scopi
