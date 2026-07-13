@@ -152,17 +152,34 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
+Access to the inference service is granted at the project level.
+There are two ways to enable it, depending on your project.
+
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
-The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur]:
+An inference resource must be created for your project before any project member can create API keys.
+The PI or deputy PI can do this in one of two ways, depending on what is available for your project.
 
-- Click the "Add resource" button in the top left of the UI.
-- Select your project from the dropdown.
-- Choose the "Inference Service" category and the "Inference API" offering.
+=== "Self-service"
+    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
 
-!!! note
-    If you are a project member, ask your PI to create the inference resource first.
+    - Click the "Add resource" button in the top left of the UI.
+    - Select your project from the dropdown.
+    - Choose the "Inference Service" category and the "Inference API" offering.
+
+    If you are a project member, ask your PI or deputy PI to create the resource for you.
+
+=== "Service Desk"
+    If self-service is not available for your project, open a ticket at the [CSCS Service Desk](https://support.cscs.ch) with the following details:
+
+    - Service: Inference Service
+    - Request: add an inference resource to project `<your project ID>`
+    - Node hours to allocate to the resource: `<amount>`
+
+    !!! warning "node hours are required"
+        We cannot process the request without the number of node hours to allocate.
+        On [Clariden][ref-cluster-clariden], one node hour costs CHF 2.69, and the node hours you specify are converted into inference credits for the resource.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
