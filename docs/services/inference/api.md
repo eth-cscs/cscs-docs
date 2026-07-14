@@ -253,6 +253,7 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 ```json title="OpenCode configuration for the inference API"
 {
   "$schema": "https://opencode.ai/config.json",
+   // Set Kimi as default OpenCode model
   "model": "cscs/moonshotai/Kimi-K2.7-Code",
   "provider": {
     "cscs": {
