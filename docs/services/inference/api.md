@@ -1,16 +1,19 @@
+<div class="grid cards" markdown>
+-   <p style="text-align:center">Visit <a href="https://inference.status.cscs.ch/">inference.status.cscs.ch</a> for the status of the inference service, models, and latest announcements.</p>
+</div>
+
 [](){#ref-inference-api}
 # LLM Inference API Service
 
-[](){#ref-inference-api-beta}
+The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
+CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
-The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
-Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
-
-In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
+In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
-
+Privacy and confidentiality are essential to us.
+CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control.
+Usage follows the [CSCS user regulations][ref-policies-user-regulations].
 
 ## Service at a glance
 
@@ -36,7 +39,8 @@ Privacy and confidentiality are essential to us. CSCS does not record user promp
 </div>
 
 !!! note
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
+    Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. 
+    We recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
 
 
 [](){#ref-inference-api-quickstart}
@@ -152,17 +156,43 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
+Access to the inference service is granted at the project level.
+
+[](){#ref-inference-api-available-models}
+### Available models and pricing
+
+Available models, along with pricing information, are listed on the [cscs2go Inference API page](https://2go.cscs.ch/offering/swiss_academia/#inference-api).
+The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI page when creating a new key.
+
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
-The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur]:
+An inference resource must be created for your project before any project member can create API keys.
+Which procedure applies depends on the organization your project belongs to: projects in the SwissAI organization can create the resource directly in the project management portal (self-service), while projects from other organizations must request it through the CSCS Service Desk.
 
-- Click the "Add resource" button in the top left of the UI.
-- Select your project from the dropdown.
-- Choose the "Inference Service" category and the "Inference API" offering.
+=== "Self-service (SwissAI)"
+    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
 
-!!! note
-    If you are a project member, ask your PI to create the inference resource first.
+    - Click the "Add resource" button in the top left of the UI.
+    - Select your project from the dropdown.
+    - Choose the "Inference Service" category and the `Inference-api-u` offering.
+
+    The credit for the inference resource is taken from your project's credit.
+
+    If you are a project member, ask your PI or deputy PI to create the resource for you.
+
+=== "Service Desk (other organizations)"
+    As self-service is not available for your project, the PI or Deputy PI should create a ticket at the [CSCS Service Desk](https://support.cscs.ch) with the following details:
+
+    - Service: Inference Service
+    - Request: add an inference resource to project `<your project ID>`
+    - Node hours to assign to the resource: `<amount>` from `<cluster>`
+
+    The node hours you specify are deducted from your project's node hours on `<cluster>` and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
+
+    ??? example "worked example (rate as of 1 July 2026)"
+        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits.
+        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
@@ -178,10 +208,6 @@ Once an inference resource has been created for your project, any project member
 
 !!! info "Viewing key usage"
     After creating a key, you can sign in to the Inference API UI with the key ("Sign in with access token" below the CSCS account login) to view usage statistics for that specific key.
-
-!!! warning "Token accounting"
-    Currently all input and output tokens are counted equally in the token budget.
-    This is subject to change, with input and output tokens having different cost.
 
 [](){#ref-inference-api-endpoints}
 ## API
@@ -211,9 +237,9 @@ For more information on using coding agents on Alps, see the [coding agents guid
 Set the following environment variables before starting a `claude` session.
 
 ```bash
-export ANTHROPIC_API_KEY=$CSCS_INFERENCE_API_KEY
+export ANTHROPIC_AUTH_TOKEN=$CSCS_INFERENCE_API_KEY
 
-export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch/v1
+export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch
 export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
 claude
 ```
@@ -225,12 +251,16 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 ```json title="OpenCode configuration for the inference API"
 {
   "$schema": "https://opencode.ai/config.json",
+   // Set Kimi as default OpenCode model
+  "model": "cscs/moonshotai/Kimi-K2.7-Code",
   "provider": {
     "cscs": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "CSCS Inference",
       "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1"
+        "baseURL": "https://api.inference.cscs.ch/v1",
+        // Set apiKey or use /connect after configuring the provider
+        "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
       },
       "models": {
         "moonshotai/Kimi-K2.7-Code": {
@@ -257,5 +287,4 @@ Once connected, you can choose models configured in the config.
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* Billing the costs of the service against the current CSCS project's budget is work in progress.
-
+* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.
