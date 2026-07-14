@@ -175,7 +175,7 @@ Which procedure applies depends on the organization your project belongs to: pro
 
     - Click the "Add resource" button in the top left of the UI.
     - Select your project from the dropdown.
-    - Choose the "Inference Service" category and the `inference-api-u` offering.
+    - Choose the "Inference Service" category and the `Inference-api-u` offering.
 
     The credit for the inference resource is taken from your project's credit.
 
