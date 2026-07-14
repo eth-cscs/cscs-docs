@@ -253,12 +253,14 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 ```json title="OpenCode configuration for the inference API"
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "cscs/moonshotai/Kimi-K2.7-Code",
   "provider": {
     "cscs": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "CSCS Inference",
       "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1"
+        "baseURL": "https://api.inference.cscs.ch/v1",
+        "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
       },
       "models": {
         "moonshotai/Kimi-K2.7-Code": {
