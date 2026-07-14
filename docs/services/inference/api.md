@@ -5,8 +5,6 @@
 [](){#ref-inference-api}
 # LLM Inference API Service
 
-[](){#ref-inference-api-beta}
-
 The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
 CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
@@ -177,7 +175,7 @@ Which procedure applies depends on the organization your project belongs to: pro
 
     - Click the "Add resource" button in the top left of the UI.
     - Select your project from the dropdown.
-    - Choose the "Inference Service" category and the `inference-api-u` offering.
+    - Choose the "Inference Service" category and the `Inference-api-u` offering.
 
     The credit for the inference resource is taken from your project's credit.
 
@@ -253,12 +251,16 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 ```json title="OpenCode configuration for the inference API"
 {
   "$schema": "https://opencode.ai/config.json",
+   // Set Kimi as default OpenCode model
+  "model": "cscs/moonshotai/Kimi-K2.7-Code",
   "provider": {
     "cscs": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "CSCS Inference",
       "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1"
+        "baseURL": "https://api.inference.cscs.ch/v1",
+        // Set apiKey or use /connect after configuring the provider
+        "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
       },
       "models": {
         "moonshotai/Kimi-K2.7-Code": {
