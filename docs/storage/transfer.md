@@ -125,3 +125,8 @@ $ sbatch --job-name=stage_out stage.sbatch \
     Start from the values above and increase `--transfers`/`--checkers` gradually: very high values can overload the file system metadata servers and slow everyone down rather than speed up your transfer.
     Add `--stats=30s` to print throughput while the job runs, and `--dry-run` to preview what would be copied without moving any data.
 
+??? note "what throughput to expect"
+    As an indicative figure, not a guarantee, copying a 1 TB directory from `/capstor/store` to `/iopsstor/scratch` with the settings above takes on the order of 5 minutes on Alps (roughly 3 GB/s).
+    Treat it as an order-of-magnitude check: if your transfer is many times slower, something is usually off, for example too few `--transfers`/`--checkers`, a directory of many tiny files, or a busy file system.
+    Actual throughput depends on the file mix, the flags you choose, and the current load on the file system.
+
