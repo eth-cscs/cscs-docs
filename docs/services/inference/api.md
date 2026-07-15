@@ -284,8 +284,10 @@ Once connected, you can choose models configured in the config.
 [](){#ref-inference-api-announcements}
 ## Announcements
 
-Service announcements, including planned maintenance and changes to the available models, are posted in the `#inference-service` channel of the CSCS User Slack.
-See [get in touch][ref-get-in-touch] to join the Slack workspace.
+Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
+Everyone with access to a project that has an inference resource is subscribed automatically and can unsubscribe at any time.
+
+The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see [get in touch][ref-get-in-touch] to join.
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
