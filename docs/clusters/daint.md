@@ -141,7 +141,22 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-06-17"
+!!! change "2026-07-15"
+    !!! note "Container Engine"
+    - Updated Container Engine to v26.07.1
+    - Podman-5.8.4
+    - fuse-overlayfs-1.17 for Podman
+    - netstack-26.07.1
+        - libfabric-2.6.0
+        - AWS OFI NCCL plugin-1.20.0
+    - OCI hooks for Podman (see [Sarus Suite & Podman user guide][ref-sarus-suite-user-guide])
+        - libfabric CXI
+        - AWS OFI NCCL plugin
+        - Slurm
+        - DCGM
+        - Home directory mockup
+
+??? change "2026-06-17"
     !!! note "Operating Environment and Networking Stack"
     - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
     - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
