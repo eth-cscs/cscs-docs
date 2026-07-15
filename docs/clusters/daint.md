@@ -149,12 +149,6 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     - netstack-26.07.1
         - libfabric-2.6.0
         - AWS OFI NCCL plugin-1.20.0
-    - OCI hooks for Podman (see [Sarus Suite & Podman user guide][ref-sarus-suite-user-guide])
-        - libfabric CXI
-        - AWS OFI NCCL plugin
-        - Slurm
-        - DCGM
-        - Home directory mockup
 
 ??? change "2026-06-17"
     !!! note "Operating Environment and Networking Stack"
