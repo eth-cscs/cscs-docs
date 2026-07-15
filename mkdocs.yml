@@ -72,6 +72,9 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
+      - 'Sarus Suite Early Access':
+        - software/container-engine/sarus-suite/index.md
+        - 'Sarus Suite Early Access User Guide': software/container-engine/sarus-suite/user-guide.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
@@ -80,6 +83,7 @@ nav:
       - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'prgenv-intel': software/prgenv/prgenv-intel.md
+      - 'prgenv-dpcpp': software/prgenv/prgenv-dpcpp.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
@@ -172,6 +176,7 @@ nav:
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Support Guide': guides/getting-support.md
+    - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
     - 'Machine Learning Platform Policies': platforms/mlp/policies.md
@@ -200,6 +205,7 @@ theme:
   icon:
     # set the icon for "edit this page"
     edit: material/pencil
+  favicon: assets/favicon.ico
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
