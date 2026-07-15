@@ -281,6 +281,64 @@ Once connected, you can choose models configured in the config.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
 
+### VSCode
+
+At the bottom of your chat panel where models are selected, the menu item "Pick Models" has an "Other Models" setting with a gear icon.
+Click on "Other Models" to bring up the language models, then select "Add Model" and insert "CSCS Inference" (you can choose the name freely as long as it doesn't conflict with other providers).
+You can now configure the provider by adding something like the following to `chatLanguageModels.json`: 
+```json title="VSCode configuration for the inference API"
+[
+	{
+		"name": "CSCS Inference",
+		"vendor": "customendpoint",
+		"apiKey": "${input:chat.lm.secret.15d32100}",
+		"apiType": "chat-completions",
+		"models": [
+			{
+				"id": "moonshotai/Kimi-K2.7-Code",
+				"name": "CSCS-Kimi-K2.7-Code",
+				"url": "https://api.inference.cscs.ch/v1/chat/completions",
+				"toolCalling": true,
+				"vision": true,
+				"maxInputTokens": 235000,
+				"maxOutputTokens": 8192,
+				"streaming": true,
+				"supportsReasoningEffort": [
+					"low",
+					"medium",
+					"high"
+				]
+			},
+			{
+				"id": "zai-org/GLM-5.2",
+				"name": "CSCS-GLM-5.2",
+				"url": "https://api.inference.cscs.ch/v1/chat/completions",
+				"toolCalling": true,
+				"vision": true,
+				"maxInputTokens": 999000,
+				"maxOutputTokens": 10000,
+				"streaming": true,
+				"supportsReasoningEffort": [
+					"low",
+					"medium",
+					"high"
+				]
+			}
+		]
+	}
+]
+```
+The settings for `streaming` and `vision` are needed, but `maxInputTokens` and `maxOutputTokens` are less important.
+The Kimi 2.7 model has a context size of 256K and GLM-5.2 1M tokens, it might be better to leave these values unset and allow vscode to discover values. 
+Once setup, click on the "Update API key" and insert your key, the value in the api key will be updated and obscured (not stored in plain text).
+
+!!! note
+    VSCode has shown some instability with the CSCS inference service - you will possibly see Kimi/GLM thinking, working, processing and producing diffs to your code and then produce a "No Response error" than stops you continuing.
+    This appears to be a VSCode issue that is open and hopefully fixed soon.
+    Other tools like OpenCode do not seem to have any problems with the inference service.
+    You can usually continue, but have lost whatever the last message the model was delivering (but code edits are usually usable).
+
+
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
 
