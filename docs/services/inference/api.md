@@ -157,6 +157,7 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 ## Access
 
 Access to the inference service is granted at the project level.
+In order to use the service users must have an active project granted via an open call for proposals, a partnership, or [cscs2go](https://2go.cscs.ch).
 
 [](){#ref-inference-api-available-models}
 ### Available models and pricing
