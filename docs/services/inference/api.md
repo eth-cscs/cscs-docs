@@ -281,6 +281,14 @@ Once connected, you can choose models configured in the config.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
 
+[](){#ref-inference-api-announcements}
+## Announcements
+
+Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
+Everyone with access to a project that has an inference resource is subscribed automatically and can opt out at any time.
+
+The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see [get in touch][ref-get-in-touch] to join.
+
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
 
