@@ -285,7 +285,7 @@ Once connected, you can choose models configured in the config.
 ## Announcements
 
 Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
-Everyone with access to a project that has an inference resource is subscribed automatically and can unsubscribe at any time.
+Everyone with access to a project that has an inference resource is subscribed automatically and can opt out at any time.
 
 The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see [get in touch][ref-get-in-touch] to join.
 
