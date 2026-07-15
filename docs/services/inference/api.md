@@ -168,20 +168,9 @@ The available models can also be listed for a given API key using the [`models` 
 ### Create an inference resource
 
 An inference resource must be created for your project before any project member can create API keys.
-Which procedure applies depends on the organization your project belongs to: projects in the SwissAI organization can create the resource directly in the project management portal (self-service), while projects from other organizations must request it through the CSCS Service Desk.
+Which procedure applies depends on the organization your project belongs to: non-SwissAI projects must request a resource through the CSCS Service Desk, while projects in the SwissAI organization can create the resource directly in the project management portal (self-service).
 
-=== "Self-service (SwissAI)"
-    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
-
-    - Click the "Add resource" button in the top left of the UI.
-    - Select your project from the dropdown.
-    - Choose the "Inference Service" category and the `Inference-api-u` offering.
-
-    The credit for the inference resource is taken from your project's credit.
-
-    If you are a project member, ask your PI or deputy PI to create the resource for you.
-
-=== "Service Desk (other organizations)"
+=== "Service Desk (non-SwissAI)"
     As self-service is not available for your project, the PI or Deputy PI should create a ticket at the [CSCS Service Desk](https://support.cscs.ch) with the following details:
 
     - Service: Inference Service
@@ -193,6 +182,17 @@ Which procedure applies depends on the organization your project belongs to: pro
     ??? example "worked example (rate as of 1 July 2026)"
         At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits.
         Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
+
+=== "Self-service (SwissAI)"
+    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
+
+    - Click the "Add resource" button in the top left of the UI.
+    - Select your project from the dropdown.
+    - Choose the "Inference Service" category and the `Inference-api-u` offering.
+
+    The credit for the inference resource is taken from your project's credit.
+
+    If you are a project member, ask your PI or deputy PI to create the resource for you.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
