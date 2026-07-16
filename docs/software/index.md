@@ -28,7 +28,7 @@ These pages provided documentation for all supported software, and installation 
 
 -   :fontawesome-solid-bullhorn: [__Communication Libraries__][ref-software-communication]
 
-    [:octicons-arrow-right-24: Cray MPICH][ref-communication-libfabric]
+    [:octicons-arrow-right-24: Libfabric][ref-communication-libfabric]
 
     [:octicons-arrow-right-24: Cray MPICH][ref-communication-cray-mpich]
 
