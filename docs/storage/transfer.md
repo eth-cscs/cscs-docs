@@ -92,7 +92,7 @@ sbatch --dependency=afterok:${SLURM_JOB_ID} --job-name=stage_out \
 ```
 
 [](){#ref-data-xfer-rclone}
-### Parallel transfers with rclone
+### Parallel transfers with `rclone`
 
 For large transfers --- a directory with many files, or a few very large files such as model checkpoints --- `rclone` is often considerably faster than `rsync`, because it copies multiple files (and multiple chunks of a single large file) in parallel.
 It is available on the `xfer` queue and, like `rsync`, plugs into the `command` variable of the `stage.sbatch` script above.
