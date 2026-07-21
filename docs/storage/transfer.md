@@ -91,3 +91,42 @@ sbatch --dependency=afterok:${SLURM_JOB_ID} --job-name=stage_out \
        stage.sbatch ${SCRATCH}/<source> ${PROJECT}/<destination>
 ```
 
+[](){#ref-data-xfer-rclone}
+### Parallel transfers with `rclone`
+
+For large transfers --- a directory with many files, or a few very large files such as model checkpoints --- `rclone` is often considerably faster than `rsync`, because it copies multiple files (and multiple chunks of a single large file) in parallel.
+It is available on the `xfer` queue and, like `rsync`, plugs into the `command` variable of the `stage.sbatch` script above.
+
+Both the source and the destination are local file systems here, so no `rclone` remote needs to be configured.
+Set `command` to an `rclone copy` invocation, choosing the flags that match your data:
+
+=== "many files"
+    ```bash title="tune for directories with many files"
+    command="rclone copy --transfers=16 --checkers=32 --progress"
+    ```
+    `--transfers` is how many files are copied at once, and `--checkers` how many are compared in parallel when deciding what still needs copying.
+    Raise both for directories that contain many (small) files.
+
+=== "large files"
+    ```bash title="tune for a few large files"
+    command="rclone copy --multi-thread-streams=4 --multi-thread-cutoff=256M --transfers=4 --progress"
+    ```
+    `--multi-thread-streams` splits each file larger than `--multi-thread-cutoff` into that many streams copied in parallel, which speeds up a small number of very large files such as checkpoints.
+
+For example, to stage results out from Iopsstor scratch to your project store after a run:
+
+```console title="copy a results directory from scratch to store"
+$ sbatch --job-name=stage_out stage.sbatch \
+         $SCRATCH/<run-name> /capstor/store/cscs/<customer>/<project>/<run-name>
+```
+
+??? note "tuning the parallelism"
+    The `xfer` queue runs a single node per job, so all of this parallelism happens within one node.
+    Start from the values above and increase `--transfers`/`--checkers` gradually: very high values can overload the file system metadata servers and slow everyone down rather than speed up your transfer.
+    Add `--stats=30s` to print throughput while the job runs, and `--dry-run` to preview what would be copied without moving any data.
+
+??? note "what throughput to expect"
+    As an indicative figure, not a guarantee, copying a 1 TB directory from `/capstor/store` to `/iopsstor/scratch` with the settings above takes on the order of 5 minutes on Alps (roughly 3 GB/s).
+    Treat it as an order-of-magnitude check: if your transfer is many times slower, something is usually off, for example too few `--transfers`/`--checkers`, a directory of many tiny files, or a busy file system.
+    Actual throughput depends on the file mix, the flags you choose, and the current load on the file system.
+
