@@ -10,13 +10,14 @@ Formulas and worked examples for compute consumption are collected in the [appen
 [](){#ref-mlp-policies-types}
 ## Project types
 
-Every MLP project is either small or large.
-Applicants choose the type when they submit their proposal; it fixes the project's duration and how its start date is set.
+Every MLP project is either small or large depending on the type of proposal submitted (but a large proposal can be reduced to a small grant instead of being rejected).
+The type determines the project's duration and how its start date is set.
 The compute budget is only a guideline for which type to apply for.
+For more information see the [Swiss AI Initiative Compute Grants](https://www.swiss-ai.org/compute-grants).
 
 | | Small | Large |
 | -- | -- | -- |
-| Typical compute budget | ≤ 50,000 GPUh | > 50,000 GPUh |
+| Typical compute budget | ≤ 32,000 GPUh | ≳ 500,000 GPUh |
 | Duration | 6 months | 12 months |
 | Start | [Rolling start][ref-mlp-policies-start-small] | [Fixed start][ref-mlp-policies-start-large] |
 | Storage budget | Optional in proposal ([defaults][ref-mlp-policies-storage] apply) | Mandatory in proposal |
@@ -39,8 +40,14 @@ Recorded for every project at proposal time, and managed through the [project ma
 [](){#ref-mlp-policies-compute}
 ## Compute budget
 
-Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit, in CHF, that is drawn down as you run jobs.
-Because a [GH200 node][ref-alps-gh200-node] has four GPUs, one node-hour of a GH200 node costs 4 GPUh.
+Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit in CHF according to node-hour [price for swiss institutions](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) at the start of the project. The cost per hour is fixed for the whole duration of the project (the price can be seen in the resource).
+Because a [GH200 node][ref-alps-gh200-node] has four GPUs, one node-hour of a GH200 node corresponds to 4 GPUh.
+The jobs that you submit get billed according to the node-hours that they run.
+
+[](){#ref-mlp-job-cost-example}
+!!! note "Job cost example"
+    A 3 hours 4-nodes job on Clariden will be billed as 12 node-hours (48 GPUh),
+    and with the swiss institutional prices of 2026 (2.69 CHF) means 32.28 CHF
 
 You are expected to use your credit roughly linearly over the project: every month has an expected consumption, the amount you should use that month.
 The expected consumption is also used to set your scheduling priority through [Slurm fair-share][ref-policies-fair-use].
@@ -71,6 +78,23 @@ Check current usage against the quota with the [`quota`][ref-storage-quota] comm
 When a project ends, it remains accessible for a grace period of 90 days for data retrieval: only the [storage systems][ref-mlp-storage] are accessible, and compute resources can no longer be used.
 
 See the general [data retention policies][ref-policies] for how long data is kept and backed up after a project expires.
+
+[](){#ref-mlp-policies-other}
+## Other resources
+
+The main resource for the computation is [Clariden]/, it is the one where we guarantee
+availability of the computational resources (if you use them gradually).
+Depending on the project you might also access to other resources.
+
+* A project directory as persistent storage (described in the previous section)
+* The x86 cluster [Bristen][ref-cluster-bristen]
+* [Inference API Service][ref-inference]
+
+Currently storage is not explicitly part of the credit, but the other resources are billed
+on your credit, using them reduces the credit and thus the node hours that can be used on
+clariden.
+Please note that the availability of other resources is not necessarily guaranteed, and
+can be limited and on a best effort basis like bristen.
 
 [](){#ref-mlp-policies-start}
 ## Start
