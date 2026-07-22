@@ -157,12 +157,13 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 ## Access
 
 Access to the inference service is granted at the project level.
+In order to use the service users must have an active project granted via an open call for proposals, a partnership, or [cscs2go](https://2go.cscs.ch).
 
 [](){#ref-inference-api-available-models}
 ### Available models and pricing
 
-Available models, along with pricing information, are listed on the [cscs2go Inference API page](https://2go.cscs.ch/offering/swiss_academia/#inference-api).
-The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI page when creating a new key.
+Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
+The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
