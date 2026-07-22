@@ -173,13 +173,9 @@ The expected and minimal consumption are recomputed every month, so that credit 
 
 At the start of month `m` (with `duration` the project length in months):
 
-* the linear target is the cumulative consumption the project should have reached by the end of the month:
+* the expected consumption for the month is the amount that should be used to finish the credit at the end of the project plus the amount that has been graced:
 
-    `target(m) = (m / duration) × credit`
-
-* the expected consumption for the month is the amount needed to bring the project back onto the linear line:
-
-    `expected(m) = target(m) − credit accounted for so far`
+    `expected(m) = (credit - consumed(m-1) - graced(m-1))*(m / duration) + graced(m)
 
 * the minimal consumption is a floor below the expected, obtained by allowing a shortfall of at most `grace`:
 
@@ -187,8 +183,8 @@ At the start of month `m` (with `duration` the project length in months):
 
 At the end of the month, let `used` be the credit consumed during the month:
 
-* if `used ≥ minimal(m)`, nothing is lost, and the unspent part of the expected, `expected(m) − used`, rolls over and raises next month's expected consumption;
-* if `used < minimal(m)`, the shortfall down to the floor, `minimal(m) − used`, is permanently lost, and only the part of the expected above the floor, `expected(m) − minimal(m)`, rolls over.
+* if `used ≥ minimal(m)`, nothing is lost, and the unspent part of the expected, `graced(m) = max(0, expected(m) − used)`, rolls over and raises next month's expected consumption;
+* if `used < minimal(m)`, the shortfall down to the floor, `minimal(m) − used`, is permanently lost (used(m) = minimal), and only the part of the expected above the floor, `graced(m) = expected(m) − minimal(m)`, rolls over.
 
 In both cases the month is accounted for `max(used, minimal(m))` GPUh — the credit consumed, plus any credit forfeited — and this is what the next month's `expected` subtracts.
 
@@ -200,8 +196,9 @@ In both cases the month is accounted for `max(used, minimal(m))` GPUh — the cr
 !!! example "a small project that keeps up"
     A small project is granted 6,000 GPUh over 6 months.
     Because the credit is below 10,000 GPUh, the grace is 50%.
+    Ideal is the perfectly linear consumption
 
-    | Month | Accounted so far | `target` | `expected` | `minimal` (50%) |
+    | Month | Accounted so far | `ideal` | `expected` | `minimal` (50%) |
     | -- | -- | -- | -- | -- |
     | 1 | 0     | 1,000 | 1,000    | 500    |
     | 2 | 750   | 2,000 | 1,250    | 625    |
@@ -210,7 +207,7 @@ In both cases the month is accounted for `max(used, minimal(m))` GPUh — the cr
     In month 1 the project uses 750 GPUh, above the 500 GPUh minimal, so nothing is lost.
     It ended the month 250 GPUh behind the line, so in month 2 the expected consumption rises to `2,000 − 750 = 1,250 GPUh` (equivalently `(6,000 − 1,000)/5 + 250`), with a minimal of 625 GPUh.
 
-!!! example "a small project that dips below the floor"
+!!! example "a small project that dips below the minimal consumption"
     Take the same project at the start of month 3, where the expected consumption is 1,000 GPUh and the minimal is 500 GPUh.
     This time it consumes only 200 GPUh during the month, below the 500 GPUh floor.
 
