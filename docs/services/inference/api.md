@@ -256,33 +256,64 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-```json title="OpenCode configuration for the inference API"
-{
-  "$schema": "https://opencode.ai/config.json",
-   // Set Kimi as default OpenCode model
-  "model": "cscs/moonshotai/Kimi-K2.7-Code",
-  "provider": {
-    "cscs": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "CSCS Inference",
-      "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1",
-        // Set apiKey or use /connect after configuring the provider
-        "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
-      },
-      "models": {
-        "moonshotai/Kimi-K2.7-Code": {
-          "name": "Kimi K2.7-Code"
-        }
-      }
-    }
-  }
-}
-```
+=== "OpenCode handles API key (recommended)"
 
-Start OpenCode and run the `/connect` command.
-Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
-Once connected, you can choose models configured in the config.
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code"
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    Start OpenCode and run the `/connect` command.
+    Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
+
+=== "API key as environment variable"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code"
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    When the API key is set through an environment variable in the config, there is no explicit "connect" step.
+    Choose the model after restarting OpenCode.
+
+Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
 
 !!! info
     OpenCode does not auto-discover available models.
