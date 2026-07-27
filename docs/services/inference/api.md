@@ -233,6 +233,13 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
+!!! note "Apertus models in agents"
+    We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
+    See the [OpenWebUI section][ref-inference-api-openwebui] for information on setting up the inference endpoint in OpenWebUI.
+
+    Note particularly that the `-thinking` variants of the Apertus models are served with tool use disabled.
+    If you attempt to use them you may see errors such as `"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set`.
+
 ### Claude Code
 
 Set the following environment variables before starting a `claude` session.
