@@ -321,6 +321,31 @@ Once configured, you can choose models configured in the config with `/models` o
     Use the `/v1/models` endpoint to list available models for your key.
 
 [](){#ref-inference-api-announcements}
+
+[](){#ref-inference-api-openwebui}
+## Setting up OpenWebUI to use the inference service
+
+[OpenWebUI](https://openwebui.com) is an open source interface for accessing AI providers.
+It can be hosted locally for a single user and can be set up to access the CSCS inference endpoints.
+Please see the [OpenWebUI documentation](https://docs.openwebui.com/) for help setting up an instance for yourself.
+
+!!! note
+    CSCS does not provide support for OpenWebUI installations.
+
+In order to configure OpenWebUI to connect to the CSCS inference endpoint you must be admin on an instance.
+Then:
+
+- Go to "Admin Panel" under your profile menu.
+- Go to "Settings" and "Connections".
+- Under "OpenAI API" press the + symbol to add a new provider.
+- Add the CSCS inference base URL and your API key under "Auth".
+
+The models will be automatically detected and available for use.
+
+!!! note
+    Note that the `-thinking` variants of Apertus have tool support disabled and will return an error by default.
+    As admin, you can disable tools by going to "Admin Panel", then "Models", and editing the thinking models to disable all "Capabilities" on the model settings page.
+
 ## Announcements
 
 Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
