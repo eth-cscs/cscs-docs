@@ -387,7 +387,7 @@ The passthrough option can take one of three values:
     /user-environment/env/default/bin/gcc
     ```
 
-    To ignore, use `--passthrough=ignore` option:
+    To ignore, use `--uenv-passthrough=ignore` option:
     ```console
     $ uenv start --view=default prgenv-gnu/26.3:v1
     $ srun --uenv-passthrough=ignore which gcc
