@@ -1,10 +1,6 @@
 [](){#ref-uenv-paraview}
 # ParaView
 
-!!! info ""
-    Paraview is [supported software][ref-support-apps] on Alps.
-    See the [main applications page][ref-software] for more information.
-
 [ParaView](https://www.paraview.org/) is an open-source, multi-platform scientific data analysis and visualization tool, which enables analysis and visualization of extremely large datasets.
 
 ParaView is both:

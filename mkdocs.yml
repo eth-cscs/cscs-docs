@@ -72,6 +72,9 @@ nav:
       - 'Hooks and native resources': software/container-engine/resource-hook.md
       - 'EDF reference': software/container-engine/edf.md
       - 'Known issues': software/container-engine/known-issue.md
+      - 'Sarus Suite Early Access':
+        - software/container-engine/sarus-suite/index.md
+        - 'Sarus Suite Early Access User Guide': software/container-engine/sarus-suite/user-guide.md
   - 'Building and Installing Software':
     - build-install/index.md
     - 'Programming Environments':
@@ -80,6 +83,7 @@ nav:
       - 'prgenv-gnu-openmpi': software/prgenv/prgenv-gnu-openmpi.md
       - 'prgenv-nvfortran': software/prgenv/prgenv-nvfortran.md
       - 'prgenv-intel': software/prgenv/prgenv-intel.md
+      - 'prgenv-dpcpp': software/prgenv/prgenv-dpcpp.md
       - 'linalg': software/prgenv/linalg.md
       - 'julia': software/prgenv/julia.md
       - 'Cray modules (CPE)': software/prgenv/cpe.md
@@ -132,7 +136,8 @@ nav:
     - 'Scientific Visualization':
       - software/sciviz/index.md
       - 'ParaView': software/sciviz/paraview.md
-    - 'Prohibited Software': software/unsupported.md
+      - 'Ascent': software/sciviz/ascent.md
+    - 'Prohibited Software': software/prohibited.md
   - 'Debugging and Performance Analysis':
     - software/devtools/index.md
     - 'Using NVIDIA Nsight': software/devtools/nvidia-nsight.md
@@ -166,9 +171,11 @@ nav:
     - 'Creating a new account': accounts/account-create.md
   - 'Guides':
     - guides/index.md
+    - 'Coding Agents on Alps': guides/coding-agents.md
     - 'Internet Access on Alps': guides/internet-access.md
     - 'Storage': guides/storage.md
     - 'Support Guide': guides/getting-support.md
+    - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
     - 'User Regulations': policies/regulations.md
@@ -196,6 +203,7 @@ theme:
   icon:
     # set the icon for "edit this page"
     edit: material/pencil
+  favicon: assets/favicon.ico
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"

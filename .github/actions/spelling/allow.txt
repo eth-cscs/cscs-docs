@@ -133,8 +133,11 @@ RPA
 Roboto
 Roothaan
 SHMEM
+SHS
+Skybox
 SLA
 SLO
+SOTA
 SSHService
 STMV
 Scopi
@@ -155,6 +158,7 @@ acfdt
 acl
 admin
 admins
+agentic
 artifactory
 autodetection
 aws
@@ -173,6 +177,7 @@ concretise
 concretizer
 containerised
 cpe
+crun
 cscs
 cshell
 cuda
@@ -331,7 +336,10 @@ rowspan
 rpath
 runtime
 runtimes
+salloc
+sandboxing
 santis
+sarusctl
 sbatch
 scalapack
 screenshot
@@ -345,6 +353,7 @@ spglib
 sphericart
 spla
 squashfs
+srt
 srun
 ssh
 sshservice
@@ -376,6 +385,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+transitioning
 treesitter
 trilinos
 trl
@@ -385,6 +395,7 @@ uenv
 uenvs
 uids
 ultrasoft
+uncached
 unsquashfs
 utkin
 vCluster
@@ -426,3 +437,13 @@ Scalasca
 tracefile
 Vampir
 XAmz
+SYCL
+DPC
+dpcpp
+llvmdpcpp
+oneAPI
+DPL
+TBB
+nvptx
+Neoverse
+mpicxx

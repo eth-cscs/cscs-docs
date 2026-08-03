@@ -109,7 +109,50 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-03-05 container engine updated"
+!!! change "2026-06-17"
+    !!! note "Operating Environment and Networking Stack"
+    - Update HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
+    - Update Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
+
+    !!! note "Container Engine"
+    - Update to Container Engine v26.06.1
+    
+    - General version updates
+        - Enroot CSCS_2026_05_1
+        - Podman 5.8.2
+        - NVIDIA Container Toolkit 1.19.1
+        - crun 1.28
+
+    - Enroot updates
+        - Updated default Enroot to CSCS_2026_05_1
+            - Merged updates and fixes from NVIDIA upstream code v4.x releases.
+            - Fixed import of images with multi-line OCI labels
+        - AWS OFI NCCL hook: NCCL, CXI and OFI environment variables are now aligned with those set in Alps Extended Images
+        - PMIx hook: Use PMIx environment variables instead of `scontrol` call to determine bind mount paths(reflects change in upstream Enroot code)
+        - DCGM hook: libraries with full ABI string versions are no longer mounted
+        - `mksquashfs` now exits upon encountering errors which would be ignored by default and could result in incomplete squashfs images being created during import.
+
+    - Additional notes
+        - This update keeps Enroot hooks as they currently operate, using host HPE libraries as default resources for network libraries. Other GH200 production vClusters have adopted netstacks as default.
+
+    !!! note "Uenv"
+    - Upgrade uenv from version 9.2.0 to 10.0.1.
+    - Features:
+        - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+        - Default views: uenv images can declare a view to load automatically when no --view flag is given.
+        - Advanced Slurm workflows: the --uenv-passthrough flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+        - New global --system flag to override the cluster name on the CLI (e.g. uenv --system='*' image find).
+        - Improved bash completion for uenv labels and file paths.
+    - Fixes:
+        - Changed a hard error to a warning when image metadata is not attached in the registry.
+        - Fixed a latent bug parsing date strings in image metadata.
+    - [uenv changelog][ref-uenv-release-notes-v10.0]
+
+??? change "2025-05-21"
+    Minor enhancements to system configuration have been applied.
+    These changes should reduce the frequency of compute nodes being marked as `NOT_RESPONDING` by the workload manager, while we continue to investigate the issue
+
+??? change "2025-03-05 container engine updated"
     now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
 ??? change "2024-10-07 old event"

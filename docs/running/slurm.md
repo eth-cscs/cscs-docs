@@ -785,7 +785,7 @@ For workflows and use cases with tasks that require only a subset of these resou
 [](){#ref-slurm-exclusive}
 ### Running more than one job step per node
 
-Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation.
+Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation. An example of running 4 independent CP2K calculations on a single GH200 node, each with 72 CPU cores and 1 GPU, can be found [here][ref-4-cp2k-calculation-1-node].
 
 The approach is to:
 

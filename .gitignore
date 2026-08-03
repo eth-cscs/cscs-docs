@@ -2,3 +2,5 @@
 site
 
 *.sw[nopq]
+
+.DS_Store

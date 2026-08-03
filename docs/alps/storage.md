@@ -62,12 +62,9 @@ Additionally, it provides support for advanced features:
 * **Encryption and multi-tenancy** required for secure computing.
 * **Deduplication** gives more usable storage than Lustre file systems.
 
+For high performance applications, some [tuning settings][ref-guides-storage-vast-ritom] are recommended for optimal results.
+
 [](){#ref-alps-vadret}
 ## Vadret
 
 The Vadret storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
-
-!!! todo
-    small text explaining what Vadret is designed to be used for.
-
-
