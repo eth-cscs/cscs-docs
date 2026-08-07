@@ -105,16 +105,13 @@ Tokens are created by CSCS, and stored on SCRATCH in a file that only users who 
 !!! example  "using a token to access VASP"
     ```bash
     uenv image pull \
-        --token=/capstor/scratch/cscs/bcumming/tokens/vasp6 \
+        --token=/capstor/store/cscs/cscs/public/uenv/tokens/vasp6 \
         --username=vasp6 \
-        vasp/v6.4.3:v1
+        vasp/v6.6.0:v1
     ```
 
 !!! note
-    As of June 2025, the only restricted software is VASP.
-
-!!! note
-    Better token management is under development - tokens will be stored in a central location and will be easier to use.
+    As of August 2026, the only restricted software is VASP.
 
 ## Managing local images
 
