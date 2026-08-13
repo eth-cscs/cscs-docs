@@ -23,6 +23,12 @@ This is performed using the [project management tool][ref-account-waldur].
 
 Once invited to a project, you will receive an email, which you need to create an account and configure [multi-factor authentication][ref-mfa] (MFA).
 
+<div class="grid cards" markdown>
+-   :fontawesome-solid-scale-balanced: [__Project policies__][ref-mlp-policies]
+
+    How MLP projects are allocated and managed: the small and large project types, the usage-based credit model, and the rules that apply while a project runs and after it ends.
+</div>
+
 ## Systems
 
 The main cluster provided by the MLP is Clariden, a large Grace-Hopper GPU system on Alps.
