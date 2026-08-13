@@ -229,20 +229,19 @@ The following sbatch script shows how to run NAMD on Eiger:
 #SBATCH --job-name=namd-test
 #SBATCH --time=00:30:00
 #SBATCH --nodes=4
-#SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=128
+#SBATCH --ntasks-per-core=2
+#SBATCH --ntasks-per-node=64
 #SBATCH --account=<ACCOUNT> (1)
 #SBATCH --hint=nomultithread
-#SBATCH --hint=exclusive
 #SBATCH --constraint=mc
 #SBATCH --uenv=namd/3.0:v1 (2)
 #SBATCH --view=namd (3)
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export OMP_PROC_BIND=spread
-export OMP_PLACES=threads
+export OMP_PLACES=cores
+export PPN=$(($SLURM_CPUS_PER_TASK-1))
 
-srun --cpu-bind=cores namd3 +setcpuaffinity ++ppn 4 <NAMD_CONFIG_FILE> # (4)!
+srun --cpu-bind=cores namd3 +setcpuaffinity +ppn ${PPN} <NAMD_CONFIG_FILE> # (4)!
 ```
 
 1. Change `<ACCOUNT>` to your project account
