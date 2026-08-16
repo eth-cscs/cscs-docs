@@ -248,6 +248,7 @@ GPU Specific Values
 
     `jobreport` works with any uenv, not just `prgenv-gnu`.
 
+[](){#ref-jobreport-containers}
 ## Example with container-engine (CE)
 
 Running `jobreport` with the [container-engine (CE)][ref-container-engine] requires a little more setup to allow the CE to mount the required GPU library paths inside the container.
