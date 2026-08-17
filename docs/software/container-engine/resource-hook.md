@@ -291,6 +291,7 @@ By default, the server started by the SSH hook listens to port 15263, but this s
     $ ssh -p 15263 <host-of-container>
     ```
 
+[](){#ref-ce-cuda-mps-hook}
 ### NVIDIA CUDA MPS hook
 
 ```toml
