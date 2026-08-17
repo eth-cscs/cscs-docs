@@ -1,22 +1,26 @@
 [](){#ref-cluster-santis}
 # Santis
 
-Santis is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of climate and weather models for the [CWP][ref-platform-cwp].
+Santis is the main [Climate and Weather Platform][ref-platform-cwp] cluster that provides compute nodes and file systems for GPU-enabled climate and weather workloads.
 
 ## Cluster specification
 
 ### Compute nodes
 
-Santis consists of around 430 [Grace-Hopper nodes][ref-alps-gh200-node].
+Santis consists of 302 [Grace-Hopper nodes][ref-alps-gh200-node].
 
-The number of nodes can change when nodes are added or removed from other clusters on Alps.
+The number of nodes can vary as nodes are added or removed from other clusters on Alps.
+See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
-There are four login nodes, labelled `santis-ln00[1-4]`.
-You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and start simulation jobs.
+There are two login nodes, `santis-ln00[1,2]`, which are repurposed compute nodes from the pool of 302 GH200 nodes.
+You will be assigned to one of the two login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
+This leaves 300 nodes available for compute jobs.
+
+Each GH200 node has four Grace-Hopper chips, giving 288 CPU cores, 4 GPUs and approximately 870 GB of RAM per node.
 
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 430 | 1,720      | 1,720 |
+| [gh200][ref-alps-gh200-node] | 302 | 1,208      | 1,208 |
 
 ### Storage and file systems
 
@@ -29,7 +33,7 @@ Santis uses the [CWP filesystems and storage policies][ref-cwp-storage].
 To connect to Santis via SSH, first refer to the [ssh guide][ref-ssh].
 
 !!! example "`~/.ssh/config`"
-    Add the following to your [SSH configuration][ref-ssh-config] to enable you to directly connect to santis using `ssh santis`.
+    Add the following to your [SSH configuration][ref-ssh-config] to enable you to directly connect to Santis using `ssh santis`.
     ```
     Host santis
         HostName santis.alps.cscs.ch
@@ -41,14 +45,45 @@ To connect to Santis via SSH, first refer to the [ssh guide][ref-ssh].
 
 ### Software
 
-CSCS and the user community provide software environments tailored to  [uenv][ref-uenv] are also available on Santis.
+[](){#ref-cluster-santis-uenv}
+#### uenv
 
-Currently, the following uenv are provided for the climate and weather community
+Santis provides uenv to deliver programming environments and application software for the climate and weather community.
+Please refer to the [uenv documentation][ref-uenv] for detailed information on how to use the uenv tools on the system.
 
-* `icon/25.1`
-* `climana/25.1`
+<div class="grid cards" markdown>
 
-In addition to the climate and weather uenv, all of the
+-   :fontawesome-solid-layer-group: __Climate and Weather Applications__
+
+    Provide software stacks for climate and weather workflows on Santis.
+
+     * [ICON][ref-software-icon]
+     * [netcdf-tools][ref-uenv-netcdf-tools]
+
+</div>
+
+<div class="grid cards" markdown>
+
+-    :fontawesome-solid-layer-group: __Programming Environments__
+
+    Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
+
+    * [prgenv-gnu][ref-uenv-prgenv-gnu]
+    * [prgenv-nvfortran][ref-uenv-prgenv-nvfortran]
+    * [linalg][ref-uenv-linalg]
+    * [julia][ref-uenv-julia]
+
+</div>
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-layer-group: __Tools__
+
+    Provide tools like 
+
+    * [Linaro Forge][ref-uenv-linaro]
+
+</div>
 
 ??? example "using uenv provided for other clusters"
     You can run uenv that were built for other Alps clusters using the `@` notation.
@@ -64,38 +99,73 @@ In addition to the climate and weather uenv, all of the
     uenv start namd/3.0:v3@daint
     ```
 
-It is also possible to use HPC containers on Santis:
+[](){#ref-cluster-santis-containers}
+#### Containers
 
-* Jobs using containers can be easily set up and submitted using the [container engine][ref-container-engine].
-* To build images, see the [guide to building container images on Alps][ref-build-containers].
+Santis supports container workloads using the [container engine][ref-container-engine].
 
+To build images, see the [guide to building container images on Alps][ref-build-containers].
 
 ## Running jobs on Santis
 
 ### Slurm
 
-Santis uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Santis uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor compute-intensive workloads.
 
-There are two [Slurm partitions][ref-slurm-partitions] on the system:
+There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
-* the `normal` partition is for all production workloads.
-* the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
-* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
+| name | node type | max nodes per job | time limit | purpose |
+| --   | --        | --                | --         | -- |
+| `normal` | GH200 | unlimited | 24 hours | standard compute (default) |
+| `debug`  | GH200 | 2         | 30 minutes | short testing |
+| `low`    | GH200 | unlimited | 24 hours | overflow / quota-exhausted projects |
+| `xfer`   | x86   | 1         | 24 hours | [internal data transfer][ref-data-xfer-internal] at CSCS |
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | 1266       | -    | 24 hours |
-| `debug`  | 32         | 2    | 30 minutes |
-| `xfer`   | 2          | 1    | 24 hours |
+#### Node sharing and GPU requests
 
-* nodes in the `normal` and `debug` partitions are not shared
-* nodes in the `xfer` partition can be shared
+All GH200 partitions on Santis use **node sharing**. A job no longer receives a full node by default. Instead, resources are allocated at the granularity of one GH200 chip:
+
+* request 1 GPU → receive 1 chip (72 cores, ~217 GB RAM)
+* request 4 GPUs → receive the whole node
+
+Jobs must request GPUs explicitly, for example:
+
+```bash
+sbatch --gres=gpu:2 ...
+# or
+sbatch --gpus-per-node=2 ...
+```
+
+If no GPU is requested, the job may receive only a minimal CPU allocation and will not run on an exclusive node.
+
+#### Multi-GPU jobs with P2P/IPC
+
+Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GPU P2P/IPC (for example MPI across GPUs on the same node) must add:
+
+```bash
+--gres-flags=allow-task-sharing
+```
+
+This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU communication may fail.
+
+#### Low-priority overflow partition
+
+The `low` partition is available to all users for work that should only run when the higher-priority partitions have idle capacity. It is intended for:
+
+* quota-exhausted projects that still need some resources before the next quarterly reset
+* work that does not need fast turnaround
+
+Jobs in `low` have lower scheduling priority and **are not preempted**.
+
+#### Concurrent job limit
+
+Each user may have at most **10 jobs running at the same time** across `normal`, `debug`, and `low`. Submissions are not limited; additional jobs queue until one of the running jobs finishes.
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
 ### FirecREST
 
-Santis can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
+Santis can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/cw/firecrest/v2` API endpoint.
 
 !!! warning "The FirecREST v1 API is still available, but deprecated"
 
@@ -103,20 +173,30 @@ Santis can also be accessed using [FirecREST][ref-firecrest] at the `https://api
 
 ### Scheduled maintenance
 
-Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window. 
+One Wednesday per month is reserved for planned maintenance (usually around the middle of the month, 8-12 CET), with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window.
 
-Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced via the [CSCS status page](https://status.cscs.ch).
 
 ### Change log
 
-!!! change "2026-06-17"
+!!! change "2026-08-26"
+    !!! note "Slurm"
+    - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.
+    - Introduce the `low` partition for overflow work and quota-exhausted projects.
+    - Enforce a per-user limit of 10 concurrently running jobs.
+    - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing`.
+
+    !!! warning "Known limitation"
+    - SLURM accounting still bills per node-hour. A single-chip job is currently accounted as one full node-hour until chip-level accounting is implemented. Compensation for node-hours lost due to this lag will be evaluated on a case-by-case basis.
+
+??? change "2026-06-17"
     !!! note "Operating Environment and Networking Stack"
     - Update HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
     - Update Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
 
     !!! note "Container Engine"
     - Update to Container Engine v26.06.1
-    
+
     - General version updates
         - Enroot CSCS_2026_05_1
         - Podman 5.8.2
@@ -128,7 +208,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
             - Merged updates and fixes from NVIDIA upstream code v4.x releases.
             - Fixed import of images with multi-line OCI labels
         - AWS OFI NCCL hook: NCCL, CXI and OFI environment variables are now aligned with those set in Alps Extended Images
-        - PMIx hook: Use PMIx environment variables instead of `scontrol` call to determine bind mount paths(reflects change in upstream Enroot code)
+        - PMIx hook: Use PMIx environment variables instead of `scontrol` call to determine bind mount paths (reflects change in upstream Enroot code)
         - DCGM hook: libraries with full ABI string versions are no longer mounted
         - `mksquashfs` now exits upon encountering errors which would be ignored by default and could result in incomplete squashfs images being created during import.
 
@@ -150,13 +230,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ??? change "2025-05-21"
     Minor enhancements to system configuration have been applied.
-    These changes should reduce the frequency of compute nodes being marked as `NOT_RESPONDING` by the workload manager, while we continue to investigate the issue
-
-??? change "2025-03-05 container engine updated"
-    now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
-
-??? change "2024-10-07 old event"
-    this is an old update. Use `???` to automatically fold the update.
+    These changes should reduce the frequency of compute nodes being marked as `NOT_RESPONDING` by the workload manager, while we continue to investigate the issue.
 
 ### Known issues
 
