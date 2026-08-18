@@ -4,7 +4,7 @@
 Bristen is an Alps cluster that provides GPU accelerators and filesystems designed to meet the needs of machine learning workloads in the [MLP][ref-platform-mlp].
 It is clasified as a test and development system, provided on a best effort basis for benchmarking and testing [a100][ref-alps-a100-node] nodes, data preparation and similar tasks that require x86 nodes.
 It is *not* a  cluster where to do the bulk of your computation, nodes can be removed from it for higher priority tasks.
-[Clariden](../clariden) is where production runs should take place. 
+[Clariden](clariden.md) is where production runs should take place. 
 
 ## Cluster Specification
 
