@@ -187,12 +187,12 @@ srun -ul -ovllm-%j-%t.out --environment=${ENV_FILE} bash -c '
       echo "[Main workflows] Will serve RAY on: ${MASTER_NODE_IP}"
       export VLLM_HOST_IP=${MASTER_NODE_IP}
       ray start --head \
-	      --node-ip-address=$MASTER_NODE_IP \
-	      --port=$PORT \
-	      --num-cpus=${SLURM_CPUS_PER_TASK} \
-	      --num-gpus=${SLURM_GPUS_ON_NODE} \
-	      --temp-dir=$RAY_TMP_DIR \
-	      --disable-usage-stats || true
+          --node-ip-address=$MASTER_NODE_IP \
+          --port=$PORT \
+          --num-cpus=${SLURM_CPUS_PER_TASK} \
+          --num-gpus=${SLURM_GPUS_ON_NODE} \
+          --temp-dir=$RAY_TMP_DIR \
+          --disable-usage-stats || true
 
       while true; do
           alive_nodes=$(ray status | awk "/Active:/{flag=1;next}/Pending:/{flag=0}flag" | grep "node_" | wc -l)
@@ -210,10 +210,10 @@ srun -ul -ovllm-%j-%t.out --environment=${ENV_FILE} bash -c '
 
       echo "Starting..."
       vllm serve Qwen/Qwen2.5-1.5B-Instruct \
-	      --tensor-parallel-size ${TENSOR_PARALLEL_SIZE} \
-	      --pipeline-parallel-size ${PIPELINE_PARALLEL_SIZE} \
-        --distributed-executor-backend=ray\
-        --gpu-memory-utilization 0.7
+          --tensor-parallel-size ${TENSOR_PARALLEL_SIZE} \
+          --pipeline-parallel-size ${PIPELINE_PARALLEL_SIZE} \
+          --distributed-executor-backend=ray\
+          --gpu-memory-utilization 0.7
 
       if [ $? -eq 0 ]; then
           echo "JOB COMPLETED"
@@ -228,10 +228,10 @@ srun -ul -ovllm-%j-%t.out --environment=${ENV_FILE} bash -c '
 
       echo "Bringing ray worker up on ${VLLM_HOST_IP} at ${RAY_ADDRESS}"
       ray start --address="${RAY_ADDRESS}" \
-	      --node-ip-address=${VLLM_HOST_IP} \
-	      --num-cpus=${SLURM_CPUS_PER_TASK} \
-	      --num-gpus=${SLURM_GPUS_ON_NODE} \
-	      --block || true
+          --node-ip-address=${VLLM_HOST_IP} \
+          --num-cpus=${SLURM_CPUS_PER_TASK} \
+          --num-gpus=${SLURM_GPUS_ON_NODE} \
+          --block || true
   fi
 '
 ```
