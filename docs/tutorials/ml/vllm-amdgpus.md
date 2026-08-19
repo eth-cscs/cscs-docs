@@ -92,7 +92,7 @@ srun --environment ./env-vllm.toml -pmi300 --gpus-per-task 4\
 
 Once vLLM instance is serving, i.e. master node prints out on which address and port is listening, it provides the standard endpoint interface.
 
-It can be queried for LLM models provided with
+It can be queried for served LLMs with
 
 ```console
 curl -s http://nid00xxxx:8000/v1/models | jq .
