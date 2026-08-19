@@ -7,7 +7,7 @@ This tutorial will guide you through the steps required to setup a vLLM containe
 In this specific tutorial we are going to show how:
 
 - setup a vLLM container
-- to run an LLM model
+- to run a LLM
 - with Slurm
 - on AMD GPUs
 - in a single or multi-node setup
