@@ -33,7 +33,7 @@ mkdir -p $SCRATCH/ce-images
 lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images
 ```
 
-Now we can pull the docker image in our container images directory just created. Following command allows to import a docker image as squashfs archive that can be used with [Container Engine][ref-container-engine].
+Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as squashfs archive that can be used with [Container Engine][ref-container-engine].
 
 ```console
 enroot import \
