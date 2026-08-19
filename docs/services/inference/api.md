@@ -195,6 +195,22 @@ In order to use the service users must have an active project granted via an ope
 Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
 The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
 
+The available models together with their maximum context size are also listed in the table below.
+Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
+
+| Model                                           | Maximum context length |
+|-------------------------------------------------|------------------------|
+| `google/gemma-4-31B-it`                         | 262,144                |
+| `moonshotai/Kimi-K2.7-Code`                     | 262,144                |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 262,144                |
+| `swiss-ai/Apertus-70B-Instruct-2509`            | 64,000                 |
+| `swiss-ai/Apertus-8B-Instruct-2509`             | 32,768                 |
+| `swiss-ai/Apertus-v1.5-70B-thinking`            | 262,144                |
+| `swiss-ai/Apertus-v1.5-70B`                     | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B-thinking`             | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B`                      | 262,144                |
+| `zai-org/GLM-5.2`                               | 976,000                |
+
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
@@ -262,6 +278,9 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
+
+See the [available models table][ref-inference-api-available-models] for context sizes.
+Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.
 
 !!! note "Apertus models in agents"
     We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
