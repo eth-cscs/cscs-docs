@@ -303,27 +303,7 @@ You can now configure the provider by adding something like the following to `ch
 				"vision": true,
 				"maxInputTokens": 235000,
 				"maxOutputTokens": 8192,
-				"streaming": true,
-				"supportsReasoningEffort": [
-					"low",
-					"medium",
-					"high"
-				]
-			},
-			{
-				"id": "zai-org/GLM-5.2",
-				"name": "CSCS-GLM-5.2",
-				"url": "https://api.inference.cscs.ch/v1/chat/completions",
-				"toolCalling": true,
-				"vision": true,
-				"maxInputTokens": 999000,
-				"maxOutputTokens": 10000,
-				"streaming": true,
-				"supportsReasoningEffort": [
-					"low",
-					"medium",
-					"high"
-				]
+				"streaming": true
 			}
 		]
 	}
