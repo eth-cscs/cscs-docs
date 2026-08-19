@@ -63,7 +63,7 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
 
 ??? info "Example `/v1/models` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
+    $ curl -s -X GET "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
     {
       "data": [
         {
