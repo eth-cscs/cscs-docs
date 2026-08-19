@@ -2,7 +2,7 @@
 
 # vLLM on AMD GPUs Tutorial
 
-This tutorial will guide you through the steps required to setup a vLLM container on AMD GPUs to serve an LLM model.
+This tutorial will guide you through the steps required to setup a vLLM container on AMD GPUs to serve a LLM.
 
 In this specific tutorial we are going to show how:
 
