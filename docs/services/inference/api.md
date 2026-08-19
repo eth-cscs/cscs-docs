@@ -67,31 +67,61 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
     {
       "data": [
         {
-          "id": "swiss-ai/Apertus-70B-Instruct-2509",
-          "created": 1782315799,
-          "object": "model",
-          "owned_by": "Envoy AI Gateway"
-        },
-        {
           "id": "swiss-ai/Apertus-8B-Instruct-2509",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "apertus-ai/Apertus-v1.5-8B-Prerelease-2606",
+          "id": "swiss-ai/Apertus-70B-Instruct-2509",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "zai-org/GLM-5.2",
+          "id": "swiss-ai/Apertus-v1.5-8B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-8B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "google/gemma-4-31B-it",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
           "id": "moonshotai/Kimi-K2.7-Code",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "zai-org/GLM-5.2",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
@@ -106,18 +136,18 @@ Get a response using the Apertus 70B model using the `/v1/chat/completions` endp
 curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
     -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
     -H "Content-Type: application/json" \
-    -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
+    -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
 
 ```
 
 ??? info "Example `/v1/chat/completions` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
+    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
     {
       "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
       "object": "chat.completion",
       "created": 1782485315,
-      "model": "swiss-ai/Apertus-70B-Instruct-2509",
+      "model": "swiss-ai/Apertus-v1.5-70B",
       "choices": [
         {
           "index": 0,
