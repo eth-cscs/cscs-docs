@@ -233,6 +233,13 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
+!!! note "Apertus models in agents"
+    We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
+    See the [OpenWebUI section][ref-inference-api-openwebui] for information on setting up the inference endpoint in OpenWebUI.
+
+    Note particularly that the `-thinking` variants of the Apertus models are served with tool use disabled.
+    If you attempt to use them you may see errors such as `"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set`.
+
 ### Claude Code
 
 Set the following environment variables before starting a `claude` session.
@@ -249,33 +256,64 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-```json title="OpenCode configuration for the inference API"
-{
-  "$schema": "https://opencode.ai/config.json",
-   // Set Kimi as default OpenCode model
-  "model": "cscs/moonshotai/Kimi-K2.7-Code",
-  "provider": {
-    "cscs": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "CSCS Inference",
-      "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1",
-        // Set apiKey or use /connect after configuring the provider
-        "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
-      },
-      "models": {
-        "moonshotai/Kimi-K2.7-Code": {
-          "name": "Kimi K2.7-Code"
-        }
-      }
-    }
-  }
-}
-```
+=== "OpenCode handles API key (recommended)"
 
-Start OpenCode and run the `/connect` command.
-Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
-Once connected, you can choose models configured in the config.
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code"
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    Start OpenCode and run the `/connect` command.
+    Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
+
+=== "API key as environment variable"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code"
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    When the API key is set through an environment variable in the config, there is no explicit "connect" step.
+    Choose the model after restarting OpenCode.
+
+Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
 
 !!! info
     OpenCode does not auto-discover available models.
@@ -283,6 +321,31 @@ Once connected, you can choose models configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
 
 [](){#ref-inference-api-announcements}
+
+[](){#ref-inference-api-openwebui}
+## Setting up OpenWebUI to use the inference service
+
+[OpenWebUI](https://openwebui.com) is an open source interface for accessing AI providers.
+It can be hosted locally for a single user and can be set up to access the CSCS inference endpoints.
+Please see the [OpenWebUI documentation](https://docs.openwebui.com/) for help setting up an instance for yourself.
+
+!!! note
+    CSCS does not provide support for OpenWebUI installations.
+
+In order to configure OpenWebUI to connect to the CSCS inference endpoint you must be admin on an instance.
+Then:
+
+- Go to "Admin Panel" under your profile menu.
+- Go to "Settings" and "Connections".
+- Under "OpenAI API" press the + symbol to add a new provider.
+- Add the CSCS inference base URL and your API key under "Auth".
+
+The models will be automatically detected and available for use.
+
+!!! note
+    Note that the `-thinking` variants of Apertus have tool support disabled and will return an error by default.
+    As admin, you can disable tools by going to "Admin Panel", then "Models", and editing the thinking models to disable all "Capabilities" on the model settings page.
+
 ## Announcements
 
 Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
