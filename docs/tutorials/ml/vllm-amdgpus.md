@@ -72,7 +72,7 @@ FI_MR_CACHE_MONITOR="disabled"
 
 ### Launch a Single Node instance
 
-At this point everything is ready, CE image needs just to be launched and vLLM started.
+At this point everything is ready, the CE image needs just to be launched and vLLM started.
 
 The simplest run possible is a single GPU instance
 
