@@ -63,15 +63,9 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
 
 ??? info "Example `/v1/models` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
+    $ curl -s -X GET "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
     {
       "data": [
-        {
-          "id": "swiss-ai/Apertus-70B-Instruct-2509",
-          "created": 1782315799,
-          "object": "model",
-          "owned_by": "Envoy AI Gateway"
-        },
         {
           "id": "swiss-ai/Apertus-8B-Instruct-2509",
           "created": 1782315799,
@@ -79,19 +73,55 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "apertus-ai/Apertus-v1.5-8B-Prerelease-2606",
+          "id": "swiss-ai/Apertus-70B-Instruct-2509",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "zai-org/GLM-5.2",
+          "id": "swiss-ai/Apertus-v1.5-8B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-8B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "google/gemma-4-31B-it",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
           "id": "moonshotai/Kimi-K2.7-Code",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "zai-org/GLM-5.2",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
@@ -106,18 +136,18 @@ Get a response using the Apertus 70B model using the `/v1/chat/completions` endp
 curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
     -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
     -H "Content-Type: application/json" \
-    -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
+    -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
 
 ```
 
 ??? info "Example `/v1/chat/completions` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
+    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
     {
       "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
       "object": "chat.completion",
       "created": 1782485315,
-      "model": "swiss-ai/Apertus-70B-Instruct-2509",
+      "model": "swiss-ai/Apertus-v1.5-70B",
       "choices": [
         {
           "index": 0,
@@ -164,6 +194,22 @@ In order to use the service users must have an active project granted via an ope
 
 Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
 The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
+
+The available models together with their maximum context size are also listed in the table below.
+Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
+
+| Model                                           | Maximum context length |
+|-------------------------------------------------|------------------------|
+| `google/gemma-4-31B-it`                         | 262,144                |
+| `moonshotai/Kimi-K2.7-Code`                     | 262,144                |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 262,144                |
+| `swiss-ai/Apertus-70B-Instruct-2509`            | 64,000                 |
+| `swiss-ai/Apertus-8B-Instruct-2509`             | 32,768                 |
+| `swiss-ai/Apertus-v1.5-70B-thinking`            | 262,144                |
+| `swiss-ai/Apertus-v1.5-70B`                     | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B-thinking`             | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B`                      | 262,144                |
+| `zai-org/GLM-5.2`                               | 976,000                |
 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
@@ -232,6 +278,9 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
+
+See the [available models table][ref-inference-api-available-models] for context sizes.
+Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.
 
 !!! note "Apertus models in agents"
     We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
