@@ -77,7 +77,6 @@ Here is a quick overview of the top level ToC entries:
 * `data management and storage`:
     * file systems available on Alps
     * data transfer: moving data into and out of CSCS and between CSCS systems
-    * long term storage (LTS): preserving scientific data with persistent identifiers
     * object storage: Ceph-based public cloud object storage
 * `services`:
     * CI/CD: integrating GitHub, GitLab and Bitbucket projects with Alps
