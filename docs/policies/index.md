@@ -8,6 +8,8 @@ The [User Regulations][ref-policies-user-regulations] define the basic guideline
 
 The [User Support Policies](support.md), the [Slack Code of Conduct](slack.md) and the [Scheduled Maintenance and System Unavailability Policies](maintenance.md) provide additional information on support services, the regulations of the Users Slack space and the scheduled maintenance events.
 
+Individual platforms may define their own policies, which take precedence over the general policies below. The [Machine Learning Platform policies][ref-mlp-policies] describe the project types, compute and storage budgets, and project lifetime rules that apply to MLP projects.
+
 ## Resource Allocation Policies 
 
 Compute time on Alps systems is measured in node hours. Currently, we only support exclusive node allocations. This means that even if you utilize only a portion of a node’s resources (e.g., a single GPU), your account will still be charged for the entire node.

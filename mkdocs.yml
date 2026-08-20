@@ -179,6 +179,7 @@ nav:
     - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
+    - 'Machine Learning Platform Policies': platforms/mlp/policies.md
     - 'User Regulations': policies/regulations.md
     - 'Code of Conduct': policies/code-of-conduct.md
     - 'User Support Policies': policies/support.md
