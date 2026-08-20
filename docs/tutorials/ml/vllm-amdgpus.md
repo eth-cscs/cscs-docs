@@ -84,7 +84,7 @@ srun --environment ./env-vllm.toml -pmi300 \
 or using multiple GPUs from the same node
 
 ```console
-srun --environment ./env-vllm.toml -pmi300 --gpus-per-task 4\
+srun --environment ./env-vllm.toml -pmi300 --gpus-per-task 4 \
     vllm serve Qwen/Qwen2.5-1.5B-Instruct --tensor-parallel-size 4
 ```
 
