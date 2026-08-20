@@ -14,7 +14,8 @@ In this specific tutorial we are going to show how:
 - and test it
 
 !!! warning "What this guide is NOT"
-    This guide is not about how to configure correctly/at best vLLM.
+    This guide is not about how to configure correctly/at best vLLM on Alps clusters.
+    For more details about vLLM parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/>, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchamrk.
 
 ### Prerequisites
 
