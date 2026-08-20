@@ -4,6 +4,7 @@
 CSCS provides installation guides and how-tos for selected applications that are frequently requested,
 but not officially supported. See [user software][ref-support-user-apps] for the support policy.
 
+* [Amber][ref-software-amber]
 * [ESMF and CESM][ref-software-cesm]
 * [ORCA][ref-software-orca]
 * [WRF and CRYOWRF][ref-software-wrf]
