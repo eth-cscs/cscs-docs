@@ -43,7 +43,7 @@ enroot import \
 
 ### Setup EDF
 
-Following step is creation of the Environment Definition File ([EDF][ref-ce-edf-reference]) where details on how to start the container are specified.
+The following step is the creation of an Environment Definition File ([EDF][ref-ce-edf-reference]) where details on how to start the container are specified.
 In particular, this tutorial makes use of [netstack][ref-ce-netstack-source] and related hooks for binding compatible network libraries (mainly `libfabric`, `CXI` and `aws-ofi-nccl`) inside the container.
 
 Save this as a TOML file named `env-vllm.toml` so that you can use it later.
