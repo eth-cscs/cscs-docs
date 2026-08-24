@@ -44,6 +44,7 @@ nav:
     - 'Web Portals': access/web.md
     - 'SSH': access/ssh.md
     - 'FirecREST': access/firecrest.md
+    - 'FirecREST Service Accounts': access/firecrest-service-accounts.md
     - 'HPC Console': access/hpc-console.md
     - 'JupyterLab': access/jupyterlab.md
     - 'VSCode': access/vscode.md

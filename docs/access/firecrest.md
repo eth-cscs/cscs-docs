@@ -59,6 +59,9 @@ You can manage your client application on the [CSCS Developer Portal][ref-devpor
 
 To use your client credentials to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
 
+!!! note "Service Account access"
+    If you want to call FirecREST using a [Service Account][ref-service-accounts] API key instead of a personal client application, see [FirecREST Service Accounts][ref-firecrest-service-accounts].
+
 ## Getting Started
 
 ### Using the Python Interface

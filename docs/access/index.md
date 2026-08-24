@@ -44,6 +44,12 @@ All methods share the same authentication foundation: a CSCS account, project me
 
     [:octicons-arrow-right-24: FirecREST][ref-firecrest]
 
+-   :material-key-variant: __FirecREST Service Accounts__
+
+    Call FirecREST from automated workflows with a Service Account API key instead of a personal client application.
+
+    [:octicons-arrow-right-24: FirecREST Service Accounts][ref-firecrest-service-accounts]
+
 -   :material-console: __HPC Console__
 
     Web-based dashboard for job submission, monitoring, and file browsing.
