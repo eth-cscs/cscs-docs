@@ -180,7 +180,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 !!! change "2026-08-26"
     !!! note "Major system upgrade"
-        `Eiger` received a major system upgrade, among other things this has changed
+        `Eiger` received a major system upgrade; note in particular the following changes:
 
         - Updated operating system from SLES-15.5 to SLES-15.6
         - Updated HPE Cray Supercomputing User Services Software (USS) from 1.1.0 to version 1.4.0
@@ -188,14 +188,14 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - Updated Slurm from version 24.05 to 25.05.
 
     !!! note "Removal of cray modules"
-        The cray modules have been removed from `eiger`. As replacement we recommend to use [uenv][ref-uenv].
+        The cray modules have been removed from `eiger`. As a replacement, we recommend to use [uenv][ref-uenv].
 
 
     !!! note "Login node limits"
         To enforce our [fair usage of shared resources][ref-policies-fair-use] policies, we have enabled limits on the login nodes.
-        Please note that some limits apply to individual process, while other limits apply to the sum of your running processes.
+        Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
         Agentic tools and VSCode might be affected by these limits.
-        Also compute intensive tasks will be affected by the limits.
+        Compute intensive tasks will also be affected by the limits.
         Any compute intensive task that is beyond the limits should be submitted to a compute node.
 
     !!! note "Enforce performance cpufreq governor"
@@ -204,10 +204,10 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
     !!! note "/capstor/archive"
         The filesystem `/capstor/archive` is only mounted on the nodes of the `xfer` partition.
-        The mount was removed from the login nodes
+        The mount was removed from the login nodes.
 
     !!! note "uenv default repository"
-        Using `uenv`, where the repository is stored on `capstor` will issue a migration warning.
+        Using `uenv` with a repository stored on `capstor` will issue a migration warning.
         It is safe to follow the [migration guide][ref-uenv-manage-ritom-migration], and move your repository to `ritom`.
         Please take note of potential access permission problems and the fix, as described in the migration guide.
 
