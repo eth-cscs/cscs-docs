@@ -141,68 +141,79 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-07-15"
+!!! change "2026-08-26"
+    !!! note "Login node limits"
+        To enforce our [fair usage of shared resources][ref-policies-fair-use] policies, we have enabled limits on the login nodes.
+        Please note that some limits apply to individual process, while other limits apply to the sum of your running processes.
+        Agentic tools and VSCode might be affected by these limits.
+        Also compute intensive tasks will be affected by the limits.
+        Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+    !!! note "Other changes (TODO)"
+        This is another change
+
+??? change "2026-07-15"
     !!! note "Container Engine"
-    - Updated Container Engine to v26.07.1
-    - Podman-5.8.4
-    - fuse-overlayfs-1.17 for Podman
-    - netstack-26.07.1
-        - libfabric-2.6.0
-        - AWS OFI NCCL plugin-1.20.0
+        - Updated Container Engine to v26.07.1
+        - Podman-5.8.4
+        - fuse-overlayfs-1.17 for Podman
+        - netstack-26.07.1
+            - libfabric-2.6.0
+            - AWS OFI NCCL plugin-1.20.0
 
 ??? change "2026-06-17"
     !!! note "Operating Environment and Networking Stack"
-    - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
-    - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
-    - Improved Ritom performance, see also [VAST tuning][ref-guides-storage-vast-ritom] for individual IO tuning parameters
+        - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
+        - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
+        - Improved Ritom performance, see also [VAST tuning][ref-guides-storage-vast-ritom] for individual IO tuning parameters
 
     !!! note "Container Engine"
-    - Updated Container Engine to v26.06.1
-    - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
-        - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
-    - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
-    - Environment variables:
-    We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the [Alps Extended Images][ref-software-extended-images], i.e., they bring both environments into sync.
-    ```
-    CUDA_CACHE_DISABLE="1"
-    ```
-    This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
-    Further information regarding the CUDA cache can be found at [https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/](https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/).
-    ```
-    NCCL_CROSS_NIC="0":, (changed from "1")
-    NCCL_PXN_DISABLE="1" (previously unset)
-    NCCL_P2P_LEVEL="NVL" (previously unset)
-    NCCL_NET_GDR_C2C="1" (previously unset)
-    NCCL_NET_GDR_READ="1" (previously unset)
-    NCCL_PROTO="^LL128" (previously unset)
-    NCCL_NCHANNELS_PER_NET_PEER="4" (previously unset)
-    ```
-    Information about the variables can be found at [https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
-    ```
-    FI_CXI_RDZV_PROTO="alt_read" (previously unset)
-    FI_CXI_RDZV_EAGER_SIZE="0" (previously unset)
-    FI_CXI_RDZV_GET_MIN="0" (previously unset)
-    FI_CXI_RDZV_THRESHOLD="0" (previously unset)
-    FI_MR_CACHE_MAX_SIZE="-1" (previously unset)
-    FI_MR_CACHE_MAX_COUNT="524288" (previously unset)
-    FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD="16777216" (previously unset)
-    ```
-    Information about the variables can be found at [https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html](https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html).
+        - Updated Container Engine to v26.06.1
+        - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
+            - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
+        - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
+        - Environment variables:
+        We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the [Alps Extended Images][ref-software-extended-images], i.e., they bring both environments into sync.
+        ```
+        CUDA_CACHE_DISABLE="1"
+        ```
+        This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes.
+        Further information regarding the CUDA cache can be found at [https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/](https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/).
+        ```
+        NCCL_CROSS_NIC="0":, (changed from "1")
+        NCCL_PXN_DISABLE="1" (previously unset)
+        NCCL_P2P_LEVEL="NVL" (previously unset)
+        NCCL_NET_GDR_C2C="1" (previously unset)
+        NCCL_NET_GDR_READ="1" (previously unset)
+        NCCL_PROTO="^LL128" (previously unset)
+        NCCL_NCHANNELS_PER_NET_PEER="4" (previously unset)
+        ```
+        Information about the variables can be found at [https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html)
+        ```
+        FI_CXI_RDZV_PROTO="alt_read" (previously unset)
+        FI_CXI_RDZV_EAGER_SIZE="0" (previously unset)
+        FI_CXI_RDZV_GET_MIN="0" (previously unset)
+        FI_CXI_RDZV_THRESHOLD="0" (previously unset)
+        FI_MR_CACHE_MAX_SIZE="-1" (previously unset)
+        FI_MR_CACHE_MAX_COUNT="524288" (previously unset)
+        FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD="16777216" (previously unset)
+        ```
+        Information about the variables can be found at [https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html](https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html).
 
-    Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation. 
+        Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation.
 
     !!! note "Uenv"
-    - Upgraded Uenv from version 9.2.0 to 10.0.1.
-    - Features:
-        - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
-        - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
-        - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
-        - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
-        - Improved bash completion for uenv labels and file paths.
-    - Fixes:
-        - Changed a hard error to a warning when image metadata is not attached in the registry.
-        - Fixed a latent bug parsing date strings in image metadata.
-    - [uenv changelog][ref-uenv-release-notes-v10.0]
+        - Upgraded Uenv from version 9.2.0 to 10.0.1.
+        - Features:
+            - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+            - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
+            - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+            - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
+            - Improved bash completion for uenv labels and file paths.
+        - Fixes:
+            - Changed a hard error to a warning when image metadata is not attached in the registry.
+            - Fixed a latent bug parsing date strings in image metadata.
+        - [uenv changelog][ref-uenv-release-notes-v10.0]
 
 ??? change "2025-05-21"
     Minor enhancements to system configuration have been applied.

@@ -241,3 +241,16 @@ $ ./code tunnel --name=$CLUSTER_NAME-tunnel
 
     It is relatively easy to connect to a log in node using the "Connect to Host... (Remote-SSH)" option in the VS Code GUI on your laptop.
     However, it is complicated and difficult to configure the connection so that the environment used by the VS Code session is in a uenv/container or on a compute node.
+
+VSCode is known to spawn many threads, especially if many plugins are enabled. This might lead that you hit the [limits][ref-policies-fair-use] set for the login nodes.
+The error in the logs would manifest to something like this
+```
+[14:37:21.537] > Spawned remote CLI: 225006
+> Waiting for server log...
+[14:37:21.564] stderr> main: fork: retry: Resource temporarily unavailable
+[14:37:22.563] stderr> main: fork: retry: Resource temporarily unavailable
+[14:37:24.564] stderr> main: fork: retry: Resource temporarily unavailable
+[14:37:28.563] stderr> main: fork: retry: Resource temporarily unavailable
+```
+In that case you very likely still have old sessions running on the login node.
+You should manually [ssh][ref-ssh] to the system and kill any remaining old sessions.
