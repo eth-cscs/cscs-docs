@@ -149,8 +149,22 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         Also compute intensive tasks will be affected by the limits.
         Any compute intensive task that is beyond the limits should be submitted to a compute node.
 
-    !!! note "Other changes (TODO)"
-        This is another change
+    !!! note "Enforce performance cpufreq governor"
+        Due to a bug the cpu frequency governor has not always been set to `performance`.
+        This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+    !!! note "Container Engine"
+        - Updated Container Engine to v26.08.1
+        - Podman-5.8.6
+        - NVIDIA Container Toolkit to 1.20.0
+        - crun 1.29.1
+        - sarusctl 0.6.0
+        - Skybox 0.3.0
+        - Sarus Suite Performance Extensions 26.08.1
+
+    !!! note "Slurm config"
+        The config `MaxArraySize` has been increased from the default of `1001` to `20001` (same as on `eiger`)
+
 
 ??? change "2026-07-15"
     !!! note "Container Engine"

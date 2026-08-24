@@ -468,6 +468,7 @@ If only one argument is passed, the default repository is used as the source.
     Migration of large repositories can take a significant amount of time - budget roughly 30 minutes.
     If migration is cancelled by the user, or by a system issue, it can be resumed with the same command, which will continue from where the migration was when canceled.
 
+[](){#ref-uenv-manage-ritom-migration}
 #### Migration to Ritom
 
 In March-April 2026 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesystem called Ritom.
