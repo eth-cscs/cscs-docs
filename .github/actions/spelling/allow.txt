@@ -136,6 +136,7 @@ SHMEM
 SHS
 Skybox
 SLA
+SLES
 SLO
 SOTA
 SSHService
@@ -177,6 +178,7 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
