@@ -71,11 +71,11 @@ If you encounter issues, please reach out to use to discuss your workflow in det
 
     ```console
     $ ps -eLf | grep $(id -un)
-    anfink    65923      1  65923  0    1 15:27 ?        00:00:00 /usr/lib/systemd/systemd --user
-    anfink    66055  65923  66055  0    1 15:27 ?        00:00:00 (sd-pam)
-    anfink    66202  65911  66202  0    1 15:27 ?        00:00:00 sshd: anfink@pts/9
-    anfink    66205  66202  66205  0    1 15:27 pts/9    00:00:00 -bash
-    anfink    95684  66205  95684  0    1 15:57 pts/9    00:00:00 ps -eLf
-    anfink    95685  66205  95685  0    1 15:57 pts/9    00:00:00 grep anfink
+    alice    65923      1  65923  0    1 15:27 ?        00:00:00 /usr/lib/systemd/systemd --user
+    alice    66055  65923  66055  0    1 15:27 ?        00:00:00 (sd-pam)
+    alice    66202  65911  66202  0    1 15:27 ?        00:00:00 sshd: anfink@pts/9
+    alice    66205  66202  66205  0    1 15:27 pts/9    00:00:00 -bash
+    alice    95684  66205  95684  0    1 15:57 pts/9    00:00:00 ps -eLf
+    alice    95685  66205  95685  0    1 15:57 pts/9    00:00:00 grep anfink
     ```
 

@@ -29,6 +29,7 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
