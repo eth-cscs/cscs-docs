@@ -133,7 +133,34 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-03-05 container engine updated"
+!!! change "2026-08-26"
+    !!! note "Login node limits"
+        To enforce our [fair usage of shared resources][ref-policies-fair-use] policies, we have enabled limits on the login nodes.
+        Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
+        In addition, each login session is pinned to a subset of the cores of the node.
+        Agentic tools and VSCode might be affected by these limits.
+        Compute intensive tasks will also be affected by the limits.
+        Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+    !!! note "Enforce performance cpufreq governor"
+        Due to a bug the cpu frequency governor has not always been set to `performance`.
+        This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+    !!! note "Container Engine"
+        - Updated Container Engine to v26.08.1
+        - Podman-5.8.6
+        - NVIDIA Container Toolkit to 1.20.0
+        - crun 1.29.1
+        - sarusctl 0.6.0
+        - Skybox 0.3.0
+        - Sarus Suite Performance Extensions 26.08.1
+        - The default netstack artifact version is now 26.08.1.
+          There are no software changes: only the naming format of the variants has changed.
+
+    !!! note "New file system"
+        The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes and on the nodes of the `xfer` partition.
+
+??? change "2025-03-05 container engine updated"
     now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
 ??? change "2024-10-07 old event"

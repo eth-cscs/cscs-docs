@@ -186,6 +186,7 @@ cshell
 cuda
 customised
 cyberduck
+datacache
 dbcsr
 dcomex
 demystifying
