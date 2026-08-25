@@ -160,7 +160,7 @@ Once the tunnel is configured, you can access it from VS Code.
 
 !!! warning
     If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below.
-    Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage][ref-policies-fair-use] of Shared Resources policy.
+    Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage][ref-policies-fair-use-login-node] of Shared Resources policy.
 
 [](){#ref-vscode-compute-nodes}
 ### Running on a compute node
@@ -242,7 +242,7 @@ $ ./code tunnel --name=$CLUSTER_NAME-tunnel
     It is relatively easy to connect to a log in node using the "Connect to Host... (Remote-SSH)" option in the VS Code GUI on your laptop.
     However, it is complicated and difficult to configure the connection so that the environment used by the VS Code session is in a uenv/container or on a compute node.
 
-VSCode is known to spawn many threads, especially if many plugins are enabled. This might lead that you hit the [limits][ref-policies-fair-use] set for the login nodes.
+VSCode is known to spawn many threads, especially if many plugins are enabled. This might lead that you hit the [limits][ref-policies-fair-use-login-node] set for the login nodes.
 The error in the logs would manifest to something like this
 ```
 [14:37:21.537] > Spawned remote CLI: 225006

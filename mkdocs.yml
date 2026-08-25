@@ -179,6 +179,7 @@ nav:
     - 'Course Account Setup': guides/course-account.md
   - 'Policies':
     - policies/index.md
+    - 'Fair usage of shared resources': policies/shared.md
     - 'User Regulations': policies/regulations.md
     - 'Code of Conduct': policies/code-of-conduct.md
     - 'User Support Policies': policies/support.md

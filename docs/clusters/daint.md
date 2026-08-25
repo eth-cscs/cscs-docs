@@ -143,7 +143,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 !!! change "2026-08-26"
     !!! note "Login node limits"
-        To enforce our [fair usage of shared resources][ref-policies-fair-use] policies, we have enabled limits on the login nodes.
+        To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
         Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
         Agentic tools and VSCode might be affected by these limits.
         Compute intensive tasks will also be affected by the limits.
