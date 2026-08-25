@@ -12,11 +12,8 @@ The CPE is a suite of software: programming environments, compilers, libraries a
 The CPE will be familiar to users of previous CSCS systems, including Piz Daint, and users of HPE/Cray systems at other sites.
 It provides modules for programming environments including `Prgenv-gnu` and `Prgenv-cray`, and packages like `cray-python` and `cray-fftw`.
 
-
-!!! Warning "The `cray` module is deprecated"
-    [Eiger][ref-cluster-eiger] currently has CPE 24.7 installed. This version is outdated and can be loaded using the `cray` module.
-
-    * This module will be removed on August 26th 2026
+!!! Warning "The `cray` module is no longer available"
+    The `cray` module on [Eiger][ref-cluster-eiger] was removed on August 26th, 2026.
 
     The recommended method for building and running software is to use [uenv][ref-uenv] or [containers][ref-container-engine].
     See the [programming environment][ref-software-prgenvs] documentation for alternative programming environments.
