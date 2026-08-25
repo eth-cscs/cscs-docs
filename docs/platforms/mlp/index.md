@@ -53,7 +53,7 @@ The following file systems are mounted on the MLP clusters Clariden and Bristen:
 | Store | `/capstor/store/cscs/<organization>/<project>` | [Capstor][ref-alps-capstor] |
 | Datacache | `/iopsstor/datacache/cscs/<organization>/<project>` | [Iopsstor][ref-alps-iopsstor] |
 
-In the paths above, `<organization>` is the organization your project belongs to (for example `swissai`) and `<project>` is your project's short name.
+In the paths above, `<organization>` is the organization your project belongs to (for example `swissai`) and `<project>` is your project's name.
 
 [](){#ref-mlp-storage-model}
 ### How storage works on the MLP
