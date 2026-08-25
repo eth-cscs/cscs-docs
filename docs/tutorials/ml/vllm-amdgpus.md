@@ -15,7 +15,7 @@ In this specific tutorial we are going to show how:
 
 !!! warning "What this guide is NOT"
     This guide is not about how to configure correctly/at best vLLM or SGLang on Alps clusters.
-    For more details about vLLM or SGLang parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/> and <https://docs.sglang.io/>, respectively, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchamrk.
+    For more details about vLLM or SGLang parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/> and <https://docs.sglang.io/>, respectively, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchmark.
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ In particular, this tutorial aims at Beverin cluster, but it should be possible 
 
 ### Get the vLLM/SGLang image
 
-In this tutorial we are going to use vLLM/SGLang official image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended) in favour of [vllm/vllm-openai-rocm](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [lmsysorg/sglang](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
+In this tutorial we are going to use vLLM/SGLang official image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended) in favour of [`vllm/vllm-openai-rocm`](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [`lmsysorg/sglang`](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
 
 Beforehand, if you have not done already, let's create a directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
 
