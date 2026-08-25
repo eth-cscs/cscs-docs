@@ -207,6 +207,7 @@ elpa
 epyc
 fftw
 filesystems
+finalised
 fontawesome
 fpmd
 gcc
@@ -250,6 +251,7 @@ libtorch
 libtree
 libvori
 libxc
+lifecycle
 linalg
 linkx
 linux
@@ -329,6 +331,7 @@ quantumespresso
 quasiparticles
 quickstart
 recv
+rclone
 rgw
 retag
 retagging
