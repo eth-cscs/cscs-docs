@@ -23,16 +23,14 @@ Sarus Suite:
 
 !!! Danger "Current differences and limitations"
 
-    * Due to the way Podman's image storage works, with Sarus Suite it's no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.
-    * [HPC features][ref-sarus-suite-hpc-features] are enabled primarily through [CDI specs](https://github.com/cncf-tags/container-device-interface) and the [device array][ref-sarus-suite-edf-device-array], not annotations. Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
-    * CXI libfabric replacement is not enabled by default.
-    * The CXI CDI relies on an old Sarus 1.7.0 hook for libfabric replacement. When activated, the hook requires a libfabric to be present inside the container. Enabling the CXI CDI with a container that does not have libfabric results in an error.
-    * CXI and AWS OFI NCCL CDI specs cannot handle replacement of multiple libfabric or plugin libraries inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
+    * Due to the way Podman's image storage works, it's no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.
+    * CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.
     * Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
     * SquashFS mounts from EDFs are not supported yet.
     * PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.
-    * No support yet for netstack artifacts, CUDA MPS, or direct SSH into containers.
-    * Error propagation and reporting still need improvements.
+    * No support yet for selecting netstack source and netstack artifact version.
+    * No support for direct SSH into containers.
+    * Error propagation, reporting and logging still need improvements.
 
 
 ## Quickstart with Alps Extended Images
