@@ -29,6 +29,7 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
@@ -136,6 +137,7 @@ SHMEM
 SHS
 Skybox
 SLA
+SLES
 SLO
 SOTA
 SSHService
@@ -177,12 +179,14 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
 cuda
 customised
 cyberduck
+datacache
 dbcsr
 dcomex
 demystifying
@@ -203,6 +207,7 @@ elpa
 epyc
 fftw
 filesystems
+finalised
 fontawesome
 fpmd
 gcc
@@ -246,6 +251,7 @@ libtorch
 libtree
 libvori
 libxc
+lifecycle
 linalg
 linkx
 linux
@@ -325,6 +331,7 @@ quantumespresso
 quasiparticles
 quickstart
 recv
+rclone
 rgw
 retag
 retagging

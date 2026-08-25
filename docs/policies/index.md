@@ -25,10 +25,3 @@ Data belonging to active projects in the filesystems `/users` and `/capstor/stor
 Please note that the long term storage service is granted as long as your project is active, and the data will be removed without further notice 3 months after the expiration of the project: please check the applicable filesystem policies for the grace period granted after the expiration of the project.
 
 Furthermore, as soon as your project expires, the backup of the data belonging to the project will be disabled immediately: therefore no data backup will be available after the final data removal.
-
-[](){#ref-policies-fair-use}
-## Fair Usage of Shared Resources
-
-The [Slurm][ref-slurm] scheduling system is a shared resource that can handle a limited number of batch jobs and interactive commands simultaneously. Therefore users should not submit hundreds of Slurm jobs and commands at the same time, as doing so would infringe our fair usage policy.
-
-Let us also remind you that **running compute or memory intensive applications on the login nodes is forbidden**. Please submit batch jobs with the Slurm scheduler, in order to allocate and run your processes on compute nodes: compute or memory intensive processes affecting the performance of login nodes will be terminated without warning.
