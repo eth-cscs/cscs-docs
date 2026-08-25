@@ -1,12 +1,12 @@
 [](){#software-ml-vllm-amdgpus}
 
-# vLLM on AMD GPUs Tutorial
+# vLLM/SGLang on AMD GPUs Tutorial
 
-This tutorial will guide you through the steps required to setup a vLLM container on AMD GPUs to serve a LLM.
+This tutorial will guide you through the steps required to setup a vLLM or SGLang container on AMD GPUs to serve a LLM.
 
 In this specific tutorial we are going to show how:
 
-- setup a vLLM container
+- setup a vLLM/SGLang container
 - to run a LLM
 - with Slurm
 - on AMD GPUs
@@ -14,8 +14,8 @@ In this specific tutorial we are going to show how:
 - and test it
 
 !!! warning "What this guide is NOT"
-    This guide is not about how to configure correctly/at best vLLM on Alps clusters.
-    For more details about vLLM parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/>, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchamrk.
+    This guide is not about how to configure correctly/at best vLLM or SGLang on Alps clusters.
+    For more details about vLLM or SGLang parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/> and <https://docs.sglang.io/>, respectively, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchamrk.
 
 ### Prerequisites
 
@@ -23,9 +23,9 @@ This tutorial assumes you are able to access the cluster via SSH. To set up acce
 
 In particular, this tutorial aims at Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
 
-### Get vLLM image
+### Get the vLLM/SGLang image
 
-In this tutorial we are going to use vLLM official image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) (and others) have been deprecated (see [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated)) in favour of [vllm/vllm-openai-rocm](https://hub.docker.com/r/vllm/vllm-openai-rocm).
+In this tutorial we are going to use vLLM/SGLang official image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended) in favour of [vllm/vllm-openai-rocm](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [lmsysorg/sglang](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
 
 Beforehand, if you have not done already, let's create a directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
 
@@ -36,10 +36,20 @@ lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images
 
 Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as squashfs archive that can be used with [Container Engine][ref-container-engine].
 
+=== "`vLLM`"
 ```console
 enroot import \
-    -o $SCRATCH/ce-images/vllm-opeani-rocm.sqfs \
+    -o $SCRATCH/ce-images/inference-rocm.sqfs \
     docker://vllm/vllm-openai-rocm:latest
+```
+
+=== "`SGLang`"
+```console
+export TAG=v0.5.18-rocm720-mi30x # replace with the latest rocm720-mi30x tag available at https://hub.docker.com/r/lmsysorg/sglang/tags
+podman pull docker://lmsysorg/sglang:$TAG
+enroot import \
+    -o $SCRATCH/ce-images/inference-rocm.sqfs \
+    podman://lmsysorg/sglang:$TAG
 ```
 
 ### Setup EDF
@@ -47,10 +57,10 @@ enroot import \
 The following step is the creation of an Environment Definition File ([EDF][ref-ce-edf-reference]) where details on how to start the container are specified.
 In particular, this tutorial makes use of [netstack][ref-ce-netstack-source] and related hooks for binding compatible network libraries (mainly `libfabric`, `CXI` and `aws-ofi-nccl`) inside the container.
 
-Save this as a TOML file named `env-vllm.toml` so that you can use it later.
+Save this as a TOML file named `env-inference.toml` so that you can use it later.
 
 ```toml
-image = "/capstor/scratch/cscs/<username>/ce-images/vllm-openai-rocm.sqfs"
+image = "/capstor/scratch/cscs/<username>/ce-images/inference-rocm.sqfs"
 writable = true
 entrypoint = false
 
@@ -73,25 +83,39 @@ FI_MR_CACHE_MONITOR="disabled"
 
 ### Launch a Single Node instance
 
-At this point everything is ready, the CE image needs just to be launched and vLLM started.
+At this point everything is ready, the CE image needs just to be launched and vLLM or SGLang started.
 
 The simplest run possible is a single GPU instance
 
+=== "`vLLM`"
 ```console
-srun --environment ./env-vllm.toml -pmi300 \
+srun --environment ./env-inference.toml -pmi300 \
     vllm serve Qwen/Qwen2.5-1.5B-Instruct
+```
+
+=== "`SGLang`"
+```console
+srun --environment ./env-inference.toml -pmi300 \
+    sglang serve Qwen/Qwen2.5-1.5B-Instruct --max-total-tokens 10240
 ```
 
 or using multiple GPUs from the same node
 
+=== "`vLLM`"
 ```console
-srun --environment ./env-vllm.toml -pmi300 --gpus-per-task 4 \
+srun --environment ./env-inference.toml -pmi300 --gpus-per-task 4 \
     vllm serve Qwen/Qwen2.5-1.5B-Instruct --tensor-parallel-size 4
+```
+
+=== "`SGLang`"
+```console
+srun --environment ./env-inference.toml -pmi300 --gpus-per-task 4 \
+    sglang serve Qwen/Qwen2.5-1.5B-Instruct --tensor-parallel-size 4 --max-total-tokens 102400
 ```
 
 ### Use the instance
 
-Once vLLM instance is serving, i.e. master node prints out on which address and port is listening, it provides the standard endpoint interface.
+Once the vLLM/SGLang instance is serving, i.e. the master node prints out on which address and port it is listening, it provides the standard endpoint interface.
 
 It can be queried for served LLMs with
 
@@ -116,14 +140,18 @@ curl -s http://nid00xxxx:8000/v1/completions \
 
 For multi-node instances a sbatch script like the following one is able to:
 
+=== "`vLLM`"
 - start `ray` on the master node
 - start `ray` on the workers nodes registering their resources and announcing themselves to the master node
 - just on the master node start `vllm serve` (with required parameters)
 
+=== "`SGLang`"
+- start `sglang` on every node with the correct parameters for multi-node serving
 
+=== "`vLLM`"
 ```sbatch
 #!/bin/bash
-#SBATCH -J vllm-instance
+#SBATCH -J inference-instance
 #SBATCH -A csstaff
 #SBATCH -p mi300
 #SBATCH -t 01:00:00
@@ -131,9 +159,9 @@ For multi-node instances a sbatch script like the following one is able to:
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-task=4
 #SBATCH --cpus-per-task=72
-#SBATCH --output=vllm-%j.out
+#SBATCH --output=inference-%j.out
 
-export ENV_FILE=<absolute-path-to>/env-vllm.toml
+export ENV_FILE=<absolute-path-to>/env-inference.toml
 
 export TENSOR_PARALLEL_SIZE=${SLURM_GPUS_ON_NODE} # Set it to the number of GPU per task
 export PIPELINE_PARALLEL_SIZE=${SLURM_NNODES} # Set it to the number of allocated GPU nodes
@@ -172,7 +200,7 @@ export RAY_LOG_TO_STDERR=0
 
 echo "HEAD NODE: ${MASTER_NODE} ${MASTER_NODE_IP}"
 
-srun -ul -ovllm-%j-%t.out --environment=${ENV_FILE} bash -c '
+srun -ul -oinference-%j-%t.out --environment=${ENV_FILE} bash -c '
   set -x
 
   echo "Installing RAY..."
@@ -237,17 +265,76 @@ srun -ul -ovllm-%j-%t.out --environment=${ENV_FILE} bash -c '
 '
 ```
 
-Save previous content in a `run-vllm.sbatch` file and then use it to start the instance with
+=== "`SGLang`"
+```sbatch
+#!/bin/bash
+#SBATCH -J inference-instance
+#SBATCH -A csstaff
+#SBATCH -p mi300
+#SBATCH -t 01:00:00
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-task=4
+#SBATCH --cpus-per-task=72
+#SBATCH --output=inference-%j.out
+
+export ENV_FILE=<absolute-path-to>/env-inference.toml
+
+export TENSOR_PARALLEL_SIZE=${SLURM_GPUS_ON_NODE} # Set it to the number of GPU per task
+export PIPELINE_PARALLEL_SIZE=${SLURM_NNODES} # Set it to the number of allocated GPU nodes
+
+export HF_HOME="/scratch/data/.cache"
+
+echo "[Main workflows] Set MULTI-NODE configuration..."
+export MASTER_ADDR=$(echo $SLURM_JOB_NODELIST | cut -d',' -f1 | tr -d '[]' | cut -d'-' -f1) # These variables are only available once srun starts this script on the nodes
+export MASTER_PORT=30001
+export PORT=30000
+
+srun -ul -oinference-%j-%t.out --environment=${ENV_FILE} bash -c '
+    set -x
+
+    if [[ $SLURM_PROCID = 0 ]]; then
+        echo "[Main workflows] Will serve SGLang inference on: ${MASTER_ADDR}:${PORT}"
+        echo SLURM_JOB_NODELIST=$SLURM_JOB_NODELIST
+        echo SLURMD_NODENAME=$SLURMD_NODENAME
+    fi    
+    
+    echo "Starting..."
+
+    sglang serve \
+        --port $PORT \
+        --host 0.0.0.0 \
+        --trust-remote-code \
+        --dist-init-addr $MASTER_ADDR:$MASTER_PORT \
+        --node-rank $SLURM_NODEID \
+        --nnodes $SLURM_NNODES \
+        --served-model-name qwen2.5-1.5b-instruct \
+        --model-path Qwen/Qwen2.5-1.5B-Instruct \
+        --tensor-parallel-size ${TENSOR_PARALLEL_SIZE} \
+        --pipeline-parallel-size ${PIPELINE_PARALLEL_SIZE} \
+        --max-total-tokens 1048576  # Set the maximum number of tokens explicitly instead of using --mem-fraction-static
+
+    if [ $? -eq 0 ]; then
+        echo "JOB COMPLETED"
+    else
+        echo "JOB FAILED"
+    fi
+    exit $?
+'
+```
+
+
+Save previous content in a `run-inference.sbatch` file and then use it to start the instance with
 
 ```console
-sbatch run-vllm.sbatch
+sbatch run-inference.sbatch
 ```
 
 which might require quite some time for completing the startup phase.
 For this reason it might be useful to inspect instance logs with
 
 ```console
-tail -f vllm-*-0.out
+tail -f inference-*-0.out
 ```
 
-Once the vLLM instance is ready, it can be used exactly as how it has been done before for single node instances (see [here][use-the-instance]).
+Once the vLLM/SGLang inference instance is ready, it can be used exactly as how it has been done before for single node instances (see [here][use-the-instance]).
