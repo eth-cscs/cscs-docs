@@ -407,8 +407,8 @@ The version selects a release of the network stack. The named variant makes it p
 Specific artifacts can be selected by version and name using the following EDF annotations:
 
 ```toml
-com.hooks.netstack.version = "latest"
-com.hooks.netstack.name = "default"
+com.hooks.netstack.version = "26.08.1"
+com.hooks.netstack.name = "gpu_cuda13-cxi_13.1.0-ofi_2.6.0-aws_1.20.0_dl"
 ```
 
 !!! tip
@@ -429,79 +429,74 @@ com.hooks.netstack.name = "default"
 
     ```console
     $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/
-    total 8
-    drwxrwsr-x+ 6 gwalee csstaff 4096 May  6 12:42 26.02.1
-    drwxrwsr-x+ 5 gwalee csstaff 4096 May  5 17:01 26.05.1
-    lrwxrwxrwx  1 gwalee csstaff    8 May  6 12:35 latest -> 26.05.1/
+    total 16
+    drwxrwsr-x+ 6 gwalee   csstaff 4096 May  6 12:42 26.02.1
+    drwxrwsr-x+ 5 gwalee   csstaff 4096 May  5 17:01 26.05.1
+    drwxrwsr-x+ 5 amadonna csstaff 4096 Jul  6 15:19 26.07.1
+    drwxrwsr-x+ 5 gwalee   csstaff 4096 Aug 18 16:18 26.08.1
     ```
 
     The named variants available within a given version directory can be listed as follows:
 
     ```console
-    $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.05.1
+    $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.08.1
     total 12
-    lrwxrwxrwx  1 gwalee csstaff   46 May  4 15:11 default -> gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl/
-    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:43 gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl
-    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:42 gpu:cuda13,cxi:13.1.0,ofi:2.5.1,aws:1.18.0+dl
-    drwxr-sr-x+ 2 gwalee csstaff 4096 May  4 10:43 gpu:cuda13,cxi:14.0.0,ofi:2.5.1,aws:1.18.0+dl
-    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:12.0.1 -> gpu:cuda13,cxi:12.0.1,ofi:2.5.1,aws:1.18.0+dl
-    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:13.1.0 -> gpu:cuda13,cxi:13.1.0,ofi:2.5.1,aws:1.18.0+dl
-    lrwxrwxrwx  1 gwalee csstaff   45 May  5 17:01 shs:14.0.0 -> gpu:cuda13,cxi:14.0.0,ofi:2.5.1,aws:1.18.0+dl
+    drwxr-sr-x+ 2 gwalee csstaff 4096 Aug 18 15:32 gpu_cuda13-cxi_12.0.1-ofi_2.6.0-aws_1.20.0_dl
+    drwxr-sr-x+ 2 gwalee csstaff 4096 Aug 18 15:32 gpu_cuda13-cxi_13.1.0-ofi_2.6.0-aws_1.20.0_dl
+    drwxr-sr-x+ 2 gwalee csstaff 4096 Aug 18 15:32 gpu_cuda13-cxi_14.0.0-ofi_2.6.0-aws_1.20.0_dl
     ```
 
     ??? example "Listing the full contents of a netstack artifact"
 
         ```console
-        $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.05.1/shs:13.1.0/
-        total 25444
-        -rwxr-xr-x+ 1 gwalee csstaff  197960 May  4 10:43 libbrotlicommon.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff   66984 May  4 10:43 libbrotlidec.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff   66992 May  4 10:43 libcom_err.so.2
-        -rwxr-xr-x+ 1 gwalee csstaff 4283944 May  4 10:43 libcrypto.so.3
-        -rwxr-xr-x+ 1 gwalee csstaff 1754432 May  4 10:43 libc.so.6
-        -rwxr-xr-x+ 1 gwalee csstaff  666776 May  4 10:43 libcurl.so.4
-        -rwxr-xr-x+ 1 gwalee csstaff  396656 May  4 10:43 libcxi.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff 2036112 May  4 10:43 libfabric.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff   67744 May  4 10:43 libffi.so.8
-        -rwxr-xr-x+ 1 gwalee csstaff  135112 May  4 10:43 libgcc_s.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff  540712 May  4 10:43 libgmp.so.10
-        -rwxr-xr-x+ 1 gwalee csstaff 2157896 May  4 10:43 libgnutls.so.30
-        -rwxr-xr-x+ 1 gwalee csstaff  339400 May  4 10:43 libgssapi_krb5.so.2
-        -rwxr-xr-x+ 1 gwalee csstaff  339832 May  4 10:43 libhogweed.so.6
-        -rwxr-xr-x+ 1 gwalee csstaff  402304 May  4 10:43 libhwloc.so.15
-        -rwxr-xr-x+ 1 gwalee csstaff  132856 May  4 10:43 libidn2.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff  136496 May  4 10:43 libjson-c.so.5
-        -rwxr-xr-x+ 1 gwalee csstaff  201040 May  4 10:43 libk5crypto.so.3
-        -rwxr-xr-x+ 1 gwalee csstaff   67880 May  4 10:43 libkeyutils.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff  876960 May  4 10:43 libkrb5.so.3
-        -rwxr-xr-x+ 1 gwalee csstaff   69776 May  4 10:43 libkrb5support.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff   69784 May  4 10:43 liblber-2.5.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff  415240 May  4 10:43 libldap-2.5.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff  609784 May  4 10:43 libm.so.6
-        -rwxr-xr-x+ 1 gwalee csstaff  530152 May  4 10:43 libnccl-net.so
-        -rwxr-xr-x+ 1 gwalee csstaff  343760 May  4 10:43 libnettle.so.8
-        -rwxr-xr-x+ 1 gwalee csstaff  204168 May  4 10:43 libnghttp2.so.14
-        -rwxr-xr-x+ 1 gwalee csstaff  206136 May  4 10:43 libnl-3.so.200
-        -rwxr-xr-x+ 1 gwalee csstaff 1316064 May  4 10:43 libp11-kit.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff  132792 May  4 10:43 libpsl.so.5
-        -rwxr-xr-x+ 1 gwalee csstaff   68760 May  4 10:43 libresolv.so.2
-        -rwxr-xr-x+ 1 gwalee csstaff  136232 May  4 10:43 librtmp.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff  134224 May  4 10:43 libsasl2.so.2
-        -rwxr-xr-x+ 1 gwalee csstaff  477248 May  4 10:43 libssh.so.4
-        -rwxr-xr-x+ 1 gwalee csstaff  680960 May  4 10:43 libssl.so.3
-        -rwxr-xr-x+ 1 gwalee csstaff 2567464 May  4 10:43 libstdc++.so.6
-        -rwxr-xr-x+ 1 gwalee csstaff  133344 May  4 10:43 libtasn1.so.6
-        -rwxr-xr-x+ 1 gwalee csstaff  201968 May  4 10:43 libudev.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff 1790736 May  4 10:43 libunistring.so.2
-        -rwxr-xr-x+ 1 gwalee csstaff   67048 May  4 10:43 libxpmem.so.0
-        -rwxr-xr-x+ 1 gwalee csstaff  134016 May  4 10:43 libz.so.1
-        -rwxr-xr-x+ 1 gwalee csstaff  805792 May  4 10:43 libzstd.so.1
-        -rw-r--r--+ 1 gwalee csstaff    3435 May  4 10:42 ORIGIN
+        $ ls -l /capstor/store/cscs/cscs/public/containers/netstack/aarch64/26.08.1/gpu_cuda13-cxi_13.1.0-ofi_2.6.0-aws_1.20.0_dl/
+        total 25508
+        -rwxr-xr-x+ 1 gwalee csstaff  197960 Aug 18 15:33 libbrotlicommon.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   66984 Aug 18 15:33 libbrotlidec.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   66992 Aug 18 15:33 libcom_err.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff 4283944 Aug 18 15:33 libcrypto.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff 1754432 Aug 18 15:33 libc.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  666776 Aug 18 15:33 libcurl.so.4
+        -rwxr-xr-x+ 1 gwalee csstaff  396656 Aug 18 15:33 libcxi.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff 2036112 Aug 18 15:33 libfabric.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff   67744 Aug 18 15:33 libffi.so.8
+        -rwxr-xr-x+ 1 gwalee csstaff  135112 Aug 18 15:33 libgcc_s.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  540712 Aug 18 15:33 libgmp.so.10
+        -rwxr-xr-x+ 1 gwalee csstaff 2157896 Aug 18 15:33 libgnutls.so.30
+        -rwxr-xr-x+ 1 gwalee csstaff  339400 Aug 18 15:33 libgssapi_krb5.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  339832 Aug 18 15:33 libhogweed.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  402304 Aug 18 15:33 libhwloc.so.15
+        -rwxr-xr-x+ 1 gwalee csstaff  132856 Aug 18 15:33 libidn2.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  136496 Aug 18 15:33 libjson-c.so.5
+        -rwxr-xr-x+ 1 gwalee csstaff  201040 Aug 18 15:33 libk5crypto.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff   67880 Aug 18 15:33 libkeyutils.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  876960 Aug 18 15:33 libkrb5.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff   69776 Aug 18 15:33 libkrb5support.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff   69784 Aug 18 15:33 liblber-2.5.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  415240 Aug 18 15:33 libldap-2.5.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  609784 Aug 18 15:33 libm.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  596432 Aug 18 15:33 libnccl-net.so
+        -rwxr-xr-x+ 1 gwalee csstaff  343760 Aug 18 15:33 libnettle.so.8
+        -rwxr-xr-x+ 1 gwalee csstaff  204168 Aug 18 15:33 libnghttp2.so.14
+        -rwxr-xr-x+ 1 gwalee csstaff  206136 Aug 18 15:33 libnl-3.so.200
+        -rwxr-xr-x+ 1 gwalee csstaff 1316064 Aug 18 15:33 libp11-kit.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  132792 Aug 18 15:33 libpsl.so.5
+        -rwxr-xr-x+ 1 gwalee csstaff   68760 Aug 18 15:33 libresolv.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  136232 Aug 18 15:33 librtmp.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  134224 Aug 18 15:33 libsasl2.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff  477248 Aug 18 15:33 libssh.so.4
+        -rwxr-xr-x+ 1 gwalee csstaff  680960 Aug 18 15:33 libssl.so.3
+        -rwxr-xr-x+ 1 gwalee csstaff 2567464 Aug 18 15:33 libstdc++.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  133344 Aug 18 15:33 libtasn1.so.6
+        -rwxr-xr-x+ 1 gwalee csstaff  201968 Aug 18 15:33 libudev.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff 1790736 Aug 18 15:33 libunistring.so.2
+        -rwxr-xr-x+ 1 gwalee csstaff   67048 Aug 18 15:33 libxpmem.so.0
+        -rwxr-xr-x+ 1 gwalee csstaff  134016 Aug 18 15:33 libz.so.1
+        -rwxr-xr-x+ 1 gwalee csstaff  805792 Aug 18 15:33 libzstd.so.1
+        -rw-r--r--+ 1 gwalee csstaff    3435 Aug 18 15:32 ORIGIN
         ```
 
-    Within installation trees, symlinks are provided for convenience in selecting the latest version or the most commonly recommended variant.
-
-    Variant names and symbolic links may change in the future. When selecting a specific artifact, please refer to the versions and variants available in the installation tree.
+    Variant names may change in the future. When selecting a specific artifact, please refer to the versions and variants available in the installation tree.
 
 
 ## Accessing NVIDIA GPUs
