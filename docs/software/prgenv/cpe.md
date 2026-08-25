@@ -48,7 +48,7 @@ The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as sepa
 | `cpe-cray-26.3` | ✅       | ✅      |
 
 !!! note "CPE 26.3 is the last CPE release"
-    HPE have announced that they 26.3 is the last release of CPE.
+    HPE have announced that 26.3 is the last release of CPE.
 
     HPE Supercomputing Programming Software (SUPS) will be the replacement.
     CSCS will provide software packages from SUPS in [uenv][ref-uenv].
