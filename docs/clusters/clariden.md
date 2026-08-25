@@ -156,6 +156,10 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - Sarus Suite Performance Extensions 26.08.1
         - The default netstack artifact version is now 26.08.1.
           There are no software changes: only the naming format of the variants has changed.
+    
+    !!! note "OS updates"
+        - Kernel update to solve CVEs
+        - VAST client update to 4.5.8
 
     !!! note "New file system"
         The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes and on the nodes of the `xfer` partition.
