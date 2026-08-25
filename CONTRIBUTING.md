@@ -9,14 +9,14 @@ Agents should:
 1. read the contributing guide in its raw form in the `docs/contributing/index.md` file — the spell checker section in particular is not duplicated here.
 2. read the rest of this page.
 
-To validate changes, run `./serve build` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
+To validate changes, run `./serve build --strict` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
 This will catch broken links and build errors before the CI pipeline does.
 
 ## Guidelines for agents
 
 The documentation uses the Material for MkDocs framework.
 
-The project configuration is in the `mkdocs.yml` file.
+The project configuration is in the `zensical.toml` file.
 
 The docs are in the `docs` directory.
 
@@ -144,7 +144,7 @@ If information is being documented in more than one place, propose centralising 
 
 IMPORTANT: When asked to write a new page, don't forget the following (where appropriate):
 
-- add it to the table of contents in `mkdocs.yml`
+- add it to the table of contents in `zensical.toml`
 - add a card at the appropriate `index.md` page
 - do we need to update platform specific docs in `docs/alps/platform`?
 - are we contradicting or replacing something that is documented elsewhere? If it looks like we are, ask the user how to proceed.
