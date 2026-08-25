@@ -414,6 +414,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia

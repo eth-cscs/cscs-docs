@@ -56,7 +56,7 @@ The expected consumption is also used to set your scheduling priority through [S
 * Each month also has a minimal consumption — the expected amount reduced by a grace of 15% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.
 
 If you use up your credit before the end of the project, you can run extra jobs in the [`low` partition][ref-cluster-clariden].
-This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of two months of your budget.
+This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped.
 Once that is also exhausted, the project can no longer use compute resources.
 
 See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
