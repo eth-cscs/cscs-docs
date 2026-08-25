@@ -49,9 +49,11 @@ The following file systems are mounted on the MLP clusters Clariden and Bristen:
 | Home | `/users/$USER` | [Vadret][ref-alps-vadret] |
 | Scratch | `/iopsstor/scratch/cscs/$USER` | [Iopsstor][ref-alps-iopsstor] |
 |         | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
-|         | `/ritom/scratch/cscs/$USER` (Clariden only) | [Ritom][ref-alps-ritom] |
-| Project | `/capstor/store/cscs/swissai/<project>` | [Capstor][ref-alps-capstor] |
-|         | `/iopsstor/datacache/cscs/swissai/<project>` | [Iopsstor][ref-alps-iopsstor] |
+|         | `/ritom/scratch/cscs/$USER` | [Ritom][ref-alps-ritom] |
+| Store | `/capstor/store/cscs/<organization>/<project>` | [Capstor][ref-alps-capstor] |
+| Datacache | `/iopsstor/datacache/cscs/<organization>/<project>` | [Iopsstor][ref-alps-iopsstor] |
+
+In the paths above, `<organization>` is the organization your project belongs to (for example `swissai`) and `<project>` is your project's short name.
 
 [](){#ref-mlp-storage-model}
 ### How storage works on the MLP
@@ -82,12 +84,12 @@ Scratch is per user - each user gets separate scratch path and quota.
 
 * The environment variable `SCRATCH=/iopsstor/scratch/cscs/$USER` is set automatically when you log into a system of the ML platform, and can be used as a shortcut to access scratch.
 * There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`.
-* On Clariden, a further scratch path is available on [Ritom][ref-alps-ritom] (a VAST file system) at `/ritom/scratch/cscs/$USER`.
+* There is a further scratch path on [Ritom][ref-alps-ritom] (a VAST file system) at `/ritom/scratch/cscs/$USER`.
 
 !!! warning "scratch cleanup policy"
     - Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
     - Files on `/capstor/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
-    - On Clariden, the cleanup policy for `/ritom/scratch/cscs/$USER` is being finalised.
+    - The cleanup policy for `/ritom/scratch/cscs/$USER` is being finalised.
 
     **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
 
@@ -115,7 +117,7 @@ After your job completes, remember to transfer any important results to your [pr
 
 ### Project store
 
-The [project store][ref-storage-store] (`/capstor/store/cscs/swissai/<project>`) is persistent, backed-up storage for datasets, shared code and configuration scripts that need to be accessed from different vClusters.
+The [project store][ref-storage-store] (`/capstor/store/cscs/<organization>/<project>`) is persistent, backed-up storage for datasets, shared code and configuration scripts that need to be accessed from different vClusters.
 It has no cleanup policy, and is per project: each project gets a folder with a project [quota][ref-storage-quota] on capacity and inodes.
 Hard limits prevent writing once the quota is reached; you can check usage with the [`quota`][ref-storage-quota] command on a login node or ela.
 
@@ -128,7 +130,7 @@ Writing to the project store directly from jobs is not recommended: stage data t
 [](){#ref-mlp-storage-datacache}
 ### Project data cache
 
-`datacache` is a project-level working area on the fast [Iopsstor][ref-alps-iopsstor] file system, mounted at `/iopsstor/datacache/cscs/swissai/<project>`.
+`datacache` is a project-level working area on the fast [Iopsstor][ref-alps-iopsstor] file system, mounted at `/iopsstor/datacache/cscs/<organization>/<project>`.
 It gives the whole project one shared, high-performance copy of the datasets its members actively work on, so users no longer stage a private copy of the same data on their own scratch.
 
 Like scratch, it is fast NVMe storage and is **not backed up**.
