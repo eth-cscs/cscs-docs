@@ -87,7 +87,12 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-03-05 container engine updated"
+!!! change "2026-08-26"
+    !!! note "New file system"
+        - The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes.
+        - The [Ritom][ref-alps-ritom] VAST file system `/ritom/scratch` is now mounted on the compute nodes.
+
+??? change "2025-03-05 container engine updated"
     now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
 ### Known issues
