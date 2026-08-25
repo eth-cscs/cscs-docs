@@ -45,7 +45,9 @@ The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as sepa
 | `cpe-cray-24.7` | ✅       | ✅      |
 | `cpe-gnu-25.3`  | ✅       | ✅      |
 | `cpe-cray-25.3` | ✅       | ✅      |
+| `cpe-gnu-25.9`  | ✅       | ✅      |
 | `cpe-cray-25.9` | ✅       | ✅      |
+| `cpe-gun-26.3 ` | ✅       | ✅      |
 | `cpe-cray-26.3` | ✅       | ✅      |
 
 !!! note "CPE 26.3 is the last CPE release"
