@@ -24,6 +24,7 @@ See the following external documentation pages for more detailed information:
 !!! warning "Version 1 deprecation"
     FirecREST version 1 was decommissioned on Alps on December 5th, 2025
 
+[](){#ref-firecrest-deployment}
 ## FirecREST Deployment on Alps
 
 FirecREST is available for all three major [Alps platforms][ref-alps-platforms], with a dedicated API endpoint for each platform.
@@ -59,8 +60,45 @@ You can manage your client application on the [CSCS Developer Portal][ref-devpor
 
 To use your client credentials to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
 
-!!! note "Service Account access"
-    If you want to call FirecREST using a [Service Account][ref-service-accounts] API key instead of a personal client application, see [FirecREST Service Accounts][ref-firecrest-service-accounts].
+[](){#ref-firecrest-service-accounts}
+### Service Account API keys
+
+[Service Accounts][ref-service-accounts] provide programmatic, non-interactive access to CSCS resources.
+A Service Account API key can be used to authenticate requests to FirecREST instead of a personal client application.
+This is useful for automated workflows that need to call FirecREST but should not be tied to a personal user account or Developer Portal application.
+
+!!! warning "Experimental"
+    Calling FirecREST with a Service Account API key is an experimental service.
+    The endpoints and the authentication flow described in this section can change without a deprecation period.
+
+    Service Accounts are not allowed to use these endpoints by default: each Service Account has to be explicitly allowlisted first.
+    To request access, open a ticket at the [CSCS Service Desk](https://support.cscs.ch) stating the name of the Service Account and the project it belongs to.
+
+!!! note "Requesting a Service Account"
+    To use FirecREST with a Service Account you first need a Service Account and its API key.
+    See [Requesting a Service Account][ref-account-create-service-account] for how to create one.
+
+Service Account requests are not sent to the [platform endpoints][ref-firecrest-deployment], but to a separate proxy deployment at `https://f7t-pat.api.svc.cscs.ch/<platform>`, where the platform path selects which FirecREST deployment the request is forwarded to.
+
+| Platform                          | Service Account endpoint                 | Clusters                                                         |
+|-----------------------------------|------------------------------------------|------------------------------------------------------------------|
+| [HPC Platform][ref-platform-hpcp] | `https://f7t-pat.api.svc.cscs.ch/hpcp`   | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger]           |
+| [ML Platform][ref-platform-mlp]   | `https://f7t-pat.api.svc.cscs.ch/mlp`    | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
+| [C&W Platform][ref-platform-cwp]  | `https://f7t-pat.api.svc.cscs.ch/cw`     | [Santis][ref-cluster-santis]                                     |
+
+The API surface under each endpoint is the same as the corresponding platform deployment.
+The API key is passed in the `X-API-Key` header, and unlike the platform endpoints, the proxy does not require an OAuth2 access token.
+
+```bash title="List FirecREST systems using a Service Account"
+curl -s -X GET "https://f7t-pat.api.svc.cscs.ch/hpcp/status/systems" \
+     -H "X-API-Key: $CSCS_API_KEY"
+```
+
+For calling the proxy from Python, see [using a Service Account with pyFirecREST][ref-firecrest-python-service-account].
+
+!!! warning "Keep your API key secret"
+    The Service Account API key is a credential.
+    Store it in a secret manager or CI/CD variable and never commit it to a repository.
 
 ## Getting Started
 
@@ -189,6 +227,104 @@ This package simplifies the usage of FirecREST by making multiple requests in th
     ```
 
 The tutorial is written for a generic instance of FirecREST but if you have a valid user at CSCS you can test it directly with your resource allocation on the exposed systems.
+
+[](){#ref-firecrest-python-service-account}
+pyFirecREST does not yet natively support the `X-API-Key` authentication used by [Service Account endpoints][ref-firecrest-service-accounts].
+Until it does, the client can be configured with an `httpx` request hook that replaces the bearer token with the API key header.
+
+??? example "Use a Service Account API key with pyFirecREST"
+    The helper below builds a `Firecrest` client for Service Account access, and the second half of the script uses it to inspect systems, user information and files.
+
+    Note that the helper relies on pyFirecREST internals (`client._session` and `create_new_session`), so it may need to be adapted after a pyFirecREST upgrade.
+
+    ```python
+    import json
+    import os
+    import sys
+
+    import httpx
+    from firecrest.v2 import Firecrest
+
+
+    DEFAULT_URL = "https://f7t-pat.api.svc.cscs.ch/hpcp"
+    API_KEY_HEADER = "X-API-Key"
+
+    API_KEY = os.environ.get("CSCS_API_KEY")
+    if not API_KEY:
+        print("Set the CSCS_API_KEY environment variable")
+        sys.exit(1)
+
+
+    class ApiKeyAuth:
+        """Placeholder auth object that suppresses token-based authentication."""
+
+        def __init__(self, api_key: str):
+            self.api_key = api_key
+
+        def get_access_token(self) -> str:
+            return "unused-api-key-auth"
+
+
+    def _api_key_hook(api_key: str):
+        """Return an httpx request hook that swaps bearer auth for the API key."""
+
+        def hook(request: httpx.Request) -> None:
+            request.headers.pop("Authorization", None)
+            request.headers[API_KEY_HEADER] = api_key
+
+        return hook
+
+
+    def create_client(
+        api_key: str,
+        firecrest_url: str = DEFAULT_URL,
+    ) -> Firecrest:
+        """Build a ``Firecrest`` client that authenticates with ``X-API-Key``."""
+        client = Firecrest(
+            firecrest_url=firecrest_url,
+            authorization=ApiKeyAuth(api_key),
+            verify=True,
+        )
+
+        hook = _api_key_hook(api_key)
+        client._session.event_hooks["request"].append(hook)
+
+        # close_session()/create_new_session() build a fresh httpx.Client, which
+        # would come without our hook, so re-install it on every new session.
+        original_create_new_session = client.create_new_session
+
+        def create_new_session_with_hook() -> None:
+            original_create_new_session()
+            client._session.event_hooks["request"].append(hook)
+
+        client.create_new_session = create_new_session_with_hook
+        return client
+
+
+    SYSTEM = "daint"
+    client = create_client(api_key=API_KEY, firecrest_url=DEFAULT_URL)
+
+    #
+    # using the client
+    #
+
+    print(f"Server version: {client.server_version() or 'unknown'}")
+    systems = client.systems()
+    print(f"\nSystems ({len(systems)}):")
+    for system in systems:
+        print(f"  - {system.get('name')}")
+
+    print("\nUser info:")
+    user = client.userinfo(system_name=SYSTEM)
+    print(json.dumps(user, indent=2))
+
+    print("\nHome directory:")
+    username = user["user"]["name"]
+    for entry in client.list_files(system_name=SYSTEM, path=f"/users/{username}"):
+        print(f"  {entry.get('permissions', ''):>10}  {entry.get('name')}")
+
+    client.close_session()
+    ```
 
 ### Data transfer with FirecREST
 
