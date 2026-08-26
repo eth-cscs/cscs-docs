@@ -2,39 +2,36 @@
 
 # vLLM/SGLang on AMD GPUs Tutorial
 
-This tutorial will guide you through the steps required to setup a vLLM or SGLang container on AMD GPUs to serve a LLM.
+This tutorial will guide you through the steps required to setup a vLLM or SGLang container to serve a LLM on AMD GPUs.
 
-In this specific tutorial we are going to show how:
-
-- setup a vLLM/SGLang container
-- to run a LLM
-- with Slurm
-- on AMD GPUs
-- in a single or multi-node setup
+In this specific tutorial we are going to show how to:
+- setup a vLLM/SGLang container for AMD GPUs
+- launch a single node LLM inference instance
+- launch a multi-node LLM inference instance (with Slurm)
 - and test it
 
 !!! warning "What this guide is NOT"
     This guide is not about how to configure correctly/at best vLLM or SGLang on Alps clusters.
-    For more details about vLLM or SGLang parameters and best setup for a specific model have a look at <https://recipes.vllm.ai/> and <https://docs.sglang.io/>, respectively, while for what concerns the Alps cluster setup, you'll have to explore documentation for the specific cluster, experiment and benchmark.
+    For more details about vLLM or SGLang parameters and best setups for a specific model have a look at <https://recipes.vllm.ai/> and <https://docs.sglang.io/>, respectively, while for what concerns the Alps cluster setup, you will have to explore documentation for the specific cluster, experiment and benchmark.
 
 ### Prerequisites
 
-This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML platform][ref-platform-mlp].
+This tutorial assumes that you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML platform][ref-platform-mlp].
 
-In particular, this tutorial aims at Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
+In particular, this tutorial aims at the Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
 
 ### Get the vLLM/SGLang image
 
-In this tutorial we are going to use a vLLM/SGLang official image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended)) in favour of [`vllm/vllm-openai-rocm`](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [`lmsysorg/sglang`](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
+In this tutorial we are going to use an official vLLM/SGLang image for ROCm systems. From early 2026 the AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended)) in favour of [`vllm/vllm-openai-rocm`](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [`lmsysorg/sglang`](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
 
-Beforehand, if you have not done already, let's create a directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
+Beforehand, if you have not done already, let us create a directory to keep track of all images used with the [Container Engine][ref-container-engine]. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
 
 ```console title="Container image directory with recommended LUSTRE settings"
 mkdir -p $SCRATCH/ce-images
 lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images
 ```
 
-Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as squashfs archive that can be used with [Container Engine][ref-container-engine].
+Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as squashfs archive that can be used with the [Container Engine][ref-container-engine].
 
 === "`vLLM`"
     !!! example ""
@@ -85,9 +82,9 @@ FI_MR_CACHE_MONITOR="disabled"
 
 ### Launch a Single Node instance
 
-At this point everything is ready, the CE image needs just to be launched and vLLM or SGLang started.
+At this point everything is ready, the container image needs just to be launched and vLLM or SGLang started.
 
-The simplest run possible is a single GPU instance
+The simplest is to launch a single GPU instance with
 
 === "`vLLM`"
     !!! example ""
@@ -103,7 +100,7 @@ The simplest run possible is a single GPU instance
             sglang serve Qwen/Qwen2.5-1.5B-Instruct --max-total-tokens 10240
         ```
 
-or using multiple GPUs from the same node
+or to use multiple GPUs from the same node as follows:
 
 === "`vLLM`"
     !!! example ""
@@ -129,7 +126,7 @@ It can be queried for served LLMs with
 curl -s http://nid00xxxx:8000/v1/models | jq .
 ```
 
-or a prompt can be submitted to one of the provided models
+or a prompt can be submitted to one of the provided models, e.g. for the `Qwen2.5-1.5B-Instruct` model, as follows:
 
 ```console
 curl -s http://nid00xxxx:8000/v1/completions \
@@ -150,7 +147,7 @@ For multi-node instances a sbatch script like the following one is able to:
     !!! example ""
         - start `ray` on the master node
         - start `ray` on the workers nodes registering their resources and announcing themselves to the master node
-        - just on the master node start `vllm serve` (with required parameters)
+        - start `vllm` (with required parameters) only on the master node 
         ```sbatch
         #!/bin/bash
         #SBATCH -J inference-instance
@@ -328,7 +325,7 @@ For multi-node instances a sbatch script like the following one is able to:
         ```
 
 
-Save previous content in a `run-inference.sbatch` file and then use it to start the instance with
+Save the previous content in a `run-inference.sbatch` file and then use it to start the instance with
 
 ```console
 sbatch run-inference.sbatch
