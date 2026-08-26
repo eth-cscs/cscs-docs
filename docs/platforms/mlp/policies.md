@@ -59,8 +59,6 @@ If you use up your credit before the end of the project, you can run extra jobs 
 This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget.
 Once that is also exhausted, the project can no longer use compute resources.
 
-See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
-
 <div class="diagram">
 <svg viewBox="0 0 1160 320" width="100%" role="img"
      aria-label="Top: three example months of usage as bars against two thresholds, an expected line and a minimal line below it separated by the grace. Above expected is fine, in between rolls over, below the minimal the gap is lost. Bottom: the project timeline, 6 or 12 months, then compute stops, then a 90-day grace period in which the project stays active for data retrieval only, then it closes.">
@@ -102,6 +100,8 @@ See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, 
   </g>
 </svg>
 </div>
+
+See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
 
 [](){#ref-mlp-policies-storage}
 ## Storage budget
