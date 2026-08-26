@@ -112,7 +112,7 @@ nav:
         - 'LLM Inference':    tutorials/ml/llm-inference.md
         - 'LLM Fine-tuning':  tutorials/ml/llm-fine-tuning.md
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
-        - 'vLLM on AMD GPUs': tutorials/ml/vllm-amdgpus.md
+        - 'vLLM/SGLang on AMD GPUs': tutorials/ml/vllm-sglang-amdgpus.md
     - 'Climate and Weather':
       - software/cw/index.md
       - 'Deployment': software/cw/deployment.md
