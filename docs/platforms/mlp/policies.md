@@ -101,6 +101,12 @@ Once that is also exhausted, the project can no longer use compute resources.
 </svg>
 </div>
 
+The usage for a project can be seen in the project dashboard on [portal.cscs.ch](https://portal.cscs.ch) where you have an overview showing the your usage for current month, and how it is wrt. the expected and ideal usage, and the global credit usage.
+
+![waldur-usage](../../images/access/waldur-usage.png)
+
+Above an example of a project that has been below pace in the past months (and has thus lost some unused credit), but is much ahead of pace for the current month.
+
 See the [appendix][ref-mlp-policies-appendix] for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
 
 [](){#ref-mlp-policies-storage}
