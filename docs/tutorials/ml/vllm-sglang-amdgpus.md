@@ -314,7 +314,7 @@ For multi-node instances a sbatch script like the following one is able to:
                 --model-path Qwen/Qwen2.5-1.5B-Instruct \
                 --tensor-parallel-size ${TENSOR_PARALLEL_SIZE} \
                 --pipeline-parallel-size ${PIPELINE_PARALLEL_SIZE} \
-                --max-total-tokens 1048576  # Set the maximum number of tokens explicitly instead of using --mem-fraction-static
+                --max-total-tokens 1048576
 
             if [ $? -eq 0 ]; then
                 echo "JOB COMPLETED"
