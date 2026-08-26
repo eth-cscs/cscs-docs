@@ -2,9 +2,9 @@
 # Bristen
 
 Bristen is an Alps cluster that provides GPU accelerators and filesystems designed to meet the needs of machine learning workloads in the [MLP][ref-platform-mlp].
-It is clasified as a test and development system, provided on a best effort basis for benchmarking and testing [a100][ref-alps-a100-node] nodes, data preparation and similar tasks that require x86 nodes.
+It is classified as a test and development system, provided on a best effort basis for benchmarking and testing [a100][ref-alps-a100-node] nodes, data preparation and similar tasks that require x86 nodes.
 It is *not* a  cluster where to do the bulk of your computation, nodes can be removed from it for higher priority tasks.
-[Clariden](../clariden) is where production runs should take place. 
+[Clariden][ref-cluster-clariden] is where production runs should take place. 
 
 ## Cluster Specification
 
@@ -87,7 +87,12 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-03-05 container engine updated"
+!!! change "2026-08-26"
+    !!! note "New file system"
+        - The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes.
+        - The [Ritom][ref-alps-ritom] VAST file system `/ritom/scratch` is now mounted on the compute nodes.
+
+??? change "2025-03-05 container engine updated"
     now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
 ### Known issues

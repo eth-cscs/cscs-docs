@@ -29,6 +29,7 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
@@ -52,6 +53,7 @@ GGA
 GPFS
 GPG
 GPU
+GPUh
 GPUs
 GPW
 GROMACS
@@ -136,6 +138,7 @@ SHMEM
 SHS
 Skybox
 SLA
+SLES
 SLO
 SOTA
 SSHService
@@ -177,12 +180,14 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
 cuda
 customised
 cyberduck
+datacache
 dbcsr
 dcomex
 demystifying
@@ -203,6 +208,7 @@ elpa
 epyc
 fftw
 filesystems
+finalised
 fontawesome
 fpmd
 gcc
@@ -224,6 +230,7 @@ huggingface
 hwloc
 iframe
 ijulia
+img
 inodes
 iopsstor
 ivo
@@ -246,6 +253,7 @@ libtorch
 libtree
 libvori
 libxc
+lifecycle
 linalg
 linkx
 linux
@@ -325,6 +333,7 @@ quantumespresso
 quasiparticles
 quickstart
 recv
+rclone
 rgw
 retag
 retagging
@@ -413,6 +422,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia
