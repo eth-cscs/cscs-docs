@@ -138,13 +138,18 @@ If no GPU is requested, the job may receive only a minimal CPU allocation and wi
 
 #### Multi-GPU jobs with P2P/IPC
 
-Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GPU P2P/IPC (for example MPI across GPUs on the same node) must add:
+Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GPU P2P/IPC (for example MPI across GPUs on the same node) must add to the `srun` command (NB: this does not work being specified in the `#SBATCH` definition block):
 
 ```bash
 --gres-flags=allow-task-sharing
 ```
 
 This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU-GPU communication will fail.
+
+!!! information
+    Alternatively, you can set the environment variable `SLURM_GRES_FLAGS` in your job submission script, e.g.:
+    `export SLURM_GRES_FLAGS="allow-task-sharing"` (if you have other flags set, you can add them as a comma-separated list)
+    
 
 #### Low-priority overflow partition
 
