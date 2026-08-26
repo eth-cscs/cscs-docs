@@ -101,7 +101,7 @@ Once that is also exhausted, the project can no longer use compute resources.
 </svg>
 </div>
 
-The usage for a project can be seen in the project dashboard on [portal.cscs.ch](https://portal.cscs.ch) where you have an overview showing the your usage for current month, and how it is wrt. the expected and ideal usage, and the global credit usage.
+The usage for a project can be seen in the project dashboard on [portal.cscs.ch](https://portal.cscs.ch) where you have an overview showing the your usage for current month, and how it is with respect to the expected and ideal usage, and the global credit usage.
 
 ![waldur-usage](../../images/access/waldur-usage.png)
 
