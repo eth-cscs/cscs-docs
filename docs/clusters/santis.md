@@ -146,7 +146,7 @@ Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GP
 --gres-flags=allow-task-sharing
 ```
 
-This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU communication may fail.
+This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU-GPU communication will fail.
 
 #### Low-priority overflow partition
 
