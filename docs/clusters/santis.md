@@ -144,9 +144,13 @@ Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GP
 --gres-flags=allow-task-sharing
 ```
 
+<<<<<<< HEAD
 Please note: This flag is an `srun` option and cannot be added to the `#SBATCH` block. Alternatively, it is possible to specify this through the environment variable `$SLURM_GRES_FLAGS`.
 
 This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU communication may fail.
+=======
+This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU-GPU communication will fail.
+>>>>>>> b4c3ab5a61880b43ab7b575bea168c4e67d739c4
 
 #### Low-priority overflow partition
 
