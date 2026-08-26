@@ -147,11 +147,10 @@ curl -s http://nid00xxxx:8000/v1/completions \
 For multi-node instances a sbatch script like the following one is able to:
 
 === "`vLLM`"
-    !!! example """
-      - start `ray` on the master node
-      - start `ray` on the workers nodes registering their resources and announcing themselves to the master node
-      - just on the master node start `vllm serve` (with required parameters)
-    """
+    !!! example ""
+        - start `ray` on the master node
+        - start `ray` on the workers nodes registering their resources and announcing themselves to the master node
+        - just on the master node start `vllm serve` (with required parameters)
         ```sbatch
         #!/bin/bash
         #SBATCH -J inference-instance
@@ -269,9 +268,8 @@ For multi-node instances a sbatch script like the following one is able to:
         ```
 
 === "`SGLang`"
-    !!! example """
-      - start `sglang` on every node with the correct parameters for multi-node serving
-    """
+    !!! example ""
+        - start `sglang` on every node with the correct parameters for multi-node serving
         ```sbatch
         #!/bin/bash
         #SBATCH -J inference-instance
