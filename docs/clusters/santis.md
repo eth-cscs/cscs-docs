@@ -16,8 +16,6 @@ There are two login nodes, `santis-ln00[1,2]`, which are repurposed compute node
 You will be assigned to one of the two login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 This leaves 300 nodes available for compute jobs.
 
-Each GH200 node has four Grace-Hopper chips, giving 288 CPU cores, 4 GPUs and approximately 870 GB of RAM per node.
-
 | node type | number of nodes | total CPU sockets | total GPUs |
 |-----------|-----------------| ----------------- | ---------- |
 | [gh200][ref-alps-gh200-node] | 302 | 1,208      | 1,208 |
@@ -146,6 +144,8 @@ Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GP
 --gres-flags=allow-task-sharing
 ```
 
+Please note: This flag is an `srun` option and cannot be added to the `#SBATCH` block. Alternatively, it is possible to specify this through the environment variable `$SLURM_GRES_FLAGS`.
+
 This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task `CUDA_VISIBLE_DEVICES` bindings. Without this flag, intra-node GPU communication may fail.
 
 #### Low-priority overflow partition
@@ -180,14 +180,21 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 ### Change log
 
 !!! change "2026-08-26"
+    !!! note "Login node limits"
+        To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
+        Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
+        Agentic tools and VSCode might be affected by these limits.
+        Compute intensive tasks will also be affected by the limits.
+        Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
     !!! note "Slurm"
-    - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.
-    - Introduce the `low` partition for overflow work and quota-exhausted projects.
-    - Enforce a per-user limit of 10 concurrently running jobs.
-    - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing`.
+        - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.
+        - Introduce the `low` partition for overflow work and quota-exhausted projects.
+        - Enforce a per-user limit of 10 concurrently running jobs.
+        - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing` to the `srun` command or `export SLURM_GRES_FLAGS=allow-task-sharing`.
 
     !!! warning "Known limitation"
-    - SLURM accounting still bills per node-hour. A single-chip job is currently accounted as one full node-hour until chip-level accounting is implemented. Compensation for node-hours lost due to this lag will be evaluated on a case-by-case basis.
+        - SLURM accounting still bills per node-hour. A single-chip job is currently accounted as one full node-hour until chip-level accounting is implemented. Compensation for node-hours lost due to this lag will be evaluated on a case-by-case basis.
 
 ??? change "2026-06-17"
     !!! note "Operating Environment and Networking Stack"
