@@ -29,6 +29,7 @@ nav:
     - 'Storage': alps/storage.md
     - 'Machine Learning Platform':
       - platforms/mlp/index.md
+      - 'Policies': platforms/mlp/policies.md
       - 'Clariden': clusters/clariden.md
       - 'Bristen': clusters/bristen.md
     - 'HPC Platform':

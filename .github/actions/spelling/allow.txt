@@ -53,6 +53,7 @@ GGA
 GPFS
 GPG
 GPU
+GPUh
 GPUs
 GPW
 GROMACS
@@ -229,6 +230,7 @@ huggingface
 hwloc
 iframe
 ijulia
+img
 inodes
 iopsstor
 ivo
@@ -420,6 +422,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia
