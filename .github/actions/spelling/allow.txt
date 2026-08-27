@@ -224,6 +224,7 @@ gromos
 groundstate
 gsl
 hdf
+httpx
 hugepages
 hugetlbfs
 hotmail
