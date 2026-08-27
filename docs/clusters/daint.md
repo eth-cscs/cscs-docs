@@ -165,6 +165,10 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     !!! note "Slurm config"
         The config `MaxArraySize` has been increased from the default of `1001` to `20001` (same as on `eiger`)
 
+    !!! note "uenv default repository"
+        Using `uenv` with a repository stored on `capstor` will issue a migration warning.
+        It is safe to follow the [migration guide][ref-uenv-manage-ritom-migration], and move your repository to `ritom`.
+        Please take note of potential access permission problems and the fix, as described in the migration guide.
 
 ??? change "2026-07-15"
     !!! note "Container Engine"
