@@ -17,6 +17,7 @@ CESM
 CFLAGS
 CHARMM
 CHF
+cgroups
 compset
 curated
 COSMA
