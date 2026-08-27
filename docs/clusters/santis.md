@@ -199,6 +199,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.
         - Introduce the `low` partition for overflow work and quota-exhausted projects.
         - Enforce a per-user limit of 10 concurrently running jobs.
+        - Enable the power capping feature on the GH200 nodes.
         - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing` to the `srun` command or `export SLURM_GRES_FLAGS=allow-task-sharing`.
 
     !!! warning "Known limitation"
