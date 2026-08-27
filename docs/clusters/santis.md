@@ -151,6 +151,11 @@ This keeps all GPUs allocated to a job visible to all tasks of that job while pr
     `export SLURM_GRES_FLAGS="allow-task-sharing"` (if you have other flags set, you can add them as a comma-separated list)
     
 
+#### CPU Power Capping
+
+This power capping feature allows to optimize power distribution on the GH200 nodes in favour of the GPUs for applications using CPU and GPU simultaneously.
+You can find more details and instructions how to activate the power capping in your runs [here][ref-slurm-gh200-power-capping].
+
 #### Low-priority overflow partition
 
 The `low` partition is available to all users for work that should only run when the higher-priority partitions have idle capacity. It is intended for:
