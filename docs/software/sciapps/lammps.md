@@ -465,8 +465,6 @@ lmp ...
     ```
 
 [LAMMPS]: https://www.lammps.org
-[GNU Public License]: http://www.gnu.org/copyleft/gpl.html
-[uenv]: https://eth-cscs.github.io/cscs-docs/software/uenv
 [Slurm ]: https://eth-cscs.github.io/cscs-docs/running/slurm
 [ML-IAP package]: https://docs.lammps.org/Packages_details.html#pkg-ml-iap
 [PyTorch 2.9]: https://pytorch.org/blog/pytorch-2-9/
