@@ -156,6 +156,7 @@ Wannier
 WSL
 XDG
 Zsh
+Zensical
 Zumsteinspitz
 aarch
 acfdt
@@ -442,6 +443,7 @@ xfer
 xname
 xpmem
 youtube
+zensical
 zstd
 HPS
 jobscript
