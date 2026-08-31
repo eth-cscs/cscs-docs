@@ -23,13 +23,13 @@ jobs:
       #    restore-keys: |
       #      zensical-
       - run: pip install --upgrade pip
-      - run: |
-          pip install -r requirements.txt
+      - run: pip install -r requirements.txt
       - run: rm -rf site
       # point the preview build at the URL it will be served from
       - run: |
           sed -i -e 's|^#\?site_url.*|site_url = "https://cscs-docs-preview.svc.cscs.ch/${{ github.event.pull_request.number }}"|' zensical.toml
       - run: cat zensical.toml
+      - run: zensical --version
       - run: zensical build --strict
       - run: |
           mkdir upload

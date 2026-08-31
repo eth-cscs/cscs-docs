@@ -19,8 +19,8 @@ jobs:
       #    restore-keys: |
       #      zensical-
       - run: pip install --upgrade pip
-      - run: |
-          pip install -r requirements.txt
+      - run: pip install -r requirements.txt
       - run: rm -rf site
       - run: cat zensical.toml
+      - run: zensical --version
       - run: zensical build --strict
