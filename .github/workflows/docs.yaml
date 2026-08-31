@@ -26,6 +26,7 @@ jobs:
       - run: |
           pip install -r requirements.txt
       - run: rm -rf site
+      - run: zensical --version
       - run: zensical build --strict
       # zensical has no equivalent of `mkdocs gh-deploy`, so the built site is
       # committed to the gh-pages branch by hand
@@ -67,4 +68,3 @@ jobs:
             git -C gh-pages commit -m "Deployed ${GITHUB_SHA} with zensical"
             git -C gh-pages push origin gh-pages
           fi
-      - run: zensical --version
