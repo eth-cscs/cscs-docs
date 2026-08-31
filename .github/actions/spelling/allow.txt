@@ -17,6 +17,7 @@ CESM
 CFLAGS
 CHARMM
 CHF
+cgroups
 compset
 curated
 COSMA
@@ -29,6 +30,7 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
@@ -52,6 +54,7 @@ GGA
 GPFS
 GPG
 GPU
+GPUh
 GPUs
 GPW
 GROMACS
@@ -136,6 +139,7 @@ SHMEM
 SHS
 Skybox
 SLA
+SLES
 SLO
 SOTA
 SSHService
@@ -177,6 +181,7 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
@@ -219,6 +224,7 @@ gromos
 groundstate
 gsl
 hdf
+httpx
 hugepages
 hugetlbfs
 hotmail
@@ -226,6 +232,7 @@ huggingface
 hwloc
 iframe
 ijulia
+img
 inodes
 iopsstor
 ivo
@@ -417,6 +424,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia

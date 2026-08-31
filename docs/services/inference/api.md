@@ -322,7 +322,11 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 },
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7-Code"
+                        "name": "Kimi K2.7-Code",
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
                     }
                 }
             }

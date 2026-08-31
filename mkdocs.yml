@@ -29,6 +29,7 @@ nav:
     - 'Storage': alps/storage.md
     - 'Machine Learning Platform':
       - platforms/mlp/index.md
+      - 'Policies': platforms/mlp/policies.md
       - 'Clariden': clusters/clariden.md
       - 'Bristen': clusters/bristen.md
     - 'HPC Platform':
@@ -112,6 +113,7 @@ nav:
         - 'LLM Inference':    tutorials/ml/llm-inference.md
         - 'LLM Fine-tuning':  tutorials/ml/llm-fine-tuning.md
         - 'LLM Pre-training': tutorials/ml/llm-nanotron-training.md
+        - 'vLLM/SGLang on AMD GPUs': tutorials/ml/vllm-sglang-amdgpus.md
     - 'Climate and Weather':
       - software/cw/index.md
       - 'Deployment': software/cw/deployment.md
@@ -182,6 +184,7 @@ nav:
     - 'User Regulations': policies/regulations.md
     - 'Code of Conduct': policies/code-of-conduct.md
     - 'User Support Policies': policies/support.md
+    - 'Fair usage of shared resources': policies/shared.md
     - 'Slack Code of Conduct': policies/slack.md
     - 'Scheduled Maintenance and System Unavailability Policies': policies/maintenance.md
   - 'Contributing':
