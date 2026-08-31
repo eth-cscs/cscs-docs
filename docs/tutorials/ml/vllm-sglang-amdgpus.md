@@ -25,7 +25,7 @@ In particular, this tutorial targets the Beverin cluster, but it should be possi
 
 In this tutorial we are going to use an official vLLM/SGLang image for ROCm systems. From early 2026 AMD's Docker images [`rocm/vllm`](https://hub.docker.com/r/rocm/vllm) and [`rocm/sgl-dev`](https://hub.docker.com/r/rocm/sgl-dev) (and others) have been deprecated (see, e.g., [here](https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated) and [here](https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended)) in favour of [`vllm/vllm-openai-rocm`](https://hub.docker.com/r/vllm/vllm-openai-rocm) and [`lmsysorg/sglang`](https://hub.docker.com/r/lmsysorg/sglang/tags) images, respectively. The following steps will show how to use the new images.
 
-Beforehand, if you have not done already, let us create a directory to keep track of all images used with the [Container Engine][ref-container-engine]. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
+Beforehand, if you have not done already, let us create a directory to keep track of all images used with the [Container Engine][ref-container-engine]. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for Lustre][ref-guides-storage-lustre] so they are properly distributed across storage nodes.
 
 ```console title="Container image directory with recommended LUSTRE settings"
 mkdir -p $SCRATCH/ce-images
