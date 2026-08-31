@@ -11,17 +11,17 @@
         <link rel="canonical" href="https://docs.cscs.ch/clusters/santis/">
       
       
-        <link rel="prev" href="../../platforms/cwp/">
+        <link rel="prev" href="../eiger/">
       
       
-        <link rel="next" href="../../access/">
+        <link rel="next" href="../../alps/hardware/">
       
       
         
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="zensical-0.0.57">
     
     
       
@@ -29,10 +29,15 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/classic/main.38807bfb.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/classic/palette.c7ab7c71.min.css">
       
       
 
@@ -46,14 +51,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
     
       
 
@@ -74,7 +79,7 @@
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
     <div data-md-component="skip">
       
         
@@ -96,10 +101,10 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="CSCS Documentation" class="md-header__button md-logo" aria-label="CSCS Documentation" data-md-component="logo">
       
-  <img src="../../assets/cscs-logo.png" alt="logo">
+  <img src="../../assets/cscs-logo.png" alt="CSCS Documentation">
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
@@ -146,9 +151,9 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to auto mode"  type="radio" name="__palette" id="__palette_2">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+      <label class="md-header__button md-icon" title="Switch to auto mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
     
@@ -163,62 +168,20 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search">
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
 </div>
       
     
-    
-      <div class="md-header__source">
-        <a href="https://github.com/eth-cscs/cscs-docs" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-      </div>
-    
+    <div class="md-header__source">
+      
+    </div>
   </nav>
   
 </header>
@@ -246,23 +209,11 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="CSCS Documentation" class="md-nav__button md-logo" aria-label="CSCS Documentation" data-md-component="logo">
       
-  <img src="../../assets/cscs-logo.png" alt="logo">
+  <img src="../../assets/cscs-logo.png" alt="CSCS Documentation">
 
     </a>
     CSCS Documentation
   </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/eth-cscs/cscs-docs" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
-  </div>
-  <div class="md-source__repository">
-    GitHub
-  </div>
-</a>
-    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -280,8 +231,7 @@
   <span class="md-ellipsis">
     
   
-    Welcome
-  
+  Welcome
 
     
   </span>
@@ -341,8 +291,7 @@
   <span class="md-ellipsis">
     
   
-    Alps
-  
+  Alps
 
     
   </span>
@@ -363,8 +312,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Alps
-  
+  Alps
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -385,8 +333,7 @@
   <span class="md-ellipsis">
     
   
-    Platforms
-  
+  Platforms
 
     
   </span>
@@ -403,6 +350,8 @@
                 
   
   
+    
+  
   
   
     
@@ -428,11 +377,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -443,8 +392,7 @@
   <span class="md-ellipsis">
     
   
-    Clusters
-  
+  Clusters
 
     
   </span>
@@ -460,13 +408,12 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Clusters
-  
+  Clusters
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -487,8 +434,7 @@
   <span class="md-ellipsis">
     
   
-    Besso
-  
+  Besso
 
     
   </span>
@@ -515,8 +461,7 @@
   <span class="md-ellipsis">
     
   
-    Bristen
-  
+  Bristen
 
     
   </span>
@@ -543,8 +488,7 @@
   <span class="md-ellipsis">
     
   
-    Clariden
-  
+  Clariden
 
     
   </span>
@@ -571,8 +515,7 @@
   <span class="md-ellipsis">
     
   
-    Daint
-  
+  Daint
 
     
   </span>
@@ -599,8 +542,7 @@
   <span class="md-ellipsis">
     
   
-    Eiger
-  
+  Eiger
 
     
   </span>
@@ -623,7 +565,9 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+        <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
       
       
         
@@ -636,8 +580,7 @@
   <span class="md-ellipsis">
     
   
-    Santis
-  
+  Santis
 
     
   </span>
@@ -647,15 +590,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="././" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Santis
-  
+  Santis
 
     
   </span>
@@ -666,7 +608,8 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
   
   
   
@@ -675,16 +618,16 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#cluster-specification" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Cluster specification
-      
+      </span>
     </span>
   </a>
   
@@ -694,9 +637,9 @@
           <li class="md-nav__item">
   <a href="#compute-nodes" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Compute nodes
-      
+      </span>
     </span>
   </a>
   
@@ -705,9 +648,9 @@
           <li class="md-nav__item">
   <a href="#storage-and-file-systems" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Storage and file systems
-      
+      </span>
     </span>
   </a>
   
@@ -721,9 +664,9 @@
         <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Getting started
-      
+      </span>
     </span>
   </a>
   
@@ -733,9 +676,9 @@
           <li class="md-nav__item">
   <a href="#logging-into-santis" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Logging into Santis
-      
+      </span>
     </span>
   </a>
   
@@ -744,9 +687,9 @@
           <li class="md-nav__item">
   <a href="#software" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Software
-      
+      </span>
     </span>
   </a>
   
@@ -756,9 +699,9 @@
           <li class="md-nav__item">
   <a href="#uenv" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         uenv
-      
+      </span>
     </span>
   </a>
   
@@ -767,9 +710,9 @@
           <li class="md-nav__item">
   <a href="#containers" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Containers
-      
+      </span>
     </span>
   </a>
   
@@ -788,9 +731,9 @@
         <li class="md-nav__item">
   <a href="#running-jobs-on-santis" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Running jobs on Santis
-      
+      </span>
     </span>
   </a>
   
@@ -800,9 +743,9 @@
           <li class="md-nav__item">
   <a href="#slurm" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Slurm
-      
+      </span>
     </span>
   </a>
   
@@ -812,9 +755,9 @@
           <li class="md-nav__item">
   <a href="#node-sharing-and-gpu-requests" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Node sharing and GPU requests
-      
+      </span>
     </span>
   </a>
   
@@ -823,9 +766,9 @@
           <li class="md-nav__item">
   <a href="#multi-gpu-jobs-with-p2pipc" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Multi-GPU jobs with P2P/IPC
-      
+      </span>
     </span>
   </a>
   
@@ -834,9 +777,9 @@
           <li class="md-nav__item">
   <a href="#cpu-power-capping" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         CPU Power Capping
-      
+      </span>
     </span>
   </a>
   
@@ -845,9 +788,9 @@
           <li class="md-nav__item">
   <a href="#low-priority-overflow-partition" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Low-priority overflow partition
-      
+      </span>
     </span>
   </a>
   
@@ -856,9 +799,9 @@
           <li class="md-nav__item">
   <a href="#concurrent-job-limit" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Concurrent job limit
-      
+      </span>
     </span>
   </a>
   
@@ -872,9 +815,9 @@
           <li class="md-nav__item">
   <a href="#firecrest" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         FirecREST
-      
+      </span>
     </span>
   </a>
   
@@ -888,9 +831,9 @@
         <li class="md-nav__item">
   <a href="#maintenance-and-status" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Maintenance and status
-      
+      </span>
     </span>
   </a>
   
@@ -900,9 +843,9 @@
           <li class="md-nav__item">
   <a href="#scheduled-maintenance" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Scheduled maintenance
-      
+      </span>
     </span>
   </a>
   
@@ -911,9 +854,9 @@
           <li class="md-nav__item">
   <a href="#change-log" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Change log
-      
+      </span>
     </span>
   </a>
   
@@ -922,9 +865,9 @@
           <li class="md-nav__item">
   <a href="#known-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Known issues
-      
+      </span>
     </span>
   </a>
   
@@ -966,8 +909,7 @@
   <span class="md-ellipsis">
     
   
-    Hardware
-  
+  Hardware
 
     
   </span>
@@ -994,8 +936,7 @@
   <span class="md-ellipsis">
     
   
-    Storage
-  
+  Storage
 
     
   </span>
@@ -1046,8 +987,7 @@
   <span class="md-ellipsis">
     
   
-    Machine Learning Platform
-  
+  Machine Learning Platform
 
     
   </span>
@@ -1068,8 +1008,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Machine Learning Platform
-  
+  Machine Learning Platform
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1090,8 +1029,7 @@
   <span class="md-ellipsis">
     
   
-    Policies
-  
+  Policies
 
     
   </span>
@@ -1118,8 +1056,7 @@
   <span class="md-ellipsis">
     
   
-    Clariden
-  
+  Clariden
 
     
   </span>
@@ -1146,8 +1083,7 @@
   <span class="md-ellipsis">
     
   
-    Bristen
-  
+  Bristen
 
     
   </span>
@@ -1204,8 +1140,7 @@
   <span class="md-ellipsis">
     
   
-    HPC Platform
-  
+  HPC Platform
 
     
   </span>
@@ -1226,8 +1161,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    HPC Platform
-  
+  HPC Platform
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1248,8 +1182,7 @@
   <span class="md-ellipsis">
     
   
-    Daint
-  
+  Daint
 
     
   </span>
@@ -1276,8 +1209,7 @@
   <span class="md-ellipsis">
     
   
-    Eiger
-  
+  Eiger
 
     
   </span>
@@ -1302,8 +1234,6 @@
                 
   
   
-    
-  
   
   
     
@@ -1319,11 +1249,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1334,8 +1264,7 @@
   <span class="md-ellipsis">
     
   
-    Climate and Weather Platform
-  
+  Climate and Weather Platform
 
     
   </span>
@@ -1351,13 +1280,12 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_8">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Climate and Weather Platform
-  
+  Climate and Weather Platform
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1368,45 +1296,17 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Santis
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="././" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Santis
-  
+  Santis
 
     
   </span>
@@ -1414,282 +1314,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cluster-specification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cluster specification
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Cluster specification">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compute-nodes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compute nodes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#storage-and-file-systems" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Storage and file systems
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Getting started
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Getting started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#logging-into-santis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logging into Santis
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#software" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Software
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Software">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#uenv" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        uenv
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Containers
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-jobs-on-santis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Running jobs on Santis
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Running jobs on Santis">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#slurm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slurm
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Slurm">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#node-sharing-and-gpu-requests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Node sharing and GPU requests
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-gpu-jobs-with-p2pipc" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-GPU jobs with P2P/IPC
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cpu-power-capping" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CPU Power Capping
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#low-priority-overflow-partition" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Low-priority overflow partition
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concurrent-job-limit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Concurrent job limit
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#firecrest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        FirecREST
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#maintenance-and-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Maintenance and status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Maintenance and status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#scheduled-maintenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scheduled maintenance
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#change-log" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Change log
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#known-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Known issues
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1758,8 +1382,7 @@
   <span class="md-ellipsis">
     
   
-    Connecting to Alps
-  
+  Connecting to Alps
 
     
   </span>
@@ -1780,8 +1403,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Connecting to Alps
-  
+  Connecting to Alps
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -1802,8 +1424,7 @@
   <span class="md-ellipsis">
     
   
-    Multi Factor Authentication (MFA)
-  
+  Multi Factor Authentication (MFA)
 
     
   </span>
@@ -1830,8 +1451,7 @@
   <span class="md-ellipsis">
     
   
-    Web Portals
-  
+  Web Portals
 
     
   </span>
@@ -1858,8 +1478,7 @@
   <span class="md-ellipsis">
     
   
-    SSH
-  
+  SSH
 
     
   </span>
@@ -1886,8 +1505,7 @@
   <span class="md-ellipsis">
     
   
-    FirecREST
-  
+  FirecREST
 
     
   </span>
@@ -1914,8 +1532,7 @@
   <span class="md-ellipsis">
     
   
-    HPC Console
-  
+  HPC Console
 
     
   </span>
@@ -1942,8 +1559,7 @@
   <span class="md-ellipsis">
     
   
-    JupyterLab
-  
+  JupyterLab
 
     
   </span>
@@ -1970,8 +1586,7 @@
   <span class="md-ellipsis">
     
   
-    VSCode
-  
+  VSCode
 
     
   </span>
@@ -1998,8 +1613,7 @@
   <span class="md-ellipsis">
     
   
-    Service Accounts
-  
+  Service Accounts
 
     
   </span>
@@ -2059,8 +1673,7 @@
   <span class="md-ellipsis">
     
   
-    Running Jobs
-  
+  Running Jobs
 
     
   </span>
@@ -2081,8 +1694,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Running Jobs
-  
+  Running Jobs
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2103,8 +1715,7 @@
   <span class="md-ellipsis">
     
   
-    Slurm
-  
+  Slurm
 
     
   </span>
@@ -2131,8 +1742,7 @@
   <span class="md-ellipsis">
     
   
-    HyperQueue
-  
+  HyperQueue
 
     
   </span>
@@ -2159,8 +1769,7 @@
   <span class="md-ellipsis">
     
   
-    Vetnode
-  
+  Vetnode
 
     
   </span>
@@ -2187,8 +1796,7 @@
   <span class="md-ellipsis">
     
   
-    Known issues
-  
+  Known issues
 
     
   </span>
@@ -2246,8 +1854,7 @@
   <span class="md-ellipsis">
     
   
-    Environments
-  
+  Environments
 
     
   </span>
@@ -2268,8 +1875,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Environments
-  
+  Environments
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2290,8 +1896,7 @@
   <span class="md-ellipsis">
     
   
-    Getting started in the terminal
-  
+  Getting started in the terminal
 
     
   </span>
@@ -2350,8 +1955,7 @@
   <span class="md-ellipsis">
     
   
-    uenv
-  
+  uenv
 
     
   </span>
@@ -2372,8 +1976,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    uenv
-  
+  uenv
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2394,8 +1997,7 @@
   <span class="md-ellipsis">
     
   
-    Using uenv
-  
+  Using uenv
 
     
   </span>
@@ -2422,8 +2024,7 @@
   <span class="md-ellipsis">
     
   
-    Managing uenv
-  
+  Managing uenv
 
     
   </span>
@@ -2450,8 +2051,7 @@
   <span class="md-ellipsis">
     
   
-    Building uenv
-  
+  Building uenv
 
     
   </span>
@@ -2478,8 +2078,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration
-  
+  Configuration
 
     
   </span>
@@ -2506,8 +2105,7 @@
   <span class="md-ellipsis">
     
   
-    Release notes
-  
+  Release notes
 
     
   </span>
@@ -2534,8 +2132,7 @@
   <span class="md-ellipsis">
     
   
-    Deploying uenv
-  
+  Deploying uenv
 
     
   </span>
@@ -2562,8 +2159,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
-  
+  Guides
 
     
   </span>
@@ -2626,8 +2222,7 @@
   <span class="md-ellipsis">
     
   
-    Container Engine
-  
+  Container Engine
 
     
   </span>
@@ -2648,8 +2243,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Container Engine
-  
+  Container Engine
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2670,8 +2264,7 @@
   <span class="md-ellipsis">
     
   
-    Using the Container Engine
-  
+  Using the Container Engine
 
     
   </span>
@@ -2698,8 +2291,7 @@
   <span class="md-ellipsis">
     
   
-    Hooks and native resources
-  
+  Hooks and native resources
 
     
   </span>
@@ -2726,8 +2318,7 @@
   <span class="md-ellipsis">
     
   
-    EDF reference
-  
+  EDF reference
 
     
   </span>
@@ -2754,8 +2345,7 @@
   <span class="md-ellipsis">
     
   
-    Known issues
-  
+  Known issues
 
     
   </span>
@@ -2802,8 +2392,7 @@
   <span class="md-ellipsis">
     
   
-    Sarus Suite Early Access
-  
+  Sarus Suite Early Access
 
     
   </span>
@@ -2824,8 +2413,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Sarus Suite Early Access
-  
+  Sarus Suite Early Access
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -2846,8 +2434,7 @@
   <span class="md-ellipsis">
     
   
-    Sarus Suite Early Access User Guide
-  
+  Sarus Suite Early Access User Guide
 
     
   </span>
@@ -2921,8 +2508,7 @@
   <span class="md-ellipsis">
     
   
-    Building and Installing Software
-  
+  Building and Installing Software
 
     
   </span>
@@ -2943,8 +2529,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Building and Installing Software
-  
+  Building and Installing Software
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3001,8 +2586,7 @@
   <span class="md-ellipsis">
     
   
-    Programming Environments
-  
+  Programming Environments
 
     
   </span>
@@ -3023,8 +2607,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Programming Environments
-  
+  Programming Environments
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3045,8 +2628,7 @@
   <span class="md-ellipsis">
     
   
-    prgenv-gnu
-  
+  prgenv-gnu
 
     
   </span>
@@ -3073,8 +2655,7 @@
   <span class="md-ellipsis">
     
   
-    prgenv-gnu-openmpi
-  
+  prgenv-gnu-openmpi
 
     
   </span>
@@ -3101,8 +2682,7 @@
   <span class="md-ellipsis">
     
   
-    prgenv-nvfortran
-  
+  prgenv-nvfortran
 
     
   </span>
@@ -3129,8 +2709,7 @@
   <span class="md-ellipsis">
     
   
-    prgenv-intel
-  
+  prgenv-intel
 
     
   </span>
@@ -3157,8 +2736,7 @@
   <span class="md-ellipsis">
     
   
-    prgenv-dpcpp
-  
+  prgenv-dpcpp
 
     
   </span>
@@ -3185,8 +2763,7 @@
   <span class="md-ellipsis">
     
   
-    linalg
-  
+  linalg
 
     
   </span>
@@ -3213,8 +2790,7 @@
   <span class="md-ellipsis">
     
   
-    julia
-  
+  julia
 
     
   </span>
@@ -3241,8 +2817,7 @@
   <span class="md-ellipsis">
     
   
-    Cray modules (CPE)
-  
+  Cray modules (CPE)
 
     
   </span>
@@ -3269,8 +2844,7 @@
   <span class="md-ellipsis">
     
   
-    Alps Extended Images
-  
+  Alps Extended Images
 
     
   </span>
@@ -3322,8 +2896,7 @@
   <span class="md-ellipsis">
     
   
-    How to build software
-  
+  How to build software
 
     
   </span>
@@ -3338,8 +2911,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    How to build software
-  
+  How to build software
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3358,8 +2930,7 @@
   <span class="md-ellipsis">
     
   
-    uenv
-  
+  uenv
 
     
   </span>
@@ -3386,8 +2957,7 @@
   <span class="md-ellipsis">
     
   
-    Python
-  
+  Python
 
     
   </span>
@@ -3439,8 +3009,7 @@
   <span class="md-ellipsis">
     
   
-    Packaging and Deployment
-  
+  Packaging and Deployment
 
     
   </span>
@@ -3455,8 +3024,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Packaging and Deployment
-  
+  Packaging and Deployment
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3475,8 +3043,7 @@
   <span class="md-ellipsis">
     
   
-    Building uenv
-  
+  Creating uenv
 
     
   </span>
@@ -3503,8 +3070,7 @@
   <span class="md-ellipsis">
     
   
-    Creating Containers with podman
-  
+  Creating Containers with podman
 
     
   </span>
@@ -3580,8 +3146,7 @@
   <span class="md-ellipsis">
     
   
-    Applications and Frameworks
-  
+  Applications and Frameworks
 
     
   </span>
@@ -3602,8 +3167,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Applications and Frameworks
-  
+  Applications and Frameworks
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3654,8 +3218,7 @@
   <span class="md-ellipsis">
     
   
-    Scientific Applications
-  
+  Scientific Applications
 
     
   </span>
@@ -3676,8 +3239,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Scientific Applications
-  
+  Scientific Applications
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3698,8 +3260,7 @@
   <span class="md-ellipsis">
     
   
-    CP2K
-  
+  CP2K
 
     
   </span>
@@ -3726,8 +3287,7 @@
   <span class="md-ellipsis">
     
   
-    GROMACS
-  
+  GROMACS
 
     
   </span>
@@ -3754,8 +3314,7 @@
   <span class="md-ellipsis">
     
   
-    LAMMPS
-  
+  LAMMPS
 
     
   </span>
@@ -3782,8 +3341,7 @@
   <span class="md-ellipsis">
     
   
-    NAMD
-  
+  NAMD
 
     
   </span>
@@ -3810,8 +3368,7 @@
   <span class="md-ellipsis">
     
   
-    Quantum ESPRESSO
-  
+  Quantum ESPRESSO
 
     
   </span>
@@ -3838,8 +3395,7 @@
   <span class="md-ellipsis">
     
   
-    VASP
-  
+  VASP
 
     
   </span>
@@ -3896,8 +3452,7 @@
   <span class="md-ellipsis">
     
   
-    Machine Learning
-  
+  Machine Learning
 
     
   </span>
@@ -3918,8 +3473,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Machine Learning
-  
+  Machine Learning
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -3940,8 +3494,7 @@
   <span class="md-ellipsis">
     
   
-    PyTorch
-  
+  PyTorch
 
     
   </span>
@@ -3994,8 +3547,7 @@
   <span class="md-ellipsis">
     
   
-    Tutorials
-  
+  Tutorials
 
     
   </span>
@@ -4016,8 +3568,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Tutorials
-  
+  Tutorials
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4038,8 +3589,7 @@
   <span class="md-ellipsis">
     
   
-    LLM Inference
-  
+  LLM Inference
 
     
   </span>
@@ -4066,8 +3616,7 @@
   <span class="md-ellipsis">
     
   
-    LLM Fine-tuning
-  
+  LLM Fine-tuning
 
     
   </span>
@@ -4094,8 +3643,7 @@
   <span class="md-ellipsis">
     
   
-    LLM Pre-training
-  
+  LLM Pre-training
 
     
   </span>
@@ -4122,8 +3670,7 @@
   <span class="md-ellipsis">
     
   
-    vLLM/SGLang on AMD GPUs
-  
+  vLLM/SGLang on AMD GPUs
 
     
   </span>
@@ -4190,8 +3737,7 @@
   <span class="md-ellipsis">
     
   
-    Climate and Weather
-  
+  Climate and Weather
 
     
   </span>
@@ -4212,8 +3758,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Climate and Weather
-  
+  Climate and Weather
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4234,8 +3779,7 @@
   <span class="md-ellipsis">
     
   
-    Deployment
-  
+  Deployment
 
     
   </span>
@@ -4262,8 +3806,7 @@
   <span class="md-ellipsis">
     
   
-    ICON
-  
+  ICON
 
     
   </span>
@@ -4290,8 +3833,7 @@
   <span class="md-ellipsis">
     
   
-    netcdf-tools
-  
+  netcdf-tools
 
     
   </span>
@@ -4356,8 +3898,7 @@
   <span class="md-ellipsis">
     
   
-    Communication Libraries
-  
+  Communication Libraries
 
     
   </span>
@@ -4378,8 +3919,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Communication Libraries
-  
+  Communication Libraries
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4400,8 +3940,7 @@
   <span class="md-ellipsis">
     
   
-    libfabric
-  
+  libfabric
 
     
   </span>
@@ -4428,8 +3967,7 @@
   <span class="md-ellipsis">
     
   
-    Cray MPICH
-  
+  Cray MPICH
 
     
   </span>
@@ -4456,8 +3994,7 @@
   <span class="md-ellipsis">
     
   
-    MPICH
-  
+  MPICH
 
     
   </span>
@@ -4484,8 +4021,7 @@
   <span class="md-ellipsis">
     
   
-    OpenMPI
-  
+  OpenMPI
 
     
   </span>
@@ -4512,8 +4048,7 @@
   <span class="md-ellipsis">
     
   
-    NCCL
-  
+  NCCL
 
     
   </span>
@@ -4540,8 +4075,7 @@
   <span class="md-ellipsis">
     
   
-    NVSHMEM
-  
+  NVSHMEM
 
     
   </span>
@@ -4600,8 +4134,7 @@
   <span class="md-ellipsis">
     
   
-    User Applications
-  
+  User Applications
 
     
   </span>
@@ -4622,8 +4155,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    User Applications
-  
+  User Applications
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4644,8 +4176,7 @@
   <span class="md-ellipsis">
     
   
-    ESMF and CESM
-  
+  ESMF and CESM
 
     
   </span>
@@ -4672,8 +4203,7 @@
   <span class="md-ellipsis">
     
   
-    ORCA
-  
+  ORCA
 
     
   </span>
@@ -4700,8 +4230,7 @@
   <span class="md-ellipsis">
     
   
-    WRF
-  
+  WRF
 
     
   </span>
@@ -4756,8 +4285,7 @@
   <span class="md-ellipsis">
     
   
-    Commercial Software
-  
+  Commercial Software
 
     
   </span>
@@ -4778,8 +4306,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Commercial Software
-  
+  Commercial Software
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4800,8 +4327,7 @@
   <span class="md-ellipsis">
     
   
-    Matlab
-  
+  Matlab
 
     
   </span>
@@ -4858,8 +4384,7 @@
   <span class="md-ellipsis">
     
   
-    Scientific Visualization
-  
+  Scientific Visualization
 
     
   </span>
@@ -4880,8 +4405,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Scientific Visualization
-  
+  Scientific Visualization
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -4902,8 +4426,7 @@
   <span class="md-ellipsis">
     
   
-    ParaView
-  
+  ParaView
 
     
   </span>
@@ -4930,8 +4453,7 @@
   <span class="md-ellipsis">
     
   
-    Ascent
-  
+  Ascent
 
     
   </span>
@@ -4966,8 +4488,7 @@
   <span class="md-ellipsis">
     
   
-    Prohibited Software
-  
+  Prohibited Software
 
     
   </span>
@@ -5029,8 +4550,7 @@
   <span class="md-ellipsis">
     
   
-    Debugging and Performance Analysis
-  
+  Debugging and Performance Analysis
 
     
   </span>
@@ -5051,8 +4571,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Debugging and Performance Analysis
-  
+  Debugging and Performance Analysis
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5073,8 +4592,7 @@
   <span class="md-ellipsis">
     
   
-    Using NVIDIA Nsight
-  
+  Using NVIDIA Nsight
 
     
   </span>
@@ -5120,8 +4638,7 @@
   <span class="md-ellipsis">
     
   
-    Using Linaro Forge
-  
+  Using Linaro Forge
 
     
   </span>
@@ -5136,8 +4653,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Using Linaro Forge
-  
+  Using Linaro Forge
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5156,8 +4672,7 @@
   <span class="md-ellipsis">
     
   
-    Linaro uenv
-  
+  Linaro Forge
 
     
   </span>
@@ -5184,8 +4699,7 @@
   <span class="md-ellipsis">
     
   
-    Linaro performance analysis tool
-  
+  Linaro performance analysis tool
 
     
   </span>
@@ -5212,8 +4726,7 @@
   <span class="md-ellipsis">
     
   
-    Linaro debugger
-  
+  Linaro debugger
 
     
   </span>
@@ -5248,8 +4761,7 @@
   <span class="md-ellipsis">
     
   
-    Using Score-P/Scalasca
-  
+  Using Score-P/Scalasca
 
     
   </span>
@@ -5276,8 +4788,7 @@
   <span class="md-ellipsis">
     
   
-    Job report
-  
+  Job report
 
     
   </span>
@@ -5304,8 +4815,7 @@
   <span class="md-ellipsis">
     
   
-    GPU report
-  
+  GPU report
 
     
   </span>
@@ -5365,8 +4875,7 @@
   <span class="md-ellipsis">
     
   
-    Data Management and Storage
-  
+  Data Management and Storage
 
     
   </span>
@@ -5387,8 +4896,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Data Management and Storage
-  
+  Data Management and Storage
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5409,8 +4917,7 @@
   <span class="md-ellipsis">
     
   
-    File Systems
-  
+  File Systems
 
     
   </span>
@@ -5437,8 +4944,7 @@
   <span class="md-ellipsis">
     
   
-    Data Transfer
-  
+  Data Transfer
 
     
   </span>
@@ -5465,8 +4971,7 @@
   <span class="md-ellipsis">
     
   
-    Long Term Storage
-  
+  Long Term Storage
 
     
   </span>
@@ -5493,8 +4998,7 @@
   <span class="md-ellipsis">
     
   
-    Object Storage
-  
+  Object Storage
 
     
   </span>
@@ -5554,8 +5058,7 @@
   <span class="md-ellipsis">
     
   
-    Services
-  
+  Services
 
     
   </span>
@@ -5576,8 +5079,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Services
-  
+  Services
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5598,8 +5100,7 @@
   <span class="md-ellipsis">
     
   
-    Developer Portal
-  
+  Developer Portal
 
     
   </span>
@@ -5626,8 +5127,7 @@
   <span class="md-ellipsis">
     
   
-    CI/CD
-  
+  CI/CD
 
     
   </span>
@@ -5678,8 +5178,7 @@
   <span class="md-ellipsis">
     
   
-    Kubernetes
-  
+  Kubernetes
 
     
   </span>
@@ -5700,8 +5199,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Kubernetes
-  
+  Kubernetes
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5722,8 +5220,7 @@
   <span class="md-ellipsis">
     
   
-    Clusters
-  
+  Clusters
 
     
   </span>
@@ -5750,8 +5247,7 @@
   <span class="md-ellipsis">
     
   
-    Kubernetes Upgrades
-  
+  Kubernetes Upgrades
 
     
   </span>
@@ -5778,8 +5274,7 @@
   <span class="md-ellipsis">
     
   
-    Node OS Updates
-  
+  Node OS Updates
 
     
   </span>
@@ -5834,8 +5329,7 @@
   <span class="md-ellipsis">
     
   
-    Inference
-  
+  Inference
 
     
   </span>
@@ -5856,8 +5350,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Inference
-  
+  Inference
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5878,8 +5371,7 @@
   <span class="md-ellipsis">
     
   
-    LLM Inference API
-  
+  LLM Inference API
 
     
   </span>
@@ -5943,8 +5435,7 @@
   <span class="md-ellipsis">
     
   
-    Accounts and Projects
-  
+  Accounts and Projects
 
     
   </span>
@@ -5965,8 +5456,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Accounts and Projects
-  
+  Accounts and Projects
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -5987,8 +5477,7 @@
   <span class="md-ellipsis">
     
   
-    Project and Resources Management Tool
-  
+  Project and Resources Management Tool
 
     
   </span>
@@ -6015,8 +5504,7 @@
   <span class="md-ellipsis">
     
   
-    Creating a new account
-  
+  Creating a new account
 
     
   </span>
@@ -6078,8 +5566,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
-  
+  Guides
 
     
   </span>
@@ -6100,8 +5587,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Guides
-  
+  Guides
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -6122,8 +5608,7 @@
   <span class="md-ellipsis">
     
   
-    Coding Agents on Alps
-  
+  Coding Agents on Alps
 
     
   </span>
@@ -6150,8 +5635,7 @@
   <span class="md-ellipsis">
     
   
-    Internet Access on Alps
-  
+  Internet Access on Alps
 
     
   </span>
@@ -6178,8 +5662,7 @@
   <span class="md-ellipsis">
     
   
-    Storage
-  
+  Storage
 
     
   </span>
@@ -6206,8 +5689,7 @@
   <span class="md-ellipsis">
     
   
-    Support Guide
-  
+  Support Guide
 
     
   </span>
@@ -6234,8 +5716,7 @@
   <span class="md-ellipsis">
     
   
-    Course Account Setup
-  
+  Course Account Setup
 
     
   </span>
@@ -6299,8 +5780,7 @@
   <span class="md-ellipsis">
     
   
-    Policies
-  
+  Policies
 
     
   </span>
@@ -6321,8 +5801,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Policies
-  
+  Policies
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -6343,8 +5822,7 @@
   <span class="md-ellipsis">
     
   
-    User Regulations
-  
+  User Regulations
 
     
   </span>
@@ -6371,8 +5849,7 @@
   <span class="md-ellipsis">
     
   
-    Code of Conduct
-  
+  Code of Conduct
 
     
   </span>
@@ -6399,8 +5876,7 @@
   <span class="md-ellipsis">
     
   
-    User Support Policies
-  
+  User Support Policies
 
     
   </span>
@@ -6427,8 +5903,7 @@
   <span class="md-ellipsis">
     
   
-    Fair usage of shared resources
-  
+  Fair usage of shared resources
 
     
   </span>
@@ -6455,8 +5930,7 @@
   <span class="md-ellipsis">
     
   
-    Slack Code of Conduct
-  
+  Slack Code of Conduct
 
     
   </span>
@@ -6483,8 +5957,7 @@
   <span class="md-ellipsis">
     
   
-    Scheduled Maintenance and System Unavailability Policies
-  
+  Scheduled Maintenance and System Unavailability Policies
 
     
   </span>
@@ -6536,8 +6009,7 @@
   <span class="md-ellipsis">
     
   
-    Contributing
-  
+  Contributing
 
     
   </span>
@@ -6553,8 +6025,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Contributing
-  
+  Contributing
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
@@ -6578,10 +6049,12 @@
               
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
+                  
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
   
   
   
@@ -6590,16 +6063,16 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
   <a href="#cluster-specification" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Cluster specification
-      
+      </span>
     </span>
   </a>
   
@@ -6609,9 +6082,9 @@
           <li class="md-nav__item">
   <a href="#compute-nodes" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Compute nodes
-      
+      </span>
     </span>
   </a>
   
@@ -6620,9 +6093,9 @@
           <li class="md-nav__item">
   <a href="#storage-and-file-systems" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Storage and file systems
-      
+      </span>
     </span>
   </a>
   
@@ -6636,9 +6109,9 @@
         <li class="md-nav__item">
   <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Getting started
-      
+      </span>
     </span>
   </a>
   
@@ -6648,9 +6121,9 @@
           <li class="md-nav__item">
   <a href="#logging-into-santis" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Logging into Santis
-      
+      </span>
     </span>
   </a>
   
@@ -6659,9 +6132,9 @@
           <li class="md-nav__item">
   <a href="#software" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Software
-      
+      </span>
     </span>
   </a>
   
@@ -6671,9 +6144,9 @@
           <li class="md-nav__item">
   <a href="#uenv" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         uenv
-      
+      </span>
     </span>
   </a>
   
@@ -6682,9 +6155,9 @@
           <li class="md-nav__item">
   <a href="#containers" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Containers
-      
+      </span>
     </span>
   </a>
   
@@ -6703,9 +6176,9 @@
         <li class="md-nav__item">
   <a href="#running-jobs-on-santis" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Running jobs on Santis
-      
+      </span>
     </span>
   </a>
   
@@ -6715,9 +6188,9 @@
           <li class="md-nav__item">
   <a href="#slurm" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Slurm
-      
+      </span>
     </span>
   </a>
   
@@ -6727,9 +6200,9 @@
           <li class="md-nav__item">
   <a href="#node-sharing-and-gpu-requests" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Node sharing and GPU requests
-      
+      </span>
     </span>
   </a>
   
@@ -6738,9 +6211,9 @@
           <li class="md-nav__item">
   <a href="#multi-gpu-jobs-with-p2pipc" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Multi-GPU jobs with P2P/IPC
-      
+      </span>
     </span>
   </a>
   
@@ -6749,9 +6222,9 @@
           <li class="md-nav__item">
   <a href="#cpu-power-capping" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         CPU Power Capping
-      
+      </span>
     </span>
   </a>
   
@@ -6760,9 +6233,9 @@
           <li class="md-nav__item">
   <a href="#low-priority-overflow-partition" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Low-priority overflow partition
-      
+      </span>
     </span>
   </a>
   
@@ -6771,9 +6244,9 @@
           <li class="md-nav__item">
   <a href="#concurrent-job-limit" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Concurrent job limit
-      
+      </span>
     </span>
   </a>
   
@@ -6787,9 +6260,9 @@
           <li class="md-nav__item">
   <a href="#firecrest" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         FirecREST
-      
+      </span>
     </span>
   </a>
   
@@ -6803,9 +6276,9 @@
         <li class="md-nav__item">
   <a href="#maintenance-and-status" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Maintenance and status
-      
+      </span>
     </span>
   </a>
   
@@ -6815,9 +6288,9 @@
           <li class="md-nav__item">
   <a href="#scheduled-maintenance" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Scheduled maintenance
-      
+      </span>
     </span>
   </a>
   
@@ -6826,9 +6299,9 @@
           <li class="md-nav__item">
   <a href="#change-log" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Change log
-      
+      </span>
     </span>
   </a>
   
@@ -6837,9 +6310,9 @@
           <li class="md-nav__item">
   <a href="#known-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Known issues
-      
+      </span>
     </span>
   </a>
   
@@ -6877,6 +6350,7 @@
     <li class="md-path__item">
       <a href="../.." class="md-path__link">
         
+  
   <span class="md-ellipsis">
     Welcome
   </span>
@@ -6892,9 +6366,33 @@
   
     
     
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
       <li class="md-path__item">
         <a href="../../alps/" class="md-path__link">
           
+  
   <span class="md-ellipsis">
     Alps
   </span>
@@ -6910,11 +6408,33 @@
   
     
     
-      <li class="md-path__item">
-        <a href="../../platforms/cwp/" class="md-path__link">
+      
+        
           
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
   <span class="md-ellipsis">
-    Climate and Weather Platform
+    Clusters
   </span>
 
         </a>
@@ -6930,16 +6450,6 @@
               <article class="md-content__inner md-typeset">
                 
                   
-
-
-  
-    <a href="https://github.com/eth-cscs/cscs-docs/edit/main/docs/clusters/santis.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
-    </a>
-  
-  
-
 
 <p><a href="" id="ref-cluster-santis"></a></p>
 <h1 id="santis">Santis<a class="headerlink" href="#santis" title="Permanent link">&para;</a></h1>
@@ -6994,7 +6504,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <div class="grid cards">
 <ul>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Climate and Weather Applications</strong></p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Climate and Weather Applications</strong></p>
 <p>Provide software stacks for climate and weather workflows on Santis.</p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="../../software/cw/icon/#icon">ICON</a></li>
@@ -7006,7 +6516,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <div class="grid cards">
 <ul>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Programming Environments</strong></p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Programming Environments</strong></p>
 <p>Provide compilers, MPI, Python, common libraries and tools used to build your own applications.</p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="../../software/prgenv/prgenv-gnu/#prgenv-gnu">prgenv-gnu</a></li>
@@ -7020,7 +6530,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <div class="grid cards">
 <ul>
 <li>
-<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Tools</strong></p>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Tools</strong></p>
 <p>Provide tools like </p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="../../software/devtools/linaro-uenv/#linaro-forge">Linaro Forge</a></li>
@@ -7248,6 +6758,8 @@ These changes should reduce the frequency of compute nodes being marked as <code
 
 
 
+
+
                 
               </article>
             </div>
@@ -7272,8 +6784,8 @@ These changes should reduce the frequency of compute nodes being marked as <code
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
     </a>
   
 </div>
@@ -7291,10 +6803,10 @@ These changes should reduce the frequency of compute nodes being marked as <code
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.indexes", "search.share", "navigation.instant", "navigation.tracking", "navigation.path", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["content.code.copy","content.action.edit","navigation.indexes","search.share","navigation.instant","navigation.tracking","navigation.path","navigation.top","content.code.annotate"],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.49251538.min.js"></script>
       
         <script src="../../javascripts/mathjax.js"></script>
       
