@@ -293,7 +293,8 @@ accent  = "blue"
 toggle  = {icon = "material/brightness-4", name = "Switch to light mode"}
 
 [project.plugins.search]
-pipeline = ["trimmer"]
+# TODO: tweak font size and border properties to increase readability
+# and contrast against background, when support is added to zensical.
 
 # autorefs is built into zensical, but has to be enabled explicitly
 [project.plugins.autorefs]
