@@ -290,7 +290,7 @@ media   = "(prefers-color-scheme: dark)"
 scheme  = "slate"
 primary = "white"
 accent  = "blue"
-toggle  = {icon = "material/brightness-4", name = "Switch to light mode"}
+toggle  = {icon = "material/brightness-4", name = "Switch to auto mode"}
 
 [project.plugins.search]
 # TODO: tweak font size and border properties to increase readability
