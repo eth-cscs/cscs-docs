@@ -14,7 +14,7 @@ This will catch broken links and build errors before the CI pipeline does.
 
 ## Guidelines for agents
 
-The documentation uses the Material for MkDocs framework.
+The documentation uses Zensical.
 
 The project configuration is in the `zensical.toml` file.
 
@@ -190,7 +190,7 @@ If you want to add a list of common error messages or similar, create a dedicate
 
 ### Use tabs when there is more than one way to do something
 
-The mkdocs tabs feature is very useful for side by side examples, and applying vertical compression.
+The tabs feature is very useful for side by side examples, and applying vertical compression.
 
 For example:
 
@@ -293,7 +293,7 @@ uenv start prgenv-gnu/24.11:v1
 ```
 ```
 
-`terminal` is **not** a valid lexer — MkDocs will silently render it without highlighting.
+`terminal` is **not** a valid lexer — it will silently render without highlighting.
 In `console` blocks, use `$` as the prompt character; `>` is not highlighted correctly.
 Add a `title=` to every code block to describe what it does.
 
