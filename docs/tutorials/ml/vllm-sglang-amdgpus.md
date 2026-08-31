@@ -19,7 +19,7 @@ In this specific tutorial we are going to show how to:
 
 This tutorial assumes that you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here][ref-ssh], and read through the documentation about the [ML platform][ref-platform-mlp].
 
-In particular, this tutorial aims at the Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
+In particular, this tutorial targets the Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
 
 ### Get the vLLM/SGLang image
 
