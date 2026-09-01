@@ -170,3 +170,26 @@
   display: none;
 }
 
+/* Search overlay palette.
+
+   Zensical renders the search dialog inside a shadow root, so these inherited
+   custom properties are the only part of it reachable from an ordinary style
+   sheet. Everything else is handled in docs/javascripts/search-styling.js,
+   which consumes these same variables so the overlay stays scheme-aware.
+
+   Nothing outside the search overlay reads these variables. */
+
+/* Light mode: the stock backdrop is white at 54% behind a white panel, so the
+   panel is almost invisible. Wash the page with a dark tint instead. */
+[data-md-color-scheme="default"] {
+  --color-backdrop: 18 22 30;
+}
+
+/* Dark mode: darken the backdrop, and lift the panel well clear of the page
+   colour (22 23 26) so it reads as floating rather than as part of the page. */
+[data-md-color-scheme="slate"] {
+  --color-backdrop: 0 0 0;
+  /*--color-background: 56 60 70;*/
+  --color-background: 68 73 84;
+  --color-background-subtle: 76 81 94;
+}

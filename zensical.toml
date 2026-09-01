@@ -9,6 +9,7 @@ extra_javascript = [
   "javascripts/mathjax.js",
   "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js",
   "javascripts/version-badges.js",
+  "javascripts/search-styling.js",
 ]
 
 nav = [
@@ -296,8 +297,11 @@ accent  = "blue"
 toggle  = {icon = "material/brightness-4", name = "Switch to auto mode"}
 
 [project.plugins.search]
-# TODO: tweak font size and border properties to increase readability
-# and contrast against background, when support is added to zensical.
+# The search dialog is rendered into a shadow root at runtime, so its font
+# sizes and contrast cannot be set from here or from extra_css. Until zensical
+# adds styling hooks, docs/javascripts/search-styling.js patches the shadow
+# root and docs/stylesheets/extra.css supplies the palette it uses.
+# TODO: drop that workaround once these are configurable here.
 
 # autorefs is built into zensical, but has to be enabled explicitly
 [project.plugins.autorefs]
