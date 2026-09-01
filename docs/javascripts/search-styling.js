@@ -70,6 +70,24 @@
     '}',
     '[data-cscs-search="results"] h2 + div { font-size: 16px; }',
     '[data-cscs-search="results"] h2 + div code { font-size: 15px; }',
+    /* the matched term: --cscs-search-mark is set per scheme in extra.css and
+       falls back to the overlay's own accent-derived highlight colour */
+    '[data-cscs-search="results"] a mark {',
+    '  color: var(--cscs-search-mark, var(--color-highlight));',
+    '}',
+
+    /* Alternate row tints so adjacent results are easy to tell apart. The
+       hover / active band is an ::before overlay that defaults to
+       --color-background-subtle; in light mode that is only a few steps from
+       the zebra tint, so give the band its own stronger value to keep hover
+       and the top result clearly ahead of the striping. */
+    '[data-cscs-search="results"] ol > li:nth-child(even) > a {',
+    '  background-color: rgb(var(--color-foreground) / 0.065);',
+    '}',
+    '[data-cscs-search="results"] ol > li > a::before {',
+    '  background-color: rgb(var(--color-foreground) / 0.15);',
+    '}',
+
     /* code spans get their own tint rather than --color-background-subtle,
        which also drives the input field and the hover band and so has to sit
        much lighter than the panel in dark mode */

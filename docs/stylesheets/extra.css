@@ -191,5 +191,10 @@
   --color-backdrop: 0 0 0;
   /*--color-background: 56 60 70;*/
   --color-background: 68 73 84;
-  --color-background-subtle: 76 81 94;
+  /* keeps the input field and the filters sidebar lifted clear of the panel */
+  --color-background-subtle: 92 98 112;
+  /* Colour of the matched search term within a result. The accent blue the
+     overlay uses by default is hard to read against the dark panel; this pale
+     amber sits at ~6.6:1 against it. Light mode keeps the accent colour. */
+  --cscs-search-mark: #ffd479;
 }
