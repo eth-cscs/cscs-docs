@@ -134,8 +134,6 @@ Learn by doing with our guides and tutorials.
 
     [:octicons-arrow-right-24: Data transfer](storage/transfer.md)
 
-    [:octicons-arrow-right-24: Long term storage](storage/longterm.md)
-
     [:octicons-arrow-right-24: Object storage](storage/object.md)
 
 </div>
