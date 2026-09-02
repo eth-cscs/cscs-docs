@@ -1,6 +1,8 @@
 [project]
-site_name = "CSCS Documentation"
 site_url  = "https://docs.cscs.ch/"
+site_name = "CSCS Documentation"
+repo_url = "https://github.com/eth-cscs/cscs-docs"
+repo_name = "eth-cscs/cscs-docs"
 docs_dir  = "docs"
 
 extra_css = ["stylesheets/extra.css"]
