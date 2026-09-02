@@ -149,7 +149,7 @@ A typical workflow keeps the authoritative dataset on the project store, stages 
     A `datacache` area is **not provisioned by default**, unlike the project store.
     Ask your PI to open a [CSCS Service Desk](https://jira.cscs.ch/plugins/servlet/desk) ticket describing the use case and the space and inodes required.
     CSCS then reviews the request before creating the area.
-    A small project request 100GB and 1M inodes, a large project 1TB and 5M inodes without justification for the whole project duration.
+    Without justification, a small project can request up to 100GB and 1M inodes, and a large project can request up to 1TB and 5M inodes, for the whole duration of the project.
 
     Requesting more resources than the default limits above must be properly justified, and a contact person that will be responsible for the data management should be provided.
     The extra storage capacity will be typically provided only for a specific amount of time, and not for the whole project duration.
