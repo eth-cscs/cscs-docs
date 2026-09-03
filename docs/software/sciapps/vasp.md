@@ -38,7 +38,7 @@ For accessing VASP uenv images, please see the guide to [accessing restricted so
 
 To load the VASP uenv:
 ```bash
-uenv start vasp/v6.6.0:v1 --view=vasp
+uenv start vasp/v6.6.1:v1 --view=vasp
 ```
 The `vasp_std` , `vasp_ncl`  and `vasp_gam`  executables are now available for use.
 Loading the uenv can also be directly done inside of a Slurm script.
@@ -52,7 +52,7 @@ Loading the uenv can also be directly done inside of a Slurm script.
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus-per-task=1
-#SBATCH --uenv=vasp/v6.6.0:v1
+#SBATCH --uenv=vasp/v6.6.1:v1
 #SBATCH --view=vasp
 #SBATCH --account=<ACCOUNT>
 #SBATCH --partition=normal
@@ -144,25 +144,6 @@ The optimal setting for running VASP on CPU depends on the workload, but usually
 
 ```bash title="Slurm script for running VASP on Eiger"
 #!/bin/bash -l
-
-#SBATCH --job-name=vasp
-#SBATCH --time=24:00:00
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=32
-#SBATCH --cpus-per-task=8
-#SBATCH --uenv=vasp/v6.6.0:v1
-#SBATCH --view=vasp
-#SBATCH --account=<ACCOUNT>
-#SBATCH --partition=normal
-#SBATCH --hint=nomultithread
-
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-
-srun vasp_std
-```
-
-```bash title="run_vasp.sh"
-#!/bin/bash -l
 #SBATCH --job-name=vasp
 #SBATCH --time=24:00:00
 #SBATCH --nodes=2
@@ -173,16 +154,17 @@ srun vasp_std
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
 #SBATCH --constraint=mc
-#SBATCH --uenv=vasp/v6.6.0:v1
+#SBATCH --uenv=vasp/v6.6.1:v1
 #SBATCH --view=vasp
 
-export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (1)!
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 ulimit -s unlimited
 srun --cpu-bind=cores vasp_std
 ```
 
-1. [OpenBLAS] spawns an extra thread, therefore it can be beneficial to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance.
+!!! note
+    OpenBLAS may spawn an extra thread, therefore it can be beneficial in some cases to set `OMP_NUM_THREADS` to `$((SLURM_CPUS_PER_TASK - 1))` for improved performance.
 
 
 ### Building VASP from source
@@ -190,7 +172,7 @@ srun --cpu-bind=cores vasp_std
 On Eiger, the `makefile.include.gnu_omp` file can be used directly if `FFTW_ROOT` is set the to point to the develop view location at `/user-environment/env/develop`. You may also want to add optional dependencies like HDF5.
 
 ```bash
-uenv start vasp/v6.6.0:v1 --view=develop
+uenv start vasp/v6.6.1:v1 --view=develop
 export FFTW_ROOT=/user-environment/env/develop
 ```
 
