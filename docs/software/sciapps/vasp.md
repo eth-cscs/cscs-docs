@@ -67,7 +67,7 @@ srun vasp_std
     This is not required when using the CUDA MPS wrapper for oversubscription of GPUs.
 
 !!! note
-    Since v0.6.0, the VASP uenv views on Daint enable the AWS NCCL plugin, which should provide better multi-node performance. See the [`NCCL documentation`][ref-communication-nccl] for more information.
+    Since v6.6.0, the VASP uenv views on Daint enable the AWS NCCL plugin, which should provide better multi-node performance. See the [`NCCL documentation`][ref-communication-nccl] for more information.
 
 
 ### Multiple Tasks per GPU
