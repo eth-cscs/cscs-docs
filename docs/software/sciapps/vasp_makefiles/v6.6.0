@@ -1,0 +1,145 @@
+# Default precompiler options
+CPP_OPTIONS = -DHOST=\"LinuxNV\" \
+              -DMPI -DMPI_INPLACE -DMPI_BLOCK=8000 -Duse_collective \
+              -DscaLAPACK \
+              -DCACHE_SIZE=4000 \
+              -Davoidalloc \
+              -Dvasp6 \
+              -Dtbdyn \
+              -Dqd_emulate \
+              -Dfock_dblbuf \
+              -D_OPENMP \
+              -DACC_OFFLOAD \
+              -DNVCUDA \
+              -DUSENCCL \
+              -DCRAY_MPICH
+
+CPP         = nvfortran -Mpreprocess -Mfree -Mextend -E $(CPP_OPTIONS) $*$(FUFFIX)  > $*$(SUFFIX)
+
+CUDA_VERSION = $(shell nvcc -V | grep -E -o -m 1 "[0-9][0-9]\.[0-9]," | rev | cut -c 2- | rev)
+NVHPC_CUDA_HOME ?= /user-environment/env/develop
+export NVHPC_CUDA_HOME
+
+GPU        ?= -gpu=cc90,cuda${CUDA_VERSION}
+
+CC          = mpicc  -acc -mp $(GPU)
+FC          = mpif90 -acc -mp $(GPU)
+FCL         = mpif90 -acc -mp $(GPU) -c++libs
+
+FREE        = -Mfree
+
+FFLAGS      = -Mbackslash -Mlarge_arrays
+
+OFLAG       = -fast
+
+DEBUG       = -Mfree -O0 -traceback
+
+LLIBS       = -cudalib=cublas,cusolver,cufft -cuda
+
+# Redefine the standard list of O1 and O2 objects
+SOURCE_O1  := pade_fit.o minimax_dependence.o wave_window.o
+SOURCE_O2  := pead.o
+
+# For what used to be vasp.5.lib
+CPP_LIB     = $(CPP)
+FC_LIB      = $(FC)
+CC_LIB      = $(CC)
+CFLAGS_LIB  = -O -w
+FFLAGS_LIB  = -O1 -Mfixed
+FREE_LIB    = $(FREE)
+
+OBJECTS_LIB = linpack_double.o
+
+# For the parser library
+CXX_PARS    = nvc++ --no_warnings
+
+##
+## Customize as of this point! Of course you may change the preceding
+## part of this file as well if you like, but it should rarely be
+## necessary ...
+##
+# When compiling on the target machine itself , change this to the
+# relevant target when cross-compiling for another architecture
+VASP_TARGET_CPU ?= -tp host
+FFLAGS     += $(VASP_TARGET_CPU)
+
+# Specify your NV HPC-SDK installation (mandatory)
+#... first try to set it automatically
+NVROOT      = $(shell find /user-environment/linux-neoverse_v2 -name "nvfortran" | head -1 | xargs dirname)
+
+# If the above fails, then NVROOT needs to be set manually
+#NVHPC      ?= /opt/nvidia/hpc_sdk
+#NVVERSION   = 21.11
+#NVROOT      = $(NVHPC)/Linux_x86_64/$(NVVERSION)
+
+## Improves performance when using NV HPC-SDK >=21.11 and CUDA >11.2
+#OFLAG_IN   = -fast -Mwarperf
+#SOURCE_IN  := nonlr.o
+
+# Software emulation of quadruple precsion (mandatory)
+QD         ?= $(shell find /user-environment/linux-neoverse_v2 -name "qdmodule.mod" | head -1 | xargs dirname | xargs dirname | xargs dirname)
+LLIBS      += -L$(QD)/lib -lqdmod -lqd
+INCS       += -I$(QD)/include/qd
+
+# BLAS (mandatory)
+BLAS        = -lblas
+
+# LAPACK (mandatory)
+LAPACK      = -llapack
+
+# scaLAPACK (mandatory)
+SCALAPACK   = -lscalapack
+
+
+NCCL_ROOT = $(shell find /user-environment/linux-neoverse_v2/  -name "libnccl.so" | sort | head -1 | xargs dirname)
+NCCL_LIBS = $(shell find /user-environment/linux-neoverse_v2 -name "libcudaforwrapnccl.a" | head -1) -lnccl -L$(NCCL_ROOT) -Wl,-rpath,$(NCCL_ROOT)
+LLIBS      += $(SCALAPACK) $(LAPACK) $(BLAS) $(NCCL_LIBS)
+LLIBS      += -Wl,--disable-new-dtags -Wl,-rpath,/user-environment/env/develop/lib -Wl,-rpath,/user-environment/env/develop/lib64
+
+# FFTW (mandatory)
+FFTW_ROOT  ?= /user-environment/env/develop
+LLIBS      += -L$(FFTW_ROOT)/lib -lfftw3 -lfftw3_omp
+INCS       += -I$(FFTW_ROOT)/include
+
+# Use cusolvermp (optional)
+# supported as of NVHPC-SDK 24.1 (and needs CUDA-11.8)
+#CPP_OPTIONS+= -DCUSOLVERMP -DCUBLASMP
+#LLIBS      += -cudalib=cusolvermp,cublasmp -lnvhpcwrapcal
+
+# HDF5-support (optional but strongly recommended, and mandatory for some features)
+CPP_OPTIONS+= -DVASP_HDF5
+HDF5_ROOT  ?= /user-environment/env/develop
+LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
+INCS       += -I$(HDF5_ROOT)/include
+
+# For the VASP-2-Wannier90 interface (optional)
+#CPP_OPTIONS    += -DVASP2WANNIER90
+#WANNIER90_ROOT ?= /path/to/your/wannier90/installation
+#LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+
+# For the fftlib library (hardly any benefit for the OpenACC GPU port)
+#CPP_OPTIONS+= -Dsysv
+#FCL        += fftlib.o
+#CXX_FFTLIB  = nvc++ -mp --no_warnings -std=c++11 -DFFTLIB_THREADSAFE
+#INCS_FFTLIB = -I./include -I$(FFTW_ROOT)/include
+#LIBS       += fftlib
+#LLIBS      += -ldl
+
+# For machine learning library VASPml (experimental)
+#CPP_OPTIONS += -Dlibvaspml
+#CXX_ML       = mpic++ -mp
+#CXXFLAGS_ML  = -O3 -std=c++17 -Wall -Wextra
+#INCLUDE_ML   =
+## This may be required for the C++17 filesystem library if the underlying
+## system compiler is older than GNU 9.1. For newer versions this can be removed.
+#LLIBS       += -lstdc++fs
+
+# Add -gpu=tripcount:host to compiler commands for NV HPC-SDK > 25.1
+NVFORTRAN_VERSION := $(shell nvfortran --version | sed -n '2s/^nvfortran \([0-9.]*\).*/\1/p')
+ define greater_or_equal
+$(shell printf '%s\n%s\n' '$(1)' '$(2)' | sort -V | head -n1 | grep -q '$(2)' && echo true || echo false)
+endef
+ifeq ($(call greater_or_equal,$(NVFORTRAN_VERSION),25.1),true)
+    CC  += -gpu=tripcount:host
+    FC  += -gpu=tripcount:host
+endif
