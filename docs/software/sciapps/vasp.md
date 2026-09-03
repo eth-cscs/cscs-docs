@@ -97,7 +97,7 @@ export MPICH_GPU_SUPPORT_ENABLED=1
 srun ./mps-wrapper.sh vasp_std
 ```
 
-## Building VASP from source
+### Building VASP from source
 
 To build VASP from source, the `develop` view must first be loaded:
 ```
@@ -176,13 +176,13 @@ srun vasp_std
 #SBATCH --uenv=vasp/v6.6.0:v1
 #SBATCH --view=vasp
 
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (1)!
 
 ulimit -s unlimited
 srun --cpu-bind=cores vasp_std
 ```
 
-1. [OpenBLAS] may spawn an extra thread, therefore it can be beneficial to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance.
+1. [OpenBLAS] spawns an extra thread, therefore it can be beneficial to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance.
 
 
 ### Building VASP from source
