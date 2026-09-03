@@ -5,10 +5,6 @@ Software for the climate research community is available on [Santis][ref-cluster
 The software is maintained in a collaboration between the climate community and CSCS.
 
 <div class="grid cards" markdown>
--   :fontawesome-solid-earth: [__ICON__][ref-software-icon]
-
-    !!! under-construction
-        uenv images for icon and icon-exclaim are being developed, and will be deployed on [Santis][ref-cluster-santis] and Balfrin (MCH) in Q1 2026.
 
 -   :fontawesome-solid-bullhorn: __Community Codes__
 
