@@ -136,6 +136,7 @@ nav = [
     ]},
     {"Climate and Weather" = [
       "software/cw/index.md",
+      {"ICON" = "software/cw/icon.md"},
       {"netcdf-tools" = "software/cw/netcdf-tools.md"},
       {"Deployment" = "software/cw/deployment.md"},
     ]},
