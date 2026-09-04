@@ -250,13 +250,10 @@
         <loc>https://docs.cscs.ch/software/cw/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/cw/deployment/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/cw/icon/</loc>
-      </url>
-      <url>
         <loc>https://docs.cscs.ch/software/cw/netcdf-tools/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/cw/deployment/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/communication/</loc>
