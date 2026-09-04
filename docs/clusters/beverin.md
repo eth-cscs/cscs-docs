@@ -18,6 +18,8 @@ Beverin consists of 13 [MI250X][ref-alps-mi200-node] and 128 [MI300A][ref-alps-m
 | [mi200][ref-alps-mi200-node] | 13 | 13 | 104 |
 | [mi300][ref-alps-mi300-node] | 128 | 512 | 512 |
 
+See [Running jobs on Beverin][ref-cluster-beverin-running-jobs] for details on the associated slurm partitions.
+
 ### Storage and file systems
 
 Beverin uses the [HPCP filesystems and storage policies][ref-hpcp-storage].
@@ -92,6 +94,7 @@ Beverin supports container workloads using the [Container Engine][ref-container-
 
 To build images, see the [guide to building container images on Alps][ref-build-containers].
 
+[](){#ref-cluster-beverin-running-jobs}
 ## Running Jobs on Beverin
 
 ### Slurm

@@ -41,7 +41,6 @@ nav = [
       "platforms/hpcp/index.md",
       {"Daint" = "clusters/daint.md"},
       {"Eiger" = "clusters/eiger.md"},
-      {"Beverin" = "clusters/beverin.md"},
     ]},
     {"Climate and Weather Platform" = [
       "platforms/cwp/index.md",
