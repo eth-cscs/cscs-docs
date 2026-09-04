@@ -139,6 +139,14 @@ The Grizzly Peak blades contain two nodes, where each node has:
 
 Bard Peak
 
+1 node:
+
+* 1 socket AMD Epyc 7A53 "Trento" 64-Core processor with 2 threads per core
+* 512 GB DDR4 memory
+* 4 AMD MI250X liquid-cooled OAMs for a total of 8 Graphics Compute Dies (GCDs) and 64 GB HBM2e memory per die
+* 4 NICS -- one per OAM
+
+
 [](){#ref-alps-mi300-node}
 ### AMD MI300A GPU Nodes
 
@@ -147,3 +155,10 @@ Bard Peak
 !!! todo
 
 Parry Peak
+
+1 node:
+
+* 4 MI300A Accelerated Processing Units (APUs)
+    * 24 Zen4 CPU cores per APU with 2 threads per core, for a total of 192 threads per node
+* 512 GB unified physical HBM3e memory
+* 4 NICS

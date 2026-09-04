@@ -46,6 +46,14 @@ The following clusters are part of the platforms that are fully operated by CSCS
 ## Other systems
 
 <div class="grid cards" markdown>
+-   :fontawesome-solid-mountain: __Testing, Porting and Development__
+
+    Beverin is a medium-sized system used for testing, developing and porting applications to AMD GPUs.
+
+    [:octicons-arrow-right-24: Beverin][ref-cluster-beverin]
+</div>
+
+<div class="grid cards" markdown>
 -   :fontawesome-solid-mountain: __Porting and Development__
 
     Besso is a small system used by some partners for development and porting with AMD and NVIDIA GPUs.
