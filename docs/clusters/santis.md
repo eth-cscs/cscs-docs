@@ -55,6 +55,7 @@ Please refer to the [uenv documentation][ref-uenv] for detailed information on h
 
     Provide software stacks for climate and weather workflows on Santis.
 
+     * [ICON][ref-software-icon]
      * [netcdf-tools][ref-uenv-netcdf-tools]
 
 </div>

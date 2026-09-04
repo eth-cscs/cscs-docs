@@ -8,7 +8,7 @@ The [uenv][ref-uenv] deployed on [Santis][ref-cluster-santis] and Balfrin are ge
     - [Programming environments][ref-software-prgenvs];
     - and tools including [Linaro Forge][ref-uenv-linaro].
 - **community managed** uenv recipes in the [C2SM/software-stack-recipes](https://github.com/C2SM/software-stack-recipes)
-    - `icon``
+    - [icon][ref-software-icon]
     - `climana` on Santis.
     - `fdb` uenv on the MCH systems.
 

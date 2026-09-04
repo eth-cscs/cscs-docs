@@ -5,6 +5,9 @@ Software for the climate research community is available on [Santis][ref-cluster
 The software is maintained in a collaboration between the climate community and CSCS.
 
 <div class="grid cards" markdown>
+-   :fontawesome-solid-earth: [__ICON__][ref-software-icon]
+
+    Modelling framework for weather, climate and environmental prediction.
 
 -   :fontawesome-solid-bullhorn: __Community Codes__
 
