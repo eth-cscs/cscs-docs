@@ -1,8 +1,10 @@
 [project]
 site_url  = "https://docs.cscs.ch/"
 site_name = "CSCS Documentation"
+# Repository: link in the top right corner, and "edit this page" on each page
 repo_url = "https://github.com/eth-cscs/cscs-docs"
 repo_name = "eth-cscs/cscs-docs"
+edit_uri = "edit/main/docs/"
 docs_dir  = "docs"
 
 extra_css = ["stylesheets/extra.css"]
@@ -137,9 +139,9 @@ nav = [
     ]},
     {"Climate and Weather" = [
       "software/cw/index.md",
-      {"Deployment" = "software/cw/deployment.md"},
       {"ICON" = "software/cw/icon.md"},
       {"netcdf-tools" = "software/cw/netcdf-tools.md"},
+      {"Deployment" = "software/cw/deployment.md"},
     ]},
     {"Communication Libraries" = [
       "software/communication/index.md",
@@ -227,11 +229,6 @@ nav = [
     "contributing/index.md",
   ]},
 ]
-
-# Repository: link in the top right corner, and "edit this page" on each page
-[project.repo]
-url = "https://github.com/eth-cscs/cscs-docs"
-edit_uri = "edit/main/docs/"
 
 # Validation: the docs are built with --strict, so every one of these is an
 # error that fails the build.
