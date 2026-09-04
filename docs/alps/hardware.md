@@ -152,4 +152,4 @@ Each HPE Cray EX255A (code-name Parry Peak) blade contains two nodes, where each
 * 4 MI300A Accelerated Processing Units (APUs)
     * 24 Zen4 CPU cores per APU with 2 threads per core, for a total of 192 threads per node
 * 512 GB unified physical HBM3e memory
-* 4 NICS
+* 4 NICs -- one per MI300A APU
