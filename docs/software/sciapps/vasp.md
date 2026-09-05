@@ -10,8 +10,8 @@ The Vienna Ab initio Simulation Package ([VASP]) is a computer program for atomi
 !!! note "uenvs"
     [VASP] is provided on [Alps][platforms-on-alps] via [uenv][ref-uenv], with two views:
 
-    * `vasp`: the precompiled `vasp_std`, `vasp_ncl` and `vasp_gam` executables, built with MPI, OpenMP, OpenACC, HDF5 and Wannier90 support.
-    * `develop`: the dependencies required to build VASP from source.
+    * `vasp`: includes the precompiled `vasp_std`, `vasp_ncl` and `vasp_gam` executables.
+    * `develop`: includes only the dependencies required to build VASP from source.
 
     Please have a look at the [uenv documentation][ref-uenv] for more information about uenvs and how to use them.
 
@@ -21,6 +21,7 @@ The Vienna Ab initio Simulation Package ([VASP]) is a computer program for atomi
 
     Once you have a license, submit a request on the [CSCS service desk](https://jira.cscs.ch/plugins/servlet/desk), with a copy of your license, to be added to the `vasp6` unix group.
     Membership of the `vasp6` group grants access to the precompiled VASP executables and library files in the `vasp` uenv.
+
     Because of these restrictions, the VASP images cannot be pulled in the same way as other uenv: follow the guide to [accessing restricted software][ref-uenv-restricted-software].
 
     Please refer to the [VASP web site](https://www.vasp.at) for more information about licensing.
