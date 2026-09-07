@@ -1,3 +1,1 @@
-mkdocs
-mkdocs-material
-mkdocs-autorefs
+zensical==0.0.57

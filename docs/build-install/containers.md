@@ -38,6 +38,10 @@ to check that the correct `storage.conf` file is used by Podman (`store:configFi
 
 ## Building images with Podman
 
+!!! note
+    Since 30.07.2026, directly invoking `podman` (e.g., `podman build` or `podman run`) may not work properly on some clusters.
+    If the issue persists, try adding `--network=host` after the `podman` command (e.g., `podman build --network=host` or `podman run --network=host`).
+
 The easiest way to build a container image is to rely on a Containerfile (a more generic name for a container image recipe, but essentially equivalent to Dockerfile):
 
 ```bash

@@ -68,8 +68,3 @@ For high performance applications, some [tuning settings][ref-guides-storage-vas
 ## Vadret
 
 The Vadret storage is smaller capacity system that is designed for use as [Home][ref-storage-home] folders.
-
-!!! todo
-    small text explaining what Vadret is designed to be used for.
-
-

@@ -12,12 +12,8 @@ The CPE is a suite of software: programming environments, compilers, libraries a
 The CPE will be familiar to users of previous CSCS systems, including Piz Daint, and users of HPE/Cray systems at other sites.
 It provides modules for programming environments including `Prgenv-gnu` and `Prgenv-cray`, and packages like `cray-python` and `cray-fftw`.
 
-
-??? Warning "The `cray` module is deprecated"
-    [Eiger][ref-cluster-eiger] currently has CPE 24.7 installed. This version is outdated and can be loaded using the `cray` module. 
-
-    * This module will be removed in mid 2026 
-    * CSCS won't provide support when the `cray` module is loaded.
+!!! Warning "The `cray` module is no longer available"
+    The `cray` module on [Eiger][ref-cluster-eiger] was removed on August 26th, 2026.
 
     The recommended method for building and running software is to use [uenv][ref-uenv] or [containers][ref-container-engine].
     See the [programming environment][ref-software-prgenvs] documentation for alternative programming environments.
@@ -46,6 +42,16 @@ The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as sepa
 | `cpe-cray-24.7` | ✅       | ✅      |
 | `cpe-gnu-25.3`  | ✅       | ✅      |
 | `cpe-cray-25.3` | ✅       | ✅      |
+| `cpe-gnu-25.9`  | ✅       | ✅      |
+| `cpe-cray-25.9` | ✅       | ✅      |
+| `cpe-gun-26.3 ` | ✅       | ✅      |
+| `cpe-cray-26.3` | ✅       | ✅      |
+
+!!! note "CPE 26.3 is the last CPE release"
+    HPE have announced that 26.3 is the last release of CPE.
+
+    HPE Supercomputing Programming Software (SUPS) will be the replacement.
+    CSCS will provide software packages from SUPS in [uenv][ref-uenv].
 
 ??? question "Where are CPE containers stored?"
 

@@ -1,11 +1,6 @@
 [](){#ref-inference}
 # Inference
 
-!!! under-construction "Inference services are in early access"
-    Inference services are under development.
-    We are seeking additional novel use cases, to help shape the service design.
-    Please contact Stefano Schuppli at [`stefano.schuppli@cscs.ch`](mailto:stefano.schuppli@cscs.ch) and Pablo Fernandez at [`pablo.fernandez@cscs.ch`](mailto:pablo.fernandez@cscs.ch) if you are interested.
-
 Inference services leverage Machine Learning models to generate content from user-provided inputs. We enable the deployment and operation of models and related services without requiring users to manage the underlying infrastructure.
 
 <div class="grid cards" markdown>

@@ -110,6 +110,7 @@ After the job completes:
 gssr-analyze gssr_report -o gpu-report.pdf
 ```
 
+[](){#ref-gssr-containers}
 ## Using GSSR inside containers
 
 GSSR uses the NVIDIA DCGM library to read GPU metrics. This is available on the Alps host system.

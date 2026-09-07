@@ -1,16 +1,19 @@
+<div class="grid cards" markdown>
+-   <p style="text-align:center">Visit <a href="https://inference.status.cscs.ch/">inference.status.cscs.ch</a> for the status of the inference service, models, and latest announcements.</p>
+</div>
+
 [](){#ref-inference-api}
 # LLM Inference API Service
 
-[](){#ref-inference-api-beta}
+The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
+CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
 
-The LLM Inference API service provides [OpenAI](https://developers.openai.com/api/reference/overview)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference endpoints backed by selected open-weight LLM models such as [Apertus](https://apertvs.ai/) and other vetted models.
-Users consume tokens from a shared pool of models where requests are efficiently routed across shared serving capacity. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
-
-In order to maximize utilization and reduce costs, a reduced set of models is available. Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. Private model deployment is not supported.
+In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported.
 If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](https://github.com/swiss-ai/model-launch) developed by the Swiss AI community.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Nevertheless, including sensitive data in your prompts is not allowed. CSCS collects infrastructure metrics and telemetry, including prompt and response lengths, to monitor service quality.
-
+Privacy and confidentiality are essential to us.
+CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control.
+Usage follows the [CSCS user regulations][ref-policies-user-regulations].
 
 ## Service at a glance
 
@@ -36,7 +39,8 @@ Privacy and confidentiality are essential to us. CSCS does not record user promp
 </div>
 
 !!! note
-    We highly recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
+    Because most of these models are trained by others, have inherent biases, and are aligned with their creators' principles, we highly recommend always auditing their results. 
+    We recommend using [Apertus](https://apertvs.ai/), which is available in this service. Apertus is fully open---including data, methods and alignment principles---and is compliant with the EU AI Act. A global foundation to build on!
 
 
 [](){#ref-inference-api-quickstart}
@@ -59,15 +63,9 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
 
 ??? info "Example `/v1/models` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
+    $ curl -s -X GET "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
     {
       "data": [
-        {
-          "id": "swiss-ai/Apertus-70B-Instruct-2509",
-          "created": 1782315799,
-          "object": "model",
-          "owned_by": "Envoy AI Gateway"
-        },
         {
           "id": "swiss-ai/Apertus-8B-Instruct-2509",
           "created": 1782315799,
@@ -75,19 +73,55 @@ curl -X GET "https://api.inference.cscs.ch/v1/models" \
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "apertus-ai/Apertus-v1.5-8B-Prerelease-2606",
+          "id": "swiss-ai/Apertus-70B-Instruct-2509",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
-          "id": "zai-org/GLM-5.2",
+          "id": "swiss-ai/Apertus-v1.5-8B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-8B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "swiss-ai/Apertus-v1.5-70B-thinking",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "google/gemma-4-31B-it",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
         },
         {
           "id": "moonshotai/Kimi-K2.7-Code",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+          "created": 1782315799,
+          "object": "model",
+          "owned_by": "Envoy AI Gateway"
+        },
+        {
+          "id": "zai-org/GLM-5.2",
           "created": 1782315799,
           "object": "model",
           "owned_by": "Envoy AI Gateway"
@@ -102,18 +136,18 @@ Get a response using the Apertus 70B model using the `/v1/chat/completions` endp
 curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
     -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
     -H "Content-Type: application/json" \
-    -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
+    -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
 
 ```
 
 ??? info "Example `/v1/chat/completions` response"
     ```console
-    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-70B-Instruct-2509", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
+    $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
     {
       "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
       "object": "chat.completion",
       "created": 1782485315,
-      "model": "swiss-ai/Apertus-70B-Instruct-2509",
+      "model": "swiss-ai/Apertus-v1.5-70B",
       "choices": [
         {
           "index": 0,
@@ -152,17 +186,60 @@ curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
 [](){#ref-inference-api-access}
 ## Access
 
+Access to the inference service is granted at the project level.
+In order to use the service users must have an active project granted via an open call for proposals, a partnership, or [cscs2go](https://2go.cscs.ch).
+
+[](){#ref-inference-api-available-models}
+### Available models and pricing
+
+Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
+The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
+
+The available models together with their maximum context size are also listed in the table below.
+Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
+
+| Model                                           | Maximum context length |
+|-------------------------------------------------|------------------------|
+| `google/gemma-4-31B-it`                         | 262,144                |
+| `moonshotai/Kimi-K2.7-Code`                     | 262,144                |
+| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 262,144                |
+| `swiss-ai/Apertus-70B-Instruct-2509`            | 64,000                 |
+| `swiss-ai/Apertus-8B-Instruct-2509`             | 32,768                 |
+| `swiss-ai/Apertus-v1.5-70B-thinking`            | 262,144                |
+| `swiss-ai/Apertus-v1.5-70B`                     | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B-thinking`             | 262,144                |
+| `swiss-ai/Apertus-v1.5-8B`                      | 262,144                |
+| `zai-org/GLM-5.2`                               | 976,000                |
+
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
 
-The PI or deputy PI of your project must first create an inference resource in the [project management portal][ref-account-waldur]:
+An inference resource must be created for your project before any project member can create API keys.
+Which procedure applies depends on the organization your project belongs to: non-SwissAI projects must request a resource through the CSCS Service Desk, while projects in the SwissAI organization can create the resource directly in the project management portal (self-service).
 
-- Click the "Add resource" button in the top left of the UI.
-- Select your project from the dropdown.
-- Choose the "Inference Service" category and the "Inference API" offering.
+=== "Service Desk (non-SwissAI)"
+    As self-service is not available for your project, the PI or Deputy PI should create a ticket at the [CSCS Service Desk](https://support.cscs.ch) with the following details:
 
-!!! note
-    If you are a project member, ask your PI to create the inference resource first.
+    - Service: Inference Service
+    - Request: add an inference resource to project `<your project ID>`
+    - Node hours to assign to the resource: `<amount>` from `<cluster>`
+
+    The node hours you specify are deducted from your project's node hours on `<cluster>` and converted into inference credits for the resource; see the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current node-hour rate.
+
+    ??? example "worked example (rate as of 1 July 2026)"
+        At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits.
+        Always check the [institutional pricing page](https://2go.cscs.ch/offering/swiss_academia/institutional_customers/) for the current rate.
+
+=== "Self-service (SwissAI)"
+    The PI or deputy PI can create the inference resource directly in the [project management portal][ref-account-waldur]:
+
+    - Click the "Add resource" button in the top left of the UI.
+    - Select your project from the dropdown.
+    - Choose the "Inference Service" category and the `Inference-api-u` offering.
+
+    The credit for the inference resource is taken from your project's credit.
+
+    If you are a project member, ask your PI or deputy PI to create the resource for you.
 
 [](){#ref-inference-api-access-key}
 ### Create an API key
@@ -178,10 +255,6 @@ Once an inference resource has been created for your project, any project member
 
 !!! info "Viewing key usage"
     After creating a key, you can sign in to the Inference API UI with the key ("Sign in with access token" below the CSCS account login) to view usage statistics for that specific key.
-
-!!! warning "Token accounting"
-    Currently all input and output tokens are counted equally in the token budget.
-    This is subject to change, with input and output tokens having different cost.
 
 [](){#ref-inference-api-endpoints}
 ## API
@@ -206,6 +279,16 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
+See the [available models table][ref-inference-api-available-models] for context sizes.
+Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.
+
+!!! note "Apertus models in agents"
+    We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
+    See the [OpenWebUI section][ref-inference-api-openwebui] for information on setting up the inference endpoint in OpenWebUI.
+
+    Note particularly that the `-thinking` variants of the Apertus models are served with tool use disabled.
+    If you attempt to use them you may see errors such as `"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set`.
+
 ### Claude Code
 
 Set the following environment variables before starting a `claude` session.
@@ -222,34 +305,110 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-```json title="OpenCode configuration for the inference API"
-{
-  "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "cscs": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "CSCS Inference",
-      "options": {
-        "baseURL": "https://api.inference.cscs.ch/v1"
-      },
-      "models": {
-        "moonshotai/Kimi-K2.7-Code": {
-          "name": "Kimi K2.7-Code"
-        }
-      }
-    }
-  }
-}
-```
+=== "OpenCode handles API key (recommended)"
 
-Start OpenCode and run the `/connect` command.
-Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
-Once connected, you can choose models configured in the config.
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    Start OpenCode and run the `/connect` command.
+    Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
+
+=== "API key as environment variable"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system",
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+    When the API key is set through an environment variable in the config, there is no explicit "connect" step.
+    Choose the model after restarting OpenCode.
+
+Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
 
 !!! info
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
+
+[](){#ref-inference-api-announcements}
+
+[](){#ref-inference-api-openwebui}
+## Setting up OpenWebUI to use the inference service
+
+[OpenWebUI](https://openwebui.com) is an open source interface for accessing AI providers.
+It can be hosted locally for a single user and can be set up to access the CSCS inference endpoints.
+Please see the [OpenWebUI documentation](https://docs.openwebui.com/) for help setting up an instance for yourself.
+
+!!! note
+    CSCS does not provide support for OpenWebUI installations.
+
+In order to configure OpenWebUI to connect to the CSCS inference endpoint you must be admin on an instance.
+Then:
+
+- Go to "Admin Panel" under your profile menu.
+- Go to "Settings" and "Connections".
+- Under "OpenAI API" press the + symbol to add a new provider.
+- Add the CSCS inference base URL and your API key under "Auth".
+
+The models will be automatically detected and available for use.
+
+!!! note
+    Note that the `-thinking` variants of Apertus have tool support disabled and will return an error by default.
+    As admin, you can disable tools by going to "Admin Panel", then "Models", and editing the thinking models to disable all "Capabilities" on the model settings page.
+
+## Announcements
+
+Planned maintenance, incidents, and changes to the available models are published on the [service status page](https://inference.status.cscs.ch).
+Everyone with access to a project that has an inference resource is subscribed automatically and can opt out at any time.
+
+The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see [get in touch][ref-get-in-touch] to join.
 
 [](){#ref-inference-api-issues}
 ## Known issues and limitations
@@ -257,5 +416,4 @@ Once connected, you can choose models configured in the config.
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* Billing the costs of the service against the current CSCS project's budget is work in progress.
-
+* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.

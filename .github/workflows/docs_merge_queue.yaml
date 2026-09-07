@@ -10,16 +10,17 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
+      # skip caching until zensical has stabilised cache interface
+      #- run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      #- uses: actions/cache@v3
+      #  with:
+      #    key: zensical-${{ env.cache_id }}
+      #    path: .cache
+      #    restore-keys: |
+      #      zensical-
       - run: pip install --upgrade pip
-      - run: |
-          pip install -r requirements.txt
+      - run: pip install -r requirements.txt
       - run: rm -rf site
-      - run: cat mkdocs.yml
-      - run: mkdocs build --strict
+      - run: cat zensical.toml
+      - run: zensical --version
+      - run: zensical build --strict

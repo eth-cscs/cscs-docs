@@ -18,6 +18,7 @@ CESM
 CFLAGS
 CHARMM
 CHF
+cgroups
 compset
 curated
 COSMA
@@ -30,6 +31,7 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
@@ -53,6 +55,7 @@ GGA
 GPFS
 GPG
 GPU
+GPUh
 GPUs
 GPW
 GROMACS
@@ -136,8 +139,11 @@ Roboto
 Roothaan
 SHMEM
 SHS
+Skybox
 SLA
+SLES
 SLO
+SOTA
 SSHService
 STMV
 Scopi
@@ -152,6 +158,7 @@ Wannier
 WSL
 XDG
 Zsh
+Zensical
 Zumsteinspitz
 aarch
 acfdt
@@ -177,12 +184,14 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
 cuda
 customised
 cyberduck
+datacache
 dbcsr
 dcomex
 demystifying
@@ -203,6 +212,7 @@ elpa
 epyc
 fftw
 filesystems
+finalised
 fontawesome
 fpmd
 gcc
@@ -217,6 +227,7 @@ gromos
 groundstate
 gsl
 hdf
+httpx
 hugepages
 hugetlbfs
 hotmail
@@ -224,6 +235,7 @@ huggingface
 hwloc
 iframe
 ijulia
+img
 inodes
 iopsstor
 ivo
@@ -246,6 +258,7 @@ libtorch
 libtree
 libvori
 libxc
+lifecycle
 linalg
 linkx
 linux
@@ -325,6 +338,7 @@ quantumespresso
 quasiparticles
 quickstart
 recv
+rclone
 rgw
 retag
 retagging
@@ -339,6 +353,7 @@ runtimes
 salloc
 sandboxing
 santis
+sarusctl
 sbatch
 scalapack
 scp
@@ -386,6 +401,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+transitioning
 treesitter
 trilinos
 trl
@@ -395,6 +411,7 @@ uenv
 uenvs
 uids
 ultrasoft
+uncached
 unsquashfs
 utkin
 vCluster
@@ -412,6 +429,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia
@@ -429,6 +447,7 @@ xfer
 xname
 xpmem
 youtube
+zensical
 zstd
 HPS
 jobscript
@@ -436,3 +455,13 @@ Scalasca
 tracefile
 Vampir
 XAmz
+SYCL
+DPC
+dpcpp
+llvmdpcpp
+oneAPI
+DPL
+TBB
+nvptx
+Neoverse
+mpicxx

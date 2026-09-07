@@ -1,7 +1,7 @@
 [](){#ref-contributing}
 # Contributing
 
-This documentation is developed using the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
+This documentation is developed using the [Zensical](https://zensical.org/) framework, and the source code for the docs is publicly available on [GitHub](https://github.com/eth-cscs/cscs-docs).
 This means that everybody, CSCS staff and the CSCS user community can contribute to the documentation.
 
 ## Making suggestions or small changes
@@ -390,7 +390,7 @@ Separate the items simply with commas if each item is simple, or make each item 
 
 ### Using admonitions
 
-Aim to include examples, notes, warnings using [admonitions](https://squidfunk.github.io/mkdocs-material/reference/admonitions/) whenever appropriate.
+Aim to include examples, notes, warnings using [admonitions](https://zensical.org/docs/authoring/admonitions/) whenever appropriate.
 They stand out better from the main text, and can be collapsed by default if needed.
 
 !!! example "Example one"
@@ -464,7 +464,7 @@ As a placeholder for documentation that needs to be written.
 
 ### Code blocks
 
-Use [code blocks](https://squidfunk.github.io/mkdocs-material/reference/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
+Use [code blocks](https://zensical.org/docs/authoring/code-blocks/) when you want to display monospace text in a programming language, terminal output, configuration files etc.
 The documentation uses [pygments](https://pygments.org) for highlighting.
 The language of a code block is set by its *lexer* — the name written after the opening triple backticks.
 See the [list of available lexers](https://pygments.org/docs/lexers/#).
@@ -496,7 +496,7 @@ They also let the copy button strip prompts and output, so only the runnable com
     ```
 
 !!! warning
-    `terminal` is not a valid lexer, but neither MkDocs nor pygments will warn you.
+    `terminal` is not a valid lexer, but neither Zensical nor pygments will warn you.
     The text will be rendered without highlighting.
 
 For command-only blocks (no prompt, no output), use [`bash`](https://pygments.org/docs/lexers/#pygments.lexers.shell.BashLexer) or [`powershell`](https://pygments.org/docs/lexers/#pygments.lexers.shell.PowerShellLexer):

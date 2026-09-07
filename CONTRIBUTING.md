@@ -9,14 +9,14 @@ Agents should:
 1. read the contributing guide in its raw form in the `docs/contributing/index.md` file — the spell checker section in particular is not duplicated here.
 2. read the rest of this page.
 
-To validate changes, run `./serve build` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
+To validate changes, run `./serve build --strict` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
 This will catch broken links and build errors before the CI pipeline does.
 
 ## Guidelines for agents
 
-The documentation uses the Material for MkDocs framework.
+The documentation uses Zensical.
 
-The project configuration is in the `mkdocs.yml` file.
+The project configuration is in the `zensical.toml` file.
 
 The docs are in the `docs` directory.
 
@@ -144,7 +144,7 @@ If information is being documented in more than one place, propose centralising 
 
 IMPORTANT: When asked to write a new page, don't forget the following (where appropriate):
 
-- add it to the table of contents in `mkdocs.yml`
+- add it to the table of contents in `zensical.toml`
 - add a card at the appropriate `index.md` page
 - do we need to update platform specific docs in `docs/alps/platform`?
 - are we contradicting or replacing something that is documented elsewhere? If it looks like we are, ask the user how to proceed.
@@ -190,7 +190,7 @@ If you want to add a list of common error messages or similar, create a dedicate
 
 ### Use tabs when there is more than one way to do something
 
-The mkdocs tabs feature is very useful for side by side examples, and applying vertical compression.
+The tabs feature is very useful for side by side examples, and applying vertical compression.
 
 For example:
 
@@ -293,7 +293,7 @@ uenv start prgenv-gnu/24.11:v1
 ```
 ```
 
-`terminal` is **not** a valid lexer — MkDocs will silently render it without highlighting.
+`terminal` is **not** a valid lexer — it will silently render without highlighting.
 In `console` blocks, use `$` as the prompt character; `>` is not highlighted correctly.
 Add a `title=` to every code block to describe what it does.
 

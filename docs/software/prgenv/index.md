@@ -37,6 +37,10 @@ For example:
 
     Provides a set of tools and libraries for building applications with the intel OneAPI compilers on [Eiger][ref-cluster-eiger].
 
+-   :fontawesome-solid-layer-group: [__prgenv-dpcpp__][ref-uenv-prgenv-dpcpp] uenv
+
+    Extends [`prgenv-gnu`][ref-uenv-prgenv-gnu] with the Intel DPC++ (SYCL) compiler for [GH200][ref-alps-gh200-node] GPUs.
+
 </div>
 
 ## Containers

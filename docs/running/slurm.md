@@ -524,7 +524,7 @@ The configuration that is optimal for your application may be different.
 
 !!! info
     This power capping functionality is an experimental feature developed by CSCS.
-    It is currently being tested with key users on the Starlex test cluster.
+    It is currently available on [Säntis][ref-cluster-santis] and the test and development system Starlex.
 
     This documentation will be updated once it has been deployed onto the production clusters.
 

@@ -7,6 +7,7 @@ Use a Service Account when:
 
 - You need to run SSH commands from a CI/CD pipeline (e.g., GitHub Actions, GitLab CI).
 - You have scripts that execute multiple cluster operations in sequence.
+- You want to call [FirecREST][ref-firecrest] using an [API key instead of a personal OAuth2 client application][ref-firecrest-service-accounts].
 - You want to isolate automated access from your personal credentials.
 
 To use Service Accounts, you'll need the [`cscs-key` CLI tool][ref-ssh-cli], a helper that wraps the authentication flow described below into simple commands.
