@@ -5,7 +5,7 @@
 #
 # Prerequisites (see the Amber user guide):
 #   * the amber uenv is loaded WITH the amber view, e.g.
-#       uenv start --view=amber amber/26.6:rc2
+#       uenv start --view=amber amber/26.6:rc3
 #   * the Amber source archives have been extracted and AMBER_ROOT points at the
 #     directory that contains ambertools26_src/ and pmemd26_src/.
 #
@@ -15,6 +15,9 @@
 #
 # The install goes into $AMBERHOME (default $AMBER_ROOT/amber26). Serial, MPI, CPU and
 # CUDA executables all install side-by-side into the same $AMBERHOME/bin.
+#
+# On success, this script also packages $AMBERHOME as its own "amber-build" uenv by calling
+# squash-amber.sh (must be in the same directory) — see that script and the Amber user guide.
 
 set -euo pipefail
 
@@ -39,7 +42,7 @@ esac
 # sanity: make sure we are inside the amber uenv view
 if [[ "$(command -v cmake || true)" != /user-environment/* ]]; then
   echo "ERROR: this does not look like the amber uenv view." >&2
-  echo "       start it first with:  uenv start --view=amber amber/26.6:rc2" >&2
+  echo "       start it first with:  uenv start --view=amber amber/26.6:rc3" >&2
   exit 1
 fi
 for d in "$AMBERTOOLS_SRC" "$AMBER_SRC"; do
@@ -108,6 +111,13 @@ echo " pmemd executables:"
 ls "$AMBERHOME"/bin/ | grep -iE 'pmemd|sander' | sed 's/^/   /'
 echo
 echo " Activate this installation in a new shell with:"
-echo "   uenv start --view=amber amber/26.6:rc2"
+echo "   uenv start --view=amber amber/26.6:rc3"
 echo "   source $AMBERHOME/amber.sh"
 echo "=================================================================="
+
+# ---------------------------------------------------------------------------
+# 3. package $AMBERHOME as its own uenv, so it survives SCRATCH cleanup and stops
+#    consuming inodes there (see squash-amber.sh).
+# ---------------------------------------------------------------------------
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+AMBERHOME="$AMBERHOME" "$script_dir/squash-amber.sh"

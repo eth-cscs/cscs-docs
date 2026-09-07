@@ -6,7 +6,7 @@
 # have >=2 GPUs) a short PME simulation across 2 GPUs with pmemd.cuda.MPI.
 #
 # Usage (inside the amber uenv, with the build already installed):
-#   uenv start --view=amber amber/26.6:rc2
+#   uenv start --view=amber amber/26.6:rc3
 #   export AMBERHOME=/path/to/amber26        # or: source /path/to/amber26/amber.sh
 #   ./test-amber.sh
 #
@@ -55,7 +55,9 @@ JAC PME smoke test
   ntpr=10, ntwx=0, ntwr=0, ig=71277,
  /
 EOF
-    srun -n2 "$AMBERHOME/bin/pmemd.cuda.MPI" -O -i mdin.jac -p jac.prmtop -c jac.inpcrd -o out.jacmpi -r rst.jacmpi
+    # --overlap: without it, srun can hang ("step creation temporarily disabled") when run
+    # inside an interactive allocation that already has a step running (e.g. the login bash).
+    srun --overlap -n2 "$AMBERHOME/bin/pmemd.cuda.MPI" -O -i mdin.jac -p jac.prmtop -c jac.inpcrd -o out.jacmpi -r rst.jacmpi
     grep -iE "Peer to Peer support" out.jacmpi | head -1
     grep -q "A V E R A G E" out.jacmpi && echo "  -> 2-GPU MPI run OK"
   else

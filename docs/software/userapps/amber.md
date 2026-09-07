@@ -26,6 +26,7 @@ The workflow has three steps:
 1. **Pull the `amber/26.6` uenv** --- provides the compiler, CUDA, Python and libraries.
 2. **Download and extract the Amber source** --- you agree to the license and download it yourself.
 3. **Build Amber** with the provided script, then test it.
+4. Optionally, [package the build as its own uenv](#persisting-the-build-past-scratch-cleanup) so it survives scratch cleanup.
 
 The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.
 
@@ -227,12 +228,100 @@ export PMEMD_SRC=$AMBER_ROOT/pmemd26_src
     PMEMD often prints `Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG`.
     This is expected and does not indicate a failed run.
 
+## Persisting the build past scratch cleanup
+
+A full Amber install contains a very large number of files --- Python packages, headers, test data and more --- which can push you over your inode quota on [Scratch][ref-storage-scratch].
+Scratch is also cleaned up automatically, so a `$AMBERHOME` left there will eventually be deleted and has to be rebuilt.
+
+The fix is to package the installed `$AMBERHOME` directory itself as a second, minimal uenv.
+It mounts at the exact `$AMBERHOME` path it was built at, and is designed to be loaded **alongside** the `amber` uenv rather than on its own: `amber` keeps providing CUDA, MPI and Python, while the new uenv only adds `$AMBERHOME/bin` to `PATH`.
+Once it is registered in a uenv repository that lives outside Scratch, the *contents* of `$AMBERHOME` can be removed --- freeing the inodes they were using --- while Amber keeps working, mounted read-only from the packaged image, indefinitely.
+
+`build-amber.sh` runs this packaging step automatically after a successful install, by calling [`squash-amber.sh`](scripts/squash-amber.sh) (also reproduced below).
+It:
+
+* writes a `meta/env.json` into `$AMBERHOME` that describes a uenv named `amber-build`, mounted at `$AMBERHOME`, with a single `amber-build` view that adds `$AMBERHOME/bin` to `PATH` and sets `AMBERHOME`;
+* packages `$AMBERHOME` into a squashfs image with `mksquashfs` --- using the copy bundled inside the `amber` uenv's own store, since it is not on `PATH` by default;
+* prints, but does not run, the commands needed to register and use the image.
+
+??? example "Contents of `squash-amber.sh`"
+    ```bash
+    --8<-- "docs/software/userapps/scripts/squash-amber.sh"
+    ```
+
+### Registering the image
+
+`squash-amber.sh` leaves the image next to `$AMBERHOME`, still on Scratch.
+
+!!! warning ""
+    The **default** uenv repository is also on Scratch (`$SCRATCH/.uenv-images`), so registering the image there would not solve anything.
+    Create a repository on your [Store][ref-storage-store] path instead.
+
+```console title="register the amber-build image"
+$ uenv repo create $STORE/$USER/uenv-images   # once, if it doesn't already exist
+$ uenv --repo=$STORE/$USER/uenv-images image add amber-build/2026:v1@daint%gh200 $AMBER_ROOT/amber-build.squashfs
+```
+
+The label needs the full `name/version:tag@system%uarch` form --- `uenv image add` rejects a shorter one.
+`image add` also has a `--move` flag that relocates the squashfs into the repository instead of copying it, which is much faster for a multi-gigabyte image --- but it only works when the source and the repository are on the same file system, which Scratch and Store are not, so it cannot be used here.
+
+So this repository is searched automatically alongside the default one --- without passing `--repo` on every command --- add it to your user configuration file once (`uenv config` prints its path):
+
+```console title="add a persistent repository"
+$ cat >> "$(uenv config | awk '$1=="user:"{print $2}')" <<EOF
+
+[[repositories]]
+name = 'store'
+path = '$STORE/$USER/uenv-images'
+EOF
+```
+
+Once the image is registered, empty out `$AMBERHOME` to reclaim its inodes:
+
+```console title="reclaim the inodes"
+$ rm -rf $AMBERHOME && mkdir -p $AMBERHOME
+```
+
+!!! warning ""
+    Leave the directory itself in place.
+    `uenv` mounts the image onto `$AMBERHOME` but does not create the mount point --- it must still exist (empty) at this exact path for the `amber-build` uenv to start.
+
+### Using the packaged build
+
+Load the `amber-build` uenv alongside `amber`, with both views active.
+The `amber-build` view only adds `$AMBERHOME/bin` to `PATH` and sets `AMBERHOME` --- it relies on the `amber` view, loaded at the same time, for CUDA, MPI and Python.
+
+```console title="start both uenvs together"
+$ uenv start amber/26.6:rc3,amber-build/2026:v1 --view=amber,amber-build
+$ pmemd.cuda -O -i mdin -p prmtop -c inpcrd -o out
+```
+
+!!! tip
+    You no longer need to `source $AMBERHOME/amber.sh` --- the `amber-build` view already sets `AMBERHOME` and puts the Amber tools on `PATH`.
+
 ## Running simulations
 
 Load the uenv with the `amber` view in your batch script and launch the GPU engine with `srun`.
 Each MPI rank uses one GPU; the [gh200][ref-alps-gh200-node] nodes have 4 GPUs.
 
-```bash title="submit.sh — 1 node, 4 GPUs"
+If you [packaged your build as the `amber-build` uenv](#persisting-the-build-past-scratch-cleanup), load it alongside `amber` and drop the `source amber.sh` step --- `pmemd.cuda.MPI` is already on `PATH`:
+
+```bash title="submit.sh — 1 node, 4 GPUs, using the packaged amber-build uenv"
+#!/bin/bash
+#SBATCH --job-name=amber
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --gpus-per-node=4
+#SBATCH --time=01:00:00
+#SBATCH --uenv=amber/26.6:rc3,amber-build/2026:v1
+#SBATCH --view=amber,amber-build
+
+srun pmemd.cuda.MPI -O -i mdin -p prmtop -c inpcrd -o mdout -r restrt -x mdcrd
+```
+
+Otherwise, running straight from the `$AMBERHOME` you just built also works, by sourcing `amber.sh` to set `AMBERHOME` and `PATH`:
+
+```bash title="submit.sh — 1 node, 4 GPUs, running directly from \$AMBERHOME"
 #!/bin/bash
 #SBATCH --job-name=amber
 #SBATCH --nodes=1
