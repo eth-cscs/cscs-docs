@@ -29,29 +29,30 @@ Users are responsible for following the terms of the license that they agree to 
 
 ## Overview
 
-Because CSCS cannot redistribute Amber (see [Licensing][ref-software-amber-license]), we provide a **uenv** that contains everything needed to *build* Amber, and you build it yourself.
+Because CSCS cannot redistribute Amber (see [Licensing][ref-software-amber-license]), we provide a uenv that contains everything needed to build Amber, for users to build their own Amber.
 The workflow has three steps:
 
-1. **Pull the `amber/26.6` uenv** --- provides the compiler, CUDA, Python and libraries.
-2. **Download and extract the Amber source** --- you agree to the license and download it yourself.
-3. **Build Amber** with the provided script, then test it.
-4. Optionally, [package the build as its own uenv][ref-softare-amber-squashing] so it survives scratch cleanup.
+1. [Pull the `amber/26.6` uenv][ref-software-amber-uenv]: provides the compiler, CUDA, Python and libraries.
+2. [Download and extract the Amber source][ref-software-amber-getting]: you agree to the license and download it yourself.
+3. [Build Amber][ref-software-amber-getting]: with the provided script, then test it.
+4. Optionally, [package the build as its own uenv][ref-software-amber-squashing] so it survives scratch cleanup.
 
 The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.
 
+[](){#ref-software-amber-uenv}
 ## The Amber uenv
 
 The `amber/26.6` [uenv][ref-uenv] provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the [gh200][ref-alps-gh200-node] nodes of [daint][ref-cluster-daint].
 It provides, in a single view called `amber`:
 
 <!--begin no spell check-->
-* **CUDA 12.8** --- the most recent version of CUDA supported by Amber26.
-* **GCC 12.5** --- the most recent non-deprecated GCC compatible with CUDA 12.8.
-* **Python 3.12** with `tkinter` --- compatible with all of the Python packages used by Amber, plus every Python package Amber checks for at build time (numpy, scipy, matplotlib, pandas, numba, gemmi, biopython, rich, scikit-learn, sympy, pydantic, psutil, networkx, mpi4py, freesasa, f90nml, ...).
-* **cray-mpich** (CUDA-aware) and optimised **FFTW, netCDF, HDF5, OpenBLAS, GSL**.
+* **CUDA 12.8**: the most recent version of CUDA supported by Amber26.
+* **GCC 12.5**: the most recent non-deprecated GCC compatible with CUDA 12.8.
+* **Python 3.12** with `tkinter`: compatible with all of the Python packages used by Amber, plus every Python package Amber checks for at build time (numpy, scipy, matplotlib, pandas, numba, gemmi, biopython, rich, scikit-learn, sympy, pydantic, psutil, networkx, mpi4py, freesasa, f90nml, ...).
+* **cray-mpich** (CUDA-aware) and optimised FFTW, netCDF, HDF5, OpenBLAS, GSL.
 <!--end no spell check-->
 
-You do **not** need to install any Python packages by hand --- everything Amber's build looks for is already in the view.
+You do not need to install any Python packages by hand---everything required to build Amber is already in the view.
 
 !!! example "Downloading the `amber/26.6` uenv"
 
@@ -77,9 +78,10 @@ You do **not** need to install any Python packages by hand --- everything Amber'
 
     If you frequently use the tools interactively, consider creating an alias for a [custom environment][ref-uenv-customenv] that loads the uenv and also sets `AMBERHOME`.
 
+[](){#ref-software-amber-getting}
 ## Getting Amber
 
-A full Amber installation consists of **AmberTools** and **Amber (PMEMD)**, which are downloaded as two separate archives from the [Amber website](https://ambermd.org/GetAmber.php) --- see the "How to obtain AmberTools26" and "How to obtain Amber26" sections.
+A full Amber installation consists of AmberTools and Amber (PMEMD), which are downloaded as two separate archives from the [Amber website](https://ambermd.org/GetAmber.php) (see the "How to obtain AmberTools26" and "How to obtain Amber26" sections).
 You have to enter your name and institution; if you agree to the non-commercial terms the download starts immediately.
 
 After downloading you will have two files:
@@ -97,7 +99,7 @@ After downloading you will have two files:
     $ scp ambertools26.tar.bz2 pmemd26.tar.bz2 daint:~/ambersources
     ```
 
-## Extracting the source
+### Extracting the source
 
 !!! tip "Where to build"
     Building generates a large number of files.
@@ -137,6 +139,7 @@ $AMBER_ROOT/pmemd26_src/          # Amber / PMEMD
     # apply with: ./update_amber --update   and   ./update_pmemd --update
     ```
 
+[](){#ref-software-amber-building}
 ## Building Amber
 
 Download the build script [`build-amber.sh`](scripts/build-amber.sh) (also reproduced below), make it executable, and run it inside the uenv.
@@ -286,7 +289,7 @@ $ pmemd.cuda -O -i mdin -p prmtop -c inpcrd -o out
 Load the uenv with the `amber` view in your batch script and launch the GPU engine with `srun`.
 Each MPI rank uses one GPU; the [gh200][ref-alps-gh200-node] nodes have 4 GPUs.
 
-If you [packaged your build as the `amber-build` uenv](#persisting-the-build-past-scratch-cleanup), load it alongside `amber` and drop the `source amber.sh` step --- `pmemd.cuda.MPI` is already on `PATH`:
+If you [packaged your build as the `amber-build` uenv][ref-software-amber-squashing], load it alongside `amber` and drop the `source amber.sh` step --- `pmemd.cuda.MPI` is already on `PATH`:
 
 ```bash title="submit.sh — 1 node, 4 GPUs, using the packaged amber-build uenv"
 #!/bin/bash
