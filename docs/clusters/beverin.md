@@ -49,6 +49,19 @@ Beverin provides uenv to deliver programming environments and application softwa
 
 <div class="grid cards" markdown>
 
+-    :fontawesome-solid-layer-group: __Programming Environments__
+
+    Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
+
+    * [prgenv-gnu][ref-uenv-prgenv-gnu]
+    * [linalg][ref-uenv-linalg]
+    
+</div>
+
+In addition to the base `GNU` and `linalg` programming environments, a few other dedicated environments are provided on a best effort basis:
+
+<div class="grid cards" markdown>
+
 -   :fontawesome-solid-layer-group: __Climate and Weather Applications__
 
     Provide software stacks for climate and weather workflows on Beverin.
@@ -69,23 +82,15 @@ Beverin provides uenv to deliver programming environments and application softwa
 
 <div class="grid cards" markdown>
 
--    :fontawesome-solid-layer-group: __Programming Environments__
-
-    Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
-
-    * [prgenv-gnu][ref-uenv-prgenv-gnu]
-    * [linalg][ref-uenv-linalg]
-    
-</div>
-
-<div class="grid cards" markdown>
-
 -   :fontawesome-solid-layer-group: __Tools__
 
     Provide tools like 
 
     * [Linaro Forge][ref-uenv-linaro]
 </div>
+
+See the [uenv quick start guide][ref-uenv-quickstart] to find all programming environments available on Beverin.
+
 
 [](){#ref-cluster-beverin-containers}
 #### Containers
