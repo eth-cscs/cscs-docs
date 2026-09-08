@@ -139,6 +139,7 @@ Roboto
 Roothaan
 SHMEM
 SHS
+SPFP
 Skybox
 SLA
 SLES
@@ -363,6 +364,7 @@ slepc
 slurm
 smartphone
 sourced
+sourcing
 spdlog
 spglib
 sphericart
