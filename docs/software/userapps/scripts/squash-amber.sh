@@ -17,7 +17,7 @@
 set -euo pipefail
 
 : "${AMBERHOME:?Set AMBERHOME to an existing Amber install (e.g. \$AMBER_ROOT/amber26)}"
-: "${OUTPUT:=$(dirname "$AMBERHOME")/amber-build.squashfs}"
+: "${OUTPUT:=$(dirname "$AMBERHOME")/store.squashfs}"
 
 # sanity: make sure this looks like a real Amber install
 shopt -s nullglob
@@ -66,7 +66,7 @@ if os.path.isdir(libdir):
 
 env_json = {
     "name": "amber-build",
-    "description": "Amber26 built with the amber uenv (does not include CUDA/MPI/Python -- load alongside amber).",
+    "description": "Amber26 built with the amber uenv, must be loaded alongside amber.",
     "mount": amberhome,
     "default-view": "amber-build",
     "modules": None,
@@ -107,22 +107,12 @@ echo
 echo " The default uenv repository (\$SCRATCH/.uenv-images) lives on the same file system"
 echo " this is meant to escape -- register the image in a repository on \$STORE instead:"
 echo
-echo "   uenv repo create \$STORE/\$USER/uenv-images    # once, if it doesn't exist"
-echo "   uenv --repo=\$STORE/\$USER/uenv-images image add amber-build/2026:v1@daint%gh200 $OUTPUT"
-echo
-echo " So that repository is also searched (alongside the default one) without passing"
-echo " --repo every time, add it to your uenv config file once (found at: ${uenv_cfg:-run 'uenv config' to find it}):"
-echo
-echo "   cat >> $uenv_cfg <<CFG"
-echo "   [[repositories]]"
-echo "   name = 'store'"
-echo "   path = '\$STORE/\$USER/uenv-images'"
-echo "   CFG"
+echo "   uenv image add amber-build/2026:v1@daint%gh200 $OUTPUT"
 echo
 echo " Then use it alongside the amber uenv (the 'amber-build' view relies on 'amber' for"
 echo " CUDA/MPI/Python):"
 echo
-echo "   uenv start amber/26.6:rc3,amber-build/2026:v1 --view=amber,amber-build"
+echo "   uenv start amber/26.6:v1,amber-build/2026:v1 --view=amber,amber-build"
 echo
 echo " Once registered, empty out $AMBERHOME's *contents* to reclaim its inodes:"
 echo "   rm -rf $AMBERHOME && mkdir -p $AMBERHOME"

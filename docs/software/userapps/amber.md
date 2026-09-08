@@ -10,38 +10,46 @@
     The process shown here builds a representative CUDA + MPI configuration for Grace-Hopper --- you may have to modify the CMake options to build the exact set of tools you need.
 
 [Amber](https://ambermd.org) is a suite of programs for molecular dynamics simulation of biomolecular systems such as proteins, nucleic acids, and small molecules.
-It is widely used in computational chemistry and structural biology, with strong GPU acceleration support through its PMEMD engine.
+It is widely used in computational chemistry and structural biology, with GPU acceleration support through its PMEMD engine.
+
+The instructions provided here are for building Amber on [daint][ref-cluster-daint] with Grace-Hopper (GH200) support.
+
+[](){#ref-software-amber-license}
+## Licensing
+
+Amber is distributed under a dual license, with free access for non-profit academic users, and paid licenses for commercial use.
+CSCS is not permitted to redistribute Amber binaries or source code.
+Instead, users must independently agree to the license terms, then download the source and compile Amber themselves.
+
+Users are responsible for following the terms of the license that they agree to when applying for access on the Amber web site.
 
 !!! note
     This page documents how to download and install **Amber26**, which can be freely downloaded and used for non-commercial academic use cases.
     Older versions had different license terms that stop CSCS from accessing the source.
 
-The instructions provided here are for building Amber on [daint][ref-cluster-daint] with Grace-Hopper (GH200) support.
-
 ## Overview
 
-Because CSCS cannot redistribute Amber (see [Licensing](#getting-amber) below), we provide a **uenv** that contains everything needed to *build* Amber, and you build it yourself.
+Because CSCS cannot redistribute Amber (see [Licensing][ref-software-amber-license]), we provide a **uenv** that contains everything needed to *build* Amber, and you build it yourself.
 The workflow has three steps:
 
 1. **Pull the `amber/26.6` uenv** --- provides the compiler, CUDA, Python and libraries.
 2. **Download and extract the Amber source** --- you agree to the license and download it yourself.
 3. **Build Amber** with the provided script, then test it.
-4. Optionally, [package the build as its own uenv](#persisting-the-build-past-scratch-cleanup) so it survives scratch cleanup.
+4. Optionally, [package the build as its own uenv][ref-softare-amber-squashing] so it survives scratch cleanup.
 
 The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.
 
 ## The Amber uenv
 
-!!! under-construction
-    CSCS currently provides release candidate `rcN` versions of the amber uenv --- this will be a properly tagged and released version once it has been validated.
-
 The `amber/26.6` [uenv][ref-uenv] provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the [gh200][ref-alps-gh200-node] nodes of [daint][ref-cluster-daint].
 It provides, in a single view called `amber`:
 
+<!--begin no spell check-->
 * **CUDA 12.8** --- the most recent version of CUDA supported by Amber26.
 * **GCC 12.5** --- the most recent non-deprecated GCC compatible with CUDA 12.8.
 * **Python 3.12** with `tkinter` --- compatible with all of the Python packages used by Amber, plus every Python package Amber checks for at build time (numpy, scipy, matplotlib, pandas, numba, gemmi, biopython, rich, scikit-learn, sympy, pydantic, psutil, networkx, mpi4py, freesasa, f90nml, ...).
 * **cray-mpich** (CUDA-aware) and optimised **FFTW, netCDF, HDF5, OpenBLAS, GSL**.
+<!--end no spell check-->
 
 You do **not** need to install any Python packages by hand --- everything Amber's build looks for is already in the view.
 
@@ -50,17 +58,15 @@ You do **not** need to install any Python packages by hand --- everything Amber'
     ```console
     $ uenv image find amber
     uenv          arch   system  id                size(MB)  date
-    amber/26:rc1  gh200  daint   763552b8968853b9   9,104    2026-06-03
-    amber/26:rc2  gh200  daint   e6a5e0db6d9071e1   9,104    2026-06-08
-    amber/26:rc3  gh200  daint   60fe8c184669d520   8,327    2026-07-09
-    $ uenv image pull amber/26.6:rc3
+    amber/26:v1   gh200  daint   60fe8c184669d520   8,327    2026-07-09
+    $ uenv image pull amber/26.6:v1
     ```
 
 !!! example "Starting the `amber/26.6` uenv"
     The `amber/26.6` uenv must be loaded with the **`amber` view** both when building and when running Amber.
 
     ```console
-    $ uenv start --view=amber amber/26.6:rc3
+    $ uenv start --view=amber amber/26.6:v1
     $ uenv status
     amber:/user-environment
       An environment for building Amber26. Does not include Amber.
@@ -72,13 +78,6 @@ You do **not** need to install any Python packages by hand --- everything Amber'
     If you frequently use the tools interactively, consider creating an alias for a [custom environment][ref-uenv-customenv] that loads the uenv and also sets `AMBERHOME`.
 
 ## Getting Amber
-
-!!! info "Licensing"
-    Amber is distributed under a dual license, with free access for non-profit academic users, and paid licenses for commercial use.
-    CSCS is not permitted to redistribute Amber binaries or source code.
-    Instead, users must independently agree to the license terms, then download the source and compile Amber themselves.
-
-    Users are responsible for following the terms of the license that they agree to when applying for access on the Amber web site.
 
 A full Amber installation consists of **AmberTools** and **Amber (PMEMD)**, which are downloaded as two separate archives from the [Amber website](https://ambermd.org/GetAmber.php) --- see the "How to obtain AmberTools26" and "How to obtain Amber26" sections.
 You have to enter your name and institution; if you agree to the non-commercial terms the download starts immediately.
@@ -132,7 +131,7 @@ $AMBER_ROOT/pmemd26_src/          # Amber / PMEMD
     Review what the updater will do before applying it --- applied updates change your source tree.
 
     ```bash
-    uenv start --view=amber amber/26.6:rc3
+    uenv start --view=amber amber/26.6:v1
     cd $AMBER_ROOT/ambertools26_src && ./update_amber --check-updates
     cd $AMBER_ROOT/pmemd26_src      && ./update_pmemd --check-updates
     # apply with: ./update_amber --update   and   ./update_pmemd --update
@@ -145,7 +144,7 @@ It builds **AmberTools** first and then **Amber/PMEMD**, installing both into a 
 
 ```bash title="build Amber (MPI + CUDA, for GH200)"
 # 1. start the uenv with the amber view
-uenv start --view=amber amber/26.6:rc3
+uenv start --view=amber amber/26.6:v1
 
 # 2. point at your extracted sources (from the previous step)
 export AMBER_ROOT=$SCRATCH/amber
@@ -189,7 +188,7 @@ Activate the installation and run a short simulation on a GPU to confirm everyth
 `amber.sh` sets `AMBERHOME` and puts the Amber tools on your `PATH`.
 
 ```bash title="single-GPU smoke test"
-uenv start --view=amber amber/26.6:rc3
+uenv start --view=amber amber/26.6:v1
 source $AMBER_ROOT/amber26/amber.sh      # sets AMBERHOME + PATH
 
 # use the small GB test case shipped with the sources
@@ -228,14 +227,14 @@ export PMEMD_SRC=$AMBER_ROOT/pmemd26_src
     PMEMD often prints `Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG`.
     This is expected and does not indicate a failed run.
 
-## Persisting the build past scratch cleanup
+[](){#ref-software-amber-squashing}
+## Making a Uenv
 
-A full Amber install contains a very large number of files --- Python packages, headers, test data and more --- which can push you over your inode quota on [Scratch][ref-storage-scratch].
-Scratch is also cleaned up automatically, so a `$AMBERHOME` left there will eventually be deleted and has to be rebuilt.
+A full Amber install contains a very large number of files, which can push you over your inode quota if it is stored on [Store][ref-storage-store].
+[Scratch][ref-storage-scratch] is also subject to [cleanup policies][ref-storage-cleanup].
 
-The fix is to package the installed `$AMBERHOME` directory itself as a second, minimal uenv.
-It mounts at the exact `$AMBERHOME` path it was built at, and is designed to be loaded **alongside** the `amber` uenv rather than on its own: `amber` keeps providing CUDA, MPI and Python, while the new uenv only adds `$AMBERHOME/bin` to `PATH`.
-Once it is registered in a uenv repository that lives outside Scratch, the *contents* of `$AMBERHOME` can be removed --- freeing the inodes they were using --- while Amber keeps working, mounted read-only from the packaged image, indefinitely.
+The fix is to package the installed `$AMBERHOME` directory itself as a  uenv that 
+mounts at the `$AMBERHOME` path, and is designed to be loaded **alongside** the `amber` uenv rather than on its own.
 
 `build-amber.sh` runs this packaging step automatically after a successful install, by calling [`squash-amber.sh`](scripts/squash-amber.sh) (also reproduced below).
 It:
@@ -249,31 +248,14 @@ It:
     --8<-- "docs/software/userapps/scripts/squash-amber.sh"
     ```
 
+Once it is registered in a uenv repository that lives outside Scratch, the *contents* of `$AMBERHOME` can be removed --- freeing the inodes they were using --- while Amber keeps working, mounted read-only from the packaged image, indefinitely.
+
 ### Registering the image
 
-`squash-amber.sh` leaves the image next to `$AMBERHOME`, still on Scratch.
-
-!!! warning ""
-    The **default** uenv repository is also on Scratch (`$SCRATCH/.uenv-images`), so registering the image there would not solve anything.
-    Create a repository on your [Store][ref-storage-store] path instead.
+The `squash-amber.sh` script leaves the image next to `$AMBERHOME`.
 
 ```console title="register the amber-build image"
-$ uenv repo create $STORE/$USER/uenv-images   # once, if it doesn't already exist
-$ uenv --repo=$STORE/$USER/uenv-images image add amber-build/2026:v1@daint%gh200 $AMBER_ROOT/amber-build.squashfs
-```
-
-The label needs the full `name/version:tag@system%uarch` form --- `uenv image add` rejects a shorter one.
-`image add` also has a `--move` flag that relocates the squashfs into the repository instead of copying it, which is much faster for a multi-gigabyte image --- but it only works when the source and the repository are on the same file system, which Scratch and Store are not, so it cannot be used here.
-
-So this repository is searched automatically alongside the default one --- without passing `--repo` on every command --- add it to your user configuration file once (`uenv config` prints its path):
-
-```console title="add a persistent repository"
-$ cat >> "$(uenv config | awk '$1=="user:"{print $2}')" <<EOF
-
-[[repositories]]
-name = 'store'
-path = '$STORE/$USER/uenv-images'
-EOF
+$ uenv image add amber-build/2026:v1@daint%gh200 $AMBER_ROOT/store.squashfs
 ```
 
 Once the image is registered, empty out `$AMBERHOME` to reclaim its inodes:
@@ -292,7 +274,7 @@ Load the `amber-build` uenv alongside `amber`, with both views active.
 The `amber-build` view only adds `$AMBERHOME/bin` to `PATH` and sets `AMBERHOME` --- it relies on the `amber` view, loaded at the same time, for CUDA, MPI and Python.
 
 ```console title="start both uenvs together"
-$ uenv start amber/26.6:rc3,amber-build/2026:v1 --view=amber,amber-build
+$ uenv start amber/26.6:v1,amber-build/2026:v1 --view=amber,amber-build
 $ pmemd.cuda -O -i mdin -p prmtop -c inpcrd -o out
 ```
 
@@ -313,7 +295,7 @@ If you [packaged your build as the `amber-build` uenv](#persisting-the-build-pas
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-node=4
 #SBATCH --time=01:00:00
-#SBATCH --uenv=amber/26.6:rc3,amber-build/2026:v1
+#SBATCH --uenv=amber/26.6:v1,amber-build/2026:v1
 #SBATCH --view=amber,amber-build
 
 srun pmemd.cuda.MPI -O -i mdin -p prmtop -c inpcrd -o mdout -r restrt -x mdcrd
@@ -328,7 +310,7 @@ Otherwise, running straight from the `$AMBERHOME` you just built also works, by 
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-node=4
 #SBATCH --time=01:00:00
-#SBATCH --uenv=amber/26.6:rc3
+#SBATCH --uenv=amber/26.6:v1
 #SBATCH --view=amber
 
 source $SCRATCH/amber/amber26/amber.sh
