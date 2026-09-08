@@ -114,7 +114,7 @@ INCS       += -I$(HDF5_ROOT)/include
 
 # For the VASP-2-Wannier90 interface (optional)
 CPP_OPTIONS    += -DVASP2WANNIER90
-WANNIER90_ROOT ?= /path/to/your/wannier90/installation
+WANNIER90_ROOT ?= /user-environment/env/develop
 LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
 
 # For the fftlib library (hardly any benefit for the OpenACC GPU port)
