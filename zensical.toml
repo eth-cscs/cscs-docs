@@ -154,6 +154,7 @@ nav = [
     ]},
     {"User Applications" = [
       "software/userapps/index.md",
+      {"Amber" = "software/userapps/amber.md"},
       {"ESMF and CESM" = "software/userapps/cesm.md"},
       {"ORCA" = "software/userapps/orca.md"},
       {"WRF" = "software/userapps/wrf.md"},
