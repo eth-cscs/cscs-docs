@@ -176,7 +176,7 @@ Similarly to building on Daint, the `develop` view must first be loaded:
 uenv start vasp/v6.6.1:v1 --view=develop
 ```
 
-On Eiger, the `makefile.include.gnu_omp` file provided with the VASP source can be used used as basis. Only a slight modification is required in order for the linker to find the necessary libraries.
+On Eiger, the `makefile.include.gnu_omp` file provided with the VASP source can be used as basis. Only a slight modification is required in order for the linker to find the necessary libraries.
 After the definition of `LLIBS`, add the following line to the `makefile.include`:
 ```bash
 LLIBS      += -L/user-environment/env/develop/lib -L/user-environment/env/develop/lib64
