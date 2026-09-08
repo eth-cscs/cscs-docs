@@ -82,10 +82,10 @@ LLIBS      += -L$(QD)/lib -lqdmod -lqd -Wl,-rpath,$(QD)/lib
 INCS       += -I$(QD)/include/qd
 
 # BLAS (mandatory)
-BLAS        = -lblas
+BLAS        = -lnvpl_blas_lp64_gomp -lnvpl_blas_core
 
 # LAPACK (mandatory)
-LAPACK      = -llapack
+LAPACK      = -lnvpl_lapack_lp64_gomp -lnvpl_lapack_core
 
 # scaLAPACK (mandatory)
 SCALAPACK   = -lscalapack

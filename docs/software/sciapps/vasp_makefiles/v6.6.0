@@ -78,14 +78,14 @@ NVROOT      = $(shell find /user-environment/linux-neoverse_v2 -name "nvfortran"
 
 # Software emulation of quadruple precsion (mandatory)
 QD         ?= $(shell find /user-environment/linux-neoverse_v2 -name "qdmodule.mod" | head -1 | xargs dirname | xargs dirname | xargs dirname)
-LLIBS      += -L$(QD)/lib -lqdmod -lqd
+LLIBS      += -L$(QD)/lib -lqdmod -lqd -Wl,-rpath,$(QD)/lib
 INCS       += -I$(QD)/include/qd
 
 # BLAS (mandatory)
-BLAS        = -lblas
+BLAS        = -lnvpl_blas_lp64_gomp -lnvpl_blas_core
 
 # LAPACK (mandatory)
-LAPACK      = -llapack
+LAPACK      = -lnvpl_lapack_lp64_gomp -lnvpl_lapack_core
 
 # scaLAPACK (mandatory)
 SCALAPACK   = -lscalapack
@@ -113,9 +113,9 @@ LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
 INCS       += -I$(HDF5_ROOT)/include
 
 # For the VASP-2-Wannier90 interface (optional)
-#CPP_OPTIONS    += -DVASP2WANNIER90
-#WANNIER90_ROOT ?= /path/to/your/wannier90/installation
-#LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+CPP_OPTIONS    += -DVASP2WANNIER90
+WANNIER90_ROOT ?= /path/to/your/wannier90/installation
+LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
 
 # For the fftlib library (hardly any benefit for the OpenACC GPU port)
 #CPP_OPTIONS+= -Dsysv

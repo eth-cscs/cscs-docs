@@ -170,13 +170,19 @@ srun --cpu-bind=cores vasp_std
 [](){#ref-uenv-vasp-eiger-build}
 ### Building VASP from source
 
-On Eiger, the `makefile.include.gnu_omp` file provided with the VASP source can be used directly if `FFTW_ROOT` is set to point to the develop view location at `/user-environment/env/develop`.
-You may also want to add optional dependencies like HDF5.
+Similarly to building on Daint, the `develop` view must first be loaded:
 
-```bash title="load the develop view and set FFTW_ROOT"
+```bash title="load the develop view"
 uenv start vasp/v6.6.1:v1 --view=develop
-export FFTW_ROOT=/user-environment/env/develop
 ```
+
+On Eiger, the `makefile.include.gnu_omp` file provided with the VASP source can be used used as basis. Only a slight modification is required in order for the linker to find the necessary libraries.
+After the definition of `LLIBS`, add the following line to the `makefile.include`:
+```bash
+LLIBS      += -L/user-environment/env/develop/lib -L/user-environment/env/develop/lib64
+```
+
+You may also want to enable optional dependencies like HDF5 and Wannier90. Check the official [VASP manual](https://vasp.at/wiki/Makefile.include) for more information.
 
 [VASP]: https://vasp.at/
 [NCCL]: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html
