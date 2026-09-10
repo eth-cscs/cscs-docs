@@ -6124,25 +6124,25 @@ Please have a look at the <a class="autorefs autorefs-internal" href="../../uenv
 <div class="tabbed-block">
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#SBATCH -N 1</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#SBATCH --cpus-per-task=71</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#SBATCH --cpus-per-task=72</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">#SBATCH --gpus-per-task=1</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">#SBATCH --uenv=quantumespresso/v7.4:v2</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">#SBATCH --uenv=quantumespresso/v7.6:v1</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">#SBATCH --view=default</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">20</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>srun<span class="w"> </span>-u<span class="w"> </span>--cpu-bind<span class="o">=</span>socket<span class="w"> </span>/user-environment/env/default/bin/pw.x<span class="w"> </span>&lt;<span class="w"> </span>pw.in
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>srun<span class="w"> </span>-u<span class="w"> </span>/user-environment/env/default/bin/pw.x<span class="w"> </span>&lt;<span class="w"> </span>pw.in
 </span></code></pre></div>
-Current observation is that best performance is achieved using <a class="autorefs autorefs-internal" title="One rank per GPU" href="../../../running/slurm/#one-rank-per-gpu">one MPI rank per GPU</a>. How to run multiple ranks per GPU is described <a class="autorefs autorefs-internal" title="Multiple ranks per GPU" href="../../../running/slurm/#multiple-ranks-per-gpu">here</a>.</p>
+How to run multiple ranks per GPU is described <a class="autorefs autorefs-internal" title="Multiple ranks per GPU" href="../../../running/slurm/#multiple-ranks-per-gpu">here</a>. We recommend to run a few benchmarks upfront, to determine the optimal number of MPI ranks per GPU for your configuration. Note: In general the benefit of using OpenMP threads is marginal, using too many OpenMP threads (oversubscription) will have adverse effects on performance.</p>
 </div>
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">#SBATCH -N 1</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">#SBATCH --ntasks-per-node=128</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">#SBATCH --uenv=quantumespresso/v7.3.1</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">#SBATCH --uenv=quantumespresso/v7.6:v1</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">#SBATCH --view=default</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#SBATCH --hint=nomultithread</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
@@ -6155,54 +6155,30 @@ Current observation is that best performance is achieved using <a class="autoref
 </div>
 <h2 id="building-qe-from-source">Building QE from Source<a class="headerlink" href="#building-qe-from-source" title="Permanent link">&para;</a></h2>
 <h3 id="using-modules">Using modules<a class="headerlink" href="#using-modules" title="Permanent link">&para;</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">GH200</label><label for="__tabbed_2_2">A100</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">GH200</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>modules<span class="w"> </span>quantumespresso/v7.4:v2
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>modules<span class="w"> </span>quantumespresso/v7.6:v1
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>module<span class="w"> </span>load<span class="w"> </span>cmake<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>fftw<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>nvhpc<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>nvpl-lapack<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>nvpl-blas<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span>cray-mpich<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>netlib-scalapack<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span>libxc
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nv">FC</span><span class="o">=</span>mpif90<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpic++<span class="w"> </span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span>-DQE_ENABLE_MPI<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span>-DQE_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span>-DQE_ENABLE_SCALAPACK:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span>-DQE_ENABLE_LIBXC<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span>-DQE_ENABLE_CUDA<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span>-DQE_ENABLE_PROFILE_NVTX<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span>-DQE_CLOCK_SECONDS:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span>-DQE_ENABLE_MPI_GPU_AWARE:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span>-DQE_ENABLE_OPENACC<span class="o">=</span>ON
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>make<span class="w"> </span>-j20
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>modules<span class="w"> </span>quantumespresso/v7.3.1:v2
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>module<span class="w"> </span>load<span class="w"> </span>cmake<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>cray-mpich
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>cuda<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span>fftw<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span>gcc<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span>libxc<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span>nvhpc<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span>openblas
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nv">FC</span><span class="o">=</span>mpif90<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpic++<span class="w"> </span><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span>-DQE_ENABLE_MPI<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span>-DQE_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span>-DQE_ENABLE_SCALAPACK:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span>-DQE_ENABLE_LIBXC<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span>-DQE_ENABLE_CUDA<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span>-DQE_CLOCK_SECONDS:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span>-DQE_ENABLE_MPI_GPU_AWARE:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span>-DQE_ENABLE_OPENACC<span class="o">=</span>ON
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>make<span class="w"> </span>-j20
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>hdf5<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span>nvpl-scalapack<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span>libxc
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nv">CC</span><span class="o">=</span>mpicc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>mpic++<span class="w"> </span><span class="nv">FC</span><span class="o">=</span>mpif90<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>cmake<span class="w">  </span>-DQE_ENABLE_MPI<span class="o">=</span>ON<span class="w">  </span>-DQE_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DQE_ENABLE_SCALAPACK:BOOL<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>-DQE_ENABLE_LIBXC<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>-DQE_CLOCK_SECONDS:BOOL<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>-DQE_ENABLE_MPI_GPU_AWARE:BOOL<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>-DQE_GPU<span class="o">=</span><span class="s2">"openacc;cuda"</span><span class="w"> </span>-DQE_GPU_ARCHS<span class="o">=</span>sm_90<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>-DSCALAPACK_LIBRARIES<span class="o">=</span><span class="s2">"/user-environment/env/develop/lib/libnvpl_scalapack_lp64.so;/user-environment/env/develop/lib/libnvpl_blacs_lp64_mpich.so"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>..
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>make<span class="w"> </span>-j20
 </span></code></pre></div>
 </div>
 </div>
@@ -6211,38 +6187,38 @@ Current observation is that best performance is achieved using <a class="autoref
 <ol>
 <li>
 <p>Clone spack using the same version that has been used to build the uenv.
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>quantumespresso/v7.3.1
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># clone the same spack version as has been used to build the uenv</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span>.spack.commit<span class="w"> </span>/user-environment/meta/configure.json<span class="k">)</span><span class="w"> </span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span>.spack.repo<span class="w"> </span>/user-environment/meta/configure.json<span class="k">)</span><span class="w"> </span><span class="nv">$SCRATCH</span>/spack
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>quantumespresso/v7.6
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># clone the same spack version as has been used to build the uenv</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span>.spack.commit<span class="w"> </span>/user-environment/meta/configure.json<span class="k">)</span><span class="w"> </span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span>.spack.repo<span class="w"> </span>/user-environment/meta/configure.json<span class="k">)</span><span class="w"> </span><span class="nv">$SCRATCH</span>/spack
 </span></code></pre></div></p>
 </li>
 <li>
 <p>Activate spack with the uenv configured as upstream
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># ensure spack is using the uenv as upstream repository (always required)</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_SYSTEM_CONFIG_PATH</span><span class="o">=</span>/user-environment/config
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># active spack (always required)</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>.<span class="w"> </span><span class="nv">$SCRATCH</span>/spack/share/spack/setup-env.sh
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># ensure spack is using the uenv as upstream repository (always required)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_SYSTEM_CONFIG_PATH</span><span class="o">=</span>/user-environment/config
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># active spack (always required)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>.<span class="w"> </span><span class="nv">$SCRATCH</span>/spack/share/spack/setup-env.sh
 </span></code></pre></div></p>
 </li>
 <li>
 <p>Create an anonymous environment for QE
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>spack<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-d<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>add<span class="w"> </span>quantum-espresso%nvhpc<span class="w"> </span>+cuda
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>config<span class="w"> </span>add<span class="w"> </span>packages:all:prefer:cuda_arch<span class="o">=</span><span class="m">90</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>develop<span class="w"> </span>-p<span class="w"> </span>/path/to/your/QE-src<span class="w"> </span>quantum-espresso@<span class="o">=</span>develop
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>concretize<span class="w"> </span>-f
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>spack<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-d<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>add<span class="w"> </span>quantum-espresso%nvhpc<span class="w"> </span>+cuda
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>config<span class="w"> </span>add<span class="w"> </span>packages:all:prefer:cuda_arch<span class="o">=</span><span class="m">90</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>develop<span class="w"> </span>-p<span class="w"> </span>/path/to/your/QE-src<span class="w"> </span>quantum-espresso@<span class="o">=</span>develop
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>concretize<span class="w"> </span>-f
 </span></code></pre></div>
 Check the output of <code>spack concretize -f</code>. All dependencies should have been picked up from spack upstream, marked either by a green <code>[^]</code> or <code>[e]</code>.
 Next we create a local filesystem view, this instructs spack to create symlinks for binaries and libraries in a local directory <code>view</code>.
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>env<span class="w"> </span>view<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>view
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>install
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>env<span class="w"> </span>view<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>view
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>spack<span class="w"> </span>-e<span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env<span class="w"> </span>install
 </span></code></pre></div>
 To recompile QE after editing the source code re-run <code>spack -e $SCRATCH/qe-env install</code>.</p>
 </li>
 <li>
 <p>Run <code>pw.x</code> using the filesystem view generated in 3.
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>quantumespresso/v7.3.1
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>srun<span class="w"> </span><span class="o">[</span>...<span class="o">]</span><span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env/view/bin/pw.x<span class="w"> </span>&lt;<span class="w"> </span>pw.in
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>quantumespresso/v7.6
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">MPICH_GPU_SUPPORT_ENABLED</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>srun<span class="w"> </span><span class="o">[</span>...<span class="o">]</span><span class="w"> </span><span class="nv">$SCRATCH</span>/qe-env/view/bin/pw.x<span class="w"> </span>&lt;<span class="w"> </span>pw.in
 </span></code></pre></div></p>
 </li>
 </ol>
