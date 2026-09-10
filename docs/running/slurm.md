@@ -64,9 +64,6 @@ $ sbatch --account=g123 ./job.sh
 ...
 ```
 
-!!! note
-    The flags `--account` and `-Cmc` that were required on the old [Eiger][ref-cluster-eiger] cluster are no longer required.
-
 ## Prioritisation and scheduling
 
 Job priorities are determined based on each project's resource usage relative to its quarterly allocation, as well as in comparison to other projects.
