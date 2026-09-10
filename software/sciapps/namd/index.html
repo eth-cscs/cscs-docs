@@ -6420,15 +6420,14 @@ build or you can prove it is faster for your use case, we recommend using the si
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1">#SBATCH --ntasks-per-node=64</span>
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1">#SBATCH --account=&lt;ACCOUNT&gt; (1)</span>
 </span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1">#SBATCH --hint=nomultithread</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1">#SBATCH --constraint=mc</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">#SBATCH --uenv=namd/3.0:v1 (2)</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1">#SBATCH --view=namd (3)</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PPN</span><span class="o">=</span><span class="k">$((</span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>cores<span class="w"> </span>namd3<span class="w"> </span>+setcpuaffinity<span class="w"> </span>+ppn<span class="w"> </span><span class="si">${</span><span class="nv">PPN</span><span class="si">}</span><span class="w"> </span>&lt;NAMD_CONFIG_FILE&gt;<span class="w"> </span><span class="c1"># (4)!</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1">#SBATCH --uenv=namd/3.0:v1 (2)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">#SBATCH --view=namd (3)</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PPN</span><span class="o">=</span><span class="k">$((</span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="o">-</span><span class="m">1</span><span class="k">))</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>cores<span class="w"> </span>namd3<span class="w"> </span>+setcpuaffinity<span class="w"> </span>+ppn<span class="w"> </span><span class="si">${</span><span class="nv">PPN</span><span class="si">}</span><span class="w"> </span>&lt;NAMD_CONFIG_FILE&gt;<span class="w"> </span><span class="c1"># (4)!</span>
 </span></code></pre></div>
 <ol>
 <li>Change <code>&lt;ACCOUNT&gt;</code> to your project account</li>

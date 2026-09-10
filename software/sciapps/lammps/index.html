@@ -6456,17 +6456,16 @@ melt.</p>
 </span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1">#SBATCH --account=&lt;ACCOUNT&gt; (4)</span>
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1">#SBATCH --hint=nomultithread</span>
 </span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1">#SBATCH --hint=exclusive</span>
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1">#SBATCH --constraint=mc                                                  </span>
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1">#SBATCH --uenv=&lt;LAMMPS_UENV&gt;:/user-environment (5)</span>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1">#SBATCH --view=kokkos (6)</span>
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="nb">ulimit</span><span class="w"> </span>-s<span class="w"> </span>unlimited
-</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
-</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
-</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread
-</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>threads
-</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
-</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>cores<span class="w"> </span>lmp<span class="w"> </span>-k<span class="w"> </span>on<span class="w"> </span>t<span class="w"> </span><span class="nv">$OMP_NUM_THREADS</span><span class="w"> </span>-sf<span class="w"> </span>kk<span class="w"> </span>-in<span class="w"> </span>lj_kokkos.in
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1">#SBATCH --uenv=&lt;LAMMPS_UENV&gt;:/user-environment (5)</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1">#SBATCH --view=kokkos (6)</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="nb">ulimit</span><span class="w"> </span>-s<span class="w"> </span>unlimited
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>threads
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>cores<span class="w"> </span>lmp<span class="w"> </span>-k<span class="w"> </span>on<span class="w"> </span>t<span class="w"> </span><span class="nv">$OMP_NUM_THREADS</span><span class="w"> </span>-sf<span class="w"> </span>kk<span class="w"> </span>-in<span class="w"> </span>lj_kokkos.in
 </span></code></pre></div>
 <ol>
 <li>Time format: <code>HH:MM:SS</code>.</li>

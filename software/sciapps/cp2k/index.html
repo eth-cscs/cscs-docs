@@ -6935,14 +6935,13 @@ For RPA workloads, a higher ratio of threads per rank were beneficial.</p>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">#SBATCH --account=&lt;ACCOUNT&gt;</span>
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1">#SBATCH --hint=nomultithread</span>
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">#SBATCH --hint=exclusive</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">#SBATCH --constraint=mc</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1">#SBATCH --uenv=&lt;CP2K_UENV&gt;</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1">#SBATCH --view=cp2k</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$((</span><span class="nv">SLURM_CPUS_PER_TASK</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="c1"># (4)!</span>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="nb">ulimit</span><span class="w"> </span>-s<span class="w"> </span>unlimited
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>socket<span class="w"> </span>cp2k.psmp<span class="w"> </span>-i<span class="w"> </span>&lt;CP2K_INPUT&gt;<span class="w"> </span>-o<span class="w"> </span>&lt;CP2K_OUTPUT&gt;
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">#SBATCH --uenv=&lt;CP2K_UENV&gt;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1">#SBATCH --view=cp2k</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$((</span><span class="nv">SLURM_CPUS_PER_TASK</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="c1"># (4)!</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="nb">ulimit</span><span class="w"> </span>-s<span class="w"> </span>unlimited
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>socket<span class="w"> </span>cp2k.psmp<span class="w"> </span>-i<span class="w"> </span>&lt;CP2K_INPUT&gt;<span class="w"> </span>-o<span class="w"> </span>&lt;CP2K_OUTPUT&gt;
 </span></code></pre></div>
 <ol>
 <li>
