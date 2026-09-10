@@ -273,6 +273,13 @@ Host clariden
     User cscsusername
     IdentityFile ~/.ssh/cscs-key
     IdentitiesOnly yes
+
+Host eiger
+    HostName eiger.alps.cscs.ch
+    ProxyJump ela
+    User cscsusername
+    IdentityFile ~/.ssh/cscs-key
+    IdentitiesOnly yes
 ```
 
 !!! note ""
