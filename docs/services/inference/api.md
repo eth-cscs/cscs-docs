@@ -276,7 +276,7 @@ For information on how to use the endpoints directly, see the [OpenAI](https://d
 [](){#ref-inference-api-coding-agents-setup}
 ## Setting up coding agents to use the inference service
 
-Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code) and [OpenCode](https://opencode.ai) to use the inference service.
+Below are instructions for setting up [Claude Code](https://claude.com/product/claude-code), [OpenCode](https://opencode.ai) and [VS Code Copilot](https://code.visualstudio.com/docs/copilot/overview) to use the inference service.
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
 See the [available models table][ref-inference-api-available-models] for context sizes.
@@ -375,6 +375,82 @@ Once configured, you can choose models configured in the config with `/models` o
 !!! info
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
+    Use the `/v1/models` endpoint to list available models for your key.
+
+[](){#ref-inference-api-vscode-copilot}
+### VS Code Copilot
+
+GitHub Copilot Chat in VS Code can use models served by the inference API through its custom endpoint provider.
+You need to be signed in to GitHub in VS Code.
+See the [VS Code language models documentation](https://code.visualstudio.com/docs/copilot/customization/language-models) for the full reference.
+
+To add the inference API as a model provider:
+
+- Open the command palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Linux and Windows) and run "Chat: Manage Language Models".
+- Click "Add Models" in the top right corner and select "Custom Endpoint".
+- Enter a name for the group of models, for example `CSCS Inference`.
+- Enter your API key when prompted for the `apiKey` value.
+  VS Code stores the key in its secret storage and only references it from the configuration file.
+- Select "Chat Completions" as the API type.
+
+VS Code then opens the `chatLanguageModels.json` configuration file with an entry for the new provider.
+Add the models that you want to use to the `models` list, leaving the generated `apiKey` reference untouched:
+
+- After filling the json , save and close the file.
+- Then open the Chat view and and select the model under "Other models".
+
+```json title="chatLanguageModels.json"
+[
+    {
+        "name": "CSCS Inference",
+        "vendor": "customendpoint",
+        "apiKey": "${input:chat.lm.secret.xxxxxxxx}",
+        "apiType": "chat-completions",
+        "models": [
+            {
+                "id": "moonshotai/Kimi-K2.7-Code",
+                "name": "Kimi K2.7-Code",
+                "url": "https://api.inference.cscs.ch/v1",
+                "toolCalling": true,
+                "vision": true,
+                "maxInputTokens": 262144,
+                "maxOutputTokens": 16384
+            }
+        ]
+    }
+]
+```
+
+The fields of each model entry are:
+
+- `id` is the model identifier as returned by the [`/v1/models` endpoint][ref-inference-api-endpoints],
+- `name` is the display name shown in the model picker,
+- `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
+- `toolCalling` enables tool use, which is required for agent mode,
+- `vision` enables image input and should only be set for multimodal models,
+- `maxInputTokens` is the maximum context length of the model from the [available models table][ref-inference-api-available-models], and
+- `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks.
+
+!!! note
+    VS Code treats the sum of `maxInputTokens` and `maxOutputTokens` as the context window of the model.
+    If you encounter context length errors, reduce `maxInputTokens` by the value of `maxOutputTokens`.
+
+    The `-thinking` variants of the Apertus models are served with tool use disabled, so set `toolCalling` to `false` for them.
+
+??? info "Maximum output tokens per model"
+    The inference API does not publish a per-model output limit, and public providers of the same open-weight models use different values.
+    Values reported by model vendors and public providers are:
+
+    - `moonshotai/Kimi-K2.7-Code`: 32,768 by default on the Moonshot platform,
+    - `zai-org/GLM-5.2`: up to 131,072,
+    - `google/gemma-4-31B-it` and `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`: 16,384 on most public provider,
+    -  Apertus models: no published limit.
+
+    Requests that exceed the limit enforced by the inference API fail with an error, in which case lower `maxOutputTokens`.
+
+!!! info
+    VS Code does not auto-discover available models from a custom endpoint.
+    Models have to be explicitly listed in `chatLanguageModels.json`.
     Use the `/v1/models` endpoint to list available models for your key.
 
 [](){#ref-inference-api-announcements}
