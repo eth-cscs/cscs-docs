@@ -4,6 +4,7 @@ AMPI
 Alpstein
 Ambertools
 Apertus
+APUs
 autoscaling
 auditability
 balfrin
@@ -51,6 +52,7 @@ Fock
 Foket
 GAPW
 GBit
+GCDs
 GGA
 GPFS
 GPG
@@ -109,6 +111,7 @@ NVSHMEM
 NVLINK
 Nordend
 netcdf
+OAMs
 OpenFabrics
 OAuth
 OIDC
