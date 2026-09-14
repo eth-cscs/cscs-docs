@@ -1,7 +1,7 @@
 [](){#ref-alps-accounting-api}
-# ALPS Accounting API
+# Alps Accounting API
 
-The ALPS Accounting API provides programmatic access to compute and storage consumption data for projects on the [Alps Research Infrastructure][ref-alps].
+The Alps Accounting API provides programmatic access to compute and storage consumption data for projects on the [Alps Research Infrastructure][ref-alps].
 It is aimed at users, PIs and deputy PIs who want to retrieve usage records for reporting, monitoring or integration with external tools.
 
 The API is hosted at `https://api.cscs.ch/alps-accounting/v2` and is documented with an [OpenAPI specification](https://api.cscs.ch/alps-accounting/v2/openapi.json).
@@ -24,12 +24,12 @@ Access is granted at the project level through the [Developer Portal][ref-devpor
 
 ## Getting access
 
-Subscribe to the ALPS Accounting API in the [Developer Portal][ref-devportal]:
+Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal]:
 
 1. Sign in at [developer.cscs.ch](https://developer.cscs.ch).
 1. Create an [application][ref-devportal-application] (or reuse an existing one).
 1. Generate the [production keys][ref-devportal] for the application.
-1. Subscribe the application to the **ALPS Accounting API** and choose the desired version.
+1. Subscribe the application to the **Alps Accounting API** and choose the desired version.
 
 Keep the *Consumer Key* (client ID) and *Consumer Secret* (client secret) secure; they are credentials for accessing the API.
 

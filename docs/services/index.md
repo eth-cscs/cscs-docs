@@ -26,10 +26,10 @@
 
     [:octicons-arrow-right-24: Inference][ref-inference]
 
--   :fontawesome-solid-chart-simple: __ALPS Accounting API__
+-   :fontawesome-solid-chart-simple: __Alps Accounting API__
 
     Query compute and storage consumption for your projects on Alps.
 
-    [:octicons-arrow-right-24: ALPS Accounting API][ref-alps-accounting-api]
+    [:octicons-arrow-right-24: Alps Accounting API][ref-alps-accounting-api]
 </div>
 

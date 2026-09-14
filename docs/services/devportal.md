@@ -1,7 +1,7 @@
 [](){#ref-devportal}
 # Developer Portal
 
-The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage client applications' subscriptions to an API at CSCS, such as [FirecREST][ref-firecrest] or [CI/CD][ref-cicd].
+The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage client applications' subscriptions to an API at CSCS, such as [FirecREST][ref-firecrest], [CI/CD][ref-cicd] or [Alps Accounting API][ref-alps-accounting-api].
 
 ## Terminology
 
