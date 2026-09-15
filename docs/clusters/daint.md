@@ -143,17 +143,17 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 !!! change "2026-09-16"
     !!! note "New $SCRATCH directory"
-        - `$SCRATCH` points now to `/ritom/scratch/cscs/<username>`
+        - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
         - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
-        - `$SCRATCH_NEW` is unchanged and points also to `/ritom/scratch/cscs/<username>`
+        - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
 
     !!! note "Slurm updated to 25.05.9"
         - Slurm was updated from 25.05.8 to 25.05.9
 
-    !!! note "CE upddated to v26.09.1"
+    !!! note "Container Engine updated to v26.09.1"
         - CE was updated from v26.08.1 to v26.09.1
-        - `fuse-overlayfs` updated to 1.18
-        - bugfix with netstack hook, when unused
+        - `fuse-overlayfs` updated for Podman to 1.18 
+        - Fixes a bug in the netstack hook
         - Sarus Suite (beta) default location changed to new `$SCRATCH`
 
     !!! note "Uenv updated to 10.1.0"
@@ -161,7 +161,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - This fixes an issue downloading images that need a token authentication
 
     !!! note "Slurm batch policies plugin"
-        - The plugin received an improved handling linking to dependent libraries, which prefers using the same library as it was built with
+        - Fixes a bug with library dependencies
 
 ??? change "2026-08-26"
     !!! note "Login node limits"
