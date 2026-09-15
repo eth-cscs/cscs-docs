@@ -141,7 +141,23 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-08-26"
+!!! change "2026-09-16"
+    !!! note "New $SCRATCH directory"
+        - `$SCRATCH` points now to `/ritom/scratch/cscs/<username>`
+        - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
+        - `$SCRATCH_NEW` is unchanged and points also to `/ritom/scratch/cscs/<username>`
+
+    !!! note "Slurm updated to 25.05.9"
+        - Slurm was updated from 25.05.8 to 25.05.9
+
+    !!! note "Uenv updated to 10.1.0"
+        - `uenv` has been updated from 10.0.1 to 10.1.0
+        - This fixes an issue downloading images that need a token authentication
+
+    !!! note "Slurm batch policies plugin"
+        - The plugin received an improved handling linking to dependent libraries, which prefers using the same library as it was built with
+
+??? change "2026-08-26"
     !!! note "Login node limits"
         To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
         Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
