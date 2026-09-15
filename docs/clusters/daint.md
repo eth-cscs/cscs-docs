@@ -150,6 +150,12 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     !!! note "Slurm updated to 25.05.9"
         - Slurm was updated from 25.05.8 to 25.05.9
 
+    !!! note "CE upddated to v26.09.1"
+        - CE was updated from v26.08.1 to v26.09.1
+        - `fuse-overlayfs` updated to 1.18
+        - bugfix with netstack hook, when unused
+        - Sarus Suite (beta) default location changed to new `$SCRATCH`
+
     !!! note "Uenv updated to 10.1.0"
         - `uenv` has been updated from 10.0.1 to 10.1.0
         - This fixes an issue downloading images that need a token authentication
