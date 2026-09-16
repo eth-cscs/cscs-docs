@@ -99,9 +99,9 @@ There are six Slurm partitions on the system:
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
 
-#### The Highprio partition
+#### `highprio` partition
 
-Is usable only with the highprio qos, which is provided only to users needting to run large jobs and not abusing it.
+The `highprio` partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
 It allows to use the resources more efficiently (smaller startup time).
 Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
 
@@ -121,7 +121,7 @@ The `debug` partition is scheduled at a higher priority than `normal`, so debug 
     The `debug` partition is reserved for short, interactive debugging and testing sessions, and must not be used to run production workloads or to otherwise circumvent the per-user limits.
     Usage of the partition is monitored: workloads that are not genuine debugging or testing will be flagged and reported.
 
-#### Preemptable partition
+#### `preemptable` partition
 
 When using the `preemptable` partition
 It is possible to handle the TERM signal in the sbatch script, for example with
@@ -159,7 +159,7 @@ Some pytorch training scripts already implement something, and otherwise you can
 
 #### Requeueing
 
-If a job is stopped to start a highprio jobs it is not automatically requeued uless you submit the job with the `--requeue` flag.
+If a job is stopped to start a highprio jobs it is not automatically requeued unless you submit the job with the `--requeue` flag.
 When requeued a job maintains its priority.
 
 If you request requeuing you have to be careful about not overwriting files (for example file redirect >output).
