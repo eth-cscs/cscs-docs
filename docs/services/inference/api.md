@@ -396,9 +396,6 @@ To add the inference API as a model provider:
 VS Code then opens the `chatLanguageModels.json` configuration file with an entry for the new provider.
 Add the models that you want to use to the `models` list, leaving the generated `apiKey` reference untouched:
 
-- After filling the json , save and close the file.
-- Then open the Chat view and and select the model under "Other models".
-
 ```json title="chatLanguageModels.json"
 [
     {
@@ -413,7 +410,7 @@ Add the models that you want to use to the `models` list, leaving the generated 
                 "url": "https://api.inference.cscs.ch/v1",
                 "toolCalling": true,
                 "vision": true,
-                "maxInputTokens": 262144,
+                "maxInputTokens": 245760,
                 "maxOutputTokens": 16384
             }
         ]
@@ -428,25 +425,16 @@ The fields of each model entry are:
 - `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
 - `toolCalling` enables tool use, which is required for agent mode,
 - `vision` enables image input and should only be set for multimodal models,
-- `maxInputTokens` is the maximum context length of the model from the [available models table][ref-inference-api-available-models], and
-- `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks.
+- `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks, and
+- `maxInputTokens` is the maximum context length of the model from the [available models table][ref-inference-api-available-models] minus `maxOutputTokens`.
+
+After filling in the file, save and close it.
+Then open the Chat view, click the model picker at the bottom of the chat input, and select the model under "Other models".
 
 !!! note
     VS Code treats the sum of `maxInputTokens` and `maxOutputTokens` as the context window of the model.
-    If you encounter context length errors, reduce `maxInputTokens` by the value of `maxOutputTokens`.
 
     The `-thinking` variants of the Apertus models are served with tool use disabled, so set `toolCalling` to `false` for them.
-
-??? info "Maximum output tokens per model"
-    The inference API does not publish a per-model output limit, and public providers of the same open-weight models use different values.
-    Values reported by model vendors and public providers are:
-
-    - `moonshotai/Kimi-K2.7-Code`: 32,768 by default on the Moonshot platform,
-    - `zai-org/GLM-5.2`: up to 131,072,
-    - `google/gemma-4-31B-it` and `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`: 16,384 on most public provider,
-    -  Apertus models: no published limit.
-
-    Requests that exceed the limit enforced by the inference API fail with an error, in which case lower `maxOutputTokens`.
 
 !!! info
     VS Code does not auto-discover available models from a custom endpoint.
