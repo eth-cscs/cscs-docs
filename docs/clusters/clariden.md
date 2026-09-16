@@ -105,7 +105,7 @@ The `highprio` partition is usable only with the highprio qos, which is provided
 It allows to use the resources more efficiently (smaller startup time).
 Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
 
-#### Debug partition
+#### `debug` partition
 
 Nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
 
@@ -157,7 +157,7 @@ echo "script-preemptable-$SLURM_JOB_ID ended after $((tend-tstart)) $should_stop
 ```
 Some pytorch training scripts already implement something, and otherwise you can do it using [python signal module](https://docs.python.org/3/library/signal.html).
 
-#### Requeueing
+#### Automatic requeueing
 
 If a job is stopped to start a highprio jobs it is not automatically requeued unless you submit the job with the `--requeue` flag.
 When requeued a job maintains its priority.
