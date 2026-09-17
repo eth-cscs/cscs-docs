@@ -5287,6 +5287,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#vs-code-copilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        VS Code Copilot
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6134,6 +6145,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#vs-code-copilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        VS Code Copilot
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6608,7 +6630,7 @@ The following OpenAI- and Anthropic-compatible endpoints are available.</p>
 For information on how to use the endpoints directly, see the <a href="https://developers.openai.com/api/reference/overview">OpenAI</a> and <a href="https://platform.claude.com/docs/en/api/overview">Anthropic</a> documentation.</p>
 <p><a href="" id="ref-inference-api-coding-agents-setup"></a></p>
 <h2 id="setting-up-coding-agents-to-use-the-inference-service">Setting up coding agents to use the inference service<a class="headerlink" href="#setting-up-coding-agents-to-use-the-inference-service" title="Permanent link">&para;</a></h2>
-<p>Below are instructions for setting up <a href="https://claude.com/product/claude-code">Claude Code</a> and <a href="https://opencode.ai">OpenCode</a> to use the inference service.
+<p>Below are instructions for setting up <a href="https://claude.com/product/claude-code">Claude Code</a>, <a href="https://opencode.ai">OpenCode</a> and <a href="https://code.visualstudio.com/docs/copilot/overview">VS Code Copilot</a> to use the inference service.
 For more information on using coding agents on Alps, see the <a class="autorefs autorefs-internal" title="Using coding agents on Alps" href="../../../guides/coding-agents/#using-coding-agents-on-alps">coding agents guide</a>.</p>
 <p>See the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a> for context sizes.
 Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.</p>
@@ -6697,6 +6719,65 @@ Choose the model after restarting OpenCode.</p>
 <p class="admonition-title">Info</p>
 <p>OpenCode does not auto-discover available models.
 Models have to be explicitly configured in the config.
+Use the <code>/v1/models</code> endpoint to list available models for your key.</p>
+</div>
+<p><a href="" id="ref-inference-api-vscode-copilot"></a></p>
+<h3 id="vs-code-copilot">VS Code Copilot<a class="headerlink" href="#vs-code-copilot" title="Permanent link">&para;</a></h3>
+<p>GitHub Copilot Chat in VS Code can use models served by the inference API through its custom endpoint provider.
+You need to be signed in to GitHub in VS Code.
+See the <a href="https://code.visualstudio.com/docs/copilot/customization/language-models">VS Code language models documentation</a> for the full reference.</p>
+<p>To add the inference API as a model provider:</p>
+<ul>
+<li>Open the command palette (<code>Cmd+Shift+P</code> on macOS, <code>Ctrl+Shift+P</code> on Linux and Windows) and run &ldquo;Chat: Manage Language Models&rdquo;.</li>
+<li>Click &ldquo;Add Models&rdquo; in the top right corner and select &ldquo;Custom Endpoint&rdquo;.</li>
+<li>Enter a name for the group of models, for example <code>CSCS Inference</code>.</li>
+<li>Enter your API key when prompted for the <code>apiKey</code> value.
+  VS Code stores the key in its secret storage and only references it from the configuration file.</li>
+<li>Select &ldquo;Chat Completions&rdquo; as the API type.</li>
+</ul>
+<p>VS Code then opens the <code>chatLanguageModels.json</code> configuration file with an entry for the new provider.
+Add the models that you want to use to the <code>models</code> list, leaving the generated <code>apiKey</code> reference untouched:</p>
+<div class="language-json highlight"><span class="filename">chatLanguageModels.json</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">[</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CSCS Inference"</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">        </span><span class="nt">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customendpoint"</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${input:chat.lm.secret.xxxxxxxx}"</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="nt">"apiType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat-completions"</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">            </span><span class="p">{</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">                </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moonshotai/Kimi-K2.7-Code"</span><span class="p">,</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">                </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kimi K2.7-Code"</span><span class="p">,</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">                </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.inference.cscs.ch/v1"</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">                </span><span class="nt">"toolCalling"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">                </span><span class="nt">"vision"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">                </span><span class="nt">"maxInputTokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">245760</span><span class="p">,</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">                </span><span class="nt">"maxOutputTokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">        </span><span class="p">]</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>The fields of each model entry are:</p>
+<ul>
+<li><code>id</code> is the model identifier as returned by the <a class="autorefs autorefs-internal" title="API" href="./#api"><code>/v1/models</code> endpoint</a>,</li>
+<li><code>name</code> is the display name shown in the model picker,</li>
+<li><code>url</code> is the base URL of the inference API, to which VS Code appends <code>/chat/completions</code>,</li>
+<li><code>toolCalling</code> enables tool use, which is required for agent mode,</li>
+<li><code>vision</code> enables image input and should only be set for multimodal models,</li>
+<li><code>maxOutputTokens</code> is the maximum number of tokens in a single response, for which <code>16384</code> is a good default for coding tasks, and</li>
+<li><code>maxInputTokens</code> is the maximum context length of the model from the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a> minus <code>maxOutputTokens</code>.</li>
+</ul>
+<p>After filling in the file, save and close it.
+Then open the Chat view, click the model picker at the bottom of the chat input, and select the model under &ldquo;Other models&rdquo;.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VS Code treats the sum of <code>maxInputTokens</code> and <code>maxOutputTokens</code> as the context window of the model.</p>
+<p>The <code>-thinking</code> variants of the Apertus models are served with tool use disabled, so set <code>toolCalling</code> to <code>false</code> for them.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>VS Code does not auto-discover available models from a custom endpoint.
+Models have to be explicitly listed in <code>chatLanguageModels.json</code>.
 Use the <code>/v1/models</code> endpoint to list available models for your key.</p>
 </div>
 <p><a href="" id="ref-inference-api-announcements"></a></p>
