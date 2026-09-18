@@ -54,7 +54,7 @@ The Scratch file system is a large, temporary storage system designed for high-p
 See the [Scratch][ref-storage-scratch] documentation for more information.
 
 The environment variable `$SCRATCH` points to `/ritom/scratch/cscs/$USER`, and can be used as a shortcut to access your scratch folder.
-[Ritom][ref-alps-ritom] is using the VAST Data filesystem accessed over NFS. Since this is not a native parallel filesystem it requires some tuning for applications using MPI-IO. See the [VAST tuning guide for Ritom][ref-guides-storage-vast-ritom].
+[Ritom][ref-alps-ritom] is using the VAST Data filesystem accessed over NFS. Since this is not a native parallel filesystem it requires some tuning for applications using parallel IO. See the [VAST tuning guide for Ritom][ref-guides-storage-vast-ritom].
 
 !!! warning "scratch cleanup policy"
     Files that have not been accessed in **30 days** are automatically deleted.
