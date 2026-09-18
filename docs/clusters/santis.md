@@ -187,22 +187,37 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-08-26"
-    !!! note "Login node limits"
+!!! change "2026-09-17"
+    !!! note Slurm updated to 25.05.9
+        - Slurm was updated from 25.05.8 to 25.05.9
+    !!! note Container Engine updated to v26.09.1
+        - General version updates
+            - `fuse-overlayfs` updated for Podman 1.18
+            - Parallax updated to 26.9.2
+        - Enroot updates
+            - Netstack version and name settings are now irnored when not using artifacts
+        - Sarus Suite (beta) updates
+            - Read-only storage for Podman images changed to default to architecture-specific path
+    !!! note UENV tool updated to v10.1.0
+        - `uenv` updated from v10.0.1to v10.1.0
+        - This fixes an issue downloading images that need a token authentication
+
+??? change "2026-08-26"
+    ??? note "Login node limits"
         To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
         Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
         Agentic tools and VSCode might be affected by these limits.
         Compute intensive tasks will also be affected by the limits.
         Any compute intensive task that is beyond the limits should be submitted to a compute node.
 
-    !!! note "Slurm"
+    ??? note "Slurm"
         - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.
         - Introduce the `low` partition for overflow work and quota-exhausted projects.
         - Enforce a per-user limit of 10 concurrently running jobs.
         - Enable the power capping feature on the GH200 nodes.
         - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing` to the `srun` command or `export SLURM_GRES_FLAGS=allow-task-sharing`.
 
-    !!! warning "Known limitation"
+    ??? warning "Known limitation"
         - SLURM accounting still bills per node-hour. A single-chip job is currently accounted as one full node-hour until chip-level accounting is implemented. Compensation for node-hours lost due to this lag will be evaluated on a case-by-case basis.
 
 ??? change "2026-06-17"
