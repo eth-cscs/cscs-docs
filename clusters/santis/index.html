@@ -6706,17 +6706,33 @@ You can find more details and instructions how to activate the power capping in 
 <p>Exceptional and non-disruptive updates may happen outside this time frame and will be announced via the <a href="https://status.cscs.ch">CSCS status page</a>.</p>
 <h3 id="change-log">Change log<a class="headerlink" href="#change-log" title="Permanent link">&para;</a></h3>
 <div class="admonition change">
-<p class="admonition-title">2026-08-26</p>
-<div class="admonition note">
-<p class="admonition-title">Login node limits</p>
+<p class="admonition-title">2026-09-17</p>
+<p>!!! note Slurm updated to 25.05.9
+    - Slurm was updated from 25.05.8 to 25.05.9
+!!! note Container Engine updated to v26.09.1
+    - General version updates
+        - <code>fuse-overlayfs</code> updated for Podman 1.18
+        - Parallax updated to 26.9.2
+    - Enroot updates
+        - Netstack version and name settings are now ignored when not using artifacts
+    - Sarus Suite (beta) updates
+        - Read-only storage for Podman images changed to default to architecture-specific path
+!!! note UENV tool updated to v10.1.0
+    - <code>uenv</code> updated from v10.0.1to v10.1.0
+    - This fixes an issue downloading images that need a token authentication</p>
+</div>
+<details class="change">
+<summary>2026-08-26</summary>
+<details class="note">
+<summary>Login node limits</summary>
 <p>To enforce our <a class="autorefs autorefs-internal" title="Login nodes" href="../../policies/shared/#login-nodes">fair usage of shared resources</a> policies, we have enabled limits on the login nodes.
 Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
 Agentic tools and VSCode might be affected by these limits.
 Compute intensive tasks will also be affected by the limits.
 Any compute intensive task that is beyond the limits should be submitted to a compute node.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Slurm</p>
+</details>
+<details class="note">
+<summary>Slurm</summary>
 <ul>
 <li>Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.</li>
 <li>Introduce the <code>low</code> partition for overflow work and quota-exhausted projects.</li>
@@ -6724,14 +6740,14 @@ Any compute intensive task that is beyond the limits should be submitted to a co
 <li>Enable the power capping feature on the GH200 nodes.</li>
 <li>Multi-GPU jobs relying on intra-node P2P/IPC must add <code>--gres-flags=allow-task-sharing</code> to the <code>srun</code> command or <code>export SLURM_GRES_FLAGS=allow-task-sharing</code>.</li>
 </ul>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Known limitation</p>
+</details>
+<details class="warning">
+<summary>Known limitation</summary>
 <ul>
 <li>SLURM accounting still bills per node-hour. A single-chip job is currently accounted as one full node-hour until chip-level accounting is implemented. Compensation for node-hours lost due to this lag will be evaluated on a case-by-case basis.</li>
 </ul>
-</div>
-</div>
+</details>
+</details>
 <details class="change">
 <summary>2026-06-17</summary>
 <div class="admonition note">
