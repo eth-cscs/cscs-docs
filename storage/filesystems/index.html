@@ -6528,9 +6528,10 @@ For example, the user <code>bcumming</code> on <a class="autorefs autorefs-inter
 </div>
 <p><a href="" id="ref-storage-scratch"></a></p>
 <h2 id="scratch">Scratch<a class="headerlink" href="#scratch" title="Permanent link">&para;</a></h2>
-<p>The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the <a class="autorefs autorefs-internal" href="../../alps/storage/#capstor">Capstor</a> Lustre filesystem.
-See the <a class="autorefs autorefs-internal" title="Lustre tuning" href="../../guides/storage/#lustre-tuning">Lustre guide</a> for some hints on how to get the best performance out of the filesystem.</p>
-<p>All users on Alps get their own Scratch path, <code>/capstor/scratch/cscs/$USER</code>, which is pointed to by the variable <code>$SCRATCH</code> on the <a class="autorefs autorefs-internal" href="../../platforms/hpcp/#hpc-platform">HPC Platform</a> and <a class="autorefs autorefs-internal" href="../../platforms/cwp/#climate-and-weather-platform">Climate and Weather Platform</a> clusters Eiger, Daint and Santis.</p>
+<p>The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the <a class="autorefs autorefs-internal" href="../../alps/storage/#capstor">Capstor</a> Lustre filesystem or the <a class="autorefs autorefs-internal" href="../../alps/storage/#ritom">Ritom</a> VAST NFS filesystem.
+See the <a class="autorefs autorefs-internal" title="Lustre tuning" href="../../guides/storage/#lustre-tuning">Lustre guide</a> and <a class="autorefs autorefs-internal" title="VAST tuning on Ritom" href="../../guides/storage/#vast-tuning-on-ritom">VAST guide</a> for some hints on how to get the best performance out of each filesystem.</p>
+<p>All users on Alps get their own Scratch path.
+On the <a class="autorefs autorefs-internal" href="../../platforms/hpcp/#hpc-platform">HPC Platform</a> clusters Eiger, Daint it points to <code>/ritom/scratch/cscs/$USER</code>, on the <a class="autorefs autorefs-internal" href="../../platforms/cwp/#climate-and-weather-platform">Climate and Weather Platform</a> cluster Santis it points to <code>/capstor/scratch/cscs/$USER</code>.</p>
 <div class="admonition info">
 <p class="admonition-title"><code>$SCRATCH</code> on MLP points to Iopsstor</p>
 <p>On the machine learning platform (MLP) systems <a class="autorefs autorefs-internal" title="Clariden" href="../../clusters/clariden/#clariden">clariden</a> and <a class="autorefs autorefs-internal" title="Bristen" href="../../clusters/bristen/#bristen">bristen</a> the <code>$SCRATCH</code> variable points to storage on <a class="autorefs autorefs-internal" href="../../alps/storage/#iopsstor">Iopsstor</a>.
@@ -6539,7 +6540,7 @@ See the <a class="autorefs autorefs-internal" title="File Systems and Storage" h
 <h3 id="cleanup-and-expiration_1">Cleanup and expiration<a class="headerlink" href="#cleanup-and-expiration_1" title="Permanent link">&para;</a></h3>
 <p>The <a class="autorefs autorefs-internal" title="Cleanup policies" href="./#cleanup-policies">cleanup policy</a> is enforced on Scratch, to ensure continued performance of the file system.</p>
 <ul>
-<li>Files on <code>/capstor/scratch/cscs/$USER</code> that have not been accessed in <strong>30 days</strong> are automatically deleted.</li>
+<li>Files on <code>/capstor/scratch/cscs/$USER</code> and <code>/ritom/scratch/cscs/$USER</code> that have not been accessed in <strong>30 days</strong> are automatically deleted.</li>
 <li>Files on <code>/iopsstor/scratch/cscs/$USER</code> that have not been accessed in <strong>14 days</strong> are automatically deleted.</li>
 <li>When capacity grows above:<ul>
 <li>60%: users are asked to start removing or archiving unneeded files</li>

@@ -6081,8 +6081,8 @@
 </tr>
 <tr>
 <td><a class="autorefs autorefs-internal" href="../../storage/filesystems/#scratch">Scratch</a></td>
-<td><code>/capstor/scratch/cscs/$USER</code></td>
-<td><a class="autorefs autorefs-internal" href="../../alps/storage/#capstor">Capstor</a></td>
+<td><code>/ritom/scratch/cscs/$USER</code></td>
+<td><a class="autorefs autorefs-internal" href="../../alps/storage/#ritom">Ritom</a></td>
 </tr>
 <tr>
 <td><a class="autorefs autorefs-internal" href="../../storage/filesystems/#store">Store</a></td>
@@ -6097,7 +6097,8 @@ Home directories have 50 GB of capacity and are intended for keeping configurati
 <h3 id="scratch">Scratch<a class="headerlink" href="#scratch" title="Permanent link">&para;</a></h3>
 <p>The Scratch file system is a large, temporary storage system designed for high-performance I/O. It is not backed up. </p>
 <p>See the <a class="autorefs autorefs-internal" href="../../storage/filesystems/#scratch">Scratch</a> documentation for more information.</p>
-<p>The environment variable <code>$SCRATCH</code> points to <code>/capstor/scratch/cscs/$USER</code>, and can be used as a shortcut to access your scratch folder.</p>
+<p>The environment variable <code>$SCRATCH</code> points to <code>/ritom/scratch/cscs/$USER</code>, and can be used as a shortcut to access your scratch folder.
+<a class="autorefs autorefs-internal" href="../../alps/storage/#ritom">Ritom</a> is using the VAST Data filesystem accessed over NFS. Since this is not a native parallel filesystem it requires some tuning for applications using parallel IO. See the <a class="autorefs autorefs-internal" title="VAST tuning on Ritom" href="../../guides/storage/#vast-tuning-on-ritom">VAST tuning guide for Ritom</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">scratch cleanup policy</p>
 <p>Files that have not been accessed in <strong>30 days</strong> are automatically deleted.</p>
