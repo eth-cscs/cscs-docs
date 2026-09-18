@@ -83,10 +83,11 @@ Daily [snapshots][ref-storage-snapshots] for the last seven days are provided in
 [](){#ref-storage-scratch}
 ## Scratch
 
-The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem.
-See the [Lustre guide][ref-guides-storage-lustre] for some hints on how to get the best performance out of the filesystem.
+The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor][ref-alps-capstor] Lustre filesystem or the [Ritom][ref-alps-ritom] VAST NFS filesystem.
+See the [Lustre guide][ref-guides-storage-lustre] and [VAST guide][ref-guides-storage-vast-ritom] for some hints on how to get the best performance out of each filesystem.
 
-All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, which is pointed to by the variable `$SCRATCH` on the [HPC Platform][ref-platform-hpcp] and [Climate and Weather Platform][ref-platform-cwp] clusters Eiger, Daint and Santis.
+All users on Alps get their own Scratch path.
+On the [HPC Platform][ref-platform-hpcp] clusters Eiger, Daint it points to `/ritom/scratch/cscs/$USER`, on the [Climate and Weather Platform][ref-platform-cwp] cluster Santis it points to `/capstor/scratch/cscs/$USER`.
 
 !!! info "`$SCRATCH` on MLP points to Iopsstor"
     On the machine learning platform (MLP) systems [clariden][ref-cluster-clariden] and [bristen][ref-cluster-bristen] the `$SCRATCH` variable points to storage on [Iopsstor][ref-alps-iopsstor].
@@ -96,7 +97,7 @@ All users on Alps get their own Scratch path, `/capstor/scratch/cscs/$USER`, whi
 
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
-* Files on `/capstor/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
+* Files on `/capstor/scratch/cscs/$USER` and `/ritom/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
 * Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
 * When capacity grows above:
     * 60%: users are asked to start removing or archiving unneeded files
