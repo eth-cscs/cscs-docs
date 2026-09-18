@@ -363,12 +363,12 @@ $ nvidia-smi boost-slider --list
 +-------------------------------------------------+
 ```
 
-The slider can be set to `1` using the `nvidia_vboost_enable` feature:
+The slider can be set to `1` using the `nvidia_vboost_enabled` feature:
 
-| vboost setting | Slurm constraint                  |
-|----------------|-----------------------------------|
-| `0`            | `nvidia_vboost_disable` (default) |
-| `1`            | `nvidia_vboost_enable`            |
+| vboost setting | Slurm constraint                   |
+|----------------|------------------------------------|
+| `0`            | `nvidia_vboost_disabled` (default) |
+| `1`            | `nvidia_vboost_enabled`            |
 
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
