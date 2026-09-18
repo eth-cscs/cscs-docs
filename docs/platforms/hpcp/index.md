@@ -39,7 +39,7 @@ There are three main file systems mounted on the HPCP clusters.
 | type |mount | file system |
 | -- | -- | -- |
 | [Home][ref-storage-home]       | /users/$USER | [Vadret][ref-alps-vadret] |
-| [Scratch][ref-storage-scratch] | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
+| [Scratch][ref-storage-scratch] | `/ritom/scratch/cscs/$USER` | [Ritom][ref-alps-ritom] |
 | [Store][ref-storage-store]     | `/capstor/store/cscs/<customer>/<project>` | [Capstor][ref-alps-capstor] |
 
 ### Home
@@ -53,7 +53,8 @@ The Scratch file system is a large, temporary storage system designed for high-p
 
 See the [Scratch][ref-storage-scratch] documentation for more information.
 
-The environment variable `$SCRATCH` points to `/capstor/scratch/cscs/$USER`, and can be used as a shortcut to access your scratch folder.
+The environment variable `$SCRATCH` points to `/ritom/scratch/cscs/$USER`, and can be used as a shortcut to access your scratch folder.
+[Ritom][ref-alps-ritom] is using the VAST Data filesystem accessed over NFS. Since this is not a native parallel filesystem it requires some tuning for applications using MPI-IO. See the [VAST tuning guide for Ritom][ref-guides-storage-vast-ritom].
 
 !!! warning "scratch cleanup policy"
     Files that have not been accessed in **30 days** are automatically deleted.
