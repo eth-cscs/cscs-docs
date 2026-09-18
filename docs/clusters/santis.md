@@ -195,7 +195,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
             - `fuse-overlayfs` updated for Podman 1.18
             - Parallax updated to 26.9.2
         - Enroot updates
-            - Netstack version and name settings are now irnored when not using artifacts
+            - Netstack version and name settings are now ignored when not using artifacts
         - Sarus Suite (beta) updates
             - Read-only storage for Podman images changed to default to architecture-specific path
     !!! note UENV tool updated to v10.1.0
