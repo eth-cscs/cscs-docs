@@ -466,5 +466,6 @@ DPL
 TBB
 nvptx
 Neoverse
+Netstack
 mpicxx
 Copilot
