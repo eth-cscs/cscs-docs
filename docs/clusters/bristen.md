@@ -81,9 +81,9 @@ Bristen can also be accessed using [FirecREST][ref-firecrest] at the `https://ap
 
 ### Scheduled Maintenance
 
-Wednesday morning 8-12 CET is reserved for periodic updates, with services potentially unavailable during this timeframe. If the queues must be drained (redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window.
+A monthly maintenance on a Wednesday morning 8-12 CET is is typically performed when clariden monthly maintenance takes place, but being a test cluster other update might happen with short notice.
 
-Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the [CSCS status page](https://status.cscs.ch).
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced on the [CSCS status page](https://status.cscs.ch).
 
 ### Change log
 

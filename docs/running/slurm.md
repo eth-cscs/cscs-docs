@@ -64,9 +64,6 @@ $ sbatch --account=g123 ./job.sh
 ...
 ```
 
-!!! note
-    The flags `--account` and `-Cmc` that were required on the old [Eiger][ref-cluster-eiger] cluster are no longer required.
-
 ## Prioritisation and scheduling
 
 Job priorities are determined based on each project's resource usage relative to its quarterly allocation, as well as in comparison to other projects.
@@ -366,12 +363,12 @@ $ nvidia-smi boost-slider --list
 +-------------------------------------------------+
 ```
 
-The slider can be set to `1` using the `nvidia_vboost_enable` feature:
+The slider can be set to `1` using the `nvidia_vboost_enabled` feature:
 
-| vboost setting | Slurm constraint                  |
-|----------------|-----------------------------------|
-| `0`            | `nvidia_vboost_disable` (default) |
-| `1`            | `nvidia_vboost_enable`            |
+| vboost setting | Slurm constraint                   |
+|----------------|------------------------------------|
+| `0`            | `nvidia_vboost_disabled` (default) |
+| `1`            | `nvidia_vboost_enabled`            |
 
 [](){#ref-slurm-gh200}
 ## NVIDIA GH200 GPU Nodes
