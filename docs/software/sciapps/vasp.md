@@ -115,23 +115,23 @@ Note that shared libraries might not be found when executing VASP, if the makefi
 
 Examples for makefiles that set the necessary rpath and link options on GH200, to be copied to `makefile.include` in the VASP source directory:
 
-??? note "Makefile for v6.6.0 / v6.6.1"
-    ```make
+=== "v6.6.0 / v6.6.1"
+    ```make title="makefile.include for v6.6.0 / v6.6.1"
     --8<-- "docs/software/sciapps/vasp_makefiles/v6.6.0"
     ```
 
-??? note "Makefile for v6.5.1"
-    ```make
+=== "v6.5.1"
+    ```make title="makefile.include for v6.5.1"
     --8<-- "docs/software/sciapps/vasp_makefiles/v6.5.1"
     ```
 
-??? note "Makefile for v6.5.0"
-    ```make
+=== "v6.5.0"
+    ```make title="makefile.include for v6.5.0"
     --8<-- "docs/software/sciapps/vasp_makefiles/v6.5.0"
     ```
 
-??? note "Makefile for v6.4.3"
-    ```make
+=== "v6.4.3"
+    ```make title="makefile.include for v6.4.3"
     --8<-- "docs/software/sciapps/vasp_makefiles/v6.4.3"
     ```
 
