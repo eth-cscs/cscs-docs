@@ -1,5 +1,8 @@
 # Long Term Storage (LTS)
 
+!!! todo "Discontinued service"
+    The Long Term Storage (LTS) service no longer takes new customers or supports the ingestion of new digital objects. Nevertheless, it will remain operational to ensure the long-term preservation and continued accessibility of all previously deposited digital objects.
+
 The Long Term Storage (LTS) service enables CSCS users to preserve their scientific data and ensures that it can be publicly accessed through a persistent identifier.
 The current implementation of the LTS service addresses the first two principles of the FAIR quadrant: __findable__ and __accessible__.
 
