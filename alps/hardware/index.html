@@ -6146,7 +6146,7 @@
 
 <p><a href="" id="ref-alps-hardware"></a></p>
 <h1 id="alps-hardware">Alps Hardware<a class="headerlink" href="#alps-hardware" title="Permanent link">&para;</a></h1>
-<p>Alps is a HPE Cray EX3000 system, a liquid cooled blade-based, high-density system.</p>
+<p>Alps is a HPE Cray EX3000 system, a liquid-cooled blade-based, high-density system.</p>
 <div class="admonition under-construction">
 <p class="admonition-title">Under-construction</p>
 <p>This page is a work in progress - contact us if you want us to prioritise documentation specific information that would be useful for your work.</p>
@@ -6155,12 +6155,12 @@
 <p>The basic building block of the system is a liquid-cooled cabinet.
 A single cabinet can accommodate up to 64 compute blade slots within 8 compute chassis. The cabinet is not configured with any
 cooling fans.
-All cooling needs for the cabinet are provided by direct liquid cooling and the CDU.
-This approach to cooling provides greater efficiency for the rack-level cooling, decreases power costs associated with cooling (no blowers) and utilizes a single water source per CDU One cabinet supports the following:</p>
+All cooling needs for the cabinet are provided by direct liquid cooling and the Coolant Distribution Unit (CDU).
+This approach to cooling provides greater efficiency for the rack-level cooling, decreases power costs associated with cooling (no blowers) and utilizes a single water source per CDU. One cabinet supports the following:</p>
 <ul>
 <li>8 compute chassis</li>
-<li>4 power shelves with a maximum of 6 rectifiers per shelf- 24 total 12.5 or 15kW rectifiers per cabinet</li>
-<li>4 PDUs (1 per power shelf)</li>
+<li>4 power shelves with a maximum of 6 rectifiers (AC to DC converters) per shelf, at a power of 12.5 or 15kW per rectifier</li>
+<li>4 Power Distribution Units (PDUs) (1 per power shelf)</li>
 <li>3 power input whips (3-phase)</li>
 <li>Maximum of 64 quad-blade compute blades</li>
 <li>Maximum of 64 Slingshot switch blades</li>
@@ -6247,7 +6247,7 @@ This approach to cooling provides greater efficiency for the rack-level cooling,
 We will add more detailed information soon.
 Please <a href="https://github.com/eth-cscs/cscs-docs/issues">get in touch</a> if there is information that you want to see here.</p>
 </div>
-<p>There are 24 cabinets, in 4 rows with 6 cabinets per row, and each cabinet contains 112 nodes (for a total of 448 GH200):</p>
+<p>There are 24 cabinets, in 4 rows with 6 cabinets per row, and each cabinet contains 112 nodes (for a total of 448 GH200 per cabinet):</p>
 <ul>
 <li>8 chassis per cabinet</li>
 <li>7 blades per chassis</li>
@@ -6278,7 +6278,7 @@ As such, there are no <code>n1</code> nodes in the xname list, e.g.:
 </details>
 <p><a href="" id="ref-alps-zen2-node"></a></p>
 <h3 id="amd-rome-cpu-nodes">AMD Rome CPU Nodes<a class="headerlink" href="#amd-rome-cpu-nodes" title="Permanent link">&para;</a></h3>
-<p>These nodes have two <a href="https://en.wikichip.org/wiki/amd/epyc/7742">AMD Epyc 7742</a> 64-core CPU sockets, and are used primarily for the <a class="autorefs autorefs-internal" href="../../clusters/eiger/#eiger">Eiger</a> system. They come in two memory configurations:</p>
+<p>These nodes have two <a href="https://www.amd.com/en/support/downloads/drivers.html/processors/epyc/epyc-7002-series/amd-epyc-7742.html">AMD Epyc 7742</a> 64-core CPU sockets, and are used primarily for the <a class="autorefs autorefs-internal" href="../../clusters/eiger/#eiger">Eiger</a> system. They come in two memory configurations:</p>
 <ul>
 <li><em>Standard-memory</em>:  256 GB in 16x16 GB DDR4 DIMMs.</li>
 <li><em>Large-memory</em>:  512 GB in 16x32 GB DDR4 DIMMs.</li>
