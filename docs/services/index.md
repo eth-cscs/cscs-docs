@@ -25,5 +25,11 @@
     Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
 
     [:octicons-arrow-right-24: Inference][ref-inference]
+
+-   :fontawesome-solid-chart-simple: __Alps Accounting API__
+
+    Query compute and storage consumption for your projects on Alps.
+
+    [:octicons-arrow-right-24: Alps Accounting API][ref-alps-accounting-api]
 </div>
 
