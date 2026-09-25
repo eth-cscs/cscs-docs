@@ -10,3 +10,4 @@ prebuilt
 PVSC
 Zarr
 makefiles
+usernames
