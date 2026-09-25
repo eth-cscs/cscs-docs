@@ -35,6 +35,7 @@ CVEs
 DCGM
 DNS
 Dockerfiles
+downscaled
 Dufourspitze
 EFA
 EMPA
@@ -228,6 +229,7 @@ gromos
 groundstate
 gsl
 hdf
+highprio
 httpx
 hugepages
 hugetlbfs
@@ -307,6 +309,7 @@ pmi
 pmix
 podman
 prgenv
+preemptable
 preinstalled
 roadmap
 rke
@@ -335,6 +338,7 @@ pwscf
 pyfirecrest
 pygments
 pytorch
+qos
 quantumespresso
 quasiparticles
 quickstart
