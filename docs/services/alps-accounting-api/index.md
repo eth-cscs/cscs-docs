@@ -27,6 +27,7 @@ Access is granted at the project level through the [Developer Portal][ref-devpor
 Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal]:
 
 1. Sign in at [developer.cscs.ch](https://developer.cscs.ch).
+
 1. On the [Developer Portal][ref-devportal] click on the tab "Applications" and "ADD NEW APPLICATION" to create a new [application][ref-devportal-application] (or reuse an existing one).
 ![FirecREST Main Page](../../images/services/devportal-apis.png)
 ![Create New App](../../images/services/devportal-create-new-app.png)
@@ -35,6 +36,13 @@ Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal]:
 ![FirecREST production keys](../../images/services/devportal-keys.png)
 
 1. Subscribe the application to the **Alps Accounting API** and choose the desired version.
+
+    (4.a) click on the :fontawesome-solid-rss: `Subscriptions` option on the left panel
+
+    (4.b) click the :fontawesome-solid-circle-plus: `SUBSCRIBE` button
+
+    (4.c) choose the [business plan][ref-devportal-api-info] and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
+![Devportal subscriptions](../../images/services/alps-accounting-api-subscriptions.png)
 
 Keep the *Consumer Key* (client ID) and *Consumer Secret* (client secret) secure; they are credentials for accessing the API.
 
