@@ -662,6 +662,67 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Slurm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Partitions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#highprio-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>highprio</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>debug</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preemptable-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>preemptable</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-requeueing" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Automatic requeueing
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -6128,6 +6189,67 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Slurm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Partitions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#highprio-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>highprio</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>debug</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preemptable-partition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>preemptable</code> partition
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-requeueing" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Automatic requeueing
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -6408,40 +6530,55 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <h2 id="running-jobs-on-clariden">Running Jobs on Clariden<a class="headerlink" href="#running-jobs-on-clariden" title="Permanent link">&para;</a></h2>
 <h3 id="slurm">Slurm<a class="headerlink" href="#slurm" title="Permanent link">&para;</a></h3>
 <p>Clariden uses <a class="autorefs autorefs-internal" href="../../running/slurm/#slurm">Slurm</a> as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.</p>
-<p>There are four Slurm partitions on the system:</p>
+<h4 id="partitions">Partitions<a class="headerlink" href="#partitions" title="Permanent link">&para;</a></h4>
+<p>There are six Slurm partitions on the system:</p>
 <ul>
-<li>the <code>normal</code> partition is for all production workloads.</li>
+<li>the <code>highprio</code> partition is reserved for persons requiring a large number of nodes.</li>
+<li>the <code>preemptable</code> partition is for all production workloads, has access to the largest number of nodes, but its jobs might be stopped.</li>
+<li>the <code>normal</code> partition is for all production workloads, and its jobs cannot be stopped by highprio jobs.</li>
 <li>the <code>debug</code> partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as <code>normal</code>, with tight per-user limits to keep it focused on its intended use case.</li>
-<li>the <code>low</code> partition is a low-priority partition, which may be enabled for specific projects at specific times.</li>
-<li>the <code>xfer</code> partition is for <a class="autorefs autorefs-internal" title="Internal Transfer" href="../../storage/transfer/#internal-transfer">internal data transfer</a> at CSCS.</li>
+<li>the <code>low</code> partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).</li>
+<li>the <code>xfer</code> partition is for <a class="autorefs autorefs-internal" title="Internal Transfer" href="../../storage/transfer/#internal-transfer">internal and S3 data transfer</a> at CSCS.</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>name</th>
 <th>nodes</th>
-<th>max nodes per job</th>
+<th>nodes per job</th>
 <th>time limit</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>normal</code></td>
+<td><code>highprio</code></td>
+<td>several nodes</td>
+<td>&gt;128</td>
+<td>24 hours</td>
+</tr>
+<tr>
+<td><code>preemptable</code></td>
 <td>most nodes</td>
-<td>-</td>
+<td>1-128</td>
+<td>24 hours</td>
+</tr>
+<tr>
+<td><code>normal</code></td>
+<td>several nodes</td>
+<td>1-128</td>
 <td>12 hours</td>
 </tr>
 <tr>
 <td><code>debug</code></td>
-<td>most nodes (shared with <code>normal</code>) plus a few dedicated</td>
-<td>4</td>
+<td>most nodes (shared with <code>preemptable</code>) <br> plus a few dedicated</td>
+<td>1-4</td>
 <td>1.5 node-hours</td>
 </tr>
 <tr>
 <td><code>low</code></td>
-<td>most nodes (shared with <code>normal</code>)</td>
-<td>-</td>
-<td>24 hours</td>
+<td>most nodes (shared with <code>preemptable</code>)</td>
+<td>1-10</td>
+<td>6 hours</td>
 </tr>
 <tr>
 <td><code>xfer</code></td>
@@ -6452,12 +6589,18 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 </tbody>
 </table>
 <ul>
-<li>jobs in the <code>normal</code>, <code>debug</code>, and <code>low</code> partitions get exclusive use of their allocated nodes (one job per node)</li>
-<li>the <code>low</code> partition shares the exact same node pool as <code>normal</code>, while <code>debug</code> shares that pool <em>and</em> adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when <code>normal</code> is full</li>
+<li>jobs in the <code>highprio</code>, <code>preemptable</code> <code>normal</code>, <code>debug</code>, and <code>low</code> partitions get exclusive use of their allocated nodes (one job per node)</li>
+<li>the <code>low</code> partition shares the exact same node pool as <code>normal</code>, while <code>debug</code> shares that pool <em>and</em> adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when <code>preemptable</code> is full</li>
+<li><code>preemptable</code> and  <code>normal</code>have the same priority, but preemptable can use more nodes</li>
 <li>because these partitions overlap, a node may belong to more than one of them at the same time</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
-<li>nodes in the <code>debug</code> queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.</li>
 </ul>
+<h4 id="highprio-partition"><code>highprio</code> partition<a class="headerlink" href="#highprio-partition" title="Permanent link">&para;</a></h4>
+<p>The <code>highprio</code> partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
+It allows to use the resources more efficiently (smaller startup time).
+Both partition and qos have to be set (<code>--partions=highprio</code> <code>--qos=highprio</code>).</p>
+<h4 id="debug-partition"><code>debug</code> partition<a class="headerlink" href="#debug-partition" title="Permanent link">&para;</a></h4>
+<p>Nodes in the <code>debug</code> queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.</p>
 <p>The <code>debug</code> partition has additional per-user limits enforced by its QoS:</p>
 <ul>
 <li>max 1 running job per user</li>
@@ -6470,16 +6613,54 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <p>The <code>debug</code> partition is reserved for short, interactive debugging and testing sessions, and must not be used to run production workloads or to otherwise circumvent the per-user limits.
 Usage of the partition is monitored: workloads that are not genuine debugging or testing will be flagged and reported.</p>
 </div>
+<h4 id="preemptable-partition"><code>preemptable</code> partition<a class="headerlink" href="#preemptable-partition" title="Permanent link">&para;</a></h4>
+<p>When using the <code>preemptable</code> partition
+It is possible to handle the TERM signal in the sbatch script, for example with
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">## use your account here</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">#SBATCH --account=csstaff</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">## setting a meaningful time-min ensures that this jobs can be scheduled efficiently</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1">## also with backfill or reservations</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">#SBATCH --time-min=1:00</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">#SBATCH --time=10:00</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">## a name is nice to quickly find it in the queue</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">#SBATCH --job-name=preemptable</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1">## the partition should be preemptable</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1">#SBATCH --partition=preemptable</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nv">should_stop</span><span class="o">=</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">function</span><span class="w"> </span>stop_request<span class="o">()</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="o">{</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">   </span><span class="nb">let</span><span class="w"> </span><span class="nv">should_stop</span><span class="o">=</span><span class="s2">"early_stop"</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="o">}</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="nv">tstart</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nb">trap</span><span class="w"> </span><span class="s2">"stop_request"</span><span class="w"> </span>SIGTERM
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span>srun<span class="w"> </span>a_command_that_will_also_recieve_sigterm
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"\$should_stop"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Stopping due to interrupt"</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="k">break</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">  </span><span class="k">fi</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="k">done</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="nv">tend</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"script-preemptable-</span><span class="nv">$SLURM_JOB_ID</span><span class="s2"> ended after </span><span class="k">$((</span><span class="nv">tend</span><span class="o">-</span><span class="nv">tstart</span><span class="k">))</span><span class="s2"> </span><span class="nv">$should_stop</span><span class="s2">"</span>
+</span></code></pre></div>
+Some pytorch training scripts already implement something, and otherwise you can do it using <a href="https://docs.python.org/3/library/signal.html">python signal module</a>.</p>
+<h4 id="automatic-requeueing">Automatic requeueing<a class="headerlink" href="#automatic-requeueing" title="Permanent link">&para;</a></h4>
+<p>If a job is stopped to start a highprio jobs it is not automatically requeued unless you submit the job with the <code>--requeue</code> flag.
+When requeued a job maintains its priority.</p>
+<p>If you request requeuing you have to be careful about not overwriting files (for example file redirect &gt;output).
+The variable <code>$SLURM_RESTART_COUNT</code>can be used to disambiguate the file names between different runs (SLURM_JOB_ID will be the same).</p>
 <p>See the Slurm documentation for instructions on how to run jobs on the <a class="autorefs autorefs-internal" title="NVIDIA GH200 GPU Nodes" href="../../running/slurm/#nvidia-gh200-gpu-nodes">Grace-Hopper nodes</a>.</p>
 <details class="example">
 <summary>how to check the number of nodes on the system</summary>
 <p>You can check the size of the system by running the following command in the terminal:
-<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>sinfo<span class="w"> </span>--format<span class="w"> </span><span class="s2">"| %20R | %10D | %10s | %10l | %10A |"</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">| PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">| debug                | 1384       | 1-4        | 1:30:00    | 1260/82    |</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go">| normal               | 1359       | 1-infinite | 12:00:00   | 1254/65    |</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">| low                  | 1359       | 1-infinite | 1-00:00:00 | 1254/65    |</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go">| xfer                 | 2          | 1          | 1-00:00:00 | 2/0        |</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>sinfo<span class="w"> </span>--format<span class="w"> </span><span class="s2">"| %20R | %10D | %10s | %10l | %10A |"</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">| PARTITION            | NODES      | JOB_SIZE   | TIMELIMIT  | NODES(A/I) |</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">| debug                | 1384       | 1-4        | 1:30:00    | 1260/82    |</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">| normal               | 1359       | 1-infinite | 12:00:00   | 1254/65    |</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="go">| low                  | 1359       | 1-infinite | 1-00:00:00 | 1254/65    |</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="go">| xfer                 | 2          | 1          | 1-00:00:00 | 2/0        |</span>
 </span></code></pre></div>
 The last column shows the number of nodes that have been allocated in currently running jobs (<code>A</code>) and the number of jobs that are idle (<code>I</code>).</p>
 </details>
