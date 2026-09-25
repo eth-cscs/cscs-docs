@@ -295,7 +295,7 @@ make multiarch:
 run aarch64:
   extends: [.container-runner-daint-gh200, .run]
 run x86_64:
-  extends: [.container-runner-eiger-mc, .run]
+  extends: [.container-runner-eiger-zen2, .run]
 ```
 
 We first create two container images which have different names.

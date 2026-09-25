@@ -463,7 +463,6 @@ On Eiger, a similar sbatch script can be used:
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
-#SBATCH --constraint=mc
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
