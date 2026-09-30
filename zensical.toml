@@ -24,6 +24,7 @@ nav = [
     {"Clusters" = [
       "clusters/index.md",
       {"Besso" = "clusters/besso.md"},
+      {"Beverin" = "clusters/beverin.md"},
       {"Bristen" = "clusters/bristen.md"},
       {"Clariden" = "clusters/clariden.md"},
       {"Daint" = "clusters/daint.md"},
