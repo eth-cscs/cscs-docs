@@ -393,6 +393,8 @@
       
         
       
+        
+      
     
     
     
@@ -455,6 +457,33 @@
     
   
   Besso
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clusters/beverin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Beverin
 
     
   </span>
@@ -6318,17 +6347,25 @@ As such, there are no <code>n1</code> nodes in the xname list, e.g.:
 </ul>
 <p><a href="" id="ref-alps-mi200-node"></a></p>
 <h3 id="amd-mi250x-gpu-nodes">AMD MI250x GPU Nodes<a class="headerlink" href="#amd-mi250x-gpu-nodes" title="Permanent link">&para;</a></h3>
-<div class="admonition todo">
-<p class="admonition-title">Todo</p>
-</div>
-<p>Bard Peak</p>
+<p>Each HPE Cray EX235A (code-name Bard Peak) blade contains two nodes, where each node is made of:</p>
+<ul>
+<li>1 socket AMD Epyc 7A53 &ldquo;Trento&rdquo; 64-Core processor with 2 threads per core</li>
+<li>512 GB DDR4 memory</li>
+<li>4 AMD MI250X liquid-cooled OAMs for a total of 8 Graphics Compute Dies (GCDs) and 64 GB HBM2e memory per die</li>
+<li>4 NICs &ndash; one per OAM</li>
+</ul>
 <p><a href="" id="ref-alps-mi300-node"></a></p>
 <h3 id="amd-mi300a-gpu-nodes">AMD MI300A GPU Nodes<a class="headerlink" href="#amd-mi300a-gpu-nodes" title="Permanent link">&para;</a></h3>
 <p><img alt="" src="../../images/alps/mi300-schematic.svg" /></p>
-<div class="admonition todo">
-<p class="admonition-title">Todo</p>
-</div>
-<p>Parry Peak</p>
+<p>Each HPE Cray EX255A (code-name Parry Peak) blade contains two nodes, where each node is made of:</p>
+<ul>
+<li>4 MI300A Accelerated Processing Units (APUs)<ul>
+<li>24 Zen4 CPU cores per APU with 2 threads per core, for a total of 192 threads per node</li>
+</ul>
+</li>
+<li>512 GB unified physical HBM3e memory</li>
+<li>4 NICs &ndash; one per MI300A APU</li>
+</ul>
 
 
 
