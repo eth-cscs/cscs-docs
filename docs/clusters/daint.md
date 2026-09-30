@@ -21,7 +21,11 @@ You will be assigned to one of the four login nodes when you ssh onto the system
 
 ### Storage and file systems
 
-Daint uses the [HPCP filesystems and storage policies][ref-hpcp-storage].
+Daint uses the [HPCP filesystems and storage policies][ref-hpcp-storage], which document quotas, cleanup periods and backups.
+
+The file systems mounted on Daint, and the environment variables that point into them:
+
+--8<-- "probes/generated/daint/filesystems.md"
 
 ## Getting started
 
@@ -113,15 +117,18 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | unlimited  | -    | 24 hours |
-| `debug`  | 24         | 2    | 30 minutes |
-| `xfer`   | 2          | 1    | 24 hours |
-| `low`    | unlimited  | -    | 24 hours |
+--8<-- "probes/generated/daint/partitions.md"
+
+--8<-- "probes/generated/daint/stamp.md"
+
+The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
 * nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+--8<-- "probes/generated/daint/nodetypes.md"
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 

@@ -1,0 +1,23 @@
+name: check generated cluster configuration is current
+
+# The artifacts under probes/generated are produced by running probes/probe.sh on
+# a cluster, which CI cannot do. This job reports which cluster is overdue.
+on:
+  schedule:
+    # Monthly, a few days after the usual maintenance window.
+    - cron: '0 7 5 * *'
+  workflow_dispatch:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'probes/**'
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: ./probes/check-freshness.sh

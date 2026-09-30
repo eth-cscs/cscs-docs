@@ -1,0 +1,13 @@
+{
+  "cluster": "daint",
+  "generated": "2026-09-30",
+  "host": "daint-ln004",
+  "emitters_sha": "5ecae545",
+  "max_age_days": 30,
+  "artifacts": {
+    "partitions.md": { "source": "scontrol show partition" },
+    "nodetypes.md": { "source": "sinfo" },
+    "filesystems.md": { "source": "findmnt" },
+    "versions.md": { "source": "tool version output" }
+  }
+}
