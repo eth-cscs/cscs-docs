@@ -27,19 +27,19 @@ The following sbatch script can be used as a template.
     ```bash
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=4
-    #SBATCH --cpus-per-task=71
+    #SBATCH --cpus-per-task=72
     #SBATCH --gpus-per-task=1
     #SBATCH -A <account>
-    #SBATCH --uenv=quantumespresso/v7.4:v2
+    #SBATCH --uenv=quantumespresso/v7.6:v1
     #SBATCH --view=default
 
     export OMP_NUM_THREADS=20
     export MPICH_GPU_SUPPORT_ENABLED=1
     export OMP_PLACES=cores
 
-    srun -u --cpu-bind=socket /user-environment/env/default/bin/pw.x < pw.in
+    srun -u /user-environment/env/default/bin/pw.x < pw.in
     ```
-    Current observation is that best performance is achieved using [one MPI rank per GPU][ref-slurm-gh200-single-rank-per-gpu]. How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
+    How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu]. We recommend to run a few benchmarks upfront, to determine the optimal number of MPI ranks per GPU for your configuration. Note: In general the benefit of using OpenMP threads is marginal, using too many OpenMP threads (oversubscription) will have adverse effects on performance.
 
 === "Eiger"
 
@@ -47,7 +47,7 @@ The following sbatch script can be used as a template.
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
-    #SBATCH --uenv=quantumespresso/v7.3.1
+    #SBATCH --uenv=quantumespresso/v7.6:v1
     #SBATCH --view=default
     #SBATCH --hint=nomultithread
 
@@ -64,52 +64,26 @@ The following sbatch script can be used as a template.
 === "GH200"
 
     ```bash
-    uenv start --view=modules quantumespresso/v7.4:v2
+    uenv start --view=modules quantumespresso/v7.6:v1
     module load cmake \
         fftw \
         nvhpc \
         nvpl-lapack \
         nvpl-blas \
         cray-mpich \
-        netlib-scalapack \
+        hdf5 \
+        nvpl-scalapack \
         libxc
 
     mkdir build && cd build
-    FC=mpif90 CXX=mpic++ CC=mpicc cmake .. \
-        -DQE_ENABLE_MPI=ON \
-        -DQE_ENABLE_OPENMP=ON \
-        -DQE_ENABLE_SCALAPACK:BOOL=OFF \
-        -DQE_ENABLE_LIBXC=ON \
-        -DQE_ENABLE_CUDA=ON \
-        -DQE_ENABLE_PROFILE_NVTX=ON \
-        -DQE_CLOCK_SECONDS:BOOL=OFF \
-        -DQE_ENABLE_MPI_GPU_AWARE:BOOL=OFF \
-        -DQE_ENABLE_OPENACC=ON
-    make -j20
-    ```
-
-=== "A100"
-
-    ```bash
-    uenv start --view=modules quantumespresso/v7.3.1:v2
-    module load cmake \
-        cray-mpich
-        cuda \
-        fftw \
-        gcc \
-        libxc \
-        nvhpc \
-        openblas
-    mkdir build && cd build
-    FC=mpif90 CXX=mpic++ CC=mpicc cmake .. \
-        -DQE_ENABLE_MPI=ON \
-        -DQE_ENABLE_OPENMP=ON \
-        -DQE_ENABLE_SCALAPACK:BOOL=OFF \
-        -DQE_ENABLE_LIBXC=ON \
-        -DQE_ENABLE_CUDA=ON \
-        -DQE_CLOCK_SECONDS:BOOL=OFF \
-        -DQE_ENABLE_MPI_GPU_AWARE:BOOL=OFF \
-        -DQE_ENABLE_OPENACC=ON
+    CC=mpicc CXX=mpic++ FC=mpif90 \
+    cmake  -DQE_ENABLE_MPI=ON  -DQE_ENABLE_OPENMP=ON -DQE_ENABLE_SCALAPACK:BOOL=ON \
+    -DQE_ENABLE_LIBXC=ON \
+    -DQE_CLOCK_SECONDS:BOOL=OFF \
+    -DQE_ENABLE_MPI_GPU_AWARE:BOOL=ON \
+    -DQE_GPU="openacc;cuda" -DQE_GPU_ARCHS=sm_90 \
+    -DSCALAPACK_LIBRARIES="/user-environment/env/develop/lib/libnvpl_scalapack_lp64.so;/user-environment/env/develop/lib/libnvpl_blacs_lp64_mpich.so" \
+    ..
     make -j20
     ```
 
@@ -117,7 +91,7 @@ The following sbatch script can be used as a template.
 
 1. Clone spack using the same version that has been used to build the uenv.
 ```bash
-uenv start quantumespresso/v7.3.1
+uenv start quantumespresso/v7.6
 # clone the same spack version as has been used to build the uenv
 git clone -b $(jq -r .spack.commit /user-environment/meta/configure.json) $(jq -r .spack.repo /user-environment/meta/configure.json) $SCRATCH/spack
 ```
@@ -148,7 +122,7 @@ To recompile QE after editing the source code re-run `spack -e $SCRATCH/qe-env i
 
 4. Run `pw.x` using the filesystem view generated in 3.
 ```bash
-uenv start quantumespresso/v7.3.1
+uenv start quantumespresso/v7.6
 MPICH_GPU_SUPPORT_ENABLED=1 srun [...] $SCRATCH/qe-env/view/bin/pw.x < pw.in
 ```
 

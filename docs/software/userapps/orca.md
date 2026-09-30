@@ -31,7 +31,6 @@ uenv is required. Here is a sample Slurm batch script:
 #SBATCH --ntasks-per-node=64
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
-#SBATCH --constraint=mc
 #SBATCH --uenv=prgenv-gnu-openmpi/25.12:v1
 #SBATCH --view=default
 
@@ -95,7 +94,6 @@ After downloading the `hq` executable, any number of ORCA jobs can be scheduled 
 #SBATCH --ntasks-per-node=128
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
-#SBATCH --constraint=mc
 #SBATCH --uenv=prgenv-gnu-openmpi/25.12:v1
 #SBATCH --view=default
 

@@ -233,7 +233,6 @@ The following sbatch script shows how to run NAMD on Eiger:
 #SBATCH --ntasks-per-node=64
 #SBATCH --account=<ACCOUNT> (1)
 #SBATCH --hint=nomultithread
-#SBATCH --constraint=mc
 #SBATCH --uenv=namd/3.0:v1 (2)
 #SBATCH --view=namd (3)
 

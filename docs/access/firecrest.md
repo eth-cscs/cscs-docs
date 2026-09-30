@@ -229,102 +229,52 @@ This package simplifies the usage of FirecREST by making multiple requests in th
 The tutorial is written for a generic instance of FirecREST but if you have a valid user at CSCS you can test it directly with your resource allocation on the exposed systems.
 
 [](){#ref-firecrest-python-service-account}
-pyFirecREST does not yet natively support the `X-API-Key` authentication used by [Service Account endpoints][ref-firecrest-service-accounts].
-Until it does, the client can be configured with an `httpx` request hook that replaces the bearer token with the API key header.
+#### Using a Service Account API key
+
+pyFirecREST supports the `X-API-Key` authentication used by the [Service Account endpoints][ref-firecrest-service-accounts] through the `ApiKeyAuth` authorization class, available from pyFirecREST version 3.10.0.
+Pass an `ApiKeyAuth` object instead of `ClientCredentialsAuth` when creating the client, and point the client at the Service Account endpoint of your platform.
+The rest of the client API is the same as with a personal client application.
 
 ??? example "Use a Service Account API key with pyFirecREST"
-    The helper below builds a `Firecrest` client for Service Account access, and the second half of the script uses it to inspect systems, user information and files.
+    The examples read the API key from the `CSCS_API_KEY` environment variable and inspect systems, user information and files on the HPC Platform.
 
-    Note that the helper relies on pyFirecREST internals (`client._session` and `create_new_session`), so it may need to be adapted after a pyFirecREST upgrade.
+    === "Python"
+        ```python
+        import json
+        import os
 
-    ```python
-    import json
-    import os
-    import sys
+        import firecrest as f7t
 
-    import httpx
-    from firecrest.v2 import Firecrest
-
-
-    DEFAULT_URL = "https://f7t-pat.api.svc.cscs.ch/hpcp"
-    API_KEY_HEADER = "X-API-Key"
-
-    API_KEY = os.environ.get("CSCS_API_KEY")
-    if not API_KEY:
-        print("Set the CSCS_API_KEY environment variable")
-        sys.exit(1)
-
-
-    class ApiKeyAuth:
-        """Placeholder auth object that suppresses token-based authentication."""
-
-        def __init__(self, api_key: str):
-            self.api_key = api_key
-
-        def get_access_token(self) -> str:
-            return "unused-api-key-auth"
-
-
-    def _api_key_hook(api_key: str):
-        """Return an httpx request hook that swaps bearer auth for the API key."""
-
-        def hook(request: httpx.Request) -> None:
-            request.headers.pop("Authorization", None)
-            request.headers[API_KEY_HEADER] = api_key
-
-        return hook
-
-
-    def create_client(
-        api_key: str,
-        firecrest_url: str = DEFAULT_URL,
-    ) -> Firecrest:
-        """Build a ``Firecrest`` client that authenticates with ``X-API-Key``."""
-        client = Firecrest(
-            firecrest_url=firecrest_url,
-            authorization=ApiKeyAuth(api_key),
-            verify=True,
+        client = f7t.v2.Firecrest(
+            firecrest_url="https://f7t-pat.api.svc.cscs.ch/hpcp",
+            authorization=f7t.ApiKeyAuth(os.environ["CSCS_API_KEY"]),
         )
 
-        hook = _api_key_hook(api_key)
-        client._session.event_hooks["request"].append(hook)
+        system = "daint"
 
-        # close_session()/create_new_session() build a fresh httpx.Client, which
-        # would come without our hook, so re-install it on every new session.
-        original_create_new_session = client.create_new_session
+        print("Systems:")
+        for s in client.systems():
+            print(f"  - {s['name']}")
 
-        def create_new_session_with_hook() -> None:
-            original_create_new_session()
-            client._session.event_hooks["request"].append(hook)
+        print("\nUser info:")
+        user = client.userinfo(system_name=system)
+        print(json.dumps(user, indent=2))
 
-        client.create_new_session = create_new_session_with_hook
-        return client
+        print("\nHome directory:")
+        username = user["user"]["name"]
+        for entry in client.list_files(system_name=system, path=f"/users/{username}"):
+            print(f"  {entry.get('permissions', ''):>10}  {entry.get('name')}")
+        ```
 
+    === "CLI"
+        The `firecrest` command line tool shipped with pyFirecREST reads the API key from the `FIRECREST_API_KEY` environment variable, or from the `--api-key` option.
 
-    SYSTEM = "daint"
-    client = create_client(api_key=API_KEY, firecrest_url=DEFAULT_URL)
-
-    #
-    # using the client
-    #
-
-    print(f"Server version: {client.server_version() or 'unknown'}")
-    systems = client.systems()
-    print(f"\nSystems ({len(systems)}):")
-    for system in systems:
-        print(f"  - {system.get('name')}")
-
-    print("\nUser info:")
-    user = client.userinfo(system_name=SYSTEM)
-    print(json.dumps(user, indent=2))
-
-    print("\nHome directory:")
-    username = user["user"]["name"]
-    for entry in client.list_files(system_name=SYSTEM, path=f"/users/{username}"):
-        print(f"  {entry.get('permissions', ''):>10}  {entry.get('name')}")
-
-    client.close_session()
-    ```
+        ```console title="Query FirecREST with a Service Account API key"
+        $ export FIRECREST_URL=https://f7t-pat.api.svc.cscs.ch/hpcp
+        $ export FIRECREST_API_KEY=$CSCS_API_KEY
+        $ firecrest systems
+        $ firecrest ls --system daint /users/<username>
+        ```
 
 ### Data transfer with FirecREST
 

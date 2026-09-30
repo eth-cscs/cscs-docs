@@ -97,7 +97,7 @@ Some images can be large, over 10 GB, and it can take a while to download them f
 
 By default, uenv can be pulled by all users on a system, with no restrictions.
 
-Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP][ref-uenv-vasp] license, who are added to the `vasp` group once they have provided CSCS with a copy of their license.
+Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP][ref-uenv-vasp] license, who are added to the `vasp6` group once they have provided CSCS with a copy of their license.
 
 To be able to pull such images a token that authorizes access must be provided.
 Tokens are created by CSCS, and stored on SCRATCH in a file that only users who have access to the software can read.
