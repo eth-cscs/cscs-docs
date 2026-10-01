@@ -111,6 +111,7 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+nowrap
 netcdf
 OAMs
 OpenFabrics

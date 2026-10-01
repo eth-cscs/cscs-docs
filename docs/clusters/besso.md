@@ -68,6 +68,11 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 | `mi200`  | 2    | 24 hours |
 | `normal` | 4    | 24 hours |
 
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Besso is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+
 See the Slurm documentation for instructions on how to [run jobs][ref-slurm].
 
 ### FirecREST

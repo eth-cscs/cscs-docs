@@ -73,6 +73,13 @@ For detailed instructions and best practices with ML frameworks, please refer to
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
+!!! warning "Clariden has no default MPI plugin"
+    On Clariden, Slurm does not select an [MPI plugin][ref-slurm-mpi] by default (`MpiDefault` is `(null)`).
+    Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application.
+    For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI.
+    If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error.
+    Applications that do not use MPI do not need this setting.
+
 #### Partitions
 
 There are six Slurm partitions on the system:

@@ -19,7 +19,7 @@ Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is tra
 At runtime, some additional options must be set to correctly use the Slingshot network.
 
 First, when launching applications through Slurm, [PMIx](https://pmix.github.com) must be used for application launching.
-This is done with the `--mpi` flag of `srun`:
+This is done with the [`--mpi` flag][ref-slurm-mpi] of `srun`:
 ```bash
 srun --mpi=pmix ...
 ```
@@ -151,7 +151,7 @@ OMPI_MCA_mtl="ofi"     # (4)!
 3. Use CM for [point-to-point communication](https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time).
 4. Use libfabric for the [Matching Transport Layer](https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks).
 
-Like with the uenv, the `--mpi=pmix` flag must be passed to `srun` to ensure PMIx is used for MPI initialization:
+Like with the uenv, the [`--mpi=pmix` flag][ref-slurm-mpi] must be passed to `srun` to ensure PMIx is used for MPI initialization:
 ```bash
 srun --mpi=pmix ...
 ```

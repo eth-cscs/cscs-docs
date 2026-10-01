@@ -50,7 +50,8 @@ PMIX_MCA_psec = "native"
 
 The key user-visible difference of using Sarus Suite from the production Container Engine is the use of the `--edf` option in Slurm commands instead of `--environment`.
 
-For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows:
+For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows.
+The command uses [`--mpi=pmix`][ref-slurm-mpi], because Alps Extended Images use PMIx to start MPI applications.
 
 ```console
 $ srun -N2 --gpus-per-node=4 --mpi=pmix --edf=aei-alps6 --network=disable_rdzv_get all_reduce_perf -b 1M -e 128M -f2
