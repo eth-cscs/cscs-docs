@@ -463,6 +463,12 @@ Some applications perform badly with a single rank per GPU, and require use of [
 The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
 See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
 
+!!! note "GH200 jobs on Santis"
+    Santis uses [node sharing][ref-cluster-santis-sharing], so the examples on this page need two changes on Santis:
+
+    * request GPUs explicitly, for example with `--gpus-per-node=4`, because a job without a GPU request gets one CPU core and no GPU,
+    * add `--gres-flags=allow-task-sharing` to `srun` when ranks on the same node communicate GPU to GPU (see [multi-GPU jobs on Santis][ref-cluster-santis-p2p]).
+
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
     The "default" mode is used to avoid issues with certain containers.
@@ -856,10 +862,23 @@ For workflows and use cases with tasks that require only a subset of these resou
 [](){#ref-slurm-sharing}
 ### Node sharing
 
-!!! under-construction
-    Node sharing, whereby jobs can request part of the resources on a node, and multiple jobs can run on a node (possibly from different users) is _not currently available on Alps clusters_.
+With node sharing, a job can request part of a node.
+Other jobs, also from other users, can then run on the rest of the same node.
 
-    CSCS will support this feature on some Alps [clusters][ref-alps-clusters] in the near-medium future.
+Currently node sharing is not enabled on most systems (see below for exceptions).
+When node sharing is not available, use [more than one job step per node][ref-slurm-exclusive] to run small tasks side by side.
+
+!!! info "Where is node sharing enabled on Alps?"
+
+    All partitions on Santis have node sharing enabled, where each requested GPU gives the job one GH200 chip (see [node sharing on Santis][ref-cluster-santis-sharing]),
+
+    The `xfer` partitions on all clusters, which are used for [data transfer][ref-data-xfer-internal].
+
+!!! warning "Node sharing still charges for the whole node"
+    We are still integrating support for node sharing into our accounting.
+    Currently projects are charged for each the whole node.
+
+    See the [resource allocation policies][ref-policies] for more information.
 
 [](){#ref-slurm-exclusive}
 ### Running more than one job step per node
