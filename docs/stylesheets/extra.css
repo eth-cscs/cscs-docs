@@ -82,10 +82,6 @@
   color: #121417; /* Dark text for readability */
 }
 
-[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li:hover {
-  box-shadow: 0 0 0.5rem #010945; /* Dark blue shadow on hover */
-}
-
 /* Dark mode */
 [data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li {
   border-radius: var(--base-border-radius);
@@ -95,8 +91,11 @@
   color: #e0e0e0; /* Lighter text for readability */
 }
 
-[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
-  box-shadow: 0 0 0.5rem #79aaff; /* Softer, lighter blue glow on hover */
+/* Cards are not interactive: disable the theme's hover/focus shadow
+   (the border colour is kept by the light/dark mode rules above) */
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid.cards > ul > li:focus-within {
+  box-shadow: none;
 }
 
 /* Table */
