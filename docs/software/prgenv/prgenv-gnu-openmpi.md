@@ -11,6 +11,7 @@ The `prgenv-gnu-openmpi` uenv is otherwise similar to [`prgenv-gnu`][ref-uenv-pr
     
 Use of the uenv is similar to [`prgenv-gnu`][ref-uenv-prgenv-gnu].
 See the [OpenMPI documentation][ref-communication-openmpi] for important information on configuring OpenMPI to take advantage of the Slingshot network.
+Start OpenMPI applications with `srun --mpi=pmix` (see [MPI plugins][ref-slurm-mpi]).
     
 ### Versions
 

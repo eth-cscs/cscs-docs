@@ -157,7 +157,7 @@ Once the container is built and pushed to a registry, one can create a [containe
 !!! note "Use PMI-2"
     By default MPICH uses [PMI-2](https://www.mcs.anl.gov/papers/P1760.pdf) for wire-up and communication between ranks.
     Hence, when launching containers that use MPICH through Slurm, PMI-2 must be used for application launching.
-    This is done with the `--mpi` flag of `srun`:
+    This is done with the [`--mpi` flag][ref-slurm-mpi] of `srun`:
     ```bash
     srun --mpi=pmi2 ...
     ```

@@ -119,6 +119,11 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 | `low`    | GH200 | unlimited | 24 hours | overflow / quota-exhausted projects |
 | `xfer`   | x86   | 1         | 24 hours | [internal data transfer][ref-data-xfer-internal] at CSCS |
 
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Santis is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+
 #### Node sharing and GPU requests
 
 All GH200 partitions on Santis use **node sharing**. A job no longer receives a full node by default. Instead, resources are allocated at the granularity of one GH200 chip:
