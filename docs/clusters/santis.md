@@ -137,7 +137,7 @@ By default MPI ranks on Santis are given a single CPU core and no GPUs.
 
 ??? example "By default each rank gets one core and no GPUs"
     ```console title="requesting two MPI ranks gives one core per rank"
-    $ srun --ntasks=2 --acount=p1234 ./affinity.cuda
+    $ srun --ntasks=2 --account=p1234 ./affinity.cuda
     GPU affinity test for 2 MPI ranks
     rank      0 @ nid005110
      cores   : 0
@@ -153,7 +153,7 @@ The GPUs assigned to each rank are configured using the `--gpus-per-task` and `-
 ??? example "allocating GPUs to ranks"
 
     ```console title="One GPU and 72 cores for `--gpus-per-task=1`"
-    $ srun --ntasks=1 --gpus-per-task=1 -Acsstaff ./affinity.cuda
+    $ srun --ntasks=1 --gpus-per-task=1 --account=p1234 ./affinity.cuda
     srun: job 898836 queued and waiting for resources
     srun: job 898836 has been allocated resources
     GPU affinity test for 1 MPI ranks
@@ -163,7 +163,7 @@ The GPUs assigned to each rank are configured using the `--gpus-per-task` and `-
     ```
 
     ```console title="Separate GPU and 72 cores for two ranks on the same node"
-    $ srun --ntasks=2 --gpus-per-task=1 -Acsstaff ./affinity.cuda
+    $ srun --ntasks=2 --gpus-per-task=1 --account=p1234 ./affinity.cuda
     GPU affinity test for 2 MPI ranks
     rank      0 @ nid005012
      cores   : [0:71]
@@ -173,10 +173,10 @@ The GPUs assigned to each rank are configured using the `--gpus-per-task` and `-
      gpu   0 : GPU-ac10eafa-4462-5be4-152e-7b92f9780b80
     ```
 
-    Use the `--gpus-per-node` flag when when MPI ranks need to share the same GPUs.
+    Use the `--gpus-per-node` flag when MPI ranks need to share the same GPUs.
 
     ```console title="Two ranks share 4 gh200 (GPU and CPU cores) on the same node"
-    $ srun --ntasks=2 --gpus-per-node=4 -Acsstaff ./affinity.cuda
+    $ srun --ntasks=2 --gpus-per-node=4 --account=p1234 ./affinity.cuda
     GPU affinity test for 2 MPI ranks
     rank      0 @ nid005303
      cores   : [0:287]
@@ -193,7 +193,7 @@ The GPUs assigned to each rank are configured using the `--gpus-per-task` and `-
     ```
 
 !!! warning "Charge for shared nodes"
-    Projects is charged for the whole node, including when a job uses only part of it.
+    Your project is charged for the whole node, including when a job uses only part of it.
     For example, a job that uses one GPU is charged one node hour for each hour that it runs.
     See the [resource allocation policies][ref-policies].
 
