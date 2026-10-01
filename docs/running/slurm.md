@@ -219,7 +219,7 @@ srun ./my_app
 ### Check the default plugin
 
 Slurm uses the default plugin of the cluster when you do not set `--mpi` or `SLURM_MPI_TYPE`.
-The default plugin can be different on different clusters.
+The default plugin can be different on different clusters, and some clusters have no default plugin set.
 The Slurm section of each [cluster page][ref-alps-clusters] gives the default plugin for that cluster.
 
 To show the default plugin of the current cluster, run:
