@@ -109,6 +109,7 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+nowrap
 netcdf
 OpenFabrics
 OAuth
