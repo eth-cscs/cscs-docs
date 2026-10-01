@@ -6221,7 +6221,7 @@ OpenMPI is available for use in both uenv and containers.</p>
 Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent.
 At runtime, some additional options must be set to correctly use the Slingshot network.</p>
 <p>First, when launching applications through Slurm, <a href="https://pmix.github.com">PMIx</a> must be used for application launching.
-This is done with the <code>--mpi</code> flag of <code>srun</code>:
+This is done with the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>--mpi</code> flag</a> of <code>srun</code>:
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>...
 </span></code></pre></div></p>
 <p>There are two primary ways to configure OpenMPI and libfabric to use the Slingshot network:</p>
@@ -6444,7 +6444,7 @@ We do not currently provide instructions to enable the LINKx provider in manuall
 <li>Use CM for <a href="https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time">point-to-point communication</a>.</li>
 <li>Use libfabric for the <a href="https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks">Matching Transport Layer</a>.</li>
 </ol>
-<p>Like with the uenv, the <code>--mpi=pmix</code> flag must be passed to <code>srun</code> to ensure PMIx is used for MPI initialization:
+<p>Like with the uenv, the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>--mpi=pmix</code> flag</a> must be passed to <code>srun</code> to ensure PMIx is used for MPI initialization:
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>...
 </span></code></pre></div></p>
 <p><a href="" id="ref-communication-openmpi-performance"></a></p>

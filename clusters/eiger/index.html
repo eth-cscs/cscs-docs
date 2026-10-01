@@ -6699,6 +6699,12 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 <li>nodes in the <code>normal</code> and <code>debug</code> partitions are not shared</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Default MPI plugin</p>
+<p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Eiger is <code>cray_shasta</code>.
+This plugin is correct for applications that use Cray MPICH, for example applications in uenv and the <a class="autorefs autorefs-internal" title="Cray Programming Environment (CPE)" href="../../software/prgenv/cpe/#cray-programming-environment-cpe">CPE</a>.
+Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code>--mpi=pmi2</code>.</p>
+</div>
 <p>See the Slurm documentation for instructions on how to run jobs on the <a class="autorefs autorefs-internal" href="../../running/slurm/#amd-cpu-nodes">AMD CPU nodes</a>.</p>
 <h3 id="jupyterhub">JupyterHub<a class="headerlink" href="#jupyterhub" title="Permanent link">&para;</a></h3>
 <p>A <a class="autorefs autorefs-internal" title="JupyterLab" href="../../access/jupyterlab/#jupyterlab">JupyterHub</a> service for Eiger is available at <a href="https://jupyter-eiger.cscs.ch">https://jupyter-eiger.cscs.ch</a>.</p>

@@ -6561,6 +6561,14 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <h2 id="running-jobs-on-clariden">Running Jobs on Clariden<a class="headerlink" href="#running-jobs-on-clariden" title="Permanent link">&para;</a></h2>
 <h3 id="slurm">Slurm<a class="headerlink" href="#slurm" title="Permanent link">&para;</a></h3>
 <p>Clariden uses <a class="autorefs autorefs-internal" href="../../running/slurm/#slurm">Slurm</a> as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.</p>
+<div class="admonition warning">
+<p class="admonition-title">Clariden has no default MPI plugin</p>
+<p>On Clariden, Slurm does not select an <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> by default (<code>MpiDefault</code> is <code>(null)</code>).
+Set <code>--mpi</code> or <code>SLURM_MPI_TYPE</code> for each <code>srun</code> command that starts an MPI application.
+For example, use <code>--mpi=cray_shasta</code> for Cray MPICH in uenv, and <code>--mpi=pmix</code> for OpenMPI.
+If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error.
+Applications that do not use MPI do not need this setting.</p>
+</div>
 <h4 id="partitions">Partitions<a class="headerlink" href="#partitions" title="Permanent link">&para;</a></h4>
 <p>There are six Slurm partitions on the system:</p>
 <ul>

@@ -6592,6 +6592,12 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <li>nodes in the <code>normal</code> and <code>debug</code> (and <code>low</code>) partitions are not shared</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Default MPI plugin</p>
+<p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Daint is <code>cray_shasta</code>.
+This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code>--mpi=pmi2</code>.</p>
+</div>
 <p>See the Slurm documentation for instructions on how to run jobs on the <a class="autorefs autorefs-internal" title="NVIDIA GH200 GPU Nodes" href="../../running/slurm/#nvidia-gh200-gpu-nodes">Grace-Hopper nodes</a>.</p>
 <h3 id="firecrest">FirecREST<a class="headerlink" href="#firecrest" title="Permanent link">&para;</a></h3>
 <p>Daint can also be accessed using <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a> at the <code>https://api.cscs.ch/hpc/firecrest/v2</code> API endpoint.</p>

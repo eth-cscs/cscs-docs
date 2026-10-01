@@ -6308,7 +6308,7 @@ Then install libfabric as documented in the <a class="autorefs autorefs-internal
 <li>Enable the AWS OFI plugin.</li>
 <li>The dynamically-linked (<code>dl</code>) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details <a class="autorefs autorefs-internal" title="AWS OFI NCCL hook" href="../../container-engine/resource-hook/#aws-ofi-nccl-hook">here</a>.</li>
 </ol>
-<p>Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses <a href="https://pmix.org/">PMIx</a> for wire-up, pass the <code>--mpi=pmix</code> option to <code>srun</code> when launching jobs.</p>
+<p>Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses <a href="https://pmix.org/">PMIx</a> for wire-up, pass the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>--mpi=pmix</code> option</a> to <code>srun</code> when launching jobs.</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>-n8<span class="w"> </span>-N2<span class="w"> </span>--environment<span class="o">=</span>nccl-test<span class="w"> </span>/nccl-tests-2.17.1/build/all_reduce_perf
 </span></code></pre></div>
 <p><a href="" id="ref-communication-nccl-issues"></a></p>

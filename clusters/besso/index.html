@@ -6378,6 +6378,12 @@ It is provided as is, without the same level of support as the main platform clu
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Default MPI plugin</p>
+<p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Besso is <code>cray_shasta</code>.
+This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code>--mpi=pmi2</code>.</p>
+</div>
 <p>See the Slurm documentation for instructions on how to <a class="autorefs autorefs-internal" title="Slurm" href="../../running/slurm/#slurm">run jobs</a>.</p>
 <h3 id="firecrest">FirecREST<a class="headerlink" href="#firecrest" title="Permanent link">&para;</a></h3>
 <p>Besso can also be accessed using <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a> at the <code>https://api.cscs.ch/mwa/firecrest/v2</code> API endpoint.</p>

@@ -6281,7 +6281,7 @@ This will ensure native performance when doing MPI communication.</p>
 <p class="admonition-title">Use PMI-2</p>
 <p>By default MPICH uses <a href="https://www.mcs.anl.gov/papers/P1760.pdf">PMI-2</a> for wire-up and communication between ranks.
 Hence, when launching containers that use MPICH through Slurm, PMI-2 must be used for application launching.
-This is done with the <code>--mpi</code> flag of <code>srun</code>:
+This is done with the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>--mpi</code> flag</a> of <code>srun</code>:
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>srun<span class="w"> </span>--mpi<span class="o">=</span>pmi2<span class="w"> </span>...
 </span></code></pre></div></p>
 </div>

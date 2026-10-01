@@ -6388,15 +6388,15 @@ It uses a pre-built container hosted on the <a href="https://quay.io/">Quay.io</
 </ol>
 <p>Libfabric itself is usually injected by the <a class="autorefs autorefs-internal" title="HPE Slingshot interconnect" href="../../container-engine/resource-hook/#hpe-slingshot-interconnect">CXI hook</a>, which is enabled by default on several Alps vClusters.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">4</span><span class="w">  </span><span class="se">\</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">     </span>-mpi<span class="o">=</span>pmix<span class="w">                </span><span class="se">\ </span><span class="c1"># (1)!</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">     </span>--mpi<span class="o">=</span>pmix<span class="w">               </span><span class="se">\ </span><span class="c1"># (1)!</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">     </span>--environment<span class="o">=</span>nvshmem<span class="w">    </span><span class="se">\</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>/usr/local/nvshmem/bin/perftest/device/coll/alltoall_latency
 </span></code></pre></div>
 <ol>
-<li>Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the <code>srun</code> option <code>--mpi=pmix</code> must be used to run successful multi-rank jobs.</li>
+<li>Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the <code>srun</code> option <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>--mpi=pmix</code></a> must be used to run successful multi-rank jobs.</li>
 </ol>
 <p>Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related <a href="https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options">environment variables</a>.
-When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. <code>srun --mpi</code> option) matches the one expected by NVSHMEM or the MPI library.</p>
+When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins"><code>srun --mpi</code> option</a>) matches the one expected by NVSHMEM or the MPI library.</p>
 </div>
 <p><a href="" id="ref-communication-nvshmem-performance"></a></p>
 <h2 id="nvshmem-performance">NVSHMEM Performance<a class="headerlink" href="#nvshmem-performance" title="Permanent link">&para;</a></h2>

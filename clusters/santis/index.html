@@ -6691,6 +6691,12 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Default MPI plugin</p>
+<p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Santis is <code>cray_shasta</code>.
+This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code>--mpi=pmi2</code>.</p>
+</div>
 <h4 id="node-sharing-and-gpu-requests">Node sharing and GPU requests<a class="headerlink" href="#node-sharing-and-gpu-requests" title="Permanent link">&para;</a></h4>
 <p>All GH200 partitions on Santis use <strong>node sharing</strong>. A job no longer receives a full node by default. Instead, resources are allocated at the granularity of one GH200 chip:</p>
 <ul>

@@ -6058,7 +6058,8 @@ While most applications should work correctly with OpenMPI, there may be missing
 Issues are best reported upstream, but CSCS is happy to help facilitate and coordinate issue reporting if you <a class="autorefs autorefs-internal" title="Get in Touch" href="../../../#get-in-touch">get in touch</a>.</p>
 </div>
 <p>Use of the uenv is similar to <a class="autorefs autorefs-internal" href="../prgenv-gnu/#prgenv-gnu"><code>prgenv-gnu</code></a>.
-See the <a class="autorefs autorefs-internal" href="../../communication/openmpi/#openmpi">OpenMPI documentation</a> for important information on configuring OpenMPI to take advantage of the Slingshot network.</p>
+See the <a class="autorefs autorefs-internal" href="../../communication/openmpi/#openmpi">OpenMPI documentation</a> for important information on configuring OpenMPI to take advantage of the Slingshot network.
+Start OpenMPI applications with <code>srun --mpi=pmix</code> (see <a class="autorefs autorefs-internal" href="../../../running/slurm/#mpi-plugins">MPI plugins</a>).</p>
 <h3 id="versions">Versions<a class="headerlink" href="#versions" title="Permanent link">&para;</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">26.3</label><label for="__tabbed_1_2">25.12</label></div>
 <div class="tabbed-content">

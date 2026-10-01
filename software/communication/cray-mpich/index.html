@@ -6289,6 +6289,9 @@
 <h1 id="cray-mpich">Cray MPICH<a class="headerlink" href="#cray-mpich" title="Permanent link">&para;</a></h1>
 <p>Cray MPICH is the recommended MPI implementation on Alps.
 It is available through uenvs like <a class="autorefs autorefs-internal" href="../../prgenv/prgenv-gnu/#prgenv-gnu">prgenv-gnu</a> and <a class="autorefs autorefs-internal" title="Scientific Applications" href="../../sciapps/#scientific-applications">the application-specific uenvs</a>.</p>
+<p>Slurm starts Cray MPICH applications with the <code>cray_shasta</code> <a class="autorefs autorefs-internal" title="MPI plugins" href="../../../running/slurm/#mpi-plugins">MPI plugin</a>.
+This plugin is the default on most Alps clusters.
+On clusters with no default plugin, for example <a class="autorefs autorefs-internal" href="../../../clusters/clariden/#clariden">Clariden</a>, use <code>srun --mpi=cray_shasta</code>.</p>
 <p>The <a href="https://cpe.ext.hpe.com/docs/latest/mpt/mpich/index.html">Cray MPICH documentation</a> contains detailed information about Cray MPICH.
 On this page we outline the most common workflows and issues that you may encounter on Alps.</p>
 <p><a href="" id="ref-communication-cray-mpich-gpu-aware"></a></p>

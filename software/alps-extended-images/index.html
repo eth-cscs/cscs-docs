@@ -6636,7 +6636,7 @@ We strongly recommend periodically <a href="https://github.com/orgs/eth-cscs/pac
 <li>Explicitly <strong>disable</strong> the <code>cxi</code> hook</li>
 <li>Use the <code>--environment</code> flag for <code>srun</code> instead of <code>sbatch</code> (i.e. <code>srun --environment=my_edf.toml ...</code>)</li>
 <li>Use the <code>--network=disable_rdzv_get</code> flag for <code>srun</code> to disable the rendezvous mechanism for network initialization (i.e. <code>srun --network=disable_rdzv_get ...</code> or setting <code>SLURM_NETWORK=disable_rdzv_get</code>)</li>
-<li>Launch MPI applications with <code>PMIx</code> (i.e. <code>srun --mpi=pmix</code> or setting <code>SLURM_MPI_TYPE=pmix</code>)</li>
+<li>Launch MPI applications with <code>PMIx</code> (i.e. <code>srun --mpi=pmix</code> or setting <code>SLURM_MPI_TYPE=pmix</code>, see <a class="autorefs autorefs-internal" href="../../running/slurm/#mpi-plugins">MPI plugins</a>)</li>
 </ul>
 </div>
 <div class="admonition question">
@@ -6659,7 +6659,7 @@ The future-proof and recommended method is to set <code>entrypoint = true</code>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span>python<span class="w"> </span>my_script.py
 </span></code></pre></div>
 <ol>
-<li>The <code>--mpi=pmix</code> flag is required to ensure that <code>PMIx</code> is used as the MPI launcher - without this flag you may encounter errors during initialization.</li>
+<li>The <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins"><code>--mpi=pmix</code> flag</a> is required to ensure that <code>PMIx</code> is used as the MPI launcher - without this flag you may encounter errors during initialization.</li>
 <li>The <code>--network=disable_rdzv_get</code> flag is required to disable the rendezvous mechanism for network initialization. Alternatively, you can also set the environment variable <code>SLURM_NETWORK=disable_rdzv_get</code> to achieve the same effect.</li>
 <li>The <code>--environment</code> must be used as a flag for <code>srun</code> - passing this flag to <code>sbatch</code> will lead to errors related to missing Slurm plugins.</li>
 </ol>
@@ -6683,7 +6683,7 @@ or observe <code>ucx</code> logs indicating that
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Transport endpoint is not connected
 </span></code></pre></div>
 this likely indicates that Slurm is not configured to use <code>PMIx</code> for launching MPI applications.
-To resolve this, ensure that you are launching your application with the <code>--mpi=pmix</code> flag, for example:
+To resolve this, ensure that you are launching your application with the <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins"><code>--mpi=pmix</code> flag</a>, for example:
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>...
 </span></code></pre></div>
 or set the environment variable <code>SLURM_MPI_TYPE=pmix</code> to make <code>PMIx</code> the default MPI launcher.</p>
