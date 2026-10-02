@@ -115,12 +115,13 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
 | name | nodes  | max nodes per job | time limit |
 | --   | --     | --                | -- |
-| `normal` | unlimited  | -    | 24 hours |
-| `debug`  | 24         | 2    | 30 minutes |
+| `normal` | 922        | -    | 24 hours |
+| `debug`  | 24         | 10   | 30 minutes |
 | `xfer`   | 2          | 1    | 24 hours |
-| `low`    | unlimited  | -    | 24 hours |
+| `low`    | 922        | -    | 24 hours |
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
+* jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
 
 !!! note "Default MPI plugin"
