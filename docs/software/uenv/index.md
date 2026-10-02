@@ -115,7 +115,7 @@ $ uenv image find namd
 uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
 
-$ uenv image pull namd
+$ uenv image pull namd/3.0:v1
 pulling cd8d842d108f2eb1 100.00% ━━━━━━━━━━━━━━━━━━━━━━━━━ 348/348 (60.71 MB/s)
 updating namd/3.0:v1@eiger%zen2
 
@@ -124,16 +124,15 @@ uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
 
 $ uenv image inspect namd/3.0:v1
+repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
 namd/3.0:v1@eiger%zen2 mount at /user-environment
 views:
   spack: configure spack upstream
-  namd-single-node:
   namd:
   modules: activate modules
-  develop-single-node:
   develop:
 
-$ uenv start namd/3.0:v1
+$ uenv start --view=namd namd/3.0:v1
 $ which namd3
 /user-environment/env/namd/bin/namd3
 $ exit

@@ -17,15 +17,15 @@
 The Linaro [uenv][ref-uenv] is named `linaro-forge`, and the available versions can be determined using the `uenv image find` command, as explained in the [uenv documentation][ref-uenv].
 
 ??? example "Finding available `linaro-forge` versions"
-    Search for `linaro-forge`, in this case there is one version available, and download.
+    Search for `linaro-forge`, in this case there are two versions available, and download the latest.
 
     ```console
     $ uenv image find linaro-forge
     uenv                  arch  system  id                size(MB)  date
     linaro-forge/25.1:v2  zen2  eiger   89a25464e0b3d4f4     385    2026-05-21
+    linaro-forge/26.0:v1  zen2  eiger   dedc658162f5fc28     194    2026-07-03
 
-    $ uenv image pull linaro-forge/25.1:v2
-    pulling 89a25464e0b3d4f4 100.00% --- 385/385 (0.00 MB/s)
+    $ uenv image pull linaro-forge/26.0:v1
     ```
 
 This uenv is configured to be mounted in the `/user-tools` path so that they can be used alongside application and development uenv mounted at `/user-environment`.
@@ -34,15 +34,15 @@ When using alongside another uenv, start a uenv session with both uenv.
 In the following example, the `prgenv-gnu` and `linaro-forge` uenv will be mounted at `/user-environment` and `/user-tools`  respectively:
 
 ```console
-$ uenv start prgenv-gnu/24.11:v2,linaro-forge/25.1:v1 \
+$ uenv start prgenv-gnu/26.3:v1,linaro-forge/26.0:v1 \
     --view=prgenv-gnu:default,forge # (1)!
 
 $ uenv status # (2)!
 
 $ ddt --version # (3)!
 Linaro DDT Part of Linaro Forge.
-Copyright (c) 2023-2025 Linaro Limited. All rights reserved.
-Version: 25.1
+Copyright (c) 2023-2026 Linaro Limited. All rights reserved.
+Version: 26.0
 ```
 
 1. The `forge` view provided by the `linaro-forge` uenv makes `ddt` and `map` executables available.
@@ -80,7 +80,7 @@ First, start the client on your laptop:
         The path will change if you have installed a different version, or if it has been installed in a non-standard installation location.
 
     ```bash
-    $HOME/linaro/forge/24.1.2/bin/ddt
+    $HOME/linaro/forge/26.0/bin/ddt
     ```
 
 === "macOS"
@@ -91,7 +91,7 @@ First, start the client on your laptop:
         Please use the appropriate path and version for your installation.
 
     ```bash
-    open /Applications/Linaro\ Forge\ Client\ 24.1.2.app/
+    open /Applications/Linaro\ Forge\ Client\ 26.0.app/
     ```
 
 Next, configure a connection to the target system.
@@ -109,7 +109,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `daint`                                  |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@daint.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |    
+    | Remote Installation Directory | `uenv run linaro-forge/26.0:v1:/user-tools -- /user-tools/env/forge/` |    
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Santis"
@@ -124,7 +124,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `santis`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@santis.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/26.0:v1:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Clariden"
@@ -139,7 +139,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `clariden`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@clariden.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/26.0:v1:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 === "Eiger"
@@ -154,7 +154,7 @@ Examples of the settings are below.
     | ----------- | --------------------------------------- |
     | Connection  | `eiger`                                |
     | Host Name   | `cscsusername@ela.cscs.ch cscsusername@eiger.cscs.ch`  |
-    | Remote Installation Directory | `uenv run linaro-forge/24.1.2:/user-tools -- /user-tools/env/forge/` |
+    | Remote Installation Directory | `uenv run linaro-forge/26.0:v1:/user-tools -- /user-tools/env/forge/` |
     | Private Key | `~/.ssh/cscs-key`                         |
 
 !!! tip

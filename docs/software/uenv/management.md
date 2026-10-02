@@ -84,10 +84,10 @@ For example, to download a version of the `prgenv-gnu` uenv:
     # The following commands have the same effect
 
     # method 1: pull using the name of the uenv
-    uenv image pull prgenv-gnu/24.2:v1
+    uenv image pull prgenv-gnu/26.3:v1
 
     # method 2: pull using the id of the image
-    uenv image pull 3ea1945046d884ee
+    uenv image pull 577a2b7d6362b5ce
     ```
 
 Some images can be large, over 10 GB, and it can take a while to download them from the registry.
@@ -332,7 +332,7 @@ To write to a different repository, use the `--repo` flag with the repository na
 
 ??? example "pull an image into the team repo"
     ```
-    uenv --repo=team image pull cp2k/2025.1:v1
+    uenv --repo=team image pull cp2k/2025.1:v2
     ```
 See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
 
