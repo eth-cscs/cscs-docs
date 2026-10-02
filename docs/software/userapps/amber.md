@@ -32,7 +32,7 @@ Users are responsible for following the terms of the license that they agree to 
 Because CSCS cannot redistribute Amber (see [Licensing][ref-software-amber-license]), we provide a uenv that contains everything needed to build Amber, for users to build their own Amber.
 The workflow has three steps:
 
-1. [Pull the `amber/26.6` uenv][ref-software-amber-uenv]: provides the compiler, CUDA, Python and libraries.
+1. [Pull the `amber/26` uenv][ref-software-amber-uenv]: provides the compiler, CUDA, Python and libraries.
 2. [Download and extract the Amber source][ref-software-amber-getting]: you agree to the license and download it yourself.
 3. [Build Amber][ref-software-amber-getting]: with the provided script, then test it.
 4. Optionally, [package the build as its own uenv][ref-software-amber-squashing] so it survives scratch cleanup.
@@ -42,7 +42,7 @@ The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.
 [](){#ref-software-amber-uenv}
 ## The Amber uenv
 
-The `amber/26.6` [uenv][ref-uenv] provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the [gh200][ref-alps-gh200-node] nodes of [daint][ref-cluster-daint].
+The `amber/26` [uenv][ref-uenv] provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the [gh200][ref-alps-gh200-node] nodes of [daint][ref-cluster-daint].
 It provides, in a single view called `amber`:
 
 <!--begin no spell check-->
@@ -54,20 +54,20 @@ It provides, in a single view called `amber`:
 
 You do not need to install any Python packages by hand---everything required to build Amber is already in the view.
 
-!!! example "Downloading the `amber/26.6` uenv"
+!!! example "Downloading the `amber/26` uenv"
 
     ```console
     $ uenv image find amber
     uenv          arch   system  id                size(MB)  date
     amber/26:v1   gh200  daint   60fe8c184669d520   8,327    2026-07-09
-    $ uenv image pull amber/26.6:v1
+    $ uenv image pull amber/26:v1
     ```
 
-!!! example "Starting the `amber/26.6` uenv"
-    The `amber/26.6` uenv must be loaded with the **`amber` view** both when building and when running Amber.
+!!! example "Starting the `amber/26` uenv"
+    The `amber/26` uenv must be loaded with the **`amber` view** both when building and when running Amber.
 
     ```console
-    $ uenv start --view=amber amber/26.6:v1
+    $ uenv start --view=amber amber/26:v1
     $ uenv status
     amber:/user-environment
       An environment for building Amber26. Does not include Amber.
@@ -133,7 +133,7 @@ $AMBER_ROOT/pmemd26_src/          # Amber / PMEMD
     Review what the updater will do before applying it --- applied updates change your source tree.
 
     ```bash
-    uenv start --view=amber amber/26.6:v1
+    uenv start --view=amber amber/26:v1
     cd $AMBER_ROOT/ambertools26_src && ./update_amber --check-updates
     cd $AMBER_ROOT/pmemd26_src      && ./update_pmemd --check-updates
     # apply with: ./update_amber --update   and   ./update_pmemd --update
@@ -147,7 +147,7 @@ It builds **AmberTools** first and then **Amber/PMEMD**, installing both into a 
 
 ```bash title="build Amber (MPI + CUDA, for GH200)"
 # 1. start the uenv with the amber view
-uenv start --view=amber amber/26.6:v1
+uenv start --view=amber amber/26:v1
 
 # 2. point at your extracted sources (from the previous step)
 export AMBER_ROOT=$SCRATCH/amber
@@ -191,7 +191,7 @@ Activate the installation and run a short simulation on a GPU to confirm everyth
 `amber.sh` sets `AMBERHOME` and puts the Amber tools on your `PATH`.
 
 ```bash title="single-GPU smoke test"
-uenv start --view=amber amber/26.6:v1
+uenv start --view=amber amber/26:v1
 source $AMBER_ROOT/amber26/amber.sh      # sets AMBERHOME + PATH
 
 # use the small GB test case shipped with the sources
@@ -277,7 +277,7 @@ Load the `amber-build` uenv alongside `amber`, with both views active.
 The `amber-build` view only adds `$AMBERHOME/bin` to `PATH` and sets `AMBERHOME` --- it relies on the `amber` view, loaded at the same time, for CUDA, MPI and Python.
 
 ```console title="start both uenvs together"
-$ uenv start amber/26.6:v1,amber-build/2026:v1 --view=amber,amber-build
+$ uenv start amber/26:v1,amber-build/2026:v1 --view=amber,amber-build
 $ pmemd.cuda -O -i mdin -p prmtop -c inpcrd -o out
 ```
 
@@ -298,7 +298,7 @@ If you [packaged your build as the `amber-build` uenv][ref-software-amber-squash
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-node=4
 #SBATCH --time=01:00:00
-#SBATCH --uenv=amber/26.6:v1,amber-build/2026:v1
+#SBATCH --uenv=amber/26:v1,amber-build/2026:v1
 #SBATCH --view=amber,amber-build
 
 srun pmemd.cuda.MPI -O -i mdin -p prmtop -c inpcrd -o mdout -r restrt -x mdcrd
@@ -313,7 +313,7 @@ Otherwise, running straight from the `$AMBERHOME` you just built also works, by 
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-node=4
 #SBATCH --time=01:00:00
-#SBATCH --uenv=amber/26.6:v1
+#SBATCH --uenv=amber/26:v1
 #SBATCH --view=amber
 
 source $SCRATCH/amber/amber26/amber.sh
@@ -338,7 +338,7 @@ Installing *only* Amber against externally provided dependencies is awkward beca
 * vendors dependencies such as boost (and, with MPI, fftw) into its source tree and builds its own copies if it does not find suitable ones;
 * by default installs a conda environment, which it then uses to install Python packages (~115k files).
 
-The `amber/26.6` uenv was configured to avoid this:
+The `amber/26` uenv was configured to avoid this:
 
 * CUDA 12.8 is the most recent CUDA supported by Amber26, which forces GCC ≤ 12 (GCC 12.5 is the newest non-deprecated GCC compatible with it in Spack).
 * Python is pinned to 3.12 --- the most recent Python compatible with every package Amber uses, and it is built `+tkinter` (required by Amber, not the default in the `prgenv` uenv).

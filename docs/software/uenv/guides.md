@@ -80,6 +80,18 @@ uenv image find @*
 uenv image find @*%gh200
 ```
 
+[](){#ref-uenv-labels-unique}
+!!! warning "A label must match exactly one uenv"
+    `uenv start`, `uenv run`, `uenv image inspect` and the Slurm `--uenv` flag need a label that matches exactly one uenv in your repositories.
+    If more than one uenv matches, uenv prints an error:
+    ```console
+    $ uenv start prgenv-gnu
+    error: more than one uenv matches the uenv description 'prgenv-gnu@daint':
+    prgenv-gnu/25.6:v2   gh200  daint   39339cb936125883   5,501    2025-09-15
+    prgenv-gnu/26.3:v1   gh200  daint   577a2b7d6362b5ce   4,495    2026-04-20
+    ```
+    Use full labels, e.g. `prgenv-gnu/26.3:v1`, in scripts and job files, so that they keep working when you pull other versions.
+
 [](){#ref-uenv-customenv}
 ## Custom environments
 

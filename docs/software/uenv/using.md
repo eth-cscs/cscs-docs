@@ -170,10 +170,10 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
 !!! example "uenv start"
     ```console
     # start the image using the name of the uenv
-    $ uenv start netcdf-tools/2024:v1
+    $ uenv start netcdf-tools/2025:v1
 
     # or use the unique id of the uenv
-    $ uenv start 499c886f2947538e
+    $ uenv start 2351d01a9f1165c4
 
     # or provide the path to a squashfs file
     $ uenv start $SCRATCH/my-uenv/gromacs.squashfs
@@ -205,9 +205,9 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
 
     ```console
     # start a new bash shell in prgenv-gnu
-    uenv start prgenv-gnu/24.11
+    uenv start prgenv-gnu/26.3:v1
     # start a new bash shell in prgenv-gnu
-    uenv run prgenv-gnu/24.11 -- bash
+    uenv run prgenv-gnu/26.3:v1 -- bash
     ```
 
 !!! example "running commands from within a uenv"
@@ -256,7 +256,7 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     For example, if you want to use `nvim` from the `editors` uenv:
 
     ```
-    $ alias nvim='uenv run --view=ed editors/24.7 -- nvim'
+    $ alias nvim='uenv run --view=ed editors/24.7:v2 -- nvim'
 
     # now edit a file using neovim from the uenv
     $ nvim main.f90
@@ -314,7 +314,7 @@ The commands can also be used in sbatch scripts to have fine-grained control:
     srun -n4 bash -c 'echo $SLURM_PROCID on $(hostname): $(which emacs)'
 
     echo "==== alternative mount ===="
-    srun -n4 --uenv=prgenv-gnu --view=prgenv-gnu:default \
+    srun -n4 --uenv=prgenv-gnu/26.3:v1 --view=prgenv-gnu:default \
         bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
     ```
 
@@ -417,7 +417,7 @@ In these situations, the `--uenv-passthrough` flag can be used to explicitly sta
     ```bash
     #SBATCH --nodes=4
     #SBATCH --ntasks-per-node=4
-    #SBATCH --uenv=prgenv-gnu
+    #SBATCH --uenv=prgenv-gnu/26.3:v1
     #SBATCH --view=default
 
     # this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use
@@ -427,7 +427,7 @@ In these situations, the `--uenv-passthrough` flag can be used to explicitly sta
     srun --uenv-passthrough=ignore ./my.exe
 
     # this srun ignores prgenv-gnu from the calling environment, and uses cp2k instead.
-    srun --uenv=cp2k --view=develop ./build
+    srun --uenv=cp2k/2026.1:v1 --view=develop ./build
 
     # start another sbatch job that does not automatically load
     # the prgenv-gnu uenv
@@ -475,7 +475,7 @@ Views are loaded using the `--view` flag for `uenv start`, `uenv run` and the Sl
     $ uenv start --view=spack,modules prgenv-gnu/24.11:v1
 
     # when starting multiple uenv, you can disambiguate using uenvname:viewname
-    $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors
+    $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors/24.7:v2
     ```
 
 Each uenv can provide more than one view.
@@ -485,16 +485,14 @@ To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image
 
 !!! example "listing views in a uenv"
     ```console
-    $ uenv image inspect namd
-    namd:/user-environment
-      NAMD: Scalable Molecular Dynamics
-      views:
-        spack: configure spack upstream
-        namd-single-node:
-        namd:
-        modules: activate modules
-        develop-single-node:
-        develop:
+    $ uenv image inspect namd/3.0:v1
+    repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
+    namd/3.0:v1@eiger%zen2 mount at /user-environment
+    views:
+      spack: configure spack upstream
+      namd:
+      modules: activate modules
+      develop:
     ```
 
 !!! question "why is the `default` view not the default?"
@@ -520,12 +518,12 @@ When a default view is declared and no `--view` flag is given, that view is load
 * Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
 
 !!! example "using default views"
-    The `uenv inspect` command shows the views in a uenv, and marks defaults (if there are any).
+    The `uenv image inspect` command shows the views in a uenv, and marks defaults (if there are any).
     In the `linaro-forge` image the `forge` view is a default view:
     ```console
-    $ uenv inspect linaro-forge
-    repo default:/ritom/scratch/cscs/bcumming/.uenv-images
-    linaro-forge/25.1:v2@starlex%gh200 mount at /user-tools
+    $ uenv image inspect linaro-forge/26.0:v1
+    repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
+    linaro-forge/26.0:v1@daint%gh200 mount at /user-tools
     views:
       spack: configure spack upstream
       forge (default):
@@ -533,13 +531,15 @@ When a default view is declared and no `--view` flag is given, that view is load
 
     When the uenv is started without a view, the `forge` view is loaded by default.
     ```
-    $ uenv run linaro-forge -- uenv status
+    $ uenv run linaro-forge/26.0:v1 -- uenv status
     uenv  linaro-forge
+      image  linaro-forge/26.0:v1@daint%gh200
       mount  /user-tools
       views  [forge]
 
-    $ uenv run --no-default-view linaro-forge -- uenv status
+    $ uenv run --no-default-view linaro-forge/26.0:v1 -- uenv status
     uenv  linaro-forge
+      image  linaro-forge/26.0:v1@daint%gh200
       mount  /user-tools
       views  []
     ```
