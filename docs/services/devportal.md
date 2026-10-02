@@ -1,7 +1,7 @@
 [](){#ref-devportal}
 # Developer Portal
 
-The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage client applications' subscriptions to an API at CSCS, such as [FirecREST][ref-firecrest] or [CI/CD][ref-cicd].
+The [Developer Portal](https://developer.cscs.ch) facilitates CSCS users to manage client applications' subscriptions to an API at CSCS, such as [FirecREST][ref-firecrest], [CI/CD][ref-cicd] or [Alps Accounting API][ref-alps-accounting-api].
 
 ## Terminology
 
@@ -28,6 +28,7 @@ An application *consumes* API resources by *subscribing* to the API. At CSCS, ap
 
 An **identity provider** is an entity that authenticates an application and allows accessing protected resources. In this case, CSCS provides an IdP for all its APIs.
 
+[](){#ref-devportal-prodkeys}
 ### Production Keys
 
 Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
@@ -64,6 +65,7 @@ When finished, click on the `SAVE` button.
 !!! note
     The quota of requests per minute will be shared by all subscribers to the Application over all APIs
 
+[](){#ref-devportal-generate-keys}
 ### Configuring Production Keys
 
 Once the Application is created, create the Production Keys by clicking on `Production Keys` in the left panel:
@@ -81,6 +83,7 @@ Once the keys are generated, you will see the pair `Consumer Key` (also known as
 !!! note
     At the moment, only FIRECREST keys are available for the users
 
+[](){#ref-devportal-subscribe}
 ### Subscribe to an API
 
 Once you have set up your Application, is time to subscribe it to an API.

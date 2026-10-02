@@ -203,6 +203,7 @@ nav = [
       "services/inference/index.md",
       {"LLM Inference API" = "services/inference/api.md"},
     ]},
+    {"Alps Accounting API" = "services/alps-accounting-api.md"},
   ]},
   {"Accounts and Projects" = [
     "accounts/index.md",

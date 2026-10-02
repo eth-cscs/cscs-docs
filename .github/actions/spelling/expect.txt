@@ -1,5 +1,6 @@
 claude
 JAX
+makefiles
 netstack
 netstacks
 NPZ
@@ -8,5 +9,5 @@ NVRTC
 placeholders
 prebuilt
 PVSC
+usernames
 Zarr
-makefiles
