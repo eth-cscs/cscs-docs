@@ -69,11 +69,10 @@ You do not need to install any Python packages by hand---everything required to 
     ```console
     $ uenv start --view=amber amber/26:v1
     $ uenv status
-    amber:/user-environment
-      An environment for building Amber26. Does not include Amber.
-      views:
-        spack: configure spack upstream
-        amber (loaded):
+    uenv  amber
+      image  amber/26:v1@daint%gh200
+      mount  /user-environment
+      views  [amber]
     ```
 
     If you frequently use the tools interactively, consider creating an alias for a [custom environment][ref-uenv-customenv] that loads the uenv and also sets `AMBERHOME`.
