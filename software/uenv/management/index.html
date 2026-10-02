@@ -6596,10 +6596,10 @@ For example, to download a version of the <code>prgenv-gnu</code> uenv:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># The following commands have the same effect</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># method 1: pull using the name of the uenv</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-gnu/24.2:v1
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-gnu/26.3:v1
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># method 2: pull using the id of the image</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>3ea1945046d884ee
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>577a2b7d6362b5ce
 </span></code></pre></div>
 </div>
 <p>Some images can be large, over 10 GB, and it can take a while to download them from the registry.</p>
@@ -6821,7 +6821,7 @@ That is, if it finds a match in the highest priority repository, it will use tha
 <p>To write to a different repository, use the <code>--repo</code> flag with the repository name:</p>
 <details class="example">
 <summary>pull an image into the team repo</summary>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>uenv --repo=team image pull cp2k/2025.1:v1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>uenv --repo=team image pull cp2k/2025.1:v2
 </span></code></pre></div>
 </details>
 <p>See the documentation for the <a class="autorefs autorefs-internal" title="The " href="./#the-repo-flag"><code>--repo</code></a> flag below for more information about how to customize the search order.</p>

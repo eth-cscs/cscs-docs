@@ -6292,24 +6292,36 @@ The name of the current cluster is always available via the <code>CLUSTER_NAME</
 </span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="gp"># </span>search<span class="w"> </span><span class="k">for</span><span class="w"> </span>all<span class="w"> </span>images<span class="w"> </span>on<span class="w"> </span>Alps<span class="w"> </span>that<span class="w"> </span>were<span class="w"> </span>built<span class="w"> </span><span class="k">for</span><span class="w"> </span>gh200<span class="w"> </span>nodes.
 </span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="go">uenv image find @*%gh200</span>
 </span></code></pre></div>
+<p><a href="" id="ref-uenv-labels-unique"></a></p>
+<div class="admonition warning">
+<p class="admonition-title">A label must match exactly one uenv</p>
+<p><code>uenv start</code>, <code>uenv run</code>, <code>uenv image inspect</code> and the Slurm <code>--uenv</code> flag need a label that matches exactly one uenv in your repositories.
+If more than one uenv matches, uenv prints an error:
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">error: more than one uenv matches the uenv description 'prgenv-gnu@daint':</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">prgenv-gnu/25.6:v2   gh200  daint   39339cb936125883   5,501    2025-09-15</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">prgenv-gnu/26.3:v1   gh200  daint   577a2b7d6362b5ce   4,495    2026-04-20</span>
+</span></code></pre></div>
+Use full labels, e.g. <code>prgenv-gnu/26.3:v1</code>, in scripts and job files, so that they keep working when you pull other versions.</p>
+</div>
 <p><a href="" id="ref-uenv-customenv"></a></p>
 <h2 id="custom-environments">Custom environments<a class="headerlink" href="#custom-environments" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title"><a class="autorefs autorefs-internal" title="Modifying bashrc" href="../../../guides/terminal/#modifying-bashrc">Keep bashrc clean</a></p>
 </div>
 <p>It is common practice to add <code>module</code> commands to <code>~.bashrc</code>, for example
-<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># make my custom modules available</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># load the modules that I always want in the environment</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
+<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># make my custom modules available</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># load the modules that I always want in the environment</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
 </span></code></pre></div></p>
 <p>This will make custom modules available, and load <code>ncview</code>, every time you log in.
 It is not possible to do the equivalent with <code>uenv start</code>, for example:
-<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># start the uenv that I always use</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># ERROR: the following lines will not be executed</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
+<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># start the uenv that I always use</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># ERROR: the following lines will not be executed</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
 </span></code></pre></div></p>
 <div class="admonition question">
 <p class="admonition-title">Why can&rsquo;t I use <code>uenv start</code> in <code>~/.bashrc</code>?</p>
@@ -6322,21 +6334,21 @@ This means that lines in the <code>.bashrc</code> that follow the command are ne
 <p>It is possible to create a custom command that will start a new shell with a uenv loaded, with additional customizations to the environment (e.g. loading modules and setting environment variables).</p>
 <p>The first step is to create a script that performs the customization steps to perform once the uenv has been loaded.
 Here is an example for an environment called <code>myenv</code>:</p>
-<div class="language-bash highlight"><span class="filename">~/.myenvrc</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># always add this line</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># then add customization commands here</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DATAPATH</span><span class="o">=</span><span class="nv">$STORE</span>/2025/data
+<div class="language-bash highlight"><span class="filename">~/.myenvrc</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># always add this line</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># then add customization commands here</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DATAPATH</span><span class="o">=</span><span class="nv">$STORE</span>/2025/data
 </span></code></pre></div>
 <p>Then create an alias in <code>~/.bashrc</code> for the <code>myenv</code> environment:</p>
-<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">myenv</span><span class="o">=</span><span class="s1">'uenv run prgenv-gnu/24.11:v2 --view=default -- bash --rcfile ~/.myenvrc'</span>
+<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">myenv</span><span class="o">=</span><span class="s1">'uenv run prgenv-gnu/24.11:v2 --view=default -- bash --rcfile ~/.myenvrc'</span>
 </span></code></pre></div>
 <p>This alias uses <code>uenv run</code> to start a new bash shell that will apply the customizations in <code>~/.myenvrc</code> once the uenv has been loaded.
 Then, the environment can be started with a single command once logged in.</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>ssh<span class="w"> </span>eiger.cscs.ch
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gp">$ </span>myenv
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>ssh<span class="w"> </span>eiger.cscs.ch
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="gp">$ </span>myenv
 </span></code></pre></div>
 <p>The benefit of this approach is that you can create multiple environments, whereas modifying <code>.bashrc</code> would lock you into using the same environment every time you log in.</p>
 <p><a href="" id="ref-uenv-uninstall"></a></p>
@@ -6351,29 +6363,29 @@ Some users still have old self-installed versions installed in <code>HOME</code>
 <div class="admonition warning">
 <p class="admonition-title">error caused by incompatible uenv version</p>
 <p>If trying to use <code>uenv run</code> or <code>uenv start</code>, and you see an error message like the following:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>error: unable to exec '/capstor/scratch/cscs/wombat/.uenv-images/images/61d1f21881a6....squashfs:/user-environment':
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>No such file or directory (errno=2)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>error: unable to exec '/capstor/scratch/cscs/wombat/.uenv-images/images/61d1f21881a6....squashfs:/user-environment':
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>No such file or directory (errno=2)
 </span></code></pre></div>
 <p>Then you are probably using an old version of uenv that is not compatible with the version of <code>squashfs-mount</code> installed on the system.</p>
 </div>
 <p>First, log into the target cluster, and enter <code>type uenv</code> and inspect the output.</p>
 <p>The system version of <code>uenv</code> is installed in <code>/usr/bin</code>, so if you see the following you do not need to make any changes:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">uenv is /usr/bin/uenv</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="go">uenv is /usr/bin/uenv</span>
 </span></code></pre></div>
 <p>Version 5 of uenv used a bash function called <code>uenv</code>, which will give output that looks like this:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="go">uenv is a function</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">uenv ()</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="go">{</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="go">    local _last_exitcode=$?;</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="go">    function uenv_usage ()</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="go">    {</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="go">...</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">uenv is a function</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="go">uenv ()</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="go">{</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="go">    local _last_exitcode=$?;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="go">    function uenv_usage ()</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="go">    {</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="go">...</span>
 </span></code></pre></div>
 <p>If you have installed version 6, 7, 8 or 9, it will be in a different location, for example:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">uenv is /users/voldemort/.local/bin/uenv</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="go">uenv is /users/voldemort/.local/bin/uenv</span>
 </span></code></pre></div>
 <details class="question">
 <summary>why not use <code>which uenv</code>?</summary>
@@ -6381,31 +6393,31 @@ Some users still have old self-installed versions installed in <code>HOME</code>
 If there is a <code>uenv</code> bash function is set, then it will be take precedence over the <code>uenv</code> executable found using <code>which uenv</code>.</p>
 </details>
 <p>To remove uenv version 6, 7, 8 or 9, delete the executable, then force bash to forget the old command.</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp"># </span>remove<span class="w"> </span>your<span class="w"> </span>self-installed<span class="w"> </span>executable
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="gp">$ </span>rm<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>uenv<span class="k">)</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="gp"># </span>forget<span class="w"> </span>the<span class="w"> </span>old<span class="w"> </span>uenv<span class="w"> </span><span class="nb">command</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="gp">$ </span><span class="nb">hash</span><span class="w"> </span>-r
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="gp"># </span><span class="nb">type</span><span class="w"> </span>and<span class="w"> </span>which<span class="w"> </span>should<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>same<span class="w"> </span>executable<span class="w"> </span><span class="k">in</span><span class="w"> </span>/usr/bin
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="go">uenv is /usr/bin/uenv</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="gp">$ </span>which<span class="w"> </span>uenv
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="go">/usr/bin/uenv</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp"># </span>remove<span class="w"> </span>your<span class="w"> </span>self-installed<span class="w"> </span>executable
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="gp">$ </span>rm<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>uenv<span class="k">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="gp"># </span>forget<span class="w"> </span>the<span class="w"> </span>old<span class="w"> </span>uenv<span class="w"> </span><span class="nb">command</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="gp">$ </span><span class="nb">hash</span><span class="w"> </span>-r
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="gp"># </span><span class="nb">type</span><span class="w"> </span>and<span class="w"> </span>which<span class="w"> </span>should<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>same<span class="w"> </span>executable<span class="w"> </span><span class="k">in</span><span class="w"> </span>/usr/bin
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="go">uenv is /usr/bin/uenv</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="gp">$ </span>which<span class="w"> </span>uenv
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="go">/usr/bin/uenv</span>
 </span></code></pre></div>
 <p>To remove version 5, look in your <code>.bashrc</code> file for a line like the following and remove or comment it out:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># configure the user-environment (uenv) utility</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">source</span><span class="w"> </span>/users/voldemort/.local/bin/activate-uenv
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># configure the user-environment (uenv) utility</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">source</span><span class="w"> </span>/users/voldemort/.local/bin/activate-uenv
 </span></code></pre></div>
 <p>Log out and back in again, then issue the following command to force bash to forget the old uenv command:
-<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp"># </span>forget<span class="w"> </span>the<span class="w"> </span>old<span class="w"> </span>uenv<span class="w"> </span><span class="nb">command</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span><span class="nb">hash</span><span class="w"> </span>-r
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="gp"># </span><span class="nb">type</span><span class="w"> </span>and<span class="w"> </span>which<span class="w"> </span>should<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>same<span class="w"> </span>executable<span class="w"> </span><span class="k">in</span><span class="w"> </span>/usr/bin
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="go">uenv is /usr/bin/uenv</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="gp">$ </span>which<span class="w"> </span>uenv
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="go">/usr/bin/uenv</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp"># </span>forget<span class="w"> </span>the<span class="w"> </span>old<span class="w"> </span>uenv<span class="w"> </span><span class="nb">command</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="gp">$ </span><span class="nb">hash</span><span class="w"> </span>-r
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="gp"># </span><span class="nb">type</span><span class="w"> </span>and<span class="w"> </span>which<span class="w"> </span>should<span class="w"> </span>point<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>same<span class="w"> </span>executable<span class="w"> </span><span class="k">in</span><span class="w"> </span>/usr/bin
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="gp">$ </span><span class="nb">type</span><span class="w"> </span>uenv
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="go">uenv is /usr/bin/uenv</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="gp">$ </span>which<span class="w"> </span>uenv
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="go">/usr/bin/uenv</span>
 </span></code></pre></div></p>
 <p><a href="" id="ref-uenv-guides-ritom"></a></p>
 <h2 id="ritom-migration">Ritom Migration<a class="headerlink" href="#ritom-migration" title="Permanent link">&para;</a></h2>

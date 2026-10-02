@@ -6203,7 +6203,7 @@ Before using DDT, please read the <a class="autorefs autorefs-internal" title="L
 <h3 id="set-up-the-user-environment-and-build-the-executable">Set up the user environment and build the executable<a class="headerlink" href="#set-up-the-user-environment-and-build-the-executable" title="Permanent link">&para;</a></h3>
 <p>Once the uenv is loaded and activated, the program to debug must be compiled with the <code>-g</code> (for CPU) and <code>-G</code> (for GPU) debugging flags.
 For example, we can build a CUDA test with a user environment:</p>
-<div class="language-bash highlight"><span class="filename">compiling a simple app to debug</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu:24.11:v1<span class="w"> </span>--view<span class="o">=</span>default
+<div class="language-bash highlight"><span class="filename">compiling a simple app to debug</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.3:v1<span class="w"> </span>--view<span class="o">=</span>default
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>nvcc<span class="w"> </span>-c<span class="w"> </span>-arch<span class="o">=</span>sm_90<span class="w"> </span>-g<span class="w"> </span>-G<span class="w"> </span>test_gpu.cu
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mpicxx<span class="w"> </span>-g<span class="w"> </span>test_cpu.cpp<span class="w"> </span>test_gpu.o<span class="w"> </span>-o<span class="w"> </span>myexe
 </span></code></pre></div>
@@ -6214,7 +6214,7 @@ For example, we can build a CUDA test with a user environment:</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Log into the system and launch with the <code>srun</code> command:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-N1<span class="w"> </span>-n4<span class="w"> </span>-t15<span class="w"> </span>-pdebug<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/24.11,linaro-forge/25.1:v2<span class="w"> </span>--view<span class="o">=</span>default,forge<span class="w"> </span>ddt-client<span class="w">  </span>./myexe
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-N1<span class="w"> </span>-n4<span class="w"> </span>-t15<span class="w"> </span>-pdebug<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/26.3:v1,linaro-forge/26.0:v1<span class="w"> </span>--view<span class="o">=</span>default,forge<span class="w"> </span>ddt-client<span class="w">  </span>./myexe
 </span></code></pre></div>
 <p>Note that two uenv are selected:</p>
 <ol>

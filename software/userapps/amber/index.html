@@ -6393,7 +6393,7 @@ Older versions had different license terms that stop CSCS from accessing the sou
 <p>Because CSCS cannot redistribute Amber (see <a class="autorefs autorefs-internal" href="./#licensing">Licensing</a>), we provide a uenv that contains everything needed to build Amber, for users to build their own Amber.
 The workflow has three steps:</p>
 <ol>
-<li><a class="autorefs autorefs-internal" title="The Amber uenv" href="./#the-amber-uenv">Pull the <code>amber/26.6</code> uenv</a>: provides the compiler, CUDA, Python and libraries.</li>
+<li><a class="autorefs autorefs-internal" title="The Amber uenv" href="./#the-amber-uenv">Pull the <code>amber/26</code> uenv</a>: provides the compiler, CUDA, Python and libraries.</li>
 <li><a class="autorefs autorefs-internal" title="Getting Amber" href="./#getting-amber">Download and extract the Amber source</a>: you agree to the license and download it yourself.</li>
 <li><a class="autorefs autorefs-internal" title="Getting Amber" href="./#getting-amber">Build Amber</a>: with the provided script, then test it.</li>
 <li>Optionally, <a class="autorefs autorefs-internal" title="Making a Uenv" href="./#making-a-uenv">package the build as its own uenv</a> so it survives scratch cleanup.</li>
@@ -6401,7 +6401,7 @@ The workflow has three steps:</p>
 <p>The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.</p>
 <p><a href="" id="ref-software-amber-uenv"></a></p>
 <h2 id="the-amber-uenv">The Amber uenv<a class="headerlink" href="#the-amber-uenv" title="Permanent link">&para;</a></h2>
-<p>The <code>amber/26.6</code> <a class="autorefs autorefs-internal" href="../../uenv/#uenv">uenv</a> provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the <a class="autorefs autorefs-internal" title="NVIDIA GH200 GPU Nodes" href="../../../alps/hardware/#nvidia-gh200-gpu-nodes">gh200</a> nodes of <a class="autorefs autorefs-internal" title="Daint" href="../../../clusters/daint/#daint">daint</a>.
+<p>The <code>amber/26</code> <a class="autorefs autorefs-internal" href="../../uenv/#uenv">uenv</a> provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the <a class="autorefs autorefs-internal" title="NVIDIA GH200 GPU Nodes" href="../../../alps/hardware/#nvidia-gh200-gpu-nodes">gh200</a> nodes of <a class="autorefs autorefs-internal" title="Daint" href="../../../clusters/daint/#daint">daint</a>.
 It provides, in a single view called <code>amber</code>:</p>
 <!--begin no spell check-->
 <ul>
@@ -6414,23 +6414,22 @@ It provides, in a single view called <code>amber</code>:</p>
 
 <p>You do not need to install any Python packages by hand&mdash;everything required to build Amber is already in the view.</p>
 <div class="admonition example">
-<p class="admonition-title">Downloading the <code>amber/26.6</code> uenv</p>
+<p class="admonition-title">Downloading the <code>amber/26</code> uenv</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>find<span class="w"> </span>amber
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">uenv          arch   system  id                size(MB)  date</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">amber/26:v1   gh200  daint   60fe8c184669d520   8,327    2026-07-09</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>amber/26.6:v1
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>amber/26:v1
 </span></code></pre></div>
 </div>
 <div class="admonition example">
-<p class="admonition-title">Starting the <code>amber/26.6</code> uenv</p>
-<p>The <code>amber/26.6</code> uenv must be loaded with the <strong><code>amber</code> view</strong> both when building and when running Amber.</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26.6:v1
+<p class="admonition-title">Starting the <code>amber/26</code> uenv</p>
+<p>The <code>amber/26</code> uenv must be loaded with the <strong><code>amber</code> view</strong> both when building and when running Amber.</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26:v1
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>status
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">amber:/user-environment</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="go">  An environment for building Amber26. Does not include Amber.</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">  views:</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="go">    spack: configure spack upstream</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="go">    amber (loaded):</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">uenv  amber</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="go">  image  amber/26:v1@daint%gh200</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">  mount  /user-environment</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="go">  views  [amber]</span>
 </span></code></pre></div>
 <p>If you frequently use the tools interactively, consider creating an alias for a <a class="autorefs autorefs-internal" title="Custom environments" href="../../uenv/guides/#custom-environments">custom environment</a> that loads the uenv and also sets <code>AMBERHOME</code>.</p>
 </div>
@@ -6491,7 +6490,7 @@ Install the result into your <a class="autorefs autorefs-internal" href="../../.
 <p>Amber periodically releases patches.
 You can check for and apply them before building.
 Review what the updater will do before applying it &mdash; applied updates change your source tree.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26.6:v1
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26:v1
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$AMBER_ROOT</span>/ambertools26_src<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./update_amber<span class="w"> </span>--check-updates
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$AMBER_ROOT</span>/pmemd26_src<span class="w">      </span><span class="o">&amp;&amp;</span><span class="w"> </span>./update_pmemd<span class="w"> </span>--check-updates
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># apply with: ./update_amber --update   and   ./update_pmemd --update</span>
@@ -6502,7 +6501,7 @@ Review what the updater will do before applying it &mdash; applied updates chang
 <p>Download the build script <a href="../scripts/build-amber.sh"><code>build-amber.sh</code></a> (also reproduced below), make it executable, and run it inside the uenv.
 It builds <strong>AmberTools</strong> first and then <strong>Amber/PMEMD</strong>, installing both into a single <code>$AMBERHOME</code>.</p>
 <div class="language-bash highlight"><span class="filename">build Amber (MPI + CUDA, for GH200)</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. start the uenv with the amber view</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26.6:v1
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26:v1
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. point at your extracted sources (from the previous step)</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AMBER_ROOT</span><span class="o">=</span><span class="nv">$SCRATCH</span>/amber
@@ -6686,7 +6685,7 @@ Both configurations install into the same <code>$AMBERHOME</code>, so you can ru
 <h2 id="testing-the-build">Testing the build<a class="headerlink" href="#testing-the-build" title="Permanent link">&para;</a></h2>
 <p>Activate the installation and run a short simulation on a GPU to confirm everything works.
 <code>amber.sh</code> sets <code>AMBERHOME</code> and puts the Amber tools on your <code>PATH</code>.</p>
-<div class="language-bash highlight"><span class="filename">single-GPU smoke test</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26.6:v1
+<div class="language-bash highlight"><span class="filename">single-GPU smoke test</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>amber<span class="w"> </span>amber/26:v1
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">source</span><span class="w"> </span><span class="nv">$AMBER_ROOT</span>/amber26/amber.sh<span class="w">      </span><span class="c1"># sets AMBERHOME + PATH</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># use the small GB test case shipped with the sources</span>
@@ -6941,7 +6940,7 @@ It:</p>
 <h3 id="using-the-packaged-build">Using the packaged build<a class="headerlink" href="#using-the-packaged-build" title="Permanent link">&para;</a></h3>
 <p>Load the <code>amber-build</code> uenv alongside <code>amber</code>, with both views active.
 The <code>amber-build</code> view only adds <code>$AMBERHOME/bin</code> to <code>PATH</code> and sets <code>AMBERHOME</code> &mdash; it relies on the <code>amber</code> view, loaded at the same time, for CUDA, MPI and Python.</p>
-<div class="language-console highlight"><span class="filename">start both uenvs together</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>amber/26.6:v1,amber-build/2026:v1<span class="w"> </span>--view<span class="o">=</span>amber,amber-build
+<div class="language-console highlight"><span class="filename">start both uenvs together</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>amber/26:v1,amber-build/2026:v1<span class="w"> </span>--view<span class="o">=</span>amber,amber-build
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span>pmemd.cuda<span class="w"> </span>-O<span class="w"> </span>-i<span class="w"> </span>mdin<span class="w"> </span>-p<span class="w"> </span>prmtop<span class="w"> </span>-c<span class="w"> </span>inpcrd<span class="w"> </span>-o<span class="w"> </span>out
 </span></code></pre></div>
 <div class="admonition tip">
@@ -6958,7 +6957,7 @@ Each MPI rank uses one GPU; the <a class="autorefs autorefs-internal" title="NVI
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1">#SBATCH --gpus-per-node=4</span>
 </span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1">#SBATCH --time=01:00:00</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">#SBATCH --uenv=amber/26.6:v1,amber-build/2026:v1</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">#SBATCH --uenv=amber/26:v1,amber-build/2026:v1</span>
 </span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1">#SBATCH --view=amber,amber-build</span>
 </span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
 </span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>srun<span class="w"> </span>pmemd.cuda.MPI<span class="w"> </span>-O<span class="w"> </span>-i<span class="w"> </span>mdin<span class="w"> </span>-p<span class="w"> </span>prmtop<span class="w"> </span>-c<span class="w"> </span>inpcrd<span class="w"> </span>-o<span class="w"> </span>mdout<span class="w"> </span>-r<span class="w"> </span>restrt<span class="w"> </span>-x<span class="w"> </span>mdcrd
@@ -6970,7 +6969,7 @@ Each MPI rank uses one GPU; the <a class="autorefs autorefs-internal" title="NVI
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
 </span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1">#SBATCH --gpus-per-node=4</span>
 </span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1">#SBATCH --time=01:00:00</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1">#SBATCH --uenv=amber/26.6:v1</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1">#SBATCH --uenv=amber/26:v1</span>
 </span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1">#SBATCH --view=amber</span>
 </span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
 </span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="nb">source</span><span class="w"> </span><span class="nv">$SCRATCH</span>/amber/amber26/amber.sh
@@ -6994,7 +6993,7 @@ See the recipe&rsquo;s <code>README.md</code> and <code>lessons.md</code> for th
 <li>vendors dependencies such as boost (and, with MPI, fftw) into its source tree and builds its own copies if it does not find suitable ones;</li>
 <li>by default installs a conda environment, which it then uses to install Python packages (~115k files).</li>
 </ul>
-<p>The <code>amber/26.6</code> uenv was configured to avoid this:</p>
+<p>The <code>amber/26</code> uenv was configured to avoid this:</p>
 <ul>
 <li>CUDA 12.8 is the most recent CUDA supported by Amber26, which forces GCC ≤ 12 (GCC 12.5 is the newest non-deprecated GCC compatible with it in Spack).</li>
 <li>Python is pinned to 3.12 &mdash; the most recent Python compatible with every package Amber uses, and it is built <code>+tkinter</code> (required by Amber, not the default in the <code>prgenv</code> uenv).</li>
