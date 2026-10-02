@@ -1,7 +1,7 @@
 [](){#ref-cluster-besso}
 # Besso
 
-Besso is a small Alps cluster that provides development resources for porting software for selected customers.
+Besso is a small Alps cluster that provides development resources for porting software for the [SKA project](https://www.skao.int/).
 It is provided as is, without the same level of support as the main platform clusters.
 
 ### Storage and file systems
@@ -40,15 +40,6 @@ Instead, the [prgenv-gnu][ref-uenv-prgenv-gnu] programming environment is provid
 Besso supports container workloads using the [Container Engine][ref-container-engine].
 
 To build images, see the [guide to building container images on Alps][ref-build-containers].
-
-#### Cray Modules
-
-!!! warning
-    The Cray Programming Environment (CPE), loaded using `module load cray`, is no longer supported by CSCS.
-
-    CSCS will continue to support and update uenv and the Container Engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
-
-    The CPE is still installed on Besso, however it will receive no support or updates, and will be [replaced with a container][ref-cpe] in a future update.
 
 ## Running jobs on Besso
 
