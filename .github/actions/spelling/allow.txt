@@ -477,3 +477,5 @@ Neoverse
 Netstack
 mpicxx
 Copilot
+hdl
+md5sum
