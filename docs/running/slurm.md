@@ -464,10 +464,14 @@ The best Slurm configuration is application- and workload-specific, so it is wor
 See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
 
 !!! note "GH200 jobs on Santis"
-    Santis uses [node sharing][ref-cluster-santis-sharing], so the examples on this page need two changes on Santis:
+    Santis uses [node sharing][ref-cluster-santis-sharing].
+    A rank that does not request a GPU gets one CPU core and no GPU.
+    Each GPU that a job requests gives it a whole GH200 chip: one GPU, 72 CPU cores and 115 GB of host memory.
 
-    * request GPUs explicitly, for example with `--gpus-per-node=4`, because a job without a GPU request gets one CPU core and no GPU,
-    * add `--gres-flags=allow-task-sharing` to `srun` when ranks on the same node communicate GPU to GPU (see [multi-GPU jobs on Santis][ref-cluster-santis-p2p]).
+    * Request GPUs with `--gpus-per-task`, as in the [one rank per GPU][ref-slurm-gh200-single-rank-per-gpu] example, so that Slurm gives each rank its own GPU and the CPU cores next to it.
+    * Use `--gpus-per-node` only if you know that the ranks must share GPUs, for example to [oversubscribe GPUs with MPS][ref-slurm-gh200-multi-rank-per-gpu].
+      With `--gpus-per-node`, every rank on the node can use all of the GPUs and CPU cores that the job has on that node, and you must assign GPUs and CPU cores to ranks yourself.
+    * Add `--gres-flags=allow-task-sharing` to `srun` (not to `#SBATCH`) when ranks on the same node communicate GPU to GPU, for example with GPU-aware MPI (see [multi-GPU jobs on Santis][ref-cluster-santis-p2p]).
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
