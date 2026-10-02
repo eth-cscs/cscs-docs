@@ -86,6 +86,7 @@ The following sbatch script can be used as template for running ParaView in batc
         How to run multiple ranks per GPU is described [here][ref-slurm-gh200-multi-rank-per-gpu].
 
     ```bash
+    #!/bin/bash -l
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=4
     #SBATCH --cpus-per-task=72
@@ -100,6 +101,7 @@ The following sbatch script can be used as template for running ParaView in batc
 === "Eiger"
 
     ```bash
+    #!/bin/bash -l
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
