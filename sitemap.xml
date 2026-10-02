@@ -4,10 +4,64 @@
         <loc>https://docs.cscs.ch/</loc>
       </url>
       <url>
+        <loc>https://docs.cscs.ch/access/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/firecrest/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/hpc-console/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/jupyterlab/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/mfa/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/service-accounts/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/ssh/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/vscode/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/access/web/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/accounts/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/accounts/account-create/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/accounts/waldur/</loc>
+      </url>
+      <url>
         <loc>https://docs.cscs.ch/alps/</loc>
       </url>
       <url>
+        <loc>https://docs.cscs.ch/alps/hardware/</loc>
+      </url>
+      <url>
         <loc>https://docs.cscs.ch/alps/platforms/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/alps/storage/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/build-install/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/build-install/containers/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/build-install/python/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/build-install/uenv/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/clusters/</loc>
@@ -34,10 +88,37 @@
         <loc>https://docs.cscs.ch/clusters/santis/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/alps/hardware/</loc>
+        <loc>https://docs.cscs.ch/contributing/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/alps/storage/</loc>
+        <loc>https://docs.cscs.ch/environments/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/coding-agents/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/course-account/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/getting-support/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/internet-access/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/storage/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/guides/terminal/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/platforms/cwp/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/platforms/hpcp/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/platforms/mlp/</loc>
@@ -46,106 +127,109 @@
         <loc>https://docs.cscs.ch/platforms/mlp/policies/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/clusters/clariden/</loc>
+        <loc>https://docs.cscs.ch/policies/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/clusters/bristen/</loc>
+        <loc>https://docs.cscs.ch/policies/code-of-conduct/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/platforms/hpcp/</loc>
+        <loc>https://docs.cscs.ch/policies/maintenance/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/clusters/daint/</loc>
+        <loc>https://docs.cscs.ch/policies/regulations/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/clusters/eiger/</loc>
+        <loc>https://docs.cscs.ch/policies/shared/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/platforms/cwp/</loc>
+        <loc>https://docs.cscs.ch/policies/slack/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/clusters/santis/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/mfa/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/web/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/ssh/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/firecrest/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/hpc-console/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/jupyterlab/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/vscode/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/access/service-accounts/</loc>
+        <loc>https://docs.cscs.ch/policies/support/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/running/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/running/slurm/</loc>
+        <loc>https://docs.cscs.ch/running/gssr/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/running/hyperqueue/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/running/vetnode/</loc>
+        <loc>https://docs.cscs.ch/running/jobreport/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/running/known-issues/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/environments/</loc>
+        <loc>https://docs.cscs.ch/running/slurm/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/guides/terminal/</loc>
+        <loc>https://docs.cscs.ch/running/vetnode/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/</loc>
+        <loc>https://docs.cscs.ch/services/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/using/</loc>
+        <loc>https://docs.cscs.ch/services/cicd/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/management/</loc>
+        <loc>https://docs.cscs.ch/services/devportal/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/build/</loc>
+        <loc>https://docs.cscs.ch/services/inference/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/configure/</loc>
+        <loc>https://docs.cscs.ch/services/inference/api/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/release-notes/</loc>
+        <loc>https://docs.cscs.ch/services/kubernetes/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/deploy/</loc>
+        <loc>https://docs.cscs.ch/services/kubernetes/clusters/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/guides/</loc>
+        <loc>https://docs.cscs.ch/services/kubernetes/kubernetes-upgrades/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/services/kubernetes/node-updates/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/alps-extended-images/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/commercial/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/commercial/matlab/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/cray-mpich/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/libfabric/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/mpich/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/nccl/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/nvshmem/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/communication/openmpi/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/container-engine/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/container-engine/run/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/container-engine/resource-hook/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/container-engine/edf/</loc>
@@ -154,58 +238,82 @@
         <loc>https://docs.cscs.ch/software/container-engine/known-issue/</loc>
       </url>
       <url>
+        <loc>https://docs.cscs.ch/software/container-engine/resource-hook/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/container-engine/run/</loc>
+      </url>
+      <url>
         <loc>https://docs.cscs.ch/software/container-engine/sarus-suite/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/build-install/</loc>
+        <loc>https://docs.cscs.ch/software/cw/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/cw/deployment/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/cw/icon/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/cw/netcdf-tools/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/linaro-ddt/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/linaro-map/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/linaro-uenv/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/nvidia-nsight/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/devtools/vihps/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/ml/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/software/ml/pytorch/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/prgenv/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/prgenv/prgenv-gnu/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prgenv/prgenv-intel/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prgenv/prgenv-dpcpp/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prgenv/linalg/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/cpe/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/prgenv/julia/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/prgenv/cpe/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/linalg/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/alps-extended-images/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/prgenv-dpcpp/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/build-install/uenv/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/build-install/python/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/prgenv-gnu/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/uenv/build/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/prgenv-intel/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/build-install/containers/</loc>
+        <loc>https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/</loc>
+        <loc>https://docs.cscs.ch/software/prohibited/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/sciapps/</loc>
@@ -229,58 +337,37 @@
         <loc>https://docs.cscs.ch/software/sciapps/vasp/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/ml/</loc>
+        <loc>https://docs.cscs.ch/software/sciviz/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/ml/pytorch/</loc>
+        <loc>https://docs.cscs.ch/software/sciviz/ascent/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/tutorials/ml/</loc>
+        <loc>https://docs.cscs.ch/software/sciviz/paraview/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/tutorials/ml/llm-inference/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/tutorials/ml/llm-fine-tuning/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/build/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/configure/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/tutorials/ml/vllm-sglang-amdgpus/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/deploy/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/cw/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/guides/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/cw/icon/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/management/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/cw/netcdf-tools/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/release-notes/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/cw/deployment/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/libfabric/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/cray-mpich/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/mpich/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/openmpi/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/nccl/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/communication/nvshmem/</loc>
+        <loc>https://docs.cscs.ch/software/uenv/using/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/software/userapps/</loc>
@@ -298,55 +385,10 @@
         <loc>https://docs.cscs.ch/software/userapps/wrf/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/software/commercial/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/commercial/matlab/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/sciviz/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/sciviz/paraview/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/sciviz/ascent/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/prohibited/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/nvidia-nsight/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/linaro-uenv/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/linaro-map/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/linaro-ddt/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/software/devtools/vihps/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/running/jobreport/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/running/gssr/</loc>
-      </url>
-      <url>
         <loc>https://docs.cscs.ch/storage/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/storage/filesystems/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/storage/transfer/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/storage/longterm/</loc>
@@ -355,81 +397,21 @@
         <loc>https://docs.cscs.ch/storage/object/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/</loc>
+        <loc>https://docs.cscs.ch/storage/transfer/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/devportal/</loc>
+        <loc>https://docs.cscs.ch/tutorials/ml/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/cicd/</loc>
+        <loc>https://docs.cscs.ch/tutorials/ml/llm-fine-tuning/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/kubernetes/</loc>
+        <loc>https://docs.cscs.ch/tutorials/ml/llm-inference/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/kubernetes/clusters/</loc>
+        <loc>https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/</loc>
       </url>
       <url>
-        <loc>https://docs.cscs.ch/services/kubernetes/kubernetes-upgrades/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/services/kubernetes/node-updates/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/services/inference/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/services/inference/api/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/accounts/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/accounts/waldur/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/accounts/account-create/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/coding-agents/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/internet-access/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/storage/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/getting-support/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/guides/course-account/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/regulations/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/code-of-conduct/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/support/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/shared/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/slack/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/policies/maintenance/</loc>
-      </url>
-      <url>
-        <loc>https://docs.cscs.ch/contributing/</loc>
+        <loc>https://docs.cscs.ch/tutorials/ml/vllm-sglang-amdgpus/</loc>
       </url>
 </urlset>
