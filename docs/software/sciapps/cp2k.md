@@ -463,7 +463,6 @@ On Eiger, a similar sbatch script can be used:
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
 #SBATCH --hint=exclusive
-#SBATCH --constraint=mc
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 
@@ -717,7 +716,6 @@ As a workaround, you can disable CUDA acceleration for the grid backend:
 [manual.cp2k.org/CMake]: https://manual.cp2k.org/trunk/getting-started/CMake.html
 [DBCSR]: https://cp2k.github.io/dbcsr/develop/
 [SIRIUS]: https://github.com/electronic-structure/SIRIUS
-[COSMA]: https://github.com/eth-cscs/COSMA
 [dftd4]: https://dftd4.readthedocs.io/en/latest/ 
 [libint]: https://github.com/evaleev/libint
 [PLUMED]: https://www.plumed.org

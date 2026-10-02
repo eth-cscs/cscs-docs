@@ -24,6 +24,7 @@ See the following external documentation pages for more detailed information:
 !!! warning "Version 1 deprecation"
     FirecREST version 1 was decommissioned on Alps on December 5th, 2025
 
+[](){#ref-firecrest-deployment}
 ## FirecREST Deployment on Alps
 
 FirecREST is available for all three major [Alps platforms][ref-alps-platforms], with a dedicated API endpoint for each platform.
@@ -34,7 +35,7 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 | [HPC Platform][ref-platform-hpcp] | https://api.cscs.ch/hpc/firecrest/v2 | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger] |
 | [ML Platform][ref-platform-mlp] | https://api.cscs.ch/ml/firecrest/v2 | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
 | [C&W Platform][ref-platform-cwp] | https://api.cscs.ch/cw/firecrest/v2 | [Santis][ref-cluster-santis] |
-| Beverin | https://api.cscs.ch/beverin/firecrest/v2 | Beverin |
+| [Beverin][ref-cluster-beverin] | https://api.cscs.ch/beverin/firecrest/v2 | [Beverin][ref-cluster-beverin] |
 
 ## Accessing FirecREST
 
@@ -58,6 +59,46 @@ You can manage your client application on the [CSCS Developer Portal][ref-devpor
 
 
 To use your client credentials to access FirecREST, follow the [API documentation](https://eth-cscs.github.io/firecrest-v2/openapi).
+
+[](){#ref-firecrest-service-accounts}
+### Service Account API keys
+
+[Service Accounts][ref-service-accounts] provide programmatic, non-interactive access to CSCS resources.
+A Service Account API key can be used to authenticate requests to FirecREST instead of a personal client application.
+This is useful for automated workflows that need to call FirecREST but should not be tied to a personal user account or Developer Portal application.
+
+!!! warning "Experimental"
+    Calling FirecREST with a Service Account API key is an experimental service.
+    The endpoints and the authentication flow described in this section can change without a deprecation period.
+
+    Service Accounts are not allowed to use these endpoints by default: each Service Account has to be explicitly allowlisted first.
+    To request access, open a ticket at the [CSCS Service Desk](https://support.cscs.ch) stating the name of the Service Account and the project it belongs to.
+
+!!! note "Requesting a Service Account"
+    To use FirecREST with a Service Account you first need a Service Account and its API key.
+    See [Requesting a Service Account][ref-account-create-service-account] for how to create one.
+
+Service Account requests are not sent to the [platform endpoints][ref-firecrest-deployment], but to a separate proxy deployment at `https://f7t-pat.api.svc.cscs.ch/<platform>`, where the platform path selects which FirecREST deployment the request is forwarded to.
+
+| Platform                          | Service Account endpoint                 | Clusters                                                         |
+|-----------------------------------|------------------------------------------|------------------------------------------------------------------|
+| [HPC Platform][ref-platform-hpcp] | `https://f7t-pat.api.svc.cscs.ch/hpcp`   | [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger]           |
+| [ML Platform][ref-platform-mlp]   | `https://f7t-pat.api.svc.cscs.ch/mlp`    | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
+| [C&W Platform][ref-platform-cwp]  | `https://f7t-pat.api.svc.cscs.ch/cw`     | [Santis][ref-cluster-santis]                                     |
+
+The API surface under each endpoint is the same as the corresponding platform deployment.
+The API key is passed in the `X-API-Key` header, and unlike the platform endpoints, the proxy does not require an OAuth2 access token.
+
+```bash title="List FirecREST systems using a Service Account"
+curl -s -X GET "https://f7t-pat.api.svc.cscs.ch/hpcp/status/systems" \
+     -H "X-API-Key: $CSCS_API_KEY"
+```
+
+For calling the proxy from Python, see [using a Service Account with pyFirecREST][ref-firecrest-python-service-account].
+
+!!! warning "Keep your API key secret"
+    The Service Account API key is a credential.
+    Store it in a secret manager or CI/CD variable and never commit it to a repository.
 
 ## Getting Started
 
@@ -186,6 +227,54 @@ This package simplifies the usage of FirecREST by making multiple requests in th
     ```
 
 The tutorial is written for a generic instance of FirecREST but if you have a valid user at CSCS you can test it directly with your resource allocation on the exposed systems.
+
+[](){#ref-firecrest-python-service-account}
+#### Using a Service Account API key
+
+pyFirecREST supports the `X-API-Key` authentication used by the [Service Account endpoints][ref-firecrest-service-accounts] through the `ApiKeyAuth` authorization class, available from pyFirecREST version 3.10.0.
+Pass an `ApiKeyAuth` object instead of `ClientCredentialsAuth` when creating the client, and point the client at the Service Account endpoint of your platform.
+The rest of the client API is the same as with a personal client application.
+
+??? example "Use a Service Account API key with pyFirecREST"
+    The examples read the API key from the `CSCS_API_KEY` environment variable and inspect systems, user information and files on the HPC Platform.
+
+    === "Python"
+        ```python
+        import json
+        import os
+
+        import firecrest as f7t
+
+        client = f7t.v2.Firecrest(
+            firecrest_url="https://f7t-pat.api.svc.cscs.ch/hpcp",
+            authorization=f7t.ApiKeyAuth(os.environ["CSCS_API_KEY"]),
+        )
+
+        system = "daint"
+
+        print("Systems:")
+        for s in client.systems():
+            print(f"  - {s['name']}")
+
+        print("\nUser info:")
+        user = client.userinfo(system_name=system)
+        print(json.dumps(user, indent=2))
+
+        print("\nHome directory:")
+        username = user["user"]["name"]
+        for entry in client.list_files(system_name=system, path=f"/users/{username}"):
+            print(f"  {entry.get('permissions', ''):>10}  {entry.get('name')}")
+        ```
+
+    === "CLI"
+        The `firecrest` command line tool shipped with pyFirecREST reads the API key from the `FIRECREST_API_KEY` environment variable, or from the `--api-key` option.
+
+        ```console title="Query FirecREST with a Service Account API key"
+        $ export FIRECREST_URL=https://f7t-pat.api.svc.cscs.ch/hpcp
+        $ export FIRECREST_API_KEY=$CSCS_API_KEY
+        $ firecrest systems
+        $ firecrest ls --system daint /users/<username>
+        ```
 
 ### Data transfer with FirecREST
 

@@ -2,7 +2,9 @@ ACR
 AMD
 AMPI
 Alpstein
+Ambertools
 Apertus
+APUs
 autoscaling
 auditability
 balfrin
@@ -17,6 +19,7 @@ CESM
 CFLAGS
 CHARMM
 CHF
+cgroups
 compset
 curated
 COSMA
@@ -29,9 +32,11 @@ Ceph
 CESM
 Containerfile
 Containerfiles
+CVEs
 DCGM
 DNS
 Dockerfiles
+downscaled
 Dufourspitze
 EFA
 EMPA
@@ -48,10 +53,12 @@ Fock
 Foket
 GAPW
 GBit
+GCDs
 GGA
 GPFS
 GPG
 GPU
+GPUh
 GPUs
 GPW
 GROMACS
@@ -104,7 +111,9 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+nowrap
 netcdf
+OAMs
 OpenFabrics
 OAuth
 OIDC
@@ -117,6 +126,7 @@ PBE
 PDUs
 PID
 PMPI
+PMEMD
 POSIX
 Parrinello
 Passthrough
@@ -134,8 +144,10 @@ Roboto
 Roothaan
 SHMEM
 SHS
+SPFP
 Skybox
 SLA
+SLES
 SLO
 SOTA
 SSHService
@@ -152,6 +164,7 @@ Wannier
 WSL
 XDG
 Zsh
+Zensical
 Zumsteinspitz
 aarch
 acfdt
@@ -177,12 +190,14 @@ concretise
 concretizer
 containerised
 cpe
+cpufreq
 crun
 cscs
 cshell
 cuda
 customised
 cyberduck
+datacache
 dbcsr
 dcomex
 demystifying
@@ -203,6 +218,7 @@ elpa
 epyc
 fftw
 filesystems
+finalised
 fontawesome
 fpmd
 gcc
@@ -217,6 +233,8 @@ gromos
 groundstate
 gsl
 hdf
+highprio
+httpx
 hugepages
 hugetlbfs
 hotmail
@@ -224,6 +242,7 @@ huggingface
 hwloc
 iframe
 ijulia
+img
 inodes
 iopsstor
 ivo
@@ -246,6 +265,7 @@ libtorch
 libtree
 libvori
 libxc
+lifecycle
 linalg
 linkx
 linux
@@ -293,6 +313,7 @@ pmi
 pmix
 podman
 prgenv
+preemptable
 preinstalled
 roadmap
 rke
@@ -321,10 +342,12 @@ pwscf
 pyfirecrest
 pygments
 pytorch
+qos
 quantumespresso
 quasiparticles
 quickstart
 recv
+rclone
 rgw
 retag
 retagging
@@ -342,12 +365,14 @@ santis
 sarusctl
 sbatch
 scalapack
+scp
 screenshot
 screenshots
 slepc
 slurm
 smartphone
 sourced
+sourcing
 spdlog
 spglib
 sphericart
@@ -378,6 +403,7 @@ terabyte
 testuser
 timeframe
 timelimit
+tkinter
 tmpfs
 todi
 toolbar
@@ -413,6 +439,7 @@ waldur
 wandb
 webhooks
 webinar
+webmail
 webpage
 website
 wikipedia
@@ -430,6 +457,7 @@ xfer
 xname
 xpmem
 youtube
+zensical
 zstd
 HPS
 jobscript
@@ -446,4 +474,6 @@ DPL
 TBB
 nvptx
 Neoverse
+Netstack
 mpicxx
+Copilot

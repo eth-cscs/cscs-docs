@@ -13,15 +13,14 @@
 
 !!! Danger "Current differences from the production CE and limitations"
 
-    * [HPC features][ref-sarus-suite-hpc-features] are enabled primarily through [CDI specs](https://github.com/cncf-tags/container-device-interface) and the [device array][ref-sarus-suite-edf-device-array], not annotations. Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
-    * CXI libfabric replacement is not enabled by default.
-    * The CXI CDI relies on an old Sarus 1.7.0 hook for libfabric replacement. When activated, the hook requires a libfabric to be present inside the container. Enabling the CXI CDI with a container that does not have libfabric results in an error.
-    * CXI and AWS OFI NCCL CDI specs cannot handle replacement of multiple libfabric or plugin libraries inside containers. This complicates the effective use of images with multiple NCCL plugins already installed, like NGC images. Work in preparing OCI hooks to handle these cases is ongoing. In the meantime, customized CDI specs are a possible workaround.
+    * Due to the way Podman's image storage works, it's no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.
+    * CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.
     * Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
     * SquashFS mounts from EDFs are not supported yet.
     * PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.
-    * No support yet for netstack artifacts, CUDA MPS, or direct SSH into containers.
-    * Error propagation and reporting still need improvements.
+    * No support yet for selecting netstack source and netstack artifact version.
+    * No support for direct SSH into containers.
+    * Error propagation, reporting and logging still need improvements.
 
 
 ## Similarities with the current Container Engine
@@ -422,17 +421,48 @@ PRETTY_NAME="Ubuntu 24.04.3 LTS"
 [](){#ref-sarus-suite-hpc-features}
 ## Enabling HPC Features
 
-In current deployments of Sarus Suite, HPC features are enabled primarily through **CDI specs**, not annotations.
-Work is ongoing to enable the CE vService to handle configuration of OCI hooks for Podman and align them with annotations.
+With Sarus Suite, HPC features are enabled through OCI hooks, CDI specs and raw device files.
+Hooks are enabled through EDF annotations, while CDI specs and device files through the EDF [device array][ref-sarus-suite-edf-device-array].
 
 !!! info "Default devices"
-    The following devices are enabled automatically in Sarus Suite by the CE vService, if they are detected in a compute node when the vService is deployed:
+    The following devices are enabled automatically in Sarus Suite if they are detected in a compute node when the Container Engine is deployed:
 
-    *   NVIDIA GPUs
-    *   CXI device nodes (e.g. `/dev/cxi0`)
+    *   [NVIDIA GPUs][ref-sarus-suite-nvidia-gpus]
+    *   [CXI device nodes][ref-sarus-suite-cxi-device-files]
     *   `/dev/xpmem`
     *   `/dev/gdrdrv`
 
+### Hooks and annotations
+
+The following EDF annotations are currently supported on Alps,
+[matching interfaces][ref-ce-container-hooks] from the Enroot-based Container Engine:
+
+| Annotation                                   | Feature                                                                                                               |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `com.hooks.cxi.enabled = "true"`             | Libfabric-based support for the [HPE Slingshot high-speed network][ref-ce-cxi-hook]                                   |
+| `com.hooks.aws_ofi_nccl.enabled = "true"`    | [AWS OFI NCCL plugin injection][ref-ce-aws-ofi-hook] to use Slingshot (through libfabric) in NCCL containers          |
+| `com.hooks.dcgm.enabled = "true"`            | NVIDIA DCGM libraries required to use the [GSSR][ref-gssr-containers] and [jobreport][ref-jobreport-containers] tools |
+| `com.hooks.nvidia_cuda_mps.enabled = "true"` | Support for the [NVIDIA CUDA Multi-Process Service][ref-ce-cuda-mps-hook]                                             |
+| `com.hooks.slurm.enabled = "true"`           | **Experimental** support for host Slurm commands in containers                                                        |
+
+!!! important
+
+    **NO** hook annotation is currently enabled by default.
+
+    `com.hooks.cxi.enabled = "true"` must be entered explicitly to enable HPE Slingshot support.
+    Similarly, enabling the AWS OFI NCCL hook does not automatically enable the CXI hook.
+
+!!! note
+
+    The AWS OFI NCCL hook uses a dynamically linked plugin from a network stack artifact.
+    Therefore, the `com.hooks.aws_ofi_nccl.variant` annotation is ignored.
+
+!!! warning
+
+    The CXI and AWS OFI NCCL hooks use a fixed version of a [network stack artifact][ref-ce-netstack-source].
+    It is not currently possible to select a netstack source or specific artifact version.
+
+[](){#ref-sarus-suite-nvidia-gpus}
 ### NVIDIA GPUs
 
 All GPUs available on a node are enabled in containers through the device specification `nvidia.com/gpu=all`.
@@ -444,47 +474,13 @@ The GDR driver device file must also be added to leverage GPUDirect RDMA:
 devices = ["nvidia.com/gpu=all", "/dev/gdrdrv"]
 ```
 
-### CXI Devices and libfabric for Slingshot
+[](){#ref-sarus-suite-cxi-device-files}
+### CXI devices files
 
-CXI device nodes are enabled via the `hpe.com/cxi=all` CDI spec (tentative name, potentially subject to change).
-
-The `alps.cscs/cxi=all` CDI mounts Slingshot library dependencies and replaces the container's libfabric via an OCI hook, similarly to the Enroot CXI hook.
-
-```toml
-devices = ["hpe.com/cxi=all", "alps.cscs/cxi=all"]
-```
-
-### AWS OFI NCCL Plugin
-
-The device specification `alps.cscs/aws-ofi-nccl` provides similar functionality to the Enroot AWS OFI NCCL hook: it mounts the AWS OFI NCCL plugin and sets related NCCL and libfabric environment variables.
-For example:
+CXI device files (e.g. `/dev/cxi0`) are enabled via the `hpe.com/cxi=all` CDI spec (tentative name, potentially subject to change).
 
 ```toml
-devices = ["alps.cscs/aws-ofi-nccl=cuda-dl"]
-```
-
-Supported values map to the `com.hooks.aws_ofi_nccl.variant` annotation, e.g. `cuda-dl`, `cuda13`, `cuda12`, `rocm5`, `rocm6`.
-
-### Example: CXI libfabric replacement and AWS OFI NCCL plugin mounting, assuming defaults from vService
-
-```toml
-devices = [
-  "alps.cscs/cxi=all",
-  "alps.cscs/aws-ofi-nccl=cuda-dl"
-]
-```
-
-### Example: What actually happens with all defaults included
-
-```toml
-devices = [
-  "alps.cscs/cxi=all",
-  "alps.cscs/aws-ofi-nccl=cuda-dl",
-  "hpe.com/cxi=all",
-  "/dev/xpmem",
-  "nvidia.com/gpu=all",
-  "/dev/gdrdrv"
-]
+devices = ["hpe.com/cxi=all"]
 ```
 
 

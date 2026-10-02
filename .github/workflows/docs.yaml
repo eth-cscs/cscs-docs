@@ -15,16 +15,56 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
+      # skip caching until zensical has stabilised cache interface
+      #- run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      #- uses: actions/cache@v3
+      #  with:
+      #    key: zensical-${{ env.cache_id }}
+      #    path: .cache
+      #    restore-keys: |
+      #      zensical-
       - run: pip install --upgrade pip
-      - run: |
-          pip install -r requirements.txt
+      - run: pip install -r requirements.txt
       - run: rm -rf site
-      - run: mkdocs gh-deploy --force
-      - run: mkdocs --version
+      - run: zensical --version
+      - run: zensical build --strict
+      # zensical has no equivalent of `mkdocs gh-deploy`, so the built site is
+      # committed to the gh-pages branch by hand
+      - name: Publish to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # does the branch already exist? `ls-remote --exit-code` reports 2 when
+          # there is no match, and anything else is a genuine failure that must
+          # not be mistaken for "the branch is missing"
+          set +e; git ls-remote --exit-code --heads origin gh-pages > /dev/null; found=$?; set -e
+          case $found in
+            0) ;;
+            2) echo "gh-pages does not exist yet, creating it" ;;
+            *) echo "could not query origin for the gh-pages branch"; exit 1 ;;
+          esac
+
+          # check out gh-pages into a worktree, creating it on the first deploy
+          if [ $found -eq 0 ]; then
+            git fetch --depth=1 --force origin refs/heads/gh-pages:refs/remotes/origin/gh-pages
+            git worktree add -B gh-pages gh-pages origin/gh-pages
+          else
+            git worktree add --detach gh-pages
+            git -C gh-pages checkout --orphan gh-pages
+          fi
+
+          # replace the published site with the one that was just built
+          # (-f because on a fresh orphan branch there is no HEAD to compare to)
+          git -C gh-pages rm -rf --quiet --ignore-unmatch .
+          cp -r site/. gh-pages/
+          # stop GitHub Pages from running the output through Jekyll
+          touch gh-pages/.nojekyll
+          git -C gh-pages add --all
+
+          if git -C gh-pages diff --cached --quiet; then
+            echo "site is unchanged, nothing to publish"
+          else
+            git -C gh-pages commit -m "Deployed ${GITHUB_SHA} with zensical"
+            git -C gh-pages push origin gh-pages
+          fi

@@ -7,8 +7,7 @@ The software is maintained in a collaboration between the climate community and 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-earth: [__ICON__][ref-software-icon]
 
-    !!! under-construction
-        uenv images for icon and icon-exclaim are being developed, and will be deployed on [Santis][ref-cluster-santis] and Balfrin (MCH) in Q1 2026.
+    Modelling framework for weather, climate and environmental prediction.
 
 -   :fontawesome-solid-bullhorn: __Community Codes__
 

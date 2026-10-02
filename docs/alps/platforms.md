@@ -54,5 +54,3 @@ The following platforms are jointly operated by different Swiss projects and ins
 
 </div>
 
-!!! under-construction
-    Add the WLCG, CTA and SKA platforms in here as well, with their respective external links.

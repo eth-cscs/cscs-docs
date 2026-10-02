@@ -11,7 +11,7 @@ To simplify this process, the Container Engine (CE) toolset supports the specifi
 An Environment Definition File (EDF) is a text file in the [TOML format](https://toml.io/en/) that declaratively and prescriptively represents the creation of a computing environment based on a container image.
 Users can create their own custom environments and share, edit, or build upon already existing environments.
 
-The Container Engine (CE) toolset leverages its tight integration with the Slurm workload manager to parse Fs directly from the command line or batch script and instantiate containerized user environments seamlessly and transparently.
+The Container Engine (CE) toolset leverages its tight integration with the Slurm workload manager to parse EDFs directly from the command line or batch script and instantiate containerized user environments seamlessly and transparently.
 
 Through the EDF, container use cases can be abstracted to the point where end users perform their workflows as if they were operating natively on the computing system.
 

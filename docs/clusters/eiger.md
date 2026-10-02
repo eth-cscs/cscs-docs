@@ -156,6 +156,11 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * nodes in the `normal` and `debug` partitions are not shared
 * nodes in the `xfer` partition can be shared
 
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Eiger is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv and the [CPE][ref-cpe].
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+
 See the Slurm documentation for instructions on how to run jobs on the [AMD CPU nodes][ref-slurm-amdcpu].
 
 ### JupyterHub 
@@ -178,25 +183,74 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-06-17"
+!!! change "2026-09-16"
+    !!! note "New $SCRATCH directory"
+        - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
+        - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
+        - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+
+    !!! note "Slurm updated to 25.05.9"
+        - Slurm was updated from 25.05.8 to 25.05.9
+
+    !!! note "Uenv updated to 10.1.0"
+        - `uenv` has been updated from 10.0.1 to 10.1.0
+        - This fixes an issue downloading images that need a token authentication
+
+    !!! note "Slurm batch policies plugin"
+        - Fixes a bug with library dependencies
+
+??? change "2026-08-26"
+    !!! note "Major system upgrade"
+        `Eiger` received a major system upgrade; note in particular the following changes:
+
+        - Updated operating system from SLES-15.5 to SLES-15.6
+        - Updated HPE Cray Supercomputing User Services Software (USS) from 1.1.0 to version 1.4.0
+        - Updated Slingshot Host Software (SHS) from version 11.1.0 to version 13.1.0.
+        - Updated Slurm from version 24.05 to 25.05.
+
+    !!! note "Removal of cray modules"
+        The cray modules have been removed from `eiger`. As a replacement, we recommend to use [uenv][ref-uenv].
+
+
+    !!! note "Login node limits"
+        To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
+        Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
+        Agentic tools and VSCode might be affected by these limits.
+        Compute intensive tasks will also be affected by the limits.
+        Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+    !!! note "Enforce performance cpufreq governor"
+        Due to a bug the cpu frequency governor has not always been set to `performance`.
+        This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+    !!! note "/capstor/archive"
+        The filesystem `/capstor/archive` is only mounted on the nodes of the `xfer` partition.
+        The mount was removed from the login nodes.
+
+    !!! note "uenv default repository"
+        Using `uenv` with a repository stored on `capstor` will issue a migration warning.
+        It is safe to follow the [migration guide][ref-uenv-manage-ritom-migration], and move your repository to `ritom`.
+        Please take note of potential access permission problems and the fix, as described in the migration guide.
+
+??? change "2026-06-17"
     !!! note "Uenv"
-    - Upgraded Uenv from version 9.2.0 to 10.0.1.
-    - Features:
-        - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
-        - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
-        - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
-        - New global `--system` flag to override the cluster name on the CLI (e.g., `uenv --system='*' image find`).
-        - Improved bash completion for uenv labels and file paths.
-    - Fixes:
-        - Changed a hard error to a warning when image metadata is not attached in the registry.
-        - Fixed a latent bug parsing date strings in image metadata.
-    - [uenv changelog][ref-uenv-release-notes-v10.0]
+        - Upgraded Uenv from version 9.2.0 to 10.0.1.
+        - Features:
+            - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+            - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
+            - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+            - New global `--system` flag to override the cluster name on the CLI (e.g., `uenv --system='*' image find`).
+            - Improved bash completion for uenv labels and file paths.
+        - Fixes:
+            - Changed a hard error to a warning when image metadata is not attached in the registry.
+            - Fixed a latent bug parsing date strings in image metadata.
+        - [uenv changelog][ref-uenv-release-notes-v10.0]
 
     !!! note "Container Engine"
-    - Updated Container Engine to v26.06.1
-    - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g. libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
-        - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
-    - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
+        - Updated Container Engine to v26.06.1
+        - Slingshot-related hooks now use Network Stack Artifacts (also called "netstacks") as default resources for the components, libraries and dependencies mounted inside containers (e.g. libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs][ref-ce-netstack-source]
+            - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
+        - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
 
 ??? change "2025-06-05 Early access phase"
     Early access phase is open

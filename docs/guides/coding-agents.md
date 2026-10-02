@@ -14,7 +14,7 @@ This page covers Alps-specific considerations for running coding agents, regardl
 
     - Compute resources used by agent-launched Slurm jobs are billed to your project account.
     - Coding agents may inadvertently submit many jobs, consume node hours, or modify files in unintended ways.
-      Not following the [Fair Usage of Shared Resources][ref-policies-fair-use] may result in access being revoked.
+      Not following the [Fair Usage of Shared Resources][ref-policies-fair-use-login-node] may result in access being revoked.
     - CSCS takes no responsibility for files deleted, quotas being exhausted, or other unintended behaviour by agents.
     - CSCS takes no responsibility for data inadvertently shared by your agent with third party LLM providers.
 

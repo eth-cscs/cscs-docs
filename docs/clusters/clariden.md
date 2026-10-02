@@ -73,25 +73,48 @@ For detailed instructions and best practices with ML frameworks, please refer to
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
-There are four Slurm partitions on the system:
+!!! warning "Clariden has no default MPI plugin"
+    On Clariden, Slurm does not select an [MPI plugin][ref-slurm-mpi] by default (`MpiDefault` is `(null)`).
+    Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application.
+    For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI.
+    If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error.
+    Applications that do not use MPI do not need this setting.
 
-* the `normal` partition is for all production workloads.
+#### Partitions
+
+There are six Slurm partitions on the system:
+
+* the `highprio` partition is reserved for persons requiring a large number of nodes.
+* the `preemptable` partition is for all production workloads, has access to the largest number of nodes, but its jobs might be stopped.
+* the `normal` partition is for all production workloads, and its jobs cannot be stopped by highprio jobs.
 * the `debug` partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as `normal`, with tight per-user limits to keep it focused on its intended use case.
-* the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
-* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
+* the `low` partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).
+* the `xfer` partition is for [internal and S3 data transfer][ref-data-xfer-internal] at CSCS.
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | most nodes | -    | 12 hours |
-| `debug`  | most nodes (shared with `normal`) plus a few dedicated | 4 | 1.5 node-hours |
-| `low`    | most nodes (shared with `normal`) | -    | 24 hours |
-| `xfer`   | 2          | 1    | 24 hours |
+| name          | nodes  | nodes per job | time limit |
+| --            | --     | --                | -- |
+| `highprio`    | several nodes | >128    | 24 hours |
+| `preemptable` | most nodes | 1-128    | 24 hours |
+| `normal`  | several nodes| 1-128 | 12 hours |
+| `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
+| `low`    | most nodes (shared with `preemptable`) | 1-10    | 6 hours |
+| `xfer`   | 2         | 1    | 24 hours |
 
-* jobs in the `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
-* the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `normal` is full
+* jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
+* the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `preemptable` is full
+* `preemptable` and  `normal`have the same priority, but preemptable can use more nodes
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
-* nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
+
+#### `highprio` partition
+
+The `highprio` partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
+It allows to use the resources more efficiently (smaller startup time).
+Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
+
+#### `debug` partition
+
+Nodes in the `debug` queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.
 
 The `debug` partition has additional per-user limits enforced by its QoS:
 
@@ -104,6 +127,50 @@ The `debug` partition is scheduled at a higher priority than `normal`, so debug 
 !!! warning "The `debug` partition is for debugging and testing only"
     The `debug` partition is reserved for short, interactive debugging and testing sessions, and must not be used to run production workloads or to otherwise circumvent the per-user limits.
     Usage of the partition is monitored: workloads that are not genuine debugging or testing will be flagged and reported.
+
+#### `preemptable` partition
+
+When using the `preemptable` partition
+It is possible to handle the TERM signal in the sbatch script, for example with
+```bash
+#!/bin/bash
+## use your account here
+#SBATCH --account=csstaff
+## setting a meaningful time-min ensures that this jobs can be scheduled efficiently
+## also with backfill or reservations
+#SBATCH --time-min=1:00
+#SBATCH --time=10:00
+## a name is nice to quickly find it in the queue
+#SBATCH --job-name=preemptable
+## the partition should be preemptable
+#SBATCH --partition=preemptable
+
+should_stop=
+function stop_request()
+{
+   let should_stop="early_stop"
+}
+tstart=$(date +%s)
+trap "stop_request" SIGTERM
+for i in 1 2 3; do
+  srun a_command_that_will_also_recieve_sigterm
+  if [[ -n "\$should_stop" ]]; then
+    echo "Stopping due to interrupt"
+    break
+  fi
+done
+tend=$(date +%s)
+echo "script-preemptable-$SLURM_JOB_ID ended after $((tend-tstart)) $should_stop"
+```
+Some pytorch training scripts already implement something, and otherwise you can do it using [python signal module](https://docs.python.org/3/library/signal.html).
+
+#### Automatic requeueing
+
+If a job is stopped to start a highprio jobs it is not automatically requeued unless you submit the job with the `--requeue` flag.
+When requeued a job maintains its priority.
+
+If you request requeuing you have to be careful about not overwriting files (for example file redirect >output).
+The variable `$SLURM_RESTART_COUNT`can be used to disambiguate the file names between different runs (SLURM_JOB_ID will be the same).
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
@@ -121,7 +188,7 @@ See the Slurm documentation for instructions on how to run jobs on the [Grace-Ho
 
 ### FirecREST
 
-Clariden can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v1` API endpoint.
+Clariden can also be accessed using [FirecREST][ref-firecrest] at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
 
 ## Maintenance and status
 
@@ -133,7 +200,38 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2025-03-05 container engine updated"
+!!! change "2026-08-26"
+    !!! note "Login node limits"
+        To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
+        Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
+        In addition, each login session is pinned to a subset of the cores of the node.
+        Agentic tools and VSCode might be affected by these limits.
+        Compute intensive tasks will also be affected by the limits.
+        Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+    !!! note "Enforce performance cpufreq governor"
+        Due to a bug the cpu frequency governor has not always been set to `performance`.
+        This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+    !!! note "Container Engine"
+        - Updated Container Engine to v26.08.1
+        - Podman-5.8.6
+        - NVIDIA Container Toolkit to 1.20.0
+        - crun 1.29.1
+        - sarusctl 0.6.0
+        - Skybox 0.3.0
+        - Sarus Suite Performance Extensions 26.08.1
+        - The default netstack artifact version is now 26.08.1.
+          There are no software changes: only the naming format of the variants has changed.
+    
+    !!! note "OS updates"
+        - Kernel update to solve CVEs
+        - VAST client update to 4.5.8
+
+    !!! note "New file system"
+        The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes and on the nodes of the `xfer` partition.
+
+??? change "2025-03-05 container engine updated"
     now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.
 
 ??? change "2024-10-07 old event"
