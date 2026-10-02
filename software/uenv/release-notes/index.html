@@ -6420,7 +6420,8 @@
 
 <p><a href="" id="ref-uenv-release-notes"></a></p>
 <h1 id="uenv-release-notes">uenv release notes<a class="headerlink" href="#uenv-release-notes" title="Permanent link">&para;</a></h1>
-<p>The latest version of uenv deployed on <a class="autorefs autorefs-internal" title="Alps Clusters" href="../../../clusters/#alps-clusters">Alps clusters</a> is <strong>v10.0.1</strong>.
+<p>The latest version of uenv deployed on <a class="autorefs autorefs-internal" title="Alps Clusters" href="../../../clusters/#alps-clusters">Alps clusters</a> is <strong>v10.1.0</strong>.
+Version v10.2.0 is deployed on Starlex, and will be deployed on the other clusters soon.
 You can check the version available on a specific system with the <code>uenv --version</code> command.</p>
 <p><a href="" id="ref-uenv-release-notes-v10.0"></a></p>
 <h2 id="v100">v10.0<a class="headerlink" href="#v100" title="Permanent link">&para;</a></h2>
@@ -6445,9 +6446,31 @@ You can check the version available on a specific system with the <code>uenv --v
 See the <a class="autorefs autorefs-internal" title="Passthrough behaviour" href="../using/#passthrough-behaviour">passthrough documentation</a> for how to handle this.</p>
 </div>
 <h3 id="minor-and-patch-releases">Minor and patch releases<a class="headerlink" href="#minor-and-patch-releases" title="Permanent link">&para;</a></h3>
+<p><a href="" id="ref-uenv-release-notes-v10.2.0"></a></p>
+<details class="info" open="open">
+<summary>v10.2.0 feature release</summary>
+<ul>
+<li>Improved bash completion.</li>
+<li>Full zsh completion.</li>
+<li><code>uenv image delete</code> uses the same credentials as <code>uenv image pull</code> and <code>uenv image push</code>, and no longer needs the <code>--token</code> flag.</li>
+<li>Security hardening.</li>
+<li>Robustness hardening.</li>
+<li>A new FUSE mount backend that does not need root privileges (not deployed on Alps).</li>
+</ul>
+</details>
+<p><a href="" id="ref-uenv-release-notes-v10.1.0"></a></p>
+<details class="info">
+<summary>v10.1.0 feature release</summary>
+<ul>
+<li>uenv downloads and uploads images without the external <code>oras</code> tool, and is now a single static executable.</li>
+<li><code>uenv status</code> shows the label of each loaded uenv, or the path of its SquashFS file if it has no label.</li>
+<li>Images keep the same hash when they are copied between repositories and registries.</li>
+<li>Mounting two uenvs with the same name is an error: <code>trying to mount multiple uenvs with same name</code>.</li>
+</ul>
+</details>
 <p><a href="" id="ref-uenv-release-notes-v10.0.1"></a></p>
 <details class="info">
-<summary>v10.0.1 feature release</summary>
+<summary>v10.0.1 patch release</summary>
 <ul>
 <li><code>uenv status</code>: fix bug when no view was loaded, or when the name in the uenv meta data did not match that in the database.</li>
 </ul>
