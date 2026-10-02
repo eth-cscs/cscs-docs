@@ -25,6 +25,7 @@ The following sbatch script can be used as a template.
 === "GH200"
 
     ```bash
+    #!/bin/bash -l
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=4
     #SBATCH --cpus-per-task=72
@@ -44,6 +45,7 @@ The following sbatch script can be used as a template.
 === "Eiger"
 
     ```bash
+    #!/bin/bash -l
     #SBATCH -N 1
     #SBATCH --ntasks-per-node=128
     #SBATCH -A <account>
