@@ -16,7 +16,7 @@ Access is granted at the project level through the [Developer Portal][ref-devpor
 
 ## Getting access
 
-Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal]:
+Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal-subscribe]:
 
 1. Sign in at [developer.cscs.ch](https://developer.cscs.ch).
 
@@ -24,7 +24,7 @@ Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal]:
 ![FirecREST Main Page](../images/services/devportal-apis.png)
 ![Create New App](../images/services/devportal-create-new-app.png)
 
-1. Generate the [production keys][ref-devportal] for the application.             
+1. Generate the [production keys][ref-devportal-generate-keys] for the application.             
 ![FirecREST production keys](../images/services/devportal-keys.png)
 
 1. Subscribe the application to the **Alps Accounting API** and choose the desired version.
@@ -44,7 +44,7 @@ The API uses OAuth2 client credentials.
 Exchange the client ID and secret for a short-lived Bearer token, then include the token in the `Authorization` header of every request.
 
 ```bash title="request an access token"
-curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+curl -s -X POST "https://auth.cscs.ch/auth/realms/cscs/protocol/openid-connect/token" \
   --data "grant_type=client_credentials" \
   --data "client_id=<CLIENT_ID>" \
   --data "client_secret=<CLIENT_SECRET>"
