@@ -71,6 +71,7 @@ HDD
 HDDs
 HPC
 HPCP
+HBM
 HPE
 HSN
 Hartree
