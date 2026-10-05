@@ -6016,7 +6016,12 @@
 <p>The <a href="support/">User Support Policies</a>, the <a href="slack/">Slack Code of Conduct</a> and the <a href="maintenance/">Scheduled Maintenance and System Unavailability Policies</a> provide additional information on support services, the regulations of the Users Slack space and the scheduled maintenance events.</p>
 <p>Individual platforms may define their own policies, which take precedence over the general policies below. The <a class="autorefs autorefs-internal" title="Machine Learning Platform project policies" href="../platforms/mlp/policies/#machine-learning-platform-project-policies">Machine Learning Platform policies</a> describe the project types, compute and storage budgets, and project lifetime rules that apply to MLP projects.</p>
 <h2 id="resource-allocation-policies">Resource Allocation Policies<a class="headerlink" href="#resource-allocation-policies" title="Permanent link">&para;</a></h2>
-<p>Compute time on Alps systems is measured in node hours. Currently, we only support exclusive node allocations. This means that even if you utilize only a portion of a node’s resources (e.g., a single GPU), your account will still be charged for the entire node.</p>
+<p>Compute time on Alps systems is measured in node hours.
+Most partitions allocate whole nodes to a job.
+Some partitions can <a class="autorefs autorefs-internal" title="Node sharing" href="../running/slurm/#node-sharing">share a node</a> between jobs, for example the GH200 partitions on Santis.
+Your project is charged for each node that your job uses, for the full run time of the job.
+This also applies when the job uses only part of the node.
+For example, a job that uses one GPU on a shared Santis node is charged one node hour for each hour that it runs.</p>
 <p>Please note that resources at CSCS are assigned over three-months windows</p>
 <ul>
 <li>Quotas are reset on April 1st, July 1st, October 1st and January 1st</li>

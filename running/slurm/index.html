@@ -7162,6 +7162,18 @@ Applications that can saturate the GPUs with a single process per GPU should gen
 Some applications perform badly with a single rank per GPU, and require use of <a href="https://docs.nvidia.com/deploy/mps/index.html">NVIDIA&rsquo;s Multi-Process Service (MPS)</a> to oversubscribe GPUs with multiple ranks per GPU.</p>
 <p>The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
 See <a class="autorefs autorefs-internal" href="../../software/sciapps/#scientific-applications">Scientific Applications</a> for information about recommended application-specific Slurm configurations.</p>
+<div class="admonition note">
+<p class="admonition-title">GH200 jobs on Santis</p>
+<p>Santis uses <a class="autorefs autorefs-internal" title="Node sharing and GPU requests" href="../../clusters/santis/#node-sharing-and-gpu-requests">node sharing</a>.
+A rank that does not request a GPU gets one CPU core and no GPU.
+Each GPU that a job requests gives it a whole GH200 chip: one GPU, 72 CPU cores and 115 GB of host memory.</p>
+<ul>
+<li>Request GPUs with <code>--gpus-per-task</code>, as in the <a class="autorefs autorefs-internal" title="One rank per GPU" href="./#one-rank-per-gpu">one rank per GPU</a> example, so that Slurm gives each rank its own GPU and the CPU cores next to it.</li>
+<li>Use <code>--gpus-per-node</code> only if you know that the ranks must share GPUs, for example to <a class="autorefs autorefs-internal" title="Multiple ranks per GPU" href="./#multiple-ranks-per-gpu">oversubscribe GPUs with MPS</a>.
+  With <code>--gpus-per-node</code>, every rank on the node can use all of the GPUs and CPU cores that the job has on that node, and you must assign GPUs and CPU cores to ranks yourself.</li>
+<li>Add <code>--gres-flags=allow-task-sharing</code> to <code>srun</code> (not to <code>#SBATCH</code>) when ranks on the same node communicate GPU to GPU, for example with GPU-aware MPI (see <a class="autorefs autorefs-internal" title="Multi-GPU jobs with P2P/IPC" href="../../clusters/santis/#multi-gpu-jobs-with-p2pipc">multi-GPU jobs on Santis</a>).</li>
+</ul>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The GH200 nodes have their GPUs configured in <a href="https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes">&ldquo;default&rdquo; compute mode</a>.
@@ -7536,10 +7548,20 @@ For workflows and use cases with tasks that require only a subset of these resou
 </div>
 <p><a href="" id="ref-slurm-sharing"></a></p>
 <h3 id="node-sharing">Node sharing<a class="headerlink" href="#node-sharing" title="Permanent link">&para;</a></h3>
-<div class="admonition under-construction">
-<p class="admonition-title">Under-construction</p>
-<p>Node sharing, whereby jobs can request part of the resources on a node, and multiple jobs can run on a node (possibly from different users) is <em>not currently available on Alps clusters</em>.</p>
-<p>CSCS will support this feature on some Alps <a class="autorefs autorefs-internal" title="Alps Clusters" href="../../clusters/#alps-clusters">clusters</a> in the near-medium future.</p>
+<p>With node sharing, a job can request part of a node.
+Other jobs, also from other users, can then run on the rest of the same node.</p>
+<p>Currently node sharing is not enabled on most systems (see below for exceptions).
+When node sharing is not available, use <a class="autorefs autorefs-internal" title="Running more than one job step per node" href="./#running-more-than-one-job-step-per-node">more than one job step per node</a> to run small tasks side by side.</p>
+<div class="admonition info">
+<p class="admonition-title">Where is node sharing enabled on Alps?</p>
+<p>All partitions on Santis have node sharing enabled, where each requested GPU gives the job one GH200 chip (see <a class="autorefs autorefs-internal" title="Node sharing and GPU requests" href="../../clusters/santis/#node-sharing-and-gpu-requests">node sharing on Santis</a>),</p>
+<p>The <code>xfer</code> partitions on all clusters, which are used for <a class="autorefs autorefs-internal" title="Internal Transfer" href="../../storage/transfer/#internal-transfer">data transfer</a>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Node sharing still charges for the whole node</p>
+<p>We are still integrating support for node sharing into our accounting.
+Currently projects are charged for each the whole node.</p>
+<p>See the <a class="autorefs autorefs-internal" title="CSCS User Policies" href="../../policies/#cscs-user-policies">resource allocation policies</a> for more information.</p>
 </div>
 <p><a href="" id="ref-slurm-exclusive"></a></p>
 <h3 id="running-more-than-one-job-step-per-node">Running more than one job step per node<a class="headerlink" href="#running-more-than-one-job-step-per-node" title="Permanent link">&para;</a></h3>

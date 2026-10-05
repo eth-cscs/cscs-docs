@@ -6663,8 +6663,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <p>Provide compilers, MPI, Python, common libraries and tools used to build your own applications.</p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="../../software/prgenv/prgenv-gnu/#prgenv-gnu">prgenv-gnu</a></li>
-<li><a class="autorefs autorefs-internal" href="../../software/prgenv/prgenv-nvfortran/#prgenv-nvfortran">prgenv-nvfortran</a></li>
-<li><a class="autorefs autorefs-internal" href="../../software/prgenv/linalg/#linalg">linalg</a></li>
+<li><a class="autorefs autorefs-internal" href="../../software/prgenv/prgenv-gnu-openmpi/#prgenv-gnu-openmpi">prgenv-gnu-openmpi</a></li>
 <li><a class="autorefs autorefs-internal" href="../../software/prgenv/julia/#julia">julia</a></li>
 </ul>
 </li>
@@ -6674,13 +6673,15 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <ul>
 <li>
 <p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M232.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 145.8 0 137.3 0 128s5.4-17.9 13.9-21.8zM48.1 218.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0L464 218.4l34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.6-101C5.4 273.8 0 265.3 0 256s5.4-17.9 13.9-21.8L48 218.4zM13.9 362.2 48 346.4l164.3 75.9c27.7 12.8 59.6 12.8 87.3 0l164.3-75.9 34.1 15.8c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0l-218.5-101C5.4 401.8 0 393.3 0 384s5.4-17.9 13.9-21.8"/></svg></span> <strong>Tools</strong></p>
-<p>Provide tools like </p>
+<p>Provide tools for debugging and performance analysis.</p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="../../software/devtools/linaro-uenv/#linaro-forge">Linaro Forge</a></li>
+<li><a class="autorefs autorefs-internal" title="VI-HPS tools" href="../../software/devtools/vihps/#vi-hps-tools">Score-P</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<p>To list all uenv that are available on Santis, run <code>uenv image find</code>.</p>
 <details class="example">
 <summary>using uenv provided for other clusters</summary>
 <p>You can run uenv that were built for other Alps clusters using the <code>@</code> notation.
@@ -6692,7 +6693,7 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>namd/3.0:v3@daint
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># start the uenv</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>uenv<span class="w"> </span>start<span class="w"> </span>namd/3.0:v3@daint
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>namd<span class="w"> </span>namd/3.0:v3@daint
 </span></code></pre></div></p>
 </details>
 <p><a href="" id="ref-cluster-santis-containers"></a></p>
@@ -6710,6 +6711,7 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <th>node type</th>
 <th>max nodes per job</th>
 <th>time limit</th>
+<th>default time</th>
 <th>purpose</th>
 </tr>
 </thead>
@@ -6719,12 +6721,14 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <td>GH200</td>
 <td>unlimited</td>
 <td>24 hours</td>
+<td>1 hour</td>
 <td>standard compute (default)</td>
 </tr>
 <tr>
 <td><code>debug</code></td>
 <td>GH200</td>
 <td>2</td>
+<td>30 minutes</td>
 <td>30 minutes</td>
 <td>short testing</td>
 </tr>
@@ -6733,6 +6737,7 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <td>GH200</td>
 <td>unlimited</td>
 <td>24 hours</td>
+<td>30 minutes</td>
 <td>overflow / quota-exhausted projects</td>
 </tr>
 <tr>
@@ -6740,35 +6745,87 @@ For example, to use uenv images for <a class="autorefs autorefs-internal" title=
 <td>x86</td>
 <td>1</td>
 <td>24 hours</td>
+<td>6 hours</td>
 <td><a class="autorefs autorefs-internal" title="Internal Transfer" href="../../storage/transfer/#internal-transfer">internal data transfer</a> at CSCS</td>
 </tr>
 </tbody>
 </table>
+<p>Slurm uses the default time when a job does not set <code>--time</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Default MPI plugin</p>
 <p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Santis is <code>cray_shasta</code>.
 This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
 Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code>--mpi=pmi2</code>.</p>
 </div>
+<p><a href="" id="ref-cluster-santis-sharing"></a></p>
 <h4 id="node-sharing-and-gpu-requests">Node sharing and GPU requests<a class="headerlink" href="#node-sharing-and-gpu-requests" title="Permanent link">&para;</a></h4>
-<p>All GH200 partitions on Santis use <strong>node sharing</strong>. A job no longer receives a full node by default. Instead, resources are allocated at the granularity of one GH200 chip:</p>
-<ul>
-<li>request 1 GPU → receive 1 chip (72 cores, ~217 GB RAM)</li>
-<li>request 4 GPUs → receive the whole node</li>
-</ul>
-<p>Jobs must request GPUs explicitly, for example:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sbatch<span class="w"> </span>--gres<span class="o">=</span>gpu:2<span class="w"> </span>...
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># or</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>sbatch<span class="w"> </span>--gpus-per-node<span class="o">=</span><span class="m">2</span><span class="w"> </span>...
+<p>All GH200 partitions on Santis use <a class="autorefs autorefs-internal" title="Node sharing" href="../../running/slurm/#node-sharing">node sharing</a>.</p>
+<p>By default MPI ranks on Santis are given a single CPU core and no GPUs.</p>
+<details class="example">
+<summary>By default each rank gets one core and no GPUs</summary>
+<div class="language-console highlight"><span class="filename">requesting two MPI ranks gives one core per rank</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--ntasks<span class="o">=</span><span class="m">2</span><span class="w"> </span>--account<span class="o">=</span>p1234<span class="w"> </span>./affinity.cuda
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">GPU affinity test for 2 MPI ranks</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">rank      0 @ nid005110</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go"> cores   : 0</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">rank      1 @ nid005110</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go"> cores   : 72</span>
 </span></code></pre></div>
-<p>If no GPU is requested, the job may receive only a minimal CPU allocation and will not run on an exclusive node.</p>
+</details>
+<p>Slurm is configured to allocate resources in units of one GH200 chip for each GPU that the job requests.
+The GPUs assigned to each rank are configured using the <code>--gpus-per-task</code> and <code>--gpus-per-node</code> slurm flags:</p>
+<ul>
+<li>1 GPU is a whole Grace-Hopper super-chip: 72 CPU cores, one GPU (96 GB HBM), and 115 GB host memory by default.</li>
+</ul>
+<details class="example">
+<summary>allocating GPUs to ranks</summary>
+<div class="language-console highlight"><span class="filename">One GPU and 72 cores for `--gpus-per-task=1`</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--account<span class="o">=</span>p1234<span class="w"> </span>./affinity.cuda
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">srun: job 898836 queued and waiting for resources</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">srun: job 898836 has been allocated resources</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">GPU affinity test for 1 MPI ranks</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="go">rank      0 @ nid005108</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="go"> cores   : [216:287]</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="go"> gpu   0 : GPU-cc201279-83e4-96d2-ad01-87b35f2a7bc7</span>
+</span></code></pre></div>
+<div class="language-console highlight"><span class="filename">Separate GPU and 72 cores for two ranks on the same node</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--ntasks<span class="o">=</span><span class="m">2</span><span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--account<span class="o">=</span>p1234<span class="w"> </span>./affinity.cuda
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="go">GPU affinity test for 2 MPI ranks</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="go">rank      0 @ nid005012</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="go"> cores   : [0:71]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="go"> gpu   0 : GPU-5b19f465-b587-4b9e-31c4-60bf65296733</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="go">rank      1 @ nid005012</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="go"> cores   : [72:143]</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="go"> gpu   0 : GPU-ac10eafa-4462-5be4-152e-7b92f9780b80</span>
+</span></code></pre></div>
+<p>Use the <code>--gpus-per-node</code> flag when MPI ranks need to share the same GPUs.</p>
+<div class="language-console highlight"><span class="filename">Two ranks share 4 gh200 (GPU and CPU cores) on the same node</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--ntasks<span class="o">=</span><span class="m">2</span><span class="w"> </span>--gpus-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--account<span class="o">=</span>p1234<span class="w"> </span>./affinity.cuda
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">GPU affinity test for 2 MPI ranks</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="go">rank      0 @ nid005303</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="go"> cores   : [0:287]</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="go"> gpu   0 : GPU-29180fbd-a8f8-0502-2545-5787e427361b</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="go"> gpu   1 : GPU-47948342-2073-f024-84a1-db54c3084812</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="go"> gpu   2 : GPU-16d309ce-af9d-6814-032a-d5109f6809d9</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="go"> gpu   3 : GPU-3fa8aa36-b463-83be-edab-f7b281c0d359</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="go">rank      1 @ nid005303</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="go"> cores   : [0:287]</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="go"> gpu   0 : GPU-29180fbd-a8f8-0502-2545-5787e427361b</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="go"> gpu   1 : GPU-47948342-2073-f024-84a1-db54c3084812</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="go"> gpu   2 : GPU-16d309ce-af9d-6814-032a-d5109f6809d9</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="go"> gpu   3 : GPU-3fa8aa36-b463-83be-edab-f7b281c0d359</span>
+</span></code></pre></div>
+</details>
+<div class="admonition warning">
+<p class="admonition-title">Charge for shared nodes</p>
+<p>Your project is charged for the whole node, including when a job uses only part of it.
+For example, a job that uses one GPU is charged one node hour for each hour that it runs.
+See the <a class="autorefs autorefs-internal" title="CSCS User Policies" href="../../policies/#cscs-user-policies">resource allocation policies</a>.</p>
+</div>
+<p><a href="" id="ref-cluster-santis-p2p"></a></p>
 <h4 id="multi-gpu-jobs-with-p2pipc">Multi-GPU jobs with P2P/IPC<a class="headerlink" href="#multi-gpu-jobs-with-p2pipc" title="Permanent link">&para;</a></h4>
 <p>Because device isolation is enforced via cgroups, multi-GPU jobs that rely on GPU P2P/IPC (for example MPI across GPUs on the same node) must add to the <code>srun</code> command (NB: this does not work being specified in the <code>#SBATCH</code> definition block):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>--gres-flags<span class="o">=</span>allow-task-sharing
+<div class="language-bash highlight"><span class="filename">srun flag for GPU P2P/IPC</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>--gres-flags<span class="o">=</span>allow-task-sharing
 </span></code></pre></div>
 <p>This keeps all GPUs allocated to a job visible to all tasks of that job while preserving per-task <code>CUDA_VISIBLE_DEVICES</code> bindings. Without this flag, intra-node GPU-GPU communication will fail.</p>
-<div class="admonition information">
-<p class="admonition-title">Information</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Alternatively, you can set the environment variable <code>SLURM_GRES_FLAGS</code> in your job submission script, e.g.:
 <code>export SLURM_GRES_FLAGS="allow-task-sharing"</code> (if you have other flags set, you can add them as a comma-separated list)</p>
 </div>
@@ -6782,8 +6839,42 @@ You can find more details and instructions how to activate the power capping in 
 <li>work that does not need fast turnaround</li>
 </ul>
 <p>Jobs in <code>low</code> have lower scheduling priority and <strong>are not preempted</strong>.</p>
+<p><a href="" id="ref-cluster-santis-job-limits"></a></p>
 <h4 id="concurrent-job-limit">Concurrent job limit<a class="headerlink" href="#concurrent-job-limit" title="Permanent link">&para;</a></h4>
-<p>Each user may have at most <strong>10 jobs running at the same time</strong> across <code>normal</code>, <code>debug</code>, and <code>low</code>. Submissions are not limited; additional jobs queue until one of the running jobs finishes.</p>
+<p>Slurm limits the number of jobs that each user can run at the same time:</p>
+<table>
+<thead>
+<tr>
+<th>Partition</th>
+<th>QoS</th>
+<th>Running jobs per user</th>
+<th>Submitted jobs per user</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>normal</code>, <code>debug</code></td>
+<td><code>normal</code></td>
+<td>20 (together)</td>
+<td>no limit</td>
+</tr>
+<tr>
+<td><code>low</code></td>
+<td><code>slowdown</code></td>
+<td>10</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p>Jobs above the running limit wait in the queue until one of your running jobs finishes.
+In the <code>low</code> partition, Slurm rejects new submissions when you already have 20 jobs (running or waiting) in that partition.</p>
+<p>To show the current limits, run:</p>
+<div class="language-console highlight"><span class="filename">Show the job limits on Santis</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>sacctmgr<span class="w"> </span>show<span class="w"> </span>qos<span class="w"> </span>normal,slowdown<span class="w"> </span><span class="nv">format</span><span class="o">=</span>name,maxjobspu,maxsubmitpu
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="go">      Name MaxJobsPU MaxSubmitPU</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="go">---------- --------- -----------</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="go">    normal        20</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="go">  slowdown        10          20</span>
+</span></code></pre></div>
 <p>See the Slurm documentation for instructions on how to run jobs on the <a class="autorefs autorefs-internal" title="NVIDIA GH200 GPU Nodes" href="../../running/slurm/#nvidia-gh200-gpu-nodes">Grace-Hopper nodes</a>.</p>
 <h3 id="firecrest">FirecREST<a class="headerlink" href="#firecrest" title="Permanent link">&para;</a></h3>
 <p>Santis can also be accessed using <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a> at the <code>https://api.cscs.ch/cw/firecrest/v2</code> API endpoint.</p>
@@ -6797,19 +6888,37 @@ You can find more details and instructions how to activate the power capping in 
 <h3 id="change-log">Change log<a class="headerlink" href="#change-log" title="Permanent link">&para;</a></h3>
 <div class="admonition change">
 <p class="admonition-title">2026-09-17</p>
-<p>!!! note Slurm updated to 25.05.9
-    - Slurm was updated from 25.05.8 to 25.05.9
-!!! note Container Engine updated to v26.09.1
-    - General version updates
-        - <code>fuse-overlayfs</code> updated for Podman 1.18
-        - Parallax updated to 26.9.2
-    - Enroot updates
-        - Netstack version and name settings are now ignored when not using artifacts
-    - Sarus Suite (beta) updates
-        - Read-only storage for Podman images changed to default to architecture-specific path
-!!! note UENV tool updated to v10.1.0
-    - <code>uenv</code> updated from v10.0.1to v10.1.0
-    - This fixes an issue downloading images that need a token authentication</p>
+<div class="admonition note">
+<p class="admonition-title">Slurm updated to 25.05.9</p>
+<ul>
+<li>Slurm was updated from 25.05.8 to 25.05.9</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Container Engine updated to v26.09.1</p>
+<ul>
+<li>General version updates<ul>
+<li><code>fuse-overlayfs</code> updated for Podman 1.18</li>
+<li>Parallax updated to 26.9.2</li>
+</ul>
+</li>
+<li>Enroot updates<ul>
+<li>Netstack version and name settings are now ignored when not using artifacts</li>
+</ul>
+</li>
+<li>Sarus Suite (beta) updates<ul>
+<li>Read-only storage for Podman images changed to default to architecture-specific path</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">uenv tool updated to v10.1.0</p>
+<ul>
+<li><code>uenv</code> updated from v10.0.1 to v10.1.0</li>
+<li>This fixes an issue downloading images that need a token authentication</li>
+</ul>
+</div>
 </div>
 <details class="change">
 <summary>2026-08-26</summary>
@@ -6824,9 +6933,9 @@ Any compute intensive task that is beyond the limits should be submitted to a co
 <details class="note">
 <summary>Slurm</summary>
 <ul>
-<li>Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and approximately 217 GB RAM.</li>
+<li>Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and 115 GB of host memory by default.</li>
 <li>Introduce the <code>low</code> partition for overflow work and quota-exhausted projects.</li>
-<li>Enforce a per-user limit of 10 concurrently running jobs.</li>
+<li>Enforce a per-user limit on concurrently running jobs (see the current <a class="autorefs autorefs-internal" title="Concurrent job limit" href="./#concurrent-job-limit">job limits</a>).</li>
 <li>Enable the power capping feature on the GH200 nodes.</li>
 <li>Multi-GPU jobs relying on intra-node P2P/IPC must add <code>--gres-flags=allow-task-sharing</code> to the <code>srun</code> command or <code>export SLURM_GRES_FLAGS=allow-task-sharing</code>.</li>
 </ul>
@@ -6842,14 +6951,13 @@ Any compute intensive task that is beyond the limits should be submitted to a co
 <summary>2026-06-17</summary>
 <div class="admonition note">
 <p class="admonition-title">Operating Environment and Networking Stack</p>
-</div>
 <ul>
 <li>Update HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0</li>
 <li>Update Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.</li>
 </ul>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Container Engine</p>
-</div>
 <ul>
 <li>
 <p>Update to Container Engine v26.06.1</p>
@@ -6884,9 +6992,9 @@ Any compute intensive task that is beyond the limits should be submitted to a co
 </ul>
 </li>
 </ul>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Uenv</p>
-</div>
 <ul>
 <li>Upgrade uenv from version 9.2.0 to 10.0.1.</li>
 <li>Features:<ul>
@@ -6904,6 +7012,7 @@ Any compute intensive task that is beyond the limits should be submitted to a co
 </li>
 <li><a class="autorefs autorefs-internal" title="v10.0" href="../../software/uenv/release-notes/#v100">uenv changelog</a></li>
 </ul>
+</div>
 </details>
 <details class="change">
 <summary>2025-05-21</summary>
