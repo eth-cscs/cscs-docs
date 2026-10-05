@@ -14,7 +14,7 @@ The basic idea is that you provide a [Dockerfile](https://docs.docker.com/refere
 Most of the boilerplate work is being taken care by the CI implementation such that you can concentrate on providing build instructions and testing.
 The important information is provided to you from the CI side for the configuration of your repository.
 
-We support any git provider that supports [webhooks](https://en.wikipedia.org/wiki/Webhook).https://jira.cscs.ch/browse/SD-71308
+We support any git provider that supports [webhooks](https://en.wikipedia.org/wiki/Webhook).
 This includes GitHub, GitLab and Bitbucket.
 A typical pipeline consists of at least one build job and one test job.
 The build job makes sure that a new container with your most recent code changes is built.
@@ -801,8 +801,8 @@ This is the clone URL of the registered project, i.e. this is not the clone URL 
 ### `CSCS_OVERRIDE_BASE_DIR`
 value: `$SCRATCH`
 
-Override the default base directory where the project is cloned and the job is running from.
-This will only override the base directory, the full directory will have additional implementation defined hard coded subdirectories added to the full clone path.
+Override the default base directory into which the project is cloned, and from which the job runs.
+This only overrides the base directory: the full directory appends the implementation-defined subdirectories to the full clone path.
 The final clone and working directory is in the environment variable `CI_PROJECT_DIR`.
 
 ### `ARCH`
