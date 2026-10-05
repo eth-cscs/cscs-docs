@@ -6941,17 +6941,17 @@ If migration is cancelled by the user, or by a system issue, it can be resumed w
 </div>
 <p><a href="" id="ref-uenv-manage-ritom-migration"></a></p>
 <h4 id="migration-to-ritom">Migration to Ritom<a class="headerlink" href="#migration-to-ritom" title="Permanent link">&para;</a></h4>
-<p>In March-April 2026 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesystem called Ritom.
-The default repository location will change from <code>/capstor/scratch/cscs/$USER/.uenv-images</code> to <code>/ritom/scratch/cscs/$USER/.uenv-images</code>.
-There is a transition period, during which it is possible to use both Capstor and Ritom, and a message like the following will be shown by uenv when it is time to migrate:</p>
+<p>On 2026-09-16, <code>$SCRATCH</code> on Daint and Eiger moved from Capstor to Ritom.
+The default repository is now <code>/ritom/scratch/cscs/$USER/.uenv-images</code>, and <code>$SCRATCH_OLD</code> points to the old Capstor scratch.
+If you still have a repository on Capstor, uenv keeps using it and prints a message like the following until you migrate it:</p>
 <details class="example">
 <summary>uenv migration message</summary>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>--------------------------------------------------------------------------------
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>warning: the default uenv repo on this system has moved to a new location:
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>  /iopsstor/scratch/cscs/bcumming/.uenv-images
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>  /ritom/scratch/cscs/cscsusername/.uenv-images
 </span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>Migrate your repo, while the old location is still available, with this command:
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>  uenv repo migrate --sync /capstor/scratch/cscs/&lt;user&gt;/.uenv-images \
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>                           /ritom/scratch/cscs/&lt;user&gt;/.uenv-images
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>  uenv repo migrate /capstor/scratch/cscs/cscsusername/.uenv-images \
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>                    /ritom/scratch/cscs/cscsusername/.uenv-images
 </span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>Migration can take over 30 minutes, and must be completed fully after it has
 </span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>been started for all of the original images to be available. If interrupted,
 </span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>migration can be resumed using the same command.
@@ -6961,44 +6961,22 @@ There is a transition period, during which it is possible to use both Capstor an
 </span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>--------------------------------------------------------------------------------
 </span></code></pre></div>
 </details>
-<p>The migration message is currently disabled, because we are not ready to migrate uenv for the reasons explained below.</p>
+<p>To migrate your repository, run:</p>
+<div class="language-bash highlight"><span class="filename">migrate the uenv repository to Ritom</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>uenv<span class="w"> </span>repo<span class="w"> </span>migrate<span class="w"> </span>/capstor/scratch/cscs/<span class="nv">$USER</span>/.uenv-images<span class="w"> </span>/ritom/scratch/cscs/<span class="nv">$USER</span>/.uenv-images
+</span></code></pre></div>
 <p>If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.</p>
 <div class="admonition warning">
 <p class="admonition-title">Ritom might have access permission problems</p>
 <p>Ritom is currently mounted on Daint and Eiger, however it was mounted with <a href="https://www.opswat.com/docs/mdss/integrations/what-is-user-squashing-for-network-file-system-nfs">squash root</a> enabled, which might give you an error message:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>error: invalid squashfs mount /ritom/scratch/cscs/&lt;your-username&gt;/.uenv-images/images/5ef04b766304650d705a859f939992b90ba9278138bd98e5555763d245ffbca6/store.squashfs:/user-environment - invalid squashfs /user-environment (Permission denied)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>error: invalid squashfs mount /ritom/scratch/cscs/&lt;your-username&gt;/.uenv-images/images/5ef04b766304650d705a859f939992b90ba9278138bd98e5555763d245ffbca6/store.squashfs:/user-environment - invalid squashfs /user-environment (Permission denied)
 </span></code></pre></div>
 If your account was previously part of a now closed CSCS project, your scratch directory may still belong to the older group.
 To fix this error, the access permissions all the way to the squashfs file must be owned by your current primary group.
 Use these commands:
-<div class="language-console highlight"><span class="filename">Fix access permission problems</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="gp">$ </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-gn<span class="k">)</span><span class="w"> </span>/ritom/scratch/cscs/<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="gp">$ </span>chown<span class="w"> </span>--recursive<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-gn<span class="k">)</span><span class="w"> </span>/ritom/scratch/cscs/<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>/.uenv-images
+<div class="language-console highlight"><span class="filename">Fix access permission problems</span><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gp">$ </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-gn<span class="k">)</span><span class="w"> </span>/ritom/scratch/cscs/<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="gp">$ </span>chown<span class="w"> </span>--recursive<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-gn<span class="k">)</span><span class="w"> </span>/ritom/scratch/cscs/<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>/.uenv-images
 </span></code></pre></div></p>
-<p>Another option is to use uenv images stored on capstor instead of Ritom.
-If you migrated the default repository from Capstor to Ritom, the old repository on Capstor was not deleted.
-The easiest fix is to remove the Ritom repository, so that uenv falls back to using Capstor.</p>
-<p>First, check whether the old repository on Capstor scratch exists:</p>
-<div class="admonition example">
-<p class="admonition-title">Checking whether there is a repository on Capstor</p>
-<div class="language-console highlight"><span class="filename">no repository on Capstor</span><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>repo<span class="w"> </span>status<span class="w"> </span>/capstor/scratch/cscs/<span class="nv">$USER</span>/.uenv-images
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="go">/capstor/scratch/cscs/bcumming/.uenv-images is not a repository</span>
-</span></code></pre></div>
-<div class="language-console highlight"><span class="filename">there is an existing repository on Capstor</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>repo<span class="w"> </span>status<span class="w"> </span>/capstor/scratch/cscs/<span class="nv">$USER</span>/.uenv-images
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="go">the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite</span>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="go">- on a lustre file system</span>
-</span></code></pre></div>
-</div>
-<p>If there is no repository on Capstor, first create one (skip this step if one already exists).</p>
-<div class="language-console highlight"><span class="filename">create a repository on Capstor</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>repo<span class="w"> </span>create<span class="w"> </span><span class="nv">$SCRATCH</span>/.uenv-images
-</span></code></pre></div>
-<p>Then remove the repository on ritom, while keeping a copy of it:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="gp">$ </span>mv<span class="w"> </span>/ritom/scratch/cscs/<span class="nv">$USER</span>/.uenv-images<span class="w"> </span>/ritom/scratch/cscs/<span class="nv">$USER</span>/.uenv-images.back
-</span></code></pre></div>
-<p>If the move was successful, then the <code>uenv repo status</code> command will show location of the default repository on <code>/capstor/scratch</code>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>repo<span class="w"> </span>status
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="go">the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="go">  - on a lustre file system</span>
-</span></code></pre></div>
+<p>uenv v10.2.0 fixes this problem.</p>
 </div>
 
 
