@@ -5511,6 +5511,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cscs_override_base_dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>CSCS_OVERRIDE_BASE_DIR</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#arch" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -7752,6 +7763,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cscs_override_base_dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <code>CSCS_OVERRIDE_BASE_DIR</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#arch" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -9398,6 +9420,11 @@ It can be overwritten via <code>SLURM_ACCOUNT</code> for individual jobs.</p>
 <p>Clone URL for git.
 This is needed for some implementation details of the gitlab-runner custom executor.
 This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.</p>
+<h3 id="cscs_override_base_dir"><code>CSCS_OVERRIDE_BASE_DIR</code><a class="headerlink" href="#cscs_override_base_dir" title="Permanent link">&para;</a></h3>
+<p>value: <code>$SCRATCH</code></p>
+<p>Override the default base directory into which the project is cloned, and from which the job runs.
+This only overrides the base directory: the full directory appends the implementation-defined subdirectories to the full clone path.
+The final clone and working directory is in the environment variable <code>CI_PROJECT_DIR</code>.</p>
 <h3 id="arch"><code>ARCH</code><a class="headerlink" href="#arch" title="Permanent link">&para;</a></h3>
 <p>value: <code>x86_64</code> or <code>aarch64</code></p>
 <p>This is the architecture of the runner. It is either an ARM64 machine, i.e. <code>aarch64</code>, or a traditional <code>x86_64</code> machine.</p>
