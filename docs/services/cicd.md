@@ -798,6 +798,13 @@ Clone URL for git.
 This is needed for some implementation details of the gitlab-runner custom executor.
 This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.
 
+### `CSCS_OVERRIDE_BASE_DIR`
+value: `$SCRATCH`
+
+Override the default base directory into which the project is cloned, and from which the job runs.
+This only overrides the base directory: the full directory appends the implementation-defined subdirectories to the full clone path.
+The final clone and working directory is in the environment variable `CI_PROJECT_DIR`.
+
 ### `ARCH`
 value: `x86_64` or `aarch64`
 
