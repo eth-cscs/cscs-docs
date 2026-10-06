@@ -192,10 +192,20 @@ This avoids transferring private keys over the network and follows security best
 
 1. Access [user-account.cscs.ch](https://user-account.cscs.ch) and log in with your CSCS credentials
 2. Navigate to **SSH Keys** and select **Sign Key**
-3. Paste your existing SSH public key (e.g., from `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub`)
+3. Paste your SSH public key (e.g., the contents of `~/.ssh/cscs-key.pub`)
 4. Click **Sign Key** — CSCS will issue a signed certificate
-5. Download the signed certificate (`~/.ssh/cscs-key-cert.pub`)
-6. Your original private key remains on your machine
+5. Click **Download certificate** — the browser saves it as `cscs-key-cert.pub` in your downloads folder
+6. Move the certificate next to the private key:
+    ```bash title="move the certificate"
+    mv ~/Downloads/cscs-key-cert.pub ~/.ssh/cscs-key-cert.pub
+    ```
+7. Your original private key remains on your machine
+
+[](){#ref-ssh-cert-name}
+!!! warning "Name the certificate after the private key"
+    SSH finds the certificate only if its name is the private key file name followed by `-cert.pub`.
+    The certificate is always downloaded as `cscs-key-cert.pub`, whichever key you sign.
+    For example, if you sign `~/.ssh/id_ed25519.pub`, save the certificate as `~/.ssh/id_ed25519-cert.pub`, and use `~/.ssh/id_ed25519` instead of `~/.ssh/cscs-key` in the examples on this page.
 
 !!! info "Advantages"
     - Private key never leaves your machine
@@ -235,6 +245,7 @@ Before trying to log into your target cluster, you can first check that your SSH
 ```
 ssh -i ~/.ssh/cscs-key ela.cscs.ch
 ```
+The `-i` option takes the private key that you signed, not the certificate.
 
 To log into a target system at CSCS, you need to perform some additional setup to handle SSH key forwarding.
 There are two alternatives detailed below.
@@ -300,6 +311,7 @@ When using signed keys or newly generated keys, add the private key to the SSH a
 ```
 ssh-add -t 1d ~/.ssh/cscs-key
 ```
+`ssh-add` also adds the certificate `~/.ssh/cscs-key-cert.pub`, if it [has the correct name][ref-ssh-cert-name].
 
 ??? warning "Could not open a connection to your authentication agent"
     If you see this error message, the SSH agent is not running.
@@ -408,6 +420,10 @@ The revocation takes effect immediately across all CSCS systems.
     This might indicate that your key has expired or is not valid.
     Check the validity of your key at [user-account.cscs.ch](https://user-account.cscs.ch).
     If expired, sign or generate a new key.
+
+    This error also occurs if the certificate name does not match the private key.
+    In this case, `ssh -v` prints `no such identity` for the private key.
+    Save the certificate as `<private key>-cert.pub`, as described in [Sign your existing SSH key][ref-ssh-cert-name].
 
 ??? warning "Could not open a connection to your authentication agent"
     If you see this error when adding keys to the ssh-agent, please make sure the agent is up, and if not bring up the agent using the following command:
