@@ -6652,11 +6652,21 @@ This avoids transferring private keys over the network and follows security best
 <ol>
 <li>Access <a href="https://user-account.cscs.ch">user-account.cscs.ch</a> and log in with your CSCS credentials</li>
 <li>Navigate to <strong>SSH Keys</strong> and select <strong>Sign Key</strong></li>
-<li>Paste your existing SSH public key (e.g., from <code>~/.ssh/id_ed25519.pub</code> or <code>~/.ssh/id_rsa.pub</code>)</li>
+<li>Paste your SSH public key (e.g., the contents of <code>~/.ssh/cscs-key.pub</code>)</li>
 <li>Click <strong>Sign Key</strong> — CSCS will issue a signed certificate</li>
-<li>Download the signed certificate (<code>~/.ssh/cscs-key-cert.pub</code>)</li>
+<li>Click <strong>Download certificate</strong> — the browser saves it as <code>cscs-key-cert.pub</code> in your downloads folder</li>
+<li>Move the certificate next to the private key:
+    <div class="language-bash highlight"><span class="filename">move the certificate</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mv<span class="w"> </span>~/Downloads/cscs-key-cert.pub<span class="w"> </span>~/.ssh/cscs-key-cert.pub
+</span></code></pre></div></li>
 <li>Your original private key remains on your machine</li>
 </ol>
+<p><a href="" id="ref-ssh-cert-name"></a></p>
+<div class="admonition warning">
+<p class="admonition-title">Name the certificate after the private key</p>
+<p>SSH finds the certificate only if its name is the private key file name followed by <code>-cert.pub</code>.
+The certificate is always downloaded as <code>cscs-key-cert.pub</code>, whichever key you sign.
+For example, if you sign <code>~/.ssh/id_ed25519.pub</code>, save the certificate as <code>~/.ssh/id_ed25519-cert.pub</code>, and use <code>~/.ssh/id_ed25519</code> instead of <code>~/.ssh/cscs-key</code> in the examples on this page.</p>
+</div>
 <div class="admonition info">
 <p class="admonition-title">Advantages</p>
 <ul>
@@ -6677,7 +6687,7 @@ This method is currently supported but will be phased out in favor of signing ex
 <li>Optionally add a passphrase for additional security</li>
 <li>Click <strong>Generate</strong> — CSCS creates and downloads a new key pair</li>
 <li>Save the private key (<code>cscs-key</code>) to <code>~/.ssh/</code> with restricted permissions:
-   <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>chmod<span class="w"> </span><span class="m">0600</span><span class="w"> </span>~/.ssh/cscs-key
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>chmod<span class="w"> </span><span class="m">0600</span><span class="w"> </span>~/.ssh/cscs-key
 </span></code></pre></div></li>
 </ol>
 <p><strong>Note:</strong> This method transfers the private key over HTTPS which should be avoided.</p>
@@ -6694,8 +6704,9 @@ This method is currently supported but will be phased out in favor of signing ex
 <h2 id="logging-in">Logging in<a class="headerlink" href="#logging-in" title="Permanent link">&para;</a></h2>
 <p>To ensure secure access, CSCS requires users to connect through the designated jump host Ela (<code>ela.cscs.ch</code>) before accessing any cluster.</p>
 <p>Before trying to log into your target cluster, you can first check that your SSH key works with Ela:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>ssh -i ~/.ssh/cscs-key ela.cscs.ch
-</span></code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ssh -i ~/.ssh/cscs-key ela.cscs.ch
+</span></code></pre></div>
+The <code>-i</code> option takes the private key that you signed, not the certificate.</p>
 <p>To log into a target system at CSCS, you need to perform some additional setup to handle SSH key forwarding.
 There are two alternatives detailed below.</p>
 <p><a href="" id="ref-ssh-config"></a></p>
@@ -6703,64 +6714,65 @@ There are two alternatives detailed below.</p>
 <p>This approach configures Ela as a jump host and creates aliases for the systems that you want to access in <code>~/.ssh/config</code> on your laptop or PC.
 The benefit of this approach is that once the <code>~/.ssh/config</code> file has been configured, no additional steps are required between creating or signing a new key, and logging in.</p>
 <p>Below is an example <code>~/.ssh/config</code> file that facilitates directly logging into the Daint, Santis and Clariden clusters using <code>ela.cscs.ch</code> as a Jump host:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Host ela
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    HostName ela.cscs.ch
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    User cscsusername
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    IdentityFile ~/.ssh/cscs-key
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Host daint
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    HostName daint.alps.cscs.ch
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    User cscsusername
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    ProxyJump ela
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    IdentityFile ~/.ssh/cscs-key
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    IdentitiesOnly yes
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>Host santis
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    HostName santis.alps.cscs.ch
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>    ProxyJump ela
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    User cscsusername
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>    IdentityFile ~/.ssh/cscs-key
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>    IdentitiesOnly yes
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>Host clariden
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>    HostName clariden.alps.cscs.ch
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>    ProxyJump ela
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>    User cscsusername
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>    IdentityFile ~/.ssh/cscs-key
-</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>    IdentitiesOnly yes
-</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>
-</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>Host eiger
-</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a>    HostName eiger.alps.cscs.ch
-</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>    ProxyJump ela
-</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>    User cscsusername
-</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>    IdentityFile ~/.ssh/cscs-key
-</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a>    IdentitiesOnly yes
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Host ela
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    HostName ela.cscs.ch
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    User cscsusername
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    IdentityFile ~/.ssh/cscs-key
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>Host daint
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    HostName daint.alps.cscs.ch
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    User cscsusername
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    ProxyJump ela
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    IdentityFile ~/.ssh/cscs-key
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    IdentitiesOnly yes
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>Host santis
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    HostName santis.alps.cscs.ch
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>    ProxyJump ela
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>    User cscsusername
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>    IdentityFile ~/.ssh/cscs-key
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>    IdentitiesOnly yes
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>Host clariden
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>    HostName clariden.alps.cscs.ch
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>    ProxyJump ela
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>    User cscsusername
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>    IdentityFile ~/.ssh/cscs-key
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    IdentitiesOnly yes
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>Host eiger
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>    HostName eiger.alps.cscs.ch
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>    ProxyJump ela
+</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>    User cscsusername
+</span><span id="__span-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>    IdentityFile ~/.ssh/cscs-key
+</span><span id="__span-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>    IdentitiesOnly yes
 </span></code></pre></div>
 <div class="admonition note">
 <p><img alt="❗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2757.svg" title=":exclamation:" /> Replace <code>cscsusername</code> with your CSCS username in the file above.</p>
 </div>
 <p>After saving this file, one can directly log into <code>daint.alps.cscs.ch</code> from your local system using the alias <code>daint</code>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>ssh daint
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>ssh daint
 </span></code></pre></div>
 <p><a href="" id="ref-ssh-agent"></a></p>
 <h3 id="using-ssh-agent">Using SSH agent<a class="headerlink" href="#using-ssh-agent" title="Permanent link">&para;</a></h3>
 <p>Alternatively, the <a href="https://www.ssh.com/academy/ssh/add-command">SSH authentication agent</a> can be configured to manage the keys.</p>
 <p>When using signed keys or newly generated keys, add the private key to the SSH agent:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>ssh-add -t 1d ~/.ssh/cscs-key
-</span></code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>ssh-add -t 1d ~/.ssh/cscs-key
+</span></code></pre></div>
+<code>ssh-add</code> also adds the certificate <code>~/.ssh/cscs-key-cert.pub</code>, if it <a class="autorefs autorefs-internal" title="Sign your existing SSH key" href="./#ref-ssh-cert-name">has the correct name</a>.</p>
 <details class="warning">
 <summary>Could not open a connection to your authentication agent</summary>
 <p>If you see this error message, the SSH agent is not running.
 You can start it with the following command:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>eval $(ssh-agent)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>eval $(ssh-agent)
 </span></code></pre></div></p>
 </details>
 <p>Once the key has been configured, log into Ela using the <code>-A</code> flag, and then jump to the target system:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># log in to ela.cscs.ch</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>ssh<span class="w"> </span>-A<span class="w"> </span>cscsusername@ela.cscs.ch
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># then jump to a cluster</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>ssh<span class="w"> </span>daint.cscs.ch
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># log in to ela.cscs.ch</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>ssh<span class="w"> </span>-A<span class="w"> </span>cscsusername@ela.cscs.ch
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># then jump to a cluster</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>ssh<span class="w"> </span>daint.cscs.ch
 </span></code></pre></div></p>
 <h2 id="ssh-tunnel-to-a-service-on-alps-compute-nodes-via-ela">SSH tunnel to a service on Alps compute nodes via Ela<a class="headerlink" href="#ssh-tunnel-to-a-service-on-alps-compute-nodes-via-ela" title="Permanent link">&para;</a></h2>
 <p>If you have a server listening on a compute node in an Alps cluster and want to reach it from your local computer, you can do the following: allocate a node, start your server bound to <code>localhost</code>, open an SSH tunnel that jumps through <code>ela</code> to the cluster, then use <code>http://localhost:PORT</code> locally.
@@ -6784,12 +6796,12 @@ Details on how to achieve this are below.</p>
 <p class="admonition-title">Binding to <code>127.0.0.1</code> ensures the service is only reachable via your tunnel</p>
 </div>
 <p>To open the tunnel from your local computer:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nv">MYUSER</span><span class="o">=</span>cscsusername<span class="w">     </span><span class="c1"># your username at CSCS</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nv">NODE</span><span class="o">=</span>nid006554<span class="w">          </span><span class="c1"># obtained from salloc or srun</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nv">PORT</span><span class="o">=</span><span class="m">6006</span><span class="w">               </span><span class="c1"># example port</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="nv">CLUSTER</span><span class="o">=</span>daint<span class="w">           </span><span class="c1"># cluster you want to reach</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>ssh<span class="w"> </span>-N<span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@ela.cscs.ch,<span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@<span class="si">${</span><span class="nv">CLUSTER</span><span class="si">}</span>.alps.cscs.ch<span class="w"> </span>-L<span class="w"> </span><span class="si">${</span><span class="nv">PORT</span><span class="si">}</span>:localhost:<span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@<span class="si">${</span><span class="nv">NODE</span><span class="si">}</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nv">MYUSER</span><span class="o">=</span>cscsusername<span class="w">     </span><span class="c1"># your username at CSCS</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nv">NODE</span><span class="o">=</span>nid006554<span class="w">          </span><span class="c1"># obtained from salloc or srun</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nv">PORT</span><span class="o">=</span><span class="m">6006</span><span class="w">               </span><span class="c1"># example port</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="nv">CLUSTER</span><span class="o">=</span>daint<span class="w">           </span><span class="c1"># cluster you want to reach</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>ssh<span class="w"> </span>-N<span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@ela.cscs.ch,<span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@<span class="si">${</span><span class="nv">CLUSTER</span><span class="si">}</span>.alps.cscs.ch<span class="w"> </span>-L<span class="w"> </span><span class="si">${</span><span class="nv">PORT</span><span class="si">}</span>:localhost:<span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MYUSER</span><span class="si">}</span>@<span class="si">${</span><span class="nv">NODE</span><span class="si">}</span>
 </span></code></pre></div>
 <p>The command blocks while the tunnel is open (that is expected).</p>
 <div class="admonition info">
@@ -6810,7 +6822,7 @@ Details on how to achieve this are below.</p>
 <ul>
 <li>Stop the server (Ctrl-C on the compute node shell).</li>
 <li>End the Slurm allocation:
-  <div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>scancel<span class="w"> </span><span class="nv">$SLURM_JOB_ID</span>
+  <div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>scancel<span class="w"> </span><span class="nv">$SLURM_JOB_ID</span>
 </span></code></pre></div></li>
 <li>Close the tunnel (Ctrl-C in the tunnel terminal).</li>
 </ul>
@@ -6826,11 +6838,11 @@ Details on how to achieve this are below.</p>
 </ol>
 <h3 id="revoke-via-cli">Revoke via CLI<a class="headerlink" href="#revoke-via-cli" title="Permanent link">&para;</a></h3>
 <p>To revoke a key using the command-line interface:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Revoke a single key by serial number</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>cscs-key<span class="w"> </span>revoke<span class="w"> </span>--serial<span class="w"> </span>&lt;serial-number&gt;
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Revoke all active keys</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>cscs-key<span class="w"> </span>revoke-all
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Revoke a single key by serial number</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>cscs-key<span class="w"> </span>revoke<span class="w"> </span>--serial<span class="w"> </span>&lt;serial-number&gt;
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Revoke all active keys</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>cscs-key<span class="w"> </span>revoke-all
 </span></code></pre></div>
 <p>The revocation takes effect immediately across all CSCS systems.</p>
 <p><a href="" id="ref-ssh-known-issues"></a></p>
@@ -6839,7 +6851,7 @@ Details on how to achieve this are below.</p>
 <summary>too many authentication failures</summary>
 <p>You may have too many keys in your SSH agent.
 Remove the unused keys from the agent or flush them all with the following command:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>ssh-add<span class="w"> </span>-D
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>ssh-add<span class="w"> </span>-D
 </span></code></pre></div></p>
 </details>
 <details class="warning">
@@ -6847,11 +6859,14 @@ Remove the unused keys from the agent or flush them all with the following comma
 <p>This might indicate that your key has expired or is not valid.
 Check the validity of your key at <a href="https://user-account.cscs.ch">user-account.cscs.ch</a>.
 If expired, sign or generate a new key.</p>
+<p>This error also occurs if the certificate name does not match the private key.
+In this case, <code>ssh -v</code> prints <code>no such identity</code> for the private key.
+Save the certificate as <code>&lt;private key&gt;-cert.pub</code>, as described in <a class="autorefs autorefs-internal" href="./#ref-ssh-cert-name">Sign your existing SSH key</a>.</p>
 </details>
 <details class="warning">
 <summary>Could not open a connection to your authentication agent</summary>
 <p>If you see this error when adding keys to the ssh-agent, please make sure the agent is up, and if not bring up the agent using the following command:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">eval</span><span class="w"> </span><span class="k">$(</span>ssh-agent<span class="k">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">eval</span><span class="w"> </span><span class="k">$(</span>ssh-agent<span class="k">)</span>
 </span></code></pre></div></p>
 </details>
 <p><a href="" id="ref-ssh-legacy"></a></p>
