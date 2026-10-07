@@ -22,7 +22,7 @@ To change any other account data, contact CSCS via the [Service Desk](https://su
 [](){#ref-account-change-request}
 ## Requesting a change
 
-On the **Account** page, click **Request account data change**.
+On the **Account** page, or on the **Change Requests** page, click **Request account data change**.
 The form shows your current data: change what you need and, if useful, add a comment for the reviewer.
 Each field says how its change is handled.
 
@@ -50,7 +50,7 @@ To see your requests, open **Change Requests** under **Account** in the menu, or
 The page shows your open request, which you can change (**Edit request**) or withdraw (**Withdraw request**) while it is pending, and all your past requests and changes.
 Each entry shows what was changed, your comment, and the reason or note from CSCS when a request was rejected or approved.
 
-![The change requests page with an open request and past requests](../images/access/account-change-requests.png)
+![The change requests page with past requests, comments and statuses](../images/access/account-change-requests.png)
 
 | Status | Meaning |
 |--------|---------|
