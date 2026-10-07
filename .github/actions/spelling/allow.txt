@@ -90,6 +90,7 @@ LLMs
 LOCALID
 LUMI
 Libc
+Linard
 Linaro
 Linux
 mch
