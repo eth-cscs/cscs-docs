@@ -22,7 +22,7 @@ To change any other account data, contact CSCS via the [Service Desk](https://su
 [](){#ref-account-change-request}
 ## Requesting a change
 
-On the **Account** page, or on the **Change Requests** page, click **Request account data change**.
+On the **Account** page, or on the **Change Requests** page, click **Request account data change** at the top right.
 The form shows your current data: change what you need and, if useful, add a comment for the reviewer.
 Each field says how its change is handled.
 
