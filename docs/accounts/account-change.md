@@ -24,6 +24,9 @@ To change any other account data, contact CSCS via the [Service Desk](https://su
 
 On the **Account** page, click **Request account data change**.
 The form shows your current data: change what you need and, if useful, add a comment for the reviewer.
+Each field says how its change is handled.
+
+![The change request form](../images/access/account-change-form.png)
 
 * A new primary project is saved as soon as you submit the form.
 * A new email address or affiliation is sent to CSCS for review.
@@ -43,9 +46,11 @@ You receive an email when your request is approved or rejected, and a notice whe
 [](){#ref-account-change-follow}
 ## Following your requests
 
-Use **My change requests** on the **Account** page to see your requests.
-It shows your open request, which you can edit or withdraw (**Withdraw request**) while it is pending, and all your past requests and changes.
+To see your requests, open **Change Requests** under **Account** in the menu, or follow **My change requests** on the **Account** page.
+The page shows your open request, which you can change (**Edit request**) or withdraw (**Withdraw request**) while it is pending, and all your past requests and changes.
 Each entry shows what was changed, your comment, and the reason or note from CSCS when a request was rejected or approved.
+
+![The change requests page with an open request and past requests](../images/access/account-change-requests.png)
 
 | Status | Meaning |
 |--------|---------|
