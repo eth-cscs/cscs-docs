@@ -38,7 +38,7 @@ Each field says how its change is handled.
 You receive an email when your request is approved or rejected, and a notice whenever a change is applied to your account.
 
 !!! info "Changing your email address"
-    After CSCS approves a new email address, a confirmation link is sent to the **new** address.
+    After CSCS approves a new email address, a confirmation link is sent to the new address, not to your current one.
     Your email address only changes once you open that link and confirm.
     The link is valid for 7 days: if it expires, submit a new request.
 
