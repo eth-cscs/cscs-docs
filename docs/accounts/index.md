@@ -40,7 +40,7 @@ See [changing your account data][ref-account-change] for how it works and which 
 
 ## Using different accounts
 
-In order to use a different account, log out of the Single Sign-On gate by going to the Account and Resources Tool and selecting "Log out of CSCS" on the upper-right profile icon with the tool used to manage your project, [account.cscs.ch](https://portal.cscs.ch) or [portal.cscs.ch](https://portal.cscs.ch).
+In order to use a different account, log out of the Single Sign-On gate by going to the Account and Resources Tool and selecting "Log out of CSCS" on the upper-right profile icon at [portal.cscs.ch](https://portal.cscs.ch).
 
 ## Signing in with a third-part account
 
