@@ -44,7 +44,7 @@ To check which method you are using, examine the `current-context` in your `kube
 
 To interact with the cluster, you need the `kubectl` CLI:  
 🔗 [Install kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)  
-??? Note "`kubectl` is pre-installed on the CSCS jump host."
+!!! Note "`kubectl` is pre-installed on the CSCS jump host."
 
 
 ### Retrieve your kubeconfig file
