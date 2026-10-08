@@ -413,6 +413,10 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
                         "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
                             "context": 262144,
                             "output": 16384
@@ -446,6 +450,10 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
                         "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
                             "context": 262144,
                             "output": 16384
@@ -466,6 +474,8 @@ Once configured, you can choose models configured in the config with `/models` o
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
+
+Model support for different input modalities are described in the [available models table][ref-inference-api-available-models].
 
 [](){#ref-inference-api-vscode-copilot}
 ### VS Code Copilot
