@@ -198,6 +198,7 @@ The available models can also be listed for a given API key using the [`models` 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
+<!--begin no spell check-->
 <table>
   <thead>
     <tr>
@@ -295,6 +296,7 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
     </tr>
   </tbody>
 </table>
+<!--end no spell check-->
 
 ??? info "Image, audio, and video input in API requests"
     The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
