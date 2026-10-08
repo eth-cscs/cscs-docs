@@ -34,7 +34,7 @@ New users who do not already have an account at CSCS, including PIs, need to pro
 
 New accounts are usually opened within 48 hours.
 
-## Changing your account data
+## Changing account data
 
 You can update your email address, your affiliation and your primary project yourself in the user portal at [user-account.cscs.ch](https://user-account.cscs.ch).
 See [changing your account data][ref-account-change] for how it works and which changes are reviewed by CSCS.

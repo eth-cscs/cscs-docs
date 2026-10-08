@@ -1,5 +1,5 @@
 [](){#ref-account-change}
-# Changing your account data
+# Changing account data
 
 You can update some of your account data yourself in the user portal at [user-account.cscs.ch](https://user-account.cscs.ch), under **Account**.
 Depending on the data, a change is either applied immediately or reviewed by CSCS before it is applied.
