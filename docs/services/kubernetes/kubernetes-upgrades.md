@@ -30,7 +30,7 @@ The **impact of a Kubernetes upgrade can vary**, depending on the nature of the 
   - Upgrades involving components such as the **CNI (Container Network Interface)** may cause **temporary network interruptions**.
   - Other control plane or critical component updates might cause short-lived disruption to scheduling or connectivity.
 
-??? Note "Applications that follow cloud-native best practices (e.g., readiness probes, multiple replicas, graceful shutdown handling) are **less likely to be impacted** by upgrades."
+!!! Note "Applications that follow cloud-native best practices (e.g., readiness probes, multiple replicas, graceful shutdown handling) are **less likely to be impacted** by upgrades."
 
 ## What You Can Expect
 
