@@ -208,7 +208,7 @@ nav = [
     "accounts/index.md",
     {"Project and Resources Management Tool" = "accounts/waldur.md"},
     {"Creating a new account" = "accounts/account-create.md"},
-    {"Changing your account data" = "accounts/account-change.md"},
+    {"Changing account data" = "accounts/account-change.md"},
   ]},
   {"Guides" = [
     "guides/index.md",
