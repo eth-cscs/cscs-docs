@@ -22,6 +22,11 @@
 
 set -euo pipefail
 
+# Describe the system as every user sees it, not the environment of whoever runs
+# the probe: a tool installed in the user's own path (a development build of
+# uenv, say) would otherwise be reported as the system version.
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
 PROBE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly PROBE_ROOT
 

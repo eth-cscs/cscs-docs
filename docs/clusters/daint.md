@@ -23,7 +23,7 @@ You will be assigned to one of the four login nodes when you ssh onto the system
 
 Daint uses the [HPCP filesystems and storage policies][ref-hpcp-storage], which document quotas, cleanup periods and backups.
 
-The file systems mounted on Daint, and the environment variables that point into them:
+The file systems provided on Daint, the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
 <!--begin no spell check-->
 --8<-- "probes/generated/daint/filesystems.md"

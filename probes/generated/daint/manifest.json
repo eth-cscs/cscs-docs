@@ -1,8 +1,8 @@
 {
   "cluster": "daint",
-  "generated": "2026-09-30",
-  "host": "daint-ln004",
-  "emitters_sha": "5ecae545",
+  "generated": "2026-10-09",
+  "host": "daint-ln001",
+  "emitters_sha": "f54d092d",
   "max_age_days": 30,
   "artifacts": {
     "partitions.md": { "source": "scontrol show partition" },

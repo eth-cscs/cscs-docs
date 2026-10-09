@@ -29,7 +29,7 @@ The script determines the cluster itself, is read-only with respect to the syste
 |---|---|---|
 | `partitions.md` | `scontrol show partition` | Node counts, job size and time limits, QoS, priority |
 | `nodetypes.md` | `sinfo` | CPUs, memory, GPUs and active features per partition |
-| `filesystems.md` | `findmnt`, `stat -f` | Mount points and types, and the variables pointing into them |
+| `filesystems.md` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it |
 | `versions.md` | tool `--version` output | Slurm, uenv, container engine, enroot, podman, OS |
 | `stamp.md` | — | The visible "generated on" line for the page |
 | `manifest.json` | — | Provenance, for `check-freshness.sh` |
@@ -39,7 +39,7 @@ Those are policy and remain hand-written.
 
 Also not generated: anything per-user or per-project, and live node or job counts.
 
-## Two rules
+## Three rules
 
 **Configuration, never state.** Partition definitions and file system layout change on a timescale of weeks, so an artifact stays correct between runs, and re-running produces an empty diff when nothing has changed.
 This also means a run during a drain still captures the right thing, so the cluster does not need to be in any particular state when the script is run.
@@ -49,6 +49,12 @@ Live node and job counts are excluded for the same reason.
 Only whitelisted fields are emitted, with user and project identifiers substituted.
 `findmnt` is used rather than `mount` because `mount` output contains NFS server addresses and Lustre MGS NIDs.
 A reviewer cannot be relied on to spot a leak in a large diff, so the script must not produce one.
+
+**Use the documentation's concepts, not the system's.** Generated content replaces hand-written content, and must not lose the care that went into it.
+Emit the names and links the docs use, rather than raw command output: `$SCRATCH` is Scratch on Ritom, linked to their pages, not an `nfs` mount at `/ritom/scratch`.
+Start from what users reach (the environment variables), not from everything the system exposes (every mount, including other tenants' Store).
+When the system reports something that has no documented concept, fail rather than emit it, so that the docs or the mapping are updated deliberately.
+The probe also runs with a fixed system `PATH`, so that it reports what every user sees rather than the environment of whoever ran it.
 
 ## Including an artifact in a page
 
