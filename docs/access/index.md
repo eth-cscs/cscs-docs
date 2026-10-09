@@ -1,8 +1,6 @@
-!!! warning "Platform transition: UMP → Waldur (from April 1, 2026)"
-    CSCS has migrated from the User Management Portal (UMP) at `account.cscs.ch` to a new account and project management tool based on [Waldur](https://waldur.com/) at [portal.cscs.ch](https://portal.cscs.ch).
-
-    - [portal.cscs.ch](https://portal.cscs.ch) (Waldur) — new portal for project and resource management, user invitations, and service accounts
-    - [user-account.cscs.ch](https://user-account.cscs.ch) — new portal for SSH key management
+!!! info "CSCS portals"
+    - [portal.cscs.ch](https://portal.cscs.ch) (Waldur) — project and resource management, user invitations, and service accounts
+    - [user-account.cscs.ch](https://user-account.cscs.ch) — SSH key management and [changing your account data][ref-account-change]
 
 # Connecting to Alps
 

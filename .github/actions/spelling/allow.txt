@@ -71,6 +71,7 @@ HDD
 HDDs
 HPC
 HPCP
+HBM
 HPE
 HSN
 Hartree
@@ -89,6 +90,7 @@ LLMs
 LOCALID
 LUMI
 Libc
+Linard
 Linaro
 Linux
 mch

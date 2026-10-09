@@ -12,7 +12,12 @@ Individual platforms may define their own policies, which take precedence over t
 
 ## Resource Allocation Policies 
 
-Compute time on Alps systems is measured in node hours. Currently, we only support exclusive node allocations. This means that even if you utilize only a portion of a node’s resources (e.g., a single GPU), your account will still be charged for the entire node.
+Compute time on Alps systems is measured in node hours.
+Most partitions allocate whole nodes to a job.
+Some partitions can [share a node][ref-slurm-sharing] between jobs, for example the GH200 partitions on Santis.
+Your project is charged for each node that your job uses, for the full run time of the job.
+This also applies when the job uses only part of the node.
+For example, a job that uses one GPU on a shared Santis node is charged one node hour for each hour that it runs.
 
 Please note that resources at CSCS are assigned over three-months windows
 
