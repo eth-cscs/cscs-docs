@@ -6606,58 +6606,114 @@ In order to use the service users must have an active project granted via an ope
 <h3 id="available-models-and-pricing">Available models and pricing<a class="headerlink" href="#available-models-and-pricing" title="Permanent link">&para;</a></h3>
 <p>Available models, along with pricing information, are listed on the <a href="https://ui.inference.cscs.ch/pricing">Inference API UI pricing page</a>.
 The available models can also be listed for a given API key using the <a class="autorefs autorefs-internal" title="API" href="./#api"><code>models</code> endpoint</a> or on the Inference API UI when creating a new key.</p>
-<p>The available models together with their maximum context size are also listed in the table below.
+<p>The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being <a class="autorefs autorefs-internal" title="Setting up coding agents to use the inference service" href="./#setting-up-coding-agents-to-use-the-inference-service">configured</a> with the given context sizes so that they can do context compaction before hitting the context limit.</p>
+<!--begin no spell check-->
 <table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Maximum context length</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>google/gemma-4-31B-it</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>moonshotai/Kimi-K2.7-Code</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
-<td>64,000</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
-<td>32,768</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-v1.5-70B</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>swiss-ai/Apertus-v1.5-8B</code></td>
-<td>262,144</td>
-</tr>
-<tr>
-<td><code>zai-org/GLM-5.2</code></td>
-<td>976,000</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th rowspan="2">Model</th>
+      <th rowspan="2">Maximum context length</th>
+      <th colspan="4" style="text-align: center">Supported modalities</th>
+    </tr>
+    <tr>
+      <th>Text</th>
+      <th>Image</th>
+      <th>Audio</th>
+      <th>Video</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>google/gemma-4-31B-it</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>moonshotai/Kimi-K2.7-Code</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
+      <td>64,000</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
+      <td>32,768</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.2</code></td>
+      <td>976,000</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
 </table>
+<!--end no spell check-->
+
+<details class="info">
+<summary>Image, audio, and video input in API requests</summary>
+<p>The OpenAI-compatible <a class="autorefs autorefs-internal" title="API" href="./#api"><code>/v1/chat/completions</code></a> endpoint takes images as <code>image_url</code> and audio as <code>input_audio</code> content parts, which are part of the official OpenAI API (<a href="https://developers.openai.com/api/docs/guides/images-vision">OpenAI vision</a>, <a href="https://developers.openai.com/api/docs/guides/audio-chat-completions">audio</a>).
+Video input uses the <code>video_url</code> content part, a vLLM extension that is not part of the official OpenAI API (<a href="https://docs.vllm.ai/en/latest/features/multimodal_inputs/">vLLM multimodal inputs documentation</a>).
+The Anthropic-compatible <a class="autorefs autorefs-internal" title="API" href="./#api"><code>/v1/messages</code></a> endpoint takes images as Anthropic <code>source</code> blocks and does not support audio or video input (<a href="https://platform.claude.com/docs/en/api/messages">Anthropic Messages API reference</a>).</p>
+</details>
 <p><a href="" id="ref-inference-api-access-resource"></a></p>
 <h3 id="create-an-inference-resource">Create an inference resource<a class="headerlink" href="#create-an-inference-resource" title="Permanent link">&para;</a></h3>
 <p>An inference resource must be created for your project before any project member can create API keys.
@@ -6744,7 +6800,7 @@ For information on how to use the endpoints directly, see the <a href="https://d
 <p>Below are instructions for setting up <a href="https://claude.com/product/claude-code">Claude Code</a>, <a href="https://opencode.ai">OpenCode</a> and <a href="https://code.visualstudio.com/docs/copilot/overview">VS Code Copilot</a> to use the inference service.
 For more information on using coding agents on Alps, see the <a class="autorefs autorefs-internal" title="Using coding agents on Alps" href="../../../guides/coding-agents/#using-coding-agents-on-alps">coding agents guide</a>.</p>
 <p>See the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a> for context sizes.
-Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.</p>
+Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.</p>
 <div class="admonition note">
 <p class="admonition-title">Apertus models in agents</p>
 <p>We recommend using the Apertus models e.g. in <a href="https://openwebui.com">OpenWebUI</a> as they&rsquo;re optimized for general use rather than programming tasks specifically.
@@ -6780,15 +6836,19 @@ If you attempt to use them you may see errors such as <code>"auto" tool choice r
 </span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">            </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">                </span><span class="nt">"moonshotai/Kimi-K2.7-Code"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kimi K2.7-Code"</span><span class="p">,</span>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">                    </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">                        </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="mi">262144</span><span class="p">,</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">                    </span><span class="p">}</span>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">                </span><span class="p">}</span>
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">            </span><span class="p">}</span>
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">        </span><span class="p">}</span>
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="p">}</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">                    </span><span class="nt">"modalities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">                        </span><span class="nt">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"image"</span><span class="p">],</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">                    </span><span class="p">},</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">                    </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">                        </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="mi">262144</span><span class="p">,</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">                    </span><span class="p">}</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Start OpenCode and run the <code>/connect</code> command.
 Select &ldquo;CSCS Inference&rdquo; to choose the newly added provider, and enter your API key when prompted.</p>
@@ -6810,15 +6870,19 @@ Select &ldquo;CSCS Inference&rdquo; to choose the newly added provider, and ente
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">            </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">                </span><span class="nt">"moonshotai/Kimi-K2.7-Code"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">                    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kimi K2.7-Code"</span><span class="p">,</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">                    </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">                        </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="mi">262144</span><span class="p">,</span>
-</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">                    </span><span class="p">}</span>
-</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">                </span><span class="p">}</span>
-</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">            </span><span class="p">}</span>
-</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">        </span><span class="p">}</span>
-</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">}</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">                    </span><span class="nt">"modalities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">                        </span><span class="nt">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"image"</span><span class="p">],</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">                    </span><span class="p">},</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">                    </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">                        </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="mi">262144</span><span class="p">,</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">                        </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="mi">16384</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">                    </span><span class="p">}</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>When the API key is set through an environment variable in the config, there is no explicit &ldquo;connect&rdquo; step.
 Choose the model after restarting OpenCode.</p>
@@ -6832,6 +6896,7 @@ Choose the model after restarting OpenCode.</p>
 Models have to be explicitly configured in the config.
 Use the <code>/v1/models</code> endpoint to list available models for your key.</p>
 </div>
+<p>Model support for different input modalities are described in the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a>.</p>
 <p><a href="" id="ref-inference-api-vscode-copilot"></a></p>
 <h3 id="vs-code-copilot">VS Code Copilot<a class="headerlink" href="#vs-code-copilot" title="Permanent link">&para;</a></h3>
 <p>GitHub Copilot Chat in VS Code can use models served by the inference API through its custom endpoint provider.
@@ -6874,7 +6939,7 @@ Add the models that you want to use to the <code>models</code> list, leaving the
 <li><code>name</code> is the display name shown in the model picker,</li>
 <li><code>url</code> is the base URL of the inference API, to which VS Code appends <code>/chat/completions</code>,</li>
 <li><code>toolCalling</code> enables tool use, which is required for agent mode,</li>
-<li><code>vision</code> enables image input and should only be set for multimodal models,</li>
+<li><code>vision</code> enables image input and should only be set for models that support image input (see the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a>),</li>
 <li><code>maxOutputTokens</code> is the maximum number of tokens in a single response, for which <code>16384</code> is a good default for coding tasks, and</li>
 <li><code>maxInputTokens</code> is the maximum context length of the model from the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a> minus <code>maxOutputTokens</code>.</li>
 </ul>
