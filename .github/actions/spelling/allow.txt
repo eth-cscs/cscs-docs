@@ -71,6 +71,7 @@ HDD
 HDDs
 HPC
 HPCP
+HBM
 HPE
 HSN
 Hartree
@@ -89,6 +90,7 @@ LLMs
 LOCALID
 LUMI
 Libc
+Linard
 Linaro
 Linux
 mch
@@ -111,6 +113,7 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+nowrap
 netcdf
 OAMs
 OpenFabrics
@@ -299,6 +302,7 @@ omp
 oom
 openblas
 opls
+oras
 osts
 osu
 papi
@@ -476,3 +480,5 @@ Neoverse
 Netstack
 mpicxx
 Copilot
+hdl
+md5sum

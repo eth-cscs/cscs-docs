@@ -23,6 +23,7 @@
     ---
 
     The Long Term Storage (LTS) service enables CSCS users to preserve their scientific data and ensures that it can be publicly accessed through a persistent identifier.
+    The service is no longer accepting new customers.
 
     [:octicons-arrow-right-24: LTS](longterm.md)
 

@@ -98,7 +98,7 @@ To start a job, two bash scripts are potentially required: a [Slurm][ref-slurm] 
 #SBATCH --cpus-per-task=8 (3)
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
-#SBATCH --hint=exclusive
+#SBATCH --exclusive
 #SBATCH --no-requeue
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
@@ -462,7 +462,7 @@ On Eiger, a similar sbatch script can be used:
 #SBATCH --cpus-per-task=4 (3)
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
-#SBATCH --hint=exclusive
+#SBATCH --exclusive
 #SBATCH --uenv=<CP2K_UENV>
 #SBATCH --view=cp2k
 

@@ -73,6 +73,13 @@ For detailed instructions and best practices with ML frameworks, please refer to
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
+!!! warning "Clariden has no default MPI plugin"
+    On Clariden, Slurm does not select an [MPI plugin][ref-slurm-mpi] by default (`MpiDefault` is `(null)`).
+    Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application.
+    For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI.
+    If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error.
+    Applications that do not use MPI do not need this setting.
+
 #### Partitions
 
 There are six Slurm partitions on the system:
@@ -86,7 +93,7 @@ There are six Slurm partitions on the system:
 
 | name          | nodes  | nodes per job | time limit |
 | --            | --     | --                | -- |
-| `highprio`    | several nodes | >128    | 24 hours |
+| `highprio`    | several nodes | >128    | 3 days |
 | `preemptable` | most nodes | 1-128    | 24 hours |
 | `normal`  | several nodes| 1-128 | 12 hours |
 | `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
@@ -98,12 +105,14 @@ There are six Slurm partitions on the system:
 * `preemptable` and  `normal`have the same priority, but preemptable can use more nodes
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
+* the node ranges for `highprio`, `preemptable` and `normal` are a usage policy; Slurm does not enforce them
 
 #### `highprio` partition
 
 The `highprio` partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
 It allows to use the resources more efficiently (smaller startup time).
-Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
+Access is restricted to selected projects.
+Both partition and qos have to be set (`--partition=highprio` `--qos=highprio`).
 
 #### `debug` partition
 

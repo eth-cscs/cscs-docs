@@ -36,6 +36,7 @@ FirecREST is available for all three major [Alps platforms][ref-alps-platforms],
 | [ML Platform][ref-platform-mlp] | https://api.cscs.ch/ml/firecrest/v2 | [Bristen][ref-cluster-bristen], [Clariden][ref-cluster-clariden] |
 | [C&W Platform][ref-platform-cwp] | https://api.cscs.ch/cw/firecrest/v2 | [Santis][ref-cluster-santis] |
 | [Beverin][ref-cluster-beverin] | https://api.cscs.ch/beverin/firecrest/v2 | [Beverin][ref-cluster-beverin] |
+| MeteoSwiss (MCH) | https://api.cscs.ch/mch/firecrest/v2 | Balfrin, Linard |
 
 ## Accessing FirecREST
 

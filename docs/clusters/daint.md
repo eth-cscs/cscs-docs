@@ -124,11 +124,17 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
+* jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 --8<-- "probes/generated/daint/nodetypes.md"
+
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Daint is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 

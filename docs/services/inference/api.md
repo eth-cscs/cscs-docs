@@ -195,21 +195,113 @@ In order to use the service users must have an active project granted via an ope
 Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
 The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
 
-The available models together with their maximum context size are also listed in the table below.
+The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
-| Model                                           | Maximum context length |
-|-------------------------------------------------|------------------------|
-| `google/gemma-4-31B-it`                         | 262,144                |
-| `moonshotai/Kimi-K2.7-Code`                     | 262,144                |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 262,144                |
-| `swiss-ai/Apertus-70B-Instruct-2509`            | 64,000                 |
-| `swiss-ai/Apertus-8B-Instruct-2509`             | 32,768                 |
-| `swiss-ai/Apertus-v1.5-70B-thinking`            | 262,144                |
-| `swiss-ai/Apertus-v1.5-70B`                     | 262,144                |
-| `swiss-ai/Apertus-v1.5-8B-thinking`             | 262,144                |
-| `swiss-ai/Apertus-v1.5-8B`                      | 262,144                |
-| `zai-org/GLM-5.2`                               | 976,000                |
+<!--begin no spell check-->
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Model</th>
+      <th rowspan="2">Maximum context length</th>
+      <th colspan="4" style="text-align: center">Supported modalities</th>
+    </tr>
+    <tr>
+      <th>Text</th>
+      <th>Image</th>
+      <th>Audio</th>
+      <th>Video</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>google/gemma-4-31B-it</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>moonshotai/Kimi-K2.7-Code</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
+      <td>64,000</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
+      <td>32,768</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.2</code></td>
+      <td>976,000</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!--end no spell check-->
+
+??? info "Image, audio, and video input in API requests"
+    The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
+    Video input uses the `video_url` content part, a vLLM extension that is not part of the official OpenAI API ([vLLM multimodal inputs documentation](https://docs.vllm.ai/en/latest/features/multimodal_inputs/)).
+    The Anthropic-compatible [`/v1/messages`][ref-inference-api-endpoints] endpoint takes images as Anthropic `source` blocks and does not support audio or video input ([Anthropic Messages API reference](https://platform.claude.com/docs/en/api/messages)).
 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
@@ -280,7 +372,7 @@ Below are instructions for setting up [Claude Code](https://claude.com/product/c
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
 See the [available models table][ref-inference-api-available-models] for context sizes.
-Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.
+Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.
 
 !!! note "Apertus models in agents"
     We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
@@ -323,6 +415,10 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
                         "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
                             "context": 262144,
                             "output": 16384
@@ -356,6 +452,10 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
                         "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
                             "context": 262144,
                             "output": 16384
@@ -376,6 +476,8 @@ Once configured, you can choose models configured in the config with `/models` o
     OpenCode does not auto-discover available models.
     Models have to be explicitly configured in the config.
     Use the `/v1/models` endpoint to list available models for your key.
+
+Model support for different input modalities are described in the [available models table][ref-inference-api-available-models].
 
 [](){#ref-inference-api-vscode-copilot}
 ### VS Code Copilot
@@ -424,7 +526,7 @@ The fields of each model entry are:
 - `name` is the display name shown in the model picker,
 - `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
 - `toolCalling` enables tool use, which is required for agent mode,
-- `vision` enables image input and should only be set for multimodal models,
+- `vision` enables image input and should only be set for models that support image input (see the [available models table][ref-inference-api-available-models]),
 - `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks, and
 - `maxInputTokens` is the maximum context length of the model from the [available models table][ref-inference-api-available-models] minus `maxOutputTokens`.
 

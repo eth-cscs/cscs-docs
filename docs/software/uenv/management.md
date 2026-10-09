@@ -84,10 +84,10 @@ For example, to download a version of the `prgenv-gnu` uenv:
     # The following commands have the same effect
 
     # method 1: pull using the name of the uenv
-    uenv image pull prgenv-gnu/24.2:v1
+    uenv image pull prgenv-gnu/26.3:v1
 
     # method 2: pull using the id of the image
-    uenv image pull 3ea1945046d884ee
+    uenv image pull 577a2b7d6362b5ce
     ```
 
 Some images can be large, over 10 GB, and it can take a while to download them from the registry.
@@ -332,7 +332,7 @@ To write to a different repository, use the `--repo` flag with the repository na
 
 ??? example "pull an image into the team repo"
     ```
-    uenv --repo=team image pull cp2k/2025.1:v1
+    uenv --repo=team image pull cp2k/2025.1:v2
     ```
 See the documentation for the [`--repo`][ref-uenv-repo-flag] flag below for more information about how to customize the search order.
 
@@ -471,18 +471,18 @@ If only one argument is passed, the default repository is used as the source.
 [](){#ref-uenv-manage-ritom-migration}
 #### Migration to Ritom
 
-In March-April 2026 the Scratch filesystem on Daint and Eiger will be moved to a newly-installed filesystem called Ritom.
-The default repository location will change from `/capstor/scratch/cscs/$USER/.uenv-images` to `/ritom/scratch/cscs/$USER/.uenv-images`.
-There is a transition period, during which it is possible to use both Capstor and Ritom, and a message like the following will be shown by uenv when it is time to migrate:
+On 2026-09-16, `$SCRATCH` on Daint and Eiger moved from Capstor to Ritom.
+The default repository is now `/ritom/scratch/cscs/$USER/.uenv-images`, and `$SCRATCH_OLD` points to the old Capstor scratch.
+If you still have a repository on Capstor, uenv keeps using it and prints a message like the following until you migrate it:
 
 ??? example "uenv migration message"
     ```
     --------------------------------------------------------------------------------
     warning: the default uenv repo on this system has moved to a new location:
-      /iopsstor/scratch/cscs/bcumming/.uenv-images
+      /ritom/scratch/cscs/cscsusername/.uenv-images
     Migrate your repo, while the old location is still available, with this command:
-      uenv repo migrate --sync /capstor/scratch/cscs/<user>/.uenv-images \
-                               /ritom/scratch/cscs/<user>/.uenv-images
+      uenv repo migrate /capstor/scratch/cscs/cscsusername/.uenv-images \
+                        /ritom/scratch/cscs/cscsusername/.uenv-images
     Migration can take over 30 minutes, and must be completed fully after it has
     been started for all of the original images to be available. If interrupted,
     migration can be resumed using the same command.
@@ -492,7 +492,11 @@ There is a transition period, during which it is possible to use both Capstor an
     --------------------------------------------------------------------------------
     ```
 
-The migration message is currently disabled, because we are not ready to migrate uenv for the reasons explained below.
+To migrate your repository, run:
+
+```bash title="migrate the uenv repository to Ritom"
+uenv repo migrate /capstor/scratch/cscs/$USER/.uenv-images /ritom/scratch/cscs/$USER/.uenv-images
+```
 
 If the migration is interrupted, the new default repository will not contain all uenv images, and you will need to finish the migration by running the same command again.
 
@@ -509,43 +513,6 @@ If the migration is interrupted, the new default repository will not contain all
     $ chown --recursive $(id -un):$(id -gn) /ritom/scratch/cscs/$(id -un)/.uenv-images
     ```
 
-    Another option is to use uenv images stored on capstor instead of Ritom.
-    If you migrated the default repository from Capstor to Ritom, the old repository on Capstor was not deleted.
-    The easiest fix is to remove the Ritom repository, so that uenv falls back to using Capstor.
-
-    First, check whether the old repository on Capstor scratch exists:
-
-    !!! example "Checking whether there is a repository on Capstor"
-
-        ```console title="no repository on Capstor"
-        $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
-        /capstor/scratch/cscs/bcumming/.uenv-images is not a repository
-        ```
-
-        ```console title="there is an existing repository on Capstor"
-        $ uenv repo status /capstor/scratch/cscs/$USER/.uenv-images
-        the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite
-        - on a lustre file system
-        ```
-
-    If there is no repository on Capstor, first create one (skip this step if one already exists).
-
-    ```console title="create a repository on Capstor"
-    $ uenv repo create $SCRATCH/.uenv-images
-    ```
-
-    Then remove the repository on ritom, while keeping a copy of it:
-
-    ```console
-    $ mv /ritom/scratch/cscs/$USER/.uenv-images /ritom/scratch/cscs/$USER/.uenv-images.back
-    ```
-
-    If the move was successful, then the `uenv repo status` command will show location of the default repository on `/capstor/scratch`:
-
-    ```console
-    $ uenv repo status
-    the repository /capstor/scratch/cscs/bcumming/.uenv-images is readwrite
-      - on a lustre file system
-    ```
+    uenv v10.2.0 fixes this problem.
 
 

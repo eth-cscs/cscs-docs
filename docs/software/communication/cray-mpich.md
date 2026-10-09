@@ -4,6 +4,10 @@
 Cray MPICH is the recommended MPI implementation on Alps.
 It is available through uenvs like [prgenv-gnu][ref-uenv-prgenv-gnu] and [the application-specific uenvs][ref-software-sciapps].
 
+Slurm starts Cray MPICH applications with the `cray_shasta` [MPI plugin][ref-slurm-mpi].
+This plugin is the default on most Alps clusters.
+On clusters with no default plugin, for example [Clariden][ref-cluster-clariden], use `srun --mpi=cray_shasta`.
+
 The [Cray MPICH documentation](https://cpe.ext.hpe.com/docs/latest/mpt/mpich/index.html) contains detailed information about Cray MPICH.
 On this page we outline the most common workflows and issues that you may encounter on Alps.
 
