@@ -6646,14 +6646,14 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 <tbody>
 <tr>
 <td><code>normal</code></td>
-<td>unlimited</td>
+<td>922</td>
 <td>-</td>
 <td>24 hours</td>
 </tr>
 <tr>
 <td><code>debug</code></td>
 <td>24</td>
-<td>2</td>
+<td>10</td>
 <td>30 minutes</td>
 </tr>
 <tr>
@@ -6664,7 +6664,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 </tr>
 <tr>
 <td><code>low</code></td>
-<td>unlimited</td>
+<td>922</td>
 <td>-</td>
 <td>24 hours</td>
 </tr>
@@ -6672,6 +6672,7 @@ Please refer to the <a class="autorefs autorefs-internal" href="../../software/u
 </table>
 <ul>
 <li>nodes in the <code>normal</code> and <code>debug</code> (and <code>low</code>) partitions are not shared</li>
+<li>jobs in <code>debug</code>: at most 1 running and 2 submitted per user</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
 </ul>
 <div class="admonition note">

@@ -6675,7 +6675,7 @@ Applications that do not use MPI do not need this setting.</p>
 <td><code>highprio</code></td>
 <td>several nodes</td>
 <td>&gt;128</td>
-<td>24 hours</td>
+<td>3 days</td>
 </tr>
 <tr>
 <td><code>preemptable</code></td>
@@ -6715,11 +6715,13 @@ Applications that do not use MPI do not need this setting.</p>
 <li><code>preemptable</code> and  <code>normal</code>have the same priority, but preemptable can use more nodes</li>
 <li>because these partitions overlap, a node may belong to more than one of them at the same time</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
+<li>the node ranges for <code>highprio</code>, <code>preemptable</code> and <code>normal</code> are a usage policy; Slurm does not enforce them</li>
 </ul>
 <h4 id="highprio-partition"><code>highprio</code> partition<a class="headerlink" href="#highprio-partition" title="Permanent link">&para;</a></h4>
 <p>The <code>highprio</code> partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
 It allows to use the resources more efficiently (smaller startup time).
-Both partition and qos have to be set (<code>--partions=highprio</code> <code>--qos=highprio</code>).</p>
+Access is restricted to selected projects.
+Both partition and qos have to be set (<code>--partition=highprio</code> <code>--qos=highprio</code>).</p>
 <h4 id="debug-partition"><code>debug</code> partition<a class="headerlink" href="#debug-partition" title="Permanent link">&para;</a></h4>
 <p>Nodes in the <code>debug</code> queue have a 1.5 node-hour time limit. This means you could for example request 2 nodes for 45 minutes each, or 1 single node for the full time limit.</p>
 <p>The <code>debug</code> partition has additional per-user limits enforced by its QoS:</p>

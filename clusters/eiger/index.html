@@ -6752,7 +6752,7 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 <tbody>
 <tr>
 <td><code>debug</code></td>
-<td>1</td>
+<td>10</td>
 <td>30 minutes</td>
 </tr>
 <tr>
@@ -6762,7 +6762,7 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 </tr>
 <tr>
 <td><code>normal</code></td>
-<td>-</td>
+<td>480</td>
 <td>24 hours</td>
 </tr>
 <tr>
@@ -6772,13 +6772,14 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 </tr>
 <tr>
 <td><code>low</code></td>
-<td>-</td>
+<td>124</td>
 <td>24 hours</td>
 </tr>
 </tbody>
 </table>
 <ul>
 <li>nodes in the <code>normal</code> and <code>debug</code> partitions are not shared</li>
+<li>jobs in <code>debug</code>: at most 1 running and 2 submitted per user</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
 </ul>
 <div class="admonition note">
