@@ -93,7 +93,7 @@ There are six Slurm partitions on the system:
 
 | name          | nodes  | nodes per job | time limit |
 | --            | --     | --                | -- |
-| `highprio`    | several nodes | >128    | 24 hours |
+| `highprio`    | several nodes | >128    | 3 days |
 | `preemptable` | most nodes | 1-128    | 24 hours |
 | `normal`  | several nodes| 1-128 | 12 hours |
 | `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
@@ -105,12 +105,14 @@ There are six Slurm partitions on the system:
 * `preemptable` and  `normal`have the same priority, but preemptable can use more nodes
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
+* the node ranges for `highprio`, `preemptable` and `normal` are a usage policy; Slurm does not enforce them
 
 #### `highprio` partition
 
 The `highprio` partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
 It allows to use the resources more efficiently (smaller startup time).
-Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
+Access is restricted to selected projects.
+Both partition and qos have to be set (`--partition=highprio` `--qos=highprio`).
 
 #### `debug` partition
 
