@@ -114,14 +114,24 @@ Santis uses [Slurm][ref-slurm] as the workload manager, which is used to launch 
 
 There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
-| name | node type | max nodes per job | time limit | default time | purpose |
-| --   | --        | --                | --         | --           | -- |
-| `normal` | GH200 | unlimited | 24 hours   | 1 hour     | standard compute (default) |
-| `debug`  | GH200 | 2         | 30 minutes | 30 minutes | short testing |
-| `low`    | GH200 | unlimited | 24 hours   | 30 minutes | overflow / quota-exhausted projects |
-| `xfer`   | x86   | 1         | 24 hours   | 6 hours    | [internal data transfer][ref-data-xfer-internal] at CSCS |
+* the `normal` partition is for standard compute, and is the default.
+* the `debug` partition is for short testing.
+* the `low` partition is for overflow, and for projects that have exhausted their quota.
+* the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
+
+<!--begin no spell check-->
+--8<-- "probes/generated/santis/partitions.md"
+
+--8<-- "probes/generated/santis/stamp.md"
+<!--end no spell check-->
 
 Slurm uses the default time when a job does not set `--time`.
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/santis/nodetypes.md"
+<!--end no spell check-->
 
 !!! note "Default MPI plugin"
     The default [MPI plugin][ref-slurm-mpi] on Santis is `cray_shasta`.

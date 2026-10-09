@@ -1,0 +1,13 @@
+{
+  "cluster": "eiger",
+  "generated": "2026-10-09",
+  "host": "eiger-ln004",
+  "emitters_sha": "cf05c246",
+  "max_age_days": 30,
+  "artifacts": {
+    "partitions.md": { "source": "scontrol show partition" },
+    "nodetypes.md": { "source": "sinfo" },
+    "filesystems.md": { "source": "findmnt" },
+    "versions.md": { "source": "tool version output" }
+  }
+}

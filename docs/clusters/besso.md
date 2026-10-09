@@ -6,7 +6,13 @@ It is provided as is, without the same level of support as the main platform clu
 
 ### Storage and file systems
 
-Besso uses the [HPCP filesystems and storage policies][ref-hpcp-storage].
+Besso uses the [HPCP filesystems and storage policies][ref-hpcp-storage], except that `$SCRATCH` points to the old HPCP scratch on [Capstor][ref-alps-capstor] (`$SCRATCH_OLD` on the other HPCP clusters), instead of [Ritom][ref-alps-ritom].
+
+The file systems provided on Besso, the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/besso/filesystems.md"
+<!--end no spell check-->
 
 ## Getting started
 
@@ -53,11 +59,17 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `mi200` partition contains [AMD Mi250x GPU][ref-alps-mi200-node] nodes
 * the `normal` partition contains all of the nodes in the system.
 
-| name | max nodes per job | time limit |
-| --   |  -- | -- |
-| `a100`   | 2    | 24 hours |
-| `mi200`  | 2    | 24 hours |
-| `normal` | 4    | 24 hours |
+<!--begin no spell check-->
+--8<-- "probes/generated/besso/partitions.md"
+
+--8<-- "probes/generated/besso/stamp.md"
+<!--end no spell check-->
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/besso/nodetypes.md"
+<!--end no spell check-->
 
 !!! note "Default MPI plugin"
     The default [MPI plugin][ref-slurm-mpi] on Besso is `cray_shasta`.

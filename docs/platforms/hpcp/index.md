@@ -34,13 +34,13 @@ Once invited to a project you will receive an email with information on how to c
 [](){#ref-hpcp-storage}
 ## File systems and storage
 
-There are three main file systems mounted on the HPCP clusters.
+The file systems provided on the HPCP clusters [Daint][ref-cluster-daint] and [Eiger][ref-cluster-eiger], the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
-| type |mount | file system |
-| -- | -- | -- |
-| [Home][ref-storage-home]       | /users/$USER | [Vadret][ref-alps-vadret] |
-| [Scratch][ref-storage-scratch] | `/ritom/scratch/cscs/$USER` | [Ritom][ref-alps-ritom] |
-| [Store][ref-storage-store]     | `/capstor/store/cscs/<customer>/<project>` | [Capstor][ref-alps-capstor] |
+<!--begin no spell check-->
+--8<-- "probes/generated/daint/filesystems.md"
+
+--8<-- "probes/generated/daint/stamp.md"
+<!--end no spell check-->
 
 ### Home
 
