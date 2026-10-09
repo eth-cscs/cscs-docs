@@ -1,7 +1,7 @@
 {
-  "cluster": "daint",
+  "cluster": "clariden",
   "generated": "2026-10-09",
-  "host": "daint-ln002",
+  "host": "clariden-ln003",
   "emitters_sha": "cf05c246",
   "max_age_days": 30,
   "artifacts": {

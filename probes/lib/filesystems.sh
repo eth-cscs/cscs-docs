@@ -4,21 +4,36 @@
 # The variables are the starting point, rather than the list of mounts: users
 # and their tools reach storage through $SCRATCH, $STORE and $HOME, and many
 # mounts (other tenants' Store, application areas) are not for general use.
+# Variables that point to the same path ($STORE and $PROJECT) share a row, so
+# that every name the docs use appears without repeating the storage.
 #
 # findmnt is used rather than `mount` because `mount` output contains NFS server
 # addresses and Lustre MGS NIDs, which must not be committed to a public
 # repository.
 emit_filesystems() {
-    probe_header '`findmnt -T` on the paths in `$HOME`, `$SCRATCH`, `$SCRATCH_OLD` and `$STORE`'
+    probe_header '`findmnt -T` on the paths in `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` and `$PROJECT`'
 
     echo "| Variable | File system | Path | Storage | Type |"
     echo "|---|---|---|---|---|"
 
-    local var
-    for var in HOME SCRATCH SCRATCH_OLD STORE; do
-        local path="${!var:-}"
+    # Group the variables by the path they point to, in the order listed.
+    local var path i
+    local -a paths=() groups=()
+    for var in HOME SCRATCH SCRATCH_OLD STORE PROJECT; do
+        path="${!var:-}"
         [[ -n "$path" ]] || continue
-        _filesystem_row "$var" "$path" || return 1
+        for i in "${!paths[@]}"; do
+            if [[ "${paths[$i]}" == "$path" ]]; then
+                groups[$i]+=" $var"
+                continue 2
+            fi
+        done
+        paths+=("$path")
+        groups+=("$var")
+    done
+
+    for i in "${!paths[@]}"; do
+        _filesystem_row "${paths[$i]}" ${groups[$i]} || return 1
     done | probe_redact
 }
 
@@ -28,7 +43,7 @@ _filesystem_concept() {
         HOME)        echo '[Home][ref-storage-home]' ;;
         SCRATCH)     echo '[Scratch][ref-storage-scratch]' ;;
         SCRATCH_OLD) echo '[Scratch][ref-storage-scratch] (previous location)' ;;
-        STORE)       echo '[Store][ref-storage-store]' ;;
+        STORE|PROJECT) echo '[Store][ref-storage-store]' ;;
     esac
 }
 
@@ -46,8 +61,18 @@ _storage_system() {
     esac
 }
 
+# One row for a path, and the variables (one or more) that point to it.
 _filesystem_row() {
-    local var="$1" path="$2"
+    local path="$1"; shift
+    local var="$1"
+    local label
+    label="$(printf '`$%s`, ' "$@")"
+    label="${label%, }"
+
+    if [[ ! -e "$path" ]]; then
+        echo "emit_filesystems: \$$var points to $path, which does not exist" >&2
+        return 1
+    fi
 
     local mount fstype
     read -r mount fstype < <(findmnt --noheadings --output TARGET,FSTYPE --target "$path")
@@ -68,18 +93,19 @@ _filesystem_row() {
     local type="$technology"
     [[ -z "$guide" ]] || type="[$technology][$guide]"
 
-    printf '| `$%s` | %s | `%s` | [%s][%s] | %s |\n' \
-        "$var" "$(_filesystem_concept "$var")" "$(_display_path "$var" "$path")" \
+    printf '| %s | %s | `%s` | [%s][%s] | %s |\n' \
+        "$label" "$(_filesystem_concept "$var")" "$(_display_path "$var" "$path")" \
         "$name" "$anchor" "$type"
 }
 
-# The Store path is /capstor/store/<tenant>/<customer>/<project>. The tenant is
-# a property of the platform (cscs on HPCP), but the customer and project belong
-# to whoever runs the probe, so emit the placeholders that the storage docs use.
+# The Store path is /capstor/store/<tenant>/<customer>/<group_id>, the names
+# defined in the Store documentation. The tenant is a property of the platform
+# (cscs on HPCP), but the customer and group belong to whoever runs the probe,
+# so emit those as placeholders.
 _display_path() {
     local var="$1" path="$2"
-    if [[ "$var" == STORE ]] && [[ "$path" =~ ^(/capstor/store/[^/]+)/ ]]; then
-        echo "${BASH_REMATCH[1]}/<customer>/<project>"
+    if [[ "$var" == STORE || "$var" == PROJECT ]] && [[ "$path" =~ ^(/capstor/store/[^/]+)/ ]]; then
+        echo "${BASH_REMATCH[1]}/<customer>/<group_id>"
     else
         echo "$path"
     fi

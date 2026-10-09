@@ -1,7 +1,7 @@
 {
-  "cluster": "daint",
+  "cluster": "eiger",
   "generated": "2026-10-09",
-  "host": "daint-ln002",
+  "host": "eiger-ln004",
   "emitters_sha": "cf05c246",
   "max_age_days": 30,
   "artifacts": {

@@ -5,16 +5,22 @@
 # whereas $CLUSTER_NAME is set by /etc/profile.d/cscs.sh and is empty in a
 # non-login shell (as used by `ssh host 'command'` and by FirecREST).
 probe_cluster() {
+    local name=""
     if [[ -r /etc/xthostname ]]; then
-        sed 's/^alps-//' /etc/xthostname
-    elif [[ -n "${CLUSTER_NAME:-}" ]]; then
-        echo "$CLUSTER_NAME"
-    elif [[ -r /etc/uenv/config.toml ]]; then
-        sed -n "s/^system_name *= *'\\(.*\\)'/\\1/p" /etc/uenv/config.toml
-    else
-        echo "probe_cluster: cannot determine cluster" >&2
+        name="$(sed 's/^alps-//' /etc/xthostname)"
+    fi
+    if [[ -z "$name" ]]; then
+        name="${CLUSTER_NAME:-}"
+    fi
+    if [[ -z "$name" && -r /etc/uenv/config.toml ]]; then
+        name="$(sed -n "s/^system_name *= *'\\(.*\\)'/\\1/p" /etc/uenv/config.toml)"
+    fi
+    # An empty name would write the artifacts into probes/generated/ itself.
+    if [[ ! "$name" =~ ^[a-z][a-z0-9-]*$ ]]; then
+        echo "probe_cluster: cannot determine cluster (got '$name')" >&2
         return 1
     fi
+    echo "$name"
 }
 
 # Hash of the emitters, so a change to the generator is visible in the artifacts

@@ -28,8 +28,8 @@ The script determines the cluster itself, is read-only with respect to the syste
 | Artifact | Source | Contents |
 |---|---|---|
 | `partitions.md` | `scontrol show partition` | Node counts, job size and time limits, QoS, priority |
-| `nodetypes.md` | `sinfo` | CPUs, memory, GPUs and active features per partition |
-| `filesystems.md` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it |
+| `nodetypes.md` | `sinfo` | Nodes, CPUs, memory, GPUs and available features for each node configuration in each partition |
+| `filesystems.md` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it (platform-level, see below) |
 | `versions.md` | tool `--version` output | Slurm, uenv, container engine, enroot, podman, OS |
 | `stamp.md` | — | The visible "generated on" line for the page |
 | `manifest.json` | — | Provenance, for `check-freshness.sh` |
@@ -55,6 +55,22 @@ Emit the names and links the docs use, rather than raw command output: `$SCRATCH
 Start from what users reach (the environment variables), not from everything the system exposes (every mount, including other tenants' Store).
 When the system reports something that has no documented concept, fail rather than emit it, so that the docs or the mapping are updated deliberately.
 The probe also runs with a fixed system `PATH`, so that it reports what every user sees rather than the environment of whoever ran it.
+
+## Platforms and clusters
+
+A platform can have more than one cluster, and its clusters are configured to serve the same community: Daint and Eiger are both HPC Platform (HPCP) clusters.
+Facts that are a property of the platform, such as which storage `$HOME`, `$SCRATCH` and `$STORE` point to, should be documented once on the platform page, and the cluster pages should link to it.
+
+The platforms, their clusters, and the artifacts that are documented once per platform are listed in `probes/platforms.json`.
+The platform page includes the first cluster's copy of each such artifact; at present the HPCP page includes `probes/generated/daint/filesystems.md`.
+
+That is only correct while every cluster of the platform agrees, so `probes/check-platforms.sh` compares the artifacts, ignoring the header that names the cluster.
+Like the freshness check, it reads committed files and runs in CI.
+A difference fails the check: either a cluster has been misconfigured, or the artifact is no longer a platform-level fact and belongs on the cluster pages.
+
+Before adding an artifact to `platforms.json`, run the probe on every cluster of the platform and confirm that `check-platforms.sh` passes.
+
+Facts that differ between the clusters of a platform, such as partitions and node types, stay on the cluster pages.
 
 ## Including an artifact in a page
 

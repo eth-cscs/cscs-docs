@@ -91,21 +91,41 @@ There are six Slurm partitions on the system:
 * the `low` partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).
 * the `xfer` partition is for [internal and S3 data transfer][ref-data-xfer-internal] at CSCS.
 
-| name          | nodes  | nodes per job | time limit |
-| --            | --     | --                | -- |
-| `highprio`    | several nodes | >128    | 3 days |
-| `preemptable` | most nodes | 1-128    | 24 hours |
-| `normal`  | several nodes| 1-128 | 12 hours |
-| `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
-| `low`    | most nodes (shared with `preemptable`) | 1-10    | 6 hours |
-| `xfer`   | 2         | 1    | 24 hours |
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/partitions.md"
+
+--8<-- "probes/generated/clariden/stamp.md"
+<!--end no spell check-->
+
+!!! todo "Platform owners: confirm the number of nodes in each partition"
+    Before the table above was generated from the Slurm configuration, the documentation described the nodes in each partition as:
+
+    * `highprio`: several nodes
+    * `preemptable`: most nodes
+    * `normal`: several nodes
+    * `debug`: most nodes (shared with `preemptable`), plus a few dedicated
+    * `low`: most nodes (shared with `preemptable`)
+
+    The Slurm configuration on 2026-10-09 gives `highprio`, `preemptable`, `normal` and `low` the same 1343 nodes, and `debug` 1368 nodes.
+    This also contradicts the statement below that `preemptable` "can use more nodes" than `normal`.
+    Is the distinction between "several" and "most" nodes a usage policy that should be described in words, or is the Slurm configuration not what was intended?
+
+    The Slurm configuration also has two configurations of GPU node in every GPU partition, shown as separate rows in the hardware table below: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other 1295 nodes provide only `nvidia_vboost_enabled`.
+    A job that requests `--constraint=nvidia_vboost_disabled` can only run on those 48 nodes.
+    Is this split intended, and should it be documented for users?
 
 * jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
 * the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `preemptable` is full
 * `preemptable` and  `normal`have the same priority, but preemptable can use more nodes
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
-* the node ranges for `highprio`, `preemptable` and `normal` are a usage policy; Slurm does not enforce them
+* the intended job sizes for `highprio` (more than 128 nodes), and for `preemptable` and `normal` (1 to 128 nodes), are a usage policy; Slurm does not enforce them
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/nodetypes.md"
+<!--end no spell check-->
 
 #### `highprio` partition
 

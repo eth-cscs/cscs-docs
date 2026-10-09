@@ -1,7 +1,7 @@
 {
-  "cluster": "daint",
+  "cluster": "bristen",
   "generated": "2026-10-09",
-  "host": "daint-ln002",
+  "host": "bristen-ln001",
   "emitters_sha": "cf05c246",
   "max_age_days": 30,
   "artifacts": {
