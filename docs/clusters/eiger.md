@@ -37,11 +37,10 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
-!!! todo "Platform owners: confirm the memory available on Eiger nodes"
-    The [AMD Rome node documentation][ref-alps-zen2-node] describes two memory configurations, 256 GB and 512 GB, with roughly 245 GB and 497 GB available to jobs.
-    The Slurm configuration on 2026-10-09 (`sinfo -o "%m"`) reports three sizes of memory available to jobs on the nodes in the `normal`, `low` and `prepost` partitions: 240 nodes with 236 GB, 273 nodes with 474 GB, and 1 node with 444 GB.
-    Neither 236 GB nor 474 GB matches the documented values, and the single 444 GB node has 30 GB less than the other large-memory nodes: is it misconfigured?
-    Which values should the documentation give?
+!!! todo "Platform owners: one node has less memory than the other large-memory nodes"
+    `nid001722` is configured with 444 GiB available to jobs, 30 GiB less than the other large-memory nodes.
+    The configured value is what the provisioning calculation gives for a node with 15 of its 16 DIMMs, so it is most likely correct and the node is running with one DIMM missing or failed.
+    Confirming this needs a measurement on the node itself, which was not possible while the node was in use.
 
 Additionally, there are four login nodes with host names `eiger-ln00[1-4]`.
 

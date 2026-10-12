@@ -97,22 +97,30 @@ There are six Slurm partitions on the system:
 --8<-- "probes/generated/clariden/stamp.md"
 <!--end no spell check-->
 
-!!! todo "Platform owners: confirm the number of nodes in each partition"
-    Before the table above was generated from the Slurm configuration, the documentation described the nodes in each partition as:
+Most partitions are configured on the same pool of nodes, so the *Nodes* column is not the number of nodes that a partition can use.
+*Max nodes in use* is the number of nodes that all the jobs in a partition can hold at the same time, which is set by a [Slurm QoS][ref-slurm-partitions-qos]:
 
-    * `highprio`: several nodes
-    * `preemptable`: most nodes
-    * `normal`: several nodes
-    * `debug`: most nodes (shared with `preemptable`), plus a few dedicated
-    * `low`: most nodes (shared with `preemptable`)
+* jobs in `normal` can together use up to 400 nodes, and jobs in `highprio` up to 780 nodes;
+* jobs in `preemptable` can use every node that is free, which is why it has access to the largest number of nodes, and why its jobs might be stopped to make room for jobs in `highprio`.
 
-    The Slurm configuration on 2026-10-09 gives `highprio`, `preemptable`, `normal` and `low` the same 1343 nodes, and `debug` 1368 nodes.
-    This also contradicts the statement below that `preemptable` "can use more nodes" than `normal`.
-    Is the distinction between "several" and "most" nodes a usage policy that should be described in words, or is the Slurm configuration not what was intended?
+When a partition has reached its limit, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
 
-    The Slurm configuration also has two configurations of GPU node in every GPU partition, shown as separate rows in the hardware table below: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other 1295 nodes provide only `nvidia_vboost_enabled`.
-    A job that requests `--constraint=nvidia_vboost_disabled` can only run on those 48 nodes.
-    Is this split intended, and should it be documented for users?
+The QoS limits that apply to jobs in these partitions:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/qos.md"
+<!--end no spell check-->
+
+!!! todo "Platform owners: confirm the QoS node limits, and the `nvidia_vboost_disabled` feature"
+    The node limits of the `normalp` and `highprio` QoS are stored in the Slurm accounting database, and the tables above show the values set there on 2026-10-12: 400 and 780 nodes.
+    The comments in `slurm.conf` that describe how the QoS were created give 480 and 600 nodes.
+    Which values are intended?
+    If the values in the database are a temporary change, describe it in an admonition here.
+
+    The Slurm configuration has two configurations of GPU node in every GPU partition, shown as separate rows in the hardware table below: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other nodes provide only `nvidia_vboost_enabled`.
+    A job that requests `--constraint=nvidia_vboost_disabled` can only run on those 48 nodes, although vboost is disabled by default on every node.
+    The history of the configuration shows that this was not intended: the feature was removed from every node when the node definitions were repaired in August 2025, and was added back to one line of `slurm.conf` in January 2026.
+    The fix is to add `nvidia_vboost_disabled` to the other GH200 node definitions, as on Daint and Santis.
 
 * jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
 * the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `preemptable` is full

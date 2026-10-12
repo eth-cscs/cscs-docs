@@ -27,8 +27,9 @@ The script determines the cluster itself, is read-only with respect to the syste
 
 | Artifact | Source | Contents |
 |---|---|---|
-| `partitions.md` | `scontrol show partition` | Node counts, job size and time limits, QoS, priority |
-| `nodetypes.md` | `sinfo` | Nodes, CPUs, memory, GPUs and available features for each node configuration in each partition |
+| `partitions.md` | `slurm.conf`, `sacctmgr show qos` | Node counts, the number of nodes that the jobs of a partition can use at once, job size and time limits, QoS, priority |
+| `qos.md` | `sacctmgr show qos`, `slurm.conf` | The limits of each QoS that jobs in the partitions can run under |
+| `nodetypes.md` | `slurm.conf` | Nodes, CPUs, memory, GPUs and available features for each node configuration in each partition |
 | `filesystems.md` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it (platform-level, see below) |
 | `versions.md` | tool `--version` output | Slurm, uenv, container engine, enroot, podman, OS |
 | `stamp.md` | — | The visible "generated on" line for the page |
@@ -38,12 +39,48 @@ Not generated, because no probe returns them: quota limits, cleanup periods, occ
 Those are policy and remain hand-written.
 
 Also not generated: anything per-user or per-project, and live node or job counts.
+QoS that are assigned to individual accounts or users are only listed if a partition allows them.
 
-## Three rules
+## Intended and live configuration
+
+The probe has two uses, which need different sources.
+
+| | Documentation | On the system |
+|---|---|---|
+| Command | `./probes/probe.sh` | `./probes/probe.sh --live [artifact...]` |
+| Slurm source | `slurm.conf`, as deployed by the platform owners | `scontrol show partition` and `sinfo` |
+| Shows | The intended configuration | What the scheduler is using now |
+| Output | Writes `probes/generated/<cluster>/` | Prints to the terminal, writes nothing |
+
+The documentation shows the intended configuration.
+A partition or node can be changed on the running system with `scontrol update`, for example to shorten a time limit during an incident.
+Such a change is not in `slurm.conf`, so it does not appear in the generated tables, and regenerating the documentation while it is in place produces no diff.
+If users need to know about the change, the platform owners describe it in an admonition on the cluster page.
+
+An agent that helps a user on the system needs what the scheduler is doing now, including such changes, so it uses `--live`:
+
+```console
+$ ./probes/probe.sh --live partitions qos
+```
+
+To see what has been changed on the running system, compare the two:
+
+```console
+$ diff <(./probes/probe.sh --live partitions | tail -n +4) <(tail -n +5 probes/generated/clariden/partitions.md)
+```
+
+QoS limits are the exception.
+They are stored in the Slurm accounting database and are not in `slurm.conf`, so both modes read them with `sacctmgr`, and a change to a QoS limit does change the generated tables.
+
+The probe fails if it cannot read `slurm.conf`, rather than falling back to the live configuration.
+
+## Four rules
 
 **Configuration, never state.** Partition definitions and file system layout change on a timescale of weeks, so an artifact stays correct between runs, and re-running produces an empty diff when nothing has changed.
 This also means a run during a drain still captures the right thing, so the cluster does not need to be in any particular state when the script is run.
 Live node and job counts are excluded for the same reason.
+
+**The intended configuration, not the running one.** See the section above.
 
 **Redaction at the source.** The artifacts are committed to a public repository.
 Only whitelisted fields are emitted, with user and project identifiers substituted.

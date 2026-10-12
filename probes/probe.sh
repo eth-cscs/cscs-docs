@@ -7,7 +7,13 @@
 #   ./probes/probe.sh
 #   git diff probes/generated/
 #
-# Two rules govern what this script emits:
+# With --live, nothing is written: the same tables are printed for the system
+# as it is running now, optionally only the named ones.
+#
+#   ./probes/probe.sh --live
+#   ./probes/probe.sh --live partitions qos
+#
+# Three rules govern what this script emits:
 #
 #   1. Configuration, never state. Partition definitions and file system layout
 #      change on a timescale of weeks, so an artifact stays correct between runs,
@@ -15,7 +21,13 @@
 #      during a drain still captures the right thing. Live node and job counts
 #      are deliberately excluded.
 #
-#   2. Redaction at the source. Only whitelisted fields are emitted, with user
+#   2. The intended configuration, for the documentation. The Slurm artifacts
+#      are read from slurm.conf, so a partition or node that was changed on the
+#      running system with `scontrol update` does not change the documentation.
+#      The platform owners describe such a change in an admonition on the
+#      cluster page. --live reads the running system instead.
+#
+#   3. Redaction at the source. Only whitelisted fields are emitted, with user
 #      and project identifiers substituted. See probe_redact in lib/common.sh.
 #
 # The script is read-only with respect to the cluster and submits no jobs.
@@ -40,18 +52,70 @@ PROBE_CLUSTER="$(probe_cluster)"
 PROBE_EMITTERS_SHA="$(probe_emitters_sha)"
 readonly PROBE_CLUSTER PROBE_EMITTERS_SHA
 
+# intended (the default) or live: see lib/slurm.sh.
+PROBE_SOURCE=intended
+
 readonly OUTPUT_DIR="${PROBE_ROOT}/generated/${PROBE_CLUSTER}"
 readonly MAX_AGE_DAYS=30
 
 # artifact:emitter:source description, for the manifest
 readonly ARTIFACTS=(
-    "partitions.md:emit_partitions:scontrol show partition"
-    "nodetypes.md:emit_nodetypes:sinfo"
+    "partitions.md:emit_partitions:slurm.conf and sacctmgr show qos"
+    "qos.md:emit_qos:sacctmgr show qos and slurm.conf"
+    "nodetypes.md:emit_nodetypes:slurm.conf"
     "filesystems.md:emit_filesystems:findmnt"
     "versions.md:emit_versions:tool version output"
 )
 
+usage() {
+    echo "usage: probe.sh [--live [artifact...]]" >&2
+    echo "artifacts: $(printf '%s\n' "${ARTIFACTS[@]}" | sed 's/\.md:.*//' | paste -sd' ')" >&2
+}
+
+# Print the artifacts for the system as it is running now. Nothing is written,
+# so this can be run from a read-only checkout.
+live() {
+    local entry file name emitter found printed=""
+    for name in "$@"; do
+        found=""
+        for entry in "${ARTIFACTS[@]}"; do
+            [[ "${entry%%.md:*}" != "$name" ]] || found=1
+        done
+        if [[ -z "$found" ]]; then
+            echo "probe.sh: unknown artifact '$name'" >&2
+            usage
+            return 1
+        fi
+    done
+    for entry in "${ARTIFACTS[@]}"; do
+        file="${entry%%:*}"
+        name="${file%.md}"
+        emitter="${entry#*:}"
+        emitter="${emitter%%:*}"
+        if [[ $# -gt 0 && " $* " != *" $name "* ]]; then
+            continue
+        fi
+        [[ -z "$printed" ]] || echo
+        "$emitter" || { echo "FAILED  ${emitter}" >&2; return 1; }
+        printed=1
+    done
+}
+
 main() {
+    case "${1:-}" in
+        --live)
+            shift
+            PROBE_SOURCE=live
+            live "$@"
+            return
+            ;;
+        "") ;;
+        *)
+            usage
+            return 1
+            ;;
+    esac
+
     mkdir -p "$OUTPUT_DIR"
 
     for entry in "${ARTIFACTS[@]}"; do
@@ -83,7 +147,7 @@ main() {
 # that the content fragments produce empty diffs when nothing has changed, while
 # a reader of the rendered page can still see how old the facts are.
 emit_stamp() {
-    printf '*Cluster configuration on this page was generated from the live system on %s.*\n' \
+    printf '*Cluster configuration on this page was generated from the configuration of the system on %s.*\n' \
         "$(date -u +%F)"
 }
 

@@ -1,12 +1,13 @@
 {
   "cluster": "clariden",
-  "generated": "2026-10-09",
+  "generated": "2026-10-12",
   "host": "clariden-ln003",
-  "emitters_sha": "cf05c246",
+  "emitters_sha": "887f0abc",
   "max_age_days": 30,
   "artifacts": {
-    "partitions.md": { "source": "scontrol show partition" },
-    "nodetypes.md": { "source": "sinfo" },
+    "partitions.md": { "source": "slurm.conf and sacctmgr show qos" },
+    "qos.md": { "source": "sacctmgr show qos and slurm.conf" },
+    "nodetypes.md": { "source": "slurm.conf" },
     "filesystems.md": { "source": "findmnt" },
     "versions.md": { "source": "tool version output" }
   }
