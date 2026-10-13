@@ -158,7 +158,6 @@ Scopi
 Signalkuppe
 THP
 TOTP
-Traefik
 UANs
 UIs
 UserLab
