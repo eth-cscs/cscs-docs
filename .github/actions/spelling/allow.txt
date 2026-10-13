@@ -158,6 +158,7 @@ Scopi
 Signalkuppe
 THP
 TOTP
+Traefik
 UANs
 UIs
 UserLab
@@ -414,6 +415,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+traefik
 transitioning
 treesitter
 trilinos
