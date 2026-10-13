@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "cluster": "clariden",
+  "source": "intended",
+  "emitters": "f41d5e3c",
+  "probes": {
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "debug",
+          "nodes": 1320,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "debug",
+          "nodes": 48,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "highprio",
+          "nodes": 1295,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "highprio",
+          "nodes": 48,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "low",
+          "nodes": 1295,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "low",
+          "nodes": 48,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "normal",
+          "nodes": 1295,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "normal",
+          "nodes": 48,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "preemptable",
+          "nodes": 1295,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "preemptable",
+          "nodes": 48,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ]
+        },
+        {
+          "partition": "xfer",
+          "nodes": 2,
+          "cpus": 128,
+          "memory_gb": 244,
+          "gres": null,
+          "features": []
+        }
+      ]
+    }
+  }
+}

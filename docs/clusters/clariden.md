@@ -97,22 +97,12 @@ There are six Slurm partitions on the system:
 --8<-- "probes/generated/clariden/stamp.md"
 <!--end no spell check-->
 
-Most partitions are configured on the same pool of nodes, so the *Nodes* column is not the number of nodes that a partition can use.
-*Max nodes in use* is the number of nodes that all the jobs in a partition can hold at the same time, which is set by a [Slurm QoS][ref-slurm-partitions-qos]:
-
-* jobs in `normal` can together use up to 400 nodes, and jobs in `highprio` up to 780 nodes;
-* jobs in `preemptable` can use every node that is free, which is why it has access to the largest number of nodes, and why its jobs might be stopped to make room for jobs in `highprio`.
-
-When a partition has reached its limit, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
-
-The QoS limits that apply to jobs in these partitions:
-
-<!--begin no spell check-->
---8<-- "probes/generated/clariden/qos.md"
-<!--end no spell check-->
+Most partitions are configured on the same pool of nodes.
+The *Nodes* column is the number of nodes that all the jobs in a partition can use at the same time, which for `normal` and `highprio` is set by a [Slurm QoS][ref-slurm-partitions-qos].
+When a partition has reached that limit, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
 
 !!! todo "Platform owners: confirm the QoS node limits, and the `nvidia_vboost_disabled` feature"
-    The node limits of the `normalp` and `highprio` QoS are stored in the Slurm accounting database, and the tables above show the values set there on 2026-10-12: 400 and 780 nodes.
+    The node limits of the `normalp` and `highprio` QoS are stored in the Slurm accounting database, and the table above shows the values set there on 2026-10-12: 400 and 780 nodes.
     The comments in `slurm.conf` that describe how the QoS were created give 480 and 600 nodes.
     Which values are intended?
     If the values in the database are a temporary change, describe it in an admonition here.

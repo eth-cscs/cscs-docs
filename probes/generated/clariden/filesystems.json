@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "cluster": "clariden",
+  "source": "intended",
+  "emitters": "f41d5e3c",
+  "probes": {
+    "filesystems": {
+      "filesystems": [
+        {
+          "variables": [
+            "HOME"
+          ],
+          "filesystem": "home",
+          "previous_location": false,
+          "path_template": "/users/$USER",
+          "storage": "vadret",
+          "technology": "VAST",
+          "fstype": "nfs"
+        },
+        {
+          "variables": [
+            "SCRATCH"
+          ],
+          "filesystem": "scratch",
+          "previous_location": false,
+          "path_template": "/iopsstor/scratch/cscs/$USER",
+          "storage": "iopsstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        },
+        {
+          "variables": [
+            "STORE",
+            "PROJECT"
+          ],
+          "filesystem": "store",
+          "previous_location": false,
+          "path_template": "/capstor/store/cscs/<customer>/<group_id>",
+          "storage": "capstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        }
+      ]
+    }
+  }
+}

@@ -22,3 +22,6 @@ jobs:
           python-version: '3.x'
       - run: ./probes/check-freshness.sh
       - run: ./probes/check-platforms.sh
+      # The tables are made from the committed JSON, and must not be edited by hand.
+      - run: ./probes/probe.sh --render --check
+      - run: python3 -m unittest discover -s probes/tests
