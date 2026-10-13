@@ -414,6 +414,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+traefik
 transitioning
 treesitter
 trilinos
