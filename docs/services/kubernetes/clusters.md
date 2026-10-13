@@ -149,7 +149,7 @@ spec:
     name: letsencrypt
 ```
 
-You can also issue certificates automatically via Ingress annotations (see `ingress-nginx` section).
+You can also issue certificates automatically via Ingress annotations (see `traefik` section).
 
 🔗 [cert-manager documentation](https://cert-manager.io)
 
@@ -161,9 +161,11 @@ Enables `LoadBalancer` service types by assigning public IPs.
 
 🔗 [MetalLB documentation](https://metallb.universe.tf)
 
-###  `ingress-nginx`
+###  `traefik`
 
-Default Ingress controller with class `nginx`.  
+!!! Note "`ingress-nginx` is deprecated and will be retired. Please migrate to `traefik`"
+
+Default Ingress controller with class `traefik`.  
 Supports automatic TLS via cert-manager annotations.
 
 Example:
@@ -177,6 +179,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  ingressClassName: traefik
   rules:
     - host: example.tds.cscs.ch
       http:
@@ -194,8 +197,13 @@ spec:
       secretName: myingress-cert
 ```
 
-🔗 [NGINX Ingress Docs](https://docs.nginx.com/nginx-ingress-controller)  
+🔗 [Traefik Ingress Docs](https://doc.traefik.io/traefik/reference/routing-configuration/kubernetes/ingress/)  
 🔗 [cert-manager Ingress Usage](https://cert-manager.io/docs/usage/ingress/)
+
+Currently, there is no official Gateway API support on CSCS clusters. 
+
+To apply specific configurations on the ingresses, Middleware resources and annotations can be used, see [Traefik Middleware](https://doc.traefik.io/traefik/reference/routing-configuration/http/middlewares/overview/) and [Traefik Annotations](https://doc.traefik.io/traefik/reference/routing-configuration/kubernetes/ingress/#annotations)
+
 
 ### `external-secrets`
 
