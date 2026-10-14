@@ -126,11 +126,11 @@ The hardware available in each partition, including the [Slurm features][ref-slu
 #### GPU partitioning on MI300A nodes
 
 The GPU of each [MI300A APU][ref-alps-mi300-node] can be split into several logical GPUs, by grouping its six accelerator complex dies (XCDs).
-Select the mode with a [Slurm feature][ref-slurm-features] on the `mi300` partition:
+Select the mode with a [Slurm feature][ref-slurm-features] on the `mi300` partition; jobs that do not select one run in SPX mode:
 
 | Mode | Slurm constraint | GPUs per APU | XCDs per GPU | GPUs per node |
 |------|------------------|--------------|--------------|---------------|
-| SPX (single partition) | `amdgpu_spx` | 1 | 6 | 4 |
+| SPX (single partition) | `amdgpu_spx` (default) | 1 | 6 | 4 |
 | TPX (triple partition) | `amdgpu_tpx` | 3 | 2 | 12 |
 | CPX (core partitioned) | `amdgpu_cpx` | 6 | 1 | 24 |
 
@@ -141,10 +141,6 @@ sbatch --partition=mi300 --constraint=amdgpu_cpx job.sh
 The memory of the APU is not partitioned: every logical GPU can access all of it.
 SPX suits a single large workload per APU, while TPX and CPX allow several smaller workloads to share an APU, each on its own GPU.
 See the AMD documentation on [MI300A GPU partitioning](https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/gpu-partitioning/mi300a/overview.html) for details.
-
-!!! todo "Platform owners: default mode and GPU count"
-    Which mode does a job get when it requests none?
-    Does the number of GPUs that Slurm allocates on a node (`gpu:4` in the Slurm configuration) change with the mode?
 
 ### FirecREST
 
