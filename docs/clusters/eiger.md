@@ -94,19 +94,7 @@ Eiger supports container workloads using the [Container Engine][ref-container-en
 
 To build images, see the [guide to building container images on Alps][ref-build-containers].
 
-!!! warning "Sarus is not available"
-    A key change with the new Eiger deployment is that the Sarus container runtime is replaced with the [Container Engine][ref-container-engine].
-
-    If you are using Sarus to run containers on Eiger, you will have to rebuild and adapt your containers for the Container Engine.
-
-#### Cray Modules
-
-!!! warning
-    The Cray Programming Environment (CPE), loaded using `module load cray`, is no longer supported by CSCS.
-
-    CSCS will continue to support and update uenv and the Container Engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
-
-    The CPE is still installed on Eiger, however it will receive no support or updates, and will be [replaced with a container][ref-cpe] in a future update.
+The CPE has been uninstalled from Eiger, however it can still be [accessed as a container][ref-cpe].
 
 ## Running jobs on Eiger
 
