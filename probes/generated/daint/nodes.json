@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "cluster": "daint",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodes": {
+      "nodes": [
+        {
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "nodes": 946,
+          "sockets": 3784,
+          "gpus": 3784,
+          "memory_gb": [
+            850
+          ],
+          "slurm_sockets_per_node": [
+            4
+          ]
+        },
+        {
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "nodes": 2,
+          "sockets": 4,
+          "gpus": 0,
+          "memory_gb": [
+            244
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        }
+      ]
+    }
+  }
+}

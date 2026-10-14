@@ -31,7 +31,8 @@ Each probe writes two files to `probes/generated/<cluster>/`: a markdown table t
 | Probe | Source | Table | Also in the JSON |
 |---|---|---|---|
 | `partitions` | `slurm.conf`, `sacctmgr show qos` | Nodes that the jobs of a partition can use, job size and time limits | The node pool and the limit that reduces it, partition and allowed QoS, priority tier, preemption, and the limits of each QoS |
-| `nodetypes` | `slurm.conf` | Nodes, CPUs, memory, GPUs and available features for each node configuration in each partition | |
+| `nodetypes` | `slurm.conf` | Nodes of each Alps node type in each partition, linked to the hardware documentation, and the documented sets of features (vboost, thp, amdgpu) that `--constraint` can select | CPUs, memory and GPUs that Slurm schedules, and every feature |
+| `nodes` | `slurm.conf` | Number of nodes of each Alps node type and memory configuration in the cluster, with their CPU sockets and GPUs | The memory and sockets per node that Slurm is configured with |
 | `filesystems` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it (platform-level, see below) | The file system type |
 | `versions` | tool `--version` output | Slurm, uenv, container engine, enroot, podman, OS | |
 
@@ -76,7 +77,7 @@ Every probe has a scope, which decides where its output may go.
 
 | Scope | What | Probes | Written to `generated/` |
 |---|---|---|---|
-| `config` | How the system is set up | `partitions`, `nodetypes`, `filesystems`, `versions` | yes |
+| `config` | How the system is set up | `partitions`, `nodetypes`, `nodes`, `filesystems`, `versions` | yes |
 | `state` | What the system is doing now | `usage` | never |
 | `user` | What the person running the probe can use | `access` | never |
 
@@ -174,12 +175,30 @@ The probe also runs with a fixed system `PATH`, so that it reports what every us
 A platform can have more than one cluster, and its clusters are configured to serve the same community: Daint and Eiger are both HPC Platform (HPCP) clusters.
 Facts that are a property of the platform, such as which storage `$HOME`, `$SCRATCH` and `$STORE` point to, should be documented once on the platform page, and the cluster pages should link to it.
 
-The platforms, their clusters, and the artifacts that are documented once per platform are listed in `probes/platforms.json`.
-The platform page includes the first cluster's copy of each such artifact; at present the HPCP page includes `probes/generated/daint/filesystems.md`.
+The platforms, their clusters, and the artifacts that are documented once per platform are listed in `probes/platforms.json`:
 
-That is only correct while every cluster of the platform agrees, so `probes/check-platforms.sh` compares the artifacts, ignoring the header that names the cluster.
+```json
+"mlp": {
+  "reference": "clariden",
+  "clusters": {"bristen": "warn"},
+  "artifacts": ["filesystems.md"],
+  "page": "docs/platforms/mlp/index.md"
+}
+```
+
+The platform page includes the reference cluster's copy of each such artifact: the MLP page includes `probes/generated/clariden/filesystems.md`.
+
+That is only correct while every cluster of the platform agrees, so `probes/check-platforms.sh` compares each other cluster's artifacts with the reference cluster's, ignoring the header that names the cluster.
 Like the freshness check, it reads committed files and runs in CI.
-A difference fails the check: either a cluster has been misconfigured, or the artifact is no longer a platform-level fact and belongs on the cluster pages.
+What a difference does depends on the severity given to the cluster:
+
+| Severity | A difference from the reference cluster |
+|---|---|
+| `critical` | fails the check: either a cluster has been misconfigured, or the artifact is no longer a platform-level fact and belongs on the cluster pages |
+| `warn` | is printed, and shown as a warning on the pull request, but the check passes |
+
+`warn` is for a cluster that is expected to drift from the rest of its platform, such as Bristen on MLP.
+The check also fails if the platform page does not include the reference cluster's copy of an artifact.
 
 Before adding an artifact to `platforms.json`, run the probe on every cluster of the platform and confirm that `check-platforms.sh` passes.
 

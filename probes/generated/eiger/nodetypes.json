@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "cluster": "eiger",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "debug",
+          "nodes": 12,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "xfer",
+          "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        }
+      ]
+    }
+  }
+}

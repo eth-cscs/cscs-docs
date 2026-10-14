@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "cluster": "besso",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodes": {
+      "nodes": [
+        {
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "nodes": 2,
+          "sockets": 2,
+          "gpus": 8,
+          "memory_gb": [
+            503
+          ],
+          "slurm_sockets_per_node": [
+            1
+          ]
+        },
+        {
+          "type": "mi200",
+          "installed_memory_gb": 512,
+          "nodes": 2,
+          "sockets": 2,
+          "gpus": 16,
+          "memory_gb": [
+            503
+          ],
+          "slurm_sockets_per_node": [
+            1
+          ]
+        }
+      ]
+    }
+  }
+}

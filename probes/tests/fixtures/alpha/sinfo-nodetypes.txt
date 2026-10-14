@@ -1,3 +1,3 @@
-normal|10|256|800000|gpu:4(S:0-1)|gpu,fast
-normal|6|256|800100|gpu:4(S:0-1)|gpu
-xfer|2|16|500000|(null)|xfer
+normal|10|288|800000|gpu:4(S:0-1)|gpu,fast,thp_always,thp_never|72
+normal|6|288|800100|gpu:4(S:0-1)|gpu,thp_always|72
+xfer|2|128|241746|(null)|xfer|64

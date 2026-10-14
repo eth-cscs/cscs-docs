@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "cluster": "santis",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "debug",
+          "nodes": 4,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "low",
+          "nodes": 296,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "normal",
+          "nodes": 296,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "tier0",
+          "nodes": 296,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "xfer",
+          "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 128,
+          "memory_gb": 244,
+          "gres": null,
+          "features": [],
+          "feature_sets": []
+        }
+      ]
+    }
+  }
+}

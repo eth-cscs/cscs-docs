@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "cluster": "beverin",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodes": {
+      "nodes": [
+        {
+          "type": "mi200",
+          "installed_memory_gb": 512,
+          "nodes": 13,
+          "sockets": 13,
+          "gpus": 104,
+          "memory_gb": [
+            503
+          ],
+          "slurm_sockets_per_node": [
+            1
+          ]
+        },
+        {
+          "type": "mi300",
+          "installed_memory_gb": 512,
+          "nodes": 128,
+          "sockets": 512,
+          "gpus": 512,
+          "memory_gb": [
+            501
+          ],
+          "slurm_sockets_per_node": [
+            4
+          ]
+        }
+      ]
+    }
+  }
+}

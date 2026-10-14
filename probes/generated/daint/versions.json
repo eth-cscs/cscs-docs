@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "cluster": "daint",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "versions": {
+      "tools": [
+        {
+          "id": "slurm",
+          "name": "Slurm",
+          "version": "25.05.9"
+        },
+        {
+          "id": "uenv",
+          "name": "uenv",
+          "version": "10.1.0"
+        },
+        {
+          "id": "container-engine",
+          "name": "Container engine",
+          "version": "0.6.0"
+        },
+        {
+          "id": "enroot",
+          "name": "enroot",
+          "version": "CSCS_2026_05_1"
+        },
+        {
+          "id": "podman",
+          "name": "podman",
+          "version": "5.8.6"
+        },
+        {
+          "id": "os",
+          "name": "Operating system",
+          "version": "SUSE Linux Enterprise Server 15 SP6"
+        },
+        {
+          "id": "kernel",
+          "name": "Kernel",
+          "version": "6.4.0-150600.23.125-64kb"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "version": "aarch64"
+        }
+      ]
+    }
+  }
+}

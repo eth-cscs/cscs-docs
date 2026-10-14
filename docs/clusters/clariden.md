@@ -107,7 +107,7 @@ When a partition has reached that limit, the jobs waiting in it are shown by `sq
     Which values are intended?
     If the values in the database are a temporary change, describe it in an admonition here.
 
-    The Slurm configuration has two configurations of GPU node in every GPU partition, shown as separate rows in the hardware table below: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other nodes provide only `nvidia_vboost_enabled`.
+    The Slurm configuration has two configurations of GPU node in every GPU partition: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other nodes provide only `nvidia_vboost_enabled`.
     A job that requests `--constraint=nvidia_vboost_disabled` can only run on those 48 nodes, although vboost is disabled by default on every node.
     The history of the configuration shows that this was not intended: the feature was removed from every node when the node definitions were repaired in August 2025, and was added back to one line of `slurm.conf` in January 2026.
     The fix is to add `nvidia_vboost_disabled` to the other GH200 node definitions, as on Daint and Santis.

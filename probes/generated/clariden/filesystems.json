@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "clariden",
   "source": "intended",
-  "emitters": "f41d5e3c",
+  "emitters": "a5cb39b6",
   "probes": {
     "filesystems": {
       "filesystems": [

@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "cluster": "eiger",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "nodes": {
+      "nodes": [
+        {
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "nodes": 242,
+          "sockets": 484,
+          "gpus": 0,
+          "memory_gb": [
+            236
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        },
+        {
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "nodes": 286,
+          "sockets": 572,
+          "gpus": 0,
+          "memory_gb": [
+            444,
+            474
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        }
+      ]
+    }
+  }
+}

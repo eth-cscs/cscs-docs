@@ -251,6 +251,82 @@ PARTITIONS = Probe(
 )
 
 
+# -- Alps node types and Slurm features ---------------------------------------
+
+# The Alps node types, with the names used in the hardware documentation
+# (docs/alps/hardware.md), which also gives the sockets and memory of each.
+# The tables link to that documentation rather than repeat it.
+#
+# A node is recognised by the cores per CPU socket and the GPUs that Slurm gives
+# it, which differ for every node type. The number of sockets that Slurm gives
+# it is not used, because a node can be configured with fewer sockets than it
+# has: the sockets per node are those of the hardware.
+#
+# The memory configurations are those documented for the node type, in GB as
+# installed, or None where the documentation gives no figure.
+NODE_TYPES = [
+    # (name, cores per socket, GPUs per node, sockets per node, memory configurations)
+    ("gh200", 72, 4, 4, None),
+    ("zen2", 64, 0, 2, [256, 512]),
+    ("a100", 64, 4, 1, [512]),
+    ("mi200", 64, 8, 1, [512]),
+    ("mi300", 24, 4, 4, [512]),
+]
+NODE_TYPE_REFS = {
+    "gh200": "ref-alps-gh200-node",
+    "zen2": "ref-alps-zen2-node",
+    "a100": "ref-alps-a100-node",
+    "mi200": "ref-alps-mi200-node",
+    "mi300": "ref-alps-mi300-node",
+}
+
+# The Slurm features that users select with --constraint, in the sets that the
+# documentation describes. A node that has any feature of a set is shown with
+# the set, linked to its documentation. Other features (gh, gpu, the CPU model)
+# say nothing that the node type does not, and are only in the JSON.
+FEATURE_SETS = OrderedDict([
+    ("vboost", (["nvidia_vboost_enabled", "nvidia_vboost_disabled"], "ref-slurm-features-vboost")),
+    ("thp", (["thp_always", "thp_madvise", "thp_never"], "ref-slurm-features-thp")),
+    # GPU partitioning of MI300A nodes, so far only documented for Beverin.
+    ("amdgpu", (["amdgpu_spx", "amdgpu_tpx", "amdgpu_cpx"], "ref-cluster-beverin-gpu-partitioning")),
+])
+
+
+def node_type(node):
+    gpus = slurm.gpu_count(node["gres"])
+    for entry in NODE_TYPES:
+        if (entry[1], entry[2]) == (node["cores_per_socket"], gpus):
+            return entry
+    raise ProbeError("node %s, with %d cores per socket and %d GPUs, is not a known Alps node type; "
+                     "add it to NODE_TYPES in probes.py" % (node["name"], node["cores_per_socket"], gpus))
+
+
+def memory_configuration(node, name, configurations):
+    """The documented memory configuration of a node: the smallest that holds
+    the memory that Slurm schedules on it, which is always less than is
+    installed, because some is kept for the operating system. A node with a
+    failed DIMM is still given the configuration that it was built with."""
+    if configurations is None:
+        return None
+    for size in sorted(configurations):
+        if node["memory_mib"] <= size * 1024:
+            return size
+    raise ProbeError("node %s has %d MiB of memory, more than any documented configuration of %s"
+                     % (node["name"], node["memory_mib"], name))
+
+
+def feature_sets(features):
+    return [name for name, (members, _) in FEATURE_SETS.items() if set(members) & set(features)]
+
+
+def node_type_link(name, memory):
+    """The node type, linked to its hardware documentation. The memory is part
+    of the name only for a node type that comes with more than one."""
+    configurations = [entry[4] for entry in NODE_TYPES if entry[0] == name][0]
+    text = "%s %d GB" % (name, memory) if configurations and len(configurations) > 1 else name
+    return "[%s][%s]" % (text, NODE_TYPE_REFS[name])
+
+
 # -- node types ---------------------------------------------------------------
 
 def build_nodetypes(system, source, publish):
@@ -261,23 +337,47 @@ def build_nodetypes(system, source, publish):
     for partition in partitions:
         if partition["hidden"]:
             continue
-        for (cpus, memory, gres, features), nodes in partition["nodetypes"].items():
+        for (cpus, memory, gres, features, cores), nodes in partition["nodetypes"].items():
             key = (partition["name"], int(cpus), int(round(int(memory) / 1024.0)), gres,
-                   tuple(sorted(f for f in features.split(",") if f)))
-            groups[key] = groups.get(key, 0) + nodes
+                   tuple(sorted(f for f in features.split(",") if f)), int(cores))
+            # The configured memory is kept to find the documented memory
+            # configuration, which the rounding to GB cannot change.
+            group = groups.setdefault(key, {"nodes": 0, "memory_mib": int(memory)})
+            group["nodes"] += nodes
     # Within a partition, the configuration with the most nodes comes first.
     items = []
-    for (name, cpus, memory, gres, features), nodes in sorted(
-            groups.items(), key=lambda group: (group[0][0], -group[1], group[0])):
+    for (name, cpus, memory, gres, features, cores), group in sorted(
+            groups.items(), key=lambda group: (group[0][0], -group[1]["nodes"], group[0])):
+        nodes = group["nodes"]
+        node = {"name": "of partition %s" % name, "cores_per_socket": cores,
+                "gres": gres, "memory_mib": group["memory_mib"]}
+        kind, _, _, _, configurations = node_type(node)
         items.append(OrderedDict([
             ("partition", name),
             ("nodes", nodes),
+            ("type", kind),
+            ("installed_memory_gb", memory_configuration(node, kind, configurations)),
             ("cpus", cpus),
             ("memory_gb", memory),
             ("gres", gres or None),
             ("features", list(features)),
+            ("feature_sets", feature_sets(features)),
         ]))
     return OrderedDict([("nodetypes", items)])
+
+
+def nodetype_rows(model):
+    """One row for each node type and feature sets in a partition: entries that
+    differ only in what the table does not show, such as a node configured with
+    a little less memory, are counted together."""
+    rows = OrderedDict()
+    for entry in model["nodetypes"]:
+        key = (entry["partition"], entry["type"], entry["installed_memory_gb"], tuple(entry["feature_sets"]))
+        if key in rows:
+            rows[key]["nodes"] += entry["nodes"]
+        else:
+            rows[key] = OrderedDict(entry)
+    return list(rows.values())
 
 
 NODETYPES = Probe(
@@ -286,25 +386,98 @@ NODETYPES = Probe(
     description="Hardware of the nodes in each partition, and the features that --constraint can select.",
     sources={
         "intended": "`slurm.conf`",
-        "live": "`sinfo -o \"%R|%D|%c|%m|%G|%f\"`",
+        "live": "`sinfo -o \"%R|%D|%c|%m|%G|%f|%Y\"`",
     },
     build=build_nodetypes,
-    rows=lambda model: model["nodetypes"],
+    rows=nodetype_rows,
     columns=[
         ("Partition", lambda row: code(row["partition"])),
         ("Nodes", lambda row: str(row["nodes"])),
-        ("CPUs per node", lambda row: str(row["cpus"])),
-        ("Memory per node", lambda row: "%d GB" % row["memory_gb"]),
-        ("GPUs", lambda row: code(row["gres"]) if row["gres"] else "none"),
-        ("Features", lambda row: ", ".join(code(f) for f in row["features"]) or "none"),
+        ("Node type", lambda row: node_type_link(row["type"], row["installed_memory_gb"])),
+        ("Features", lambda row: ", ".join("[%s][%s]" % (name, FEATURE_SETS[name][1])
+                                           for name in row["feature_sets"]) or "none"),
     ],
     fields=OrderedDict([
         ("nodetypes[]", "One entry for each configuration of node in each partition."),
         ("nodetypes[].nodes", "Number of nodes of the partition with this configuration."),
+        ("nodetypes[].type", "Alps node type: gh200, zen2, a100, mi200 or mi300. "
+                             "Its hardware is described in the Alps hardware documentation."),
+        ("nodetypes[].installed_memory_gb", "Memory installed in the node, as documented for the node type, "
+                                            "or null where the documentation gives no figure."),
         ("nodetypes[].cpus", "CPUs that Slurm schedules on the node (cores, or hardware threads)."),
         ("nodetypes[].memory_gb", "Memory that Slurm schedules on the node, rounded to GB."),
         ("nodetypes[].gres", "Generic resources, e.g. gpu:4 for four GPUs, or null."),
         ("nodetypes[].features", "Features that can be requested with --constraint."),
+        ("nodetypes[].feature_sets", "The documented sets of features that the node has: vboost "
+                                     "(nvidia_vboost_*), thp (thp_*) and amdgpu (amdgpu_*, GPU partitioning)."),
+    ]),
+)
+
+
+# -- nodes --------------------------------------------------------------------
+
+def build_nodes(system, source, publish):
+    groups = OrderedDict()
+    for node in slurm.load_nodes(system, source):
+        name, _, _, sockets, configurations = node_type(node)
+        key = (name, memory_configuration(node, name, configurations))
+        group = groups.setdefault(key, {"nodes": 0, "sockets": 0, "gpus": 0,
+                                        "slurm_sockets": set(), "memory": set()})
+        group["nodes"] += 1
+        group["sockets"] += sockets
+        group["gpus"] += slurm.gpu_count(node["gres"])
+        group["slurm_sockets"].add(node["sockets"])
+        group["memory"].add(int(round(node["memory_mib"] / 1024.0)))
+
+    # In the order of NODE_TYPES, then from the smallest memory.
+    order = [entry[0] for entry in NODE_TYPES]
+    items = []
+    for (name, memory), group in sorted(groups.items(),
+                                        key=lambda item: (order.index(item[0][0]), item[0][1] or 0)):
+        items.append(OrderedDict([
+            ("type", name),
+            ("installed_memory_gb", memory),
+            ("nodes", group["nodes"]),
+            ("sockets", group["sockets"]),
+            ("gpus", group["gpus"]),
+            ("memory_gb", sorted(group["memory"])),
+            ("slurm_sockets_per_node", sorted(group["slurm_sockets"])),
+        ]))
+    return OrderedDict([("nodes", items)])
+
+
+NODES = Probe(
+    name="nodes",
+    scope="config",
+    description="The nodes of the cluster: how many of each Alps node type and memory configuration, "
+                "and their CPU sockets and GPUs.",
+    sources={
+        "intended": "`slurm.conf`",
+        "live": "`scontrol show node`",
+    },
+    build=build_nodes,
+    rows=lambda model: model["nodes"],
+    columns=[
+        ("Node type", lambda row: "[%s][%s]" % (row["type"], NODE_TYPE_REFS[row["type"]])),
+        ("Memory", lambda row: "%d GB" % row["installed_memory_gb"] if row["installed_memory_gb"] else "--"),
+        ("Nodes", lambda row: str(row["nodes"])),
+        ("CPU sockets", lambda row: str(row["sockets"])),
+        ("GPUs", lambda row: str(row["gpus"]) if row["gpus"] else "none"),
+    ],
+    fields=OrderedDict([
+        ("nodes[]", "One entry for each Alps node type and memory configuration. Every node that Slurm "
+                    "defines is counted once, whether or not it is in a partition."),
+        ("nodes[].type", "Alps node type: gh200, zen2, a100, mi200 or mi300."),
+        ("nodes[].installed_memory_gb", "Memory installed in each node, as documented for the node type, "
+                                        "or null where the documentation gives no figure."),
+        ("nodes[].nodes", "Number of nodes."),
+        ("nodes[].sockets", "CPU sockets of all the nodes, from the hardware of the node type."),
+        ("nodes[].gpus", "GPUs of all the nodes, as Slurm counts them (--gpus)."),
+        ("nodes[].memory_gb", "The memory that Slurm schedules on these nodes, rounded to GB: less than "
+                              "installed_memory_gb, because some is kept for the operating system. "
+                              "More than one value means that some nodes are configured with less."),
+        ("nodes[].slurm_sockets_per_node", "Sockets per node in the Slurm configuration. A value other "
+                                           "than that of the hardware is a configuration error."),
     ]),
 )
 
@@ -654,7 +827,7 @@ ACCESS = Probe(
 
 
 PROBES = OrderedDict((probe.name, probe) for probe in
-                     (PARTITIONS, NODETYPES, FILESYSTEMS, VERSIONS, USAGE, ACCESS))
+                     (PARTITIONS, NODETYPES, NODES, FILESYSTEMS, VERSIONS, USAGE, ACCESS))
 
 
 def published():

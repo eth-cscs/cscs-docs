@@ -81,6 +81,18 @@ class Partitions(unittest.TestCase):
             self.assertNotIn("allowed_accounts", partition)
             self.assertNotIn("allowed_groups", partition)
 
+    def test_last_default_partition_is_the_default(self):
+        # slurmctld uses the last of several partitions that set Default=YES.
+        import tempfile
+        import slurm
+        with tempfile.NamedTemporaryFile("w", suffix=".conf") as conf:
+            conf.write("NodeName=nid001 CoresPerSocket=64\n"
+                       "PartitionName=a Default=YES Nodes=nid001\n"
+                       "PartitionName=b Default=YES Nodes=nid001\n")
+            conf.flush()
+            self.assertEqual([(p["name"], p["default"]) for p in slurm.load_conf(conf.name)],
+                             [("a", False), ("b", True)])
+
     def test_live_reports_the_running_system(self):
         live = by_name(build("partitions", "live")["partitions"])
         self.assertEqual(self.partitions["normal"]["time"]["max"], "1-00:00:00")
@@ -116,7 +128,34 @@ class NodeTypes(unittest.TestCase):
         nodetypes = [n for n in build("nodetypes", "intended")["nodetypes"] if n["partition"] == "normal"]
         self.assertEqual([(n["nodes"], n["cpus"], n["memory_gb"], n["gres"], n["features"])
                           for n in nodetypes],
-                         [(10, 256, 781, "gpu:4", ["fast", "gpu"]), (6, 256, 781, "gpu:4", ["gpu"])])
+                         [(10, 288, 781, "gpu:4", ["fast", "gpu", "thp_always", "thp_never"]),
+                          (6, 288, 781, "gpu:4", ["gpu", "thp_always"])])
+
+    def test_node_type_and_feature_sets(self):
+        nodetypes = build("nodetypes", "intended")["nodetypes"]
+        self.assertEqual([(n["partition"], n["type"], n["installed_memory_gb"], n["feature_sets"])
+                          for n in nodetypes if n["partition"] in ("normal", "xfer")],
+                         [("normal", "gh200", None, ["thp"]), ("normal", "gh200", None, ["thp"]),
+                          ("xfer", "zen2", 256, [])])
+
+    def test_feature_sets(self):
+        self.assertEqual(probes.feature_sets(["gh", "gpu", "thp_never", "nvidia_vboost_enabled"]),
+                         ["vboost", "thp"])
+        self.assertEqual(probes.feature_sets(["amdgpu_spx", "amdgpu_tpx", "amdgpu_cpx"]), ["amdgpu"])
+        self.assertEqual(probes.feature_sets(["AMD_EPYC_7742", "mc", "startx"]), [])
+
+    def test_markdown_counts_together_what_it_does_not_distinguish(self):
+        data = views.envelope("alpha", "intended", "00000000",
+                              {"nodetypes": build("nodetypes", "intended", True)})
+        self.assertEqual(views.to_markdown(data).split("\n")[4:], [
+            "| Partition | Nodes | Node type | Features |",
+            "|---|---|---|---|",
+            "| `big` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `debug` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `normal` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `xfer` | 2 | [zen2 256 GB][ref-alps-zen2-node] | none |",
+            "",
+        ])
 
     def test_hidden_partitions_are_left_out(self):
         names = set(n["partition"] for n in build("nodetypes", "intended")["nodetypes"])
@@ -127,6 +166,49 @@ class NodeTypes(unittest.TestCase):
             return [n for n in build("nodetypes", source)["nodetypes"]
                     if n["partition"] in ("normal", "xfer")]
         self.assertEqual(normal_and_xfer("live"), normal_and_xfer("intended"))
+
+
+class Nodes(unittest.TestCase):
+    def test_every_node_counted_by_type_and_memory(self):
+        # The zen2 nodes are not all in a published partition, and are counted.
+        self.assertEqual([(n["type"], n["installed_memory_gb"], n["nodes"], n["sockets"], n["gpus"])
+                          for n in build("nodes", "intended")["nodes"]],
+                         [("gh200", None, 16, 64, 64), ("zen2", 256, 2, 4, 0), ("zen2", 512, 4, 8, 0)])
+
+    def test_node_configured_with_less_memory_keeps_its_configuration(self):
+        large = build("nodes", "intended")["nodes"][2]
+        self.assertEqual(large["memory_gb"], [444, 474])
+
+    def test_sockets_are_those_of_the_hardware(self):
+        # Slurm can give a node fewer sockets than it has: the node is still
+        # recognised, and the configured value is reported.
+        node = {"name": "nid000001", "sockets": 1, "cores_per_socket": 64, "memory_mib": 514901, "gres": ""}
+        self.assertEqual(probes.node_type(node)[0], "zen2")
+        self.assertEqual(probes.memory_configuration(node, "zen2", [256, 512]), 512)
+
+    def test_unknown_node_type_is_an_error(self):
+        node = {"name": "nid000001", "sockets": 2, "cores_per_socket": 16, "memory_mib": 1000, "gres": ""}
+        with self.assertRaises(ProbeError):
+            probes.node_type(node)
+
+    def test_memory_above_every_configuration_is_an_error(self):
+        node = {"name": "nid000001", "sockets": 2, "cores_per_socket": 64, "memory_mib": 600000, "gres": ""}
+        with self.assertRaises(ProbeError):
+            probes.memory_configuration(node, "zen2", [256, 512])
+
+    def test_live_matches_intended(self):
+        self.assertEqual(build("nodes", "live"), build("nodes", "intended"))
+
+    def test_markdown(self):
+        data = views.envelope("alpha", "intended", "00000000", {"nodes": build("nodes", "intended", True)})
+        self.assertEqual(views.to_markdown(data).split("\n")[4:], [
+            "| Node type | Memory | Nodes | CPU sockets | GPUs |",
+            "|---|---|---|---|---|",
+            "| [gh200][ref-alps-gh200-node] | -- | 16 | 64 | 64 |",
+            "| [zen2][ref-alps-zen2-node] | 256 GB | 2 | 4 | none |",
+            "| [zen2][ref-alps-zen2-node] | 512 GB | 4 | 8 | none |",
+            "",
+        ])
 
 
 class Filesystems(unittest.TestCase):
@@ -191,7 +273,7 @@ class Access(unittest.TestCase):
 class Scopes(unittest.TestCase):
     def test_only_configuration_is_published(self):
         self.assertEqual([p.name for p in probes.published()],
-                         ["partitions", "nodetypes", "filesystems", "versions"])
+                         ["partitions", "nodetypes", "nodes", "filesystems", "versions"])
         for probe in probes.PROBES.values():
             self.assertEqual("intended" in probe.sources, probe.scope == "config")
 

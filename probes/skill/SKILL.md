@@ -26,7 +26,8 @@ Run `./probes/probe.sh --list --format json` once for the meaning of every field
 | Why was a job rejected at submission? | `access`, `partitions` | `reason`; `job_nodes.max` and `time.max` against the request |
 | Why is a job pending? | `usage`, `partitions` | `jobs.pending_reasons`, `qos_nodes`, `nodes.limited_by` |
 | Will a job start soon? | `usage` | `nodes.idle`, `qos_nodes.free`, `jobs.pending` |
-| What hardware does a partition have, and which `--constraint` values exist? | `nodetypes` | `cpus`, `memory_gb`, `gres`, `features` |
+| What hardware does a partition have, and which `--constraint` values exist? | `nodetypes` | `type`, `cpus`, `memory_gb`, `gres`, `features` |
+| How many nodes of each type, and with how much memory, does the cluster have? | `nodes` | `type`, `installed_memory_gb`, `nodes`, `memory_gb` |
 | Where should data go? | `filesystems` | `path`, `filesystem`, `storage` |
 | Which version of Slurm, uenv or the container engine is installed? | `versions` | `tools[].version` |
 

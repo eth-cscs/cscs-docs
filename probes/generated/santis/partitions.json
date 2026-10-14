@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "cluster": "santis",
+  "source": "intended",
+  "emitters": "a5cb39b6",
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "debug",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 4,
+            "usable": 4,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 2,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=2"
+            }
+          },
+          "time": {
+            "default": "00:30:00",
+            "max": "00:30:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "NO"
+        },
+        {
+          "name": "low",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 296,
+            "usable": 296,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "00:30:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "slowdown"
+          ],
+          "priority_tier": 5,
+          "preempt_mode": null,
+          "oversubscribe": "NO"
+        },
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 296,
+            "usable": 296,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "NO"
+        },
+        {
+          "name": "tier0",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 296,
+            "usable": 296,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 40,
+          "preempt_mode": null,
+          "oversubscribe": "NO"
+        },
+        {
+          "name": "xfer",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 2,
+            "usable": 2,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 1,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=1"
+            }
+          },
+          "time": {
+            "default": "06:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "FORCE:10"
+        }
+      ],
+      "qos": {
+        "slowdown": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 10,
+          "max_submitted_jobs_per_user": 20,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false
+        }
+      }
+    }
+  }
+}

@@ -2,13 +2,15 @@
   "schema": 1,
   "cluster": "clariden",
   "source": "intended",
-  "emitters": "f41d5e3c",
+  "emitters": "a5cb39b6",
   "probes": {
     "nodetypes": {
       "nodetypes": [
         {
           "partition": "debug",
           "nodes": 1320,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -19,11 +21,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "debug",
           "nodes": 48,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -35,11 +43,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "highprio",
           "nodes": 1295,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -50,11 +64,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "highprio",
           "nodes": 48,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -66,11 +86,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "low",
           "nodes": 1295,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -81,11 +107,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "low",
           "nodes": 48,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -97,11 +129,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "normal",
           "nodes": 1295,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -112,11 +150,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "normal",
           "nodes": 48,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -128,11 +172,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "preemptable",
           "nodes": 1295,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -143,11 +193,17 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "preemptable",
           "nodes": 48,
+          "type": "gh200",
+          "installed_memory_gb": null,
           "cpus": 288,
           "memory_gb": 850,
           "gres": "gpu:4",
@@ -159,15 +215,22 @@
             "thp_always",
             "thp_madvise",
             "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
           ]
         },
         {
           "partition": "xfer",
           "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 256,
           "cpus": 128,
           "memory_gb": 244,
           "gres": null,
-          "features": []
+          "features": [],
+          "feature_sets": []
         }
       ]
     }

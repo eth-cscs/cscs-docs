@@ -139,8 +139,38 @@ def partition(attrs, nodes, nodetypes):
     }
 
 
-def load_conf(path):
-    """Partitions and their node types as slurm.conf defines them."""
+def node_sockets(attrs):
+    if "sockets" in attrs:
+        return int(attrs["sockets"])
+    return int(attrs.get("boards", 1)) * int(attrs.get("socketsperboard", 1))
+
+
+def gpu_count(gres):
+    """GPUs in a Gres value such as gpu:4, gpu:a100:4 or gpu:4(S:0-3)."""
+    total = 0
+    for item in split_top(re.sub(r"\([^)]*\)", "", gres or "")):
+        parts = item.split(":")
+        if parts[0] == "gpu" and len(parts) > 1 and parts[-1].isdigit():
+            total += int(parts[-1])
+    return total
+
+
+def node_entry(name, attrs):
+    """One node, from the fields of a slurm.conf line or of
+    `scontrol show node`, which use the same names."""
+    gres = attrs.get("gres", "")
+    return {
+        "name": name,
+        "sockets": node_sockets(attrs),
+        "cores_per_socket": int(attrs.get("corespersocket", 1)),
+        "memory_mib": int(attrs.get("realmemory", 1)),
+        "gres": "" if gres == "(null)" else gres,
+    }
+
+
+def read_conf(path):
+    """The nodes, node sets and partition lines of slurm.conf, with the
+    DEFAULT lines applied."""
     nodes = OrderedDict()       # name -> attributes
     nodesets = {}               # name -> fields
     partition_lines = []
@@ -168,6 +198,18 @@ def load_conf(path):
             merged = dict(partition_default)
             merged.update(attrs)
             partition_lines.append(merged)
+    return nodes, nodesets, partition_lines
+
+
+def load_conf_nodes(path):
+    """Every node that slurm.conf defines, whether or not it is in a partition."""
+    nodes, _, _ = read_conf(path)
+    return [node_entry(name, attrs) for name, attrs in nodes.items()]
+
+
+def load_conf(path):
+    """Partitions and their node types as slurm.conf defines them."""
+    nodes, nodesets, partition_lines = read_conf(path)
 
     def features(attrs):
         return attrs.get("feature", attrs.get("features", ""))
@@ -200,9 +242,13 @@ def load_conf(path):
                                  % (attrs["partitionname"], member))
             node = nodes[member]
             key = (node_cpus(node), node.get("realmemory", "1"),
-                   node.get("gres", ""), features(node))
+                   node.get("gres", ""), features(node), node.get("corespersocket", "1"))
             nodetypes[key] = nodetypes.get(key, 0) + 1
         partitions.append(partition(attrs, len(members), nodetypes))
+    # Where more than one partition sets Default=YES, slurmctld uses the last.
+    defaults = [p for p in partitions if p["default"]]
+    for extra in defaults[:-1]:
+        extra["default"] = False
     return partitions
 
 
@@ -214,8 +260,8 @@ SCONTROL_PARTITIONS = ["scontrol", "show", "partition", "--oneliner"]
 # is required. Without --exact, sinfo merges nodes whose CPUs or memory differ
 # and prints the minimum with a "+" suffix. Features are the available ones
 # (%f), not the active ones (%b), which depend on the options a node was last
-# booted with.
-SINFO_NODETYPES = ["sinfo", "--noheader", "--exact", "-o", "%R|%D|%c|%m|%G|%f"]
+# booted with. The cores per socket (%Y) identify the Alps node type.
+SINFO_NODETYPES = ["sinfo", "--noheader", "--exact", "-o", "%R|%D|%c|%m|%G|%f|%Y"]
 
 
 def load_live(scontrol, sinfo=""):
@@ -231,15 +277,38 @@ def load_live(scontrol, sinfo=""):
         line = line.strip()
         if not line:
             continue
-        name, count, cpus, memory, gres, features = line.split("|")
+        name, count, cpus, memory, gres, features, cores = line.split("|")
         if name not in partitions:
             continue
         gres = "" if gres == "(null)" else re.sub(r"\(S:[^)]*\)", "", gres)
         features = "" if features == "(null)" else features
         nodetypes = partitions[name]["nodetypes"]
-        key = (cpus, memory, gres, features)
+        key = (cpus, memory, gres, features, cores)
         nodetypes[key] = nodetypes.get(key, 0) + int(count)
     return list(partitions.values())
+
+
+SCONTROL_NODES = ["scontrol", "show", "node", "--oneliner"]
+
+
+def load_live_nodes(text):
+    """Every node that the scheduler knows, from the output of SCONTROL_NODES."""
+    nodes = []
+    for line in text.splitlines():
+        attrs = fields(line)
+        if "nodename" in attrs:
+            nodes.append(node_entry(attrs["nodename"], attrs))
+    return nodes
+
+
+def load_nodes(system, source):
+    if source == "intended":
+        nodes = load_conf_nodes(system.slurm_conf())
+    else:
+        nodes = load_live_nodes(system.run("scontrol-nodes", SCONTROL_NODES))
+    if not nodes:
+        raise ProbeError("no nodes found")
+    return nodes
 
 
 def load_partitions(system, source, nodetypes=False):

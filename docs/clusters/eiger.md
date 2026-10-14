@@ -3,33 +3,6 @@
 
 Eiger is an Alps cluster that provides compute nodes and file systems designed to meet the needs of CPU-only workloads for the [HPC Platform][ref-platform-hpcp].
 
-!!! note
-    This documentation is for the updated cluster `Eiger.Alps` reachable at `eiger.alps.cscs.ch`, that replaced the former cluster as on July 1 2025.
-
-??? change "Important changes from Eiger"
-    The redeployment of `eiger.cscs.ch` as `eiger.alps.cscs.ch` has introduced changes that may affect some users.
-
-    ### Breaking changes
-
-    !!! warning "Sarus is replaced with the Container Engine"
-        The Sarus container runtime is replaced with the [Container Engine][ref-container-engine].
-
-        If you are using Sarus to run containers on Eiger, you will have to [rebuild][ref-build-containers] and adapt your containers for the Container Engine.
-
-    !!! warning "Cray modules and EasyBuild are no longer supported"
-        The Cray Programming Environment (accessed via the `cray` module) is no longer supported by CSCS, along with software that CSCS provided using EasyBuild.
-
-        The same version of the Cray modules is still available, along with software that was installed using them, however they will not receive updates or support from CSCS.
-
-        You are strongly encouraged to start using [uenv][ref-cluster-eiger-uenv] to access supported applications and to rebuild your own applications.
-
-        * The versions of compilers, `cray-mpich`, Python and libraries in uenv are up to date.
-        * The scientific application uenv have up to date versions of the supported applications.
-
-    ### Minor changes
-
-    !!! change "Slurm is updated from version 23.02.6 to 24.05.4"
-
 ## Cluster specification
 
 ### Compute nodes
@@ -37,12 +10,11 @@ Eiger is an Alps cluster that provides compute nodes and file systems designed t
 Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: please note that the total number of available compute nodes on the system might vary over time.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
-!!! todo "Platform owners: one node has less memory than the other large-memory nodes"
-    `nid001722` is configured with 444 GiB available to jobs, 30 GiB less than the other large-memory nodes.
-    The configured value is what the provisioning calculation gives for a node with 15 of its 16 DIMMs, so it is most likely correct and the node is running with one DIMM missing or failed.
-    Confirming this needs a measurement on the node itself, which was not possible while the node was in use.
-
 Additionally, there are four login nodes with host names `eiger-ln00[1-4]`.
+
+<!--begin no spell check-->
+--8<-- "probes/generated/eiger/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 
@@ -150,17 +122,23 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | max nodes per job | time limit |
-| --   |  -- | -- |
-| `debug`  | 10   | 30 minutes |
-| `prepost`  | 1    | 30 minutes |
-| `normal` | 480  | 24 hours |
-| `xfer`   | 1    | 24 hours |
-| `low`    | 124  | 24 hours |
+<!--begin no spell check-->
+--8<-- "probes/generated/eiger/partitions.md"
+
+--8<-- "probes/generated/eiger/stamp.md"
+<!--end no spell check-->
+
+The `normal`, `prepost` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` partitions are not shared
 * jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/eiger/nodetypes.md"
+<!--end no spell check-->
 
 !!! note "Default MPI plugin"
     The default [MPI plugin][ref-slurm-mpi] on Eiger is `cray_shasta`.
