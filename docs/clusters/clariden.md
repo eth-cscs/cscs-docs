@@ -98,14 +98,21 @@ There are six Slurm partitions on the system:
 <!--end no spell check-->
 
 Most partitions are configured on the same pool of nodes.
-The *Nodes* column is the number of nodes that all the jobs in a partition can use at the same time, which for `normal` and `highprio` is set by a [Slurm QoS][ref-slurm-partitions-qos].
-When a partition has reached that limit, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
+The jobs in `normal` and `highprio` are also limited by a [Slurm QoS][ref-slurm-partitions-qos] to a number of nodes held at the same time, which is also the largest job that those partitions can run (*Max nodes/job*).
+When that limit is reached, the jobs waiting in the partition are shown by `squeue` with the reason `QOSGrpNodeLimit`.
 
-!!! todo "Platform owners: confirm the QoS node limits, and the `nvidia_vboost_disabled` feature"
-    The node limits of the `normalp` and `highprio` QoS are stored in the Slurm accounting database, and the table above shows the values set there on 2026-10-12: 400 and 780 nodes.
-    The comments in `slurm.conf` that describe how the QoS were created give 480 and 600 nodes.
-    Which values are intended?
-    If the values in the database are a temporary change, describe it in an admonition here.
+!!! todo "Platform owners: confirm the QoS node limits, the job-size policy, and the `nvidia_vboost_disabled` feature"
+    The `normalp` QoS (the partition QoS of `normal`) and the `highprio` QoS limit the nodes that all their jobs can hold at the same time: 400 and 780 nodes in the accounting database on 2026-10-14, with 394 and 774 in use on 2026-10-16.
+    Slurm enforces these limits, so they are also the largest job that each partition can run, and the table shows them as *Max nodes/job*.
+    Neither QoS has the `DenyOnLimit` flag, so a larger job is not rejected: it stays pending with the reason `QOSGrpNodeLimit`.
+
+    1. The comments in `slurm.conf` that describe how the QoS were created give 480 and 600 nodes.
+       Which values are intended?
+       If the values in the database are a temporary change, describe it in an admonition here.
+    2. The previous version of this page gave 1 to 128 nodes per job for `normal` and `preemptable`, and more than 128 for `highprio`.
+       Slurm does not enforce these sizes: no partition, QoS or association sets a 128-node limit, and there is no job submit plugin.
+       Is this a usage policy only, as the page now says, or should Slurm enforce it, for example with `MaxTRES=node=128` on `normalp`?
+    3. Should jobs larger than the QoS node limit be rejected at submission (`DenyOnLimit`), instead of pending without end?
 
     The Slurm configuration has two configurations of GPU node in every GPU partition: 48 nodes provide both the `nvidia_vboost_enabled` and `nvidia_vboost_disabled` [features][ref-slurm-features-vboost], and the other nodes provide only `nvidia_vboost_enabled`.
     A job that requests `--constraint=nvidia_vboost_disabled` can only run on those 48 nodes, although vboost is disabled by default on every node.
