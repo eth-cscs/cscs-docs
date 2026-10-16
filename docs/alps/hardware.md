@@ -99,7 +99,8 @@ These nodes have two [AMD Epyc 7742](https://www.amd.com/en/support/downloads/dr
 * *Large-memory*:  512 GB in 16x32 GB DDR4 DIMMs.
 
 !!! note "Not all memory is available"
-    The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.
+    The total memory available to jobs is roughly 236 GiB on standard-memory nodes and 474 GiB on large-memory nodes.
+    The nodes have more memory installed than this---around 6% is reserved for the operating system and is not available to jobs.
 
     The amount of memory available to your job also depends on the number of MPI ranks per node---each MPI rank has a memory overhead.
 
