@@ -325,7 +325,7 @@ def load_partitions(system, source, nodetypes=False):
 # -- QoS ----------------------------------------------------------------------
 
 QOS_FORMAT = ("name", "grptres", "maxtres", "maxtrespu", "maxjobspu", "maxsubmitpu",
-              "maxjobspa", "maxsubmitpa", "maxwall", "priority", "preempt")
+              "maxjobspa", "maxsubmitpa", "maxwall", "priority", "preempt", "maxtresmins", "flags")
 SACCTMGR_QOS = ["sacctmgr", "-nP", "show", "qos", "format=" + ",".join(QOS_FORMAT)]
 
 
@@ -348,6 +348,7 @@ def load_qos(text):
             "name": values["name"],
             "grp_nodes": tres_nodes(values["grptres"]),
             "job_nodes": tres_nodes(values["maxtres"]),
+            "job_node_minutes": tres_nodes(values["maxtresmins"]),
             "user_nodes": tres_nodes(values["maxtrespu"]),
             "user_jobs": number(values["maxjobspu"]),
             "user_submit": number(values["maxsubmitpu"]),
@@ -356,6 +357,9 @@ def load_qos(text):
             "maxwall": values["maxwall"] or None,
             "priority": number(values["priority"]),
             "preempt": name_list(values["preempt"]) or [],
+            # Without DenyOnLimit, a job over a limit of the QoS is accepted and
+            # stays pending; with it, the job is rejected at submission.
+            "deny_on_limit": "DenyOnLimit" in values["flags"].split(","),
         }
     return qos
 

@@ -116,24 +116,64 @@ def usable_nodes(partition, qos):
     return usable, limited_by
 
 
+def qos_job_nodes(entry):
+    """The most nodes that one job under a QoS can use, and the limit that sets
+    it: MaxTRES, or GrpTRES, since one job cannot hold more nodes than all the
+    jobs of the QoS together."""
+    limits = [(entry["job_nodes"], "MaxTRES"), (entry["grp_nodes"], "GrpTRES")]
+    limits = [(nodes, name) for nodes, name in limits if nodes is not None]
+    if not limits:
+        return None, None
+    nodes, name = min(limits)
+    return nodes, "%s node=%d" % (name, nodes)
+
+
 def job_nodes(partition, qos):
-    """The most nodes that one job in a partition can use, and what sets it."""
+    """The most nodes that one job in a partition can use, and what sets it.
+
+    A job that asks for more is accepted unless the limit is set with DenyOnLimit
+    on its QoS, and then stays pending: with reason QOSGrpNodeLimit for GrpTRES.
+    """
     limit, limited_by = None, None
     if partition["maxnodes"].upper() not in ("UNLIMITED", "INFINITE"):
         limit = int(partition["maxnodes"])
         limited_by = {"source": "partition", "limit": "MaxNodes=%d" % limit}
     own = partition_qos(partition, qos)
-    if own and own["job_nodes"] is not None and (limit is None or own["job_nodes"] < limit):
-        limit = own["job_nodes"]
-        limited_by = {"source": "partition QoS", "qos": [own["name"]],
-                      "limit": "MaxTRES node=%d" % limit}
+    if own:
+        nodes, what = qos_job_nodes(own)
+        if nodes is not None and (limit is None or nodes < limit):
+            limit = nodes
+            limited_by = {"source": "partition QoS", "qos": [own["name"]], "limit": what}
+    # A job runs under one of the allowed QoS, so the partition is limited only
+    # if every QoS that lets jobs run has a limit, and then by the largest.
+    if partition["allowqos"] is not None:
+        allowed = [qos[n] for n in partition["allowqos"] if n in qos]
+        open_qos = [q for q in allowed if not slurm.qos_blocked(q)]
+        bounds = [qos_job_nodes(q) for q in open_qos]
+        if open_qos and all(nodes is not None for nodes, _ in bounds):
+            nodes = max(n for n, _ in bounds)
+            if limit is None or nodes < limit:
+                limit = nodes
+                limited_by = {"source": "allowed QoS", "qos": [q["name"] for q in open_qos],
+                              "limit": ", ".join(what for _, what in bounds)}
     return limit, limited_by
+
+
+def job_node_minutes(partition, qos):
+    """The most node-minutes (nodes times time limit) of one job in a partition,
+    set by MaxTRESMins on the partition QoS, and what sets it."""
+    own = partition_qos(partition, qos)
+    if own is None or own["job_node_minutes"] is None:
+        return None, None
+    return own["job_node_minutes"], {"source": "partition QoS", "qos": [own["name"]],
+                                     "limit": "MaxTRESMins node=%d" % own["job_node_minutes"]}
 
 
 def qos_model(entry):
     return OrderedDict([
         ("max_nodes_in_use", entry["grp_nodes"]),
         ("max_nodes_per_job", entry["job_nodes"]),
+        ("max_node_minutes_per_job", entry["job_node_minutes"]),
         ("max_nodes_per_user", entry["user_nodes"]),
         ("max_running_jobs_per_user", entry["user_jobs"]),
         ("max_submitted_jobs_per_user", entry["user_submit"]),
@@ -143,6 +183,7 @@ def qos_model(entry):
         ("priority", entry["priority"]),
         ("preempts", entry["preempt"]),
         ("blocks_jobs", slurm.qos_blocked(entry)),
+        ("deny_on_limit", entry["deny_on_limit"]),
     ])
 
 
@@ -158,6 +199,7 @@ def build_partitions(system, source, publish):
             continue
         usable, usable_limit = usable_nodes(partition, qos)
         per_job, per_job_limit = job_nodes(partition, qos)
+        node_minutes, node_minutes_limit = job_node_minutes(partition, qos)
         item = OrderedDict([
             ("name", partition["name"]),
             ("default", partition["default"]),
@@ -170,6 +212,10 @@ def build_partitions(system, source, publish):
             ("job_nodes", OrderedDict([
                 ("max", per_job),
                 ("limited_by", per_job_limit),
+            ])),
+            ("job_node_minutes", OrderedDict([
+                ("max", node_minutes),
+                ("limited_by", node_minutes_limit),
             ])),
             ("time", OrderedDict([
                 ("default", slurm_time(partition["defaulttime"])),
@@ -197,8 +243,31 @@ def build_partitions(system, source, publish):
     ])
 
 
+# Order of the partitions in the tables: normal first, then the other partitions
+# from most nodes to fewest and by name, then debug and xfer. The JSON keeps the
+# partitions sorted by name.
+FIRST_PARTITIONS = ["normal"]
+LAST_PARTITIONS = ["debug", "xfer"]
+
+
+def partition_order(name, nodes=None):
+    """Sort key of a partition in a table, from its name and number of nodes."""
+    if name in FIRST_PARTITIONS:
+        return (0, FIRST_PARTITIONS.index(name), 0, "")
+    if name in LAST_PARTITIONS:
+        return (2, LAST_PARTITIONS.index(name), 0, "")
+    return (1, 0, -(nodes or 0), name)
+
+
 def partition_name(row):
     return code(row["name"]) + (" (default)" if row["default"] else "")
+
+
+def max_time(row):
+    text = row["time"]["max"] or "unlimited"
+    if row["job_node_minutes"]["max"] is not None:
+        text += " (%d node-minutes/job)" % row["job_node_minutes"]["max"]
+    return text
 
 
 PARTITIONS = Probe(
@@ -211,13 +280,14 @@ PARTITIONS = Probe(
         "live": "`scontrol show partition` and `sacctmgr show qos`",
     },
     build=build_partitions,
-    rows=lambda model: [p for p in model["partitions"] if not p["hidden"]],
+    rows=lambda model: sorted((p for p in model["partitions"] if not p["hidden"]),
+                              key=lambda p: partition_order(p["name"], p["nodes"]["pool"])),
     columns=[
         ("Partition", partition_name),
-        ("Nodes", lambda row: str(row["nodes"]["usable"])),
+        ("Nodes", lambda row: str(row["nodes"]["pool"])),
         ("Max nodes/job", lambda row: number(row["job_nodes"]["max"])),
         ("Default time", lambda row: row["time"]["default"] or "none"),
-        ("Max time", lambda row: row["time"]["max"] or "unlimited"),
+        ("Max time", max_time),
     ],
     fields=OrderedDict([
         ("partitions[].name", "Name, as passed to --partition."),
@@ -227,8 +297,15 @@ PARTITIONS = Probe(
         ("partitions[].nodes.usable", "Most nodes that all the jobs of the partition can hold at the same time."),
         ("partitions[].nodes.limited_by", "The limit that makes usable smaller than pool, or null. "
                                           "Jobs waiting on it are pending with reason QOSGrpNodeLimit."),
-        ("partitions[].job_nodes.max", "Most nodes that one job can request, or null for no limit."),
-        ("partitions[].job_nodes.limited_by", "The partition or QoS limit that sets job_nodes.max, or null."),
+        ("partitions[].job_nodes.max", "Most nodes that one job can run on, or null for no limit. "
+                                       "Includes the QoS group limits (GrpTRES): one job cannot hold "
+                                       "more nodes than all the jobs of its QoS together."),
+        ("partitions[].job_nodes.limited_by", "The partition or QoS limit that sets job_nodes.max, or null. "
+                                              "For allowed QoS, the limit of each QoS that a job can use; "
+                                              "the largest of them applies."),
+        ("partitions[].job_node_minutes.max", "Most node-minutes (nodes times time limit) of one job, "
+                                              "or null for no limit (MaxTRESMins of the partition QoS)."),
+        ("partitions[].job_node_minutes.limited_by", "The QoS limit that sets job_node_minutes.max, or null."),
         ("partitions[].time.default", "Time limit of a job that sets none, as [days-]hh:mm:ss, or null."),
         ("partitions[].time.max", "Longest time limit that a job can request, or null for no limit."),
         ("partitions[].partition_qos", "QoS whose limits apply to every job in the partition, or null. "
@@ -246,7 +323,11 @@ PARTITIONS = Probe(
         ("qos.<name>", "Limits of each QoS named by a partition; null where there is no limit. "
                        "Read from the accounting database in both the intended and live modes."),
         ("qos.<name>.max_nodes_in_use", "Most nodes that all the jobs running under the QoS can hold (GrpTRES)."),
+        ("qos.<name>.max_node_minutes_per_job", "Most node-minutes of one job under the QoS (MaxTRESMins)."),
         ("qos.<name>.blocks_jobs", "True for a QoS that lets no job run, used to stop a project."),
+        ("qos.<name>.deny_on_limit", "True if a job over a limit of the QoS is rejected at submission. "
+                                     "If false, it is accepted and stays pending, with a reason such as "
+                                     "QOSGrpNodeLimit or QOSMaxNodePerJobLimit."),
     ]),
 )
 
@@ -377,7 +458,11 @@ def nodetype_rows(model):
             rows[key]["nodes"] += entry["nodes"]
         else:
             rows[key] = OrderedDict(entry)
-    return list(rows.values())
+    # The sort is stable, so the rows of a partition keep their order.
+    totals = {}
+    for row in rows.values():
+        totals[row["partition"]] = totals.get(row["partition"], 0) + row["nodes"]
+    return sorted(rows.values(), key=lambda row: partition_order(row["partition"], totals[row["partition"]]))
 
 
 NODETYPES = Probe(
@@ -727,7 +812,8 @@ USAGE = Probe(
                 "and the running and pending jobs of each partition.",
     sources={"live": "`sinfo`, `squeue` and `scontrol show assoc_mgr flags=qos`"},
     build=build_usage,
-    rows=lambda model: model["partitions"],
+    rows=lambda model: sorted(model["partitions"],
+                              key=lambda p: partition_order(p["name"], p["nodes"]["total"])),
     columns=[
         ("Partition", lambda row: code(row["name"])),
         ("Nodes", lambda row: str(row["nodes"]["total"])),
@@ -806,7 +892,7 @@ ACCESS = Probe(
                 "that they can submit to.",
     sources={"live": "`sacctmgr show assoc`, `scontrol show partition` and `id`"},
     build=build_access,
-    rows=lambda model: model["partitions"],
+    rows=lambda model: sorted(model["partitions"], key=lambda p: partition_order(p["name"])),
     columns=[
         ("Partition", lambda row: code(row["name"])),
         ("Can submit", lambda row: "yes" if row["can_submit"] else "no"),

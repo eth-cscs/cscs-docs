@@ -3,15 +3,15 @@
 # Describe a cluster: for the documentation, and for agents that help users on
 # the system.
 #
-# With no options, generate the cluster configuration artifacts that the
-# documentation build includes. Run this on a login node of the cluster you want
-# to refresh, then commit the result.
+# With no options, generate the cluster configuration artifacts used to generate
+# the docs.
+# Run on a login node of a cluster, then commit the result:
 #
 #   ./probes/probe.sh
 #   git diff probes/generated/
 #
-# With --live or --intended nothing is written: the named probes are printed,
-# as markdown tables or as JSON with everything that the probe knows.
+# The --live or --intended write generate output to stdout. output is printed
+# as markdown tables or as JSON:
 #
 #   ./probes/probe.sh --list
 #   ./probes/probe.sh --live --format json partitions usage access
@@ -40,10 +40,9 @@
 
 set -euo pipefail
 
-# Describe the system as every user sees it, not the environment of whoever runs
-# the probe: a tool installed in the user's own path (a development build of
-# uenv, say) would otherwise be reported as the system version.
+# Use the default search paths to avoid poluting results with user-specific
+# customizations (e.g. custom uenv build in $HOME/.local/bin)
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
-# -B: the checkout is shared between clusters, so leave no bytecode in it.
+# -B: generate no bytecode in case the checkout is shared between clusters
 exec python3 -B "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/cli.py" "$@"

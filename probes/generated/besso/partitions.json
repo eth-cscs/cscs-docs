@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "besso",
   "source": "intended",
-  "emitters": "a5cb39b6",
+  "emitters": "f02c0782",
   "probes": {
     "partitions": {
       "partitions": [
@@ -16,6 +16,10 @@
             "limited_by": null
           },
           "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
             "max": null,
             "limited_by": null
           },
@@ -42,6 +46,10 @@
             "max": null,
             "limited_by": null
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "01:00:00",
             "max": "1-00:00:00"
@@ -62,6 +70,10 @@
             "limited_by": null
           },
           "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
             "max": null,
             "limited_by": null
           },

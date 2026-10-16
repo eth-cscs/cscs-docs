@@ -21,9 +21,9 @@ Run `./probes/probe.sh --list --format json` once for the meaning of every field
 
 | Question | Probe | Look at |
 |---|---|---|
-| Which partition should a job use, and what are its limits? | `partitions` | `nodes.usable`, `job_nodes.max`, `time` |
+| Which partition should a job use, and what are its limits? | `partitions` | `nodes.usable`, `job_nodes.max`, `job_node_minutes.max`, `time` |
 | Can this user submit to a partition, and with which account and QoS? | `access` | `partitions[].can_submit`, `reason`, `accounts`, `qos` |
-| Why was a job rejected at submission? | `access`, `partitions` | `reason`; `job_nodes.max` and `time.max` against the request |
+| Why was a job rejected at submission? | `access`, `partitions` | `reason`; `job_nodes.max`, `job_node_minutes.max` and `time.max` against the request; `qos.<name>.deny_on_limit` |
 | Why is a job pending? | `usage`, `partitions` | `jobs.pending_reasons`, `qos_nodes`, `nodes.limited_by` |
 | Will a job start soon? | `usage` | `nodes.idle`, `qos_nodes.free`, `jobs.pending` |
 | What hardware does a partition have, and which `--constraint` values exist? | `nodetypes` | `type`, `cpus`, `memory_gb`, `gres`, `features` |
@@ -36,6 +36,10 @@ Run `./probes/probe.sh --list --format json` once for the meaning of every field
 * `null` means no limit or not set, never zero.
 * `partitions[].nodes.pool` is the number of nodes that a partition is configured on.
   Partitions share nodes, so it is not what the jobs of the partition can use: that is `nodes.usable`, and `nodes.limited_by` names the QoS limit that sets it.
+* `partitions[].job_nodes.max` is the largest job that can run in the partition: the tightest of the partition `MaxNodes`, and the per-job (`MaxTRES`) and group (`GrpTRES`) node limits of its QoS.
+  A job larger than that is rejected at submission only if the QoS that sets the limit has `deny_on_limit`; otherwise it is accepted and stays pending without end, for example with reason `QOSGrpNodeLimit`.
+  The QoS that a job requests can lower the limit further: compare `qos.<name>.max_nodes_per_job`.
+* `partitions[].job_node_minutes.max` limits nodes times the time limit of one job (e.g. 90: 1 node for 90 minutes, or 2 nodes for 45).
 * A partition has two kinds of QoS.
   `partition_qos` applies to every job in the partition and is not requested.
   `allowed_qos` lists the ones that a job can request with `--qos`; the limits of each are under `qos`.

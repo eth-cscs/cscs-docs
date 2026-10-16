@@ -1,8 +1,8 @@
 {
   "cluster": "clariden",
-  "generated": "2026-10-14",
-  "host": "clariden-ln003",
-  "emitters_sha": "a5cb39b6",
+  "generated": "2026-10-16",
+  "host": "clariden-ln004",
+  "emitters_sha": "f02c0782",
   "max_age_days": 30,
   "artifacts": {
     "partitions.md": {

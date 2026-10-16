@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "santis",
   "source": "intended",
-  "emitters": "a5cb39b6",
+  "emitters": "f02c0782",
   "probes": {
     "partitions": {
       "partitions": [
@@ -21,6 +21,10 @@
               "source": "partition",
               "limit": "MaxNodes=2"
             }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
           },
           "time": {
             "default": "00:30:00",
@@ -42,6 +46,10 @@
             "limited_by": null
           },
           "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
             "max": null,
             "limited_by": null
           },
@@ -70,6 +78,10 @@
             "max": null,
             "limited_by": null
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "01:00:00",
             "max": "1-00:00:00"
@@ -90,6 +102,10 @@
             "limited_by": null
           },
           "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
             "max": null,
             "limited_by": null
           },
@@ -119,6 +135,10 @@
               "limit": "MaxNodes=1"
             }
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "06:00:00",
             "max": "1-00:00:00"
@@ -134,6 +154,7 @@
         "slowdown": {
           "max_nodes_in_use": null,
           "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
           "max_nodes_per_user": null,
           "max_running_jobs_per_user": 10,
           "max_submitted_jobs_per_user": 20,
@@ -142,7 +163,8 @@
           "max_time": null,
           "priority": 0,
           "preempts": [],
-          "blocks_jobs": false
+          "blocks_jobs": false,
+          "deny_on_limit": false
         }
       }
     }

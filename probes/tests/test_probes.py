@@ -21,6 +21,16 @@ def build(name, source, publish=False):
     return probes.PROBES[name].build(System(ALPHA), source, publish)
 
 
+def qos_entry(name, **limits):
+    """A QoS as slurm.load_qos returns it, with no limits but those given."""
+    entry = {"name": name, "grp_nodes": None, "job_nodes": None, "user_nodes": None,
+             "user_jobs": None, "user_submit": None, "account_jobs": None, "account_submit": None,
+             "job_node_minutes": None, "maxwall": None, "priority": 0, "preempt": [],
+             "deny_on_limit": False}
+    entry.update(limits)
+    return entry
+
+
 def by_name(items, key="name"):
     return dict((item[key], item) for item in items)
 
@@ -53,7 +63,37 @@ class Partitions(unittest.TestCase):
         self.assertEqual(job_nodes["limited_by"]["limit"], "MaxTRES node=2")
         self.assertEqual(self.partitions["xfer"]["job_nodes"],
                          {"max": 1, "limited_by": {"source": "partition", "limit": "MaxNodes=1"}})
-        self.assertIsNone(self.partitions["normal"]["job_nodes"]["max"])
+
+    def test_job_nodes_include_qos_group_limits(self):
+        # One job cannot hold more nodes than all the jobs of its QoS together.
+        self.assertEqual(self.partitions["normal"]["job_nodes"],
+                         {"max": 12, "limited_by": {"source": "partition QoS", "qos": ["normalp"],
+                                                    "limit": "GrpTRES node=12"}})
+        self.assertEqual(self.partitions["big"]["job_nodes"],
+                         {"max": 6, "limited_by": {"source": "allowed QoS", "qos": ["big"],
+                                                   "limit": "GrpTRES node=6"}})
+
+    def test_job_nodes_of_several_allowed_qos_take_the_largest(self):
+        # A job runs under one QoS, so the limits of the allowed QoS are not added.
+        qos = {"a": qos_entry("a", grp_nodes=6), "b": qos_entry("b", job_nodes=4),
+               "c": qos_entry("c"), "stop": qos_entry("stop", user_jobs=0)}
+        partition = {"maxnodes": "UNLIMITED", "qos": None, "allowqos": ["a", "b", "stop"]}
+        self.assertEqual(probes.job_nodes(partition, qos),
+                         (6, {"source": "allowed QoS", "qos": ["a", "b"],
+                              "limit": "GrpTRES node=6, MaxTRES node=4"}))
+        partition["allowqos"] = ["a", "c"]
+        self.assertEqual(probes.job_nodes(partition, qos), (None, None))
+
+    def test_job_node_minutes(self):
+        self.assertEqual(self.partitions["debug"]["job_node_minutes"],
+                         {"max": 60, "limited_by": {"source": "partition QoS", "qos": ["debug-qos"],
+                                                    "limit": "MaxTRESMins node=60"}})
+        self.assertEqual(self.partitions["normal"]["job_node_minutes"], {"max": None, "limited_by": None})
+        self.assertEqual(self.model["qos"]["debug-qos"]["max_node_minutes_per_job"], 60)
+
+    def test_deny_on_limit(self):
+        self.assertTrue(self.model["qos"]["debug-qos"]["deny_on_limit"])
+        self.assertFalse(self.model["qos"]["normalp"]["deny_on_limit"])
 
     def test_times_are_normalised(self):
         self.assertEqual(self.partitions["debug"]["time"], {"default": "00:30:00", "max": "00:30:00"})
@@ -109,12 +149,21 @@ class Partitions(unittest.TestCase):
             "",
             "| Partition | Nodes | Max nodes/job | Default time | Max time |",
             "|---|---|---|---|---|",
-            "| `big` | 6 | unlimited | 01:00:00 | 2-00:00:00 |",
-            "| `debug` | 16 | 2 | 00:30:00 | 00:30:00 |",
-            "| `normal` (default) | 12 | unlimited | 01:00:00 | 1-00:00:00 |",
+            "| `normal` (default) | 16 | 12 | 01:00:00 | 1-00:00:00 |",
+            "| `big` | 16 | 6 | 01:00:00 | 2-00:00:00 |",
+            "| `debug` | 16 | 2 | 00:30:00 | 00:30:00 (60 node-minutes/job) |",
             "| `xfer` | 2 | 1 | 01:00:00 | 1-00:00:00 |",
             "",
         ]))
+
+    def test_table_order_of_partitions(self):
+        # normal first, then from most nodes to fewest and by name, then debug and xfer.
+        names = [("xfer", 2), ("low", 100), ("debug", 200), ("big", 100), ("normal", 50), ("tiny", 4)]
+        self.assertEqual([n for n, _ in sorted(names, key=lambda p: probes.partition_order(*p))],
+                         ["normal", "big", "low", "tiny", "debug", "xfer"])
+        # The JSON keeps the partitions sorted by name.
+        self.assertEqual([p["name"] for p in self.model["partitions"]],
+                         ["big", "debug", "normal", "staff", "xfer"])
 
     def test_json_round_trip_renders_the_same_table(self):
         data = views.envelope("alpha", "intended", "00000000",
@@ -150,9 +199,9 @@ class NodeTypes(unittest.TestCase):
         self.assertEqual(views.to_markdown(data).split("\n")[4:], [
             "| Partition | Nodes | Node type | Features |",
             "|---|---|---|---|",
+            "| `normal` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
             "| `big` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
             "| `debug` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
-            "| `normal` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
             "| `xfer` | 2 | [zen2 256 GB][ref-alps-zen2-node] | none |",
             "",
         ])

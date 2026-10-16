@@ -1,8 +1,8 @@
 {
   "cluster": "bristen",
-  "generated": "2026-10-14",
+  "generated": "2026-10-16",
   "host": "bristen-ln001",
-  "emitters_sha": "a5cb39b6",
+  "emitters_sha": "f02c0782",
   "max_age_days": 30,
   "artifacts": {
     "partitions.md": {

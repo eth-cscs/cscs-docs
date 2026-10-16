@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "santis",
   "source": "intended",
-  "emitters": "a5cb39b6",
+  "emitters": "f02c0782",
   "probes": {
     "nodes": {
       "nodes": [

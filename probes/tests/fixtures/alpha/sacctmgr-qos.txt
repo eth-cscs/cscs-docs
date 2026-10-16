@@ -1,6 +1,6 @@
-normal|||||||||100|
-stop||||0|0|||||
-normalp|node=12||||||||0|
-debug-qos||node=2||1|2||||0|
-big|node=6|||||||2-00:00:00|0|normal
-unused|node=1||||||||0|
+normal|||||||||100|||
+stop||||0|0|||||||
+normalp|node=12||||||||0|||
+debug-qos||node=2||1|2||||0||node=60|DenyOnLimit
+big|node=6|||||||2-00:00:00|0|normal||
+unused|node=1||||||||0|||

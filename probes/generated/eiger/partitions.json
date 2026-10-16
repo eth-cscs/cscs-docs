@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "eiger",
   "source": "intended",
-  "emitters": "a5cb39b6",
+  "emitters": "f02c0782",
   "probes": {
     "partitions": {
       "partitions": [
@@ -21,6 +21,10 @@
               "source": "partition",
               "limit": "MaxNodes=10"
             }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
           },
           "time": {
             "default": "00:30:00",
@@ -51,6 +55,10 @@
               "limit": "MaxNodes=124"
             }
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "01:00:00",
             "max": "1-00:00:00"
@@ -79,6 +87,10 @@
               "source": "partition",
               "limit": "MaxNodes=480"
             }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
           },
           "time": {
             "default": "01:00:00",
@@ -109,6 +121,10 @@
               "limit": "MaxNodes=1"
             }
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "00:30:00",
             "max": "00:30:00"
@@ -138,6 +154,10 @@
               "limit": "MaxNodes=1"
             }
           },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
           "time": {
             "default": "06:00:00",
             "max": "1-00:00:00"
@@ -153,6 +173,7 @@
         "debug": {
           "max_nodes_in_use": null,
           "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
           "max_nodes_per_user": null,
           "max_running_jobs_per_user": 1,
           "max_submitted_jobs_per_user": 2,
@@ -161,11 +182,13 @@
           "max_time": null,
           "priority": 0,
           "preempts": [],
-          "blocks_jobs": false
+          "blocks_jobs": false,
+          "deny_on_limit": false
         },
         "normal": {
           "max_nodes_in_use": null,
           "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
           "max_nodes_per_user": 128,
           "max_running_jobs_per_user": null,
           "max_submitted_jobs_per_user": null,
@@ -174,11 +197,13 @@
           "max_time": null,
           "priority": 0,
           "preempts": [],
-          "blocks_jobs": false
+          "blocks_jobs": false,
+          "deny_on_limit": false
         },
         "slowdown": {
           "max_nodes_in_use": null,
           "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
           "max_nodes_per_user": null,
           "max_running_jobs_per_user": null,
           "max_submitted_jobs_per_user": null,
@@ -187,11 +212,13 @@
           "max_time": null,
           "priority": 0,
           "preempts": [],
-          "blocks_jobs": false
+          "blocks_jobs": false,
+          "deny_on_limit": false
         },
         "stop": {
           "max_nodes_in_use": null,
           "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
           "max_nodes_per_user": null,
           "max_running_jobs_per_user": 0,
           "max_submitted_jobs_per_user": 0,
@@ -200,7 +227,8 @@
           "max_time": null,
           "priority": 0,
           "preempts": [],
-          "blocks_jobs": true
+          "blocks_jobs": true,
+          "deny_on_limit": false
         }
       }
     }

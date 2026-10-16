@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "daint",
   "source": "intended",
-  "emitters": "a5cb39b6",
+  "emitters": "f02c0782",
   "probes": {
     "nodetypes": {
       "nodetypes": [
@@ -30,7 +30,51 @@
         },
         {
           "partition": "low",
-          "nodes": 922,
+          "nodes": 920,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 850,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "low",
+          "nodes": 2,
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "cpus": 288,
+          "memory_gb": 469,
+          "gres": "gpu:4",
+          "features": [
+            "gh",
+            "gpu",
+            "nvidia_vboost_disabled",
+            "nvidia_vboost_enabled",
+            "thp_always",
+            "thp_madvise",
+            "thp_never"
+          ],
+          "feature_sets": [
+            "vboost",
+            "thp"
+          ]
+        },
+        {
+          "partition": "normal",
+          "nodes": 920,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -52,11 +96,11 @@
         },
         {
           "partition": "normal",
-          "nodes": 922,
+          "nodes": 2,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
-          "memory_gb": 850,
+          "memory_gb": 469,
           "gres": "gpu:4",
           "features": [
             "gh",
