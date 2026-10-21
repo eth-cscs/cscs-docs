@@ -239,22 +239,6 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
-      <td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
-      <td>64,000</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
-      <td>32,768</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
       <td>262,144</td>
       <td>✓</td>
@@ -297,6 +281,14 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
   </tbody>
 </table>
 <!--end no spell check-->
+
+??? info "Removed models"
+    The following models have been served in the past, but are no longer offered.
+
+    | Model                              |
+    |------------------------------------|
+    | swiss-ai/Apertus-70B-Instruct-2509 |
+    | swiss-ai/Apertus-8B-Instruct-2509  |
 
 ??? info "Image, audio, and video input in API requests"
     The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
