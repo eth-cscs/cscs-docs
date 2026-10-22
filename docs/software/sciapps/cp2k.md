@@ -24,9 +24,21 @@ transition state optimization using NEB or dimer method. See [CP2K Features] for
 
 !!! note "Changelog"
 
-    !!! note "2026.1:v2"
+    !!! note "2026.2:v1"
 
-        * Updated CUDA from 12.4 to 13.0
+        * Updated CUDA to `@13.2`
+        * Updated GCC from `@12.5.0` to `@15.3.0`
+        * Updated Cray MPICH to `@9.2.1`, solving [slow host buffer communication with GPU-aware MPI](software/communication/cray-mpich/#known-issues)
+        * Updated ELPA to `@2026.02.002` with [patch](https://github.com/marekandreas/elpa/pull/85) for MPI communicator leak
+        * Most dependencies have been updated to the latest version available on Spack
+
+    ??? note "2026.1:v3"
+
+        * [Patched](https://github.com/marekandreas/elpa/pull/85) MPI communicator leak in ELPA
+
+    ??? note "2026.1:v2"
+
+        * Updated CUDA from `12.4` to `13.0`
     
     ??? note "2026.1:v1"
 
