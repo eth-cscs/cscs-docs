@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "cluster": "santis",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "nodes": {
+      "nodes": [
+        {
+          "type": "gh200",
+          "installed_memory_gb": null,
+          "nodes": 300,
+          "sockets": 1200,
+          "gpus": 1200,
+          "memory_gb": [
+            850
+          ],
+          "slurm_sockets_per_node": [
+            4
+          ]
+        },
+        {
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "nodes": 2,
+          "sockets": 4,
+          "gpus": 0,
+          "memory_gb": [
+            244
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        }
+      ]
+    }
+  }
+}

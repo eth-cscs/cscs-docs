@@ -1,0 +1,10 @@
+Current Association Manager state
+
+QOS Records
+
+QOS=normal(1)
+    GrpTRES=cpu=N(512),mem=N(0),node=N(2)
+QOS=normalp(7)
+    UsageRaw=1.0
+    GrpTRES=cpu=N(2816),mem=N(0),energy=N(0),node=12(11),billing=N(11)
+    GrpTRESMins=cpu=N(1),node=N(6)

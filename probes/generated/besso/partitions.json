@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "cluster": "besso",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "a100",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 2,
+            "usable": 2,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 2,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "mi200",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 2,
+            "usable": 2,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 2,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 4,
+            "usable": 4,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 2,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        }
+      ],
+      "qos": {}
+    }
+  }
+}

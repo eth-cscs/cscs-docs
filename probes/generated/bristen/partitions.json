@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "cluster": "bristen",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 32,
+            "usable": 32,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        }
+      ],
+      "qos": {}
+    }
+  }
+}

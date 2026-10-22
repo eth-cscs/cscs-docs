@@ -1,0 +1,338 @@
+{
+  "schema": 1,
+  "cluster": "clariden",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "debug",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 1368,
+            "usable": 1368,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 4,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=4"
+            }
+          },
+          "job_node_minutes": {
+            "max": 90,
+            "limited_by": {
+              "source": "partition QoS",
+              "qos": [
+                "debug-qos"
+              ],
+              "limit": "MaxTRESMins node=90"
+            }
+          },
+          "time": {
+            "default": "00:45:00",
+            "max": "01:30:00"
+          },
+          "partition_qos": "debug-qos",
+          "allowed_qos": [
+            "normal",
+            "stop",
+            "large-sc-qos"
+          ],
+          "priority_tier": 20,
+          "preempt_mode": "OFF",
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "highprio",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 1343,
+            "usable": 780,
+            "limited_by": {
+              "source": "allowed QoS",
+              "qos": [
+                "highprio"
+              ],
+              "limit": "GrpTRES node=780"
+            }
+          },
+          "job_nodes": {
+            "max": 780,
+            "limited_by": {
+              "source": "allowed QoS",
+              "qos": [
+                "highprio"
+              ],
+              "limit": "GrpTRES node=780"
+            }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "3-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "highprio",
+            "stop"
+          ],
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "FORCE:1"
+        },
+        {
+          "name": "low",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 1343,
+            "usable": 1343,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 10,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=10"
+            }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "06:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "slowdown",
+            "stop"
+          ],
+          "priority_tier": 10,
+          "preempt_mode": "OFF",
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 1343,
+            "usable": 400,
+            "limited_by": {
+              "source": "partition QoS",
+              "qos": [
+                "normalp"
+              ],
+              "limit": "GrpTRES node=400"
+            }
+          },
+          "job_nodes": {
+            "max": 400,
+            "limited_by": {
+              "source": "partition QoS",
+              "qos": [
+                "normalp"
+              ],
+              "limit": "GrpTRES node=400"
+            }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "12:00:00"
+          },
+          "partition_qos": "normalp",
+          "allowed_qos": [
+            "normal",
+            "stop",
+            "large-sc-qos"
+          ],
+          "priority_tier": 20,
+          "preempt_mode": "OFF",
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "preemptable",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 1343,
+            "usable": 1343,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "normal",
+            "stop",
+            "large-sc-qos"
+          ],
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "FORCE:1"
+        },
+        {
+          "name": "xfer",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 2,
+            "usable": 2,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 1,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=1"
+            }
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "06:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "FORCE:10"
+        }
+      ],
+      "qos": {
+        "debug-qos": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": 4,
+          "max_node_minutes_per_job": 90,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 1,
+          "max_submitted_jobs_per_user": 2,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "highprio": {
+          "max_nodes_in_use": 780,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "large-sc-qos": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": 8,
+          "max_node_minutes_per_job": 240,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 1,
+          "max_submitted_jobs_per_user": 2,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": "01:30:00",
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "normal": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 1000,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "normalp": {
+          "max_nodes_in_use": 400,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "slowdown": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 10,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "stop": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 0,
+          "max_submitted_jobs_per_user": 0,
+          "max_running_jobs_per_account": 0,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": true,
+          "deny_on_limit": false
+        }
+      }
+    }
+  }
+}

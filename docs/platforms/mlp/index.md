@@ -48,18 +48,23 @@ The main cluster provided by the MLP is Clariden, a large Grace-Hopper GPU syste
 [](){#ref-mlp-storage}
 ## File Systems and Storage
 
-The following file systems are mounted on the MLP clusters Clariden and Bristen:
+The file systems provided on the MLP cluster [Clariden][ref-cluster-clariden], the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
-| type |mount | filesystem |
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/filesystems.md"
+
+--8<-- "probes/generated/clariden/stamp.md"
+<!--end no spell check-->
+
+The following are also provided, but no environment variable points to them:
+
+| file system | path | storage |
 | -- | -- | -- |
-| Home | `/users/$USER` | [Vadret][ref-alps-vadret] |
-| Scratch | `/iopsstor/scratch/cscs/$USER` | [Iopsstor][ref-alps-iopsstor] |
-|         | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
-|         | `/ritom/scratch/cscs/$USER` | [Ritom][ref-alps-ritom] |
-| Store | `/capstor/store/cscs/<organization>/<project>` | [Capstor][ref-alps-capstor] |
-| Datacache | `/iopsstor/datacache/cscs/<organization>/<project>` | [Iopsstor][ref-alps-iopsstor] |
+| [Scratch][ref-storage-scratch] | `/capstor/scratch/cscs/$USER` | [Capstor][ref-alps-capstor] |
+| [Scratch][ref-storage-scratch] | `/ritom/scratch/cscs/$USER` | [Ritom][ref-alps-ritom] |
+| [Datacache][ref-mlp-storage-datacache] | `/iopsstor/datacache/cscs/<customer>/<group_id>` | [Iopsstor][ref-alps-iopsstor] |
 
-In the paths above, `<organization>` is the organization your project belongs to (for example `swissai`) and `<project>` is your project's name.
+In the Store and Datacache paths, `<customer>` is the organization your project belongs to (`swissai` for most MLP projects), and `<group_id>` is your project's Linux group; the rest of this page calls them `<organization>` and `<project>`.
 
 [](){#ref-mlp-storage-model}
 ### How storage works on the MLP

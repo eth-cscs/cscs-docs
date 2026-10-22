@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "cluster": "beverin",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "mi200",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 13,
+            "usable": 13,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 2,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "mi300",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 128,
+            "usable": 128,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 2,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        }
+      ],
+      "qos": {}
+    }
+  }
+}

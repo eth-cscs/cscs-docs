@@ -84,28 +84,45 @@ Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launc
 
 There are six Slurm partitions on the system:
 
-* the `highprio` partition is reserved for persons requiring a large number of nodes.
+* the `highprio` partition is reserved for persons requiring a large number of nodes (jobs of more than 128 nodes).
 * the `preemptable` partition is for all production workloads, has access to the largest number of nodes, but its jobs might be stopped.
 * the `normal` partition is for all production workloads, and its jobs cannot be stopped by highprio jobs.
 * the `debug` partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as `normal`, with tight per-user limits to keep it focused on its intended use case.
 * the `low` partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).
 * the `xfer` partition is for [internal and S3 data transfer][ref-data-xfer-internal] at CSCS.
 
-| name          | nodes  | nodes per job | time limit |
-| --            | --     | --                | -- |
-| `highprio`    | several nodes | >128    | 3 days |
-| `preemptable` | most nodes | 1-128    | 24 hours |
-| `normal`  | several nodes| 1-128 | 12 hours |
-| `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
-| `low`    | most nodes (shared with `preemptable`) | 1-10    | 6 hours |
-| `xfer`   | 2         | 1    | 24 hours |
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/partitions.md"
+
+--8<-- "probes/generated/clariden/stamp.md"
+<!--end no spell check-->
+
+!!! info "Keep jobs in `normal` and `preemptable` to 128 nodes or fewer"
+    The suggested largest job in the `normal` and `preemptable` partitions is 128 nodes, so that the system is used efficiently.
+    Slurm accepts larger jobs in these partitions, up to *Max nodes/job*, but they can wait a long time in the queue before enough nodes are free at the same time, even with backfill, and the nodes that are kept free for them are unavailable for other jobs while they wait.
+    The `highprio` partition is reserved for jobs larger than 128 nodes, and is available to selected projects.
+
+Most partitions are configured on the same pool of nodes.
+The jobs in `normal` and `highprio` are also limited by a [Slurm QoS][ref-slurm-partitions-qos] to a number of nodes that all their jobs can hold at the same time, which is also the largest job that those partitions can run (*Max nodes/job*).
+These limits are set so that `normal` and `highprio`, together with a reserve for nodes that are down and for interactive use, add up to the whole system.
+They may be adjusted: the table shows the current values.
+When the limit of a partition is reached, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
+
+!!! warning "Jobs larger than *Max nodes/job* never start"
+    A job that requests more nodes than *Max nodes/job* is accepted, but never starts: it stays pending with the reason `QOSGrpNodeLimit`.
+    Cancel it with `scancel`, and submit it again with fewer nodes.
 
 * jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
 * the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `preemptable` is full
 * `preemptable` and  `normal`have the same priority, but preemptable can use more nodes
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
-* the node ranges for `highprio`, `preemptable` and `normal` are a usage policy; Slurm does not enforce them
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/clariden/nodetypes.md"
+<!--end no spell check-->
 
 #### `highprio` partition
 

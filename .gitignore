@@ -10,3 +10,5 @@ site
 
 # the deprecated mkdocs configuration
 mkdocs.yml
+
+__pycache__

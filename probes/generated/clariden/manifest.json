@@ -1,0 +1,29 @@
+{
+  "cluster": "clariden",
+  "generated": "2026-10-16",
+  "host": "clariden-ln004",
+  "emitters_sha": "f02c0782",
+  "max_age_days": 30,
+  "artifacts": {
+    "partitions.md": {
+      "source": "slurm.conf and sacctmgr show qos",
+      "data": "partitions.json"
+    },
+    "nodetypes.md": {
+      "source": "slurm.conf",
+      "data": "nodetypes.json"
+    },
+    "nodes.md": {
+      "source": "slurm.conf",
+      "data": "nodes.json"
+    },
+    "filesystems.md": {
+      "source": "findmnt -T on the paths in $HOME, $SCRATCH, $SCRATCH_OLD, $STORE and $PROJECT",
+      "data": "filesystems.json"
+    },
+    "versions.md": {
+      "source": "the version output of each tool",
+      "data": "versions.json"
+    }
+  }
+}

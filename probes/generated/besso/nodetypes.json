@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "cluster": "besso",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "a100",
+          "nodes": 2,
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:4",
+          "features": [
+            "a100",
+            "gpu"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "mi200",
+          "nodes": 2,
+          "type": "mi200",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:8",
+          "features": [
+            "gpu",
+            "mi200"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 2,
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:4",
+          "features": [
+            "a100",
+            "gpu"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 2,
+          "type": "mi200",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:8",
+          "features": [
+            "gpu",
+            "mi200"
+          ],
+          "feature_sets": []
+        }
+      ]
+    }
+  }
+}
