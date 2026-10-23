@@ -6514,11 +6514,27 @@ Please have a look at the <a class="autorefs autorefs-internal" href="../../uenv
 <div class="admonition note">
 <p class="admonition-title">Changelog</p>
 <div class="admonition note">
-<p class="admonition-title">2026.1:v2</p>
+<p class="admonition-title">2026.2:v1</p>
 <ul>
-<li>Updated CUDA from 12.4 to 13.0</li>
+<li>Updated CUDA to <code>@13.2</code></li>
+<li>Updated GCC from <code>@12.5.0</code> to <code>@15.3.0</code></li>
+<li>Updated Cray MPICH to <code>@9.2.1</code>, solving <a class="autorefs autorefs-internal" title="Known issues" href="../../communication/cray-mpich/#known-issues">slow host buffer communication with GPU-aware MPI</a></li>
+<li>Updated ELPA to <code>@2026.02.002</code> with <a href="https://github.com/marekandreas/elpa/pull/85">patch</a> for MPI communicator leak</li>
+<li>Most dependencies have been updated to the latest version available on Spack</li>
 </ul>
 </div>
+<details class="note">
+<summary>2026.1:v3</summary>
+<ul>
+<li><a href="https://github.com/marekandreas/elpa/pull/85">Patched</a> MPI communicator leak in ELPA</li>
+</ul>
+</details>
+<details class="note">
+<summary>2026.1:v2</summary>
+<ul>
+<li>Updated CUDA from <code>12.4</code> to <code>13.0</code></li>
+</ul>
+</details>
 <details class="note">
 <summary>2026.1:v1</summary>
 <ul>
