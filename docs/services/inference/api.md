@@ -389,20 +389,21 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-=== "OpenCode handles API key (recommended)"
+=== "OpenCode v2 handles API key (recommended)"
 
     ```json title="OpenCode configuration for the inference API"
     {
         "$schema": "https://opencode.ai/config.json",
         // Set Kimi as default OpenCode model
         "model": "cscs/moonshotai/Kimi-K2.7-Code",
-        "provider": {
+        "providers": {
             "cscs": {
-                "npm": "@ai-sdk/anthropic",
+                "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
                 "options": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
-                    "systemMessageMode": "system",
+                    "systemMessageMode": "system"
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
                 },
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
@@ -425,7 +426,73 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
     Start OpenCode and run the `/connect` command.
     Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
 
-=== "API key as environment variable"
+=== "API key as environment variable (OpenCode v2)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "providers": {
+            "cscs": {
+                "package": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "OpenCode v1 handles API key (recommended)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "API key as environment variable (OpenCode v1)"
 
     ```json title="OpenCode configuration for the inference API"
     {
