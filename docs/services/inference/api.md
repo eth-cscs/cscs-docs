@@ -403,6 +403,7 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                 "options": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
                     "systemMessageMode": "system"
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
                 },
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
@@ -436,7 +437,6 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
             "cscs": {
                 "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
-                "env": ["CSCS_INFERENCE_API_KEY"],
                 "options": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
                     "systemMessageMode": "system"
@@ -457,6 +457,7 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
             }
         }
     }
+    ```
 
 === "OpenCode v1 handles API key (recommended)"
 
