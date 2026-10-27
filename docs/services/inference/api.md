@@ -239,6 +239,22 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
+      <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
       <td>262,144</td>
       <td>✓</td>
@@ -277,6 +293,14 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
       <td></td>
       <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3-Flash</code></td>
+      <td>524,288</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
     </tr>
   </tbody>
 </table>
