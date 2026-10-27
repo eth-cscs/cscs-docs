@@ -284,8 +284,8 @@ The backup process checks for modified or new files every 24 hours, and makes a 
     Please provide the following information in the request:
 
     * the **full path** to restore, e.g.:
-        * a file: `/capstor/scratch/cscs/userbob/software/data/results.tar.gz`
-        * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
+        * a file: `/capstor/store/cscs/your_project/software/data/results.tar.gz`
+        * or a directory: `/capstor/store/cscs/your_project/software/data`.
     * the **date** to restore from:
         * the most recent backup older than the date will be used.
 
