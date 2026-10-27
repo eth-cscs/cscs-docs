@@ -665,4 +665,3 @@ The same announcements are also posted in the `#inference-service` channel of th
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.
