@@ -1,0 +1,358 @@
+"""Tests of the probes against a saved system, so that they run without access
+to a cluster:
+
+    python3 -m unittest discover -s probes/tests
+"""
+import os
+import sys
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), "lib"))
+
+import probes  # noqa: E402
+import views  # noqa: E402
+from system import ProbeError, System  # noqa: E402
+
+ALPHA = os.path.join(HERE, "fixtures", "alpha")
+
+
+def build(name, source, publish=False):
+    return probes.PROBES[name].build(System(ALPHA), source, publish)
+
+
+def qos_entry(name, **limits):
+    """A QoS as slurm.load_qos returns it, with no limits but those given."""
+    entry = {"name": name, "grp_nodes": None, "job_nodes": None, "user_nodes": None,
+             "user_jobs": None, "user_submit": None, "account_jobs": None, "account_submit": None,
+             "job_node_minutes": None, "maxwall": None, "priority": 0, "preempt": [],
+             "deny_on_limit": False}
+    entry.update(limits)
+    return entry
+
+
+def by_name(items, key="name"):
+    return dict((item[key], item) for item in items)
+
+
+class Partitions(unittest.TestCase):
+    def setUp(self):
+        self.model = build("partitions", "intended")
+        self.partitions = by_name(self.model["partitions"])
+
+    def test_nodes_limited_by_partition_qos(self):
+        nodes = self.partitions["normal"]["nodes"]
+        self.assertEqual((nodes["pool"], nodes["usable"]), (16, 12))
+        self.assertEqual(nodes["limited_by"], {"source": "partition QoS", "qos": ["normalp"],
+                                               "limit": "GrpTRES node=12"})
+
+    def test_nodes_limited_by_allowed_qos(self):
+        # `stop` lets no job run, so `big` is the only QoS a job can use.
+        nodes = self.partitions["big"]["nodes"]
+        self.assertEqual(nodes["usable"], 6)
+        self.assertEqual(nodes["limited_by"]["source"], "allowed QoS")
+        self.assertEqual(nodes["limited_by"]["qos"], ["big"])
+
+    def test_nodes_without_qos_limit(self):
+        self.assertEqual(self.partitions["xfer"]["nodes"],
+                         {"pool": 2, "usable": 2, "limited_by": None})
+
+    def test_job_nodes_take_the_tighter_limit(self):
+        job_nodes = self.partitions["debug"]["job_nodes"]
+        self.assertEqual(job_nodes["max"], 2)
+        self.assertEqual(job_nodes["limited_by"]["limit"], "MaxTRES node=2")
+        self.assertEqual(self.partitions["xfer"]["job_nodes"],
+                         {"max": 1, "limited_by": {"source": "partition", "limit": "MaxNodes=1"}})
+
+    def test_job_nodes_include_qos_group_limits(self):
+        # One job cannot hold more nodes than all the jobs of its QoS together.
+        self.assertEqual(self.partitions["normal"]["job_nodes"],
+                         {"max": 12, "limited_by": {"source": "partition QoS", "qos": ["normalp"],
+                                                    "limit": "GrpTRES node=12"}})
+        self.assertEqual(self.partitions["big"]["job_nodes"],
+                         {"max": 6, "limited_by": {"source": "allowed QoS", "qos": ["big"],
+                                                   "limit": "GrpTRES node=6"}})
+
+    def test_job_nodes_of_several_allowed_qos_take_the_largest(self):
+        # A job runs under one QoS, so the limits of the allowed QoS are not added.
+        qos = {"a": qos_entry("a", grp_nodes=6), "b": qos_entry("b", job_nodes=4),
+               "c": qos_entry("c"), "stop": qos_entry("stop", user_jobs=0)}
+        partition = {"maxnodes": "UNLIMITED", "qos": None, "allowqos": ["a", "b", "stop"]}
+        self.assertEqual(probes.job_nodes(partition, qos),
+                         (6, {"source": "allowed QoS", "qos": ["a", "b"],
+                              "limit": "GrpTRES node=6, MaxTRES node=4"}))
+        partition["allowqos"] = ["a", "c"]
+        self.assertEqual(probes.job_nodes(partition, qos), (None, None))
+
+    def test_job_node_minutes(self):
+        self.assertEqual(self.partitions["debug"]["job_node_minutes"],
+                         {"max": 60, "limited_by": {"source": "partition QoS", "qos": ["debug-qos"],
+                                                    "limit": "MaxTRESMins node=60"}})
+        self.assertEqual(self.partitions["normal"]["job_node_minutes"], {"max": None, "limited_by": None})
+        self.assertEqual(self.model["qos"]["debug-qos"]["max_node_minutes_per_job"], 60)
+
+    def test_deny_on_limit(self):
+        self.assertTrue(self.model["qos"]["debug-qos"]["deny_on_limit"])
+        self.assertFalse(self.model["qos"]["normalp"]["deny_on_limit"])
+
+    def test_times_are_normalised(self):
+        self.assertEqual(self.partitions["debug"]["time"], {"default": "00:30:00", "max": "00:30:00"})
+        self.assertEqual(self.partitions["big"]["time"]["max"], "2-00:00:00")
+        self.assertEqual(self.partitions["xfer"]["time"]["max"], "1-00:00:00")
+
+    def test_qos_that_no_partition_names_is_left_out(self):
+        self.assertEqual(sorted(self.model["qos"]), ["big", "debug-qos", "normal", "normalp", "stop"])
+        self.assertTrue(self.model["qos"]["stop"]["blocks_jobs"])
+        self.assertEqual(self.model["qos"]["big"]["preempts"], ["normal"])
+
+    def test_fields_for_agents_are_not_table_columns(self):
+        self.assertEqual(self.partitions["normal"]["allowed_qos"], ["normal", "stop"])
+        self.assertEqual(self.partitions["big"]["priority_tier"], 30)
+        self.assertIsNone(self.partitions["xfer"]["allowed_qos"])
+        headers = [title for title, _ in probes.PARTITIONS.columns]
+        self.assertEqual(headers, ["Partition", "Nodes", "Max nodes/job", "Default time", "Max time"])
+
+    def test_published_model_has_no_accounts_or_hidden_partitions(self):
+        self.assertEqual(self.partitions["big"]["allowed_accounts"], ["proj1"])
+        self.assertIn("staff", self.partitions)
+        published = by_name(build("partitions", "intended", publish=True)["partitions"])
+        self.assertNotIn("staff", published)
+        for partition in published.values():
+            self.assertNotIn("allowed_accounts", partition)
+            self.assertNotIn("allowed_groups", partition)
+
+    def test_last_default_partition_is_the_default(self):
+        # slurmctld uses the last of several partitions that set Default=YES.
+        import tempfile
+        import slurm
+        with tempfile.NamedTemporaryFile("w", suffix=".conf") as conf:
+            conf.write("NodeName=nid001 CoresPerSocket=64\n"
+                       "PartitionName=a Default=YES Nodes=nid001\n"
+                       "PartitionName=b Default=YES Nodes=nid001\n")
+            conf.flush()
+            self.assertEqual([(p["name"], p["default"]) for p in slurm.load_conf(conf.name)],
+                             [("a", False), ("b", True)])
+
+    def test_live_reports_the_running_system(self):
+        live = by_name(build("partitions", "live")["partitions"])
+        self.assertEqual(self.partitions["normal"]["time"]["max"], "1-00:00:00")
+        self.assertEqual(live["normal"]["time"]["max"], "06:00:00")
+        self.assertEqual(live["normal"]["nodes"]["usable"], 12)
+
+    def test_markdown(self):
+        data = views.envelope("alpha", "intended", "00000000",
+                              {"partitions": build("partitions", "intended", publish=True)})
+        self.assertEqual(views.to_markdown(data), "\n".join([
+            "<!-- Generated by probes/probe.sh from: `slurm.conf` and `sacctmgr show qos`",
+            "     Do not edit. Regenerate by running probes/probe.sh on alpha.",
+            "     cluster: alpha  emitters: 00000000 -->",
+            "",
+            "| Partition | Nodes | Max nodes/job | Default time | Max time |",
+            "|---|---|---|---|---|",
+            "| `normal` (default) | 16 | 12 | 01:00:00 | 1-00:00:00 |",
+            "| `big` | 16 | 6 | 01:00:00 | 2-00:00:00 |",
+            "| `debug` | 16 | 2 | 00:30:00 | 00:30:00 (60 node-minutes/job) |",
+            "| `xfer` | 2 | 1 | 01:00:00 | 1-00:00:00 |",
+            "",
+        ]))
+
+    def test_table_order_of_partitions(self):
+        # normal first, then from most nodes to fewest and by name, then debug and xfer.
+        names = [("xfer", 2), ("low", 100), ("debug", 200), ("big", 100), ("normal", 50), ("tiny", 4)]
+        self.assertEqual([n for n, _ in sorted(names, key=lambda p: probes.partition_order(*p))],
+                         ["normal", "big", "low", "tiny", "debug", "xfer"])
+        # The JSON keeps the partitions sorted by name.
+        self.assertEqual([p["name"] for p in self.model["partitions"]],
+                         ["big", "debug", "normal", "staff", "xfer"])
+
+    def test_json_round_trip_renders_the_same_table(self):
+        data = views.envelope("alpha", "intended", "00000000",
+                              {"partitions": build("partitions", "intended", publish=True)})
+        self.assertEqual(views.to_markdown(views.from_json(views.to_json(data))),
+                         views.to_markdown(data))
+
+
+class NodeTypes(unittest.TestCase):
+    def test_intended(self):
+        nodetypes = [n for n in build("nodetypes", "intended")["nodetypes"] if n["partition"] == "normal"]
+        self.assertEqual([(n["nodes"], n["cpus"], n["memory_gb"], n["gres"], n["features"])
+                          for n in nodetypes],
+                         [(10, 288, 781, "gpu:4", ["fast", "gpu", "thp_always", "thp_never"]),
+                          (6, 288, 781, "gpu:4", ["gpu", "thp_always"])])
+
+    def test_node_type_and_feature_sets(self):
+        nodetypes = build("nodetypes", "intended")["nodetypes"]
+        self.assertEqual([(n["partition"], n["type"], n["installed_memory_gb"], n["feature_sets"])
+                          for n in nodetypes if n["partition"] in ("normal", "xfer")],
+                         [("normal", "gh200", None, ["thp"]), ("normal", "gh200", None, ["thp"]),
+                          ("xfer", "zen2", 256, [])])
+
+    def test_feature_sets(self):
+        self.assertEqual(probes.feature_sets(["gh", "gpu", "thp_never", "nvidia_vboost_enabled"]),
+                         ["vboost", "thp"])
+        self.assertEqual(probes.feature_sets(["amdgpu_spx", "amdgpu_tpx", "amdgpu_cpx"]), ["amdgpu"])
+        self.assertEqual(probes.feature_sets(["AMD_EPYC_7742", "mc", "startx"]), [])
+
+    def test_markdown_counts_together_what_it_does_not_distinguish(self):
+        data = views.envelope("alpha", "intended", "00000000",
+                              {"nodetypes": build("nodetypes", "intended", True)})
+        self.assertEqual(views.to_markdown(data).split("\n")[4:], [
+            "| Partition | Nodes | Node type | Features |",
+            "|---|---|---|---|",
+            "| `normal` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `big` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `debug` | 16 | [gh200][ref-alps-gh200-node] | [thp][ref-slurm-features-thp] |",
+            "| `xfer` | 2 | [zen2 256 GB][ref-alps-zen2-node] | none |",
+            "",
+        ])
+
+    def test_hidden_partitions_are_left_out(self):
+        names = set(n["partition"] for n in build("nodetypes", "intended")["nodetypes"])
+        self.assertEqual(names, {"big", "debug", "normal", "xfer"})
+
+    def test_live_matches_intended(self):
+        def normal_and_xfer(source):
+            return [n for n in build("nodetypes", source)["nodetypes"]
+                    if n["partition"] in ("normal", "xfer")]
+        self.assertEqual(normal_and_xfer("live"), normal_and_xfer("intended"))
+
+
+class Nodes(unittest.TestCase):
+    def test_every_node_counted_by_type_and_memory(self):
+        # The zen2 nodes are not all in a published partition, and are counted.
+        self.assertEqual([(n["type"], n["installed_memory_gb"], n["nodes"], n["sockets"], n["gpus"])
+                          for n in build("nodes", "intended")["nodes"]],
+                         [("gh200", None, 16, 64, 64), ("zen2", 256, 2, 4, 0), ("zen2", 512, 4, 8, 0)])
+
+    def test_node_configured_with_less_memory_keeps_its_configuration(self):
+        large = build("nodes", "intended")["nodes"][2]
+        self.assertEqual(large["memory_gb"], [444, 474])
+
+    def test_sockets_are_those_of_the_hardware(self):
+        # Slurm can give a node fewer sockets than it has: the node is still
+        # recognised, and the configured value is reported.
+        node = {"name": "nid000001", "sockets": 1, "cores_per_socket": 64, "memory_mib": 514901, "gres": ""}
+        self.assertEqual(probes.node_type(node)[0], "zen2")
+        self.assertEqual(probes.memory_configuration(node, "zen2", [256, 512]), 512)
+
+    def test_unknown_node_type_is_an_error(self):
+        node = {"name": "nid000001", "sockets": 2, "cores_per_socket": 16, "memory_mib": 1000, "gres": ""}
+        with self.assertRaises(ProbeError):
+            probes.node_type(node)
+
+    def test_memory_above_every_configuration_is_an_error(self):
+        node = {"name": "nid000001", "sockets": 2, "cores_per_socket": 64, "memory_mib": 600000, "gres": ""}
+        with self.assertRaises(ProbeError):
+            probes.memory_configuration(node, "zen2", [256, 512])
+
+    def test_live_matches_intended(self):
+        self.assertEqual(build("nodes", "live"), build("nodes", "intended"))
+
+    def test_markdown(self):
+        data = views.envelope("alpha", "intended", "00000000", {"nodes": build("nodes", "intended", True)})
+        self.assertEqual(views.to_markdown(data).split("\n")[4:], [
+            "| Node type | Memory | Nodes | CPU sockets | GPUs |",
+            "|---|---|---|---|---|",
+            "| [gh200][ref-alps-gh200-node] | -- | 16 | 64 | 64 |",
+            "| [zen2][ref-alps-zen2-node] | 256 GB | 2 | 4 | none |",
+            "| [zen2][ref-alps-zen2-node] | 512 GB | 4 | 8 | none |",
+            "",
+        ])
+
+
+class Filesystems(unittest.TestCase):
+    def test_variables_that_share_a_path_share_an_entry(self):
+        model = build("filesystems", "intended", publish=True)
+        self.assertEqual([f["variables"] for f in model["filesystems"]],
+                         [["HOME"], ["SCRATCH"], ["STORE", "PROJECT"]])
+
+    def test_published_paths_do_not_identify_the_user(self):
+        published = build("filesystems", "intended", publish=True)["filesystems"]
+        self.assertEqual([f["path_template"] for f in published],
+                         ["/users/$USER", "/capstor/scratch/cscs/$USER",
+                          "/capstor/store/cscs/<customer>/<group_id>"])
+        self.assertNotIn("alice", views.to_json(published))
+        self.assertNotIn("g100", views.to_json(published))
+        self.assertEqual(build("filesystems", "live")["filesystems"][0]["path"], "/users/alice")
+
+    def test_storage(self):
+        model = build("filesystems", "intended")
+        self.assertEqual([(f["filesystem"], f["storage"]) for f in model["filesystems"]],
+                         [("home", "vadret"), ("scratch", "capstor"), ("store", "capstor")])
+
+
+class Versions(unittest.TestCase):
+    def test_versions(self):
+        tools = by_name(build("versions", "intended")["tools"], key="id")
+        self.assertEqual(tools["slurm"]["version"], "25.05.1")
+        self.assertEqual(tools["os"]["version"], "SUSE Linux Enterprise Server 15 SP6")
+        self.assertIsNone(tools["podman"]["version"])
+        row = [r for r in probes.VERSIONS.rows({"tools": list(tools.values())}) if r["id"] == "podman"][0]
+        self.assertEqual(probes.VERSIONS.columns[1][1](row), "`not available`")
+
+
+class Usage(unittest.TestCase):
+    def test_usage(self):
+        model = build("usage", "live")
+        normal = by_name(model["partitions"])["normal"]
+        self.assertEqual(normal["nodes"], {"total": 16, "idle": 3,
+                                           "by_state": {"allocated": 11, "drained": 2, "idle": 3}})
+        self.assertEqual(normal["qos_nodes"], {"qos": "normalp", "limit": 12, "in_use": 11, "free": 1})
+        self.assertEqual(normal["jobs"]["running"], 2)
+        self.assertEqual(list(normal["jobs"]["pending_reasons"].items()),
+                         [("QOSGrpNodeLimit", 2), ("Priority", 1)])
+        self.assertEqual(list(model["qos"]), ["normalp"])
+
+
+class Access(unittest.TestCase):
+    def test_access(self):
+        model = build("access", "live")
+        partitions = by_name(model["partitions"])
+        self.assertTrue(partitions["normal"]["can_submit"])
+        self.assertEqual(partitions["normal"]["accounts"], ["proj2"])
+        self.assertEqual(partitions["normal"]["qos"], ["normal"])
+        # proj3 is only associated with the xfer partition; its `stop` QoS lets no job run.
+        self.assertEqual(partitions["xfer"]["accounts"], ["proj2", "proj3"])
+        self.assertEqual(partitions["xfer"]["qos"], ["normal"])
+        self.assertFalse(partitions["big"]["can_submit"])
+        self.assertIn("accounts", partitions["big"]["reason"])
+        self.assertIn("Unix groups", partitions["staff"]["reason"])
+
+
+class Scopes(unittest.TestCase):
+    def test_only_configuration_is_published(self):
+        self.assertEqual([p.name for p in probes.published()],
+                         ["partitions", "nodetypes", "nodes", "filesystems", "versions"])
+        for probe in probes.PROBES.values():
+            self.assertEqual("intended" in probe.sources, probe.scope == "config")
+
+    def test_every_field_that_is_described_exists(self):
+        # The descriptions are what an agent reads, so they must not go stale.
+        for probe in probes.PROBES.values():
+            model = probe.build(System(ALPHA), "live", False)
+            for path in probe.fields:
+                self.assertTrue(present(model, path.split(".")), "%s: %s" % (probe.name, path))
+
+    def test_missing_fixture_output_is_an_error(self):
+        with self.assertRaises(ProbeError):
+            System(ALPHA).run("no-such-command", ["false"])
+
+
+def present(value, path):
+    """Whether a field path such as partitions[].nodes.pool exists in a model."""
+    if not path:
+        return True
+    key, rest = path[0], path[1:]
+    if key.startswith("<"):
+        return bool(value) and all(present(item, rest) for item in value.values())
+    many = key.endswith("[]")
+    key = key[:-2] if many else key
+    if not isinstance(value, dict) or key not in value:
+        return False
+    if many:
+        return bool(value[key]) and all(present(item, rest) for item in value[key])
+    return present(value[key], rest)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -13,10 +13,9 @@ Beverin has one [MI250X][ref-alps-mi200-node] login node.
 
 Beverin consists of 13 [MI250X][ref-alps-mi200-node] and 128 [MI300A][ref-alps-mi300-node] compute nodes.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|--------| ----------------- | ---------- |
-| [mi200][ref-alps-mi200-node] | 13 | 13 | 104 |
-| [mi300][ref-alps-mi300-node] | 128 | 512 | 512 |
+<!--begin no spell check-->
+--8<-- "probes/generated/beverin/nodes.md"
+<!--end no spell check-->
 
 See [Running jobs on Beverin][ref-cluster-beverin-running-jobs] for details on the associated slurm partitions.
 
@@ -111,10 +110,37 @@ There are two Slurm partitions on the system, corresponding to the two node type
 * `mi200` (default)
 * `mi300`
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `mi200` | 13 | 13 | 24 hours |
-| `mi300` | 128 | 128 | 24 hours |
+<!--begin no spell check-->
+--8<-- "probes/generated/beverin/partitions.md"
+
+--8<-- "probes/generated/beverin/stamp.md"
+<!--end no spell check-->
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "probes/generated/beverin/nodetypes.md"
+<!--end no spell check-->
+
+[](){#ref-cluster-beverin-gpu-partitioning}
+#### GPU partitioning on MI300A nodes
+
+The GPU of each [MI300A APU][ref-alps-mi300-node] can be split into several logical GPUs, by grouping its six accelerator complex dies (XCDs).
+Select the mode with a [Slurm feature][ref-slurm-features] on the `mi300` partition; jobs that do not select one run in SPX mode:
+
+| Mode | Slurm constraint | GPUs per APU | XCDs per GPU | GPUs per node |
+|------|------------------|--------------|--------------|---------------|
+| SPX (single partition) | `amdgpu_spx` (default) | 1 | 6 | 4 |
+| TPX (triple partition) | `amdgpu_tpx` | 3 | 2 | 12 |
+| CPX (core partitioned) | `amdgpu_cpx` | 6 | 1 | 24 |
+
+```bash title="run a job with each APU split into six GPUs"
+sbatch --partition=mi300 --constraint=amdgpu_cpx job.sh
+```
+
+The memory of the APU is not partitioned: every logical GPU can access all of it.
+SPX suits a single large workload per APU, while TPX and CPX allow several smaller workloads to share an APU, each on its own GPU.
+See the AMD documentation on [MI300A GPU partitioning](https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/gpu-partitioning/mi300a/overview.html) for details.
 
 ### FirecREST
 

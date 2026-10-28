@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "cluster": "bristen",
+  "source": "intended",
+  "emitters": "f02c0782",
+  "probes": {
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "normal",
+          "nodes": 30,
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:4",
+          "features": [
+            "gpu"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": null,
+          "features": [],
+          "feature_sets": []
+        }
+      ]
+    }
+  }
+}
