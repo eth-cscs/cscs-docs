@@ -229,8 +229,6 @@ There are two types of quota:
 * **Soft quota** when exceeded there is a grace period for transferring or deleting files, before it will become a hard quota.
 * **Hard quota** when exceeded no more files can be written.
 
-!!! todo
-    Storage team: can you please provide better/more complete definitions of the hard and soft quotas.
 
 [](){#ref-storage-quota-cli}
 ### Checking quota
