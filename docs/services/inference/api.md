@@ -198,6 +198,9 @@ The available models can also be listed for a given API key using the [`models` 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
+!!! warning "Decommissioning of models"
+    `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
+
 <!--begin no spell check-->
 <table>
   <thead>
