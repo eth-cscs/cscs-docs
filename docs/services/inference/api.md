@@ -295,8 +295,16 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
+      <td><code>zai-org/GLM-5.3</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><code>zai-org/GLM-5.3-Flash</code></td>
-      <td>524,288</td>
+      <td>1,048,576</td>
       <td>✓</td>
       <td>✓</td>
       <td></td>
