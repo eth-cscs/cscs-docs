@@ -52,8 +52,14 @@ The jobs that you submit get billed according to the node-hours that they run.
 You are expected to use your credit roughly linearly over the project: every month has an expected consumption, the amount you should use that month.
 The expected consumption is also used to set your scheduling priority through [Slurm fair-share][ref-policies-fair-use].
 
-* You can consume more than the expected amount without any issue, and only run at lower priority as you get ahead of your schedule.
-* Each month also has a minimal consumption — the expected amount reduced by a grace of 15% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.
+* You can consume more than the expected amount and consume the credit for you future months, but:
+    * You will have a lower priority as you get ahead of your schedule.
+    * The expected consumption of the following month is recalculated based on the credit left, it is not possible to use 2 month of credit in one month and 0 in the next without losing credit
+* Each month also has a minimal consumption — the expected amount reduced by a grace of 25% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.
+
+Use monthly consumption in the Project overview in [portal.cscs.ch](https://portal.cscs.ch) to quickly check the current status of the project
+
+![waldur-usage](../../images/access/waldur-monthly-usage.png)
 
 If you use up your credit before the end of the project, you can run extra jobs in the [`low` partition][ref-cluster-clariden].
 This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget.
@@ -78,7 +84,7 @@ Once that is also exhausted, the project can no longer use compute resources.
     <line x1="984" y1="70" x2="996" y2="70"  stroke="#D61F26" stroke-width="1.5"/>
     <line x1="984" y1="112" x2="996" y2="112" stroke="#D61F26" stroke-width="1.5"/>
     <text x="1006" y="86"  font-size="13" font-weight="600" fill="#D61F26">grace</text>
-    <text x="1006" y="104" font-size="12" fill="#555555">15–50%, by budget size</text>
+    <text x="1006" y="104" font-size="12" fill="#555555">25–50%, by budget size</text>
         <g text-anchor="middle" fill="#1A1A1A">
       <text x="190" y="202" font-size="14" font-weight="600">you go faster</text>
       <text x="190" y="220" font-size="12" fill="#555555">fine — lower priority while ahead</text>
@@ -196,11 +202,11 @@ The exact rules behind the [compute budget][ref-mlp-policies-compute]: how the g
 How far a project is allowed to fall behind the linear schedule is governed by its **grace**, a fixed percentage set once, at allocation time, from the total initial credit:
 
 * credit ≤ 10,000 GPUh gives a grace of 50%,
-* credit ≥ 100,000 GPUh gives a grace of 15%,
-* between 10,000 and 100,000 GPUh the grace is linearly interpolated between 50% and 15%:
+* credit ≥ 100,000 GPUh gives a grace of 25%,
+* between 10,000 and 100,000 GPUh the grace is linearly interpolated between 50% and 25%:
 
 $$
-\text{grace} = 50 - 35 \times \frac{\text{credit} - 10{,}000}{90{,}000}\ \%
+\text{grace} = 50 - 25 \times \frac{\text{credit} - 10{,}000}{90{,}000}\ \%
 $$
 
 The grace is fixed for the project's lifetime; larger allocations get a smaller grace, as they are expected to keep the systems more consistently busy.
@@ -209,10 +215,12 @@ The grace is fixed for the project's lifetime; larger allocations get a smaller 
 | -- | -- |
 | 6,000 GPUh | 50.0% |
 | 10,000 GPUh | 50.0% |
-| 30,000 GPUh | 42.2% |
-| 55,000 GPUh | 32.5% |
-| 100,000 GPUh | 15.0% |
-| 250,000 GPUh | 15.0% |
+| 20,000 GPUh | 47.2% |
+| 30,000 GPUh | 44.4% |
+| 50,000 GPUh | 38.9% |
+| 75,000 GPUh | 31.9% |
+| 100,000 GPUh | 25.0% |
+| 250,000 GPUh | 25.0% |
 
 [](){#ref-mlp-policies-monthly-check}
 ### Expected and minimal consumption
