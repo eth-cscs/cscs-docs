@@ -570,7 +570,7 @@ Once configured, you can choose models configured in the config with `/models` o
     - OpenCode does not auto-discover available models.
       Models have to be explicitly configured in the config.
       Use the `/v1/models` endpoint to list available models for your key.
-    - The install path of the install script from [opencode.ai](opencode.ai) is hardcoded to `$HOME/.opencode`, which will
+    - The install path of the install script from [opencode.ai](https://opencode.ai) is hardcoded to `$HOME/.opencode`, which will
       cause a conflict when using OpenCode on both X86_64 and ARM architectures. As a workaround, either tweak
       the install script or copy the `opencode` binary from `$HOME/.opencode` to an [XDG directory][ref-guides-terminal-arch].
     - Copy and paste with middle-click does not work on some terminal emulators, e.g. `gnome-terminal`. Use `Ctrl+Shift+C/V` or
