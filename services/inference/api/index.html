@@ -6608,6 +6608,10 @@ In order to use the service users must have an active project granted via an ope
 The available models can also be listed for a given API key using the <a class="autorefs autorefs-internal" title="API" href="./#api"><code>models</code> endpoint</a> or on the Inference API UI when creating a new key.</p>
 <p>The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being <a class="autorefs autorefs-internal" title="Setting up coding agents to use the inference service" href="./#setting-up-coding-agents-to-use-the-inference-service">configured</a> with the given context sizes so that they can do context compaction before hitting the context limit.</p>
+<div class="admonition warning">
+<p class="admonition-title">Decommissioning of models</p>
+<p><code>moonshotai/Kimi-K2.7-Code</code>, <code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code>, and <code>zai-org/GLM-5.2</code> will be decommissioned on 16 November 2026.</p>
+</div>
 <!--begin no spell check-->
 <table>
   <thead>
@@ -6649,6 +6653,22 @@ Most coding agents benefit from being <a class="autorefs autorefs-internal" titl
       <td></td>
     </tr>
     <tr>
+      <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
       <td>262,144</td>
       <td>✓</td>
@@ -6687,6 +6707,22 @@ Most coding agents benefit from being <a class="autorefs autorefs-internal" titl
       <td></td>
       <td></td>
       <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3-Flash</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
     </tr>
   </tbody>
 </table>
@@ -7056,7 +7092,6 @@ Everyone with access to a project that has an inference resource is subscribed a
 <li>Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.</li>
 <li>Documentation and model-specific configuration transparency are work in progress.</li>
 <li>The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.</li>
-<li>We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.</li>
 </ul>
 
 
