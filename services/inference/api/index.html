@@ -6994,9 +6994,16 @@ Choose the model after restarting OpenCode.</p>
 <p>Once configured, you can choose models configured in the config with <code>/models</code> or <code>Ctrl-X</code>+<code>M</code>.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>OpenCode does not auto-discover available models.
-Models have to be explicitly configured in the config.
-Use the <code>/v1/models</code> endpoint to list available models for your key.</p>
+<ul>
+<li>OpenCode does not auto-discover available models.
+  Models have to be explicitly configured in the config.
+  Use the <code>/v1/models</code> endpoint to list available models for your key.</li>
+<li>The install path of the install script from <a href="https://opencode.ai">opencode.ai</a> is hardcoded to <code>$HOME/.opencode</code>, which will
+  cause a conflict when using OpenCode on both X86_64 and ARM architectures. As a workaround, either tweak
+  the install script or copy the <code>opencode</code> binary from <code>$HOME/.opencode</code> to an <a class="autorefs autorefs-internal" title="Managing x86 and ARM" href="../../../guides/terminal/#managing-x86-and-arm">XDG directory</a>.</li>
+<li>Copy and paste with middle-click does not work on some terminal emulators, e.g. <code>gnome-terminal</code>. Use <code>Ctrl+Shift+C/V</code> or
+  <code>Shift</code> + middle-click as a workaround.</li>
+</ul>
 </div>
 <p>Model support for different input modalities are described in the <a class="autorefs autorefs-internal" title="Available models and pricing" href="./#available-models-and-pricing">available models table</a>.</p>
 <p><a href="" id="ref-inference-api-vscode-copilot"></a></p>
