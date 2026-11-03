@@ -198,6 +198,9 @@ The available models can also be listed for a given API key using the [`models` 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
+!!! warning "Decommissioning of models"
+    `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
+
 <!--begin no spell check-->
 <table>
   <thead>
@@ -239,6 +242,22 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
+      <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
       <td>262,144</td>
       <td>✓</td>
@@ -277,6 +296,22 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
       <td></td>
       <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3-Flash</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
     </tr>
   </tbody>
 </table>
@@ -641,4 +676,3 @@ The same announcements are also posted in the `#inference-service` channel of th
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.
