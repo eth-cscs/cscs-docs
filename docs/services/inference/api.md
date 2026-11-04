@@ -198,6 +198,9 @@ The available models can also be listed for a given API key using the [`models` 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
+!!! warning "Decommissioning of models"
+    `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
+
 <!--begin no spell check-->
 <table>
   <thead>
@@ -239,20 +242,20 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
-      <td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
-      <td>64,000</td>
+      <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
       <td>✓</td>
       <td></td>
-      <td></td>
-      <td></td>
+      <td>✓</td>
     </tr>
     <tr>
-      <td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
-      <td>32,768</td>
+      <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
       <td>✓</td>
       <td></td>
-      <td></td>
-      <td></td>
+      <td>✓</td>
     </tr>
     <tr>
       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
@@ -294,9 +297,33 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
       <td></td>
     </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3-Flash</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
   </tbody>
 </table>
 <!--end no spell check-->
+
+??? info "Removed models"
+    The following models have been served in the past, but are no longer offered.
+
+    | Model                              |
+    |------------------------------------|
+    | swiss-ai/Apertus-70B-Instruct-2509 |
+    | swiss-ai/Apertus-8B-Instruct-2509  |
 
 ??? info "Image, audio, and video input in API requests"
     The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
@@ -397,20 +424,21 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-=== "OpenCode handles API key (recommended)"
+=== "OpenCode v2 handles API key (recommended)"
 
     ```json title="OpenCode configuration for the inference API"
     {
         "$schema": "https://opencode.ai/config.json",
         // Set Kimi as default OpenCode model
         "model": "cscs/moonshotai/Kimi-K2.7-Code",
-        "provider": {
+        "providers": {
             "cscs": {
-                "npm": "@ai-sdk/anthropic",
+                "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
                 "options": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
-                    "systemMessageMode": "system",
+                    "systemMessageMode": "system"
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
                 },
                 "models": {
                     "moonshotai/Kimi-K2.7-Code": {
@@ -433,7 +461,73 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
     Start OpenCode and run the `/connect` command.
     Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
 
-=== "API key as environment variable"
+=== "API key as environment variable (OpenCode v2)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "providers": {
+            "cscs": {
+                "package": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "OpenCode v1 handles API key (recommended)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set Kimi as default OpenCode model
+        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "moonshotai/Kimi-K2.7-Code": {
+                        "name": "Kimi K2.7-Code",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 262144,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "API key as environment variable (OpenCode v1)"
 
     ```json title="OpenCode configuration for the inference API"
     {
@@ -473,9 +567,14 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
 
 !!! info
-    OpenCode does not auto-discover available models.
-    Models have to be explicitly configured in the config.
-    Use the `/v1/models` endpoint to list available models for your key.
+    - OpenCode does not auto-discover available models.
+      Models have to be explicitly configured in the config.
+      Use the `/v1/models` endpoint to list available models for your key.
+    - The install path of the install script from [opencode.ai](https://opencode.ai) is hardcoded to `$HOME/.opencode`, which will
+      cause a conflict when using OpenCode on both X86_64 and ARM architectures. As a workaround, either tweak
+      the install script or copy the `opencode` binary from `$HOME/.opencode` to an [XDG directory][ref-guides-terminal-arch].
+    - Copy and paste with middle-click does not work on some terminal emulators, e.g. `gnome-terminal`. Use `Ctrl+Shift+C/V` or
+      `Shift` + middle-click as a workaround.
 
 Model support for different input modalities are described in the [available models table][ref-inference-api-available-models].
 
@@ -582,4 +681,3 @@ The same announcements are also posted in the `#inference-service` channel of th
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.

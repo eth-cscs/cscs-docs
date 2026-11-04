@@ -229,8 +229,6 @@ There are two types of quota:
 * **Soft quota** when exceeded there is a grace period for transferring or deleting files, before it will become a hard quota.
 * **Hard quota** when exceeded no more files can be written.
 
-!!! todo
-    Storage team: can you please provide better/more complete definitions of the hard and soft quotas.
 
 [](){#ref-storage-quota-cli}
 ### Checking quota
@@ -284,8 +282,8 @@ The backup process checks for modified or new files every 24 hours, and makes a 
     Please provide the following information in the request:
 
     * the **full path** to restore, e.g.:
-        * a file: `/capstor/scratch/cscs/userbob/software/data/results.tar.gz`
-        * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
+        * a file: `/capstor/store/cscs/your_project/software/data/results.tar.gz`
+        * or a directory: `/capstor/store/cscs/your_project/software/data`.
     * the **date** to restore from:
         * the most recent backup older than the date will be used.
 
