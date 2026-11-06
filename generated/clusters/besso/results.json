@@ -2,8 +2,8 @@
   "schema": 1,
   "cluster": "besso",
   "source": "intended",
-  "emitters": "f414a57d",
-  "generated": "2026-11-04",
+  "emitters": "f5c3a079",
+  "generated": "2026-11-06",
   "max_age_days": 30,
   "probes": {
     "partitions": {
@@ -258,7 +258,7 @@
         {
           "id": "kernel",
           "name": "Kernel",
-          "version": "6.4.0-150600.23.125-default"
+          "version": "6.4.0-150600.23.143-default"
         },
         {
           "id": "architecture",

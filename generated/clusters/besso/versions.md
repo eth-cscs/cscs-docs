@@ -9,5 +9,5 @@
 | enroot | `CSCS_2026_05_1` |
 | podman | `5.8.2` |
 | Operating system | `SUSE Linux Enterprise Server 15 SP6` |
-| Kernel | `6.4.0-150600.23.125-default` |
+| Kernel | `6.4.0-150600.23.143-default` |
 | Architecture | `x86_64` |
