@@ -151,6 +151,16 @@ class Invalid(unittest.TestCase):
         self.skill("good", description="x" * (build.MAX_DESCRIPTION + 1))
         self.assertRefused("at most")
 
+    def test_description_that_yaml_would_misread_must_be_quoted(self):
+        self.skill("good", description="Use for CI: logs and pipelines.")
+        self.assertRefused("must be quoted")
+
+    def test_quoted_description_is_unquoted(self):
+        self.skill("good", description='"Use for CI: logs and pipelines."')
+        self.build()
+        with open(os.path.join(self.site, build.INDEX, "index.json")) as f:
+            self.assertEqual(json.load(f)["skills"][0]["description"], "Use for CI: logs and pipelines.")
+
     def test_skill_must_be_described_on_the_page(self):
         self.skill("good")
         self.skill("hidden")

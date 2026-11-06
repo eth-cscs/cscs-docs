@@ -73,10 +73,15 @@ def frontmatter(path):
     for line in lines[1:end]:
         match = re.match(r"^([A-Za-z_-]+):\s*(.*)$", line)
         if match:
-            value = match.group(2).strip()
+            key, value = match.group(1), match.group(2).strip()
             if len(value) >= 2 and value[0] == value[-1] and value[0] in "'\"":
                 value = value[1:-1]
-            meta[match.group(1)] = value
+            elif ": " in value or " #" in value:
+                # YAML reads these as a nested mapping and a comment: agents that
+                # parse the frontmatter strictly would reject or truncate it.
+                raise BuildError("%s: the %s contains ': ' or ' #', so it must be quoted"
+                                 % (path, key))
+            meta[key] = value
     return meta
 
 

@@ -14,6 +14,8 @@ They work in the same way whether the agent runs on Alps, or on your own compute
 | Skill | What it does |
 |-------|--------------|
 | `cscs-cluster-probes` | Looks up how a cluster is configured and what it is doing now: partitions and their limits, QoS, node hardware and features, file systems, tool versions, idle nodes, pending jobs, and which partitions you can submit to. |
+| `build-uenv-stackinator` | Builds a [uenv][ref-uenv] with Stackinator and Spack: writing and editing recipes, configuring and running the build, fixing build and runtime problems, and testing the image. |
+| `cscs-ci` | Works with [CSCS CI/CD][ref-cicd]: checking the status of pipelines, fetching their logs, triggering them from pull requests, and writing their configuration. |
 
 See [publishing agent skills][ref-contributing-skills] for how the skills are built and published.
 The skills are listed for agents in <a href="../.well-known/agent-skills/index.json"><code>index.json</code></a>, which follows the [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) draft.
@@ -108,7 +110,8 @@ So there is one copy of each skill, however many agents you use, and the directo
 
 !!! warning
     You are responsible for what an agent does with a skill, as with any [other action of a coding agent][ref-coding-agents].
-    The `cscs-cluster-probes` skill only reads the configuration and state of a cluster, and submits no jobs.
+    Read the `SKILL.md` of a skill to see what it asks the agent to do.
+    For example, `cscs-cluster-probes` only reads the configuration and state of a cluster, and submits no jobs, while `build-uenv-stackinator` runs builds that can occupy a node for hours.
 
 [](){#ref-agents-update}
 ## Updating and removing skills

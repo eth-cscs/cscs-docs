@@ -50,3 +50,9 @@ Optional. It names the files from elsewhere in the repository that the skill nee
 * In `SKILL.md`, refer to bundled files relative to the directory of the skill: users install it in `$XDG_DATA_HOME/cscs/skills/<name>/` (by default `~/.local/share/cscs/skills/<name>/`), linked from the skills directory of their agent, not in a checkout of this repository.
 * Add the skill to the table on `docs/agents/index.md`.
 * Run `./build` and `python3 -m unittest discover -s skills/tests`.
+
+## History
+
+`build-uenv-stackinator` and `cscs-ci` were first developed in [eth-cscs/agent-skills](https://github.com/eth-cscs/agent-skills), and moved here at its commit `300e5ac` (2026-11-06).
+This repository is now their home: make changes to them here.
+On the move, the `description` of `cscs-ci` was quoted, because it contains `: `, which made the frontmatter invalid YAML.
