@@ -255,7 +255,7 @@ shadowed_footnotes = true
 # "classic" reproduces the Material for MkDocs look
 variant    = "classic"
 language   = "en"
-logo       = "assets/cscs-logo.png"
+logo       = "assets/cscs-logo-name.png"
 favicon    = "assets/favicon.ico"
 custom_dir = "overrides"
 features   = [
