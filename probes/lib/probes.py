@@ -33,7 +33,7 @@ SCHEMA = 1
 
 
 class Probe(object):
-    def __init__(self, name, scope, description, sources, build, rows, columns, fields):
+    def __init__(self, name, scope, description, sources, build, rows, columns, fields, hide=None):
         self.name = name
         self.scope = scope
         self.description = description
@@ -42,6 +42,13 @@ class Probe(object):
         self.rows = rows            # model -> the rows of the markdown table
         self.columns = columns      # [(header, row -> cell)]
         self.fields = fields        # field of the model -> what it means
+        self.hide = hide            # rows -> headers of the columns to leave out, or None
+
+    def table_columns(self, rows):
+        """The columns of the table of these rows: a column that no row needs,
+        such as a limit that no partition of the cluster sets, is left out."""
+        hidden = self.hide(rows) if self.hide else ()
+        return [(title, cell) for title, cell in self.columns if title not in hidden]
 
 
 # -- formatting helpers for table cells ---------------------------------------
@@ -116,11 +123,11 @@ def usable_nodes(partition, qos):
     return usable, limited_by
 
 
-def qos_job_nodes(entry):
+def qos_job_nodes(entry, group=True):
     """The most nodes that one job under a QoS can use, and the limit that sets
     it: MaxTRES, or GrpTRES, since one job cannot hold more nodes than all the
-    jobs of the QoS together."""
-    limits = [(entry["job_nodes"], "MaxTRES"), (entry["grp_nodes"], "GrpTRES")]
+    jobs of the QoS together. With group=False, only the limit on job size."""
+    limits = [(entry["job_nodes"], "MaxTRES")] + ([(entry["grp_nodes"], "GrpTRES")] if group else [])
     limits = [(nodes, name) for nodes, name in limits if nodes is not None]
     if not limits:
         return None, None
@@ -128,11 +135,15 @@ def qos_job_nodes(entry):
     return nodes, "%s node=%d" % (name, nodes)
 
 
-def job_nodes(partition, qos):
+def job_nodes(partition, qos, group=True):
     """The most nodes that one job in a partition can use, and what sets it.
+    With group=False, only the limits on the size of a job (MaxNodes, MaxTRES),
+    not the group limits (GrpTRES) on all the jobs of a QoS together.
 
-    A job that asks for more is accepted unless the limit is set with DenyOnLimit
-    on its QoS, and then stays pending: with reason QOSGrpNodeLimit for GrpTRES.
+    A job that asks for more than a partition limit is rejected at submission
+    if EnforcePartLimits is set. A job over a QoS limit is accepted unless the
+    QoS has DenyOnLimit, and then stays pending: with reason QOSGrpNodeLimit for
+    GrpTRES.
     """
     limit, limited_by = None, None
     if partition["maxnodes"].upper() not in ("UNLIMITED", "INFINITE"):
@@ -140,7 +151,7 @@ def job_nodes(partition, qos):
         limited_by = {"source": "partition", "limit": "MaxNodes=%d" % limit}
     own = partition_qos(partition, qos)
     if own:
-        nodes, what = qos_job_nodes(own)
+        nodes, what = qos_job_nodes(own, group)
         if nodes is not None and (limit is None or nodes < limit):
             limit = nodes
             limited_by = {"source": "partition QoS", "qos": [own["name"]], "limit": what}
@@ -149,7 +160,7 @@ def job_nodes(partition, qos):
     if partition["allowqos"] is not None:
         allowed = [qos[n] for n in partition["allowqos"] if n in qos]
         open_qos = [q for q in allowed if not slurm.qos_blocked(q)]
-        bounds = [qos_job_nodes(q) for q in open_qos]
+        bounds = [qos_job_nodes(q, group) for q in open_qos]
         if open_qos and all(nodes is not None for nodes, _ in bounds):
             nodes = max(n for n, _ in bounds)
             if limit is None or nodes < limit:
@@ -212,6 +223,7 @@ def build_partitions(system, source, publish):
             ("job_nodes", OrderedDict([
                 ("max", per_job),
                 ("limited_by", per_job_limit),
+                ("size_max", job_nodes(partition, qos, group=False)[0]),
             ])),
             ("job_node_minutes", OrderedDict([
                 ("max", node_minutes),
@@ -263,6 +275,12 @@ def partition_name(row):
     return code(row["name"]) + (" (default)" if row["default"] else "")
 
 
+def nodes_in_use(row):
+    """The QoS limit on the nodes that all the jobs of a partition hold, if
+    one is smaller than the partition."""
+    return str(row["nodes"]["usable"]) if row["nodes"]["limited_by"] else "-"
+
+
 def max_time(row):
     text = row["time"]["max"] or "unlimited"
     if row["job_node_minutes"]["max"] is not None:
@@ -282,10 +300,14 @@ PARTITIONS = Probe(
     build=build_partitions,
     rows=lambda model: sorted((p for p in model["partitions"] if not p["hidden"]),
                               key=lambda p: partition_order(p["name"], p["nodes"]["pool"])),
+    # Most clusters limit no partition with a QoS group limit: their tables
+    # leave the column out.
+    hide=lambda rows: () if any(row["nodes"]["limited_by"] for row in rows) else ("Max nodes in use",),
     columns=[
         ("Partition", partition_name),
         ("Nodes", lambda row: str(row["nodes"]["pool"])),
-        ("Max nodes/job", lambda row: number(row["job_nodes"]["max"])),
+        ("Max nodes in use", nodes_in_use),
+        ("Max nodes/job", lambda row: number(row["job_nodes"]["size_max"])),
         ("Default time", lambda row: row["time"]["default"] or "none"),
         ("Max time", max_time),
     ],
@@ -300,6 +322,10 @@ PARTITIONS = Probe(
         ("partitions[].job_nodes.max", "Most nodes that one job can run on, or null for no limit. "
                                        "Includes the QoS group limits (GrpTRES): one job cannot hold "
                                        "more nodes than all the jobs of its QoS together."),
+        ("partitions[].job_nodes.size_max", "Most nodes that one job can request under the limits on the size "
+                                            "of a job alone (partition MaxNodes, QoS MaxTRES), or null for no "
+                                            "limit. Unlike job_nodes.max, it leaves out the group limits, which "
+                                            "are shared by all the jobs of a partition: see nodes.usable."),
         ("partitions[].job_nodes.limited_by", "The partition or QoS limit that sets job_nodes.max, or null. "
                                               "For allowed QoS, the limit of each QoS that a job can use; "
                                               "the largest of them applies."),

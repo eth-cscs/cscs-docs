@@ -52,8 +52,6 @@ The file systems provided on the MLP cluster [Clariden][ref-cluster-clariden], t
 
 <!--begin no spell check-->
 --8<-- "probes/generated/clariden/filesystems.md"
-
---8<-- "probes/generated/clariden/stamp.md"
 <!--end no spell check-->
 
 The following are also provided, but no environment variable points to them:

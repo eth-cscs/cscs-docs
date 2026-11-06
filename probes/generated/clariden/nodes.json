@@ -2,16 +2,16 @@
   "schema": 1,
   "cluster": "clariden",
   "source": "intended",
-  "emitters": "f02c0782",
+  "emitters": "f414a57d",
   "probes": {
     "nodes": {
       "nodes": [
         {
           "type": "gh200",
           "installed_memory_gb": null,
-          "nodes": 1368,
-          "sockets": 5472,
-          "gpus": 5472,
+          "nodes": 1332,
+          "sockets": 5328,
+          "gpus": 5328,
           "memory_gb": [
             850
           ],

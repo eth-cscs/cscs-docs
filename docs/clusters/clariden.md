@@ -93,23 +93,21 @@ There are six Slurm partitions on the system:
 
 <!--begin no spell check-->
 --8<-- "probes/generated/clariden/partitions.md"
-
---8<-- "probes/generated/clariden/stamp.md"
 <!--end no spell check-->
 
 !!! info "Keep jobs in `normal` and `preemptable` to 128 nodes or fewer"
     The suggested largest job in the `normal` and `preemptable` partitions is 128 nodes, so that the system is used efficiently.
-    Slurm accepts larger jobs in these partitions, up to *Max nodes/job*, but they can wait a long time in the queue before enough nodes are free at the same time, even with backfill, and the nodes that are kept free for them are unavailable for other jobs while they wait.
+    Slurm accepts larger jobs in these partitions, but they can wait a long time in the queue before enough nodes are free at the same time, even with backfill, and the nodes that are kept free for them are unavailable for other jobs while they wait.
     The `highprio` partition is reserved for jobs larger than 128 nodes, and is available to selected projects.
 
 Most partitions are configured on the same pool of nodes.
-The jobs in `normal` and `highprio` are also limited by a [Slurm QoS][ref-slurm-partitions-qos] to a number of nodes that all their jobs can hold at the same time, which is also the largest job that those partitions can run (*Max nodes/job*).
+The jobs in `normal` and `highprio` are also limited by a [Slurm QoS][ref-slurm-partitions-qos] to the number of nodes in *Max nodes in use*, which all the running jobs of the partition share.
 These limits are set so that `normal` and `highprio`, together with a reserve for nodes that are down and for interactive use, add up to the whole system.
 They may be adjusted: the table shows the current values.
 When the limit of a partition is reached, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
 
-!!! warning "Jobs larger than *Max nodes/job* never start"
-    A job that requests more nodes than *Max nodes/job* is accepted, but never starts: it stays pending with the reason `QOSGrpNodeLimit`.
+!!! warning "Jobs larger than *Max nodes in use* never start"
+    A job in `normal` or `highprio` that requests more nodes than *Max nodes in use* is accepted, but never starts: it stays pending with the reason `QOSGrpNodeLimit`.
     Cancel it with `scancel`, and submit it again with fewer nodes.
 
 * jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)

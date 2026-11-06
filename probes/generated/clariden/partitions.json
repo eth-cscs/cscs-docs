@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "clariden",
   "source": "intended",
-  "emitters": "f02c0782",
+  "emitters": "f414a57d",
   "probes": {
     "partitions": {
       "partitions": [
@@ -11,8 +11,8 @@
           "default": false,
           "hidden": false,
           "nodes": {
-            "pool": 1368,
-            "usable": 1368,
+            "pool": 1332,
+            "usable": 1332,
             "limited_by": null
           },
           "job_nodes": {
@@ -20,7 +20,8 @@
             "limited_by": {
               "source": "partition",
               "limit": "MaxNodes=4"
-            }
+            },
+            "size_max": 4
           },
           "job_node_minutes": {
             "max": 90,
@@ -51,7 +52,7 @@
           "default": false,
           "hidden": false,
           "nodes": {
-            "pool": 1343,
+            "pool": 1308,
             "usable": 780,
             "limited_by": {
               "source": "allowed QoS",
@@ -69,7 +70,8 @@
                 "highprio"
               ],
               "limit": "GrpTRES node=780"
-            }
+            },
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -93,8 +95,8 @@
           "default": false,
           "hidden": false,
           "nodes": {
-            "pool": 1343,
-            "usable": 1343,
+            "pool": 1308,
+            "usable": 1308,
             "limited_by": null
           },
           "job_nodes": {
@@ -102,7 +104,8 @@
             "limited_by": {
               "source": "partition",
               "limit": "MaxNodes=10"
-            }
+            },
+            "size_max": 10
           },
           "job_node_minutes": {
             "max": null,
@@ -126,7 +129,7 @@
           "default": true,
           "hidden": false,
           "nodes": {
-            "pool": 1343,
+            "pool": 1308,
             "usable": 400,
             "limited_by": {
               "source": "partition QoS",
@@ -144,7 +147,8 @@
                 "normalp"
               ],
               "limit": "GrpTRES node=400"
-            }
+            },
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -169,13 +173,14 @@
           "default": false,
           "hidden": false,
           "nodes": {
-            "pool": 1343,
-            "usable": 1343,
+            "pool": 1308,
+            "usable": 1308,
             "limited_by": null
           },
           "job_nodes": {
             "max": null,
-            "limited_by": null
+            "limited_by": null,
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -209,7 +214,8 @@
             "limited_by": {
               "source": "partition",
               "limit": "MaxNodes=1"
-            }
+            },
+            "size_max": 1
           },
           "job_node_minutes": {
             "max": null,

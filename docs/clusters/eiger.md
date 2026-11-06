@@ -112,8 +112,6 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 
 <!--begin no spell check-->
 --8<-- "probes/generated/eiger/partitions.md"
-
---8<-- "probes/generated/eiger/stamp.md"
 <!--end no spell check-->
 
 The `normal`, `prepost` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.

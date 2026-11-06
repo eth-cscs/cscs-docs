@@ -61,8 +61,6 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 
 <!--begin no spell check-->
 --8<-- "probes/generated/besso/partitions.md"
-
---8<-- "probes/generated/besso/stamp.md"
 <!--end no spell check-->
 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:

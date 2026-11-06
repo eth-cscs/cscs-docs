@@ -32,8 +32,6 @@ The file systems provided on the CWP cluster [Santis][ref-cluster-santis], the e
 
 <!--begin no spell check-->
 --8<-- "probes/generated/santis/filesystems.md"
-
---8<-- "probes/generated/santis/stamp.md"
 <!--end no spell check-->
 
 ### Home

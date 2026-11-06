@@ -54,10 +54,12 @@ def header(probe, data):
 
 
 def table(probe, model):
-    lines = ["| " + " | ".join(title for title, _ in probe.columns) + " |",
-             "|" + "---|" * len(probe.columns)]
-    for row in probe.rows(model):
-        lines.append("| " + " | ".join(cell(row) for _, cell in probe.columns) + " |")
+    rows = list(probe.rows(model))
+    columns = probe.table_columns(rows)
+    lines = ["| " + " | ".join(title for title, _ in columns) + " |",
+             "|" + "---|" * len(columns)]
+    for row in rows:
+        lines.append("| " + " | ".join(cell(row) for _, cell in columns) + " |")
     return "\n".join(lines) + "\n"
 
 

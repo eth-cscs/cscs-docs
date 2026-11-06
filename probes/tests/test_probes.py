@@ -62,16 +62,21 @@ class Partitions(unittest.TestCase):
         self.assertEqual(job_nodes["max"], 2)
         self.assertEqual(job_nodes["limited_by"]["limit"], "MaxTRES node=2")
         self.assertEqual(self.partitions["xfer"]["job_nodes"],
-                         {"max": 1, "limited_by": {"source": "partition", "limit": "MaxNodes=1"}})
+                         {"max": 1, "limited_by": {"source": "partition", "limit": "MaxNodes=1"},
+                          "size_max": 1})
 
     def test_job_nodes_include_qos_group_limits(self):
         # One job cannot hold more nodes than all the jobs of its QoS together.
+        # size_max leaves the group limits out: it is what the table shows per job.
         self.assertEqual(self.partitions["normal"]["job_nodes"],
                          {"max": 12, "limited_by": {"source": "partition QoS", "qos": ["normalp"],
-                                                    "limit": "GrpTRES node=12"}})
+                                                    "limit": "GrpTRES node=12"},
+                          "size_max": None})
         self.assertEqual(self.partitions["big"]["job_nodes"],
                          {"max": 6, "limited_by": {"source": "allowed QoS", "qos": ["big"],
-                                                   "limit": "GrpTRES node=6"}})
+                                                   "limit": "GrpTRES node=6"},
+                          "size_max": None})
+        self.assertEqual(self.partitions["debug"]["job_nodes"]["size_max"], 2)
 
     def test_job_nodes_of_several_allowed_qos_take_the_largest(self):
         # A job runs under one QoS, so the limits of the allowed QoS are not added.
@@ -110,7 +115,16 @@ class Partitions(unittest.TestCase):
         self.assertEqual(self.partitions["big"]["priority_tier"], 30)
         self.assertIsNone(self.partitions["xfer"]["allowed_qos"])
         headers = [title for title, _ in probes.PARTITIONS.columns]
-        self.assertEqual(headers, ["Partition", "Nodes", "Max nodes/job", "Default time", "Max time"])
+        self.assertEqual(headers, ["Partition", "Nodes", "Max nodes in use", "Max nodes/job",
+                                   "Default time", "Max time"])
+
+    def test_nodes_in_use_column_only_where_a_qos_group_limit_is_set(self):
+        rows = probes.PARTITIONS.rows(self.model)
+        self.assertIn("Max nodes in use", [t for t, _ in probes.PARTITIONS.table_columns(rows)])
+        # A cluster where no QoS limits the nodes of a partition, such as most of them.
+        for row in rows:
+            row["nodes"]["limited_by"] = None
+        self.assertNotIn("Max nodes in use", [t for t, _ in probes.PARTITIONS.table_columns(rows)])
 
     def test_published_model_has_no_accounts_or_hidden_partitions(self):
         self.assertEqual(self.partitions["big"]["allowed_accounts"], ["proj1"])
@@ -147,12 +161,12 @@ class Partitions(unittest.TestCase):
             "     Do not edit. Regenerate by running probes/probe.sh on alpha.",
             "     cluster: alpha  emitters: 00000000 -->",
             "",
-            "| Partition | Nodes | Max nodes/job | Default time | Max time |",
-            "|---|---|---|---|---|",
-            "| `normal` (default) | 16 | 12 | 01:00:00 | 1-00:00:00 |",
-            "| `big` | 16 | 6 | 01:00:00 | 2-00:00:00 |",
-            "| `debug` | 16 | 2 | 00:30:00 | 00:30:00 (60 node-minutes/job) |",
-            "| `xfer` | 2 | 1 | 01:00:00 | 1-00:00:00 |",
+            "| Partition | Nodes | Max nodes in use | Max nodes/job | Default time | Max time |",
+            "|---|---|---|---|---|---|",
+            "| `normal` (default) | 16 | 12 | unlimited | 01:00:00 | 1-00:00:00 |",
+            "| `big` | 16 | 6 | unlimited | 01:00:00 | 2-00:00:00 |",
+            "| `debug` | 16 | - | 2 | 00:30:00 | 00:30:00 (60 node-minutes/job) |",
+            "| `xfer` | 2 | - | 1 | 01:00:00 | 1-00:00:00 |",
             "",
         ]))
 

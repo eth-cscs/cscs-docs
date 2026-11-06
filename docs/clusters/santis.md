@@ -121,8 +121,6 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 
 <!--begin no spell check-->
 --8<-- "probes/generated/santis/partitions.md"
-
---8<-- "probes/generated/santis/stamp.md"
 <!--end no spell check-->
 
 Slurm uses the default time when a job does not set `--time`.

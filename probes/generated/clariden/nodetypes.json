@@ -2,13 +2,13 @@
   "schema": 1,
   "cluster": "clariden",
   "source": "intended",
-  "emitters": "f02c0782",
+  "emitters": "f414a57d",
   "probes": {
     "nodetypes": {
       "nodetypes": [
         {
           "partition": "debug",
-          "nodes": 1320,
+          "nodes": 1286,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -29,7 +29,7 @@
         },
         {
           "partition": "debug",
-          "nodes": 48,
+          "nodes": 46,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -51,7 +51,7 @@
         },
         {
           "partition": "highprio",
-          "nodes": 1295,
+          "nodes": 1262,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -72,7 +72,7 @@
         },
         {
           "partition": "highprio",
-          "nodes": 48,
+          "nodes": 46,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -94,7 +94,7 @@
         },
         {
           "partition": "low",
-          "nodes": 1295,
+          "nodes": 1262,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -115,7 +115,7 @@
         },
         {
           "partition": "low",
-          "nodes": 48,
+          "nodes": 46,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -137,7 +137,7 @@
         },
         {
           "partition": "normal",
-          "nodes": 1295,
+          "nodes": 1262,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -158,7 +158,7 @@
         },
         {
           "partition": "normal",
-          "nodes": 48,
+          "nodes": 46,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -180,7 +180,7 @@
         },
         {
           "partition": "preemptable",
-          "nodes": 1295,
+          "nodes": 1262,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,
@@ -201,7 +201,7 @@
         },
         {
           "partition": "preemptable",
-          "nodes": 48,
+          "nodes": 46,
           "type": "gh200",
           "installed_memory_gb": null,
           "cpus": 288,

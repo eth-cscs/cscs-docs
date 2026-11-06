@@ -112,8 +112,6 @@ There are two Slurm partitions on the system, corresponding to the two node type
 
 <!--begin no spell check-->
 --8<-- "probes/generated/beverin/partitions.md"
-
---8<-- "probes/generated/beverin/stamp.md"
 <!--end no spell check-->
 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:

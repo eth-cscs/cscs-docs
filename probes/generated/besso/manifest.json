@@ -1,8 +1,8 @@
 {
   "cluster": "besso",
-  "generated": "2026-10-16",
-  "host": "besso-ln001",
-  "emitters_sha": "f02c0782",
+  "generated": "2026-11-04",
+  "host": "besso-ln002",
+  "emitters_sha": "f414a57d",
   "max_age_days": 30,
   "artifacts": {
     "partitions.md": {

@@ -38,8 +38,6 @@ The file systems provided on the HPCP clusters [Daint][ref-cluster-daint] and [E
 
 <!--begin no spell check-->
 --8<-- "probes/generated/daint/filesystems.md"
-
---8<-- "probes/generated/daint/stamp.md"
 <!--end no spell check-->
 
 ### Home

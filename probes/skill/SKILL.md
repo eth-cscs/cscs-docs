@@ -39,6 +39,7 @@ Run `./probes/probe.sh --list --format json` once for the meaning of every field
 * `partitions[].job_nodes.max` is the largest job that can run in the partition: the tightest of the partition `MaxNodes`, and the per-job (`MaxTRES`) and group (`GrpTRES`) node limits of its QoS.
   A job larger than that is rejected at submission only if the QoS that sets the limit has `deny_on_limit`; otherwise it is accepted and stays pending without end, for example with reason `QOSGrpNodeLimit`.
   The QoS that a job requests can lower the limit further: compare `qos.<name>.max_nodes_per_job`.
+  `job_nodes.size_max` is the limit on job size alone, without the group limits; it is what the documentation tables show as *Max nodes/job*, next to the group limit as *Max nodes in use*.
 * `partitions[].job_node_minutes.max` limits nodes times the time limit of one job (e.g. 90: 1 node for 90 minutes, or 2 nodes for 45).
 * A partition has two kinds of QoS.
   `partition_qos` applies to every job in the partition and is not requested.

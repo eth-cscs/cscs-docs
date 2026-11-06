@@ -67,12 +67,9 @@ def generate(system, output):
         files.append((probe.name + ".json", views.to_json(data)))
         files.append((probe.name + ".md", views.to_markdown(data)))
 
-    # The visible provenance line. This is the only artifact that carries a
-    # date, so that the content fragments produce empty diffs when nothing has
-    # changed, while a reader of the rendered page can still see how old the
-    # facts are.
-    files.append(("stamp.md", "*Cluster configuration on this page was generated from the "
-                              "configuration of the system on %s.*\n" % today()))
+    # The provenance that check-freshness.sh reads. This is the only artifact
+    # that carries a date, so that the content fragments produce empty diffs
+    # when nothing has changed.
     files.append(("manifest.json", views.to_json(OrderedDict([
         ("cluster", cluster),
         ("generated", today()),

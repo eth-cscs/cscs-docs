@@ -2,7 +2,7 @@
   "schema": 1,
   "cluster": "santis",
   "source": "intended",
-  "emitters": "f02c0782",
+  "emitters": "f414a57d",
   "probes": {
     "partitions": {
       "partitions": [
@@ -20,7 +20,8 @@
             "limited_by": {
               "source": "partition",
               "limit": "MaxNodes=2"
-            }
+            },
+            "size_max": 2
           },
           "job_node_minutes": {
             "max": null,
@@ -47,7 +48,8 @@
           },
           "job_nodes": {
             "max": null,
-            "limited_by": null
+            "limited_by": null,
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -76,7 +78,8 @@
           },
           "job_nodes": {
             "max": null,
-            "limited_by": null
+            "limited_by": null,
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -103,7 +106,8 @@
           },
           "job_nodes": {
             "max": null,
-            "limited_by": null
+            "limited_by": null,
+            "size_max": null
           },
           "job_node_minutes": {
             "max": null,
@@ -133,7 +137,8 @@
             "limited_by": {
               "source": "partition",
               "limit": "MaxNodes=1"
-            }
+            },
+            "size_max": 1
           },
           "job_node_minutes": {
             "max": null,

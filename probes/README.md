@@ -36,7 +36,8 @@ Each probe writes two files to `probes/generated/<cluster>/`: a markdown table t
 | `filesystems` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD`, `$STORE` | The file system each variable provides, and the Alps storage system that hosts it (platform-level, see below) | The file system type |
 | `versions` | tool `--version` output | Slurm, uenv, container engine, enroot, podman, OS | |
 
-Two more files are written for each cluster: `stamp.md`, the visible "generated on" line for a page, and `manifest.json`, the provenance that `check-freshness.sh` reads.
+One more file is written for each cluster: `manifest.json`, the provenance that `check-freshness.sh` reads.
+It is the only artifact carrying a date, which is what keeps the content fragments diff-stable.
 
 A value in a table is what a job is held to, which is not always the value of the partition.
 On Clariden the `normal` partition is configured on 1343 nodes, and its QoS limits its jobs to 400 of them: the table shows 400, and the JSON has both numbers and the limit that explains the difference.
@@ -214,9 +215,6 @@ Facts that differ between the clusters of a platform, such as partitions and nod
 
 Snippet paths resolve from the repository root.
 `pymdownx.snippets` is configured with `check_paths = true` and the site builds with `--strict`, so a renamed or deleted artifact fails the build rather than rendering an empty section.
-
-Include `stamp.md` once per page, so that a reader can see how old the generated content is.
-It is the only artifact carrying a date, which is what keeps the content fragments diff-stable.
 
 ## Freshness
 
