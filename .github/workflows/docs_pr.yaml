@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.3
       # skip caching until zensical has stabilised cache interface
       #- run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       #- uses: actions/cache@v3
