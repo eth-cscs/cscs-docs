@@ -21,6 +21,8 @@ This page covers Alps-specific considerations for running coding agents, regardl
 The [LLM inference service hosted by CSCS][ref-inference-api] can be used as a provider in most coding agents.
 See the [inference API documentation][ref-inference-api-coding-agents-setup] for instructions on how to set up the most common agents to use the CSCS-hosted inference service.
 
+CSCS also publishes [agent skills][ref-agents] that help agents answer questions about Alps, such as which partition a job should use, from facts read on the system.
+
 !!! info "Discovering best practices"
     As agentic workflows change and improve rapidly, so do best practices.
     To help keep this page relevant, we encourage and welcome contributions from the CSCS user community on best practices on using coding agents.

@@ -1,0 +1,536 @@
+{
+  "schema": 1,
+  "cluster": "eiger",
+  "source": "intended",
+  "emitters": "f5c3a079",
+  "generated": "2026-11-06",
+  "max_age_days": 30,
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "debug",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 12,
+            "usable": 12,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 10,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=10"
+            },
+            "size_max": 10
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "00:30:00",
+            "max": "00:30:00"
+          },
+          "partition_qos": "debug",
+          "allowed_qos": [
+            "normal",
+            "stop"
+          ],
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "low",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 514,
+            "usable": 514,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 124,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=124"
+            },
+            "size_max": 124
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "slowdown",
+            "stop"
+          ],
+          "priority_tier": 10,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 514,
+            "usable": 514,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 480,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=480"
+            },
+            "size_max": 480
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "normal",
+            "stop"
+          ],
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "prepost",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 514,
+            "usable": 514,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 1,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=1"
+            },
+            "size_max": 1
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "00:30:00",
+            "max": "00:30:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": [
+            "normal",
+            "stop"
+          ],
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        },
+        {
+          "name": "xfer",
+          "default": false,
+          "hidden": false,
+          "nodes": {
+            "pool": 2,
+            "usable": 2,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": 1,
+            "limited_by": {
+              "source": "partition",
+              "limit": "MaxNodes=1"
+            },
+            "size_max": 1
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "06:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 30,
+          "preempt_mode": null,
+          "oversubscribe": "FORCE:6"
+        }
+      ],
+      "qos": {
+        "debug": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 1,
+          "max_submitted_jobs_per_user": 2,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "normal": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": 128,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "slowdown": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": null,
+          "max_submitted_jobs_per_user": null,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": false,
+          "deny_on_limit": false
+        },
+        "stop": {
+          "max_nodes_in_use": null,
+          "max_nodes_per_job": null,
+          "max_node_minutes_per_job": null,
+          "max_nodes_per_user": null,
+          "max_running_jobs_per_user": 0,
+          "max_submitted_jobs_per_user": 0,
+          "max_running_jobs_per_account": null,
+          "max_submitted_jobs_per_account": null,
+          "max_time": null,
+          "priority": 0,
+          "preempts": [],
+          "blocks_jobs": true,
+          "deny_on_limit": false
+        }
+      }
+    },
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "debug",
+          "nodes": 12,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "low",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 273,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 474,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 240,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "prepost",
+          "nodes": 1,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 256,
+          "memory_gb": 444,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "xfer",
+          "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "cpus": 256,
+          "memory_gb": 236,
+          "gres": null,
+          "features": [
+            "AMD_EPYC_7742",
+            "mc",
+            "startx"
+          ],
+          "feature_sets": []
+        }
+      ]
+    },
+    "nodes": {
+      "nodes": [
+        {
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "nodes": 242,
+          "sockets": 484,
+          "gpus": 0,
+          "memory_gb": [
+            236
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        },
+        {
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "nodes": 286,
+          "sockets": 572,
+          "gpus": 0,
+          "memory_gb": [
+            444,
+            474
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        }
+      ]
+    },
+    "filesystems": {
+      "filesystems": [
+        {
+          "variables": [
+            "HOME"
+          ],
+          "filesystem": "home",
+          "previous_location": false,
+          "path_template": "/users/$USER",
+          "storage": "vadret",
+          "technology": "VAST",
+          "fstype": "nfs"
+        },
+        {
+          "variables": [
+            "SCRATCH"
+          ],
+          "filesystem": "scratch",
+          "previous_location": false,
+          "path_template": "/ritom/scratch/cscs/$USER",
+          "storage": "ritom",
+          "technology": "VAST",
+          "fstype": "nfs"
+        },
+        {
+          "variables": [
+            "SCRATCH_OLD"
+          ],
+          "filesystem": "scratch",
+          "previous_location": true,
+          "path_template": "/capstor/scratch/cscs/$USER",
+          "storage": "capstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        },
+        {
+          "variables": [
+            "STORE",
+            "PROJECT"
+          ],
+          "filesystem": "store",
+          "previous_location": false,
+          "path_template": "/capstor/store/cscs/<customer>/<group_id>",
+          "storage": "capstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        }
+      ]
+    },
+    "versions": {
+      "tools": [
+        {
+          "id": "slurm",
+          "name": "Slurm",
+          "version": "25.05.9"
+        },
+        {
+          "id": "uenv",
+          "name": "uenv",
+          "version": "10.1.0"
+        },
+        {
+          "id": "container-engine",
+          "name": "Container engine",
+          "version": "0.4.0"
+        },
+        {
+          "id": "enroot",
+          "name": "enroot",
+          "version": "CSCS_2026_05_1"
+        },
+        {
+          "id": "podman",
+          "name": "podman",
+          "version": "5.8.4"
+        },
+        {
+          "id": "os",
+          "name": "Operating system",
+          "version": "SUSE Linux Enterprise Server 15 SP6"
+        },
+        {
+          "id": "kernel",
+          "name": "Kernel",
+          "version": "6.4.0-150600.23.125-default"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "version": "x86_64"
+        }
+      ]
+    }
+  }
+}

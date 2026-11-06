@@ -7,9 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
+      - uses: astral-sh/setup-uv@v10.3.3
       # skip caching until zensical has stabilised cache interface
       #- run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       #- uses: actions/cache@v3
@@ -18,9 +16,4 @@ jobs:
       #    path: .cache
       #    restore-keys: |
       #      zensical-
-      - run: pip install --upgrade pip
-      - run: pip install -r requirements.txt
-      - run: rm -rf site
-      - run: cat zensical.toml
-      - run: zensical --version
-      - run: zensical build --strict
+      - run: ./build

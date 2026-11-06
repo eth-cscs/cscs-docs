@@ -1,0 +1,30 @@
+{
+  "hpcp": {
+    "reference": "daint",
+    "clusters": {
+      "eiger": "critical"
+    },
+    "artifacts": [
+      "filesystems.md"
+    ],
+    "page": "docs/platforms/hpcp/index.md"
+  },
+  "mlp": {
+    "reference": "clariden",
+    "clusters": {
+      "bristen": "warn"
+    },
+    "artifacts": [
+      "filesystems.md"
+    ],
+    "page": "docs/platforms/mlp/index.md"
+  },
+  "cwp": {
+    "reference": "santis",
+    "clusters": {},
+    "artifacts": [
+      "filesystems.md"
+    ],
+    "page": "docs/platforms/cwp/index.md"
+  }
+}

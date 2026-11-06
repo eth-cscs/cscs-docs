@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# Build the complete site in site/: the documentation, plus the agent skills and
+# cluster results that are published with it (see skills/build.py).
+#
+#   ./build                          the site as published at https://docs.cscs.ch
+#   ./build --site-url URL           the site to be served from URL (PR previews)
+#   ./build --archive site.tar.gz    also pack site/ into one archive
+#
+# This is what CI runs. Needs uv: https://docs.astral.sh/uv/getting-started/installation/
+# For a live preview while editing, use ./serve.
+
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+usage() {
+    sed -n '3,9p' "$0" | sed 's/^# \{0,1\}//'
+    exit "${1:-0}"
+}
+
+site_url=
+archive=
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --site-url) site_url=${2:?--site-url needs a URL}; shift 2 ;;
+        --archive)  archive=${2:?--archive needs a file name}; shift 2 ;;
+        -h|--help)  usage ;;
+        *)          echo "build: unknown option $1" >&2; usage 1 >&2 ;;
+    esac
+done
+
+zensical() {
+    uv tool run --with-requirements ./requirements.txt zensical "$@"
+}
+
+# A different site_url is set in a copy of the configuration, so that the
+# committed one is never changed.
+config=zensical.toml
+if [ -n "$site_url" ]; then
+    config=.zensical-build.toml
+    trap 'rm -f "$config"' EXIT
+    sed -e "s|^#\{0,1\}site_url .*|site_url = \"$site_url\"|" zensical.toml > "$config"
+    if ! grep -qxF "site_url = \"$site_url\"" "$config"; then
+        echo "build: could not set site_url in $config" >&2
+        exit 1
+    fi
+fi
+
+rm -rf site
+zensical --version
+zensical build --strict --config-file "$config"
+uv run --no-project python3 skills/build.py --site site
+
+if [ -n "$archive" ]; then
+    mkdir -p "$(dirname "$archive")"
+    tar -czf "$archive" -C site .
+    echo "packed site into $archive"
+fi

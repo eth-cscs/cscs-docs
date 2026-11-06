@@ -484,3 +484,14 @@ mpicxx
 Copilot
 hdl
 md5sum
+XCD
+XCDs
+SPX
+TPX
+CPX
+amdgpu
+dimm
+Codex
+Cloudflare
+frontmatter
+RFC
