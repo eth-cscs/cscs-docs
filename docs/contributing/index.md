@@ -83,6 +83,11 @@ INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
 
 You can now open your browser at the address shown above (`http://127.0.0.1:8000/`). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.
 
+!!! tip "Building the complete site"
+    `./serve` shows the documentation only.
+    To build the site as CI does, including the [agent skills][ref-contributing-skills] that are published with it, run `./build`.
+    It writes the site to the `site` directory, and stops on any warning.
+
 After your first review, commit and push your changes
 ```bash
 git add <files>

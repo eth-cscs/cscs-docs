@@ -2,6 +2,7 @@
 
 Skills for coding agents (Claude Code, Codex, OpenCode, …) that CSCS publishes with the documentation.
 Users install them from <https://docs.cscs.ch/agents/> (`docs/agents/index.md`).
+How they are published and installed is explained in `docs/contributing/skills.md` (<https://docs.cscs.ch/contributing/skills/>); this file has the details needed to add or change a skill.
 
 Each directory that contains a `SKILL.md` is one skill, in the [Agent Skills](https://agentskills.io) format.
 The skills are kept in this repository so that a change to the documentation and the matching change to a skill are made, reviewed and published together.
@@ -46,6 +47,6 @@ Optional. It names the files from elsewhere in the repository that the skill nee
 ## Adding a skill
 
 * Create `skills/<name>/SKILL.md`, and `bundle.json` if the skill needs files from elsewhere in the repository.
-* In `SKILL.md`, refer to bundled files relative to the directory of the skill: users install it in `~/.agents/skills/<name>/` or `~/.claude/skills/<name>/`, not in a checkout of this repository.
+* In `SKILL.md`, refer to bundled files relative to the directory of the skill: users install it in `$XDG_DATA_HOME/cscs/skills/<name>/` (by default `~/.local/share/cscs/skills/<name>/`), linked from the skills directory of their agent, not in a checkout of this repository.
 * Add the skill to the table on `docs/agents/index.md`.
 * Run `./build` and `python3 -m unittest discover -s skills/tests`.

@@ -15,8 +15,9 @@ They work in the same way whether the agent runs on Alps, or on your own compute
 |-------|--------------|
 | `cscs-cluster-probes` | Looks up how a cluster is configured and what it is doing now: partitions and their limits, QoS, node hardware and features, file systems, tool versions, idle nodes, pending jobs, and which partitions you can submit to. |
 
-The skills are listed for agents in [`index.json`](https://docs.cscs.ch/.well-known/agent-skills/index.json), which follows the [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) draft.
-Each skill is one `.tar.gz` archive, and its `SKILL.md` can be read before it is installed, for example [`cscs-cluster-probes`](https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes/SKILL.md).
+See [publishing agent skills][ref-contributing-skills] for how the skills are built and published.
+The skills are listed for agents in <a href="../.well-known/agent-skills/index.json"><code>index.json</code></a>, which follows the [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) draft.
+Each skill is one `.tar.gz` archive, and its `SKILL.md` can be read before it is installed, at `.well-known/agent-skills/<name>/SKILL.md` on this site.
 
 [](){#ref-agents-install}
 ## Installing skills
@@ -24,14 +25,15 @@ Each skill is one `.tar.gz` archive, and its `SKILL.md` can be read before it is
 Skills are installed in your home directory.
 On Alps, your home directory is shared by all clusters, so one installation is enough for all of them.
 
-Each agent looks for skills in its own directory:
+Each skill is installed in `$XDG_DATA_HOME/cscs/skills/<skill>/`, or in `~/.local/share/cscs/skills/<skill>/` if `XDG_DATA_HOME` is not set.
+It is linked from the directory where your agent looks for skills:
 
-| Agent | Directory |
-|-------|-----------|
-| Codex, OpenCode | `~/.agents/skills/<skill>/` |
-| Claude Code | `~/.claude/skills/<skill>/` |
+| Agent | Link |
+|-------|------|
+| Codex, OpenCode | `~/.agents/skills/<skill>` |
+| Claude Code | `~/.claude/skills/<skill>` |
 
-The instructions below install each skill in `~/.agents/skills`, and link it from `~/.claude/skills` for Claude Code.
+So there is one copy of each skill, however many agents you use, and the directories of your agents contain only links.
 
 === "Ask your agent"
 
@@ -43,35 +45,66 @@ The instructions below install each skill in `~/.agents/skills`, and link it fro
     ```
 
     !!! info "Instructions for agents"
-        * Read <https://docs.cscs.ch/.well-known/agent-skills/index.json>, and show the user the name and description of each skill.
-        * Ask the user which skills to install, and install no others.
+        * Read the index of skills at `../.well-known/agent-skills/index.json`, relative to the URL of this page.
+          For this page at `https://docs.cscs.ch/agents/`, that is `https://docs.cscs.ch/.well-known/agent-skills/index.json`.
+          Download everything from the same site as this page.
+        * Show the user the name and description of each skill.
+          Ask the user which skills to install, and install no others.
+        * Ask the user which agents they use, to know which links to create: `~/.agents/skills/<name>` for Codex and OpenCode, `~/.claude/skills/<name>` for Claude Code.
+        * Find the directory for the skills, `<skills>` below: `$XDG_DATA_HOME/cscs/skills` if `XDG_DATA_HOME` is set, otherwise `$HOME/.local/share/cscs/skills`.
+          Expand it to an absolute path, such as `/home/alice/.local/share/cscs/skills`, and write that path in full in every command that follows.
+        * If `<skills>/<name>`, or one of the links, already exists, tell the user, and ask before you replace it.
         * For each skill, download the archive named by `url`, relative to the index, and check that its SHA-256 matches `digest`.
           If it does not match, stop and tell the user.
-        * Unpack the archive into `~/.agents/skills/<name>/`, replacing an earlier copy of the skill.
+        * Unpack the archive into `<skills>/<name>/`.
           The archive has `SKILL.md` at its root.
-        * Write the digest to `~/.agents/skills/<name>/.digest`, so that an update can be detected later.
-        * If the user uses Claude Code, link `~/.claude/skills/<name>` to `~/.agents/skills/<name>`.
+        * Write the digest to `<skills>/<name>/.digest`, so that an update can be detected later.
+        * Create the links to `<skills>/<name>`.
+          Do not copy the skill into the directories of the agents.
+        * Run each step as a separate command, so that the user can review it.
+          Never build the path of a file to delete from shell variables, for example `rm "$dir/$name.tar.gz"`: write it in full, as in `rm /home/alice/.local/share/cscs/skills/cscs-cluster-probes.tar.gz`.
+          Agents may refuse to run commands that delete paths built from variables.
         * Change nothing else: no configuration files, environment variables or shell startup files.
         * Tell the user what was installed, and how to remove it.
 
 === "Install by hand"
 
-    ```bash title="install the cscs-cluster-probes skill"
-    skill=cscs-cluster-probes
-    curl -fsSLO https://docs.cscs.ch/.well-known/agent-skills/$skill.tar.gz
-    sha256sum $skill.tar.gz   # compare with the digest of the skill in index.json
-    rm -rf ~/.agents/skills/$skill
-    mkdir -p ~/.agents/skills/$skill ~/.claude/skills
-    tar -xzf $skill.tar.gz -C ~/.agents/skills/$skill
-    ln -sfn ~/.agents/skills/$skill ~/.claude/skills/$skill   # for Claude Code
-    rm $skill.tar.gz
+    Download the skill, and check that the SHA-256 printed matches the `digest` of the skill in `index.json`:
+
+    ```bash title="download the cscs-cluster-probes skill"
+    mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes"
+    cd "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills"
+    curl -fsSLO https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes.tar.gz
+    sha256sum cscs-cluster-probes.tar.gz
     ```
+
+    If it matches, unpack it:
+
+    ```bash title="unpack the cscs-cluster-probes skill"
+    tar -xzf cscs-cluster-probes.tar.gz -C cscs-cluster-probes
+    rm cscs-cluster-probes.tar.gz
+    cd -
+    ```
+
+    Then link the skill for the agents that you use:
+
+    ```bash title="link the skill for Codex and OpenCode"
+    mkdir -p ~/.agents/skills
+    ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes" ~/.agents/skills/
+    ```
+
+    ```bash title="link the skill for Claude Code"
+    mkdir -p ~/.claude/skills
+    ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes" ~/.claude/skills/
+    ```
+
+    If the skill is already installed, [remove it][ref-agents-update] first.
 
 === "Link on Alps"
 
     !!! under-construction
         The skills will be available on all clusters in `/capstor/store/cscs/cscs/public/skills`, kept up to date by CSCS.
-        Linking to that copy, instead of downloading one, keeps your skills up to date without further action.
+        Linking the directories of your agents to that copy, instead of to a copy in your home directory, will keep your skills up to date without further action.
 
 !!! warning
     You are responsible for what an agent does with a skill, as with any [other action of a coding agent][ref-coding-agents].
@@ -80,12 +113,13 @@ The instructions below install each skill in `~/.agents/skills`, and link it fro
 [](){#ref-agents-update}
 ## Updating and removing skills
 
-To update a skill, install it again.
+To update a skill, remove it, then install it again.
 The digest of a skill in `index.json` changes only when the skill changes.
 An agent that installed the skill recorded the digest in the `.digest` file of the skill, so it can compare the two to tell whether an update is available.
 
-To remove a skill, delete its directories:
+To remove a skill, delete its links and its directory:
 
 ```bash title="remove the cscs-cluster-probes skill"
-rm -rf ~/.agents/skills/cscs-cluster-probes ~/.claude/skills/cscs-cluster-probes
+rm -f ~/.agents/skills/cscs-cluster-probes ~/.claude/skills/cscs-cluster-probes
+rm -rf "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes"
 ```
