@@ -13,6 +13,12 @@ The guides are grouped around top-level topics.
 
     [:octicons-arrow-right-24: Coding Agents][ref-coding-agents]
 
+-   :fontawesome-solid-toolbox: __Agent Skills__
+
+    Install the CSCS skills that help coding agents answer questions about Alps from facts read on the system.
+
+    [:octicons-arrow-right-24: Agent Skills][ref-agents]
+
 -   :fontawesome-solid-globe: __Internet Access__
 
     How internet access works on Alps, including login nodes, compute nodes, and external services.

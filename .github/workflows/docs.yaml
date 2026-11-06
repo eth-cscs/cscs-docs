@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
+      - uses: astral-sh/setup-uv@v10
       # skip caching until zensical has stabilised cache interface
       #- run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       #- uses: actions/cache@v3
@@ -23,11 +21,8 @@ jobs:
       #    path: .cache
       #    restore-keys: |
       #      zensical-
-      - run: pip install --upgrade pip
-      - run: pip install -r requirements.txt
-      - run: rm -rf site
-      - run: zensical --version
-      - run: zensical build --strict
+      # the documentation, with the agent skills and cluster results
+      - run: ./build
       # zensical has no equivalent of `mkdocs gh-deploy`, so the built site is
       # committed to the gh-pages branch by hand
       - name: Publish to gh-pages

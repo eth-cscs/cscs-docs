@@ -5,17 +5,21 @@ description: Look up how a CSCS Alps cluster is configured and what it is doing 
 
 # CSCS cluster probes
 
-`probes/probe.sh` in a checkout of the CSCS documentation repository reports facts about the cluster that it is run on.
+`scripts/probe.sh`, in the directory that contains this file, reports facts about the cluster that it is run on.
 It is read-only, submits no jobs, and takes about a second.
 Prefer it to parsing `scontrol`, `sinfo` and `sacctmgr` yourself: it combines them, and states why a limit is what it is.
 
 Always pass `--live --format json` on a cluster, and name the probes that you need.
+In the examples, `$SKILL` is the directory that contains this file.
 
 ```console
-$ ./probes/probe.sh --live --format json partitions usage access
+$ $SKILL/scripts/probe.sh --live --format json partitions usage access
 ```
 
-Run `./probes/probe.sh --list --format json` once for the meaning of every field.
+Run `$SKILL/scripts/probe.sh --list --format json` once for the meaning of every field.
+
+If you are not on a cluster but can connect to one with ssh, copy the `scripts` directory there and run it in the same way.
+The probe needs only Python 3.6 and the Slurm commands of the cluster.
 
 ## Which probe
 
@@ -58,10 +62,11 @@ Run `./probes/probe.sh --list --format json` once for the meaning of every field
 If the two differ for a partition, the running system was changed temporarily: tell the user what applies now, and that it differs from the documentation.
 
 ```console
-$ diff <(./probes/probe.sh --live partitions) <(./probes/probe.sh --intended partitions)
+$ diff <($SKILL/scripts/probe.sh --live partitions) <($SKILL/scripts/probe.sh --intended partitions)
 ```
 
-Off a cluster, read `generated/clusters/<cluster>/results.json`: the intended configuration of the published probes, in the same format.
+Without access to a cluster, read <https://docs.cscs.ch/generated/clusters/index.json> for the list of clusters, then <https://docs.cscs.ch/generated/clusters/CLUSTER/results.json>, with `CLUSTER` replaced by the cluster name.
+It is the intended configuration of the published probes, in the same format, from the last time that the documentation was updated.
 The `usage` and `access` probes are only available on a cluster.
 
 ## Not covered

@@ -166,9 +166,12 @@ The agent could piece together the answer like this:
 * `usage` shows that 399 of those 400 nodes are already in use, and that the most common reason for pending jobs is `QOSGrpNodeLimit`;
 * `access` lists the other partitions and QoS that the user could submit to instead.
 
-The file `probes/skill/SKILL.md` tells an agent which probe to use for which kind of question.
+The `cscs-cluster-probes` skill in `skills/cscs-cluster-probes/SKILL.md` tells an agent which probe to use for which kind of question.
+The site build packs the skill with a copy of `probe.sh` and `lib/`, and users install it from <https://docs.cscs.ch/agents/>.
+So the probes must keep working when they are run from any directory, without the rest of this repository.
+See `skills/README.md`.
 
-When an agent isn't on the system, it can read the committed `generated/clusters/<cluster>/results.json` instead.
+When an agent isn't on the system, it can read `generated/clusters/<cluster>/results.json` instead, which the site publishes at `https://docs.cscs.ch/generated/clusters/<cluster>/results.json`.
 It contains the intended configuration in the same format as the combined output of the published probes.
 
 ## Four rules
