@@ -57,7 +57,7 @@ for platform, spec in sorted(platforms.items()):
                     % (platform, cluster, severity, ", ".join(SEVERITIES)), config)
 
     for artifact in spec["artifacts"]:
-        ref_path = pathlib.Path("probes/generated", reference, artifact)
+        ref_path = pathlib.Path("generated/clusters", reference, artifact)
         if not includes(page, ref_path):
             problem("critical", "%s: %s does not include the reference copy %s"
                     % (platform, page, ref_path), page)
@@ -65,7 +65,7 @@ for platform, spec in sorted(platforms.items()):
             problem("critical", "%s: %s not generated on %s" % (platform, artifact, reference), ref_path)
             continue
         for cluster, severity in sorted(spec["clusters"].items()):
-            path = pathlib.Path("probes/generated", cluster, artifact)
+            path = pathlib.Path("generated/clusters", cluster, artifact)
             if not path.exists():
                 # Not yet probed: reported by check-freshness.sh, not a conflict.
                 print("%s: %s not generated on %s, skipped" % (platform, artifact, cluster))

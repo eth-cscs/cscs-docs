@@ -114,7 +114,7 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
 <!--begin no spell check-->
---8<-- "probes/generated/daint/partitions.md"
+--8<-- "generated/clusters/daint/partitions.md"
 <!--end no spell check-->
 
 The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
@@ -126,7 +126,7 @@ The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so th
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/daint/nodetypes.md"
+--8<-- "generated/clusters/daint/nodetypes.md"
 <!--end no spell check-->
 
 !!! note "Default MPI plugin"

@@ -103,7 +103,7 @@ class System(object):
             match = re.search(r"(?m)^system_name *= *'(.*)'",
                               self.read("uenv", "/etc/uenv/config.toml"))
             name = match.group(1) if match else ""
-        # An empty name would write the artifacts into probes/generated/ itself.
+        # An empty name would write the artifacts into generated/clusters/ itself.
         if not re.match(r"^[a-z][a-z0-9-]*$", name):
             raise ProbeError("cannot determine the cluster (got '%s')" % name)
         return name

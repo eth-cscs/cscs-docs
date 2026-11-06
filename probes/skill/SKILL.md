@@ -61,7 +61,7 @@ If the two differ for a partition, the running system was changed temporarily: t
 $ diff <(./probes/probe.sh --live partitions) <(./probes/probe.sh --intended partitions)
 ```
 
-Off a cluster, read `probes/generated/<cluster>/<probe>.json`: the intended configuration in the same format.
+Off a cluster, read `generated/clusters/<cluster>/results.json`: the intended configuration of the published probes, in the same format.
 The `usage` and `access` probes are only available on a cluster.
 
 ## Not covered

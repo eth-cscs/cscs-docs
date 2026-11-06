@@ -37,7 +37,7 @@ Once invited to a project you will receive an email with information on how to c
 The file systems provided on the HPCP clusters [Daint][ref-cluster-daint] and [Eiger][ref-cluster-eiger], the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
 <!--begin no spell check-->
---8<-- "probes/generated/daint/filesystems.md"
+--8<-- "generated/clusters/daint/filesystems.md"
 <!--end no spell check-->
 
 ### Home

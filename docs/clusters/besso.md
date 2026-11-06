@@ -11,7 +11,7 @@ Besso uses the [HPCP filesystems and storage policies][ref-hpcp-storage], except
 The file systems provided on Besso, the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
 <!--begin no spell check-->
---8<-- "probes/generated/besso/filesystems.md"
+--8<-- "generated/clusters/besso/filesystems.md"
 <!--end no spell check-->
 
 ## Getting started
@@ -60,13 +60,13 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `normal` partition contains all of the nodes in the system.
 
 <!--begin no spell check-->
---8<-- "probes/generated/besso/partitions.md"
+--8<-- "generated/clusters/besso/partitions.md"
 <!--end no spell check-->
 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/besso/nodetypes.md"
+--8<-- "generated/clusters/besso/nodetypes.md"
 <!--end no spell check-->
 
 !!! note "Default MPI plugin"

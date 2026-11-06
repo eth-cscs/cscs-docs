@@ -1,6 +1,6 @@
 name: check generated cluster configuration is current
 
-# The artifacts under probes/generated are produced by running probes/probe.sh on
+# The artifacts under generated/clusters are produced by running probes/probe.sh on
 # a cluster, which CI cannot do. This job reports which cluster is overdue.
 on:
   schedule:
@@ -11,6 +11,7 @@ on:
     branches: ['main']
     paths:
       - 'probes/**'
+      - 'generated/**'
 
 jobs:
   freshness:
@@ -22,6 +23,6 @@ jobs:
           python-version: '3.x'
       - run: ./probes/check-freshness.sh
       - run: ./probes/check-platforms.sh
-      # The tables are made from the committed JSON, and must not be edited by hand.
+      # The tables are made from the committed results.json, and must not be edited by hand.
       - run: ./probes/probe.sh --render --check
       - run: python3 -m unittest discover -s probes/tests

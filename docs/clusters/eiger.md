@@ -13,7 +13,7 @@ See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on
 Additionally, there are four login nodes with host names `eiger-ln00[1-4]`.
 
 <!--begin no spell check-->
---8<-- "probes/generated/eiger/nodes.md"
+--8<-- "generated/clusters/eiger/nodes.md"
 <!--end no spell check-->
 
 ### Storage and file systems
@@ -111,7 +111,7 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
 <!--begin no spell check-->
---8<-- "probes/generated/eiger/partitions.md"
+--8<-- "generated/clusters/eiger/partitions.md"
 <!--end no spell check-->
 
 The `normal`, `prepost` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
@@ -123,7 +123,7 @@ The `normal`, `prepost` and `low` partitions draw on the same pool of nodes, so 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/eiger/nodetypes.md"
+--8<-- "generated/clusters/eiger/nodetypes.md"
 <!--end no spell check-->
 
 !!! note "Default MPI plugin"

@@ -120,7 +120,7 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal] at CSCS.
 
 <!--begin no spell check-->
---8<-- "probes/generated/santis/partitions.md"
+--8<-- "generated/clusters/santis/partitions.md"
 <!--end no spell check-->
 
 Slurm uses the default time when a job does not set `--time`.
@@ -128,7 +128,7 @@ Slurm uses the default time when a job does not set `--time`.
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/santis/nodetypes.md"
+--8<-- "generated/clusters/santis/nodetypes.md"
 <!--end no spell check-->
 
 !!! note "Default MPI plugin"

@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "cluster": "bristen",
+  "source": "intended",
+  "emitters": "f414a57d",
+  "generated": "2026-11-04",
+  "max_age_days": 30,
+  "probes": {
+    "partitions": {
+      "partitions": [
+        {
+          "name": "normal",
+          "default": true,
+          "hidden": false,
+          "nodes": {
+            "pool": 32,
+            "usable": 32,
+            "limited_by": null
+          },
+          "job_nodes": {
+            "max": null,
+            "limited_by": null,
+            "size_max": null
+          },
+          "job_node_minutes": {
+            "max": null,
+            "limited_by": null
+          },
+          "time": {
+            "default": "01:00:00",
+            "max": "1-00:00:00"
+          },
+          "partition_qos": null,
+          "allowed_qos": null,
+          "priority_tier": 20,
+          "preempt_mode": null,
+          "oversubscribe": "EXCLUSIVE"
+        }
+      ],
+      "qos": {}
+    },
+    "nodetypes": {
+      "nodetypes": [
+        {
+          "partition": "normal",
+          "nodes": 30,
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": "gpu:4",
+          "features": [
+            "gpu"
+          ],
+          "feature_sets": []
+        },
+        {
+          "partition": "normal",
+          "nodes": 2,
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "cpus": 128,
+          "memory_gb": 503,
+          "gres": null,
+          "features": [],
+          "feature_sets": []
+        }
+      ]
+    },
+    "nodes": {
+      "nodes": [
+        {
+          "type": "zen2",
+          "installed_memory_gb": 512,
+          "nodes": 2,
+          "sockets": 4,
+          "gpus": 0,
+          "memory_gb": [
+            503
+          ],
+          "slurm_sockets_per_node": [
+            1
+          ]
+        },
+        {
+          "type": "a100",
+          "installed_memory_gb": 512,
+          "nodes": 30,
+          "sockets": 30,
+          "gpus": 120,
+          "memory_gb": [
+            503
+          ],
+          "slurm_sockets_per_node": [
+            1
+          ]
+        }
+      ]
+    },
+    "filesystems": {
+      "filesystems": [
+        {
+          "variables": [
+            "HOME"
+          ],
+          "filesystem": "home",
+          "previous_location": false,
+          "path_template": "/users/$USER",
+          "storage": "vadret",
+          "technology": "VAST",
+          "fstype": "nfs"
+        },
+        {
+          "variables": [
+            "SCRATCH"
+          ],
+          "filesystem": "scratch",
+          "previous_location": false,
+          "path_template": "/iopsstor/scratch/cscs/$USER",
+          "storage": "iopsstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        },
+        {
+          "variables": [
+            "STORE",
+            "PROJECT"
+          ],
+          "filesystem": "store",
+          "previous_location": false,
+          "path_template": "/capstor/store/cscs/<customer>/<group_id>",
+          "storage": "capstor",
+          "technology": "Lustre",
+          "fstype": "lustre"
+        }
+      ]
+    },
+    "versions": {
+      "tools": [
+        {
+          "id": "slurm",
+          "name": "Slurm",
+          "version": "25.05.9"
+        },
+        {
+          "id": "uenv",
+          "name": "uenv",
+          "version": "9.2.0"
+        },
+        {
+          "id": "container-engine",
+          "name": "Container engine",
+          "version": "0.4.0"
+        },
+        {
+          "id": "enroot",
+          "name": "enroot",
+          "version": "CSCS_2026_05_1"
+        },
+        {
+          "id": "podman",
+          "name": "podman",
+          "version": "5.8.2"
+        },
+        {
+          "id": "os",
+          "name": "Operating system",
+          "version": "SUSE Linux Enterprise Server 15 SP6"
+        },
+        {
+          "id": "kernel",
+          "name": "Kernel",
+          "version": "6.4.0-150600.23.125-default"
+        },
+        {
+          "id": "architecture",
+          "name": "Architecture",
+          "version": "x86_64"
+        }
+      ]
+    }
+  }
+}

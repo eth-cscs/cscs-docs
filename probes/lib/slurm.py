@@ -104,10 +104,13 @@ def node_cpus(attrs):
 
 
 def name_list(value):
-    """A list of names, or None where Slurm applies no restriction (ALL)."""
+    """A sorted list of names, or None where Slurm applies no restriction (ALL).
+
+    Sorted because the order of a list of QoS, accounts or groups means nothing
+    to Slurm: reordering AllowQos in slurm.conf must not change the results."""
     if value is None or value.upper() in ("ALL", "N/A", "(NULL)", ""):
         return None
-    return [name for name in value.split(",") if name]
+    return sorted(name for name in value.split(",") if name)
 
 
 def partition(attrs, nodes, nodetypes):

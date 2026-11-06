@@ -92,7 +92,7 @@ There are six Slurm partitions on the system:
 * the `xfer` partition is for [internal and S3 data transfer][ref-data-xfer-internal] at CSCS.
 
 <!--begin no spell check-->
---8<-- "probes/generated/clariden/partitions.md"
+--8<-- "generated/clusters/clariden/partitions.md"
 <!--end no spell check-->
 
 !!! info "Keep jobs in `normal` and `preemptable` to 128 nodes or fewer"
@@ -119,7 +119,7 @@ When the limit of a partition is reached, the jobs waiting in it are shown by `s
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/clariden/nodetypes.md"
+--8<-- "generated/clusters/clariden/nodetypes.md"
 <!--end no spell check-->
 
 #### `highprio` partition

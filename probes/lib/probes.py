@@ -15,7 +15,7 @@ rest: removing a column from a table does not remove it from the model.
 Each probe has a scope, which decides where its output may go:
 
   config    how the system is set up. The only scope that the documentation
-            includes, and the only one that is written to probes/generated/.
+            includes, and the only one that is written to generated/.
   state     what the system is doing now, such as idle nodes and pending jobs.
   user      what the person running the probe can use.
 
@@ -943,7 +943,7 @@ PROBES = OrderedDict((probe.name, probe) for probe in
 
 
 def published():
-    """The probes whose output is written to probes/generated/ and included in
+    """The probes whose output is written to generated/ and included in
     the documentation: configuration only, never state or anything about a
     user."""
     return [probe for probe in PROBES.values() if probe.scope == "config"]

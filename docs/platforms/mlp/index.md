@@ -51,7 +51,7 @@ The main cluster provided by the MLP is Clariden, a large Grace-Hopper GPU syste
 The file systems provided on the MLP cluster [Clariden][ref-cluster-clariden], the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
 
 <!--begin no spell check-->
---8<-- "probes/generated/clariden/filesystems.md"
+--8<-- "generated/clusters/clariden/filesystems.md"
 <!--end no spell check-->
 
 The following are also provided, but no environment variable points to them:

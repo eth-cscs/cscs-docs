@@ -8,7 +8,7 @@
 # Run on a login node of a cluster, then commit the result:
 #
 #   ./probes/probe.sh
-#   git diff probes/generated/
+#   git diff generated/clusters/
 #
 # The --live or --intended write generate output to stdout. output is printed
 # as markdown tables or as JSON:

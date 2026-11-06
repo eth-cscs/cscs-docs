@@ -2,10 +2,10 @@
 #
 # Report the age of each generated cluster configuration artifact set.
 #
-# This runs anywhere: it reads the committed manifests and needs no access to a
-# cluster. It is the counterpart to probe.sh, which can only be run on a cluster
-# by a person. CI cannot refresh the artifacts, but it can say which cluster is
-# overdue.
+# This runs anywhere: it reads the committed results.json of each cluster and
+# needs no access to a cluster. It is the counterpart to probe.sh, which can
+# only be run on a cluster by a person. CI cannot refresh the artifacts, but it
+# can say which cluster is overdue.
 #
 #   ./probes/check-freshness.sh
 
@@ -15,7 +15,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 exec python3 - <<'PY'
 import datetime, glob, json, os, pathlib, sys
 
-# Artifacts older than max_age_days (declared per cluster in the manifest, 30 by
+# Artifacts older than max_age_days (declared per cluster in results.json, 30 by
 # default, matching the monthly maintenance cadence) are reported stale. Twice
 # that is treated as a failure, so that a single missed month warns without
 # blocking work.
@@ -24,12 +24,12 @@ FAILURE_MULTIPLIER = 2
 today = datetime.date.today()
 rows, failed = [], False
 
-generated = sorted(glob.glob("probes/generated/*/manifest.json"))
+generated = sorted(glob.glob("generated/clusters/*/results.json"))
 for path in generated:
-    manifest = json.loads(pathlib.Path(path).read_text())
-    cluster = manifest["cluster"]
-    max_age = manifest.get("max_age_days", 30)
-    age = (today - datetime.datetime.strptime(manifest["generated"], "%Y-%m-%d").date()).days
+    results = json.loads(pathlib.Path(path).read_text())
+    cluster = results["cluster"]
+    max_age = results.get("max_age_days", 30)
+    age = (today - datetime.datetime.strptime(results["generated"], "%Y-%m-%d").date()).days
 
     if age > max_age * FAILURE_MULTIPLIER:
         status, failed = "STALE", True

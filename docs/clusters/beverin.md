@@ -14,7 +14,7 @@ Beverin has one [MI250X][ref-alps-mi200-node] login node.
 Beverin consists of 13 [MI250X][ref-alps-mi200-node] and 128 [MI300A][ref-alps-mi300-node] compute nodes.
 
 <!--begin no spell check-->
---8<-- "probes/generated/beverin/nodes.md"
+--8<-- "generated/clusters/beverin/nodes.md"
 <!--end no spell check-->
 
 See [Running jobs on Beverin][ref-cluster-beverin-running-jobs] for details on the associated slurm partitions.
@@ -111,13 +111,13 @@ There are two Slurm partitions on the system, corresponding to the two node type
 * `mi300`
 
 <!--begin no spell check-->
---8<-- "probes/generated/beverin/partitions.md"
+--8<-- "generated/clusters/beverin/partitions.md"
 <!--end no spell check-->
 
 The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
 
 <!--begin no spell check-->
---8<-- "probes/generated/beverin/nodetypes.md"
+--8<-- "generated/clusters/beverin/nodetypes.md"
 <!--end no spell check-->
 
 [](){#ref-cluster-beverin-gpu-partitioning}
