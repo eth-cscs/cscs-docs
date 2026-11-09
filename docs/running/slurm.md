@@ -99,6 +99,22 @@ Slurm ensures that user jobs request and receive the appropriate resources while
     ```
     The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 
+[](){#ref-slurm-partitions-qos}
+### QoS limits
+
+The number of nodes in a partition is not always the number of nodes that its jobs can use.
+Partitions on some clusters share the same nodes, and a Slurm quality of service (QoS) then limits how many nodes the jobs of each partition can hold at the same time, the size of a job, or the number of jobs for each user.
+A QoS can be attached to a partition, in which case it applies to every job in the partition, or to a job.
+
+```console title="check the QoS of a partition, and the limits of each QoS"
+$ scontrol show partition normal | grep -o ' QoS=[^ ]*'
+ QoS=normalp
+$ sacctmgr show qos format=name,grptres,maxtres,maxjobspu,maxsubmitpu,maxwall
+```
+
+`GrpTRES` is the limit for all the jobs that use the QoS together, for example `node=400`.
+A job that is waiting because that limit has been reached is shown by `squeue` with the reason `QOSGrpNodeLimit`.
+
 [](){#ref-slurm-partition-debug}
 ### Debug partition
 The Slurm `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).

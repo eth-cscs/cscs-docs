@@ -9,11 +9,12 @@ It is *not* a  cluster where to do the bulk of your computation, nodes can be re
 ## Cluster Specification
 
 ### Compute Nodes
-Bristen consists of 32 A100 nodes [NVIDIA A100 nodes][ref-alps-a100-node]. The number of nodes can change when nodes are added or removed from other clusters on Alps.
+Bristen consists of [NVIDIA A100 nodes][ref-alps-a100-node].
+The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|--------| ----------------- | ---------- |
-| [a100][ref-alps-a100-node] | 32 | 32 | 128 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/bristen/nodes.md"
+<!--end no spell check-->
 
 Nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal].
 

@@ -7,7 +7,7 @@ Daint is the main [HPC Platform][ref-platform-hpcp] cluster that provides comput
 
 ### Compute nodes
 
-Daint consists of around 800-1000 [Grace-Hopper nodes][ref-alps-gh200-node].
+Daint consists of [Grace-Hopper nodes][ref-alps-gh200-node].
 
 The number of nodes can vary as nodes are added or removed from other clusters on Alps.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
@@ -15,9 +15,9 @@ See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on
 There are four login nodes, `daint-ln00[1-4]`.
 You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,022 | 4,088    | 4,088 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 
@@ -113,16 +113,21 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | 922        | -    | 24 hours |
-| `debug`  | 24         | 10   | 30 minutes |
-| `xfer`   | 2          | 1    | 24 hours |
-| `low`    | 922        | -    | 24 hours |
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/partitions.md"
+<!--end no spell check-->
+
+The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
 * jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/nodetypes.md"
+<!--end no spell check-->
 
 !!! note "Default MPI plugin"
     The default [MPI plugin][ref-slurm-mpi] on Daint is `cray_shasta`.
