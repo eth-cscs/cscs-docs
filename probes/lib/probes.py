@@ -33,7 +33,8 @@ SCHEMA = 1
 
 
 class Probe(object):
-    def __init__(self, name, scope, description, sources, build, rows, columns, fields, hide=None):
+    def __init__(self, name, scope, description, sources, build, rows, columns, fields, hide=None,
+                 notes=None):
         self.name = name
         self.scope = scope
         self.description = description
@@ -43,6 +44,7 @@ class Probe(object):
         self.columns = columns      # [(header, row -> cell)]
         self.fields = fields        # field of the model -> what it means
         self.hide = hide            # rows -> headers of the columns to leave out, or None
+        self.notes = notes          # model -> lines of text to print under the table, or None
 
     def table_columns(self, rows):
         """The columns of the table of these rows: a column that no row needs,
@@ -59,6 +61,15 @@ def code(value):
 
 def number(value):
     return "unlimited" if value is None else str(value)
+
+
+SMALL_NUMBERS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+
+def in_words(count):
+    """A count in prose: in words up to nine, in digits from 10, as most
+    technical style guides write them. Table cells always use digits."""
+    return SMALL_NUMBERS[count] if 0 <= count < len(SMALL_NUMBERS) else str(count)
 
 
 # -- partitions ---------------------------------------------------------------
@@ -527,11 +538,23 @@ NODETYPES = Probe(
 
 # -- nodes --------------------------------------------------------------------
 
+# Partitions whose nodes only move data. A node that is in no other partition
+# that users can see is a data transfer node: it runs no compute jobs, so the
+# table of nodes leaves it out, and says so under the table.
+DATA_TRANSFER_PARTITIONS = ["xfer"]
+
+
+def data_transfer_node(node, hidden):
+    visible = [name for name in node["partitions"] if name not in hidden]
+    return bool(visible) and all(name in DATA_TRANSFER_PARTITIONS for name in visible)
+
+
 def build_nodes(system, source, publish):
+    hidden = set(p["name"] for p in slurm.load_partitions(system, source) if p["hidden"])
     groups = OrderedDict()
     for node in slurm.load_nodes(system, source):
         name, _, _, sockets, configurations = node_type(node)
-        key = (name, memory_configuration(node, name, configurations))
+        key = (name, memory_configuration(node, name, configurations), data_transfer_node(node, hidden))
         group = groups.setdefault(key, {"nodes": 0, "sockets": 0, "gpus": 0,
                                         "slurm_sockets": set(), "memory": set()})
         group["nodes"] += 1
@@ -540,14 +563,16 @@ def build_nodes(system, source, publish):
         group["slurm_sockets"].add(node["sockets"])
         group["memory"].add(int(round(node["memory_mib"] / 1024.0)))
 
-    # In the order of NODE_TYPES, then from the smallest memory.
+    # Compute nodes first, then in the order of NODE_TYPES, then from the
+    # smallest memory.
     order = [entry[0] for entry in NODE_TYPES]
     items = []
-    for (name, memory), group in sorted(groups.items(),
-                                        key=lambda item: (order.index(item[0][0]), item[0][1] or 0)):
+    for (name, memory, transfer), group in sorted(
+            groups.items(), key=lambda item: (item[0][2], order.index(item[0][0]), item[0][1] or 0)):
         items.append(OrderedDict([
             ("type", name),
             ("installed_memory_gb", memory),
+            ("data_transfer", transfer),
             ("nodes", group["nodes"]),
             ("sockets", group["sockets"]),
             ("gpus", group["gpus"]),
@@ -555,6 +580,20 @@ def build_nodes(system, source, publish):
             ("slurm_sockets_per_node", sorted(group["slurm_sockets"])),
         ]))
     return OrderedDict([("nodes", items)])
+
+
+def nodes_notes(model):
+    """A line under the table for the data transfer nodes that it leaves out."""
+    transfer = [entry for entry in model["nodes"] if entry["data_transfer"]]
+    if not transfer:
+        return []
+    count = sum(entry["nodes"] for entry in transfer)
+    kinds = sorted(set(entry["type"] for entry in transfer), key=[e[0] for e in NODE_TYPES].index)
+    links = " and ".join("[%s][%s]" % (kind, NODE_TYPE_REFS[kind]) for kind in kinds)
+    partitions = " and ".join(code(name) for name in DATA_TRANSFER_PARTITIONS)
+    return ["In addition, %s %s %s reserved for data transfer in the %s partition, "
+            "and cannot run compute jobs."
+            % (in_words(count), links, "node is" if count == 1 else "nodes are", partitions)]
 
 
 NODES = Probe(
@@ -567,7 +606,8 @@ NODES = Probe(
         "live": "`scontrol show node`",
     },
     build=build_nodes,
-    rows=lambda model: model["nodes"],
+    rows=lambda model: [entry for entry in model["nodes"] if not entry["data_transfer"]],
+    notes=nodes_notes,
     columns=[
         ("Node type", lambda row: "[%s][%s]" % (row["type"], NODE_TYPE_REFS[row["type"]])),
         ("Memory", lambda row: "%d GB" % row["installed_memory_gb"] if row["installed_memory_gb"] else "--"),
@@ -581,6 +621,8 @@ NODES = Probe(
         ("nodes[].type", "Alps node type: gh200, zen2, a100, mi200 or mi300."),
         ("nodes[].installed_memory_gb", "Memory installed in each node, as documented for the node type, "
                                         "or null where the documentation gives no figure."),
+        ("nodes[].data_transfer", "Whether these are data transfer nodes: nodes that are only in a "
+                                  "partition for moving data, such as xfer, and run no compute jobs."),
         ("nodes[].nodes", "Number of nodes."),
         ("nodes[].sockets", "CPU sockets of all the nodes, from the hardware of the node type."),
         ("nodes[].gpus", "GPUs of all the nodes, as Slurm counts them (--gpus)."),

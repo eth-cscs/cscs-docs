@@ -16,9 +16,9 @@ There are two login nodes, `santis-ln00[1,2]`, which are repurposed compute node
 You will be assigned to one of the two login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 This leaves 300 nodes available for compute jobs.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 302 | 1,208      | 1,208 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/santis/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 

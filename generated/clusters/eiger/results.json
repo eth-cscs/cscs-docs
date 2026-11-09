@@ -2,8 +2,8 @@
   "schema": 1,
   "cluster": "eiger",
   "source": "intended",
-  "emitters": "f5c3a079",
-  "generated": "2026-11-06",
+  "emitters": "34b78d0d",
+  "generated": "2026-11-09",
   "max_age_days": 30,
   "probes": {
     "partitions": {
@@ -413,8 +413,9 @@
         {
           "type": "zen2",
           "installed_memory_gb": 256,
-          "nodes": 242,
-          "sockets": 484,
+          "data_transfer": false,
+          "nodes": 240,
+          "sockets": 480,
           "gpus": 0,
           "memory_gb": [
             236
@@ -426,12 +427,27 @@
         {
           "type": "zen2",
           "installed_memory_gb": 512,
+          "data_transfer": false,
           "nodes": 286,
           "sockets": 572,
           "gpus": 0,
           "memory_gb": [
             444,
             474
+          ],
+          "slurm_sockets_per_node": [
+            2
+          ]
+        },
+        {
+          "type": "zen2",
+          "installed_memory_gb": 256,
+          "data_transfer": true,
+          "nodes": 2,
+          "sockets": 4,
+          "gpus": 0,
+          "memory_gb": [
+            236
           ],
           "slurm_sockets_per_node": [
             2

@@ -7,7 +7,7 @@ Daint is the main [HPC Platform][ref-platform-hpcp] cluster that provides comput
 
 ### Compute nodes
 
-Daint consists of around 800-1000 [Grace-Hopper nodes][ref-alps-gh200-node].
+Daint consists of [Grace-Hopper nodes][ref-alps-gh200-node].
 
 The number of nodes can vary as nodes are added or removed from other clusters on Alps.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
@@ -15,9 +15,9 @@ See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on
 There are four login nodes, `daint-ln00[1-4]`.
 You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,022 | 4,088    | 4,088 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 

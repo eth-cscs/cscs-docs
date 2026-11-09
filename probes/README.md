@@ -15,11 +15,13 @@ Log in to one of the cluster's login nodes and run:
 
 ```console
 $ git pull
-$ ./probes/probe.sh
+$ ./probes/probe.sh --generate
 writing generated/clusters/daint/partitions.md
 ...
 $ git diff generated/clusters/
 ```
+
+Without `--generate`, the script writes nothing: it prints the probes for the system as it is running now, as tables for people, or with `--format json` as facts for agents.
 
 Then commit the result and open a pull request.
 
@@ -39,7 +41,7 @@ The models of all the probes are written to one JSON file, `results.json`, which
 |---|---|---|---|
 | `partitions` | `slurm.conf` and `sacctmgr show qos` | How many nodes a job in each partition can use, plus job size and time limits | The full node pool and whatever limit reduces it, allowed QoS, priority tier, preemption, and the limits of each QoS |
 | `nodetypes` | `slurm.conf` | How many nodes of each Alps node type are in each partition (linked to the hardware docs), and the documented feature sets you can select with `--constraint` (vboost, thp, amdgpu) | The CPUs, memory and GPUs that Slurm schedules, and every feature |
-| `nodes` | `slurm.conf` | How many nodes of each node type and memory configuration the cluster has, with their CPU sockets and GPUs | The memory and number of sockets that Slurm is configured with for each node |
+| `nodes` | `slurm.conf` | How many nodes of each node type and memory configuration the cluster has, with their CPU sockets and GPUs; data transfer nodes (only in the `xfer` partition) are counted in a line under the table | The memory and number of sockets that Slurm is configured with for each node |
 | `filesystems` | `findmnt -T` on `$HOME`, `$SCRATCH`, `$SCRATCH_OLD` and `$STORE` | Which file system each variable points to, and which Alps storage system hosts it (this is documented per platform, see below) | The file system type |
 | `versions` | The `--version` output of each tool | Versions of Slurm, uenv, the container engine, enroot, podman and the OS | |
 
@@ -107,7 +109,7 @@ The probes are used in two different ways, and each needs a different source of 
 
 | | For the documentation | On the system |
 |---|---|---|
-| Command | `./probes/probe.sh` | `./probes/probe.sh --live [probe...]` |
+| Command | `./probes/probe.sh --generate` | `./probes/probe.sh [--live] [probe...]` |
 | Slurm source | `slurm.conf`, as deployed by the platform owners | `scontrol show partition` and `sinfo` |
 | Shows | The intended configuration | What the scheduler is actually doing now |
 | Output | Writes to `generated/clusters/<cluster>/` | Prints to the terminal and writes nothing |

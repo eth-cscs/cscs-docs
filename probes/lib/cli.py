@@ -48,7 +48,8 @@ def write(path, text):
 
 
 def today():
-    return datetime.datetime.utcnow().strftime("%Y-%m-%d")
+    # utcnow() is deprecated from Python 3.12; this form also works on 3.6.
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
 
 
 def generate(system, output):
@@ -115,13 +116,13 @@ def render(check, root=GENERATED):
     for directory in sorted(glob.glob(os.path.join(root, "*"))):
         path = os.path.join(directory, RESULTS)
         if not os.path.exists(path):
-            print("%s: no %s, run probes/probe.sh there" % (os.path.basename(directory), RESULTS))
+            print("%s: no %s, run probes/probe.sh --generate there" % (os.path.basename(directory), RESULTS))
             continue
         with open(path) as handle:
             data = views.from_json(handle.read())
         missing = [probe.name for probe in published() if probe.name not in data["probes"]]
         if missing:
-            print("%s: no results for %s, run probes/probe.sh there"
+            print("%s: no results for %s, run probes/probe.sh --generate there"
                   % (os.path.basename(directory), ", ".join(missing)))
         for name, markdown in tables(data):
             target = os.path.join(directory, name + ".md")
@@ -143,16 +144,20 @@ def render(check, root=GENERATED):
 def main():
     parser = argparse.ArgumentParser(
         prog="probe.sh",
-        description="Describe a cluster. With no options, write the artifacts that the "
-                    "documentation includes to generated/clusters/<cluster>/.",
+        description="Describe a cluster. With no options, print the probes for the system as it "
+                    "is running now, like --live. Nothing is written unless --generate or --render "
+                    "is given.",
         epilog="probes: " + ", ".join(PROBES) + ". See --list for what each one reports.")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--live", action="store_true",
-                      help="print probes for the system as it is running now")
+                      help="print probes for the system as it is running now (the default)")
     mode.add_argument("--intended", action="store_true",
                       help="print probes for the configuration that was deployed (slurm.conf)")
     mode.add_argument("--list", action="store_true",
                       help="print the probes, and with --format json the meaning of their fields")
+    mode.add_argument("--generate", action="store_true",
+                      help="write the artifacts that the documentation includes to "
+                           "generated/clusters/<cluster>/, for maintainers of the documentation")
     mode.add_argument("--render", action="store_true",
                       help="make the markdown tables again from the committed results.json")
     parser.add_argument("--check", action="store_true",
@@ -162,18 +167,21 @@ def main():
     parser.add_argument("--fixture", metavar="DIR",
                         help="read saved command output from DIR instead of the system (for tests)")
     parser.add_argument("--output", metavar="DIR",
-                        help="write the artifacts to DIR instead of generated/clusters/<cluster>/")
-    parser.add_argument("probe", nargs="*", help="with --live or --intended: the probes to print "
-                                                 "(default: those in the documentation)")
+                        help="with --generate: write the artifacts to DIR instead of "
+                             "generated/clusters/<cluster>/")
+    parser.add_argument("probe", nargs="*", help="the probes to print (default: those in the "
+                                                 "documentation)")
     args = parser.parse_args()
 
     unknown = [name for name in args.probe if name not in PROBES]
     if unknown:
         parser.error("unknown probe: %s (choose from %s)" % (", ".join(unknown), ", ".join(PROBES)))
-    if args.probe and not (args.live or args.intended):
-        parser.error("naming probes needs --live or --intended")
+    if args.probe and (args.list or args.generate or args.render):
+        parser.error("probes can only be named when printing them, not with --list, --generate or --render")
     if args.check and not args.render:
         parser.error("--check needs --render")
+    if args.output and not args.generate:
+        parser.error("--output needs --generate")
 
     try:
         if args.list:
@@ -181,10 +189,10 @@ def main():
                              else views.catalogue_text())
         elif args.render:
             render(args.check)
-        elif args.live or args.intended:
-            show(System(args.fixture), "live" if args.live else "intended", args.probe, args.format)
-        else:
+        elif args.generate:
             generate(System(args.fixture), args.output)
+        else:
+            show(System(args.fixture), "intended" if args.intended else "live", args.probe, args.format)
     except ProbeError as error:
         sys.stderr.write("probe.sh: %s\n" % error)
         return 1

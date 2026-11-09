@@ -1,6 +1,6 @@
 name: check generated cluster configuration is current
 
-# The artifacts under generated/clusters are produced by running probes/probe.sh on
+# The artifacts under generated/clusters are produced by running probes/probe.sh --generate on
 # a cluster, which CI cannot do. This job reports which cluster is overdue.
 on:
   schedule:

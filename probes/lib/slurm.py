@@ -168,6 +168,10 @@ def node_entry(name, attrs):
         "cores_per_socket": int(attrs.get("corespersocket", 1)),
         "memory_mib": int(attrs.get("realmemory", 1)),
         "gres": "" if gres == "(null)" else gres,
+        # The partitions that the node is in. slurm.conf names them on the
+        # partition lines instead: see load_conf_nodes.
+        "partitions": [name for name in attrs.get("partitions", "").split(",")
+                       if name and name != "(null)"],
     }
 
 
@@ -204,40 +208,49 @@ def read_conf(path):
     return nodes, nodesets, partition_lines
 
 
+def features(attrs):
+    return attrs.get("feature", attrs.get("features", ""))
+
+
+def resolve(expr, nodes, nodesets):
+    """The names of the nodes of a Nodes= expression of slurm.conf: node
+    names and ranges, node sets, and ALL."""
+    members = OrderedDict()
+    for item in split_top(expr):
+        if item.upper() == "ALL":
+            found = list(nodes)
+        elif item in nodesets:
+            nodeset = nodesets[item]
+            if "nodes" in nodeset:
+                found = resolve(nodeset["nodes"], nodes, nodesets)
+            else:
+                wanted = nodeset.get("feature", "")
+                found = [n for n, a in nodes.items() if wanted in features(a).split(",")]
+        else:
+            found = expand(item)
+        for name in found:
+            members[name] = True
+    return list(members)
+
+
 def load_conf_nodes(path):
     """Every node that slurm.conf defines, whether or not it is in a partition."""
-    nodes, _, _ = read_conf(path)
-    return [node_entry(name, attrs) for name, attrs in nodes.items()]
+    nodes, nodesets, partition_lines = read_conf(path)
+    entries = OrderedDict((name, node_entry(name, attrs)) for name, attrs in nodes.items())
+    for attrs in partition_lines:
+        for member in resolve(attrs.get("nodes", ""), nodes, nodesets):
+            if member in entries:
+                entries[member]["partitions"].append(attrs["partitionname"])
+    return list(entries.values())
 
 
 def load_conf(path):
     """Partitions and their node types as slurm.conf defines them."""
     nodes, nodesets, partition_lines = read_conf(path)
 
-    def features(attrs):
-        return attrs.get("feature", attrs.get("features", ""))
-
-    def resolve(expr):
-        members = OrderedDict()
-        for item in split_top(expr):
-            if item.upper() == "ALL":
-                found = list(nodes)
-            elif item in nodesets:
-                nodeset = nodesets[item]
-                if "nodes" in nodeset:
-                    found = resolve(nodeset["nodes"])
-                else:
-                    wanted = nodeset.get("feature", "")
-                    found = [n for n, a in nodes.items() if wanted in features(a).split(",")]
-            else:
-                found = expand(item)
-            for name in found:
-                members[name] = True
-        return list(members)
-
     partitions = []
     for attrs in partition_lines:
-        members = resolve(attrs.get("nodes", ""))
+        members = resolve(attrs.get("nodes", ""), nodes, nodesets)
         nodetypes = OrderedDict()
         for member in members:
             if member not in nodes:

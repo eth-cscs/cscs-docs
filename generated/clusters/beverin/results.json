@@ -2,8 +2,8 @@
   "schema": 1,
   "cluster": "beverin",
   "source": "intended",
-  "emitters": "f5c3a079",
-  "generated": "2026-11-06",
+  "emitters": "34b78d0d",
+  "generated": "2026-11-09",
   "max_age_days": 30,
   "probes": {
     "partitions": {
@@ -104,6 +104,7 @@
         {
           "type": "mi200",
           "installed_memory_gb": 512,
+          "data_transfer": false,
           "nodes": 13,
           "sockets": 13,
           "gpus": 104,
@@ -117,6 +118,7 @@
         {
           "type": "mi300",
           "installed_memory_gb": 512,
+          "data_transfer": false,
           "nodes": 128,
           "sockets": 512,
           "gpus": 512,

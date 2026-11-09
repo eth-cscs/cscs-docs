@@ -2,8 +2,8 @@
   "schema": 1,
   "cluster": "santis",
   "source": "intended",
-  "emitters": "f5c3a079",
-  "generated": "2026-11-06",
+  "emitters": "34b78d0d",
+  "generated": "2026-11-09",
   "max_age_days": 30,
   "probes": {
     "partitions": {
@@ -283,6 +283,7 @@
         {
           "type": "gh200",
           "installed_memory_gb": null,
+          "data_transfer": false,
           "nodes": 300,
           "sockets": 1200,
           "gpus": 1200,
@@ -296,6 +297,7 @@
         {
           "type": "zen2",
           "installed_memory_gb": 256,
+          "data_transfer": true,
           "nodes": 2,
           "sockets": 4,
           "gpus": 0,

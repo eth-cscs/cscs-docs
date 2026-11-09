@@ -7,12 +7,12 @@ Clariden is an Alps cluster that provides GPU accelerators and file systems desi
 
 ### Compute Nodes
 
-Clariden consists of around 1200 [Grace-Hopper nodes][ref-alps-gh200-node].
+Clariden consists of [Grace-Hopper nodes][ref-alps-gh200-node].
 The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|--------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/clariden/nodes.md"
+<!--end no spell check-->
 
 Most nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 

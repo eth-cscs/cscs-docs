@@ -53,7 +53,7 @@ for cluster, age, threshold, status in rows:
     print("%-*s  %9s  %9s  %s" % (width, cluster, age, threshold, status))
 
 if failed:
-    print("\nRun ./probes/probe.sh on the cluster(s) marked STALE and commit the result.",
+    print("\nRun ./probes/probe.sh --generate on the cluster(s) marked STALE and commit the result.",
           file=sys.stderr)
 sys.exit(1 if failed else 0)
 PY

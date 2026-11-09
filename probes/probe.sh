@@ -3,19 +3,20 @@
 # Describe a cluster: for the documentation, and for agents that help users on
 # the system.
 #
-# With no options, generate the cluster configuration artifacts used to generate
-# the docs.
-# Run on a login node of a cluster, then commit the result:
+# With no options, print the probes for the system as it is running now, as
+# markdown tables. --format json prints the facts behind the tables, for agents.
+# --intended reads the configuration that was deployed instead:
 #
 #   ./probes/probe.sh
-#   git diff generated/clusters/
-#
-# The --live or --intended write generate output to stdout. output is printed
-# as markdown tables or as JSON:
-#
 #   ./probes/probe.sh --list
 #   ./probes/probe.sh --live --format json partitions usage access
 #   ./probes/probe.sh --intended partitions
+#
+# --generate writes the cluster configuration artifacts that the documentation
+# includes. Run it on a login node of a cluster, then commit the result:
+#
+#   ./probes/probe.sh --generate
+#   git diff generated/clusters/
 #
 # Three rules govern what is written for the documentation:
 #
