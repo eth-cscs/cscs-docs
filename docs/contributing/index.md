@@ -49,6 +49,10 @@ If you want to follow changes to a page or section, add your name to the CODEOWN
 !!! note
     Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.
 
+!!! tip "Updating the tables of a cluster"
+    The partition, node and file system tables of the cluster and platform pages are generated from the configuration of each cluster.
+    Platform owners and system administrators can update them by following [updating cluster descriptions][ref-contributing-clusters].
+
 ## Getting started
 
 We use the GitHub fork and pull request model for development:

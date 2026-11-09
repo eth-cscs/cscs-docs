@@ -230,6 +230,7 @@ nav = [
   ]},
   {"Contributing" = [
     "contributing/index.md",
+    {"Updating Cluster Descriptions" = "contributing/clusters.md"},
     {"Publishing Agent Skills" = "contributing/skills.md"},
   ]},
 ]
