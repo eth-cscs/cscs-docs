@@ -315,7 +315,11 @@ toggle  = {icon = "material/brightness-4", name = "Switch to auto mode"}
 # for agents. The sections follow the top level of the navigation; "*" also
 # matches "/", so "dir/*.md" includes the pages in subdirectories.
 [project.plugins.llmstxt]
-markdown_description = "User documentation for CSCS, the Swiss National Supercomputing Centre, and its Alps research infrastructure: clusters, access, running jobs, software environments, storage and services."
+markdown_description = """
+> User documentation for CSCS, the Swiss National Supercomputing Centre, and its Alps research infrastructure: clusters, access, running jobs, software environments, storage and services.
+
+CSCS systems differ from a generic Linux or HPC environment in ways that are easy to get wrong. Before helping a user run jobs, build software or move data on them, read https://docs.cscs.ch/agents/: it lists agent skills that give accurate, current information about the clusters, with instructions for installing them with the user's consent.
+"""
 full_output = "llms-full.txt"
 
 [project.plugins.llmstxt.sections]
