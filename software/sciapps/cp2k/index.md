@@ -1,0 +1,680 @@
+# CP2K
+
+> [!NOTE]
+>
+> CP2K is supported software on Alps. See the main applications page for more information.
+
+[CP2K](<https://www.cp2k.org/>) is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid state, liquid, molecular, periodic, material, crystal, and biological systems.
+
+CP2K provides a general framework for different modeling methods such as DFT using the mixed Gaussian and plane waves approaches GPW and GAPW. Supported theory levels include DFTB, LDA, GGA, MP2, RPA, semi-empirical methods (AM1, PM3, PM6, RM1, MNDO, …), and classical force fields (AMBER, CHARMM, …). CP2K can do simulations of molecular dynamics, metadynamics, Monte Carlo, Ehrenfest dynamics, vibrational analysis, core level spectroscopy, energy minimization, and transition state optimization using NEB or dimer method. See [CP2K Features](<https://www.cp2k.org/features>) for a detailed overview.
+
+> [!NOTE]
+>
+> **uenvs**
+>
+> [CP2K](<https://www.cp2k.org/>) is provided on ALPS via uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+
+> [!WARNING]
+>
+> **Known issues**
+>
+> Please check CP2K’s [known issues](<#known-issues>) and whether they are relevant to your work. They may impact your calculations in subtle ways, potentially leading to a waste of resources.
+
+> [!NOTE]
+>
+> **Changelog**
+>
+> > **2026.2:v1**
+> >
+> > - Updated CUDA to `@13.2`
+> > - Updated GCC from `@12.5.0` to `@15.3.0`
+> > - Updated Cray MPICH to `@9.2.1`, solving slow host buffer communication with GPU-aware MPI
+> > - Updated ELPA to `@2026.02.002` with [patch](<https://github.com/marekandreas/elpa/pull/85>) for MPI communicator leak
+> > - Most dependencies have been updated to the latest version available on Spack
+>
+> > **2026.1:v3**
+> >
+> > - [Patched](<https://github.com/marekandreas/elpa/pull/85>) MPI communicator leak in ELPA
+>
+> > **2026.1:v2**
+> >
+> > - Updated CUDA from `12.4` to `13.0`
+>
+> > **2026.1:v1**
+> >
+> > - Added `libtorch` support
+> > - Added `libvori` support
+> > - Removed `cp2k-dlaf` view; DLA-Future is now integrated in the `cp2k` view
+> > - The default `ELPA_KERNEL` changed from `GENERIC` to `NVIDIA_GPU` on Daint
+> > - This can cause a slowdown in some workflows, see [known issues](<#known-issues>) for details
+>
+> > **2025.1**
+> >
+> > - The `cp2k@2025.1:v1` uenv has been removed and replaced by `cp2k@2025.1:v2`
+> >
+> >   - The [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) integration required special care by the user; without it, the performance is sub-optimal
+> >   - The DLA-Future integration has been moved to a separate `cp2k-dlaf` view
+> >   - The two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
+> >   - Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
+> > - The default BLAS/LAPACK library on Eiger is now [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) (changed from Intel oneAPI MKL, oneMKL)
+> >
+> >   - Performance on some workloads is better and on others is comparable
+> >   - Brings uniformity across platforms
+
+## Dependencies
+
+On our systems, CP2K is built with the following dependencies:
+
+- [COSMA](<https://github.com/eth-cscs/COSMA>)
+- Cray MPICH
+- [DBCSR](<https://cp2k.github.io/dbcsr/develop/>)
+- [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
+- [dftd4](<https://dftd4.readthedocs.io/en/latest/>) (from `cp2k@2025.1` onwards)
+- [ELPA](<https://elpa.mpcdf.mpg.de>)
+- [FFTW](<https://www.fftw.org>)
+- [Libxc](<https://libxc.gitlab.io>)
+- [libint](<https://github.com/evaleev/libint>)
+- [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>)
+- [PLUMED](<https://www.plumed.org>) (from `cp2k@2024.1` onwards)
+- [ScaLAPACK](<https://www.netlib.org/scalapack/>)
+- [SIRIUS](<https://github.com/electronic-structure/SIRIUS>)
+- [Spglib](<https://spglib.readthedocs.io/en/stable/>)
+- [spla](<https://github.com/eth-cscs/spla>)
+- [libtorch](<https://docs.pytorch.org/cppdocs/installing.html>) (from `cp2k@2026.1` onwards)
+- [libvori](<https://brehm-research.de/libvori.php>) (from `cp2k@2026.1` onwards)
+
+> [!NOTE]
+>
+> **GPU-aware MPI**
+>
+> [COSMA](<https://github.com/eth-cscs/COSMA>) and [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) are built with GPU-aware MPI, which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`. On Daint, `MPICH_GPU_SUPPORT_ENABLED=1` is set by default.
+
+> [!NOTE]
+>
+> **CUDA cache path for JIT compilation**
+>
+> [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) uses JIT compilation for CUDA kernels. The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation. Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`. On Daint, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by default.
+
+## Running CP2K
+
+### Running on Daint
+
+Daint nodes have four GH200 GPUs that have to be configured properly for best performance. To start a job, two bash scripts are potentially required: a Slurm submission script, and a wrapper to start the CUDA MPS daemon so that multiple MPI ranks can use the same GPU.
+
+run\_cp2k.sh
+
+```bash
+#!/bin/bash -l
+
+#SBATCH --job-name=cp2k-job
+#SBATCH --time=00:30:00 (1)
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-core=1
+#SBATCH --ntasks-per-node=32 (2)
+#SBATCH --cpus-per-task=8 (3)
+#SBATCH --account=<ACCOUNT>
+#SBATCH --hint=nomultithread
+#SBATCH --exclusive
+#SBATCH --no-requeue
+#SBATCH --uenv=<CP2K_UENV>
+#SBATCH --view=cp2k
+
+export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache" # (5)!
+export MPICH_GPU_SUPPORT_ENABLED=1 # (6)!
+export MPICH_MALLOC_FALLBACK=1
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)!
+
+ulimit -s unlimited
+srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
+```
+
+1. Time format: `HH:MM:SS`
+2. Number of MPI ranks per node
+3. Number of CPUs per MPI ranks
+4. [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) spawns an extra thread, therefore it is necessary to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance. With [Intel MKL](<https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html>), this is not necessary and one can set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK`.
+5. [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead. This is set by default on Daint, but it’s set here explicitly as it’s essential to avoid performance degradation.
+6. CP2K’s dependencies use GPU-aware MPI, which requires enabling support at runtime. This is set by default on Daint, but it’s set here explicitly as it’s a requirement in general for enabling GPU-aware MPI.
+7. Change  to your project account name
+8. Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
+9. Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
+10. Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
+
+With the above scripts, you can launch a [CP2K](<https://www.cp2k.org/>) calculation on 4 nodes, with 32 MPI ranks per node and 8 OpenMP threads per rank with
+
+```bash
+sbatch run_cp2k.sh
+```
+
+> [!NOTE]
+>
+> The `mps-wrapper.sh` script, required to properly over-subscribe the GPU, is provided at the following page: NVIDIA GH200 GPU nodes: multiple ranks per GPU.
+
+> [!WARNING]
+>
+> The `--cpu-bind=socket` option is necessary to get good performance.
+
+> [!WARNING]
+>
+> Each GH200 node has 4 modules, each of them composed of a ARM Grace CPU with 72 cores and a H200 GPU directly attached to it. Please see Alps hardware for more information. It is important that the number of MPI ranks passed to \[Slurm\] with `--ntasks-per-node` is a multiple of 4.
+>
+> > **Note**
+> >
+> > In the example above, we use 32 MPI ranks with 8 OpenMP threads, for a total of 64 cores per GPU and 256 cores per node. Experiments have shown that CP2K performs and scales better when the number of MPI ranks is a power of 2, even if some cores are left idling.
+
+#### Running multiple CP2K calculations simultaneously on a single Daint node
+
+GH200 nodes offer a very large amount of computing resources, and some calculations are simply too small to make use of these resources efficiently. A symptom of that is when running on 2 nodes is barely faster, or even slower, than a single node. If the scientific investigation permits, up to 4 independent CP2K calculations can run in parallel on a single node, each using 72 CPU cores and a GPU. This could typically be the case when running various MD trajectories at different temperatures, or with different starting configurations. For optimal resource utilization, the 4 calculations should have similar wall times. The `H2O-128.inp` benchmark from the CP2K [git repository](<https://github.com/cp2k/cp2k/blob/support/v2026.1/benchmarks/QS/H2O-128.inp>) is one such an example (the wall time on 1 and 2 nodes is roughly equivalent). Below is a Slurm submission script launching 4 `H2O-128.inp` benchmark calculations simultaneously:
+
+> [!NOTE]
+>
+> **Running 4 independent CP2K calculations on a single node**
+>
+> run\_cp2k\_on\_split\_node.sh
+>
+> ```bash
+> #!/bin/bash -l
+>
+> #SBATCH --job-name=cp2k-job
+> #SBATCH --time=00:30:00
+> #SBATCH --nodes=1
+> #SBATCH --account=<ACCOUNT>
+> #SBATCH --hint=nomultithread
+> #SBATCH --no-requeue
+> #SBATCH --uenv=<CP2K_UENV>
+> #SBATCH --view=cp2k
+>
+> srun --ntasks=4 --cpu-bind=socket ./mps-wrapper.sh ./parallel_jobs.sh
+> ```
+>
+> The `parallel_jobs.sh` script describes how the resources are equally split over 4 independent calculations. Note that the all `srun` calls run on the same allocation, as defined in the submission script above.
+>
+> parallel\_jobs.sh
+>
+> ```bash
+> #!/bin/bash -l
+>
+> # Set the number of MPI ranks per calculation (one calculation per GPU, 4 in total).
+> # The number of OMP threads is automatically inferred.
+> nranks_per_calc=8
+> if !((nranks_per_calc > 0 && 72 % nranks_per_calc == 0)); then
+>     echo "Error: the number of ranks per calculation must be an integer divisor of 72 (# CPU cores per GPU)" >&2
+>     exit 1
+> fi
+> ncpus=$((288/$nranks_per_calc)) # do not modify this line
+>
+> # Important note: with the --overlap option, each srun job will share resources. Therefore, we allocate all resources
+> # for each job, i.e. nranks_per_calc*ncpus==288, and distribute the work with different CPU and GPU masks.
+> if !((nranks_per_calc * ncpus == 288)); then
+>     echo "Error: all resources MUST be allocated for each calculation" >&2
+>     exit 1
+> fi
+>
+> # CPU masks to ensure each calculation runs on a different set of CPU cores, close to a given GPU.
+> mask0="mask_cpu:0xffffffffffffffffff"                                                        # cores 0-71
+> mask1="mask_cpu:0xffffffffffffffffff000000000000000000"                                      # cores 72-143
+> mask2="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000"                    # cores 144-215
+> mask3="mask_cpu:0xffffffffffffffffff000000000000000000000000000000000000000000000000000000"  # cores 216-287
+>
+> # mps-wrapper.sh starts the MPS daemons for each GPU, and creates directories for piping and logging.
+> mps_prefix="/tmp/$(id -un)/slurm-${SLURM_JOBID}.0/nvidia" # hardcoded stepid 0 (not exported by mps-wrapper.sh)
+>
+> # Usual CP2K environment variables
+> export CUDA_CACHE_PATH="/dev/shm/$USER/cuda_cache"
+> export MPICH_GPU_SUPPORT_ENABLED=1
+> export MPICH_MALLOC_FALLBACK=1
+> export OMP_NUM_THREADS=$((72/$nranks_per_calc - 1))
+> ulimit -s unlimited
+>
+> # First calculation on GPU 0 and CPU cores 0-71
+> if [[ $SLURM_LOCALID -eq 0 ]]; then
+>     CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-0 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-0 \
+>     srun -u --overlap \
+>             --cpu-bind=$mask0,verbose \
+>             --ntasks=$nranks_per_calc \
+>             --cpus-per-task=$ncpus \
+>             --output="output0.out" \
+>             cp2k.psmp -i H2O-128.inp \
+>             & j0=$!
+>
+>     # wait for calculation to finish
+>     wait $j0
+> fi
+>
+> # Second calculation on GPU 1 and CPU cores 72-143
+> if [[ $SLURM_LOCALID -eq 1 ]]; then
+>     CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-1 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-1 \
+>     srun -u --overlap \
+>             --cpu-bind=$mask1,verbose \
+>             --ntasks=$nranks_per_calc \
+>             --cpus-per-task=$ncpus \
+>             --output="output1.out" \
+>             cp2k.psmp -i H2O-128.inp \
+>             & j1=$!
+>
+>     # wait for calculation to finish
+>     wait $j1
+> fi
+>
+> # Third calculation on GPU 2 and CPU cores 144-215
+> if [[ $SLURM_LOCALID -eq 2 ]]; then
+>     CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-2 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-2 \
+>     srun -u --overlap \
+>             --cpu-bind=$mask2,verbose \
+>             --ntasks=$nranks_per_calc \
+>             --cpus-per-task=$ncpus \
+>             --output="output2.out" \
+>             cp2k.psmp -i H2O-128.inp \
+>             & j2=$!
+>
+>     # wait for calculation to finish
+>     wait $j2
+> fi
+>
+> # Fourth calculation on GPU 3 and CPU cores 216-287
+> if [[ $SLURM_LOCALID -eq 3 ]]; then
+>     CUDA_MPS_PIPE_DIRECTORY=${mps_prefix}-mps-3 CUDA_MPS_LOG_DIRECTORY=${mps_prefix}-log-3 \
+>     srun -u --overlap \
+>             --cpu-bind=$mask3,verbose \
+>             --ntasks=$nranks_per_calc \
+>             --cpus-per-task=$ncpus \
+>             --output="output3.out" \
+>             cp2k.psmp -i H2O-128.inp \
+>             & j3=$!
+>
+>     # wait for calculation to finish
+>     wait $j3
+> fi
+> ```
+
+> [!NOTE]
+>
+> **Running regression tests**
+>
+> If you want to run CP2K regression tests with the CP2K executable provided by the uenv, make sure to use the version of the regression tests corresponding to the version of CP2K provided by the uenv. The regression test data is sometimes adjusted, and using the wrong version of the regression tests can lead to test failures.
+
+> [!NOTE]
+>
+> **Scaling of `QS/H2O-1024` benchmark**
+>
+> The [`QS/H2O-1024` benchmark](<https://github.com/cp2k/cp2k/blob/master/benchmarks/QS/H2O-1024.inp>) is a DFT molecular dynamics simulation of liquid water. It relies on [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) for block sparse matrix-matrix multiplication.
+>
+> All calculations were run with 32 MPI ranks per node, and 8 OpenMP threads per rank (best configuration for this benchmark).
+>
+> > **Note**
+> >
+> > `H2O-102.inp` is the largest example of DFT molecular dynamics simulation of liquid water that fits on a single GH200 node.
+>
+> | Number of nodes | Wall time (s) | Speedup | Efficiency |
+> | :---: | :---: | :---: | :---: |
+> | 1 | 793.1 | 1.00 | 1.00 |
+> | 2 | 535.2 | 1.48 | 0.74 |
+> | 4 | 543.9 | 1.45 | 0.36 |
+> | 8 | 487.3 | 1.64 | 0.20 |
+> | 16 | 616.7 | 1.28 | 0.08 |
+>
+> Scaling is not ideal on more than two nodes.
+
+> [!NOTE]
+>
+> **Scaling of `QS_mp2_rpa/128-H2O/H2O-128-RI-MP2-TZ` benchmark**
+>
+> The `QS_mp2_rpa/128-H2O/H2O-128-RI-MP2-TZ` benchmark is a straightforward modification of the [`QS_mp2_rpa/64-H2O/H2O-64-RI-MP2-TZ` benchmark](<https://github.com/cp2k/cp2k/blob/master/benchmarks/QS_mp2_rpa/64-H2O/H2O-64-RI-MP2-TZ.inp>).
+>
+> It is a RI-MP2 calculation of a water cluster with 128 atoms.
+>
+> > **Input file**
+> >
+> > ```Fortran
+> > &GLOBAL
+> >   PRINT_LEVEL MEDIUM
+> >   PROJECT H2O-128-RI-MP2-TZ
+> >   RUN_TYPE ENERGY
+> > &END GLOBAL
+> >
+> > &FORCE_EVAL
+> >   METHOD Quickstep
+> >   &DFT
+> >     BASIS_SET_FILE_NAME ./BASIS_H2O
+> >     POTENTIAL_FILE_NAME ./POTENTIAL_H2O
+> >     WFN_RESTART_FILE_NAME ./H2O-128-PBE-TZ-RESTART.wfn
+> >     &MGRID
+> >       CUTOFF 800
+> >       REL_CUTOFF 50
+> >     &END MGRID
+> >     &QS
+> >       EPS_DEFAULT 1.0E-12
+> >     &END QS
+> >     &SCF
+> >       EPS_SCF 1.0E-6
+> >       MAX_SCF 30
+> >       SCF_GUESS RESTART
+> >       &OT
+> >         MINIMIZER CG
+> >         PRECONDITIONER FULL_ALL
+> >       &END OT
+> >       &OUTER_SCF
+> >         EPS_SCF 1.0E-6
+> >         MAX_SCF 20
+> >       &END OUTER_SCF
+> >       &PRINT
+> >         &RESTART OFF
+> >         &END RESTART
+> >       &END PRINT
+> >     &END SCF
+> >     &XC
+> >       &HF
+> >         FRACTION 1.0
+> >         &INTERACTION_POTENTIAL
+> >           CUTOFF_RADIUS 6.0
+> >           POTENTIAL_TYPE TRUNCATED
+> >           T_C_G_DATA ./t_c_g.dat
+> >         &END INTERACTION_POTENTIAL
+> >         &MEMORY
+> >           MAX_MEMORY 16384
+> >         &END MEMORY
+> >         &SCREENING
+> >           EPS_SCHWARZ 1.0E-8
+> >           SCREEN_ON_INITIAL_P TRUE
+> >         &END SCREENING
+> >       &END HF
+> >       &WF_CORRELATION
+> >         MEMORY 1200
+> >         NUMBER_PROC 1
+> >         &INTEGRALS
+> >           &WFC_GPW
+> >             CUTOFF 300
+> >             EPS_FILTER 1.0E-12
+> >             EPS_GRID 1.0E-8
+> >             REL_CUTOFF 50
+> >           &END WFC_GPW
+> >         &END INTEGRALS
+> >         &RI_MP2
+> >         &END RI_MP2
+> >       &END WF_CORRELATION
+> >       &XC_FUNCTIONAL NONE
+> >       &END XC_FUNCTIONAL
+> >     &END XC
+> >   &END DFT
+> >   &SUBSYS
+> >     &CELL
+> >       ABC 15.6404 15.6404 15.6404
+> >     &END CELL
+> >     &KIND H
+> >       BASIS_SET cc-TZ
+> >       BASIS_SET RI_AUX RI-cc-TZ
+> >       POTENTIAL GTH-HF-q1
+> >     &END KIND
+> >     &KIND O
+> >       BASIS_SET cc-TZ
+> >       BASIS_SET RI_AUX RI-cc-TZ
+> >       POTENTIAL GTH-HF-q6
+> >     &END KIND
+> >     &TOPOLOGY
+> >       COORD_FILE_FORMAT XYZ
+> >       COORD_FILE_NAME ./H2O-128.xyz
+> >     &END TOPOLOGY
+> >   &END SUBSYS
+> > &END FORCE_EVAL
+> > ```
+>
+> All calculations run for this scaling tests were using 32 MPI ranks per node and 8 OpenMP threads per rank. The smallest amount of nodes necessary to run this calculation is 8.
+>
+> | Number of nodes | Wall time (s) | Speedup | Efficiency |
+> | :---: | :---: | :---: | :---: |
+> | 8 | 2037.0 | 1.00 | 1.00 |
+> | 16 | 1096.2 | 1.85 | 0.92 |
+> | 32 | 611.5 | 3.33 | 0.83 |
+> | 64 | 410.5 | 4.96 | 0.62 |
+> | 128 | 290.9 | 7.00 | 0.43 |
+>
+> MP2 calculations scale well on GH200, up to a large number of nodes (\\(\> 50\\%\\) efficiency with 64 nodes).
+
+> [!NOTE]
+>
+> **Scaling of `QS_mp2_rpa/128-H2O/H2O-128-RI-dRPA-TZ` benchmark**
+>
+> The [`QS_mp2_rpa/128-H2O/H2O-128-RI-dRPA-T` benchmark](<https://github.com/cp2k/cp2k/blob/master/benchmarks/QS_mp2_rpa/128-H2O/H2O-128-RI-dRPA-TZ.inp>) is a RPA energy calculation, traditionally used to benchmark the performance of the [COSMA](<https://github.com/eth-cscs/COSMA>) library. It a very large calculation, which requires at least 8 GH200 nodes to run. The calculations were run with 16 MPI ranks per node and 16 OpenMP threads per rank. For RPA workloads, a higher ratio of threads per rank were beneficial.
+>
+> | Number of nodes | Wall time (s) | Speedup | Efficiency |
+> | :---: | :---: | :---: | :---: |
+> | 8 | 575.4 | 1.00 | 1.00 |
+> | 16 | 465.8 | 1.23 | 0.61 |
+> | 32 | 281.1 | 2.04 | 0.51 |
+> | 64 | 205.3 | 2.80 | 0.35 |
+> | 128 | 185.8 | 3.09 | 0.19 |
+>
+> This RPA input scales well until 32 GH200 nodes.
+
+### Running on Eiger
+
+On Eiger, a similar sbatch script can be used:
+
+run\_cp2k.sh
+
+```bash
+#!/bin/bash -l
+#SBATCH --job-name=cp2k-job
+#SBATCH --time=00:30:00 (1)
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-core=1
+#SBATCH --ntasks-per-node=32 (2)
+#SBATCH --cpus-per-task=4 (3)
+#SBATCH --account=<ACCOUNT>
+#SBATCH --hint=nomultithread
+#SBATCH --exclusive
+#SBATCH --uenv=<CP2K_UENV>
+#SBATCH --view=cp2k
+
+export OMP_NUM_THREADS=$((SLURM_CPUS_PER_TASK - 1)) # (4)!
+
+ulimit -s unlimited
+srun --cpu-bind=socket cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPUT>
+```
+
+1. Time format: `HH:MM:SS`
+2. Number of MPI ranks per node
+3. Number of CPUs per MPI ranks
+4. [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) spawns an extra thread, therefore it is necessary to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance. With [Intel MKL](<https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html>), this is not necessary and one can set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK`.
+5. Change `<ACCOUNT>` to your project account name
+6. Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
+7. Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
+8. Change `<CP2K_INPUT>` and `<CP2K_OUTPUT>` to the actual input and output files
+
+> [!WARNING]
+>
+> The `--cpu-bind=socket` option is necessary to get good performance. If running with DLA-Future, use `--cpu-bind=cores` instead.
+
+> [!NOTE]
+>
+> **Running regression tests**
+>
+> If you want to run CP2K regression tests with the CP2K executable provided by the uenv, make sure to use the version of the regression tests corresponding to the version of CP2K provided by the uenv. The regression test data is sometimes adjusted, and using the wrong version of the regression tests can lead to test failures.
+
+## Building CP2K from Source
+
+> [!WARNING]
+>
+> The following installation instructions are up-to-date with the latest version of CP2K provided by the uenv. That is, they work when manually compiling the CP2K source code corresponding to the CP2K version provided by the uenv. **They are not necessarily up-to-date with the latest version of CP2K available on the `master` branch.**
+>
+> If you are trying to build CP2K from source, make sure you understand what is different in `master` compared to the latest version of CP2K provided by the uenv.
+
+The [CP2K](<https://www.cp2k.org/>) uenv provides all the dependencies required to build [CP2K](<https://www.cp2k.org/>) from source, with several optional features enabled. You can follow these steps to build [CP2K](<https://www.cp2k.org/>) from source:
+
+```bash
+uenv start --view=develop <CP2K_UENV> # (1)!
+
+cd <PATH_TO_CP2K_SOURCE> # (2)!
+
+mkdir build && cd build
+
+Torch_DIR=$(dirname $(find /user-environment/linux-neoverse_v2/ -name TorchConfig.cmake -type f)) \ # (4)!
+CC=mpicc CXX=mpic++ FC=mpifort cmake \
+    -GNinja \
+    -DCMAKE_CUDA_HOST_COMPILER=mpic++ \ # (3)!
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCP2K_USE_MPI=ON \
+    -DCP2K_USE_LIBXC=ON \
+    -DCP2K_USE_LIBINT2=ON \
+    -DCP2K_USE_FFTW3=ON \
+    -DCP2K_USE_SPGLIB=ON \
+    -DCP2K_USE_ELPA=ON \
+    -DCP2K_USE_SPLA=ON \
+    -DCP2K_USE_SPLA_GEMM_OFFLOADING=ON \
+    -DCP2K_USE_SIRIUS=ON \
+    -DCP2K_USE_COSMA=ON \
+    -DCP2K_USE_PLUMED=ON \
+    -DCP2K_USE_VORI=ON \
+    -DCP2K_USE_DFTD4=ON \
+    -DCP2K_USE_DLAF=ON \
+    -DCP2K_USE_LIBTORCH=ON \
+    -DCP2K_USE_SPGLIB=ON \
+    -DCP2K_USE_GRPP=ON \
+    -DCP2K_USE_ACCEL=CUDA -DCMAKE_CUDA_ARCHITECTURES=90 \
+    ..
+
+ninja -j 32
+```
+
+1. Start the CP2K uenv and load the `develop` view (which provides all the necessary dependencies)
+2. Go to the CP2K source directory
+3. Make sure `mpic++` is used as the CUDA host compiler, otherwise the outdated system compiler might be picked up
+4. Explicitly tell CMake where to find PyTorch’s `TorchConfig.cmake`
+
+> [!NOTE]
+>
+> **Eiger: `libxsmm`**
+>
+> On `x86` we deploy with `libxmm`. Add `-DCP2K_USE_LIBXSMM=ON` to the CMake invocation to use `libxsmm`.
+
+> [!NOTE]
+>
+> **Eiger: Intel MKL (before `cp2k@2025.1`)**
+>
+> On `x86` we deployed with `intel-oneapi-mkl` before `cp2k@2025.1`. If you are using a pre-`cp2k@2025.1` uenv, add `-DCP2K_SCALAPACK_VENDOR=MKL` to the CMake invocation to find MKL.
+
+> [!NOTE]
+>
+> **CUDA architecture for `cp2k@2024.1` and earlier**
+>
+> `cp2k@2024.1` (and earlier) does not support compiling for `cuda_arch=90`. Use `-DCP2K_WITH_GPU=A100` instead, which enables the `sm_80` architecture.
+
+See [manual.cp2k.org/CMake](<https://manual.cp2k.org/trunk/getting-started/CMake.html>) for more details.
+
+## Known issues
+
+### Slowdown with Nvidia driver 590 and later
+
+The main vClusters have been updated to Nvidia driver version 590. Some CP2K workloads have been observed to run slower with this driver version and later.
+
+The slowdown happens when using GPU-aware MPI.
+
+If you are not using COSMA, DLA-Future, or any other library relying on GPU-aware MPI, you should disable GPU-aware MPI (enabled by default) by setting the following environment variable:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+Note that COSMA is the default parallel dense matrix-matrix multiplication library. To ensure successful completion of CP2K calculations without GPU-aware MPI, add the following to the `&GLOBAL` input section. For all but RPA calculations, the performance impact of not using COSMA is negligible.
+
+```bash
+&FM
+  TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+&END FM
+```
+
+For workloads that use both host and device buffers for communication, see the Cray MPICH known issues page for an alternative workaround.
+
+### ELPA slowdown with 2026.1 on Daint
+
+In version 2026.1 a bug in CMake has been fixed. This causes the default `ELPA_KERNEL` to change from `GENERIC` (used by default before 2026.1) to `NVIDIA_GPU` (used by default from 2026.1 onwards) on Daint.
+
+For some workloads the `GENERIC` kernel is faster than `NVIDIA_GPU`. It is possible to recover the old behaviour by explicitly setting the `ELPA_KERNEL`:
+
+```text
+&GLOBAL
+    ELPA_KERNEL GENERIC
+&END GLOBAL
+```
+
+You should benchmark your workload to see which kernel is faster for your specific case.
+
+### Older uenv versions on Eiger
+
+After the migration to Eiger.Alps, calculations relying on older uenv versions (`2024.1:v1`, `2024.2:v1`, `2024.3:v1`) sometimes crash unexpectedly with a segmentation fault. The problem has been identify as coming from the `libxsmm` library, used as a backend in DBCSR. To avoid this issue, it is recommended to upgrade to a newer uenv.
+
+In case a specific `2024.x` version of CP2K is required, crashes can be avoided by switching to the `BLAS` backend of DBCSR. This can be done by adding the following in the `&GLOBAL` subsection of the input file:
+
+```bash
+&GLOBAL
+    &DBCSR
+        MM_DRIVER BLAS
+    &END DBCSR
+&END GLOBAL
+```
+
+### DLA-Future
+
+The `cp2k/2025.1:v2` uenv provides CP2K with [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) support enabled, in the `cp2k-dlaf` view. The DLA-Future library is initialized even if you don’t [explicitly ask to use it](<https://manual.cp2k.org/trunk/technologies/eigensolvers/dlaf.html>). This can lead to some surprising warnings and failures described below.
+
+#### `CUSOLVER_STATUS_INTERNAL_ERROR` during initialization
+
+If you are heavily over-subscribing the GPU by running multiple ranks per GPU, you may encounter the following error:
+
+```text
+created exception: cuSOLVER function returned error code 7 (CUSOLVER_STATUS_INTERNAL_ERROR): pika(bad_function_call)
+terminate called after throwing an instance of 'pika::cuda::experimental::cusolver_exception'
+what(): cuSOLVER function returned error code 7 (CUSOLVER_STATUS_INTERNAL_ERROR): pika(bad_function_call)
+```
+
+The reason is that too many cuSOLVER handles are created. If you don’t need DLA-Future, you can manually set the number of BLAS and LAPACK handlers to 1 by setting the following environment variables:
+
+```bash
+DLAF_NUM_GPU_BLAS_HANDLES=1
+DLAF_NUM_GPU_LAPACK_HANDLES=1
+```
+
+#### Warning about pika only using one worker thread
+
+When running CP2K with multiple tasks per node and only one core per task, the initialization of DLA-Future may trigger the following warning:
+
+```text
+The pika runtime will be started with only one worker thread because the
+process mask has restricted the available resources to only one thread. If
+this is unintentional make sure the process mask contains the resources
+you need or use --pika:ignore-process-mask to use all resources. Use
+--pika:print-bind to print the thread bindings used by pika.
+```
+
+This warning is triggered because the runtime used by DLA-Future, [pika](<https://pikacpp.org>), should typically be used with more than one thread and indicates a configuration mistake. However, if you are not using DLA-Future, the warning is harmless and can be ignored. The warning cannot be silenced.
+
+### DBCSR GPU scaling
+
+On the GH200 architecture, it has been observed that the GPU accelerated version of [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) does not perform optimally in some cases. For example, in the `QS/H2O-1024` benchmark above, CP2K does not scale well beyond 2 nodes. The CPU implementation of DBCSR does not suffer from this. A workaround was implemented in DBCSR, in order to switch GPU acceleration on/off with an environment variable:
+
+```bash
+export DBCSR_RUN_ON_GPU=0
+```
+
+While GPU acceleration is very good on few nodes, the CPU implementation scales better. Therefore, for CP2K jobs running on many nodes, it is worth investigating the use of the `DBCSR_RUN_ON_GPU` environment variable.
+
+Some niche application cases such as the `QS_low_scaling_postHF` benchmarks only run efficiently with the CPU version of DBCSR. Generally, if the function `dbcsr_multiply_generic` takes a significant portion of the timing report (at the end of the CP2K output file), it is worth investigating the effect of the `DBCSR_RUN_ON_GPU` environment variable.
+
+### CUDA grid backend with high angular momenta basis sets
+
+The CP2K grid CUDA backend is currently buggy on Alps. Using basis sets with high angular momenta (\\(l \\ge 3\\)) result in slow calculations, especially for force calculations with meta-GGA functionals.
+
+As a workaround, you can disable CUDA acceleration for the grid backend:
+
+```bash
+&GLOBAL
+    &GRID
+        BACKEND CPU
+    &END GRID
+&END GLOBAL
+```
+
+> [!NOTE]
+>
+> **Fix available upon request**
+>
+> A fix for this issue for the HIP backend is currently being tested by CSCS engineers. If you would like to test it, please contact us and we will be able to provide the source code. The fix will eventually land on the upstream [CP2K](<https://www.cp2k.org/>) repository.

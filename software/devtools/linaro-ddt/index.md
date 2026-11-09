@@ -1,0 +1,78 @@
+# Linaro DDT
+
+DDT allows source-level debugging of Fortran, C, C++ and Python codes. It can be used for debugging serial, multi-threaded (OpenMP), multi-process (MPI), and accelerated (CUDA, OpenACC) programs running on research and production systems, including the CSCS Alps system. DDT can be executed either with its graphical user interface or from the command-line.
+
+> [!NOTE]
+>
+> Linaro DDT is provided in the `linaro-forge` uenv. Before using DDT, please read the `linaro-forge` uenv documentation, which explains how to download and set up the latest version.
+
+## User guide
+
+The following guide will walk through the steps required to build and debug an application using DDT.
+
+### Set up the user environment and build the executable
+
+Once the uenv is loaded and activated, the program to debug must be compiled with the `-g` (for CPU) and `-G` (for GPU) debugging flags. For example, we can build a CUDA test with a user environment:
+
+compiling a simple app to debug
+
+```bash
+uenv start prgenv-gnu/26.3:v1 --view=default
+nvcc -c -arch=sm_90 -g -G test_gpu.cu
+mpicxx -g test_cpu.cpp test_gpu.o -o myexe
+```
+
+### Launch Linaro DDT
+
+To use the DDT client with uenv, it must be launched in `Manual Launch` mode (assuming that it is connected to Alps via `Remote Launch`):
+
+Log into the system and launch with the `srun` command:
+
+```console
+$ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/26.3:v1,linaro-forge/26.0:v1 --view=default,forge ddt-client  ./myexe
+```
+
+Note that two uenv are selected:
+
+1. the `prgenv-gnu` uenv is the environment used to compile `myexe`, and is always loaded when building and running `myexe`—you will have to change this to the uenv required in your workflow.
+2. the `linaro-forge` uenv is loaded with the `forge` view to make the `ddt-client` executable available.
+
+> [!NOTE]
+>
+> **no `activate` script required**
+>
+> Older versions of the `linaro-forge` required starting an `activate` script, which is no longer needed if you use the `forge` view.
+
+Start DDT, and connect to the target cluster using the drop down menu for `Remote Launch`. If you don’t have a target cluster, the `linaro-forge` uenv documentation explains how to set up the connection the first time.
+
+Click on `Manual launch`, set the number of processes to listen to, then wait for the Slurm job to start (see the “on Alps” tab for how to start the Slurm job).
+
+![](<https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/0.png>)
+
+### Start debugging
+
+By default, DDT will pause execution on the call to `MPI_Init`: ![](<https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/1.png>)
+
+There are two mechanisms for controlling program execution:
+
+Breakpoint(s) can be set by clicking in the margin to the left of the line number:
+
+![](<https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/3.png>)
+
+Execution can be paused in every CUDA kernel launch by activating the default breakpoints from the `Control` menu:
+
+![](<https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/4.png>)
+
+> [!NOTE]
+>
+> **Debugging with 128 GPUs**
+>
+> This screenshot shows a debugging session on 128 GPUs:
+>
+> ![DDTgpus](<https://raw.githubusercontent.com/jgphpc/cornerstone-octree/ddt/scripts/img/ddt/5.png>)
+
+More informations regarding how to use Linaro DDT are provided in the Forge [User Guide](<https://docs.linaroforge.com/latest/html/forge/index.html>).
+
+## Troubleshooting
+
+See the troubleshooting guide for the `linaro-forge` uenv.

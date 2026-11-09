@@ -1,0 +1,165 @@
+# Configuring uenvs
+
+The uenv tools are designed to work out of the box, with zero configuration for most users. There is support for per-user configuration via a [TOML](<https://toml.io/en/>) configuration file, which can be used to set preferences and configure multiple repositories.
+
+## User configuration
+
+### Configuration file
+
+The location of the configuration file follows the [XDG base directory specification](<https://specifications.freedesktop.org/basedir-spec/latest/>):
+
+- If the `XDG_CONFIG_HOME` environment variable is set, use `$XDG_CONFIG_HOME/uenv/config.toml`.
+- Otherwise use the default location `$HOME/.config/uenv/config.toml`.
+
+A system-wide configuration file may also be present at `/etc/uenv/config.toml`. This file is managed by CSCS and sets system defaults such as the registry endpoint and elastic logging. User settings take precedence over system settings, and CLI flags take precedence over both.
+
+Use the `uenv config` command to inspect the active configuration.
+
+> [!NOTE]
+>
+> **inspecting uenv configuration**
+>
+> ```text
+> $ uenv config
+> configuration-files:
+>   system:      /etc/uenv/config.toml
+>   user:        /users/robertsmith/.local/aarch64/config/uenv/config.toml
+> uenv-configuration:
+>   system:      starlex
+>   repos:       default:/ritom/scratch/cscs/robertsmith/.uenv-images
+>                home:/users/robertsmith/testrepo
+>   registry:    jfrog.svc.cscs.ch/uenv/deploy
+>   artifactory: https://jfrog.svc.cscs.ch/artifactory/uenv
+>   color:       on
+>   elastic:     http://log.cscs.ch:31311/logs
+> ```
+
+### Syntax
+
+The configuration file uses [TOML v1.0](<https://toml.io/en/>) syntax. Comments start with `#`.
+
+> [!NOTE]
+>
+> **example configuration file**
+>
+> ```toml
+> # enable color output
+> color = true
+>
+> # override the system name (use "*" to match all clusters)
+> system_name = "daint"
+>
+> # define one or more repositories
+> [[repositories]]
+> name = "test"
+> path = "/capstor/scratch/cscs/username/test-repo"
+>
+> [[repositories]]
+> name = "team"
+> path = "/store/g123/shared/uenv-images"
+> ```
+
+### Options
+
+| key | description | default | values |
+| --- | --- | --- | --- |
+| `color` | Use color output | automatically chosen | `true`, `false` |
+| `system_name` | Override the cluster name | auto-detected from `$CLUSTER_NAME` | cluster name or `"*"` |
+| `[[repositories]]` | One or more local image repositories | `$SCRATCH/.uenv-images` | array of `name`/`path` pairs |
+| `[elastic]` | Elastic logging configuration | — | set by CSCS in system config |
+
+#### `color`
+
+By default, uenv will generate color output according to the following priority:
+
+- if `--no-color` is passed on the CLI, color output is disabled;
+- else if `color` is set in the config file, use that setting;
+- else if the `NO_COLOR` environment variable is defined, color output is disabled;
+- else if the terminal is not a TTY, disable color;
+- else enable color output.
+
+#### `system_name`
+
+Overrides the automatic cluster detection used to filter uenv search results and labels. By default, uenv reads the `$CLUSTER_NAME` environment variable set on each Alps cluster.
+
+Setting `system_name = "*"` disables system filtering, showing images for all clusters. This is equivalent to the `@*` label syntax and the `--system=*` CLI flag:
+
+equivalent ways to search across all systems
+
+```bash
+# in config.toml
+system_name = "*"
+
+# via the global --system flag (overrides the config file)
+uenv --system='*' image find prgenv-gnu
+
+# via the label syntax
+uenv image find prgenv-gnu@'*'
+```
+
+#### `[[repositories]]`
+
+Multiple repositories can be configured as a TOML array-of-tables.
+
+defining multiple repositories
+
+```toml
+[[repositories]]
+name = "test"
+path = "/capstor/scratch/cscs/username/test-repo"
+
+[[repositories]]
+name = "team"
+path = "/store/g123/shared/uenv-images"
+priority = 30
+```
+
+Each entry requires a `name`, a `path`, and an optional `priority`:
+
+|  | required | description | default |
+| --- | --- | --- | --- |
+| `name` | yes | the name used to refer to a repo | \- |
+| `path` | yes | the absolute path of the repo | \- |
+| `priority` | no | determines the order in which repos are searched | 10 |
+
+The priority of each repo determines the order in which they will be searched, from lowest to highest. The default priority for repos is 10, and the priority of the default user repo is 9, so the default repo has the highest precedence.
+
+The `--repo` CLI flag can reference a repository by name or by path, and overrides the priority ordering specified by the configuration.
+
+#### `[elastic]`
+
+> [!WARNING]
+>
+> **do not modify**
+>
+> This section is set in the system configuration file at `/etc/uenv/config.toml`. It can only be modified by CSCS system engineers.
+
+The elastic logging configuration used to log uenv usage in Slurm jobs. CSCS uses this to understand uenv usage and improve the quality of the uenv service.
+
+elastic logging (system config only)
+
+```toml
+[elastic]
+url = "http://log.cscs.ch:31311/logs"
+```
+
+## The `uenv config` command
+
+The `uenv config` command prints the active configuration and the paths of the configuration files that were loaded. It is useful for diagnosing configuration issues.
+
+> [!NOTE]
+>
+> **inspecting the active configuration**
+>
+> ```console
+> $ uenv config
+> configuration-files:
+>   system:      /etc/uenv/config.toml
+>   user:        /home/username/.config/uenv/config.toml
+> uenv-configuration:
+>   system:      daint
+>   repos:       main:/capstor/scratch/cscs/username/.uenv-images
+>   registry:    registry.cscs.ch/cscs
+>   color:       on
+>   elastic:     http://log.cscs.ch:31311/logs
+> ```

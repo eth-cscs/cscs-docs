@@ -1,0 +1,183 @@
+# CSCS Documentation
+
+> User documentation for CSCS, the Swiss National Supercomputing Centre, and its Alps research infrastructure: clusters, access, running jobs, software environments, storage and services.
+
+CSCS systems differ from a generic Linux or HPC environment in ways that are easy to get wrong. Before helping a user run jobs, build software or move data on them, read https://docs.cscs.ch/agents/: it lists agent skills that give accurate, current information about the clusters, with instructions for installing them with the user's consent.
+
+## Alps
+
+- [Welcome](<https://docs.cscs.ch/index.md>)
+- [Hardware](<https://docs.cscs.ch/alps/hardware/index.md>)
+- [Alps Infrastructure](<https://docs.cscs.ch/alps/index.md>)
+- [Platforms](<https://docs.cscs.ch/alps/platforms/index.md>)
+- [Storage](<https://docs.cscs.ch/alps/storage/index.md>)
+- [Besso](<https://docs.cscs.ch/clusters/besso/index.md>)
+- [Beverin](<https://docs.cscs.ch/clusters/beverin/index.md>)
+- [Bristen](<https://docs.cscs.ch/clusters/bristen/index.md>)
+- [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md>)
+- [Daint](<https://docs.cscs.ch/clusters/daint/index.md>)
+- [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md>)
+- [Alps Clusters](<https://docs.cscs.ch/clusters/index.md>)
+- [Santis](<https://docs.cscs.ch/clusters/santis/index.md>)
+- [Climate and Weather Platform](<https://docs.cscs.ch/platforms/cwp/index.md>)
+- [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md>)
+- [Machine learning platform](<https://docs.cscs.ch/platforms/mlp/index.md>)
+- [Policies](<https://docs.cscs.ch/platforms/mlp/policies/index.md>)
+
+## Connecting to Alps
+
+- [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md>)
+- [HPC Console](<https://docs.cscs.ch/access/hpc-console/index.md>)
+- [Connecting to Alps](<https://docs.cscs.ch/access/index.md>)
+- [JupyterLab](<https://docs.cscs.ch/access/jupyterlab/index.md>)
+- [Multi Factor Authentication (MFA)](<https://docs.cscs.ch/access/mfa/index.md>)
+- [Service Accounts](<https://docs.cscs.ch/access/service-accounts/index.md>)
+- [SSH](<https://docs.cscs.ch/access/ssh/index.md>)
+- [VSCode](<https://docs.cscs.ch/access/vscode/index.md>)
+- [Web Portals](<https://docs.cscs.ch/access/web/index.md>)
+
+## Running jobs
+
+- [GPU report](<https://docs.cscs.ch/running/gssr/index.md>)
+- [HyperQueue](<https://docs.cscs.ch/running/hyperqueue/index.md>)
+- [Running Jobs](<https://docs.cscs.ch/running/index.md>)
+- [Job report](<https://docs.cscs.ch/running/jobreport/index.md>)
+- [Known issues](<https://docs.cscs.ch/running/known-issues/index.md>)
+- [Slurm](<https://docs.cscs.ch/running/slurm/index.md>)
+- [Vetnode](<https://docs.cscs.ch/running/vetnode/index.md>)
+
+## Environments
+
+- [Alps environments](<https://docs.cscs.ch/environments/index.md>)
+- [Coding Agents on Alps](<https://docs.cscs.ch/guides/coding-agents/index.md>)
+- [Course Account Setup](<https://docs.cscs.ch/guides/course-account/index.md>)
+- [Support Guide](<https://docs.cscs.ch/guides/getting-support/index.md>)
+- [Guides](<https://docs.cscs.ch/guides/index.md>)
+- [Internet Access on Alps](<https://docs.cscs.ch/guides/internet-access/index.md>)
+- [Storage](<https://docs.cscs.ch/guides/storage/index.md>)
+- [Getting started in the terminal](<https://docs.cscs.ch/guides/terminal/index.md>)
+
+## Building and installing software
+
+- [Creating Containers with podman](<https://docs.cscs.ch/build-install/containers/index.md>)
+- [Building and Installing Software](<https://docs.cscs.ch/build-install/index.md>)
+- [Python](<https://docs.cscs.ch/build-install/python/index.md>)
+- [uenv](<https://docs.cscs.ch/build-install/uenv/index.md>)
+
+## Applications and frameworks
+
+- [Alps Extended Images](<https://docs.cscs.ch/software/alps-extended-images/index.md>)
+- [Commercial software](<https://docs.cscs.ch/software/commercial/index.md>)
+- [Matlab](<https://docs.cscs.ch/software/commercial/matlab/index.md>)
+- [Cray MPICH](<https://docs.cscs.ch/software/communication/cray-mpich/index.md>)
+- [Communication Libraries](<https://docs.cscs.ch/software/communication/index.md>)
+- [libfabric](<https://docs.cscs.ch/software/communication/libfabric/index.md>)
+- [MPICH](<https://docs.cscs.ch/software/communication/mpich/index.md>)
+- [NCCL](<https://docs.cscs.ch/software/communication/nccl/index.md>)
+- [NVSHMEM](<https://docs.cscs.ch/software/communication/nvshmem/index.md>)
+- [OpenMPI](<https://docs.cscs.ch/software/communication/openmpi/index.md>)
+- [EDF reference](<https://docs.cscs.ch/software/container-engine/edf/index.md>)
+- [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md>)
+- [Known issues](<https://docs.cscs.ch/software/container-engine/known-issue/index.md>)
+- [Hooks and native resources](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md>)
+- [Using the Container Engine](<https://docs.cscs.ch/software/container-engine/run/index.md>)
+- [Sarus Suite &amp;amp; Podman on Alps — Early Access](<https://docs.cscs.ch/software/container-engine/sarus-suite/index.md>)
+- [Sarus Suite Early Access User Guide](<https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/index.md>)
+- [Deployment](<https://docs.cscs.ch/software/cw/deployment/index.md>)
+- [ICON](<https://docs.cscs.ch/software/cw/icon/index.md>)
+- [Climate and Weather Software](<https://docs.cscs.ch/software/cw/index.md>)
+- [netcdf-tools](<https://docs.cscs.ch/software/cw/netcdf-tools/index.md>)
+- [Debugging and Performance Analysis tools](<https://docs.cscs.ch/software/devtools/index.md>)
+- [Linaro debugger](<https://docs.cscs.ch/software/devtools/linaro-ddt/index.md>)
+- [Linaro performance analysis tool](<https://docs.cscs.ch/software/devtools/linaro-map/index.md>)
+- [Linaro Forge](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md>)
+- [Using NVIDIA Nsight](<https://docs.cscs.ch/software/devtools/nvidia-nsight/index.md>)
+- [Using Score-P/Scalasca](<https://docs.cscs.ch/software/devtools/vihps/index.md>)
+- [Applications and frameworks](<https://docs.cscs.ch/software/index.md>)
+- [Machine learning applications and frameworks](<https://docs.cscs.ch/software/ml/index.md>)
+- [PyTorch](<https://docs.cscs.ch/software/ml/pytorch/index.md>)
+- [Cray modules (CPE)](<https://docs.cscs.ch/software/prgenv/cpe/index.md>)
+- [Programming Environments](<https://docs.cscs.ch/software/prgenv/index.md>)
+- [julia](<https://docs.cscs.ch/software/prgenv/julia/index.md>)
+- [linalg](<https://docs.cscs.ch/software/prgenv/linalg/index.md>)
+- [prgenv-dpcpp](<https://docs.cscs.ch/software/prgenv/prgenv-dpcpp/index.md>)
+- [prgenv-gnu-openmpi](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md>)
+- [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md>)
+- [prgenv-intel](<https://docs.cscs.ch/software/prgenv/prgenv-intel/index.md>)
+- [prgenv-nvfortran](<https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/index.md>)
+- [Prohibited Software](<https://docs.cscs.ch/software/prohibited/index.md>)
+- [CP2K](<https://docs.cscs.ch/software/sciapps/cp2k/index.md>)
+- [GROMACS](<https://docs.cscs.ch/software/sciapps/gromacs/index.md>)
+- [Scientific Applications](<https://docs.cscs.ch/software/sciapps/index.md>)
+- [LAMMPS](<https://docs.cscs.ch/software/sciapps/lammps/index.md>)
+- [NAMD](<https://docs.cscs.ch/software/sciapps/namd/index.md>)
+- [Quantum ESPRESSO](<https://docs.cscs.ch/software/sciapps/quantumespresso/index.md>)
+- [VASP](<https://docs.cscs.ch/software/sciapps/vasp/index.md>)
+- [Ascent](<https://docs.cscs.ch/software/sciviz/ascent/index.md>)
+- [Scientific visualization](<https://docs.cscs.ch/software/sciviz/index.md>)
+- [ParaView](<https://docs.cscs.ch/software/sciviz/paraview/index.md>)
+- [Building uenv](<https://docs.cscs.ch/software/uenv/build/index.md>)
+- [Configuration](<https://docs.cscs.ch/software/uenv/configure/index.md>)
+- [Deploying uenv](<https://docs.cscs.ch/software/uenv/deploy/index.md>)
+- [Guides](<https://docs.cscs.ch/software/uenv/guides/index.md>)
+- [uenv](<https://docs.cscs.ch/software/uenv/index.md>)
+- [Managing uenv](<https://docs.cscs.ch/software/uenv/management/index.md>)
+- [Release notes](<https://docs.cscs.ch/software/uenv/release-notes/index.md>)
+- [Using uenv](<https://docs.cscs.ch/software/uenv/using/index.md>)
+- [Amber](<https://docs.cscs.ch/software/userapps/amber/index.md>)
+- [ESMF and CESM](<https://docs.cscs.ch/software/userapps/cesm/index.md>)
+- [User Applications](<https://docs.cscs.ch/software/userapps/index.md>)
+- [ORCA](<https://docs.cscs.ch/software/userapps/orca/index.md>)
+- [WRF](<https://docs.cscs.ch/software/userapps/wrf/index.md>)
+
+## Data management and storage
+
+- [File Systems](<https://docs.cscs.ch/storage/filesystems/index.md>)
+- [Storage](<https://docs.cscs.ch/storage/index.md>)
+- [Long Term Storage](<https://docs.cscs.ch/storage/longterm/index.md>)
+- [Object Storage](<https://docs.cscs.ch/storage/object/index.md>)
+- [Data Transfer](<https://docs.cscs.ch/storage/transfer/index.md>)
+
+## Services
+
+- [CI/CD](<https://docs.cscs.ch/services/cicd/index.md>)
+- [Developer Portal](<https://docs.cscs.ch/services/devportal/index.md>)
+- [Services](<https://docs.cscs.ch/services/index.md>)
+- [LLM Inference API](<https://docs.cscs.ch/services/inference/api/index.md>)
+- [Inference](<https://docs.cscs.ch/services/inference/index.md>)
+- [Clusters](<https://docs.cscs.ch/services/kubernetes/clusters/index.md>)
+- [Kubernetes](<https://docs.cscs.ch/services/kubernetes/index.md>)
+- [Kubernetes Upgrades](<https://docs.cscs.ch/services/kubernetes/kubernetes-upgrades/index.md>)
+- [Node OS Updates](<https://docs.cscs.ch/services/kubernetes/node-updates/index.md>)
+
+## Accounts and policies
+
+- [Changing account data](<https://docs.cscs.ch/accounts/account-change/index.md>)
+- [Creating a new account](<https://docs.cscs.ch/accounts/account-create/index.md>)
+- [Getting and Managing Accounts](<https://docs.cscs.ch/accounts/index.md>)
+- [Project and Resources Management Tool](<https://docs.cscs.ch/accounts/waldur/index.md>)
+- [Code of Conduct](<https://docs.cscs.ch/policies/code-of-conduct/index.md>)
+- [CSCS User Policies](<https://docs.cscs.ch/policies/index.md>)
+- [Scheduled Maintenance and System Unavailability Policies](<https://docs.cscs.ch/policies/maintenance/index.md>)
+- [User Regulations](<https://docs.cscs.ch/policies/regulations/index.md>)
+- [Fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md>)
+- [Slack Code of Conduct](<https://docs.cscs.ch/policies/slack/index.md>)
+- [User Support Policies](<https://docs.cscs.ch/policies/support/index.md>)
+
+## Tutorials
+
+- [Machine Learning Platform Tutorials](<https://docs.cscs.ch/tutorials/ml/index.md>)
+- [LLM Fine-tuning](<https://docs.cscs.ch/tutorials/ml/llm-fine-tuning/index.md>)
+- [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md>)
+- [LLM Pre-training](<https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/index.md>)
+- [vLLM/SGLang on AMD GPUs](<https://docs.cscs.ch/tutorials/ml/vllm-sglang-amdgpus/index.md>)
+
+## Agents
+
+- [Agent Skills](<https://docs.cscs.ch/agents/index.md>)
+
+## Contributing
+
+- [Updating Cluster Descriptions](<https://docs.cscs.ch/contributing/clusters/index.md>)
+- [Contributing](<https://docs.cscs.ch/contributing/index.md>)
+- [Publishing Agent Skills](<https://docs.cscs.ch/contributing/skills/index.md>)

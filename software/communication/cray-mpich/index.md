@@ -1,0 +1,225 @@
+# Cray MPICH
+
+Cray MPICH is the recommended MPI implementation on Alps. It is available through uenvs like prgenv-gnu and the application-specific uenvs.
+
+Slurm starts Cray MPICH applications with the `cray_shasta` MPI plugin. This plugin is the default on most Alps clusters. On clusters with no default plugin, for example Clariden, use `srun --mpi=cray_shasta`.
+
+The [Cray MPICH documentation](<https://cpe.ext.hpe.com/docs/latest/mpt/mpich/index.html>) contains detailed information about Cray MPICH. On this page we outline the most common workflows and issues that you may encounter on Alps.
+
+## GPU-aware MPI
+
+We recommend using GPU-aware MPI whenever possible, as it almost always provides a significant performance improvement compared to communication through CPU memory. To use GPU-aware MPI with Cray MPICH
+
+1. the application must be linked to the GTL library, and
+2. the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable must be set.
+
+If either of these are missing, the application will fail to communicate GPU buffers.
+
+In supported uenvs, Cray MPICH is built with GPU support (on clusters that have GPUs). This means that Cray MPICH will automatically be linked to the GTL library, which implements the the GPU support for Cray MPICH.
+
+> [!NOTE]
+>
+> **Checking that the application links to the GTL library**
+>
+> To check if your application is linked against the required GTL library, running `ldd` on your executable `myexecutable` should print something similar to:
+>
+> ```bash
+> $ ldd myexecutable | grep gtl
+>         libmpi_gtl_cuda.so => /user-environment/linux-sles15-neoverse_v2/gcc-13.2.0/cray-gtl-8.1.30-fptqzc5u6t4nals5mivl75nws2fb5vcq/lib/libmpi_gtl_cuda.so (0x0000ffff82aa0000)
+> ```
+>
+> The path may be different, but the `libmpi_gtl_cuda.so` library should be printed when using CUDA. In ROCm environments the `libmpi_gtl_hsa.so` library should be linked. If the GTL library is not linked, nothing will be printed.
+
+In addition to linking to the GTL library, Cray MPICH must be configured to be GPU-aware at runtime by setting the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable. On some CSCS systems this option is set by default. See this page for more information on configuring Slurm to use GPUs.
+
+> [!WARNING]
+>
+> **Segmentation faults when trying to communicate GPU buffers without `MPICH_GPU_SUPPORT_ENABLED=1`**
+>
+> If you attempt to communicate GPU buffers through MPI without setting `MPICH_GPU_SUPPORT_ENABLED=1`, it will lead to segmentation faults, usually without any specific indication that it is the communication that fails. Make sure that the option is set if you are communicating GPU buffers through MPI.
+
+> [!WARNING]
+>
+> **Error: “`GPU_SUPPORT_ENABLED` is requested, but GTL library is not linked”**
+>
+> If `MPICH_GPU_SUPPORT_ENABLED` is set to `1` and your application does not link against one of the GTL libraries you will get an error similar to the following during MPI initialization:
+>
+> ```bash
+> MPICH ERROR [Rank 0] [job id 410301.1] [Thu Feb 13 12:42:18 2025] [nid005414] - Abort(-1) (rank 0 in comm 0): MPIDI_CRAY_init: GPU_SUPPORT_ENABLED is requested, but GTL library is not linked
+>  (Other MPI error)
+>
+> aborting job:
+> MPIDI_CRAY_init: GPU_SUPPORT_ENABLED is requested, but GTL library is not linked
+> ```
+>
+> This means that the required GTL library was not linked to the application. In supported uenvs, GPU support is enabled by default. If you believe a uenv should have GPU support but you are getting the above error, feel free to get in touch with us to understand whether there is an issue with the uenv or something else in your environment. If you are using Cray modules you must load the corresponding accelerator module, e.g. `craype-accel-nvidia90`, before compiling your application.
+>
+> Alternatively, if you wish to not use GPU-aware MPI, either unset `MPICH_GPU_SUPPORT_ENABLED` or explicitly set it to `0` in your launch scripts.
+
+## Known issues
+
+This section documents known issues related to Cray MPICH on Alps. Resolved issues are also listed for reference.
+
+### Existing Issues
+
+#### Slow host buffer communication with Nvidia driver version 590 and later
+
+> [!NOTE]
+>
+> This issue will be fixed in Cray MPICH 9.2, which will be released in September 2026. CSCS is exploring the possibility of providing a pre-release for affected users: contact [CSCS support](<https://support.cscs.ch>) if you want to test it.
+
+Starting with NVIDIA driver version 580, calls to `cuPointerGetAttribute` with host-allocated buffers became significantly slower. Cray MPICH relies on `cuPointerGetAttribute` to determine whether to use host or device code paths for communication. For applications that communicate many small host buffers this can introduce significant slowdowns.
+
+For applications that only communicate host buffers, explicitly disabling GPU support for Cray MPICH will allow it to completely skip the host/device buffer check:
+
+```bash
+export MPICH_GPU_SUPPORT_ENABLED=0
+```
+
+For applications that use both host and device buffers for communication, the following shared library can be preloaded to almost fully restore performance:
+
+```bash
+export LD_PRELOAD=/capstor/store/cscs/cscs/public/temp/cuptrgetattr_override.so
+```
+
+The library overrides the `cuPointerGetAttribute` function with an implementation based on `cuPointerGetAttributes` which is faster than the implementation provided in driver version 580 and later.
+
+> [!NOTE]
+>
+> **Source code for the `cuPointerGetAttribute` override library**
+>
+> The library is compiled from the following source code:
+>
+> cuptrgetattr\_override.c
+>
+> ```c
+> #include <cuda.h>
+>
+> CUresult cuPointerGetAttribute(void* data, CUpointer_attribute attribute, CUdeviceptr ptr) {
+>     CUresult result = cuPointerGetAttributes(1, &attribute, &data, ptr);
+>     if (attribute == CU_POINTER_ATTRIBUTE_MEMORY_TYPE && *((unsigned int*)data) == 0) {
+>         return CUDA_ERROR_INVALID_VALUE;
+>     }
+>     return result;
+> }
+> ```
+>
+> It can be compiled manually for example with the prgenv-gnu uenv default view:
+>
+> ```bash
+> gcc -shared -o cuptrgetattr_override.so -I/user-environment/env/default/include -fPIC cuptrgetattr_override.c
+> ```
+
+> [!WARNING]
+>
+> The shared library is provided without any guarantees about compatibility with the `cuPointerGetAttribute` implementation provided by NVIDIA. The library has been tested to work in Cray MPICH use cases, but may not be provide exactly the same behaviour as the real implementation in terms of error reporting and checks.
+
+> [!WARNING]
+>
+> When the issue is resolved upstream the shared library will be removed without advance notice.
+
+#### Cray MPICH hangs
+
+Cray MPICH may sometimes hang on larger runs.
+
+> [!NOTE]
+>
+> **Workaround**
+>
+> There are many possible reasons why an application would hang, many unrelated to Cray MPICH. However, if you are experiencing hangs the issue may be worked around by setting:
+>
+> ```bash
+> export FI_MR_CACHE_MONITOR=disabled
+> ```
+>
+> The option
+>
+> ```bash
+> export FI_MR_CACHE_MONITOR=userfaultfd
+> ```
+>
+> may also avoid hangs, and typically performs better than completely disabling the cache monitor.
+
+Performance may be negatively affected by this option.
+
+#### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
+
+This error message is sometimes triggered by applications that use GPU Direct MPI calls when they trigger a bug in gdrcopy (a low-level library used to copy buffers between GPUs). Setting the following option will completely disable gdrcopy. Note that this has a performance impact for small message sizes, so it should only be enabled on a case-by-case basis.
+
+```bash
+export FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD=0
+```
+
+#### Slow intra-node host communication with Cray MPICH
+
+Cray MPICH can perform badly when doing intra-node CPU-CPU memory communication.
+
+> [!NOTE]
+>
+> **Workaround**
+>
+> In some situations Cray MPICH can perform better when communication is done over the NICs, even within a node. To force Cray MPICH to use NICs for all communication, set:
+>
+> ```bash
+> export MPIR_CVAR_NO_LOCAL=1
+> ```
+>
+> Whenever possible, prefer using GPU-GPU communication instead of CPU-CPU communication. It can even be beneficial to transfer data to the GPU only for the communication even if the buffer originally is in CPU memory.
+
+### Resolved issues
+
+#### `"cxil_map: write error"` when doing inter-node GPU-aware MPI communication
+
+> [!NOTE]
+>
+> **The issue has been resolved on the 7th of October 2024 with a system update**
+>
+> The issue was caused by a system misconfiguration.
+
+When doing inter-node GPU-aware communication with Cray MPICH after the update on the 30th of September 2024 on Alps, applications will fail with:
+
+```bash
+cxil_map: write error
+```
+
+> [!NOTE]
+>
+> **Workaround**
+>
+> The only workaround is to not use inter-node GPU-aware MPI.
+>
+> > **Workaround for CP2K**
+> >
+> > For users of CP2K encountering this issue, one can disable the use of COSMA, which uses GPU-aware MPI, by placing the following in the `&GLOBAL` section of your input file:
+> >
+> > ```bash
+> > &FM
+> > TYPE_OF_MATRIX_MULTIPLICATION SCALAPACK
+> > &END FM
+> > ```
+> >
+> > Unless you run RPA calculations, this should have limited impact on performance.
+
+#### `MPI_THREAD_MULTIPLE` does not work
+
+> [!NOTE]
+>
+> **The issue has been resolved in Cray MPICH version 8.1.30**
+
+When using `MPI_THREAD_MULTIPLE` on GH200 systems Cray MPICH may fail with an assertion that looks similar to:
+
+```bash
+Assertion failed [...]: (&MPIR_THREAD_GLOBAL_ALLFUNC_MUTEX)->count == 0
+```
+
+or
+
+```bash
+Assertion failed [...]: MPIR_THREAD_GLOBAL_ALLFUNC_MUTEX.count == 0
+```
+
+> [!NOTE]
+>
+> **Workaround**
+>
+> The issue can be worked around by falling back to a less optimized implementation of `MPICH_THREAD_MULTIPLE` by setting `MPICH_OPT_THREAD_SYNC=0`.

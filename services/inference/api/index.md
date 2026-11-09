@@ -1,0 +1,544 @@
+- Visit [inference.status.cscs.ch](<https://inference.status.cscs.ch/>) for the status of the inference service, models, and latest announcements.
+
+# LLM Inference API Service
+
+The LLM Inference API service provides [OpenAI](<https://developers.openai.com/api/reference/overview>)/[Anthropic](<https://platform.claude.com/docs/en/api/overview>)-compatible inference endpoints running selected open-weight LLM models such as [Apertus](<https://apertvs.ai/>) and other vetted models. CSCS takes care of deploying, patching, scaling, and operating the underlying serving stack.
+
+In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](<https://github.com/swiss-ai/model-launch>) developed by the Swiss AI community.
+
+Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Usage follows the CSCS user regulations.
+
+## Service at a glance
+
+- **Managed endpoints**
+
+Standard API access over HTTPS using familiar client libraries and tooling.
+
+- **Curated frontier models**
+
+Selected SOTA models are made available and updated centrally.
+
+- **No infrastructure management**
+
+Let CSCS manage GPUs, containers, autoscaling, and model servers.
+
+- **Sovereign and private**
+
+Your data is yours and is processed entirely within CSCS in Switzerland. Prompts and responses are not recorded.
+
+> [!NOTE]
+>
+> Because most of these models are trained by others, have inherent biases, and are aligned with their creators’ principles, we highly recommend always auditing their results. We recommend using [Apertus](<https://apertvs.ai/>), which is available in this service. Apertus is fully open—including data, methods and alignment principles—and is compliant with the EU AI Act. A global foundation to build on!
+
+## Quick start
+
+Before using the API, obtain a key by following the access section. Include this API key in every API request. The base URL for the inference API is `https://api.inference.cscs.ch/v1`.
+
+> [!NOTE]
+>
+> The examples below assume that the `CSCS_INFERENCE_API_KEY` environment variable is set to your API key. Please store it in a safe location using a password manager, not in e.g. `~/.bashrc`.
+
+Query available models using the `/v1/models` endpoint:
+
+```bash
+curl -X GET "https://api.inference.cscs.ch/v1/models" \
+  -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+> [!NOTE]
+>
+> **Example `/v1/models` response**
+>
+> ```console
+> $ curl -s -X GET "https://api.inference.cscs.ch/v1/models" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" | jq
+> {
+>   "data": [
+>     {
+>       "id": "swiss-ai/Apertus-8B-Instruct-2509",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "swiss-ai/Apertus-70B-Instruct-2509",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "swiss-ai/Apertus-v1.5-8B",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "swiss-ai/Apertus-v1.5-8B-thinking",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "swiss-ai/Apertus-v1.5-70B",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "swiss-ai/Apertus-v1.5-70B-thinking",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "google/gemma-4-31B-it",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "moonshotai/Kimi-K2.7-Code",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     },
+>     {
+>       "id": "zai-org/GLM-5.2",
+>       "created": 1782315799,
+>       "object": "model",
+>       "owned_by": "Envoy AI Gateway"
+>     }
+>   ],
+>   "object": "list"
+> }
+> ```
+
+Get a response using the Apertus 70B model using the `/v1/chat/completions` endpoint:
+
+```bash
+curl -X POST "https://api.inference.cscs.ch/v1/chat/completions" \
+    -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}'
+```
+
+> [!NOTE]
+>
+> **Example `/v1/chat/completions` response**
+>
+> ```console
+> $ curl -s -X POST "https://api.inference.cscs.ch/v1/chat/completions" -H "Authorization: Bearer $CSCS_INFERENCE_API_KEY" -H "Content-Type: application/json" -d '{"model": "swiss-ai/Apertus-v1.5-70B", "messages": [{"role": "user", "content": "Explain gradient descent in one paragraph."}], "temperature": 0.2}' | jq
+> {
+>   "id": "chatcmpl-426afafa-2bfb-4412-a1cb-859fdc3ada0c",
+>   "object": "chat.completion",
+>   "created": 1782485315,
+>   "model": "swiss-ai/Apertus-v1.5-70B",
+>   "choices": [
+>     {
+>       "index": 0,
+>       "message": {
+>         "role": "assistant",
+>         "content": "Gradient descent is a fundamental optimization algorithm used in machine learning to minimize the cost or loss function of a model. It works by iteratively adjusting the model's parameters in the direction of steepest descent of the cost function, which is determined by the negative of the gradient of the cost function with respect to the parameters. The gradient points in the direction of the greatest increase of the function, so by moving in the opposite direction (negative gradient), the algorithm reduces the cost. The step size, or learning rate, determines how much to adjust the parameters in each iteration. If the learning rate is too small, the algorithm may take too long to converge; if it's too large, the algorithm may overshoot the minimum and fail to converge. Gradient descent is widely used in training neural networks and other machine learning models.",
+>         "refusal": null,
+>         "annotations": null,
+>         "audio": null,
+>         "function_call": null,
+>         "tool_calls": [],
+>         "reasoning": null
+>       },
+>       "logprobs": null,
+>       "finish_reason": "stop",
+>       "stop_reason": null,
+>       "token_ids": null,
+>       "routed_experts": null
+>     }
+>   ],
+>   "service_tier": null,
+>   "system_fingerprint": "vllm-0.23.0-tp4-712aba24",
+>   "usage": {
+>     "prompt_tokens": 69,
+>     "total_tokens": 233,
+>     "completion_tokens": 164,
+>     "prompt_tokens_details": null
+>   },
+>   "prompt_logprobs": null,
+>   "prompt_token_ids": null,
+>   "prompt_text": null,
+>   "kv_transfer_params": null
+> }
+> ```
+
+## Access
+
+Access to the inference service is granted at the project level. In order to use the service users must have an active project granted via an open call for proposals, a partnership, or [cscs2go](<https://2go.cscs.ch>).
+
+### Available models and pricing
+
+Available models, along with pricing information, are listed on the [Inference API UI pricing page](<https://ui.inference.cscs.ch/pricing>). The available models can also be listed for a given API key using the `models` endpoint or on the Inference API UI when creating a new key.
+
+The available models, their maximum context length, and their supported input modalities are also listed in the table below. Most coding agents benefit from being configured with the given context sizes so that they can do context compaction before hitting the context limit.
+
+> [!WARNING]
+>
+> **Decommissioning of models**
+>
+> `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
+
+<table>   <thead>     <tr>       <th rowspan="2">Model</th>       <th rowspan="2">Maximum context length</th>       <th colspan="4" style="text-align: center">Supported modalities</th>     </tr>     <tr>       <th>Text</th>       <th>Image</th>       <th>Audio</th>       <th>Video</th>     </tr>   </thead>   <tbody>     <tr>       <td><code>google/gemma-4-31B-it</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>moonshotai/Kimi-K2.7-Code</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>       <td>262,144</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-27B-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.2</code></td>       <td>976,000</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3</code></td>       <td>1,048,576</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3-Flash</code></td>       <td>1,048,576</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>   </tbody> </table>
+
+> [!NOTE]
+>
+> **Removed models**
+>
+> The following models have been served in the past, but are no longer offered.
+>
+> | Model |
+> | --- |
+> | swiss-ai/Apertus-70B-Instruct-2509 |
+> | swiss-ai/Apertus-8B-Instruct-2509 |
+
+> [!NOTE]
+>
+> **Image, audio, and video input in API requests**
+>
+> The OpenAI-compatible `/v1/chat/completions` endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](<https://developers.openai.com/api/docs/guides/images-vision>), [audio](<https://developers.openai.com/api/docs/guides/audio-chat-completions>)). Video input uses the `video_url` content part, a vLLM extension that is not part of the official OpenAI API ([vLLM multimodal inputs documentation](<https://docs.vllm.ai/en/latest/features/multimodal_inputs/>)). The Anthropic-compatible `/v1/messages` endpoint takes images as Anthropic `source` blocks and does not support audio or video input ([Anthropic Messages API reference](<https://platform.claude.com/docs/en/api/messages>)).
+
+### Create an inference resource
+
+An inference resource must be created for your project before any project member can create API keys. Which procedure applies depends on the organization your project belongs to: non-SwissAI projects must request a resource through the CSCS Service Desk, while projects in the SwissAI organization can create the resource directly in the project management portal (self-service).
+
+As self-service is not available for your project, the PI or Deputy PI should create a ticket at the [CSCS Service Desk](<https://support.cscs.ch>) with the following details:
+
+- Service: Inference Service
+- Request: add an inference resource to project `<your project ID>`
+- Node hours to assign to the resource: `<amount>` from `<cluster>`
+
+The node hours you specify are deducted from your project’s node hours on `<cluster>` and converted into inference credits for the resource; see the [institutional pricing page](<https://2go.cscs.ch/offering/swiss_academia/institutional_customers/>) for the current node-hour rate.
+
+> [!NOTE]
+>
+> **worked example (rate as of 1 July 2026)**
+>
+> At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits. Always check the [institutional pricing page](<https://2go.cscs.ch/offering/swiss_academia/institutional_customers/>) for the current rate.
+
+The PI or deputy PI can create the inference resource directly in the project management portal:
+
+- Click the “Add resource” button in the top left of the UI.
+- Select your project from the dropdown.
+- Choose the “Inference Service” category and the `Inference-api-u` offering.
+
+The credit for the inference resource is taken from your project’s credit.
+
+If you are a project member, ask your PI or deputy PI to create the resource for you.
+
+### Create an API key
+
+Once an inference resource has been created for your project, any project member can create API keys through the inference API UI.
+
+1. Navigate to the [Inference API UI](<https://ui.inference.cscs.ch/login>) and authenticate.
+2. Expand the inference resource created by the PI and press “Add Key”.
+
+   - Enter a key alias for the key. Choose a memorable name that you can distinguish among other keys in your project and resource.
+   - Optionally set a token budget, reset period, or restrict the available models. Please note that the global resource limits apply as well.
+3. Click “Create Key” and copy the generated key and store securely, for example in a password manager. The key will be displayed once.
+4. Test that the key works by following the quick start guide.
+
+> [!NOTE]
+>
+> **Viewing key usage**
+>
+> After creating a key, you can sign in to the Inference API UI with the key (“Sign in with access token” below the CSCS account login) to view usage statistics for that specific key.
+
+## API
+
+The base URL for the inference API is `https://api.inference.cscs.ch/v1`. The following OpenAI- and Anthropic-compatible endpoints are available.
+
+| Path | Purpose |
+| --- | --- |
+| `/v1/models` | Query available models |
+| `/v1/chat/completions` | Chat completions (OpenAI) |
+| `/v1/messages` | Chat completions (Anthropic) |
+| `/v1/embeddings` | Get a vector representation of a given input |
+
+When using the endpoints for example through agents, the framework will handle API requests for you. For information on how to use the endpoints directly, see the [OpenAI](<https://developers.openai.com/api/reference/overview>) and [Anthropic](<https://platform.claude.com/docs/en/api/overview>) documentation.
+
+## Setting up coding agents to use the inference service
+
+Below are instructions for setting up [Claude Code](<https://claude.com/product/claude-code>), [OpenCode](<https://opencode.ai>) and [VS Code Copilot](<https://code.visualstudio.com/docs/copilot/overview>) to use the inference service. For more information on using coding agents on Alps, see the coding agents guide.
+
+See the available models table for context sizes. Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.
+
+> [!NOTE]
+>
+> **Apertus models in agents**
+>
+> We recommend using the Apertus models e.g. in [OpenWebUI](<https://openwebui.com>) as they’re optimized for general use rather than programming tasks specifically. See the OpenWebUI section for information on setting up the inference endpoint in OpenWebUI.
+>
+> Note particularly that the `-thinking` variants of the Apertus models are served with tool use disabled. If you attempt to use them you may see errors such as `"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set`.
+
+### Claude Code
+
+Set the following environment variables before starting a `claude` session.
+
+```bash
+export ANTHROPIC_AUTH_TOKEN=$CSCS_INFERENCE_API_KEY
+
+export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch
+export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
+claude
+```
+
+### OpenCode
+
+Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
+
+OpenCode configuration for the inference API
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    // Set Kimi as default OpenCode model
+    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    "providers": {
+        "cscs": {
+            "package": "@ai-sdk/anthropic",
+            "name": "CSCS Inference",
+            "options": {
+                "baseURL": "https://api.inference.cscs.ch/v1",
+                "systemMessageMode": "system"
+                "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
+            },
+            "models": {
+                "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 262144,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Start OpenCode and run the `/connect` command. Select “CSCS Inference” to choose the newly added provider, and enter your API key when prompted.
+
+OpenCode configuration for the inference API
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    // Set Kimi as default OpenCode model
+    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    "providers": {
+        "cscs": {
+            "package": "@ai-sdk/anthropic",
+            "name": "CSCS Inference",
+            "options": {
+                "baseURL": "https://api.inference.cscs.ch/v1",
+                "systemMessageMode": "system"
+            },
+            "models": {
+                "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 262144,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+OpenCode configuration for the inference API
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    // Set Kimi as default OpenCode model
+    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    "provider": {
+        "cscs": {
+            "npm": "@ai-sdk/anthropic",
+            "name": "CSCS Inference",
+            "options": {
+                "baseURL": "https://api.inference.cscs.ch/v1",
+                "systemMessageMode": "system"
+            },
+            "models": {
+                "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 262144,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+OpenCode configuration for the inference API
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    // Set Kimi as default OpenCode model
+    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    "provider": {
+        "cscs": {
+            "npm": "@ai-sdk/anthropic",
+            "name": "CSCS Inference",
+            "options": {
+                "baseURL": "https://api.inference.cscs.ch/v1",
+                "systemMessageMode": "system",
+                "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
+            },
+            "models": {
+                "moonshotai/Kimi-K2.7-Code": {
+                    "name": "Kimi K2.7-Code",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 262144,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+When the API key is set through an environment variable in the config, there is no explicit “connect” step. Choose the model after restarting OpenCode.
+
+Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
+
+> [!NOTE]
+>
+> **Info**
+>
+> - OpenCode does not auto-discover available models. Models have to be explicitly configured in the config. Use the `/v1/models` endpoint to list available models for your key.
+> - The install path of the install script from [opencode.ai](<https://opencode.ai>) is hardcoded to `$HOME/.opencode`, which will cause a conflict when using OpenCode on both X86\_64 and ARM architectures. As a workaround, either tweak the install script or copy the `opencode` binary from `$HOME/.opencode` to an XDG directory.
+> - Copy and paste with middle-click does not work on some terminal emulators, e.g. `gnome-terminal`. Use `Ctrl+Shift+C/V` or `Shift` + middle-click as a workaround.
+
+Model support for different input modalities are described in the available models table.
+
+### VS Code Copilot
+
+GitHub Copilot Chat in VS Code can use models served by the inference API through its custom endpoint provider. You need to be signed in to GitHub in VS Code. See the [VS Code language models documentation](<https://code.visualstudio.com/docs/copilot/customization/language-models>) for the full reference.
+
+To add the inference API as a model provider:
+
+- Open the command palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Linux and Windows) and run “Chat: Manage Language Models”.
+- Click “Add Models” in the top right corner and select “Custom Endpoint”.
+- Enter a name for the group of models, for example `CSCS Inference`.
+- Enter your API key when prompted for the `apiKey` value. VS Code stores the key in its secret storage and only references it from the configuration file.
+- Select “Chat Completions” as the API type.
+
+VS Code then opens the `chatLanguageModels.json` configuration file with an entry for the new provider. Add the models that you want to use to the `models` list, leaving the generated `apiKey` reference untouched:
+
+chatLanguageModels.json
+
+```json
+[
+    {
+        "name": "CSCS Inference",
+        "vendor": "customendpoint",
+        "apiKey": "${input:chat.lm.secret.xxxxxxxx}",
+        "apiType": "chat-completions",
+        "models": [
+            {
+                "id": "moonshotai/Kimi-K2.7-Code",
+                "name": "Kimi K2.7-Code",
+                "url": "https://api.inference.cscs.ch/v1",
+                "toolCalling": true,
+                "vision": true,
+                "maxInputTokens": 245760,
+                "maxOutputTokens": 16384
+            }
+        ]
+    }
+]
+```
+
+The fields of each model entry are:
+
+- `id` is the model identifier as returned by the `/v1/models` endpoint,
+- `name` is the display name shown in the model picker,
+- `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
+- `toolCalling` enables tool use, which is required for agent mode,
+- `vision` enables image input and should only be set for models that support image input (see the available models table),
+- `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks, and
+- `maxInputTokens` is the maximum context length of the model from the available models table minus `maxOutputTokens`.
+
+After filling in the file, save and close it. Then open the Chat view, click the model picker at the bottom of the chat input, and select the model under “Other models”.
+
+> [!NOTE]
+>
+> VS Code treats the sum of `maxInputTokens` and `maxOutputTokens` as the context window of the model.
+>
+> The `-thinking` variants of the Apertus models are served with tool use disabled, so set `toolCalling` to `false` for them.
+
+> [!NOTE]
+>
+> **Info**
+>
+> VS Code does not auto-discover available models from a custom endpoint. Models have to be explicitly listed in `chatLanguageModels.json`. Use the `/v1/models` endpoint to list available models for your key.
+
+## Setting up OpenWebUI to use the inference service
+
+[OpenWebUI](<https://openwebui.com>) is an open source interface for accessing AI providers. It can be hosted locally for a single user and can be set up to access the CSCS inference endpoints. Please see the [OpenWebUI documentation](<https://docs.openwebui.com/>) for help setting up an instance for yourself.
+
+> [!NOTE]
+>
+> CSCS does not provide support for OpenWebUI installations.
+
+In order to configure OpenWebUI to connect to the CSCS inference endpoint you must be admin on an instance. Then:
+
+- Go to “Admin Panel” under your profile menu.
+- Go to “Settings” and “Connections”.
+- Under “OpenAI API” press the + symbol to add a new provider.
+- Add the CSCS inference base URL and your API key under “Auth”.
+
+The models will be automatically detected and available for use.
+
+> [!NOTE]
+>
+> Note that the `-thinking` variants of Apertus have tool support disabled and will return an error by default. As admin, you can disable tools by going to “Admin Panel”, then “Models”, and editing the thinking models to disable all “Capabilities” on the model settings page.
+
+## Announcements
+
+Planned maintenance, incidents, and changes to the available models are published on the [service status page](<https://inference.status.cscs.ch>). Everyone with access to a project that has an inference resource is subscribed automatically and can opt out at any time.
+
+The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see get in touch to join.
+
+## Known issues and limitations
+
+- Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
+- Documentation and model-specific configuration transparency are work in progress.
+- The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.

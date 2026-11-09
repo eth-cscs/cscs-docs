@@ -1,0 +1,359 @@
+# Daint
+
+Daint is the main HPC Platform cluster that provides compute nodes and file systems for GPU-enabled workloads.
+
+## Cluster specification
+
+### Compute nodes
+
+Daint consists of Grace-Hopper nodes.
+
+The number of nodes can vary as nodes are added or removed from other clusters on Alps. See the Slurm documentation for information on how to check the number of nodes.
+
+There are four login nodes, `daint-ln00[1-4]`. You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
+
+| Node type | Memory | Nodes | CPU sockets | GPUs |
+| --- | --- | --- | --- | --- |
+| gh200 | – | 946 | 3784 | 3784 |
+
+In addition, two zen2 nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
+
+### Storage and file systems
+
+Daint uses the HPCP filesystems and storage policies.
+
+## Getting started
+
+### Logging into Daint
+
+To connect to Daint via SSH, first refer to the ssh guide.
+
+> [!NOTE]
+>
+> **`~/.ssh/config`**
+>
+> Add the following to your SSH configuration to enable you to directly connect to Daint using `ssh daint`.
+>
+> ```text
+> Host daint
+>     HostName daint.alps.cscs.ch
+>     ProxyJump ela
+>     User cscsusername
+>     IdentityFile ~/.ssh/cscs-key
+>     IdentitiesOnly yes
+> ```
+
+### Software
+
+#### uenv
+
+Daint provides uenv to deliver programming environments and application software. Please refer to the uenv documentation for detailed information on how to use the uenv tools on the system.
+
+- **Scientific Applications**
+
+  Provide the latest versions of scientific applications, tuned for Daint, and the tools required to build your own versions of the applications.
+
+  - CP2K
+  - GROMACS
+  - LAMMPS
+  - NAMD
+  - Quantumespresso
+  - VASP
+
+- **Programming Environments**
+
+  Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
+
+  - prgenv-gnu
+  - prgenv-nvfortran
+  - linalg
+  - julia
+
+- **Tools**
+
+  Provide tools like
+
+  - Linaro Forge
+
+#### Containers
+
+Daint supports container workloads using the container engine.
+
+To build images, see the guide to building container images on Alps.
+
+#### Cray Modules
+
+> [!WARNING]
+>
+> The Cray Programming Environment (CPE), loaded using `module load cray`, is no longer supported by CSCS.
+>
+> CSCS will continue to support and update uenv and container engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
+>
+> The CPE is still installed on Daint, however it will receive no support or updates, and will be replaced with a container in a future update.
+
+## Running jobs on Daint
+
+### Slurm
+
+Daint uses Slurm as the workload manager, which is used to launch and monitor compute-intensive workloads.
+
+There are four Slurm partitions on the system:
+
+- the `normal` partition is for all production workloads.
+- the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
+- the `xfer` partition is for internal data transfer.
+- the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
+
+| Partition | Nodes | Max nodes/job | Default time | Max time |
+| --- | --- | --- | --- | --- |
+| `normal` (default) | 922 | unlimited | 01:00:00 | 1-00:00:00 |
+| `low` | 922 | unlimited | 01:00:00 | 1-00:00:00 |
+| `debug` | 24 | 10 | 00:30:00 | 00:30:00 |
+| `xfer` | 2 | 1 | 06:00:00 | 1-00:00:00 |
+
+The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
+
+- nodes in the `normal` and `debug` (and `low`) partitions are not shared
+- jobs in `debug`: at most 1 running and 2 submitted per user
+- nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the Slurm features that can be selected with `--constraint`:
+
+| Partition | Nodes | Node type | Features |
+| --- | --- | --- | --- |
+| `normal` | 922 | gh200 | vboost, thp |
+| `low` | 922 | gh200 | vboost, thp |
+| `debug` | 24 | gh200 | vboost, thp |
+| `xfer` | 2 | zen2 256 GB | none |
+
+> [!NOTE]
+>
+> **Default MPI plugin**
+>
+> The default MPI plugin on Daint is `cray_shasta`. This plugin is correct for applications that use Cray MPICH, for example applications in uenv. Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+
+See the Slurm documentation for instructions on how to run jobs on the Grace-Hopper nodes.
+
+### FirecREST
+
+Daint can also be accessed using FirecREST at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
+
+> [!WARNING]
+>
+> **The FirecREST v1 API is still available, but deprecated**
+
+## Maintenance and status
+
+### Scheduled maintenance
+
+One Wednesday per month is reserved for planned maintenance (usually around the middle of the month). If the batch queues must be drained (for redeployment of node images, rebooting of compute nodes, etc) then a Slurm reservation will be in place that will prevent jobs from running into the maintenance window.
+
+Exceptional and non-disruptive updates may happen outside this time frame and will be announced via the [CSCS status page](<https://status.cscs.ch>).
+
+### Change log
+
+> [!NOTE]
+>
+> **2026-09-16**
+>
+> > **New $SCRATCH directory**
+> >
+> > - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
+> > - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
+> > - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+>
+> > **Slurm updated to 25.05.9**
+> >
+> > - Slurm was updated from 25.05.8 to 25.05.9
+>
+> > **Container Engine updated to v26.09.1**
+> >
+> > - CE was updated from v26.08.1 to v26.09.1
+> > - `fuse-overlayfs` updated for Podman to 1.18
+> > - Fixes a bug in the netstack hook
+> > - Sarus Suite (beta) default location changed to new `$SCRATCH`
+>
+> > **Uenv updated to 10.1.0**
+> >
+> > - `uenv` has been updated from 10.0.1 to 10.1.0
+> > - This fixes an issue downloading images that need a token authentication
+>
+> > **Slurm batch policies plugin**
+> >
+> > - Fixes a bug with library dependencies
+
+**2026-08-26**
+
+> [!NOTE]
+>
+> **Login node limits**
+>
+> To enforce our fair usage of shared resources policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+> [!NOTE]
+>
+> **Enforce performance cpufreq governor**
+>
+> Due to a bug the cpu frequency governor has not always been set to `performance`. This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+> [!NOTE]
+>
+> **Container Engine**
+>
+> - Updated Container Engine to v26.08.1
+> - Podman-5.8.6
+> - NVIDIA Container Toolkit to 1.20.0
+> - crun 1.29.1
+> - sarusctl 0.6.0
+> - Skybox 0.3.0
+> - Sarus Suite Performance Extensions 26.08.1
+
+> [!NOTE]
+>
+> **Slurm config**
+>
+> The config `MaxArraySize` has been increased from the default of `1001` to `20001` (same as on `eiger`)
+
+> [!NOTE]
+>
+> **uenv default repository**
+>
+> Using `uenv` with a repository stored on `capstor` will issue a migration warning. It is safe to follow the migration guide, and move your repository to `ritom`. Please take note of potential access permission problems and the fix, as described in the migration guide.
+
+**2026-07-15**
+
+> [!NOTE]
+>
+> **Container Engine**
+>
+> - Updated Container Engine to v26.07.1
+> - Podman-5.8.4
+> - fuse-overlayfs-1.17 for Podman
+> - netstack-26.07.1
+>
+>   - libfabric-2.6.0
+>   - AWS OFI NCCL plugin-1.20.0
+
+**2026-06-17**
+
+> [!NOTE]
+>
+> **Operating Environment and Networking Stack**
+>
+> - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
+> - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
+> - Improved Ritom performance, see also VAST tuning for individual IO tuning parameters
+
+> [!NOTE]
+>
+> **Container Engine**
+>
+> - Updated Container Engine to v26.06.1
+> - Slingshot-related hooks now use Network Stack Artifacts (also called “netstacks”) as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see our docs
+>
+>   - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
+> - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
+> - Environment variables: We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the Alps Extended Images, i.e., they bring both environments into sync.
+>
+>   ```text
+>   CUDA_CACHE_DISABLE="1"
+>   ```
+>
+>   This will disable the CUDA-JIT cache. For some time, the default value for `CUDA_CACHE_PATH` has been a subdirectory in `/dev/shm`. However, `/dev/shm` is cleaned up after every job, so it is of little use to cache a result there, since it will be cleared after the job finishes. Further information regarding the CUDA cache can be found at [https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/](<https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/>).
+>
+>   ```text
+>   NCCL_CROSS_NIC="0":, (changed from "1")
+>   NCCL_PXN_DISABLE="1" (previously unset)
+>   NCCL_P2P_LEVEL="NVL" (previously unset)
+>   NCCL_NET_GDR_C2C="1" (previously unset)
+>   NCCL_NET_GDR_READ="1" (previously unset)
+>   NCCL_PROTO="^LL128" (previously unset)
+>   NCCL_NCHANNELS_PER_NET_PEER="4" (previously unset)
+>   ```
+>
+>   Information about the variables can be found at [https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html>)
+>
+>   ```text
+>   FI_CXI_RDZV_PROTO="alt_read" (previously unset)
+>   FI_CXI_RDZV_EAGER_SIZE="0" (previously unset)
+>   FI_CXI_RDZV_GET_MIN="0" (previously unset)
+>   FI_CXI_RDZV_THRESHOLD="0" (previously unset)
+>   FI_MR_CACHE_MAX_SIZE="-1" (previously unset)
+>   FI_MR_CACHE_MAX_COUNT="524288" (previously unset)
+>   FI_CXI_SAFE_DEVMEM_COPY_THRESHOLD="16777216" (previously unset)
+>   ```
+>
+>   Information about the variables can be found at [https://ofiwg.github.io/libfabric/v2.3.0/man/fi\_cxi.7.html](<https://ofiwg.github.io/libfabric/v2.3.0/man/fi_cxi.7.html>).
+>
+> Our testing has shown performance gains from these new defaults. Please contact us if you observe any performance degradation.
+
+> [!NOTE]
+>
+> **Uenv**
+>
+> - Upgraded Uenv from version 9.2.0 to 10.0.1.
+> - Features:
+>
+>   - TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
+>   - Default views: Uenv images can declare a view to load automatically when no `--view` flag is given.
+>   - Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested srun, sbatch, or salloc calls.
+>   - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
+>   - Improved bash completion for uenv labels and file paths.
+> - Fixes:
+>
+>   - Changed a hard error to a warning when image metadata is not attached in the registry.
+>   - Fixed a latent bug parsing date strings in image metadata.
+> - uenv changelog
+
+**2025-05-21**
+
+Minor enhancements to system configuration have been applied. These changes should reduce the frequency of compute nodes being marked as `NOT_RESPONDING` by the workload manager, while we continue to investigate the issue
+
+**2025-05-14**
+
+> [!NOTE]
+>
+> **Performance hotfix**
+>
+> The [access-counter-based memory migration feature](<https://developer.nvidia.com/blog/cuda-toolkit-12-4-enhances-support-for-nvidia-grace-hopper-and-confidential-computing/#access-counter-based_migration_for_nvidia_grace_hopper_memory>) in the NVIDIA driver for Grace Hopper is disabled to address performance issues affecting NCCL-based workloads (e.g. LLM training)
+
+> [!NOTE]
+>
+> **NVIDIA boost slider**
+>
+> Added an option to enable the NVIDIA boost slider (vboost) via Slurm using the `-C nvidia_vboost_enabled` flag. This feature, disabled by default, may increase GPU frequency and performance while staying within the power budget
+
+> [!NOTE]
+>
+> **Enroot update**
+>
+> The container runtime is upgraded from version 2.12.0 to 2.13.0. This update includes libfabric version 1.22.0 (previously 1.15.2.0), which has demonstrated improved performance during LLM checkpointing
+
+**2025-04-30**
+
+> [!NOTE]
+>
+> **uenv is updated from v7.0.1 to v8.1.0**
+>
+> Release notes
+
+> [!NOTE]
+>
+> **Pyxis is upgraded from v24.5.0 to v24.5.3**
+>
+> - Added image caching for Enroot
+> - Added support for environment variable expansion in EDFs
+> - Added support for relative paths expansion in EDFs
+> - Print a message about the experimental status of the –environment option when used outside of the srun command
+> - Merged small features and bug fixes from upstream Pyxis releases v0.16.0 to v0.20.0
+> - Internal changes: various bug fixes and refactoring
+
+**2025-03-12**
+
+1. The number of compute nodes has been increased to 1018
+2. The restriction on the number of running jobs per project has been lifted.
+3. A “low” priority partition has been added, which allows some project types to consume up to 130% of the project’s quarterly allocation
+4. We have increased the power cap for the GH module from 624 to 660 W. You might see increased application performance as a consequence
+5. Small changes in kernel tuning parameters
+
+### Known issues

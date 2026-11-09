@@ -1,0 +1,368 @@
+# NCCL
+
+[NCCL](<https://developer.nvidia.com/nccl>) is an optimized inter-GPU communication library for NVIDIA GPUs. It is commonly used in machine learning frameworks, but traditional scientific applications can also benefit from NCCL.
+
+## Using NCCL
+
+> [!NOTE]
+>
+> **Further reading**
+>
+> [*Demystifying NCCL: An In-depth Analysis of GPU Communication Protocols and Algorithms*](<https://arxiv.org/abs/2507.04786v2>) contains detailed information about NCCL algorithms and protocols, which can be helpful for deciding if your application could benefit from an alternative configuration.
+
+### uenv
+
+To use the Slingshot network on Alps, the [`aws-ofi-nccl`](<https://github.com/aws/aws-ofi-nccl>) plugin must be used. With the container engine, the AWS OFI NCCL hook can be used to load the plugin into the container and configure NCCL to use it.
+
+Most uenvs, like `prgenv-gnu`, also contain the NCCL plugin. When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin will be available in the environment. Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment. The environment variables described below must be set to ensure that NCCL uses the plugin.
+
+While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL with uenv:
+
+```bash
+# This forces NCCL to use the libfabric plugin, enabling full use of the
+# Slingshot network. If the plugin can not be found, applications will fail to
+# start. With the default value, applications would instead fall back to e.g.
+# TCP, which would be significantly slower than with the plugin. More information
+# about `NCCL_NET` can be found at:
+# https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net
+export NCCL_NET="AWS Libfabric"
+# Use GPU Direct RDMA when GPU and NIC are on the same NUMA node. More
+# information about `NCCL_NET_GDR_LEVEL` can be found at:
+# https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-net-gdr-level-formerly-nccl-ib-gdr-level
+export NCCL_NET_GDR_LEVEL=PHB
+export NCCL_CROSS_NIC=1
+# Starting with nccl 2.27 a new protocol (LL128) was enabled by default, which
+# typically performs worse on Slingshot. The following disables that protocol.
+export NCCL_PROTO=^LL128
+# These `FI` (libfabric) environment variables have been found to give the best
+# performance on the Alps network across a wide range of applications. Specific
+# applications may perform better with other values.
+export FI_CXI_DEFAULT_CQ_SIZE=131072
+export FI_CXI_DEFAULT_TX_SIZE=16384
+export FI_CXI_DISABLE_HOST_REGISTER=1
+export FI_CXI_RX_MATCH_MODE=software
+export FI_MR_CACHE_MONITOR=userfaultfd
+```
+
+### Containers
+
+To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL as the starting point. Then install libfabric as documented in the libfabric container documentation, and use the AWS OFI hook to configure NCCL to use libfabric optimised for the Alps network.
+
+> [!NOTE]
+>
+> **Installing the NCCL benchmarks in a container for NVIDIA nodes**
+>
+> To test whether NCCL inside a container has been set up correctly for optimal performance, add the NCCL test suite to the container.
+>
+> Use the following as a template for installing the tests:
+>
+> ```Dockerfile
+> ARG nccl_tests_version=2.17.1
+> RUN wget -O nccl-tests-${nccl_tests_version}.tar.gz https://github.com/NVIDIA/nccl-tests/archive/refs/tags/v${nccl_tests_version}.tar.gz \
+>     && tar xf nccl-tests-${nccl_tests_version}.tar.gz \
+>     && cd nccl-tests-${nccl_tests_version} \
+>     && MPI=1 make -j$(nproc) \
+>     && cd .. \
+>     && rm -rf nccl-tests-${nccl_tests_version}.tar.gz
+> ```
+>
+> Expand the box below to see the full Containerfile that installs the NCCL tests on top of the example in the libfabric documentation.
+>
+> > **The full Containerfile**
+> >
+> > ```Dockerfile
+> > ARG ubuntu_version=24.04
+> > ARG cuda_version=12.8.1
+> > FROM docker.io/nvidia/cuda:${cuda_version}-cudnn-devel-ubuntu${ubuntu_version}
+> >
+> > RUN apt-get update \
+> >     && DEBIAN_FRONTEND=noninteractive \
+> >        apt-get install -y \
+> >         build-essential \
+> >         ca-certificates \
+> >         pkg-config \
+> >         automake \
+> >         autoconf \
+> >         libtool \
+> >         cmake \
+> >         gdb \
+> >         strace \
+> >         wget \
+> >         git \
+> >         bzip2 \
+> >         python3 \
+> >         gfortran \
+> >         rdma-core \
+> >         numactl \
+> >         libconfig-dev \
+> >         libuv1-dev \
+> >         libfuse-dev \
+> >         libfuse3-dev \
+> >         libyaml-dev \
+> >         libnl-3-dev \
+> >         libnuma-dev \
+> >         libsensors-dev \
+> >         libcurl4-openssl-dev \
+> >         libjson-c-dev \
+> >         libibverbs-dev \
+> >         --no-install-recommends \
+> >     && rm -rf /var/lib/apt/lists/*
+> >
+> > ARG gdrcopy_version=2.5.1
+> > RUN git clone --depth 1 --branch v${gdrcopy_version} https://github.com/NVIDIA/gdrcopy.git \
+> >     && cd gdrcopy \
+> >     && export CUDA_PATH=/usr/local/cuda \
+> >     && make CC=gcc CUDA=$CUDA_PATH lib \
+> >     && make lib_install \
+> >     && cd ../ && rm -rf gdrcopy
+> >
+> > # Install libfabric
+> > ARG libfabric_version=1.22.0
+> > RUN git clone --branch v${libfabric_version} --depth 1 https://github.com/ofiwg/libfabric.git \
+> >     && cd libfabric \
+> >     && ./autogen.sh \
+> >     && ./configure --prefix=/usr --with-cuda=/usr/local/cuda --enable-cuda-dlopen \
+> >        --enable-gdrcopy-dlopen --enable-efa \
+> >     && make -j$(nproc) \
+> >     && make install \
+> >     && ldconfig \
+> >     && cd .. \
+> >     && rm -rf libfabric
+> >
+> > # Install UCX
+> > ARG UCX_VERSION=1.19.0
+> > RUN wget https://github.com/openucx/ucx/releases/download/v${UCX_VERSION}/ucx-${UCX_VERSION}.tar.gz \
+> >     && tar xzf ucx-${UCX_VERSION}.tar.gz \
+> >     && cd ucx-${UCX_VERSION} \
+> >     && mkdir build \
+> >     && cd build \
+> >     && ../configure --prefix=/usr --with-cuda=/usr/local/cuda --with-gdrcopy=/usr/local \
+> >        --enable-mt --enable-devel-headers \
+> >     && make -j$(nproc) \
+> >     && make install \
+> >     && cd ../.. \
+> >     && rm -rf ucx-${UCX_VERSION}.tar.gz ucx-${UCX_VERSION}
+> >
+> > ARG nccl_tests_version=2.17.1
+> > RUN wget -O nccl-tests-${nccl_tests_version}.tar.gz https://github.com/NVIDIA/nccl-tests/archive/refs/tags/v${nccl_tests_version}.tar.gz \
+> >     && tar xf nccl-tests-${nccl_tests_version}.tar.gz \
+> >     && cd nccl-tests-${nccl_tests_version} \
+> >     && MPI=1 make -j$(nproc) \
+> >     && cd .. \
+> >     && rm -rf nccl-tests-${nccl_tests_version}.tar.gz
+> > ```
+
+To use NCCL in a container, enable the AWS OFI hook in the EDF file.
+
+```toml
+[env]
+PMIX_MCA_psec="^munge" # (1)!
+
+[annotations]
+com.hooks.aws_ofi_nccl.enabled = "true"    # (2)!
+com.hooks.aws_ofi_nccl.variant = "cuda-dl"  # (3)!
+```
+
+1. Ensures PMIx does not use the Munge security domain, which is not exposed into containers. Otherwise PMIx will print warnings at startup.
+2. Enable the AWS OFI plugin.
+3. The dynamically-linked (`dl`) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details here.
+
+Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](<https://pmix.org/>) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
+
+```console
+$ srun --mpi=pmix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
+```
+
+## Known issues
+
+> [!WARNING]
+>
+> **Do not use `NCCL_NET_PLUGIN="ofi"` with uenvs**
+>
+> NCCL has an alternative way of specifying what plugin to use: `NCCL_NET_PLUGIN`. When using uenvs, do not set `NCCL_NET_PLUGIN="ofi"` instead of, or in addition to, `NCCL_NET="AWS Libfabric"`. If you do, your application will fail to start since NCCL will:
+>
+> 1. fail to find the plugin because of the name of the shared library in the uenv, and
+> 2. prefer `NCCL_NET_PLUGIN` over `NCCL_NET`, so it will fail to find the plugin even if `NCCL_NET="AWS Libfabric"` is correctly set.
+>
+> When both environment variables are set the error message, with `NCCL_DEBUG=WARN`, will look similar to when the plugin isn’t available:
+>
+> ```console
+> nid006365:179857:179897 [1] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+> ```
+>
+> With `NCCL_DEBUG=INFO`, NCCL will print:
+>
+> ```console
+> nid006365:180142:180163 [0] NCCL INFO NET/Plugin: Could not find: ofi libnccl-net-ofi.so. Using internal network plugin.
+> ...
+> nid006365:180142:180163 [0] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+> ```
+
+In addition to the above variables, setting `NCCL_NCHANNELS_PER_NET_PEER` can improve point-to-point performance (operations based directly on send/recv):
+
+```bash
+export NCCL_NCHANNELS_PER_NET_PEER=4
+```
+
+A value of 4 is generally a good compromise to improve point-to-point performance without affecting collectives performance. Setting it to a higher value such as 16 or 32 can still further improve send/recv performance, but may degrade collectives performance, so the optimal value depends on the mix of operations used in an application. The option is undocumented, but [this issue](<https://github.com/NVIDIA/nccl/issues/1272>) and the paper linked above contain additional details.
+
+> [!WARNING]
+>
+> **NCCL watchdog timeout or hanging process**
+>
+> In some cases, still under investigation, NCCL may hang resulting in a stuck process or a watchdog timeout error. In this scenario, we recommend disabling Slingshot eager messages with the following workaround:
+>
+> ```bash
+> # Disable eager messages to avoid NCCL timeouts
+> export FI_CXI_RDZV_GET_MIN=0
+> export FI_CXI_RDZV_THRESHOLD=0
+> export FI_CXI_RDZV_EAGER_SIZE=0
+> ```
+
+> [!WARNING]
+>
+> **GPU-aware MPI with NCCL**
+>
+> Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi>). Unless care is taken to ensure that the two methods of communication are not used concurrently, we recommend not using GPU-aware MPI with NCCL. To explicitly disable GPU-aware MPI with Cray MPICH, explicitly set `MPICH_GPU_SUPPORT_ENABLED=0`. Note that this option may be set to `1` by default on some Alps clusters. See the Cray MPICH documentation for more details on GPU-aware MPI with Cray MPICH.
+
+> [!WARNING]
+>
+> **`invalid usage` error with `NCCL_NET="AWS Libfabric"`**
+>
+> If you are getting error messages such as:
+>
+> ```console
+> nid006352: Test NCCL failure common.cu:958 'invalid usage (run with NCCL_DEBUG=WARN for details)
+> ```
+>
+> this may be due to the plugin not being found by NCCL. If this is the case, running the application with the recommended `NCCL_DEBUG=WARN` should print something similar to the following:
+>
+> ```console
+> nid006352:34157:34217 [1] net.cc:626 NCCL WARN Error: network AWS Libfabric not found.
+> ```
+>
+> When using uenvs like `prgenv-gnu`, make sure you are either using the `default` view which loads `aws-ofi-nccl` automatically, or, if using the `modules` view, load the `aws-ofi-nccl` module with `module load aws-ofi-nccl`. If the plugin is found correctly, running the application with `NCCL_DEBUG=INFO` should print:
+>
+> ```console
+> nid006352:34610:34631 [0] NCCL INFO Using network AWS Libfabric
+> ```
+
+## NCCL Performance
+
+> [!WARNING]
+>
+> **no version information available**
+>
+> The following warning message was generated by each rank running the benchmarks below, and can safely be ignored.
+>
+> ```text
+> /usr/local/libexec/osu-micro-benchmarks/mpi/./collective/osu_alltoall: /usr/lib/aarch64-linux-gnu/libnl-3.so.200: no version information available (required by /usr/lib64/libcxi.so.1)
+> ```
+
+> [!NOTE]
+>
+> **Impact of disabling the CXI hook**
+>
+> On many Alps vClusters, the Container Engine is configured with the CXI hook enabled by default, enabling transparent access to the Slingshot interconnect.
+>
+> The inter node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration. If you see similar performance degradation in your tests, the first thing to investigate is whether your setup is using the libfabric optimised back end.
+
+Below are the results of of running the collective all reduce latency test on 2 nodes with 8 GPUs total (the `all_reduce_perf` test).
+
+```console
+$ srun -N2 -t5 --mpi=pmix --ntasks-per-node=4 --environment=nccl-test-ompi /nccl-tests-2.17.1/build/all_reduce_perf -b 8 -e 128M -f 2
+# Collective test starting: all_reduce_perf
+# nThread 1 nGpus 1 minBytes 8 maxBytes 134217728 step: 2(factor) warmup iters: 1 iters: 20 agg iters: 1 validation: 1 graph: 0
+#
+# Using devices
+#  Rank  0 Group  0 Pid 204199 on  nid005471 device  0 [0009:01:00] NVIDIA GH200 120GB
+#  Rank  1 Group  0 Pid 204200 on  nid005471 device  1 [0019:01:00] NVIDIA GH200 120GB
+#  Rank  2 Group  0 Pid 204201 on  nid005471 device  2 [0029:01:00] NVIDIA GH200 120GB
+#  Rank  3 Group  0 Pid 204202 on  nid005471 device  3 [0039:01:00] NVIDIA GH200 120GB
+#  Rank  4 Group  0 Pid 155254 on  nid005487 device  0 [0009:01:00] NVIDIA GH200 120GB
+#  Rank  5 Group  0 Pid 155255 on  nid005487 device  1 [0019:01:00] NVIDIA GH200 120GB
+#  Rank  6 Group  0 Pid 155256 on  nid005487 device  2 [0029:01:00] NVIDIA GH200 120GB
+#  Rank  7 Group  0 Pid 155257 on  nid005487 device  3 [0039:01:00] NVIDIA GH200 120GB
+#
+#                                                              out-of-place                       in-place          
+#       size         count      type   redop    root     time   algbw   busbw #wrong     time   algbw   busbw #wrong
+#        (B)    (elements)                               (us)  (GB/s)  (GB/s)            (us)  (GB/s)  (GB/s)       
+           8             2     float     sum      -1    17.93    0.00    0.00      0    17.72    0.00    0.00      0
+          16             4     float     sum      -1    17.65    0.00    0.00      0    17.63    0.00    0.00      0
+          32             8     float     sum      -1    17.54    0.00    0.00      0    17.43    0.00    0.00      0
+          64            16     float     sum      -1    19.27    0.00    0.01      0    19.21    0.00    0.01      0
+         128            32     float     sum      -1    18.86    0.01    0.01      0    18.67    0.01    0.01      0
+         256            64     float     sum      -1    18.83    0.01    0.02      0    19.02    0.01    0.02      0
+         512           128     float     sum      -1    19.72    0.03    0.05      0    19.40    0.03    0.05      0
+        1024           256     float     sum      -1    20.35    0.05    0.09      0    20.32    0.05    0.09      0
+        2048           512     float     sum      -1    22.07    0.09    0.16      0    21.72    0.09    0.17      0
+        4096          1024     float     sum      -1    31.97    0.13    0.22      0    31.58    0.13    0.23      0
+        8192          2048     float     sum      -1    37.21    0.22    0.39      0    35.84    0.23    0.40      0
+       16384          4096     float     sum      -1    37.29    0.44    0.77      0    36.53    0.45    0.78      0
+       32768          8192     float     sum      -1    39.61    0.83    1.45      0    37.09    0.88    1.55      0
+       65536         16384     float     sum      -1    61.03    1.07    1.88      0    68.45    0.96    1.68      0
+      131072         32768     float     sum      -1    81.41    1.61    2.82      0    72.94    1.80    3.14      0
+      262144         65536     float     sum      -1    127.0    2.06    3.61      0    108.9    2.41    4.21      0
+      524288        131072     float     sum      -1    170.3    3.08    5.39      0    349.6    1.50    2.62      0
+     1048576        262144     float     sum      -1    164.3    6.38   11.17      0    187.7    5.59    9.77      0
+     2097152        524288     float     sum      -1    182.1   11.51   20.15      0    180.6   11.61   20.32      0
+     4194304       1048576     float     sum      -1    292.7   14.33   25.08      0    295.4   14.20   24.85      0
+     8388608       2097152     float     sum      -1    344.5   24.35   42.61      0    345.7   24.27   42.47      0
+    16777216       4194304     float     sum      -1    461.7   36.34   63.59      0    454.0   36.95   64.67      0
+    33554432       8388608     float     sum      -1    686.5   48.88   85.54      0    686.6   48.87   85.52      0
+    67108864      16777216     float     sum      -1   1090.5   61.54  107.69      0   1083.5   61.94  108.39      0
+   134217728      33554432     float     sum      -1   1916.4   70.04  122.57      0   1907.8   70.35  123.11      0
+# Out of bounds values : 0 OK
+# Avg bus bandwidth    : 19.7866 
+#
+# Collective test concluded: all_reduce_perf
+```
+
+```console
+$ srun -N2 -t5 --mpi=pmix --ntasks-per-node=4 --environment=nccl-test-ompi /nccl-tests-2.17.1/build/all_reduce_perf -b 8 -e 128M -f 2
+# Collective test starting: all_reduce_perf
+# nThread 1 nGpus 1 minBytes 8 maxBytes 134217728 step: 2(factor) warmup iters: 1 iters: 20 agg iters: 1 validation: 1 graph: 0
+#
+# Using devices
+#  Rank  0 Group  0 Pid 202829 on  nid005471 device  0 [0009:01:00] NVIDIA GH200 120GB
+#  Rank  1 Group  0 Pid 202830 on  nid005471 device  1 [0019:01:00] NVIDIA GH200 120GB
+#  Rank  2 Group  0 Pid 202831 on  nid005471 device  2 [0029:01:00] NVIDIA GH200 120GB
+#  Rank  3 Group  0 Pid 202832 on  nid005471 device  3 [0039:01:00] NVIDIA GH200 120GB
+#  Rank  4 Group  0 Pid 154517 on  nid005487 device  0 [0009:01:00] NVIDIA GH200 120GB
+#  Rank  5 Group  0 Pid 154518 on  nid005487 device  1 [0019:01:00] NVIDIA GH200 120GB
+#  Rank  6 Group  0 Pid 154519 on  nid005487 device  2 [0029:01:00] NVIDIA GH200 120GB
+#  Rank  7 Group  0 Pid 154520 on  nid005487 device  3 [0039:01:00] NVIDIA GH200 120GB
+#
+#                                                              out-of-place                       in-place          
+#       size         count      type   redop    root     time   algbw   busbw #wrong     time   algbw   busbw #wrong
+#        (B)    (elements)                               (us)  (GB/s)  (GB/s)            (us)  (GB/s)  (GB/s)       
+           8             2     float     sum      -1    85.47    0.00    0.00      0    53.44    0.00    0.00      0
+          16             4     float     sum      -1    52.41    0.00    0.00      0    51.11    0.00    0.00      0
+          32             8     float     sum      -1    50.45    0.00    0.00      0    50.40    0.00    0.00      0
+          64            16     float     sum      -1    62.58    0.00    0.00      0    50.70    0.00    0.00      0
+         128            32     float     sum      -1    50.94    0.00    0.00      0    50.77    0.00    0.00      0
+         256            64     float     sum      -1    50.76    0.01    0.01      0    51.77    0.00    0.01      0
+         512           128     float     sum      -1    163.2    0.00    0.01      0    357.5    0.00    0.00      0
+        1024           256     float     sum      -1    373.0    0.00    0.00      0    59.31    0.02    0.03      0
+        2048           512     float     sum      -1    53.22    0.04    0.07      0    52.58    0.04    0.07      0
+        4096          1024     float     sum      -1    55.95    0.07    0.13      0    56.63    0.07    0.13      0
+        8192          2048     float     sum      -1    58.52    0.14    0.24      0    58.62    0.14    0.24      0
+       16384          4096     float     sum      -1    108.7    0.15    0.26      0    107.8    0.15    0.27      0
+       32768          8192     float     sum      -1    184.1    0.18    0.31      0    183.5    0.18    0.31      0
+       65536         16384     float     sum      -1    325.0    0.20    0.35      0    325.4    0.20    0.35      0
+      131072         32768     float     sum      -1    592.7    0.22    0.39      0    591.5    0.22    0.39      0
+      262144         65536     float     sum      -1    942.0    0.28    0.49      0    941.4    0.28    0.49      0
+      524288        131072     float     sum      -1   1143.1    0.46    0.80      0   1138.0    0.46    0.81      0
+     1048576        262144     float     sum      -1   1502.2    0.70    1.22      0   1478.9    0.71    1.24      0
+     2097152        524288     float     sum      -1    921.8    2.28    3.98      0    899.8    2.33    4.08      0
+     4194304       1048576     float     sum      -1   1443.1    2.91    5.09      0   1432.7    2.93    5.12      0
+     8388608       2097152     float     sum      -1   2437.7    3.44    6.02      0   2417.0    3.47    6.07      0
+    16777216       4194304     float     sum      -1   5036.9    3.33    5.83      0   5003.6    3.35    5.87      0
+    33554432       8388608     float     sum      -1    17388    1.93    3.38      0    17275    1.94    3.40      0
+    67108864      16777216     float     sum      -1    21253    3.16    5.53      0    21180    3.17    5.54      0
+   134217728      33554432     float     sum      -1    43293    3.10    5.43      0    43396    3.09    5.41      0
+# Out of bounds values : 0 OK
+# Avg bus bandwidth    : 1.58767 
+#
+# Collective test concluded: all_reduce_perf
+```
