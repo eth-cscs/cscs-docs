@@ -6518,9 +6518,15 @@ and with the swiss institutional prices of 2026 (2.69 CHF) means 32.28 CHF</p>
 <p>You are expected to use your credit roughly linearly over the project: every month has an expected consumption, the amount you should use that month.
 The expected consumption is also used to set your scheduling priority through <a class="autorefs autorefs-internal" title="Fair Usage of Shared Resources" href="../../../policies/shared/#fair-usage-of-shared-resources">Slurm fair-share</a>.</p>
 <ul>
-<li>You can consume more than the expected amount without any issue, and only run at lower priority as you get ahead of your schedule.</li>
-<li>Each month also has a minimal consumption — the expected amount reduced by a grace of 15% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.</li>
+<li>You can consume more than the expected amount and consume the credit for you future months, but:<ul>
+<li>You will have a lower priority as you get ahead of your schedule.</li>
+<li>The expected consumption of the following month is recalculated based on the credit left, it is not possible to use 2 month of credit in one month and 0 in the next without losing credit</li>
 </ul>
+</li>
+<li>Each month also has a minimal consumption — the expected amount reduced by a grace of 25% to 50% (depending on your budget size). If you consume less than expected but stay above this minimal, the unused credit rolls over to the following months, so you can still catch up later. If you fall below the minimal, the credit between your usage and that minimal is lost.</li>
+</ul>
+<p>Use monthly consumption in the Project overview in <a href="https://portal.cscs.ch">portal.cscs.ch</a> to quickly check the current status of the project</p>
+<p><img alt="waldur-usage" src="../../../images/access/waldur-monthly-usage.png" /></p>
 <p>If you use up your credit before the end of the project, you can run extra jobs in the <a class="autorefs autorefs-internal" title="Clariden" href="../../../clusters/clariden/#clariden"><code>low</code> partition</a>.
 This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget.
 Once that is also exhausted, the project can no longer use compute resources.</p>
@@ -6543,7 +6549,7 @@ Once that is also exhausted, the project can no longer use compute resources.</p
     <line x1="984" y1="70" x2="996" y2="70"  stroke="#D61F26" stroke-width="1.5"/>
     <line x1="984" y1="112" x2="996" y2="112" stroke="#D61F26" stroke-width="1.5"/>
     <text x="1006" y="86"  font-size="13" font-weight="600" fill="#D61F26">grace</text>
-    <text x="1006" y="104" font-size="12" fill="#555555">15–50%, by budget size</text>
+    <text x="1006" y="104" font-size="12" fill="#555555">25–50%, by budget size</text>
         <g text-anchor="middle" fill="#1A1A1A">
       <text x="190" y="202" font-size="14" font-weight="600">you go faster</text>
       <text x="190" y="220" font-size="12" fill="#555555">fine — lower priority while ahead</text>
@@ -6637,11 +6643,11 @@ For this reason a large allocation is often preceded by a <a class="autorefs aut
 <p>How far a project is allowed to fall behind the linear schedule is governed by its <strong>grace</strong>, a fixed percentage set once, at allocation time, from the total initial credit:</p>
 <ul>
 <li>credit ≤ 10,000 GPUh gives a grace of 50%,</li>
-<li>credit ≥ 100,000 GPUh gives a grace of 15%,</li>
-<li>between 10,000 and 100,000 GPUh the grace is linearly interpolated between 50% and 15%:</li>
+<li>credit ≥ 100,000 GPUh gives a grace of 25%,</li>
+<li>between 10,000 and 100,000 GPUh the grace is linearly interpolated between 50% and 25%:</li>
 </ul>
 <div class="arithmatex">\[
-\text{grace} = 50 - 35 \times \frac{\text{credit} - 10{,}000}{90{,}000}\ \%
+\text{grace} = 50 - 25 \times \frac{\text{credit} - 10{,}000}{90{,}000}\ \%
 \]</div>
 <p>The grace is fixed for the project&rsquo;s lifetime; larger allocations get a smaller grace, as they are expected to keep the systems more consistently busy.</p>
 <table>
@@ -6661,20 +6667,28 @@ For this reason a large allocation is often preceded by a <a class="autorefs aut
 <td>50.0%</td>
 </tr>
 <tr>
-<td>30,000 GPUh</td>
-<td>42.2%</td>
+<td>20,000 GPUh</td>
+<td>47.2%</td>
 </tr>
 <tr>
-<td>55,000 GPUh</td>
-<td>32.5%</td>
+<td>30,000 GPUh</td>
+<td>44.4%</td>
+</tr>
+<tr>
+<td>50,000 GPUh</td>
+<td>38.9%</td>
+</tr>
+<tr>
+<td>75,000 GPUh</td>
+<td>31.9%</td>
 </tr>
 <tr>
 <td>100,000 GPUh</td>
-<td>15.0%</td>
+<td>25.0%</td>
 </tr>
 <tr>
 <td>250,000 GPUh</td>
-<td>15.0%</td>
+<td>25.0%</td>
 </tr>
 </tbody>
 </table>
