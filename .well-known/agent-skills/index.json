@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "build-uenv-stackinator",
+      "type": "archive",
+      "description": "Build a uenv (SquashFS software-stack image) on Alps HPC systems using Stackinator and Spack. Use when the task involves creating, configuring, building, debugging, or iterating on a uenv \u2014 writing or editing a Stackinator recipe (config.yaml, compilers.yaml, environments.yaml, packages.yaml), running stack-config, building store.squashfs, resolving Spack concretization/build failures inside the bubblewrap sandbox, fixing runtime issues in views, or testing an image with `uenv run`.",
+      "url": "build-uenv-stackinator.tar.gz",
+      "digest": "sha256:8da48708efc9273540d7a411226081583f74d4e6ab15429cec65dbd81e024e56"
+    },
+    {
+      "name": "cscs-ci",
+      "type": "archive",
+      "description": "Load when dealing with CSCS CI: checking status, fetching CI logs, triggering pipelines (cscs-ci run), writing CI config, or encountering GitLab mirror URLs.",
+      "url": "cscs-ci.tar.gz",
+      "digest": "sha256:4f7236c7da375e4d22227a6c11566a0f8deb8a023795724e171e9d52a7b24812"
+    },
+    {
+      "name": "cscs-cluster-probes",
+      "type": "archive",
+      "description": "Look up how a CSCS Alps cluster is configured and what it is doing now (Slurm partitions and their limits, QoS, node hardware and features, file systems, tool versions, idle nodes, pending jobs, and what the current user can submit to). Use when helping a user on a CSCS cluster choose a partition, write a job script, or understand why a job is pending or was rejected.",
+      "url": "cscs-cluster-probes.tar.gz",
+      "digest": "sha256:f90334d1b0018d242653c6cf7a94f931d1675ee8648b7e109753ee83068e3f89"
+    }
+  ]
+}

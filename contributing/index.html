@@ -14,6 +14,8 @@
         <link rel="prev" href="../policies/maintenance/">
       
       
+        <link rel="next" href="./clusters/">
+      
       
         
       
@@ -5407,6 +5409,8 @@
       
         
       
+        
+      
     
     
     
@@ -5470,6 +5474,33 @@
     
   
   Coding Agents on Alps
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent Skills
 
     
   </span>
@@ -5856,6 +5887,10 @@
           
         
       
+        
+      
+        
+      
     
     
     
@@ -5884,8 +5919,82 @@
 
             </a>
             
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_14" id="__nav_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_14">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Contributing
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Updating Cluster Descriptions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Publishing Agent Skills
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
         
       
     </li>
@@ -6346,6 +6455,10 @@
           
         
       
+        
+      
+        
+      
     
     
     
@@ -6426,6 +6539,11 @@ The code owners are notified when there is a change to their pages, and can revi
 <p class="admonition-title">Note</p>
 <p>Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.</p>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Updating the tables of a cluster</p>
+<p>The partition, node and file system tables of the cluster and platform pages are generated from the configuration of each cluster.
+Platform owners and system administrators can update them by following <a class="autorefs autorefs-internal" title="Updating cluster descriptions" href="clusters/#updating-cluster-descriptions">updating cluster descriptions</a>.</p>
+</div>
 <h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <p>We use the GitHub fork and pull request model for development:</p>
 <ul>
@@ -6455,6 +6573,12 @@ The code owners are notified when there is a change to their pages, and can revi
 <p>To run the serve script, you need to first install <a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a>.</p>
 </div>
 <p>You can now open your browser at the address shown above (<code>http://127.0.0.1:8000/</code>). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.</p>
+<div class="admonition tip">
+<p class="admonition-title">Building the complete site</p>
+<p><code>./serve</code> shows the documentation only.
+To build the site as CI does, including the <a class="autorefs autorefs-internal" title="Publishing agent skills" href="skills/#publishing-agent-skills">agent skills</a> that are published with it, run <code>./build</code>.
+It writes the site to the <code>site</code> directory, and stops on any warning.</p>
+</div>
 <p>After your first review, commit and push your changes
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>add<span class="w"> </span>&lt;files&gt;
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">'update the ssh docs with aliases for all user lab vclusters'</span>

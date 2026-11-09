@@ -649,28 +649,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Breaking changes
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#minor-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Minor changes
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#cluster-specification" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -771,17 +749,6 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Containers
-      </span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cray-modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Cray Modules
       </span>
     </span>
   </a>
@@ -5712,6 +5679,8 @@
       
         
       
+        
+      
     
     
     
@@ -5775,6 +5744,33 @@
     
   
   Coding Agents on Alps
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent Skills
 
     
   </span>
@@ -6159,6 +6155,10 @@
           
         
       
+        
+      
+        
+      
     
     
     
@@ -6187,8 +6187,82 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_14" id="__nav_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_14">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Contributing
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Updating Cluster Descriptions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Publishing Agent Skills
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
         
       
     </li>
@@ -6222,28 +6296,6 @@
       On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Breaking changes
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#minor-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Minor changes
-      </span>
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#cluster-specification" class="md-nav__link">
@@ -6346,17 +6398,6 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Containers
-      </span>
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cray-modules" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Cray Modules
       </span>
     </span>
   </a>
@@ -6614,39 +6655,45 @@
 <p><a href="" id="ref-cluster-eiger"></a></p>
 <h1 id="eiger">Eiger<a class="headerlink" href="#eiger" title="Permanent link">&para;</a></h1>
 <p>Eiger is an Alps cluster that provides compute nodes and file systems designed to meet the needs of CPU-only workloads for the <a class="autorefs autorefs-internal" href="../../platforms/hpcp/#hpc-platform">HPC Platform</a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This documentation is for the updated cluster <code>Eiger.Alps</code> reachable at <code>eiger.alps.cscs.ch</code>, that replaced the former cluster as on July 1 2025.</p>
-</div>
-<details class="change">
-<summary>Important changes from Eiger</summary>
-<p>The redeployment of <code>eiger.cscs.ch</code> as <code>eiger.alps.cscs.ch</code> has introduced changes that may affect some users.</p>
-<h3 id="breaking-changes">Breaking changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
-<div class="admonition warning">
-<p class="admonition-title">Sarus is replaced with the Container Engine</p>
-<p>The Sarus container runtime is replaced with the <a class="autorefs autorefs-internal" href="../../software/container-engine/#container-engine">Container Engine</a>.</p>
-<p>If you are using Sarus to run containers on Eiger, you will have to <a class="autorefs autorefs-internal" title="Building container images on Alps" href="../../build-install/containers/#building-container-images-on-alps">rebuild</a> and adapt your containers for the Container Engine.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Cray modules and EasyBuild are no longer supported</p>
-<p>The Cray Programming Environment (accessed via the <code>cray</code> module) is no longer supported by CSCS, along with software that CSCS provided using EasyBuild.</p>
-<p>The same version of the Cray modules is still available, along with software that was installed using them, however they will not receive updates or support from CSCS.</p>
-<p>You are strongly encouraged to start using <a class="autorefs autorefs-internal" href="./#uenv">uenv</a> to access supported applications and to rebuild your own applications.</p>
-<ul>
-<li>The versions of compilers, <code>cray-mpich</code>, Python and libraries in uenv are up to date.</li>
-<li>The scientific application uenv have up to date versions of the supported applications.</li>
-</ul>
-</div>
-<h3 id="minor-changes">Minor changes<a class="headerlink" href="#minor-changes" title="Permanent link">&para;</a></h3>
-<div class="admonition change">
-<p class="admonition-title">Slurm is updated from version 23.02.6 to 24.05.4</p>
-</div>
-</details>
 <h2 id="cluster-specification">Cluster specification<a class="headerlink" href="#cluster-specification" title="Permanent link">&para;</a></h2>
 <h3 id="compute-nodes">Compute nodes<a class="headerlink" href="#compute-nodes" title="Permanent link">&para;</a></h3>
 <p>Eiger consists of multicore <a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">AMD Epyc Rome</a> compute nodes: please note that the total number of available compute nodes on the system might vary over time.
 See the <a class="autorefs autorefs-internal" title="Partitions" href="../../running/slurm/#ref-slurm-partitions-nodecount">Slurm documentation</a> for information on how to check the number of nodes.</p>
 <p>Additionally, there are four login nodes with host names <code>eiger-ln00[1-4]</code>.</p>
+<!--begin no spell check-->
+<!-- Generated by probes/probe.sh from: `slurm.conf`
+     Do not edit. Regenerate by running probes/probe.sh --generate on eiger. -->
+
+<table>
+<thead>
+<tr>
+<th>Node type</th>
+<th>Memory</th>
+<th>Nodes</th>
+<th>CPU sockets</th>
+<th>GPUs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2</a></td>
+<td>256 GB</td>
+<td>240</td>
+<td>480</td>
+<td>none</td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2</a></td>
+<td>512 GB</td>
+<td>286</td>
+<td>572</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>In addition, two <a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2</a> nodes are reserved for data transfer in the <code>xfer</code> partition, and cannot run compute jobs.</p>
+<!--end no spell check-->
+
 <h3 id="storage-and-file-systems">Storage and file systems<a class="headerlink" href="#storage-and-file-systems" title="Permanent link">&para;</a></h3>
 <p>Eiger uses the <a class="autorefs autorefs-internal" title="File systems and storage" href="../../platforms/hpcp/#file-systems-and-storage">HPCP filesystems and storage policies</a>.</p>
 <h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
@@ -6718,18 +6765,7 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 <h4 id="containers">Containers<a class="headerlink" href="#containers" title="Permanent link">&para;</a></h4>
 <p>Eiger supports container workloads using the <a class="autorefs autorefs-internal" href="../../software/container-engine/#container-engine">Container Engine</a>.</p>
 <p>To build images, see the <a class="autorefs autorefs-internal" title="Building container images on Alps" href="../../build-install/containers/#building-container-images-on-alps">guide to building container images on Alps</a>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Sarus is not available</p>
-<p>A key change with the new Eiger deployment is that the Sarus container runtime is replaced with the <a class="autorefs autorefs-internal" href="../../software/container-engine/#container-engine">Container Engine</a>.</p>
-<p>If you are using Sarus to run containers on Eiger, you will have to rebuild and adapt your containers for the Container Engine.</p>
-</div>
-<h4 id="cray-modules">Cray Modules<a class="headerlink" href="#cray-modules" title="Permanent link">&para;</a></h4>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The Cray Programming Environment (CPE), loaded using <code>module load cray</code>, is no longer supported by CSCS.</p>
-<p>CSCS will continue to support and update uenv and the Container Engine, and users are encouraged to update their workflows to use these methods at the first opportunity.</p>
-<p>The CPE is still installed on Eiger, however it will receive no support or updates, and will be <a class="autorefs autorefs-internal" title="Cray Programming Environment (CPE)" href="../../software/prgenv/cpe/#cray-programming-environment-cpe">replaced with a container</a> in a future update.</p>
-</div>
+<p>The CPE has been uninstalled from Eiger, however it can still be <a class="autorefs autorefs-internal" title="Cray Programming Environment (CPE)" href="../../software/prgenv/cpe/#cray-programming-environment-cpe">accessed as a container</a>.</p>
 <h2 id="running-jobs-on-eiger">Running jobs on Eiger<a class="headerlink" href="#running-jobs-on-eiger" title="Permanent link">&para;</a></h2>
 <h3 id="slurm">Slurm<a class="headerlink" href="#slurm" title="Permanent link">&para;</a></h3>
 <p>Eiger uses <a class="autorefs autorefs-internal" href="../../running/slurm/#slurm">Slurm</a> as the workload manager, which is used to launch and monitor workloads on compute nodes.</p>
@@ -6741,47 +6777,133 @@ See the <a class="autorefs autorefs-internal" title="Partitions" href="../../run
 <li>the <code>xfer</code> partition is for <a class="autorefs autorefs-internal" title="Internal Transfer" href="../../storage/transfer/#internal-transfer">internal data transfer</a>.</li>
 <li>the <code>low</code> partition is a low-priority partition, which may be enabled for specific projects at specific times.</li>
 </ul>
+<!--begin no spell check-->
+<!-- Generated by probes/probe.sh from: `slurm.conf` and `sacctmgr show qos`
+     Do not edit. Regenerate by running probes/probe.sh --generate on eiger. -->
+
 <table>
 <thead>
 <tr>
-<th>name</th>
-<th>max nodes per job</th>
-<th>time limit</th>
+<th>Partition</th>
+<th>Nodes</th>
+<th>Max nodes/job</th>
+<th>Default time</th>
+<th>Max time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>debug</code></td>
-<td>10</td>
-<td>30 minutes</td>
-</tr>
-<tr>
-<td><code>prepost</code></td>
-<td>1</td>
-<td>30 minutes</td>
-</tr>
-<tr>
-<td><code>normal</code></td>
+<td><code>normal</code> (default)</td>
+<td>514</td>
 <td>480</td>
-<td>24 hours</td>
-</tr>
-<tr>
-<td><code>xfer</code></td>
-<td>1</td>
-<td>24 hours</td>
+<td>01:00:00</td>
+<td>1-00:00:00</td>
 </tr>
 <tr>
 <td><code>low</code></td>
+<td>514</td>
 <td>124</td>
-<td>24 hours</td>
+<td>01:00:00</td>
+<td>1-00:00:00</td>
+</tr>
+<tr>
+<td><code>prepost</code></td>
+<td>514</td>
+<td>1</td>
+<td>00:30:00</td>
+<td>00:30:00</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>12</td>
+<td>10</td>
+<td>00:30:00</td>
+<td>00:30:00</td>
+</tr>
+<tr>
+<td><code>xfer</code></td>
+<td>2</td>
+<td>1</td>
+<td>06:00:00</td>
+<td>1-00:00:00</td>
 </tr>
 </tbody>
 </table>
+<!--end no spell check-->
+
+<p>The <code>normal</code>, <code>prepost</code> and <code>low</code> partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.</p>
 <ul>
 <li>nodes in the <code>normal</code> and <code>debug</code> partitions are not shared</li>
 <li>jobs in <code>debug</code>: at most 1 running and 2 submitted per user</li>
 <li>nodes in the <code>xfer</code> partition can be shared</li>
 </ul>
+<p>The hardware available in each partition, including the <a class="autorefs autorefs-internal" href="../../running/slurm/#slurm-features">Slurm features</a> that can be selected with <code>--constraint</code>:</p>
+<!--begin no spell check-->
+<!-- Generated by probes/probe.sh from: `slurm.conf`
+     Do not edit. Regenerate by running probes/probe.sh --generate on eiger. -->
+
+<table>
+<thead>
+<tr>
+<th>Partition</th>
+<th>Nodes</th>
+<th>Node type</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>normal</code></td>
+<td>274</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 512 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>normal</code></td>
+<td>240</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 256 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>low</code></td>
+<td>274</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 512 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>low</code></td>
+<td>240</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 256 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>prepost</code></td>
+<td>274</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 512 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>prepost</code></td>
+<td>240</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 256 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>12</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 512 GB</a></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>xfer</code></td>
+<td>2</td>
+<td><a class="autorefs autorefs-internal" title="AMD Rome CPU Nodes" href="../../alps/hardware/#amd-rome-cpu-nodes">zen2 256 GB</a></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<!--end no spell check-->
+
 <div class="admonition note">
 <p class="admonition-title">Default MPI plugin</p>
 <p>The default <a class="autorefs autorefs-internal" title="MPI plugins" href="../../running/slurm/#mpi-plugins">MPI plugin</a> on Eiger is <code>cray_shasta</code>.

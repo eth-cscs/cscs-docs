@@ -1560,6 +1560,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#qos-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        QoS limits
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#debug-partition" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -5799,6 +5810,8 @@
       
         
       
+        
+      
     
     
     
@@ -5862,6 +5875,33 @@
     
   
   Coding Agents on Alps
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent Skills
 
     
   </span>
@@ -6246,6 +6286,10 @@
           
         
       
+        
+      
+        
+      
     
     
     
@@ -6274,8 +6318,82 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_14" id="__nav_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_14">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Contributing
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Updating Cluster Descriptions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Publishing Agent Skills
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
         
       
     </li>
@@ -6343,6 +6461,17 @@
   
     <nav class="md-nav" aria-label="Partitions">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qos-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        QoS limits
+      </span>
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#debug-partition" class="md-nav__link">
@@ -6819,6 +6948,17 @@ Slurm ensures that user jobs request and receive the appropriate resources while
 </span></code></pre></div>
 The last column shows the number of nodes that have been allocated in currently running jobs (<code>A</code>) and the number of jobs that are idle (<code>I</code>).</p>
 </div>
+<p><a href="" id="ref-slurm-partitions-qos"></a></p>
+<h3 id="qos-limits">QoS limits<a class="headerlink" href="#qos-limits" title="Permanent link">&para;</a></h3>
+<p>The number of nodes in a partition is not always the number of nodes that its jobs can use.
+Partitions on some clusters share the same nodes, and a Slurm quality of service (QoS) then limits how many nodes the jobs of each partition can hold at the same time, the size of a job, or the number of jobs for each user.
+A QoS can be attached to a partition, in which case it applies to every job in the partition, or to a job.</p>
+<div class="language-console highlight"><span class="filename">check the QoS of a partition, and the limits of each QoS</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp">$ </span>scontrol<span class="w"> </span>show<span class="w"> </span>partition<span class="w"> </span>normal<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-o<span class="w"> </span><span class="s1">' QoS=[^ ]*'</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go"> QoS=normalp</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="gp">$ </span>sacctmgr<span class="w"> </span>show<span class="w"> </span>qos<span class="w"> </span><span class="nv">format</span><span class="o">=</span>name,grptres,maxtres,maxjobspu,maxsubmitpu,maxwall
+</span></code></pre></div>
+<p><code>GrpTRES</code> is the limit for all the jobs that use the QoS together, for example <code>node=400</code>.
+A job that is waiting because that limit has been reached is shown by <code>squeue</code> with the reason <code>QOSGrpNodeLimit</code>.</p>
 <p><a href="" id="ref-slurm-partition-debug"></a></p>
 <h3 id="debug-partition">Debug partition<a class="headerlink" href="#debug-partition" title="Permanent link">&para;</a></h3>
 <p>The Slurm <code>debug</code> partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with <code>sinfo -p debug</code>), and a low number of maximum nodes (the <code>MaxNodes</code> can be seen with <code>scontrol show partition=debug</code>).</p>
@@ -6833,12 +6973,12 @@ These instructions will help users optimize their workload execution and ensure 
 <p>It is possible to spawn a shell on a compute node to run commands interactively.
 This is useful to e.g. compile applications, build container images, etc.
 To start an interactive shell on a compute node, you can use the<code>--pty</code> flag and execute your shell:
-<div class="language-console highlight"><span class="filename">Single node shell</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="gp"># </span>run<span class="w"> </span>a<span class="w"> </span>bash<span class="w"> </span>shell<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>node
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp">$ </span>srun<span class="w"> </span>--pty<span class="w"> </span>bash
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="gp"># </span>use<span class="w"> </span>a<span class="w"> </span>partition<span class="w"> </span><span class="k">for</span><span class="w"> </span>small<span class="w"> </span>jobs:<span class="w"> </span>the<span class="w"> </span>debug<span class="w"> </span>partition<span class="w"> </span>on<span class="w"> </span>most<span class="w"> </span>Alps<span class="w"> </span>system
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="gp"># </span>is<span class="w"> </span>good<span class="w"> </span><span class="k">for</span><span class="w"> </span>this:
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="gp">$ </span>srun<span class="w"> </span>--pty<span class="w"> </span>--partition<span class="o">=</span>debug<span class="w"> </span>bash
+<div class="language-console highlight"><span class="filename">Single node shell</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp"># </span>run<span class="w"> </span>a<span class="w"> </span>bash<span class="w"> </span>shell<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>node
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="gp">$ </span>srun<span class="w"> </span>--pty<span class="w"> </span>bash
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="gp"># </span>use<span class="w"> </span>a<span class="w"> </span>partition<span class="w"> </span><span class="k">for</span><span class="w"> </span>small<span class="w"> </span>jobs:<span class="w"> </span>the<span class="w"> </span>debug<span class="w"> </span>partition<span class="w"> </span>on<span class="w"> </span>most<span class="w"> </span>Alps<span class="w"> </span>system
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="gp"># </span>is<span class="w"> </span>good<span class="w"> </span><span class="k">for</span><span class="w"> </span>this:
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="gp">$ </span>srun<span class="w"> </span>--pty<span class="w"> </span>--partition<span class="o">=</span>debug<span class="w"> </span>bash
 </span></code></pre></div></p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -6848,17 +6988,17 @@ It is also possible to execute a different shell, for example <code>zsh</code>.<
 <h3 id="multi-node-allocation">Multi node allocation<a class="headerlink" href="#multi-node-allocation" title="Permanent link">&para;</a></h3>
 <p>Sometimes it is useful to first allocate nodes, and then interactively submit jobs to the allocated nodes.
 To allocate nodes, you should use the command <code>salloc</code>.
-<div class="language-console highlight"><span class="filename">Allocate 2 nodes</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="gp">$ </span>salloc<span class="w"> </span>-N2<span class="w"> </span>--partition<span class="o">=</span>debug
+<div class="language-console highlight"><span class="filename">Allocate 2 nodes</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>salloc<span class="w"> </span>-N2<span class="w"> </span>--partition<span class="o">=</span>debug
 </span></code></pre></div>
 This will allocate 2 nodes on the <code>debug</code> partition.
 It is not mandatory to use the <code>debug</code> partition with <code>salloc</code>, you can use any partition.
 However the <code>debug</code> partition usually has a shorter waiting time to allocate the requested resources.
 Now you can run several commands, and they will all run in the same allocation, i.e. they will not go through the SLURM queue.
-<div class="language-console highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>hostname
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>date
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="gp"># </span>deallocate<span class="w"> </span>the<span class="w"> </span><span class="m">2</span><span class="w"> </span>nodes
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="gp">$ </span><span class="nb">exit</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>hostname
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>date
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="gp"># </span>deallocate<span class="w"> </span>the<span class="w"> </span><span class="m">2</span><span class="w"> </span>nodes
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="gp">$ </span><span class="nb">exit</span>
 </span></code></pre></div>
 This will first run the command <code>hostname</code> on both nodes, and then it will run as second job the command <code>date</code>.
 This allows you to quickly iterate without going for every command through the SLURM queue.
@@ -6874,7 +7014,7 @@ which is used to submit the following <code>srun</code> calls to the allocation.
 <p>It is possible to connect to a node in a running job.
 First you will need the <code>jobid</code>, which you can find e.g. via <code>squeue --me</code>.
 To connect to the first node of the job use the command
-<div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--jobid<span class="o">=</span>&lt;JOB-ID&gt;<span class="w"> </span>--overlap<span class="w"> </span>--pty<span class="w"> </span>bash
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--jobid<span class="o">=</span>&lt;JOB-ID&gt;<span class="w"> </span>--overlap<span class="w"> </span>--pty<span class="w"> </span>bash
 </span></code></pre></div>
 This will drop you into a shell on the first compute node of the job.
 If you want to connect to a specific node of your job, add the additional flags <code>--nodes=1 --nodelist=nidXXXXXX</code>.</p>
@@ -6926,17 +7066,17 @@ The application can also start each rank as a separate MPI job with one rank, an
 <p><a href="" id="ref-slurm-mpi-select"></a></p>
 <h3 id="select-a-plugin">Select a plugin<a class="headerlink" href="#select-a-plugin" title="Permanent link">&para;</a></h3>
 <p>Use the <code>--mpi</code> flag of <code>srun</code> to select the plugin:</p>
-<div class="language-console highlight"><span class="filename">Start an OpenMPI application with PMIx</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>-n4<span class="w"> </span>./my_app
+<div class="language-console highlight"><span class="filename">Start an OpenMPI application with PMIx</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--mpi<span class="o">=</span>pmix<span class="w"> </span>-n4<span class="w"> </span>./my_app
 </span></code></pre></div>
 <p>You can also set the <code>SLURM_MPI_TYPE</code> environment variable.
 Then all <code>srun</code> commands in the same shell or batch script use this plugin.
 The <code>--mpi</code> flag overrides <code>SLURM_MPI_TYPE</code>.</p>
-<div class="language-bash highlight"><span class="filename">Set the MPI plugin in a batch script</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">#SBATCH --nodes=2</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SLURM_MPI_TYPE</span><span class="o">=</span>cray_shasta
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>srun<span class="w"> </span>./my_app
+<div class="language-bash highlight"><span class="filename">Set the MPI plugin in a batch script</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">#SBATCH --nodes=2</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SLURM_MPI_TYPE</span><span class="o">=</span>cray_shasta
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>srun<span class="w"> </span>./my_app
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -6950,19 +7090,19 @@ In a batch script, set <code>--mpi</code> on each <code>srun</code> command, or 
 The default plugin can be different on different clusters, and some clusters have no default plugin set.
 The Slurm section of each <a class="autorefs autorefs-internal" title="Alps Clusters" href="../../clusters/#alps-clusters">cluster page</a> gives the default plugin for that cluster.</p>
 <p>To show the default plugin of the current cluster, run:</p>
-<div class="language-console highlight"><span class="filename">Show the default MPI plugin</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp">$ </span>scontrol<span class="w"> </span>show<span class="w"> </span>config<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>MpiDefault
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">MpiDefault              = cray_shasta</span>
+<div class="language-console highlight"><span class="filename">Show the default MPI plugin</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span>scontrol<span class="w"> </span>show<span class="w"> </span>config<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>MpiDefault
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="go">MpiDefault              = cray_shasta</span>
 </span></code></pre></div>
 <p>If the value is <code>(null)</code> or <code>none</code>, Slurm does not set up PMI for the job step.
 On these clusters, you must set <code>--mpi</code> or <code>SLURM_MPI_TYPE</code> for all MPI applications.</p>
 <p>To list the plugins that are available on the cluster, run:</p>
-<div class="language-console highlight"><span class="filename">List the available MPI plugins</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--mpi<span class="o">=</span>list
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="go">MPI plugin types are...</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="go">    none</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="go">    pmix</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="go">    pmi2</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="go">    cray_shasta</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="go">specific pmix plugin versions available: pmix_v5</span>
+<div class="language-console highlight"><span class="filename">List the available MPI plugins</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--mpi<span class="o">=</span>list
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="go">MPI plugin types are...</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="go">    none</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="go">    pmix</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="go">    pmi2</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="go">    cray_shasta</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="go">specific pmix plugin versions available: pmix_v5</span>
 </span></code></pre></div>
 <h2 id="affinity">Affinity<a class="headerlink" href="#affinity" title="Permanent link">&para;</a></h2>
 <p>The following sections will document how to use Slurm on different compute nodes available on Alps.
@@ -6970,12 +7110,12 @@ To demonstrate the effects different Slurm parameters, we will use a little comm
 <p>We strongly recommend using a tool like affinity to understand and test the Slurm configuration for jobs, because the behavior of Slurm is highly dependent on the system configuration.
 Parameters that worked on a different cluster&mdash;or with a different Slurm version or configuration on the same cluster&mdash;are not guaranteed to give the same results.</p>
 <p>It is straightforward to build the affinity tool to experiment with Slurm configurations.</p>
-<div class="language-console highlight"><span class="filename">Compiling affinity</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default<span class="w">     </span><span class="c1">#(1)</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/bcumming/affinity.git
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>affinity<span class="p">;</span><span class="w"> </span>mkdir<span class="w"> </span>build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build<span class="p">;</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w">                           </span><span class="c1">#(2)</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DAFFINITY_GPU_BACKEND<span class="o">=</span>cuda<span class="w">       </span><span class="c1">#(3)</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DAFFINITY_GPU_BACKEND<span class="o">=</span>rocm<span class="w">       </span><span class="c1">#(4)</span>
+<div class="language-console highlight"><span class="filename">Compiling affinity</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default<span class="w">     </span><span class="c1">#(1)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/bcumming/affinity.git
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>affinity<span class="p">;</span><span class="w"> </span>mkdir<span class="w"> </span>build<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build<span class="p">;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w">                           </span><span class="c1">#(2)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DAFFINITY_GPU_BACKEND<span class="o">=</span>cuda<span class="w">       </span><span class="c1">#(3)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="gp">$ </span><span class="nv">CC</span><span class="o">=</span>gcc<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>g++<span class="w"> </span>cmake<span class="w"> </span>..<span class="w"> </span>-DAFFINITY_GPU_BACKEND<span class="o">=</span>rocm<span class="w">       </span><span class="c1">#(4)</span>
 </span></code></pre></div>
 <ol>
 <li>
@@ -7001,17 +7141,17 @@ Parameters that worked on a different cluster&mdash;or with a different Slurm ve
 <details class="example">
 <summary>Testing CPU affinity</summary>
 <p>Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
-<div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n8<span class="w"> </span>-N2<span class="w"> </span>-c72<span class="w"> </span>./affinity.mpi
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="go">affinity test for 8 MPI ranks</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="go">rank   0 @ nid006363: thread 0 -&gt; cores [  0: 71]</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="go">rank   1 @ nid006363: thread 0 -&gt; cores [ 72:143]</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="go">rank   2 @ nid006363: thread 0 -&gt; cores [144:215]</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="go">rank   3 @ nid006363: thread 0 -&gt; cores [216:287]</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="go">rank   4 @ nid006375: thread 0 -&gt; cores [  0: 71]</span>
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="go">rank   5 @ nid006375: thread 0 -&gt; cores [ 72:143]</span>
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="go">rank   6 @ nid006375: thread 0 -&gt; cores [144:215]</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="go">rank   7 @ nid006375: thread 0 -&gt; cores [216:287]</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>default
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n8<span class="w"> </span>-N2<span class="w"> </span>-c72<span class="w"> </span>./affinity.mpi
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="go">affinity test for 8 MPI ranks</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="go">rank   0 @ nid006363: thread 0 -&gt; cores [  0: 71]</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="go">rank   1 @ nid006363: thread 0 -&gt; cores [ 72:143]</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="go">rank   2 @ nid006363: thread 0 -&gt; cores [144:215]</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="go">rank   3 @ nid006363: thread 0 -&gt; cores [216:287]</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="go">rank   4 @ nid006375: thread 0 -&gt; cores [  0: 71]</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="go">rank   5 @ nid006375: thread 0 -&gt; cores [ 72:143]</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="go">rank   6 @ nid006375: thread 0 -&gt; cores [144:215]</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="go">rank   7 @ nid006375: thread 0 -&gt; cores [216:287]</span>
 </span></code></pre></div></p>
 <p>In this example there are 8 MPI ranks:</p>
 <ul>
@@ -7025,46 +7165,46 @@ Parameters that worked on a different cluster&mdash;or with a different Slurm ve
 <details class="example">
 <summary>Testing GPU affinity</summary>
 <p>Use <code>affinity.cuda</code> or <code>affinity.rocm</code> to test on GPU-enabled systems.</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>./affinity.cuda<span class="w">                      </span><span class="c1">#(1)</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="go">GPU affinity test for 4 MPI ranks</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="go">rank      0 @ nid005555</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="go"> cores   : [0:7]</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="go">rank      1 @ nid005555</span>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="go"> cores   : [72:79]</span>
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
-</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
-</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
-</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="go">rank      2 @ nid005555</span>
-</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="go"> cores   : [144:151]</span>
-</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
-</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
-</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
-</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="go">rank      3 @ nid005555</span>
-</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="go"> cores   : [216:223]</span>
-</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
-</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
-</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
-</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
-</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>./affinity.cuda<span class="w">    </span><span class="c1">#(2)</span>
-</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="go">GPU affinity test for 4 MPI ranks</span>
-</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="go">rank      0 @ nid005675</span>
-</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="go"> cores   : [0:7]</span>
-</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="go"> gpu   0 : GPU-a16a8dac-7661-a44b-c6f8-f783f6e812d3</span>
-</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="go">rank      1 @ nid005675</span>
-</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="go"> cores   : [72:79]</span>
-</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="go"> gpu   0 : GPU-ca5160ac-2c1e-ff6c-9cec-e7ce5c9b2d09</span>
-</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="go">rank      2 @ nid005675</span>
-</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="go"> cores   : [144:151]</span>
-</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="go"> gpu   0 : GPU-496a2216-8b3c-878e-e317-36e69af11161</span>
-</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="go">rank      3 @ nid005675</span>
-</span><span id="__span-15-39"><a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="go"> cores   : [216:223]</span>
-</span><span id="__span-15-40"><a id="__codelineno-15-40" name="__codelineno-15-40" href="#__codelineno-15-40"></a><span class="go"> gpu   0 : GPU-766e3b8b-fa19-1480-b02f-0dfd3f2c87ff</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>./affinity.cuda<span class="w">                      </span><span class="c1">#(1)</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="go">GPU affinity test for 4 MPI ranks</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="go">rank      0 @ nid005555</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="go"> cores   : [0:7]</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="go">rank      1 @ nid005555</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="go"> cores   : [72:79]</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="go">rank      2 @ nid005555</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="go"> cores   : [144:151]</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="go">rank      3 @ nid005555</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="go"> cores   : [216:223]</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="go"> gpu   0 : GPU-2ae325c4-b542-26c2-d10f-c4d84847f461</span>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="go"> gpu   1 : GPU-5923dec6-288f-4418-f485-666b93f5f244</span>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="go"> gpu   2 : GPU-170b8198-a3e1-de6a-ff82-d440f71c05da</span>
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="go"> gpu   3 : GPU-0e184efb-1d1f-f278-b96d-15bc8e5f17be</span>
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>./affinity.cuda<span class="w">    </span><span class="c1">#(2)</span>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="go">GPU affinity test for 4 MPI ranks</span>
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="go">rank      0 @ nid005675</span>
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="go"> cores   : [0:7]</span>
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="go"> gpu   0 : GPU-a16a8dac-7661-a44b-c6f8-f783f6e812d3</span>
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="go">rank      1 @ nid005675</span>
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="go"> cores   : [72:79]</span>
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a><span class="go"> gpu   0 : GPU-ca5160ac-2c1e-ff6c-9cec-e7ce5c9b2d09</span>
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a><span class="go">rank      2 @ nid005675</span>
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a><span class="go"> cores   : [144:151]</span>
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a><span class="go"> gpu   0 : GPU-496a2216-8b3c-878e-e317-36e69af11161</span>
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a><span class="go">rank      3 @ nid005675</span>
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a><span class="go"> cores   : [216:223]</span>
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a><span class="go"> gpu   0 : GPU-766e3b8b-fa19-1480-b02f-0dfd3f2c87ff</span>
 </span></code></pre></div>
 <ol>
 <li>
@@ -7079,11 +7219,11 @@ Parameters that worked on a different cluster&mdash;or with a different Slurm ve
 <p class="admonition-title">Quick affinity checks</p>
 <p>The Slurm flag <a href="https://slurm.schedmd.com/srun.html#OPT_cpu-bind"><code>--cpu-bind=verbose</code></a> prints information about MPI ranks and their thread affinity.</p>
 <p>The mask it prints is not very readable, but it can be used with the <code>true</code> command to quickly test Slurm parameters without building the Affinity tool.</p>
-<div class="language-console highlight"><span class="filename">hello</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>verbose<span class="w"> </span>-c32<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--<span class="w"> </span><span class="nb">true</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="go">cpu-bind=MASK - nid002156, task  0  0 [147694]: mask 0xffffffff set</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="go">cpu-bind=MASK - nid002156, task  1  1 [147695]: mask 0xffffffff0000000000000000 set</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="go">cpu-bind=MASK - nid002156, task  2  2 [147696]: mask 0xffffffff00000000 set</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="go">cpu-bind=MASK - nid002156, task  3  3 [147697]: mask 0xffffffff000000000000000000000000 set</span>
+<div class="language-console highlight"><span class="filename">hello</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>srun<span class="w"> </span>--cpu-bind<span class="o">=</span>verbose<span class="w"> </span>-c32<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>--<span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="go">cpu-bind=MASK - nid002156, task  0  0 [147694]: mask 0xffffffff set</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="go">cpu-bind=MASK - nid002156, task  1  1 [147695]: mask 0xffffffff0000000000000000 set</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="go">cpu-bind=MASK - nid002156, task  2  2 [147696]: mask 0xffffffff00000000 set</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="go">cpu-bind=MASK - nid002156, task  3  3 [147697]: mask 0xffffffff000000000000000000000000 set</span>
 </span></code></pre></div>
 <p>You can also check GPU affinity by inspecting the value of the <code>CUDA_VISIBLE_DEVICES</code> environment variable.</p>
 </div>
@@ -7092,12 +7232,12 @@ Parameters that worked on a different cluster&mdash;or with a different Slurm ve
 <p>Slurm allows specifying <a href="https://slurm.schedmd.com/sbatch.html#OPT_constraint">constraints</a> for jobs, which can be used to change features available on nodes in a job.
 CSCS implements a few custom features, described below, that can be selected on certain clusters.
 To check which features are available on a cluster, for example on the <code>normal</code> partition, use <code>sinfo</code>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gp">$ </span>sinfo<span class="w"> </span>--partition<span class="w"> </span>normal<span class="w"> </span>--format<span class="w"> </span>%b
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="go">ACTIVE_FEATURES</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="go">gh,gpu,thp_never,thp_always,thp_madvise,nvidia_vboost_enabled,nvidia_vboost_disabled</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>sinfo<span class="w"> </span>--partition<span class="w"> </span>normal<span class="w"> </span>--format<span class="w"> </span>%b
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="go">ACTIVE_FEATURES</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="go">gh,gpu,thp_never,thp_always,thp_madvise,nvidia_vboost_enabled,nvidia_vboost_disabled</span>
 </span></code></pre></div>
 <p>One or more constraints can be selected using the <code>--constraint</code>/<code>-C</code> flag of <code>sbatch</code> or <code>srun</code>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sbatch<span class="w"> </span>--constraint<span class="w"> </span>thp_never<span class="p">&amp;</span>nvidia_vboost_enabled<span class="w"> </span>batch.sh
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sbatch<span class="w"> </span>--constraint<span class="w"> </span>thp_never<span class="p">&amp;</span>nvidia_vboost_enabled<span class="w"> </span>batch.sh
 </span></code></pre></div>
 <p><a href="" id="ref-slurm-features-thp"></a></p>
 <h3 id="transparent-hugepages">Transparent hugepages<a class="headerlink" href="#transparent-hugepages" title="Permanent link">&para;</a></h3>
@@ -7112,8 +7252,8 @@ Transparent HugePage Support (THP) is an alternative mean of using huge pages fo
 <p>While this feature generally improves performance, we have observed degrading application performance with the THP feature enabled due to the page coalescing blocking progress on certain operations.
 An example of this is ICON, a latency-sensitive application where small delays can can cause large performance drops.</p>
 <p>THP support is enabled by default, and the current setting can be checked with:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp">$ </span>cat<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="go">[always] madvise never</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>cat<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="go">[always] madvise never</span>
 </span></code></pre></div>
 <p>A detailed explanation of how the different options behave can be found in the <a href="https://www.kernel.org/doc/html/v6.17/admin-guide/mm/transhuge.html#global-thp-controls">THP documentation</a>.</p>
 <p>The available Slurm features to select the THP mode are listed below:</p>
@@ -7150,19 +7290,19 @@ An example of this is ICON, a latency-sensitive application where small delays c
 This is particularly beneficial for LLMs, which are typically compute throughput-bound.</p>
 </blockquote>
 <p>The vboost slider is at <code>0</code> by default, and the current value can be checked checked with <code>nvidia-smi</code>:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>nvidia-smi<span class="w"> </span>boost-slider<span class="w"> </span>--list
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="go">+-------------------------------------------------+</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="go">| GPU Boost Slider                                |</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="go">| GPU     Slider       Max Value    Current Value |</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="go">|=================================================|</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="go">|   0     vboost           4              0       |</span>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="go">+-------------------------------------------------+</span>
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="go">|   1     vboost           4              0       |</span>
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="go">+-------------------------------------------------+</span>
-</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="go">|   2     vboost           4              0       |</span>
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="go">+-------------------------------------------------+</span>
-</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="go">|   3     vboost           4              0       |</span>
-</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="go">+-------------------------------------------------+</span>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="gp">$ </span>nvidia-smi<span class="w"> </span>boost-slider<span class="w"> </span>--list
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="go">+-------------------------------------------------+</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="go">| GPU Boost Slider                                |</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="go">| GPU     Slider       Max Value    Current Value |</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="go">|=================================================|</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="go">|   0     vboost           4              0       |</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="go">+-------------------------------------------------+</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="go">|   1     vboost           4              0       |</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="go">+-------------------------------------------------+</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="go">|   2     vboost           4              0       |</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="go">+-------------------------------------------------+</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="go">|   3     vboost           4              0       |</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="go">+-------------------------------------------------+</span>
 </span></code></pre></div>
 <p>The slider can be set to <code>1</code> using the <code>nvidia_vboost_enabled</code> feature:</p>
 <table>
@@ -7218,13 +7358,13 @@ If the variable is unset or empty all GPUs are visible to the rank and the rank 
 <p>Configuring Slurm to use one GH200 GPU per rank is easiest done using the <code>--ntasks-per-node=4</code> and <code>--gpus-per-task=1</code> Slurm flags.
 For advanced users, using <code>--gpus-per-task</code> is equivalent to setting <code>CUDA_VISIBLE_DEVICES</code> to <code>SLURM_LOCALID</code>, assuming the job is using four ranks per node.
 The examples below launch jobs on two nodes with four ranks per node using <code>sbatch</code> and <code>srun</code>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1">#SBATCH --job-name=gh200-single-rank-per-gpu</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1">#SBATCH --nodes=2</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1">#SBATCH --gpus-per-task=1</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>srun<span class="w"> </span>&lt;application&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1">#SBATCH --job-name=gh200-single-rank-per-gpu</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1">#SBATCH --nodes=2</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1">#SBATCH --gpus-per-task=1</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>srun<span class="w"> </span>&lt;application&gt;
 </span></code></pre></div>
 <p>Omitting the <code>--gpus-per-task</code> results in <code>CUDA_VISIBLE_DEVICES</code> being unset, which will lead to most applications using the first GPU on all ranks.</p>
 <p><a href="" id="ref-slurm-gh200-multi-rank-per-gpu"></a></p>
@@ -7234,69 +7374,69 @@ In these cases Slurm jobs must be configured to assign multiple ranks to a singl
 This is best done using <a href="https://docs.nvidia.com/deploy/mps/index.html">NVIDIA&rsquo;s Multi-Process Service (MPS)</a>.
 To use MPS, launch your application using the following wrapper script, which will use one rank per node to start an MPS daemon for each GPU of the node,
 and assign GPUs to ranks according to the CPU mask of a rank, ensuring the closest GPU is used:</p>
-<div class="language-bash highlight"><span class="filename">mps-wrapper.sh</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nb">set</span><span class="w"> </span>-eu
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="nv">mps_prefix</span><span class="o">=</span><span class="s2">"/tmp/</span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span><span class="s2">/slurm-</span><span class="si">${</span><span class="nv">SLURM_JOBID</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">SLURM_STEPID</span><span class="si">}</span><span class="s2">/nvidia"</span>
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="nv">num_gpus</span><span class="o">=</span><span class="m">4</span>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1"># Reset CUDA environment variables to default values without MPS</span>
-</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
-</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_COPY_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
-</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>
-</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1"># Each GPU is attached to the corresponding NUMA node</span>
-</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="c1"># Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices</span>
-</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="nv">numa_node</span><span class="o">=</span><span class="k">$(</span><span class="nv">HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>hwloc-calc<span class="w"> </span>--physical<span class="w"> </span>--intersect<span class="w"> </span>NUMAnode<span class="w"> </span><span class="k">$(</span>hwloc-bind<span class="w"> </span>--get<span class="w"> </span>--taskset<span class="k">))</span>
-</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>
-</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="c1"># We expect exactly one non-negative integer for the NUMA node</span>
-</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"The MPS wrapper script only works when the process mask of the rank is adjacent to exactly one GPU. The CPU mask is </span><span class="k">$(</span>hwloc-bind<span class="w"> </span>--get<span class="w"> </span>--taskset<span class="k">)</span><span class="s2"> and the list of adjacent numa nodes is </span><span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span><span class="s2"> for rank </span><span class="si">${</span><span class="nv">SLURM_PROCID</span><span class="si">}</span><span class="s2">."</span>
-</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="k">fi</span>
-</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>
-</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="k">function</span><span class="w"> </span>start_daemon<span class="w"> </span><span class="o">{</span>
-</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-mps-<span class="si">${</span><span class="nv">1</span><span class="si">}</span>
-</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-log-<span class="si">${</span><span class="nv">1</span><span class="si">}</span>
-</span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-22-26"><a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-22-27"><a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a><span class="w">    </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
-</span><span id="__span-22-28"><a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a><span class="o">}</span>
-</span><span id="__span-22-29"><a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a>
-</span><span id="__span-22-30"><a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a><span class="c1"># Start MPS control daemons from a single rank per node, one for each GPU on the node</span>
-</span><span id="__span-22-31"><a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-</span><span id="__span-22-32"><a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a><span class="w">    </span><span class="c1"># We attempt to kill previous MPS instances, but if we can't (either none</span>
-</span><span id="__span-22-33"><a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a><span class="w">    </span><span class="c1"># have been started or they are unkillable) we ignore it and attempt to run</span>
-</span><span id="__span-22-34"><a id="__codelineno-22-34" name="__codelineno-22-34" href="#__codelineno-22-34"></a><span class="w">    </span><span class="c1"># anyway</span>
-</span><span id="__span-22-35"><a id="__codelineno-22-35" name="__codelineno-22-35" href="#__codelineno-22-35"></a><span class="w">    </span>pkill<span class="w"> </span>--uid<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span><span class="w"> </span><span class="s1">'^nvidia-cuda-mps-'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-</span><span id="__span-22-36"><a id="__codelineno-22-36" name="__codelineno-22-36" href="#__codelineno-22-36"></a>
-</span><span id="__span-22-37"><a id="__codelineno-22-37" name="__codelineno-22-37" href="#__codelineno-22-37"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="k">$((</span><span class="nv">num_gpus</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="k">)))</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-22-38"><a id="__codelineno-22-38" name="__codelineno-22-38" href="#__codelineno-22-38"></a><span class="w">        </span>start_daemon<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>
-</span><span id="__span-22-39"><a id="__codelineno-22-39" name="__codelineno-22-39" href="#__codelineno-22-39"></a><span class="w">    </span><span class="k">done</span>
-</span><span id="__span-22-40"><a id="__codelineno-22-40" name="__codelineno-22-40" href="#__codelineno-22-40"></a><span class="k">fi</span>
-</span><span id="__span-22-41"><a id="__codelineno-22-41" name="__codelineno-22-41" href="#__codelineno-22-41"></a>
-</span><span id="__span-22-42"><a id="__codelineno-22-42" name="__codelineno-22-42" href="#__codelineno-22-42"></a><span class="c1"># Set MPS options for this rank. Each rank will access the MPS of the GPU</span>
-</span><span id="__span-22-43"><a id="__codelineno-22-43" name="__codelineno-22-43" href="#__codelineno-22-43"></a><span class="c1"># corresponding to the NUMA node. CUDA_VISIBLE_DEVICES should not be set. The</span>
-</span><span id="__span-22-44"><a id="__codelineno-22-44" name="__codelineno-22-44" href="#__codelineno-22-44"></a><span class="c1"># chosen MPS determines which device is visible.</span>
-</span><span id="__span-22-45"><a id="__codelineno-22-45" name="__codelineno-22-45" href="#__codelineno-22-45"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-mps-<span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span>
-</span><span id="__span-22-46"><a id="__codelineno-22-46" name="__codelineno-22-46" href="#__codelineno-22-46"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-log-<span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span>
-</span><span id="__span-22-47"><a id="__codelineno-22-47" name="__codelineno-22-47" href="#__codelineno-22-47"></a>
-</span><span id="__span-22-48"><a id="__codelineno-22-48" name="__codelineno-22-48" href="#__codelineno-22-48"></a><span class="c1"># Wait until the control daemon for our rank is up. The daemon creates a pid</span>
-</span><span id="__span-22-49"><a id="__codelineno-22-49" name="__codelineno-22-49" href="#__codelineno-22-49"></a><span class="c1"># file which we can wait for. See</span>
-</span><span id="__span-22-50"><a id="__codelineno-22-50" name="__codelineno-22-50" href="#__codelineno-22-50"></a><span class="c1"># https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html.</span>
-</span><span id="__span-22-51"><a id="__codelineno-22-51" name="__codelineno-22-51" href="#__codelineno-22-51"></a><span class="c1"># Wait up to mps_pid_file_timeout seconds for the pid file to be created. In</span>
-</span><span id="__span-22-52"><a id="__codelineno-22-52" name="__codelineno-22-52" href="#__codelineno-22-52"></a><span class="c1"># jobs with a large number of ranks some ranks may take a long time to start. If</span>
-</span><span id="__span-22-53"><a id="__codelineno-22-53" name="__codelineno-22-53" href="#__codelineno-22-53"></a><span class="c1"># that happens consider increasing the timeout.</span>
-</span><span id="__span-22-54"><a id="__codelineno-22-54" name="__codelineno-22-54" href="#__codelineno-22-54"></a><span class="nv">mps_pid_file_timeout</span><span class="o">=</span><span class="m">120</span>
-</span><span id="__span-22-55"><a id="__codelineno-22-55" name="__codelineno-22-55" href="#__codelineno-22-55"></a><span class="nv">pid_file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="si">}</span><span class="s2">/nvidia-cuda-mps-control.pid"</span>
-</span><span id="__span-22-56"><a id="__codelineno-22-56" name="__codelineno-22-56" href="#__codelineno-22-56"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>timeout<span class="w"> </span><span class="si">${</span><span class="nv">mps_pid_file_timeout</span><span class="si">}</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"until [[ -f \"</span><span class="si">${</span><span class="nv">pid_file</span><span class="si">}</span><span class="s2">\" ]]; do sleep 1; done"</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-</span><span id="__span-22-57"><a id="__codelineno-22-57" name="__codelineno-22-57" href="#__codelineno-22-57"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"The MPS wrapper script timed out waiting for MPS pid file </span><span class="si">${</span><span class="nv">pid_file</span><span class="si">}</span><span class="s2"> on rank </span><span class="si">${</span><span class="nv">SLURM_PROCID</span><span class="si">}</span><span class="s2">. MPS daemon likely did not start correctly or the rank starting the MPS daemons took too long to start."</span>
-</span><span id="__span-22-58"><a id="__codelineno-22-58" name="__codelineno-22-58" href="#__codelineno-22-58"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
-</span><span id="__span-22-59"><a id="__codelineno-22-59" name="__codelineno-22-59" href="#__codelineno-22-59"></a><span class="k">fi</span>
-</span><span id="__span-22-60"><a id="__codelineno-22-60" name="__codelineno-22-60" href="#__codelineno-22-60"></a>
-</span><span id="__span-22-61"><a id="__codelineno-22-61" name="__codelineno-22-61" href="#__codelineno-22-61"></a><span class="c1"># Run the command</span>
-</span><span id="__span-22-62"><a id="__codelineno-22-62" name="__codelineno-22-62" href="#__codelineno-22-62"></a><span class="c1"># We are using `exec`, because we want e.g. signals to be forwarded directly to the application, and not this wrapper script</span>
-</span><span id="__span-22-63"><a id="__codelineno-22-63" name="__codelineno-22-63" href="#__codelineno-22-63"></a><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+<div class="language-bash highlight"><span class="filename">mps-wrapper.sh</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nb">set</span><span class="w"> </span>-eu
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="nv">mps_prefix</span><span class="o">=</span><span class="s2">"/tmp/</span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span><span class="s2">/slurm-</span><span class="si">${</span><span class="nv">SLURM_JOBID</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">SLURM_STEPID</span><span class="si">}</span><span class="s2">/nvidia"</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="nv">num_gpus</span><span class="o">=</span><span class="m">4</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="c1"># Reset CUDA environment variables to default values without MPS</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_COPY_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="c1"># Each GPU is attached to the corresponding NUMA node</span>
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="c1"># Disable HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES to avoid GPU NUMA nodes appearing in the list of CUDA devices</span>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="nv">numa_node</span><span class="o">=</span><span class="k">$(</span><span class="nv">HWLOC_KEEP_NVIDIA_GPU_NUMA_NODES</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>hwloc-calc<span class="w"> </span>--physical<span class="w"> </span>--intersect<span class="w"> </span>NUMAnode<span class="w"> </span><span class="k">$(</span>hwloc-bind<span class="w"> </span>--get<span class="w"> </span>--taskset<span class="k">))</span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="c1"># We expect exactly one non-negative integer for the NUMA node</span>
+</span><span id="__span-23-17"><a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-23-18"><a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"The MPS wrapper script only works when the process mask of the rank is adjacent to exactly one GPU. The CPU mask is </span><span class="k">$(</span>hwloc-bind<span class="w"> </span>--get<span class="w"> </span>--taskset<span class="k">)</span><span class="s2"> and the list of adjacent numa nodes is </span><span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span><span class="s2"> for rank </span><span class="si">${</span><span class="nv">SLURM_PROCID</span><span class="si">}</span><span class="s2">."</span>
+</span><span id="__span-23-19"><a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-23-20"><a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="k">fi</span>
+</span><span id="__span-23-21"><a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a>
+</span><span id="__span-23-22"><a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a><span class="k">function</span><span class="w"> </span>start_daemon<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-23-23"><a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-mps-<span class="si">${</span><span class="nv">1</span><span class="si">}</span>
+</span><span id="__span-23-24"><a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-log-<span class="si">${</span><span class="nv">1</span><span class="si">}</span>
+</span><span id="__span-23-25"><a id="__codelineno-23-25" name="__codelineno-23-25" href="#__codelineno-23-25"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-23-26"><a id="__codelineno-23-26" name="__codelineno-23-26" href="#__codelineno-23-26"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-23-27"><a id="__codelineno-23-27" name="__codelineno-23-27" href="#__codelineno-23-27"></a><span class="w">    </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
+</span><span id="__span-23-28"><a id="__codelineno-23-28" name="__codelineno-23-28" href="#__codelineno-23-28"></a><span class="o">}</span>
+</span><span id="__span-23-29"><a id="__codelineno-23-29" name="__codelineno-23-29" href="#__codelineno-23-29"></a>
+</span><span id="__span-23-30"><a id="__codelineno-23-30" name="__codelineno-23-30" href="#__codelineno-23-30"></a><span class="c1"># Start MPS control daemons from a single rank per node, one for each GPU on the node</span>
+</span><span id="__span-23-31"><a id="__codelineno-23-31" name="__codelineno-23-31" href="#__codelineno-23-31"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$SLURM_LOCALID</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-23-32"><a id="__codelineno-23-32" name="__codelineno-23-32" href="#__codelineno-23-32"></a><span class="w">    </span><span class="c1"># We attempt to kill previous MPS instances, but if we can't (either none</span>
+</span><span id="__span-23-33"><a id="__codelineno-23-33" name="__codelineno-23-33" href="#__codelineno-23-33"></a><span class="w">    </span><span class="c1"># have been started or they are unkillable) we ignore it and attempt to run</span>
+</span><span id="__span-23-34"><a id="__codelineno-23-34" name="__codelineno-23-34" href="#__codelineno-23-34"></a><span class="w">    </span><span class="c1"># anyway</span>
+</span><span id="__span-23-35"><a id="__codelineno-23-35" name="__codelineno-23-35" href="#__codelineno-23-35"></a><span class="w">    </span>pkill<span class="w"> </span>--uid<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span><span class="w"> </span><span class="s1">'^nvidia-cuda-mps-'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-23-36"><a id="__codelineno-23-36" name="__codelineno-23-36" href="#__codelineno-23-36"></a>
+</span><span id="__span-23-37"><a id="__codelineno-23-37" name="__codelineno-23-37" href="#__codelineno-23-37"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="k">$((</span><span class="nv">num_gpus</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="k">)))</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-23-38"><a id="__codelineno-23-38" name="__codelineno-23-38" href="#__codelineno-23-38"></a><span class="w">        </span>start_daemon<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+</span><span id="__span-23-39"><a id="__codelineno-23-39" name="__codelineno-23-39" href="#__codelineno-23-39"></a><span class="w">    </span><span class="k">done</span>
+</span><span id="__span-23-40"><a id="__codelineno-23-40" name="__codelineno-23-40" href="#__codelineno-23-40"></a><span class="k">fi</span>
+</span><span id="__span-23-41"><a id="__codelineno-23-41" name="__codelineno-23-41" href="#__codelineno-23-41"></a>
+</span><span id="__span-23-42"><a id="__codelineno-23-42" name="__codelineno-23-42" href="#__codelineno-23-42"></a><span class="c1"># Set MPS options for this rank. Each rank will access the MPS of the GPU</span>
+</span><span id="__span-23-43"><a id="__codelineno-23-43" name="__codelineno-23-43" href="#__codelineno-23-43"></a><span class="c1"># corresponding to the NUMA node. CUDA_VISIBLE_DEVICES should not be set. The</span>
+</span><span id="__span-23-44"><a id="__codelineno-23-44" name="__codelineno-23-44" href="#__codelineno-23-44"></a><span class="c1"># chosen MPS determines which device is visible.</span>
+</span><span id="__span-23-45"><a id="__codelineno-23-45" name="__codelineno-23-45" href="#__codelineno-23-45"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-mps-<span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span>
+</span><span id="__span-23-46"><a id="__codelineno-23-46" name="__codelineno-23-46" href="#__codelineno-23-46"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span><span class="si">${</span><span class="nv">mps_prefix</span><span class="si">}</span>-log-<span class="si">${</span><span class="nv">numa_node</span><span class="si">}</span>
+</span><span id="__span-23-47"><a id="__codelineno-23-47" name="__codelineno-23-47" href="#__codelineno-23-47"></a>
+</span><span id="__span-23-48"><a id="__codelineno-23-48" name="__codelineno-23-48" href="#__codelineno-23-48"></a><span class="c1"># Wait until the control daemon for our rank is up. The daemon creates a pid</span>
+</span><span id="__span-23-49"><a id="__codelineno-23-49" name="__codelineno-23-49" href="#__codelineno-23-49"></a><span class="c1"># file which we can wait for. See</span>
+</span><span id="__span-23-50"><a id="__codelineno-23-50" name="__codelineno-23-50" href="#__codelineno-23-50"></a><span class="c1"># https://docs.nvidia.com/deploy/mps/appendix-tools-and-interface-reference.html.</span>
+</span><span id="__span-23-51"><a id="__codelineno-23-51" name="__codelineno-23-51" href="#__codelineno-23-51"></a><span class="c1"># Wait up to mps_pid_file_timeout seconds for the pid file to be created. In</span>
+</span><span id="__span-23-52"><a id="__codelineno-23-52" name="__codelineno-23-52" href="#__codelineno-23-52"></a><span class="c1"># jobs with a large number of ranks some ranks may take a long time to start. If</span>
+</span><span id="__span-23-53"><a id="__codelineno-23-53" name="__codelineno-23-53" href="#__codelineno-23-53"></a><span class="c1"># that happens consider increasing the timeout.</span>
+</span><span id="__span-23-54"><a id="__codelineno-23-54" name="__codelineno-23-54" href="#__codelineno-23-54"></a><span class="nv">mps_pid_file_timeout</span><span class="o">=</span><span class="m">120</span>
+</span><span id="__span-23-55"><a id="__codelineno-23-55" name="__codelineno-23-55" href="#__codelineno-23-55"></a><span class="nv">pid_file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="si">}</span><span class="s2">/nvidia-cuda-mps-control.pid"</span>
+</span><span id="__span-23-56"><a id="__codelineno-23-56" name="__codelineno-23-56" href="#__codelineno-23-56"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>timeout<span class="w"> </span><span class="si">${</span><span class="nv">mps_pid_file_timeout</span><span class="si">}</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"until [[ -f \"</span><span class="si">${</span><span class="nv">pid_file</span><span class="si">}</span><span class="s2">\" ]]; do sleep 1; done"</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-23-57"><a id="__codelineno-23-57" name="__codelineno-23-57" href="#__codelineno-23-57"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"The MPS wrapper script timed out waiting for MPS pid file </span><span class="si">${</span><span class="nv">pid_file</span><span class="si">}</span><span class="s2"> on rank </span><span class="si">${</span><span class="nv">SLURM_PROCID</span><span class="si">}</span><span class="s2">. MPS daemon likely did not start correctly or the rank starting the MPS daemons took too long to start."</span>
+</span><span id="__span-23-58"><a id="__codelineno-23-58" name="__codelineno-23-58" href="#__codelineno-23-58"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-23-59"><a id="__codelineno-23-59" name="__codelineno-23-59" href="#__codelineno-23-59"></a><span class="k">fi</span>
+</span><span id="__span-23-60"><a id="__codelineno-23-60" name="__codelineno-23-60" href="#__codelineno-23-60"></a>
+</span><span id="__span-23-61"><a id="__codelineno-23-61" name="__codelineno-23-61" href="#__codelineno-23-61"></a><span class="c1"># Run the command</span>
+</span><span id="__span-23-62"><a id="__codelineno-23-62" name="__codelineno-23-62" href="#__codelineno-23-62"></a><span class="c1"># We are using `exec`, because we want e.g. signals to be forwarded directly to the application, and not this wrapper script</span>
+</span><span id="__span-23-63"><a id="__codelineno-23-63" name="__codelineno-23-63" href="#__codelineno-23-63"></a><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 </span></code></pre></div>
 <p>One limitation of the script above is that CPU bindings only belong to one NUMA domain.
 It is currently up to the user to ensure that this limitation is respected when configuring Slurm jobs.</p>
@@ -7307,13 +7447,13 @@ If your application requires different values for these variables, modify the sc
 </div>
 <p>Save the above script as <code>mps-wrapper.sh</code> and make it executable with <code>chmod +x mps-wrapper.sh</code>.
 If the <code>mps-wrapper.sh</code> script is in the current working directory, you can then launch jobs using MPS for example as follows:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1">#SBATCH --job-name=gh200-multiple-ranks-per-gpu</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1">#SBATCH --nodes=2</span>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1">#SBATCH --ntasks-per-node=32</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1">#SBATCH --cpus-per-task=8</span>
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>srun<span class="w"> </span>./mps-wrapper.sh<span class="w"> </span>&lt;application&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c1">#SBATCH --job-name=gh200-multiple-ranks-per-gpu</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1">#SBATCH --nodes=2</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1">#SBATCH --ntasks-per-node=32</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c1">#SBATCH --cpus-per-task=8</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>srun<span class="w"> </span>./mps-wrapper.sh<span class="w"> </span>&lt;application&gt;
 </span></code></pre></div>
 <p>Note that in the example job above:</p>
 <ul>
@@ -7337,10 +7477,10 @@ If an application uses many CPU cores concurrently with the GPU, there may not b
 However, this also limits CPU power when the GPU is not in use. Therefore, this feature should only be used for applications that use both CPU and GPU simultaneously, and it may require experimentation with different settings to achieve optimal performance.</p>
 <p>The CPU power cap is set using <code>--power-cap=&lt;value&gt;</code>, where <code>&lt;value&gt;</code> is the power cap in watts, in the range <code>50–300</code>.</p>
 <p>It can be set either for the entire job in an sbatch script:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1">#SBATCH --power-cap=100</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1">#SBATCH --power-cap=100</span>
 </span></code></pre></div>
 or for an individual job step using srun:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--power-cap<span class="o">=</span><span class="m">100</span><span class="w"> </span>./run
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>--power-cap<span class="o">=</span><span class="m">100</span><span class="w"> </span>./run
 </span></code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -7406,33 +7546,33 @@ Call <code>srun --help</code> or <code>sbatch --help</code> to get a complete li
 Note that the exact set of flags available depends on the Slurm version, how Slurm was configured, and Slurm plugins.</p>
 </div>
 <p>The first example assigns 2 MPI ranks per node, with 64 cores per rank, with the two PUs per core:
-<div class="language-console highlight"><span class="filename">One MPI rank per socket</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="gp"># </span>one<span class="w"> </span>node
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>-N1<span class="w"> </span>-c64<span class="w"> </span>./affinity.mpi
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="go">affinity test for 2 MPI ranks</span>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 31,128:159]</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64: 95,192:223]</span>
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
-</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="gp"># </span>two<span class="w"> </span>nodes
-</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N2<span class="w"> </span>-c64<span class="w"> </span>./affinity.mpi
-</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="go">affinity test for 4 MPI ranks</span>
-</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="go">rank   0 @ nid001512: thread 0 -&gt; cores [  0: 31,128:159]</span>
-</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="go">rank   1 @ nid001512: thread 0 -&gt; cores [ 64: 95,192:223]</span>
-</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="go">rank   2 @ nid001515: thread 0 -&gt; cores [  0: 31,128:159]</span>
-</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="go">rank   3 @ nid001515: thread 0 -&gt; cores [ 64: 95,192:223]</span>
+<div class="language-console highlight"><span class="filename">One MPI rank per socket</span><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="gp"># </span>one<span class="w"> </span>node
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>-N1<span class="w"> </span>-c64<span class="w"> </span>./affinity.mpi
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="go">affinity test for 2 MPI ranks</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 31,128:159]</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64: 95,192:223]</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="gp"># </span>two<span class="w"> </span>nodes
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N2<span class="w"> </span>-c64<span class="w"> </span>./affinity.mpi
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="go">affinity test for 4 MPI ranks</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="go">rank   0 @ nid001512: thread 0 -&gt; cores [  0: 31,128:159]</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="go">rank   1 @ nid001512: thread 0 -&gt; cores [ 64: 95,192:223]</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="go">rank   2 @ nid001515: thread 0 -&gt; cores [  0: 31,128:159]</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="go">rank   3 @ nid001515: thread 0 -&gt; cores [ 64: 95,192:223]</span>
 </span></code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In the above example we use <code>--ntasks/-n</code> and <code>--nodes/-N</code>.
 It is possible to achieve the same effect using <code>--nodes</code> and <code>--ntasks-per-node</code>, for example the following both give 8 ranks on 4 nodes:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">4</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">8</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">4</span><span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">2</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">4</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">8</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">4</span><span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">2</span>
 </span></code></pre></div>
 </div>
 <p>It is often more efficient to only run one task per core instead of the default two PU, which can be achieved using the <code>--hint=nomultithread</code> option.
-<div class="language-console highlight"><span class="filename">One MPI rank per socket with 1 PU per core</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>-N1<span class="w"> </span>-c64<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="go">affinity test for 2 MPI ranks</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 63]</span>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64:127]</span>
+<div class="language-console highlight"><span class="filename">One MPI rank per socket with 1 PU per core</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n2<span class="w"> </span>-N1<span class="w"> </span>-c64<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="go">affinity test for 2 MPI ranks</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 63]</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64:127]</span>
 </span></code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Always test</p>
@@ -7448,42 +7588,42 @@ The 256 GB of a standard-memory node are divided into 8 NUMA nodes of 32 GB, wit
 <details class="info">
 <summary>How to investigate the NUMA layout of a node</summary>
 <p>Use the command <code>numactl -H</code>.</p>
-<p><div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n1<span class="w"> </span>numactl<span class="w"> </span>-H
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="go">available: 8 nodes (0-7)</span>
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="go">node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143</span>
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="go">node 0 size: 63733 MB</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="go">node 0 free: 62780 MB</span>
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="go">node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159</span>
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="go">node 1 size: 64502 MB</span>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="go">node 1 free: 61774 MB</span>
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="go">node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175</span>
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="go">node 2 size: 64456 MB</span>
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="go">node 2 free: 63385 MB</span>
-</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="go">node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191</span>
-</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="go">node 3 size: 64490 MB</span>
-</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="go">node 3 free: 62613 MB</span>
-</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="go">node 4 cpus: 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207</span>
-</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="go">node 4 size: 64502 MB</span>
-</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="go">node 4 free: 63897 MB</span>
-</span><span id="__span-29-18"><a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="go">node 5 cpus: 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223</span>
-</span><span id="__span-29-19"><a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="go">node 5 size: 64502 MB</span>
-</span><span id="__span-29-20"><a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a><span class="go">node 5 free: 63769 MB</span>
-</span><span id="__span-29-21"><a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a><span class="go">node 6 cpus: 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239</span>
-</span><span id="__span-29-22"><a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a><span class="go">node 6 size: 64502 MB</span>
-</span><span id="__span-29-23"><a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a><span class="go">node 6 free: 63870 MB</span>
-</span><span id="__span-29-24"><a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a><span class="go">node 7 cpus: 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255</span>
-</span><span id="__span-29-25"><a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a><span class="go">node 7 size: 64428 MB</span>
-</span><span id="__span-29-26"><a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a><span class="go">node 7 free: 63712 MB</span>
-</span><span id="__span-29-27"><a id="__codelineno-29-27" name="__codelineno-29-27" href="#__codelineno-29-27"></a><span class="go">node distances:</span>
-</span><span id="__span-29-28"><a id="__codelineno-29-28" name="__codelineno-29-28" href="#__codelineno-29-28"></a><span class="go">node   0   1   2   3   4   5   6   7</span>
-</span><span id="__span-29-29"><a id="__codelineno-29-29" name="__codelineno-29-29" href="#__codelineno-29-29"></a><span class="go">  0:  10  12  12  12  32  32  32  32</span>
-</span><span id="__span-29-30"><a id="__codelineno-29-30" name="__codelineno-29-30" href="#__codelineno-29-30"></a><span class="go">  1:  12  10  12  12  32  32  32  32</span>
-</span><span id="__span-29-31"><a id="__codelineno-29-31" name="__codelineno-29-31" href="#__codelineno-29-31"></a><span class="go">  2:  12  12  10  12  32  32  32  32</span>
-</span><span id="__span-29-32"><a id="__codelineno-29-32" name="__codelineno-29-32" href="#__codelineno-29-32"></a><span class="go">  3:  12  12  12  10  32  32  32  32</span>
-</span><span id="__span-29-33"><a id="__codelineno-29-33" name="__codelineno-29-33" href="#__codelineno-29-33"></a><span class="go">  4:  32  32  32  32  10  12  12  12</span>
-</span><span id="__span-29-34"><a id="__codelineno-29-34" name="__codelineno-29-34" href="#__codelineno-29-34"></a><span class="go">  5:  32  32  32  32  12  10  12  12</span>
-</span><span id="__span-29-35"><a id="__codelineno-29-35" name="__codelineno-29-35" href="#__codelineno-29-35"></a><span class="go">  6:  32  32  32  32  12  12  10  12</span>
-</span><span id="__span-29-36"><a id="__codelineno-29-36" name="__codelineno-29-36" href="#__codelineno-29-36"></a><span class="go">  7:  32  32  32  32  12  12  12  10</span>
+<p><div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n1<span class="w"> </span>numactl<span class="w"> </span>-H
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="go">available: 8 nodes (0-7)</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="go">node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="go">node 0 size: 63733 MB</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="go">node 0 free: 62780 MB</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="go">node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159</span>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="go">node 1 size: 64502 MB</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="go">node 1 free: 61774 MB</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="go">node 2 cpus: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175</span>
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="go">node 2 size: 64456 MB</span>
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="go">node 2 free: 63385 MB</span>
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="go">node 3 cpus: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191</span>
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="go">node 3 size: 64490 MB</span>
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="go">node 3 free: 62613 MB</span>
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="go">node 4 cpus: 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207</span>
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="go">node 4 size: 64502 MB</span>
+</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="go">node 4 free: 63897 MB</span>
+</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a><span class="go">node 5 cpus: 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223</span>
+</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="go">node 5 size: 64502 MB</span>
+</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a><span class="go">node 5 free: 63769 MB</span>
+</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a><span class="go">node 6 cpus: 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239</span>
+</span><span id="__span-30-22"><a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a><span class="go">node 6 size: 64502 MB</span>
+</span><span id="__span-30-23"><a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a><span class="go">node 6 free: 63870 MB</span>
+</span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a><span class="go">node 7 cpus: 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255</span>
+</span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a><span class="go">node 7 size: 64428 MB</span>
+</span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a><span class="go">node 7 free: 63712 MB</span>
+</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="go">node distances:</span>
+</span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a><span class="go">node   0   1   2   3   4   5   6   7</span>
+</span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a><span class="go">  0:  10  12  12  12  32  32  32  32</span>
+</span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a><span class="go">  1:  12  10  12  12  32  32  32  32</span>
+</span><span id="__span-30-31"><a id="__codelineno-30-31" name="__codelineno-30-31" href="#__codelineno-30-31"></a><span class="go">  2:  12  12  10  12  32  32  32  32</span>
+</span><span id="__span-30-32"><a id="__codelineno-30-32" name="__codelineno-30-32" href="#__codelineno-30-32"></a><span class="go">  3:  12  12  12  10  32  32  32  32</span>
+</span><span id="__span-30-33"><a id="__codelineno-30-33" name="__codelineno-30-33" href="#__codelineno-30-33"></a><span class="go">  4:  32  32  32  32  10  12  12  12</span>
+</span><span id="__span-30-34"><a id="__codelineno-30-34" name="__codelineno-30-34" href="#__codelineno-30-34"></a><span class="go">  5:  32  32  32  32  12  10  12  12</span>
+</span><span id="__span-30-35"><a id="__codelineno-30-35" name="__codelineno-30-35" href="#__codelineno-30-35"></a><span class="go">  6:  32  32  32  32  12  12  10  12</span>
+</span><span id="__span-30-36"><a id="__codelineno-30-36" name="__codelineno-30-36" href="#__codelineno-30-36"></a><span class="go">  7:  32  32  32  32  12  12  12  10</span>
 </span></code></pre></div>
 The <code>node distances</code> table shows that the cores have the fastest memory access to memory in their own region (<code>10</code>), and fast access (<code>12</code>) to NUMA regions on the same socket.
 The cost of accessing memory of a NUMA node on the other socket is much higher (<code>32</code>).</p>
@@ -7491,16 +7631,16 @@ The cost of accessing memory of a NUMA node on the other socket is much higher (
 </details>
 <p>The examples above placed one rank per socket, which is not optimal for NUMA access, because cores assigned to each rank are spread over the 4 NUMA nodes on the socket.
 To constrain tasks to NUMA nodes, use 16 cores per task:</p>
-<div class="language-console highlight"><span class="filename">One MPI rank per NUMA region</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n8<span class="w"> </span>-N1<span class="w"> </span>-c16<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="go">affinity test for 8 MPI ranks</span>
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 15]</span>
-</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64: 79]</span>
-</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="go">rank   2 @ nid002199: thread 0 -&gt; cores [ 16: 31]</span>
-</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="go">rank   3 @ nid002199: thread 0 -&gt; cores [ 80: 95]</span>
-</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="go">rank   4 @ nid002199: thread 0 -&gt; cores [ 32: 47]</span>
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="go">rank   5 @ nid002199: thread 0 -&gt; cores [ 96:111]</span>
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="go">rank   6 @ nid002199: thread 0 -&gt; cores [ 48: 63]</span>
-</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="go">rank   7 @ nid002199: thread 0 -&gt; cores [112:127]</span>
+<div class="language-console highlight"><span class="filename">One MPI rank per NUMA region</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="gp">$ </span>srun<span class="w"> </span>-n8<span class="w"> </span>-N1<span class="w"> </span>-c16<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="go">affinity test for 8 MPI ranks</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="go">rank   0 @ nid002199: thread 0 -&gt; cores [  0: 15]</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="go">rank   1 @ nid002199: thread 0 -&gt; cores [ 64: 79]</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="go">rank   2 @ nid002199: thread 0 -&gt; cores [ 16: 31]</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="go">rank   3 @ nid002199: thread 0 -&gt; cores [ 80: 95]</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="go">rank   4 @ nid002199: thread 0 -&gt; cores [ 32: 47]</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="go">rank   5 @ nid002199: thread 0 -&gt; cores [ 96:111]</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="go">rank   6 @ nid002199: thread 0 -&gt; cores [ 48: 63]</span>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="go">rank   7 @ nid002199: thread 0 -&gt; cores [112:127]</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Always test</p>
@@ -7513,42 +7653,42 @@ This often gives the best performance, however sometimes it is beneficial to bin
 <p>The OpenMP threading runtime provides additional options for controlling the pinning of threads to the cores assigned to each MPI rank.</p>
 <p>Use the <code>--omp</code> flag with <code>affinity.mpi</code> to get more detailed information about OpenMP thread affinity.
 For example, four MPI ranks on one node with four cores and four OpenMP threads:</p>
-<div class="language-console highlight"><span class="filename">No OpenMP binding</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>-c4<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi<span class="w"> </span>--omp
-</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="go">affinity test for 4 MPI ranks</span>
-</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="go">rank   0 @ nid001512: threads [0:3] -&gt; cores [  0:  3]</span>
-</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="go">rank   1 @ nid001512: threads [0:3] -&gt; cores [ 64: 67]</span>
-</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="go">rank   2 @ nid001512: threads [0:3] -&gt; cores [  4:  7]</span>
-</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="go">rank   3 @ nid001512: threads [0:3] -&gt; cores [ 68: 71]</span>
+<div class="language-console highlight"><span class="filename">No OpenMP binding</span><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>-c4<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi<span class="w"> </span>--omp
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="go">affinity test for 4 MPI ranks</span>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="go">rank   0 @ nid001512: threads [0:3] -&gt; cores [  0:  3]</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="go">rank   1 @ nid001512: threads [0:3] -&gt; cores [ 64: 67]</span>
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="go">rank   2 @ nid001512: threads [0:3] -&gt; cores [  4:  7]</span>
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="go">rank   3 @ nid001512: threads [0:3] -&gt; cores [ 68: 71]</span>
 </span></code></pre></div>
 <p>The status <code>threads [0:3] -&gt; cores [  0:  3]</code> is shorthand &ldquo;there are 4 OpenMP threads, and the OS can schedule them on cores 0, 1, 2 and 3&rdquo;.</p>
 <p>Allowing the OS to schedule threads is usually efficient, however to get the most you can try pinning threads to specific cores.
 The <a href="https://www.openmp.org/spec-html/5.0/openmpse52.html"><code>OMP_PROC_BIND</code></a> environment variable can be used to tune how OpenMP sets thread affinity.
 For example, <code>OMO_PROC_BIND=true</code> will give each thread exclusive affinity with a core:</p>
-<div class="language-console highlight"><span class="filename">OMP_PROC_BIND=true</span><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>-c4<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi<span class="w"> </span>--omp
-</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="go">affinity test for 4 MPI ranks</span>
-</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="go">rank   0 @ nid001512</span>
-</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="go">  thread 0 -&gt; core   0</span>
-</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="go">  thread 1 -&gt; core   1</span>
-</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="go">  thread 2 -&gt; core   2</span>
-</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="go">  thread 3 -&gt; core   3</span>
-</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="go">rank   1 @ nid001512</span>
-</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="go">  thread 0 -&gt; core  64</span>
-</span><span id="__span-32-12"><a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a><span class="go">  thread 1 -&gt; core  65</span>
-</span><span id="__span-32-13"><a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="go">  thread 2 -&gt; core  66</span>
-</span><span id="__span-32-14"><a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="go">  thread 3 -&gt; core  67</span>
-</span><span id="__span-32-15"><a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a><span class="go">rank   2 @ nid001512</span>
-</span><span id="__span-32-16"><a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a><span class="go">  thread 0 -&gt; core   4</span>
-</span><span id="__span-32-17"><a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a><span class="go">  thread 1 -&gt; core   5</span>
-</span><span id="__span-32-18"><a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a><span class="go">  thread 2 -&gt; core   6</span>
-</span><span id="__span-32-19"><a id="__codelineno-32-19" name="__codelineno-32-19" href="#__codelineno-32-19"></a><span class="go">  thread 3 -&gt; core   7</span>
-</span><span id="__span-32-20"><a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a><span class="go">rank   3 @ nid001512</span>
-</span><span id="__span-32-21"><a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a><span class="go">  thread 0 -&gt; core  68</span>
-</span><span id="__span-32-22"><a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a><span class="go">  thread 1 -&gt; core  69</span>
-</span><span id="__span-32-23"><a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a><span class="go">  thread 2 -&gt; core  70</span>
-</span><span id="__span-32-24"><a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a><span class="go">  thread 3 -&gt; core  71</span>
+<div class="language-console highlight"><span class="filename">OMP_PROC_BIND=true</span><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="gp">$ </span>srun<span class="w"> </span>-n4<span class="w"> </span>-N1<span class="w"> </span>-c4<span class="w"> </span>--hint<span class="o">=</span>nomultithread<span class="w"> </span>./affinity.mpi<span class="w"> </span>--omp
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="go">affinity test for 4 MPI ranks</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="go">rank   0 @ nid001512</span>
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="go">  thread 0 -&gt; core   0</span>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="go">  thread 1 -&gt; core   1</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="go">  thread 2 -&gt; core   2</span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="go">  thread 3 -&gt; core   3</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="go">rank   1 @ nid001512</span>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="go">  thread 0 -&gt; core  64</span>
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="go">  thread 1 -&gt; core  65</span>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="go">  thread 2 -&gt; core  66</span>
+</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="go">  thread 3 -&gt; core  67</span>
+</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a><span class="go">rank   2 @ nid001512</span>
+</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a><span class="go">  thread 0 -&gt; core   4</span>
+</span><span id="__span-33-17"><a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a><span class="go">  thread 1 -&gt; core   5</span>
+</span><span id="__span-33-18"><a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a><span class="go">  thread 2 -&gt; core   6</span>
+</span><span id="__span-33-19"><a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a><span class="go">  thread 3 -&gt; core   7</span>
+</span><span id="__span-33-20"><a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a><span class="go">rank   3 @ nid001512</span>
+</span><span id="__span-33-21"><a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a><span class="go">  thread 0 -&gt; core  68</span>
+</span><span id="__span-33-22"><a id="__codelineno-33-22" name="__codelineno-33-22" href="#__codelineno-33-22"></a><span class="go">  thread 1 -&gt; core  69</span>
+</span><span id="__span-33-23"><a id="__codelineno-33-23" name="__codelineno-33-23" href="#__codelineno-33-23"></a><span class="go">  thread 2 -&gt; core  70</span>
+</span><span id="__span-33-24"><a id="__codelineno-33-24" name="__codelineno-33-24" href="#__codelineno-33-24"></a><span class="go">  thread 3 -&gt; core  71</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -7603,8 +7743,8 @@ Currently projects are charged for each the whole node.</p>
 <p>If Slurm believes that a request for resources (cores, GPUs, memory) overlaps with what another step has already allocated, it will defer the execution until the resources are relinquished.
 This must be avoided.</p>
 <p>First ensure that <em>all</em> resources are allocated to the whole job with the following preamble:</p>
-<div class="language-bash highlight"><span class="filename">Slurm preamble on a GH200 node</span><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="ch">#!/usr/bin/env bash</span>
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
+<div class="language-bash highlight"><span class="filename">Slurm preamble on a GH200 node</span><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
 </span></code></pre></div>
 <ul>
 <li><code>--exclusive</code> allocates all the CPUs and GPUs exclusively to this job;</li>
@@ -7626,49 +7766,49 @@ A final <code>wait</code> command ensures that your submission script does not e
 <div class="tabbed-block">
 <div class="admonition example">
 <p class="admonition-title">Three jobs on one node</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="ch">#!/usr/bin/env bash</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1">#SBATCH -N1</span>
-</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>
-</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"</span>
-</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">2</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
-</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="nb">wait</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="c1">#SBATCH -N1</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">2</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>srun<span class="w"> </span>-N1<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="nb">wait</span>
 </span></code></pre></div>
 <p>Output (exact output will vary):
-<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>$ cat out-537506.*.log
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=1
-</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=2,3
+<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>$ cat out-537506.*.log
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=1
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>Tue Jul 1 11:40:46 CEST 2025 nid007104 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=2,3
 </span></code></pre></div></p>
 </div>
 </div>
 <div class="tabbed-block">
 <div class="admonition example">
 <p class="admonition-title">Three jobs on two nodes</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="ch">#!/usr/bin/env bash</span>
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
-</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="c1">#SBATCH -N2</span>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
-</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"</span>
-</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">2</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
-</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="nb">wait</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="c1">#SBATCH --exclusive --mem=450G</span>
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="c1">#SBATCH -N2</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) JobStep:\${SLURM_STEP_ID} ProcID:\${SLURM_PROCID} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES}; sleep 5"</span>
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">2</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>srun<span class="w"> </span>-N2<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>--gpus-per-task<span class="o">=</span><span class="m">1</span><span class="w"> </span>--cpus-per-gpu<span class="o">=</span><span class="m">5</span><span class="w"> </span>--mem<span class="o">=</span>50G<span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="nb">wait</span>
 </span></code></pre></div>
 <p>Output (exact output will vary):
-<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>$ cat out-537539.*.log
-</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:2 CUDA_VISIBLE_DEVICES=0
-</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:3 CUDA_VISIBLE_DEVICES=1
-</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
-</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:1 CUDA_VISIBLE_DEVICES=1
-</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:1 ProcID:1 CUDA_VISIBLE_DEVICES=2
-</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=2
-</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:2 ProcID:1 CUDA_VISIBLE_DEVICES=3
-</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>$ cat out-537539.*.log
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:2 CUDA_VISIBLE_DEVICES=0
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:0 ProcID:3 CUDA_VISIBLE_DEVICES=1
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:0 CUDA_VISIBLE_DEVICES=0
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:0 ProcID:1 CUDA_VISIBLE_DEVICES=1
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:1 ProcID:1 CUDA_VISIBLE_DEVICES=2
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:1 ProcID:0 CUDA_VISIBLE_DEVICES=2
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>Tue Jul 1 12:02:01 CEST 2025 nid005085 JobStep:2 ProcID:1 CUDA_VISIBLE_DEVICES=3
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>Tue Jul 1 12:02:01 CEST 2025 nid005080 JobStep:2 ProcID:0 CUDA_VISIBLE_DEVICES=3
 </span></code></pre></div></p>
 </div>
 </div>
@@ -7688,46 +7828,46 @@ While some GPU resources will be shared, causing some performance degradation, t
 If multiple GPUs on one node are used, an MPS daemon must be started for each GPU.
 Using a single MPS daemon for multiple GPUs can become the bottleneck.</p>
 <p>The following script shows how to run four independent job steps on two GPUs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="c1">#SBATCH --job-name=multi-jobstep-per-gpu</span>
-</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="c1">#SBATCH --time=00:01:00</span>
-</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1">#SBATCH --nodes=1</span>
-</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>
-</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) SLURM_STEP_ID:\${SLURM_STEP_ID} SLURM_PROCID:\${SLURM_PROCID} CUDA_MPS_PIPE_DIRECTORY=\${CUDA_MPS_PIPE_DIRECTORY} CUDA_MPS_LOG_DIRECTORY=\${CUDA_MPS_LOG_DIRECTORY} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES} CPU_MASK=\$(hwloc-bind --get --taskset) ; sleep 10"</span>
-</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>
-</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_COPY_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
-</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
-</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a>
-</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0<span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:0-71<span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
-</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-1<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-1<span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:72-143<span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
-</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a>
-</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a><span class="c1"># Wait for MPS daemons to be ready</span>
-</span><span id="__span-38-15"><a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a><span class="k">until</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"/tmp/nvidia-mps-0/nvidia-cuda-mps-control.pid"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"/tmp/nvidia-mps-1/nvidia-cuda-mps-control.pid"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-38-16"><a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a><span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
-</span><span id="__span-38-17"><a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a><span class="k">done</span>
-</span><span id="__span-38-18"><a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a>
-</span><span id="__span-38-19"><a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind0.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:0-35<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-38-20"><a id="__codelineno-38-20" name="__codelineno-38-20" href="#__codelineno-38-20"></a><span class="nv">j01</span><span class="o">=</span><span class="nv">$!</span>
-</span><span id="__span-38-21"><a id="__codelineno-38-21" name="__codelineno-38-21" href="#__codelineno-38-21"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind0.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:36-71<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-38-22"><a id="__codelineno-38-22" name="__codelineno-38-22" href="#__codelineno-38-22"></a><span class="nv">j02</span><span class="o">=</span><span class="nv">$!</span>
-</span><span id="__span-38-23"><a id="__codelineno-38-23" name="__codelineno-38-23" href="#__codelineno-38-23"></a>
-</span><span id="__span-38-24"><a id="__codelineno-38-24" name="__codelineno-38-24" href="#__codelineno-38-24"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind1.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:72-107<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-38-25"><a id="__codelineno-38-25" name="__codelineno-38-25" href="#__codelineno-38-25"></a><span class="nv">j11</span><span class="o">=</span><span class="nv">$!</span>
-</span><span id="__span-38-26"><a id="__codelineno-38-26" name="__codelineno-38-26" href="#__codelineno-38-26"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind1.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:108-143<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-38-27"><a id="__codelineno-38-27" name="__codelineno-38-27" href="#__codelineno-38-27"></a><span class="nv">j12</span><span class="o">=</span><span class="nv">$!</span>
-</span><span id="__span-38-28"><a id="__codelineno-38-28" name="__codelineno-38-28" href="#__codelineno-38-28"></a>
-</span><span id="__span-38-29"><a id="__codelineno-38-29" name="__codelineno-38-29" href="#__codelineno-38-29"></a><span class="nb">wait</span><span class="w"> </span><span class="nv">$j01</span><span class="w"> </span><span class="nv">$j02</span><span class="w"> </span><span class="nv">$j11</span><span class="w"> </span><span class="nv">$j12</span>
-</span><span id="__span-38-30"><a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
-</span><span id="__span-38-31"><a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="nb">echo</span><span class="w"> </span>quit<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0<span class="w"> </span>nvidia-cuda-mps-control
-</span><span id="__span-38-32"><a id="__codelineno-38-32" name="__codelineno-38-32" href="#__codelineno-38-32"></a><span class="nb">echo</span><span class="w"> </span>quit<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-1<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-1<span class="w"> </span>nvidia-cuda-mps-control
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="c1">#SBATCH --job-name=multi-jobstep-per-gpu</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="c1">#SBATCH --time=00:01:00</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c1">#SBATCH --nodes=1</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="nv">CMD</span><span class="o">=</span><span class="s2">"echo \$(date) \$(hostname) SLURM_STEP_ID:\${SLURM_STEP_ID} SLURM_PROCID:\${SLURM_PROCID} CUDA_MPS_PIPE_DIRECTORY=\${CUDA_MPS_PIPE_DIRECTORY} CUDA_MPS_LOG_DIRECTORY=\${CUDA_MPS_LOG_DIRECTORY} CUDA_VISIBLE_DEVICES=\${CUDA_VISIBLE_DEVICES} CPU_MASK=\$(hwloc-bind --get --taskset) ; sleep 10"</span>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_COPY_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
+</span><span id="__span-39-9"><a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_DEVICE_MAX_CONNECTIONS</span><span class="o">=</span><span class="m">8</span>
+</span><span id="__span-39-10"><a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a>
+</span><span id="__span-39-11"><a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0<span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:0-71<span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
+</span><span id="__span-39-12"><a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-1<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-1<span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:72-143<span class="w"> </span>nvidia-cuda-mps-control<span class="w"> </span>-d
+</span><span id="__span-39-13"><a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>
+</span><span id="__span-39-14"><a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a><span class="c1"># Wait for MPS daemons to be ready</span>
+</span><span id="__span-39-15"><a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a><span class="k">until</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"/tmp/nvidia-mps-0/nvidia-cuda-mps-control.pid"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">"/tmp/nvidia-mps-1/nvidia-cuda-mps-control.pid"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-39-16"><a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a><span class="w">    </span>sleep<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-39-17"><a id="__codelineno-39-17" name="__codelineno-39-17" href="#__codelineno-39-17"></a><span class="k">done</span>
+</span><span id="__span-39-18"><a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a>
+</span><span id="__span-39-19"><a id="__codelineno-39-19" name="__codelineno-39-19" href="#__codelineno-39-19"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind0.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:0-35<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-39-20"><a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a><span class="nv">j01</span><span class="o">=</span><span class="nv">$!</span>
+</span><span id="__span-39-21"><a id="__codelineno-39-21" name="__codelineno-39-21" href="#__codelineno-39-21"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind0.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:36-71<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-39-22"><a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="nv">j02</span><span class="o">=</span><span class="nv">$!</span>
+</span><span id="__span-39-23"><a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a>
+</span><span id="__span-39-24"><a id="__codelineno-39-24" name="__codelineno-39-24" href="#__codelineno-39-24"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind1.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:72-107<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-39-25"><a id="__codelineno-39-25" name="__codelineno-39-25" href="#__codelineno-39-25"></a><span class="nv">j11</span><span class="o">=</span><span class="nv">$!</span>
+</span><span id="__span-39-26"><a id="__codelineno-39-26" name="__codelineno-39-26" href="#__codelineno-39-26"></a>srun<span class="w"> </span>-u<span class="w"> </span>--overlap<span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">1</span><span class="w"> </span>--output<span class="w"> </span><span class="s2">"out-%J.log"</span><span class="w"> </span>./gpubind1.sh<span class="w"> </span>hwloc-bind<span class="w"> </span>--cpubind<span class="w"> </span>core:108-143<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-39-27"><a id="__codelineno-39-27" name="__codelineno-39-27" href="#__codelineno-39-27"></a><span class="nv">j12</span><span class="o">=</span><span class="nv">$!</span>
+</span><span id="__span-39-28"><a id="__codelineno-39-28" name="__codelineno-39-28" href="#__codelineno-39-28"></a>
+</span><span id="__span-39-29"><a id="__codelineno-39-29" name="__codelineno-39-29" href="#__codelineno-39-29"></a><span class="nb">wait</span><span class="w"> </span><span class="nv">$j01</span><span class="w"> </span><span class="nv">$j02</span><span class="w"> </span><span class="nv">$j11</span><span class="w"> </span><span class="nv">$j12</span>
+</span><span id="__span-39-30"><a id="__codelineno-39-30" name="__codelineno-39-30" href="#__codelineno-39-30"></a>
+</span><span id="__span-39-31"><a id="__codelineno-39-31" name="__codelineno-39-31" href="#__codelineno-39-31"></a><span class="nb">echo</span><span class="w"> </span>quit<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0<span class="w"> </span>nvidia-cuda-mps-control
+</span><span id="__span-39-32"><a id="__codelineno-39-32" name="__codelineno-39-32" href="#__codelineno-39-32"></a><span class="nb">echo</span><span class="w"> </span>quit<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-1<span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-1<span class="w"> </span>nvidia-cuda-mps-control
 </span></code></pre></div>
 <p>The <code>gpubind*.sh</code> scripts set the appropriate MPS environment variables. For example, <code>gpubind0.sh</code>:</p>
-<div class="language-bash highlight"><span class="filename">gpubind0.sh</span><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>
-</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0
-</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0
-</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>
-</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+<div class="language-bash highlight"><span class="filename">gpubind0.sh</span><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_PIPE_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-mps-0
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_MPS_LOG_DIRECTORY</span><span class="o">=</span>/tmp/nvidia-log-0
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 </span></code></pre></div>
 
 

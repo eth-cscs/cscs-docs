@@ -1,0 +1,39 @@
+{
+  "clusters": [
+    {
+      "name": "besso",
+      "generated": "2026-11-09",
+      "results": "besso/results.json"
+    },
+    {
+      "name": "beverin",
+      "generated": "2026-11-09",
+      "results": "beverin/results.json"
+    },
+    {
+      "name": "bristen",
+      "generated": "2026-11-09",
+      "results": "bristen/results.json"
+    },
+    {
+      "name": "clariden",
+      "generated": "2026-11-09",
+      "results": "clariden/results.json"
+    },
+    {
+      "name": "daint",
+      "generated": "2026-11-09",
+      "results": "daint/results.json"
+    },
+    {
+      "name": "eiger",
+      "generated": "2026-11-09",
+      "results": "eiger/results.json"
+    },
+    {
+      "name": "santis",
+      "generated": "2026-11-09",
+      "results": "santis/results.json"
+    }
+  ]
+}

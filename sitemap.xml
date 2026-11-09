@@ -43,6 +43,9 @@
         <loc>https://docs.cscs.ch/accounts/waldur/</loc>
       </url>
       <url>
+        <loc>https://docs.cscs.ch/agents/</loc>
+      </url>
+      <url>
         <loc>https://docs.cscs.ch/alps/</loc>
       </url>
       <url>
@@ -92,6 +95,12 @@
       </url>
       <url>
         <loc>https://docs.cscs.ch/contributing/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/contributing/clusters/</loc>
+      </url>
+      <url>
+        <loc>https://docs.cscs.ch/contributing/skills/</loc>
       </url>
       <url>
         <loc>https://docs.cscs.ch/environments/</loc>

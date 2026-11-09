@@ -5554,6 +5554,8 @@
       
         
       
+        
+      
     
     
     
@@ -5617,6 +5619,33 @@
     
   
   Coding Agents on Alps
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent Skills
 
     
   </span>
@@ -6001,6 +6030,10 @@
           
         
       
+        
+      
+        
+      
     
     
     
@@ -6029,8 +6062,82 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_14" id="__nav_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_14">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Contributing
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Updating Cluster Descriptions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/skills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Publishing Agent Skills
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
         
       
     </li>
@@ -6396,7 +6503,8 @@ As such, there are no <code>n1</code> nodes in the xname list, e.g.:
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Not all memory is available</p>
-<p>The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.</p>
+<p>The total memory available to jobs is roughly 236 GiB on standard-memory nodes and 474 GiB on large-memory nodes.
+The nodes have more memory installed than this&mdash;around 6% is reserved for the operating system and is not available to jobs.</p>
 <p>The amount of memory available to your job also depends on the number of MPI ranks per node&mdash;each MPI rank has a memory overhead.</p>
 </div>
 <p class="annotate">A schematic of a <em>standard memory node</em> below illustrates the CPU cores and <a href="https://www.kernel.org/doc/html/v4.18/vm/numa.html">NUMA nodes</a>.(1)</p>
