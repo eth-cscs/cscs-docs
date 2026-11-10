@@ -6326,7 +6326,8 @@ It is linked from the directory where your agent looks for skills:</p>
 <li>Ask the user which agents they use, to know which links to create: <code>~/.agents/skills/&lt;name&gt;</code> for Codex and OpenCode, <code>~/.claude/skills/&lt;name&gt;</code> for Claude Code.</li>
 <li>Find the directory for the skills, <code>&lt;skills&gt;</code> below: <code>$XDG_DATA_HOME/cscs/skills</code> if <code>XDG_DATA_HOME</code> is set, otherwise <code>$HOME/.local/share/cscs/skills</code>.
   Expand it to an absolute path, such as <code>/home/alice/.local/share/cscs/skills</code>, and write that path in full in every command that follows.</li>
-<li>If <code>&lt;skills&gt;/&lt;name&gt;</code>, or one of the links, already exists, tell the user, and ask before you replace it.</li>
+<li>If <code>&lt;skills&gt;/&lt;name&gt;</code> already exists, the skill is installed: follow the <a class="autorefs autorefs-internal" title="Updating and removing skills" href="./#updating-and-removing-skills">instructions for updating</a> instead.
+  If one of the links already exists, tell the user, and ask before you replace it.</li>
 <li>For each skill, download the archive named by <code>url</code>, relative to the index, and check that its SHA-256 matches <code>digest</code>.
   If it does not match, stop and tell the user.</li>
 <li>Unpack the archive into <code>&lt;skills&gt;/&lt;name&gt;/</code>.
@@ -6349,10 +6350,11 @@ It is linked from the directory where your agent looks for skills:</p>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>curl<span class="w"> </span>-fsSLO<span class="w"> </span>https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes.tar.gz
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>sha256sum<span class="w"> </span>cscs-cluster-probes.tar.gz
 </span></code></pre></div>
-<p>If it matches, unpack it:</p>
+<p>If it matches, unpack it, and record its digest in the <code>.digest</code> file of the skill, so that you can <a class="autorefs autorefs-internal" title="Updating and removing skills" href="./#updating-and-removing-skills">check for updates</a> later:</p>
 <div class="language-bash highlight"><span class="filename">unpack the cscs-cluster-probes skill</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>cscs-cluster-probes.tar.gz<span class="w"> </span>-C<span class="w"> </span>cscs-cluster-probes
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>rm<span class="w"> </span>cscs-cluster-probes.tar.gz
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>-
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"sha256:</span><span class="k">$(</span>sha256sum<span class="w"> </span>cscs-cluster-probes.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">' '</span><span class="w"> </span>-f1<span class="k">)</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>cscs-cluster-probes/.digest
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>rm<span class="w"> </span>cscs-cluster-probes.tar.gz
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">cd</span><span class="w"> </span>-
 </span></code></pre></div>
 <p>Then link the skill for the agents that you use:</p>
 <div class="language-bash highlight"><span class="filename">link the skill for Codex and OpenCode</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.agents/skills
@@ -6361,7 +6363,7 @@ It is linked from the directory where your agent looks for skills:</p>
 <div class="language-bash highlight"><span class="filename">link the skill for Claude Code</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.claude/skills
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span><span class="si">}</span><span class="s2">/cscs/skills/cscs-cluster-probes"</span><span class="w"> </span>~/.claude/skills/
 </span></code></pre></div>
-<p>If the skill is already installed, <a class="autorefs autorefs-internal" title="Updating and removing skills" href="./#updating-and-removing-skills">remove it</a> first.</p>
+<p>If the skill is already installed, <a class="autorefs autorefs-internal" title="Updating and removing skills" href="./#updating-and-removing-skills">update it</a> instead.</p>
 </div>
 <div class="tabbed-block">
 <div class="admonition under-construction">
@@ -6380,12 +6382,68 @@ For example, <code>cscs-cluster-probes</code> only reads the configuration and s
 </div>
 <p><a href="" id="ref-agents-update"></a></p>
 <h2 id="updating-and-removing-skills">Updating and removing skills<a class="headerlink" href="#updating-and-removing-skills" title="Permanent link">&para;</a></h2>
-<p>To update a skill, remove it, then install it again.
-The digest of a skill in <code>index.json</code> changes only when the skill changes.
-An agent that installed the skill recorded the digest in the <code>.digest</code> file of the skill, so it can compare the two to tell whether an update is available.</p>
+<p>The digest of a skill in <code>index.json</code> changes when the skill changes.
+The installation records the digest in the <code>.digest</code> file of the skill, so comparing the two tells whether an update is available.
+Updating a skill replaces its directory, and with it any changes that you made to the skill; the links to it do not change.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Ask your agent</label><label for="__tabbed_2_2">Update by hand</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Start your agent and give it this request:</p>
+<div class="language-text highlight"><span class="filename">request to the agent</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Update the CSCS agent skills, following https://docs.cscs.ch/agents/.
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Show me what has changed, and ask me before you change anything.
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Instructions for agents</p>
+<ul>
+<li>Read the index of skills, and find the directory of the skills, <code>&lt;skills&gt;</code>, as for <a class="autorefs autorefs-internal" title="Installing skills" href="./#installing-skills">installing them</a>.
+  The installed skills are the directories in <code>&lt;skills&gt;</code> that contain a <code>SKILL.md</code>.</li>
+<li>For each installed skill, compare the content of its <code>.digest</code> file with the <code>digest</code> of the skill in the index:<ul>
+<li>if they are the same, the skill is up to date;</li>
+<li>if they differ, an update is available;</li>
+<li>if there is no <code>.digest</code> file, the version of the skill is unknown: tell the user, and offer to update it;</li>
+<li>if the skill is not in the index, it has been removed or renamed: tell the user, and do not delete it unless they ask.</li>
+</ul>
+</li>
+<li>For each skill with an update, show the user what has changed: download its <code>SKILL.md</code>, at <code>&lt;name&gt;/SKILL.md</code> relative to the index, and compare it with the installed <code>SKILL.md</code>.
+  Tell the user that only <code>SKILL.md</code> is compared, and that the other files of the skill may also have changed.</li>
+<li>Tell the user that updating replaces the directory of the skill, with any changes that they made to it.
+  Ask the user which skills to update, and update no others.</li>
+<li>For each skill to update, download the archive named by <code>url</code>, relative to the index, and check that its SHA-256 matches <code>digest</code>.
+  If it does not match, stop and tell the user.</li>
+<li>Unpack the archive into <code>&lt;skills&gt;/&lt;name&gt;.new/</code>, and write the digest to <code>&lt;skills&gt;/&lt;name&gt;.new/.digest</code>.
+  Then delete the archive and <code>&lt;skills&gt;/&lt;name&gt;/</code>, and rename <code>&lt;skills&gt;/&lt;name&gt;.new/</code> to <code>&lt;skills&gt;/&lt;name&gt;/</code>.
+  The links to <code>&lt;skills&gt;/&lt;name&gt;</code> need no change.</li>
+<li>As when installing, run each step as a separate command, write every path in full, and change nothing else.</li>
+<li>Tell the user which skills were updated, and which were already up to date.</li>
+</ul>
+</div>
+</div>
+<div class="tabbed-block">
+<p>Compare the digest of the installed skill with the digests in <code>index.json</code>:</p>
+<div class="language-bash highlight"><span class="filename">check whether the cscs-cluster-probes skill is up to date</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span><span class="si">}</span><span class="s2">/cscs/skills/cscs-cluster-probes/.digest"</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://docs.cscs.ch/.well-known/agent-skills/index.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import json, sys; [print(s["name"], s["digest"]) for s in json.load(sys.stdin)["skills"]]'</span>
+</span></code></pre></div>
+<p>If they differ, or the skill has no <code>.digest</code> file, download the skill and check that the SHA-256 printed matches the <code>digest</code> of the skill in <code>index.json</code>:</p>
+<div class="language-bash highlight"><span class="filename">download the cscs-cluster-probes skill</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span><span class="si">}</span><span class="s2">/cscs/skills"</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>curl<span class="w"> </span>-fsSLO<span class="w"> </span>https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes.tar.gz
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>sha256sum<span class="w"> </span>cscs-cluster-probes.tar.gz
+</span></code></pre></div>
+<p>If it matches, unpack it next to the installed skill, then replace the installed skill with it:</p>
+<div class="language-bash highlight"><span class="filename">replace the cscs-cluster-probes skill</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdir<span class="w"> </span>cscs-cluster-probes.new
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>cscs-cluster-probes.tar.gz<span class="w"> </span>-C<span class="w"> </span>cscs-cluster-probes.new
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"sha256:</span><span class="k">$(</span>sha256sum<span class="w"> </span>cscs-cluster-probes.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">' '</span><span class="w"> </span>-f1<span class="k">)</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>cscs-cluster-probes.new/.digest
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>rm<span class="w"> </span>cscs-cluster-probes.tar.gz
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>rm<span class="w"> </span>-rf<span class="w"> </span>cscs-cluster-probes
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>mv<span class="w"> </span>cscs-cluster-probes.new<span class="w"> </span>cscs-cluster-probes
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nb">cd</span><span class="w"> </span>-
+</span></code></pre></div>
+</div>
+</div>
+</div>
 <p>To remove a skill, delete its links and its directory:</p>
-<div class="language-bash highlight"><span class="filename">remove the cscs-cluster-probes skill</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>rm<span class="w"> </span>-f<span class="w"> </span>~/.agents/skills/cscs-cluster-probes<span class="w"> </span>~/.claude/skills/cscs-cluster-probes
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span><span class="si">}</span><span class="s2">/cscs/skills/cscs-cluster-probes"</span>
+<div class="language-bash highlight"><span class="filename">remove the cscs-cluster-probes skill</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>rm<span class="w"> </span>-f<span class="w"> </span>~/.agents/skills/cscs-cluster-probes<span class="w"> </span>~/.claude/skills/cscs-cluster-probes
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span><span class="si">}</span><span class="s2">/cscs/skills/cscs-cluster-probes"</span>
 </span></code></pre></div>
 
 

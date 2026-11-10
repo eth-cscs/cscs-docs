@@ -1,6 +1,6 @@
 ---
 name: cscs-alps
-description: Orientation for the Alps clusters of CSCS, the Swiss National Supercomputing Centre (Daint, Eiger, Clariden, Santis, Bristen, Beverin). Read before running, building, installing or storing anything on them, where CPU architecture, file systems and software environments differ from a generic Linux or HPC system. Use when the host name is like daint-ln001 or nid001234, when paths start with /users, /capstor, /iopsstor or /ritom, or when the user mentions CSCS or Alps.
+description: Orientation for the Alps clusters of CSCS, the Swiss National Supercomputing Centre (Daint, Eiger, Clariden, Santis, Bristen, Beverin). Read before running, building, installing or storing anything on them, where CPU architecture, file systems and software environments differ from a generic Linux or HPC system. Use when the host name is like daint-ln001 or nid001234, when paths start with /users, /capstor, /iopsstor or /ritom, or when the user mentions CSCS or Alps. Also use when installing or updating the CSCS agent skills.
 ---
 
 # Alps at CSCS
@@ -78,3 +78,8 @@ The [software catalogue](https://docs.cscs.ch/software/) lists the applications 
 
 Login nodes reach the internet directly; compute nodes reach it through NAT.
 The public addresses are shared by all users, so services like Docker Hub apply rate limits to all of them together: [internet access](https://docs.cscs.ch/guides/internet-access/).
+
+## Updates
+
+This skill is published by CSCS at <https://docs.cscs.ch/agents/>.
+When the user asks to install or update the CSCS agent skills, follow the instructions on that page.

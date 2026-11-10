@@ -73,3 +73,8 @@ The `usage` and `access` probes are only available on a cluster.
 
 Quota and how full a file system is, the remaining budget of a project, scratch cleanup and backup policies, and the intended purpose of each partition.
 For policies, read the cluster and storage pages of the documentation.
+
+## Updates
+
+This skill is published by CSCS at <https://docs.cscs.ch/agents/>.
+When the user asks to install or update the CSCS agent skills, follow the instructions on that page.
