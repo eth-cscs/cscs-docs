@@ -48,6 +48,7 @@ This matters when designing an image whose software launches other software: an 
 ## Prerequisites
 
 - **Stackinator** — provides `stack-config`. No install step: run `stackinator/bin/stack-config` directly; it bootstraps its own dependencies with `uv` on first use.
+    * documentation can be found here in the `stackinator/docs` path of the copy of stackinator we will clone.
 - **Cluster config** — per-vCluster system externals and network config, passed with `-s`.
 - **Recipe** — the directory of YAML described below, passed with `-r`.
 - **`mirrors.yaml`** — source and build caches, passed with `--mirror`. Optional, but a cold build cache means building everything from source.
@@ -55,6 +56,7 @@ This matters when designing an image whose software launches other software: an 
 
 ## Setting up a build from scratch
 
+By default, set up all of the required dependencies in the CWD or create a fresh directory.
 When nothing is set up yet, put the three repos, the recipe and the mirror config in one working directory:
 
 ```bash
@@ -64,9 +66,19 @@ git clone https://github.com/eth-cscs/alps-cluster-config.git    # -s argument
 git clone https://github.com/eth-cscs/alps-uenv.git              # recipes to crib from
 ```
 
+**important** start work in a fresh directory and avoid looking for hints in other projects, unless explicitly asked to
+* we want fresh copies of stackinator, alps-uenv, alps-cluster-config, software-stack-recipes, etc so that any fixes that were required to any of them can be traced 
+* as a rule we want to avoid modifying stackinator (if it is required, describe the requirement, and ask the user for feedback).
+
 **Pick the cluster config**: `alps-cluster-config/<cluster>`, where `<cluster>` is `$CLUSTER_NAME` — also the `system` column of `uenv image ls`.
 
 **Start from an existing recipe, not a blank one.** Copy a `prgenv-gnu` recipe and delete everything the new image does not need; it inherits choices already known to work on Alps:
+There are three ways to obtain existing recipes:
+* from `alps-uenv` recipes
+    * these are recipes maintained by CSCS and deployed on Alps
+* from `https://github.com/c2sm/software-stack-recipes.git`
+    * recipes maintained by CSCS and the climate community: targeting santis, balfrin and linard
+* from the `$mount/meta/recipe` path inside a mounted uenv: if the user points at a uenv already deployed, or not in the other repositories.
 
 ```bash
 mkdir -p recipes/<name>
@@ -130,6 +142,12 @@ Choose `NJOBS` from what is available, not a fixed number: `NJOBS = min(nproc, a
 ### Phase 0b — Check for prior build notes
 
 When given an existing recipe as a starting point, **read `README.md` in the root of the recipe directory first** (if present). It records findings from the last build of this recipe — custom Spack packages that were created, concretization workarounds, external-package overrides, runtime fixes, and other gotchas. Use these notes as hints before configuring or building.
+
+### Phase 0c — Check where we are running
+
+check whether we are on a login node or compute node
+* on a login node: ask the user to first allocate a node using slurm, and start the build process there. Resist doing the build on a login node, but relent after asking twice if the user is in `csstaff` group
+* on a compute node: check how much time is available in the allocation. Keep an eye on this, and if the build takes a long time, you might need to stop it and push the partially built results to build cache so that the next session doesn't start cold.
 
 ### Phase 1 — Configure
 
