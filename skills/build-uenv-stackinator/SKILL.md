@@ -248,3 +248,8 @@ If running from `/dev/shm` fails with `error: unable to exec 'bash': Input/outpu
 - `references/recipe-files.md` — full recipe file reference with annotated examples and per-field decisions.
 - `references/runtime-fixes.md` — detailed runtime-issue remediation.
 - `references/vnc-example.md` — worked example: design decisions for a VNC/remote-visualization uenv on GH200 (what to bundle, what to rely on from the host, GPU/EGL notes).
+
+## Updates
+
+This skill is published by CSCS at <https://docs.cscs.ch/agents/>.
+When the user asks to install or update the CSCS agent skills, follow the instructions on that page.
