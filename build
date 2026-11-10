@@ -49,7 +49,9 @@ fi
 rm -rf site
 zensical --version
 zensical build --strict --config-file "$config"
-uv run --no-project python3 skills/build.py --site site
+# The Python version is pinned: the bytes of the skill archives, and so their
+# digests, depend on the zlib of the Python that packs them.
+uv run --no-project --python 3.13 python3 skills/build.py --site site
 
 if [ -n "$archive" ]; then
     mkdir -p "$(dirname "$archive")"

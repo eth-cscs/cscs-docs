@@ -119,7 +119,7 @@ So there is one copy of each skill, however many agents you use, and the directo
 [](){#ref-agents-update}
 ## Updating and removing skills
 
-The digest of a skill in `index.json` changes only when the skill changes.
+The digest of a skill in `index.json` changes when the skill changes.
 The installation records the digest in the `.digest` file of the skill, so comparing the two tells whether an update is available.
 Updating a skill replaces its directory, and with it any changes that you made to the skill; the links to it do not change.
 

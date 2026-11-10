@@ -25,6 +25,7 @@ The docs are in the `docs` directory.
 The repository also contains skills for coding agents, which are published with the documentation and installed by users from <https://docs.cscs.ch/agents/>.
 
 * The skills are in `skills/<name>/`. Read `skills/README.md` before adding or changing one.
+* Every `SKILL.md` ends with an `## Updates` section that points to <https://docs.cscs.ch/agents/>, so that an agent asked to update the skills knows where they come from. Copy it into every new skill.
 * `docs/contributing/skills.md` explains how the skills are published and installed; `docs/agents/index.md` is the page that users install them from. Keep both in step with changes to the skills.
 * A skill can bundle files from elsewhere in the repository, listed in its `bundle.json`. The `cscs-cluster-probes` skill bundles `probes/probe.sh` and `probes/lib/`, so a change to the probes is also a change to the published skill: the probes must keep working when run from a skill directory, outside this repository.
 * Run `./build` and `python3 -m unittest discover -s skills/tests` after changing a skill, its bundled files, or the agent skills page.
