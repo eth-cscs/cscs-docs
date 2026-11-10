@@ -143,3 +143,8 @@ determine which hardware the job runs on.
 - **CI/CD docs:** `https://docs.cscs.ch/services/cicd/`: full setup guide,
   runner reference with all variables and example jobs, best practices, and
   common pitfalls.
+
+## Updates
+
+This skill is published by CSCS at <https://docs.cscs.ch/agents/>.
+When the user asks to install or update the CSCS agent skills, follow the instructions on that page.

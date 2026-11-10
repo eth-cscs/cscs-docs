@@ -22,7 +22,7 @@ run the probes on a cluster:
     generated/clusters/<cluster>/results.json
 
 The archives are reproducible: the same files give the same bytes, so the digest
-of a skill changes only when the skill changes, and an installed copy can be
+of a skill changes when the skill changes, and an installed copy can be
 compared with the published one.
 """
 

@@ -51,7 +51,7 @@ Before a skill is published, the build checks it, and stops if:
 * the skill is not listed on the [agent skills page][ref-agents], where users choose what to install.
 
 The archives are reproducible: building the same files gives the same bytes.
-So the digest of a skill, the SHA-256 of its archive, changes only when the skill changes, and serves as its version: an installed skill is up to date if its digest matches the one in `index.json`.
+So the digest of a skill, the SHA-256 of its archive, changes when the skill changes, and serves as its version: an installed skill is up to date if its digest matches the one in `index.json`.
 
 ## How users install skills
 

@@ -19,7 +19,7 @@ For each skill, it:
 * packs the copy as `.well-known/agent-skills/<name>.tar.gz` in the site, with `SKILL.md` at the root of the archive;
 * lists it, with the SHA-256 of the archive, in `.well-known/agent-skills/index.json`, which follows the [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) draft.
 
-The archives are reproducible: the same files give the same bytes, so the digest of a skill changes only when the skill does.
+The archives are reproducible: the same files give the same bytes, so the digest of a skill changes when the skill does.
 Don't put dates, build numbers or commit hashes in a skill.
 
 `build.py` also publishes the committed `generated/clusters/<cluster>/results.json`, and a list of them in `generated/clusters/index.json`, for agents that cannot run the probes on a cluster.
@@ -48,6 +48,7 @@ Optional. It names the files from elsewhere in the repository that the skill nee
 
 * Create `skills/<name>/SKILL.md`, and `bundle.json` if the skill needs files from elsewhere in the repository.
 * In `SKILL.md`, refer to bundled files relative to the directory of the skill: users install it in `$XDG_DATA_HOME/cscs/skills/<name>/` (by default `~/.local/share/cscs/skills/<name>/`), linked from the skills directory of their agent, not in a checkout of this repository.
+* End `SKILL.md` with the `## Updates` section of the other skills, which points to <https://docs.cscs.ch/agents/>.
 * Add the skill to the table on `docs/agents/index.md`.
 * Run `./build` and `python3 -m unittest discover -s skills/tests`.
 
