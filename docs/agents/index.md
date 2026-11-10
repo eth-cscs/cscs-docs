@@ -56,7 +56,8 @@ So there is one copy of each skill, however many agents you use, and the directo
         * Ask the user which agents they use, to know which links to create: `~/.agents/skills/<name>` for Codex and OpenCode, `~/.claude/skills/<name>` for Claude Code.
         * Find the directory for the skills, `<skills>` below: `$XDG_DATA_HOME/cscs/skills` if `XDG_DATA_HOME` is set, otherwise `$HOME/.local/share/cscs/skills`.
           Expand it to an absolute path, such as `/home/alice/.local/share/cscs/skills`, and write that path in full in every command that follows.
-        * If `<skills>/<name>`, or one of the links, already exists, tell the user, and ask before you replace it.
+        * If `<skills>/<name>` already exists, the skill is installed: follow the [instructions for updating][ref-agents-update] instead.
+          If one of the links already exists, tell the user, and ask before you replace it.
         * For each skill, download the archive named by `url`, relative to the index, and check that its SHA-256 matches `digest`.
           If it does not match, stop and tell the user.
         * Unpack the archive into `<skills>/<name>/`.
@@ -81,10 +82,11 @@ So there is one copy of each skill, however many agents you use, and the directo
     sha256sum cscs-cluster-probes.tar.gz
     ```
 
-    If it matches, unpack it:
+    If it matches, unpack it, and record its digest in the `.digest` file of the skill, so that you can [check for updates][ref-agents-update] later:
 
     ```bash title="unpack the cscs-cluster-probes skill"
     tar -xzf cscs-cluster-probes.tar.gz -C cscs-cluster-probes
+    echo "sha256:$(sha256sum cscs-cluster-probes.tar.gz | cut -d' ' -f1)" > cscs-cluster-probes/.digest
     rm cscs-cluster-probes.tar.gz
     cd -
     ```
@@ -101,7 +103,7 @@ So there is one copy of each skill, however many agents you use, and the directo
     ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes" ~/.claude/skills/
     ```
 
-    If the skill is already installed, [remove it][ref-agents-update] first.
+    If the skill is already installed, [update it][ref-agents-update] instead.
 
 === "Link on Alps"
 
@@ -117,9 +119,68 @@ So there is one copy of each skill, however many agents you use, and the directo
 [](){#ref-agents-update}
 ## Updating and removing skills
 
-To update a skill, remove it, then install it again.
 The digest of a skill in `index.json` changes only when the skill changes.
-An agent that installed the skill recorded the digest in the `.digest` file of the skill, so it can compare the two to tell whether an update is available.
+The installation records the digest in the `.digest` file of the skill, so comparing the two tells whether an update is available.
+Updating a skill replaces its directory, and with it any changes that you made to the skill; the links to it do not change.
+
+=== "Ask your agent"
+
+    Start your agent and give it this request:
+
+    ```text title="request to the agent"
+    Update the CSCS agent skills, following https://docs.cscs.ch/agents/.
+    Show me what has changed, and ask me before you change anything.
+    ```
+
+    !!! info "Instructions for agents"
+        * Read the index of skills, and find the directory of the skills, `<skills>`, as for [installing them][ref-agents-install].
+          The installed skills are the directories in `<skills>` that contain a `SKILL.md`.
+        * For each installed skill, compare the content of its `.digest` file with the `digest` of the skill in the index:
+            * if they are the same, the skill is up to date;
+            * if they differ, an update is available;
+            * if there is no `.digest` file, the version of the skill is unknown: tell the user, and offer to update it;
+            * if the skill is not in the index, it has been removed or renamed: tell the user, and do not delete it unless they ask.
+        * For each skill with an update, show the user what has changed: download its `SKILL.md`, at `<name>/SKILL.md` relative to the index, and compare it with the installed `SKILL.md`.
+          Tell the user that only `SKILL.md` is compared, and that the other files of the skill may also have changed.
+        * Tell the user that updating replaces the directory of the skill, with any changes that they made to it.
+          Ask the user which skills to update, and update no others.
+        * For each skill to update, download the archive named by `url`, relative to the index, and check that its SHA-256 matches `digest`.
+          If it does not match, stop and tell the user.
+        * Unpack the archive into `<skills>/<name>.new/`, and write the digest to `<skills>/<name>.new/.digest`.
+          Then delete the archive and `<skills>/<name>/`, and rename `<skills>/<name>.new/` to `<skills>/<name>/`.
+          The links to `<skills>/<name>` need no change.
+        * As when installing, run each step as a separate command, write every path in full, and change nothing else.
+        * Tell the user which skills were updated, and which were already up to date.
+
+=== "Update by hand"
+
+    Compare the digest of the installed skill with the digests in `index.json`:
+
+    ```bash title="check whether the cscs-cluster-probes skill is up to date"
+    cat "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes/.digest"
+    curl -fsSL https://docs.cscs.ch/.well-known/agent-skills/index.json \
+      | python3 -c 'import json, sys; [print(s["name"], s["digest"]) for s in json.load(sys.stdin)["skills"]]'
+    ```
+
+    If they differ, or the skill has no `.digest` file, download the skill and check that the SHA-256 printed matches the `digest` of the skill in `index.json`:
+
+    ```bash title="download the cscs-cluster-probes skill"
+    cd "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills"
+    curl -fsSLO https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes.tar.gz
+    sha256sum cscs-cluster-probes.tar.gz
+    ```
+
+    If it matches, unpack it next to the installed skill, then replace the installed skill with it:
+
+    ```bash title="replace the cscs-cluster-probes skill"
+    mkdir cscs-cluster-probes.new
+    tar -xzf cscs-cluster-probes.tar.gz -C cscs-cluster-probes.new
+    echo "sha256:$(sha256sum cscs-cluster-probes.tar.gz | cut -d' ' -f1)" > cscs-cluster-probes.new/.digest
+    rm cscs-cluster-probes.tar.gz
+    rm -rf cscs-cluster-probes
+    mv cscs-cluster-probes.new cscs-cluster-probes
+    cd -
+    ```
 
 To remove a skill, delete its links and its directory:
 
