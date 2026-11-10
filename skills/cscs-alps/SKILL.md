@@ -14,10 +14,10 @@ Read the HTML pages, not the `.md` copies listed in `llms.txt`: the copies lose 
 
 ## Where you are
 
-* `cat /etc/xthostname` gives the cluster name.
-* A host name like `daint-ln001` is a login node; one like `nid001234` is a compute node.
+* The `CLUSTER_NAME` environment variable is the cluster name.
+* A host name like `daint-ln001` is a login node; `nid001234` is a compute node.
 * Login nodes are shared, with limits on CPU time and memory.
-  Builds, tests and anything compute or memory intensive go to a compute node with `srun` or `sbatch`: the [fair use policy](https://docs.cscs.ch/policies/shared/#ref-policies-fair-use-login-node) lets CSCS stop such processes on login nodes without warning.
+  Builds, tests and anything compute or memory intensive go to a compute node with `srun` or `sbatch`
 * Jobs are billed to a project.
   If the `cscs-cluster-probes` skill is installed, use it for partitions, limits, accounts and why a job is pending.
 
@@ -28,12 +28,13 @@ Read the HTML pages, not the `.md` copies listed in `llms.txt`: the copies lose 
 | Bristen | NVIDIA A100 | x86-64 |
 | Beverin | AMD MI300A and MI250X | x86-64 |
 
-Check `uname -m` where the code will run to determine the CPU architecture.
+On all user-facing systems the CPU arch on login and compute nodes is the same
 
 ## File systems
 
 All file systems are shared over the network and mounted on every node.
 `$HOME` is the same on all clusters, so files installed there by one cluster are seen by clusters of a different architecture.
+* sharing HOME on x86 and aarch64 nodes requires care:  <https://docs.cscs.ch/guides/terminal/#managing-x86-and-arm>
 
 | Variable | Path | Type | Use |
 |---|---|---|---|
@@ -48,26 +49,21 @@ All file systems are shared over the network and mounted on every node.
   Do not touch files to keep them: move what must be kept to `$STORE`.
 * Operations on metadata are slow on all of them: many small files, `pip install`, `import` from a large environment, compiling, and `find` or `ls -R` on large trees.
   Many processes doing them at once slow the file system down for every user.
-  The memory file systems `/dev/shm` and `/tmp` on a node are much faster for many small files in a job.
+  The memory file systems `/dev/shm` and `/tmp` on a node are much faster for many small files in a job - and are cleaned up automatically by slurm
 * `quota` shows the use of each file system.
 
 Read [File systems](https://docs.cscs.ch/storage/filesystems/) before deciding where data goes, and the [storage guide](https://docs.cscs.ch/guides/storage/) for Lustre striping, VAST settings for MPI-IO, and [Python environments as SquashFS images](https://docs.cscs.ch/guides/storage/#ref-guides-storage-venv).
 
 ## Software
 
-There is no module tree on the system (`module avail` find nothing useful)
-There is no use software installed on the system.
+There is no module tree on the system (do not use `module avail` to discover software).
 Software comes from one of:
 
 * **uenv**, a CSCS tool that mounts a SquashFS image of software built with Spack, usually at `/user-environment`.
   * `uenv image find` lists the images available on the cluster; `uenv image pull <image>` downloads one.
   * `uenv run --view=default prgenv-gnu/25.6:v2 -- <command>` runs a command in it.
   * In jobs, use `srun --uenv=<image> --view=<view>`, or the same as `#SBATCH` options.
-  * `uenv start` opens an interactive shell: do not use it in scripts or `~/.bashrc`.
-  * The software is not visible until a view is loaded; `--view=modules` provides `module` commands.
-  * Programming environments such as `prgenv-gnu` provide compilers, MPI and common libraries; applications such as GROMACS have their own images.
   * [Using uenv](https://docs.cscs.ch/software/uenv/using/), [programming environments](https://docs.cscs.ch/software/prgenv/).
-  * To build a uenv, use the `build-uenv-stackinator` skill if it is installed.
 * **The Container Engine**, a CSCS container runtime integrated with Slurm.
   * There is no Docker daemon, and podman is provided for buildig containers, not for running containers.
   * A container is described by an environment definition file (EDF), a TOML file in `~/.edf/`.
