@@ -6,7 +6,7 @@
       "type": "archive",
       "description": "Build a uenv (SquashFS software-stack image) on Alps HPC systems using Stackinator and Spack. Use when the task involves creating, configuring, building, debugging, or iterating on a uenv \u2014 writing or editing a Stackinator recipe (config.yaml, compilers.yaml, environments.yaml, packages.yaml), running stack-config, building store.squashfs, resolving Spack concretization/build failures inside the bubblewrap sandbox, fixing runtime issues in views, or testing an image with `uenv run`.",
       "url": "build-uenv-stackinator.tar.gz",
-      "digest": "sha256:0af220fd46c8a18fb925a448b1010131ba58e1789c5e260aae71fc90baab3364"
+      "digest": "sha256:31a3d33dfd7e0fa86e9e4379e590560e7a0e19aff5a9cf2d8e4ef3d47c02e67a"
     },
     {
       "name": "cscs-alps",
