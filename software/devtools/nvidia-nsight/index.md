@@ -8,7 +8,7 @@ A key advantage of Nsight Systems is its ability to provide detailed traces of G
 
 > [!NOTE]
 >
-> NVIDIA Nsight Systems is available with any uenv that comes with a CUDA compiler, for instance `prgenv-gnu`.
+> NVIDIA Nsight Systems is available with any [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) that comes with a CUDA compiler, for instance [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ## NVIDIA Nsight Compute
 
@@ -16,7 +16,7 @@ A key advantage of Nsight Systems is its ability to provide detailed traces of G
 
 > [!NOTE]
 >
-> NVIDIA Nsight Systems is available with any uenv that comes with a CUDA compiler, for instance `prgenv-gnu`.
+> NVIDIA Nsight Systems is available with any [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) that comes with a CUDA compiler, for instance [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ### Known Issues and Common Problems
 
@@ -26,7 +26,7 @@ A key advantage of Nsight Systems is its ability to provide detailed traces of G
 >
 > > **This workaround is not needed for uenvs that provide `xcb-util-cursor`**
 > >
-> > Uenvs that provide the `xcb-util-cursor` package don’t require this workaround anymore. Starting with 25.6, the `prgenv-gnu` provides `xcb-util-cursor`.
+> > Uenvs that provide the `xcb-util-cursor` package don’t require this workaround anymore. Starting with 25.6, the [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) provides `xcb-util-cursor`.
 >
 > While we recommend using `ncu` instead of `ncu-ui`, it is possible to use X11 to launch ncu-ui. However, this will fail with the following error message: `Failed to load Qt platform plugin: "xcb"`.
 >

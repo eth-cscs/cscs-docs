@@ -10,7 +10,7 @@ The model we will be running is Google’s [Gemma-7B](<https://huggingface.co/go
 
 ### Prerequisites
 
-This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide here, and read through the documentation about the ML Platform.
+This tutorial assumes you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH"), and read through the documentation about the [ML Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform").
 
 For clarity, we prepend all shell commands with the hostname and any active Python virtual environment they are executed in. E.g. `clariden-lnXXX` refers to a login node on Clariden, while `nidYYYYYY` is a compute node (with placeholders for numeric values). The commands listed here are run on Clariden, but can be adapted slightly to run on other vClusters as well.
 
@@ -18,7 +18,7 @@ For clarity, we prepend all shell commands with the hostname and any active Pyth
 >
 > Login nodes are a shared environment for editing files, preparing and submitting SLURM jobs as well as inspecting logs. They are not intended for running significant data processing or compute work. Any memory- or compute-intensive work should instead be done on compute nodes.
 >
-> If you need to move data externally or internally, please follow the corresponding guides using Globus or the `xfer` queue, respectively.
+> If you need to move data [externally](<https://docs.cscs.ch/storage/transfer/index.md#external-transfer> "External Transfer") or [internally](<https://docs.cscs.ch/storage/transfer/index.md#internal-transfer> "Internal Transfer"), please follow the corresponding guides using Globus or the `xfer` queue, respectively.
 
 ### Build a modified NGC PyTorch Container
 
@@ -61,7 +61,7 @@ The first line specifies that we are working on top of an existing container. In
 >
 > It is generally recommended to stick to one of the most recent versions of NGC, unless there is a strong reason from your application to stick to an old version for compatibility.
 
-Now that we’ve setup the Dockerfile, we can go ahead and pass it to [Podman](<https://podman.io/>) to build a container. Podman is a tool that enables us to fetch, manipulate, and interact with containers on the cluster. For more information, please see the Container Engine page. To use Podman, we first need to configure some storage locations for it. This step is straightforward, just create the file in your home:
+Now that we’ve setup the Dockerfile, we can go ahead and pass it to [Podman](<https://podman.io/>) to build a container. Podman is a tool that enables us to fetch, manipulate, and interact with containers on the cluster. For more information, please see the [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>) page. To use Podman, we first need to configure some storage locations for it. This step is straightforward, just create the file in your home:
 
 $HOME/.config/containers/storage.conf
 
@@ -79,7 +79,7 @@ $HOME/.config/containers/storage.conf
 >
 > If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead.
 
-Before building the container image, we create a dedicated directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply best practices for LUSTRE so they are properly distributed across storage nodes.
+Before building the container image, we create a dedicated directory to keep track of all images used with the CE. Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for LUSTRE](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") so they are properly distributed across storage nodes.
 
 Container image directory with recommended LUSTRE settings
 
@@ -91,7 +91,7 @@ Container image directory with recommended LUSTRE settings
 
 1. This makes sure that files stored subsequently end up on the same storage node (up to 4 MB), on 4 storage nodes (between 4 and 64 MB) or are striped across all storage nodes (above 64 MB)
 
-To build a container with Podman, we need to request a shell on a compute node from Slurm, pass the Dockerfile to Podman, and finally import the freshly built container to the dedicated directory using enroot. Slurm is a workload manager which distributes workloads on the cluster. Through Slurm, many people can use the supercomputer at the same time without interfering with one another.
+To build a container with Podman, we need to request a shell on a compute node from [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>), pass the Dockerfile to Podman, and finally import the freshly built container to the dedicated directory using enroot. Slurm is a workload manager which distributes workloads on the cluster. Through Slurm, many people can use the supercomputer at the same time without interfering with one another.
 
 ```console
 [clariden-lnXXX]$ srun -A <ACCOUNT> --pty bash
@@ -154,7 +154,7 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 1. It is important to use curly braces for environment variables used in the EDF
 2. The path `/users` is not mounted since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
-4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the AWS OFI NCCL plugin with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
+4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
 5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys>).
 6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
@@ -164,7 +164,7 @@ If you’ve decided to build the container somewhere else, make sure to supply t
 
 The `image` variable defines which container we want to load. This could either be a container from an online docker repository, like `nvcr.io/nvidia/pytorch:24.01-py3`, or in our case, a local squashfs file which we built ourselves.
 
-The `mounts` variable defines which directories we want to mount where in our container. In general, it’s a good idea to use a directory under `/capstor/scratch` directory to store outputs from any scientific software as this filesystem is optimized for sequential write-operations as described in Alps storage. This particularly applies to e.g. checkpoints from ML training, which we will see in the next tutorials (and there it matters also to apply good LUSTRE settings beforehand as for container images). In this tutorial, we will not generate a lot of output, but it’s a good practice to stick to anyways.
+The `mounts` variable defines which directories we want to mount where in our container. In general, it’s a good idea to use a directory under `/capstor/scratch` directory to store outputs from any scientific software as this filesystem is optimized for sequential write-operations as described in [Alps storage](<https://docs.cscs.ch/alps/storage/index.md#alps-storage> "Alps Storage"). This particularly applies to e.g. checkpoints from ML training, which we will see in the next tutorials (and there it matters also to apply good LUSTRE settings beforehand as for container images). In this tutorial, we will not generate a lot of output, but it’s a good practice to stick to anyways.
 
 Finally, the `workdir` variable tells the container engine where to start working. If we request a shell, this is where we will find ourselves dropped initially after starting the container.
 

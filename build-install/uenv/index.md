@@ -1,8 +1,8 @@
 # Building with uenv
 
-Uenv are user environments that provide scientific applications, libraries and tools on Alps. This article explains how to use them to build software.
+Uenv are user environments that provide scientific applications, libraries and tools on [Alps](<https://docs.cscs.ch/alps/index.md#alps-infrastructure> "Alps Infrastructure"). This article explains how to use them to build software.
 
-For more documentation on how to find, download and use uenv in your workflow, see the uenv documentation.
+For more documentation on how to find, download and use uenv in your workflow, see the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 ## Building software using Spack
 
@@ -24,7 +24,7 @@ export PATH=$PWD/uenv-spack:$PATH  # (2)!
 >
 > **Requires uv**
 >
-> `uenv-spack` requires [uv](<https://docs.astral.sh/uv/>). See our guide to setting up installation locations, before [installing uv](<https://docs.astral.sh/uv/getting-started/installation>).
+> `uenv-spack` requires [uv](<https://docs.astral.sh/uv/>). See our guide to setting up [installation locations](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM"), before [installing uv](<https://docs.astral.sh/uv/getting-started/installation>).
 
 ### Select the uenv
 

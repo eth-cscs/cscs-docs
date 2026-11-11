@@ -8,18 +8,18 @@ Refer to the [Quick Start User Guide](<https://slurm.schedmd.com/quickstart.html
 
   Specific guidance for configuring Slurm jobs on different node types.
 
-  GH200 nodes (Daint, Clariden, Santis)
+  [GH200 nodes (Daint, Clariden, Santis)](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes")
 
-  AMD CPU-only nodes (Eiger)
+  [AMD CPU-only nodes (Eiger)](<https://docs.cscs.ch/running/slurm/index.md#amd-cpu-nodes> "AMD CPU nodes")
 
-  MPI plugins (`--mpi`)
+  [MPI plugins (`--mpi`)](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins>)
 - **Node sharing**
 
   Guides on how to effectively use all resources on nodes by running more than one job per node.
 
-  Node sharing
+  [Node sharing](<https://docs.cscs.ch/running/slurm/index.md#node-sharing>)
 
-  Multiple MPI jobs per node
+  [Multiple MPI jobs per node](<https://docs.cscs.ch/running/slurm/index.md#running-more-than-one-job-step-per-node> "Running more than one job step per node")
 
 ## Accounts and resources
 
@@ -198,9 +198,9 @@ The MPI library and the PMI plugin must match. If they do not match, the applica
 
 | Plugin | MPI library | Use it for |
 | --- | --- | --- |
-| `cray_shasta` | Cray MPICH | Applications in uenv, for example prgenv-gnu and the application uenv, and the CPE containers. |
-| `pmix` | OpenMPI | The prgenv-gnu-openmpi uenv, and containers that use OpenMPI or PMIx, for example NCCL tests and NVSHMEM. |
-| `pmi2` | MPICH | Containers that use MPICH. |
+| `cray_shasta` | [Cray MPICH](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#cray-mpich>) | Applications in uenv, for example [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) and the [application uenv](<https://docs.cscs.ch/software/sciapps/index.md#scientific-applications> "Scientific Applications"), and the [CPE](<https://docs.cscs.ch/software/prgenv/cpe/index.md#cray-programming-environment-cpe> "Cray Programming Environment (CPE)") containers. |
+| `pmix` | [OpenMPI](<https://docs.cscs.ch/software/communication/openmpi/index.md#openmpi>) | The [prgenv-gnu-openmpi](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md#prgenv-gnu-openmpi>) uenv, and containers that use OpenMPI or PMIx, for example [NCCL tests](<https://docs.cscs.ch/software/communication/nccl/index.md#nccl>) and [NVSHMEM](<https://docs.cscs.ch/software/communication/nvshmem/index.md#nvshmem>). |
+| `pmi2` | [MPICH](<https://docs.cscs.ch/software/communication/mpich/index.md#mpich>) | Containers that use MPICH. |
 | `none` | none | Applications that do not use MPI. |
 
 ### Select a plugin
@@ -232,7 +232,7 @@ srun ./my_app
 
 ### Check the default plugin
 
-Slurm uses the default plugin of the cluster when you do not set `--mpi` or `SLURM_MPI_TYPE`. The default plugin can be different on different clusters, and some clusters have no default plugin set. The Slurm section of each cluster page gives the default plugin for that cluster.
+Slurm uses the default plugin of the cluster when you do not set `--mpi` or `SLURM_MPI_TYPE`. The default plugin can be different on different clusters, and some clusters have no default plugin set. The Slurm section of each [cluster page](<https://docs.cscs.ch/clusters/index.md#alps-clusters> "Alps Clusters") gives the default plugin for that cluster.
 
 To show the default plugin of the current cluster, run:
 
@@ -278,8 +278,8 @@ $ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU_BACKEND=cuda       #(3)
 $ CC=gcc CXX=g++ cmake .. -DAFFINITY_GPU_BACKEND=rocm       #(4)
 ```
 
-1. Affinity can be built using `prgenv-gnu` on all clusters.
-2. By default affinity will build with MPI support and no GPU support: configure with no additional arguments on a CPU-only system like Eiger.
+1. Affinity can be built using [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) on all clusters.
+2. By default affinity will build with MPI support and no GPU support: configure with no additional arguments on a CPU-only system like [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>).
 3. Enable CUDA support on systems that provide NVIDIA GPUs.
 4. Enable ROCM support on systems that provide AMD GPUs.
 
@@ -410,7 +410,7 @@ sbatch --constraint thp_never&nvidia_vboost_enabled batch.sh
 
 > [!NOTE]
 >
-> **The THP Slurm feature is only available on GH200 nodes**
+> **The THP Slurm feature is only available on [GH200 nodes](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes")**
 
 [Transparent hugepages (THP)](<https://www.kernel.org/doc/html/v6.17/admin-guide/mm/transhuge.html>) are a Linux kernel feature that allows automatically coalescing pages into huge pages without the user application explicitly asking for hugepages:
 
@@ -439,7 +439,7 @@ The available Slurm features to select the THP mode are listed below:
 
 > [!NOTE]
 >
-> **The NVIDIA vboost Slurm feature is only available on GH200 nodes**
+> **The NVIDIA vboost Slurm feature is only available on [GH200 nodes](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes")**
 
 The [NVIDIA NeMo documentation](<https://docs.nvidia.com/nemo-framework/user-guide/latest/performance/performance-guide.html#gpu-core-clock-optimization>) describes the vboost feature as:
 
@@ -472,25 +472,25 @@ The slider can be set to `1` using the `nvidia_vboost_enabled` feature:
 
 ## NVIDIA GH200 GPU Nodes
 
-The GH200 nodes on Alps have four GPUs per node, and Slurm job submissions must be configured appropriately to best make use of the resources. Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode. Configuring Slurm jobs to use a single GPU per rank is also the most straightforward setup. Some applications perform badly with a single rank per GPU, and require use of [NVIDIA’s Multi-Process Service (MPS)](<https://docs.nvidia.com/deploy/mps/index.html>) to oversubscribe GPUs with multiple ranks per GPU.
+The [GH200 nodes on Alps](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") have four GPUs per node, and Slurm job submissions must be configured appropriately to best make use of the resources. Applications that can saturate the GPUs with a single process per GPU should generally prefer this mode. [Configuring Slurm jobs to use a single GPU per rank](<https://docs.cscs.ch/running/slurm/index.md#one-rank-per-gpu> "One rank per GPU") is also the most straightforward setup. Some applications perform badly with a single rank per GPU, and require use of [NVIDIA’s Multi-Process Service (MPS)](<https://docs.nvidia.com/deploy/mps/index.html>) to oversubscribe GPUs with multiple ranks per GPU.
 
-The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case. See Scientific Applications for information about recommended application-specific Slurm configurations.
+The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case. See [Scientific Applications](<https://docs.cscs.ch/software/sciapps/index.md#scientific-applications>) for information about recommended application-specific Slurm configurations.
 
 > [!NOTE]
 >
 > **GH200 jobs on Santis**
 >
-> Santis uses node sharing. A rank that does not request a GPU gets one CPU core and no GPU. Each GPU that a job requests gives it a whole GH200 chip: one GPU, 72 CPU cores and 115 GB of host memory.
+> Santis uses [node sharing](<https://docs.cscs.ch/clusters/santis/index.md#node-sharing-and-gpu-requests> "Node sharing and GPU requests"). A rank that does not request a GPU gets one CPU core and no GPU. Each GPU that a job requests gives it a whole GH200 chip: one GPU, 72 CPU cores and 115 GB of host memory.
 >
-> - Request GPUs with `--gpus-per-task`, as in the one rank per GPU example, so that Slurm gives each rank its own GPU and the CPU cores next to it.
-> - Use `--gpus-per-node` only if you know that the ranks must share GPUs, for example to oversubscribe GPUs with MPS. With `--gpus-per-node`, every rank on the node can use all of the GPUs and CPU cores that the job has on that node, and you must assign GPUs and CPU cores to ranks yourself.
-> - Add `--gres-flags=allow-task-sharing` to `srun` (not to `#SBATCH`) when ranks on the same node communicate GPU to GPU, for example with GPU-aware MPI (see multi-GPU jobs on Santis).
+> - Request GPUs with `--gpus-per-task`, as in the [one rank per GPU](<https://docs.cscs.ch/running/slurm/index.md#one-rank-per-gpu> "One rank per GPU") example, so that Slurm gives each rank its own GPU and the CPU cores next to it.
+> - Use `--gpus-per-node` only if you know that the ranks must share GPUs, for example to [oversubscribe GPUs with MPS](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU"). With `--gpus-per-node`, every rank on the node can use all of the GPUs and CPU cores that the job has on that node, and you must assign GPUs and CPU cores to ranks yourself.
+> - Add `--gres-flags=allow-task-sharing` to `srun` (not to `#SBATCH`) when ranks on the same node communicate GPU to GPU, for example with GPU-aware MPI (see [multi-GPU jobs on Santis](<https://docs.cscs.ch/clusters/santis/index.md#multi-gpu-jobs-with-p2pipc> "Multi-GPU jobs with P2P/IPC")).
 
 > [!WARNING]
 >
 > The GH200 nodes have their GPUs configured in [“default” compute mode](<https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes>). The “default” mode is used to avoid issues with certain containers. Unlike “exclusive process” mode, “default” mode allows multiple processes to submit work to a single GPU simultaneously. This also means that different ranks on the same node can inadvertently use the same GPU leading to suboptimal performance or unused GPUs, rather than job failures.
 >
-> Some applications benefit from using multiple ranks per GPU. However, MPS should be used in these cases.
+> Some applications benefit from using multiple ranks per GPU. However, [MPS should be used](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU") in these cases.
 >
 > If you are unsure about which GPU is being used for a particular rank, print the `CUDA_VISIBLE_DEVICES` variable, along with e.g. `SLURM_LOCALID`, `SLURM_PROCID`, and `SLURM_NODEID` variables, in your job script. If the variable is unset or empty all GPUs are visible to the rank and the rank will in most cases only use the first GPU.
 
@@ -616,7 +616,7 @@ The configuration that is optimal for your application may be different.
 >
 > **Info**
 >
-> This power capping functionality is an experimental feature developed by CSCS. It is currently available on Säntis and the test and development system Starlex.
+> This power capping functionality is an experimental feature developed by CSCS. It is currently available on [Säntis](<https://docs.cscs.ch/clusters/santis/index.md#santis> "Santis") and the test and development system Starlex.
 >
 > This documentation will be updated once it has been deployed onto the production clusters.
 
@@ -648,7 +648,7 @@ srun -n4 -N1 --power-cap=100 ./run
 
 ## AMD CPU nodes
 
-Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the Eiger cluster provided by the HPC Platform. For a detailed description of the node hardware, see the AMD Rome node hardware documentation.
+Alps has nodes with two AMD Epyc Rome CPU sockets per node for CPU-only workloads, most notably in the [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) cluster provided by the [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>). For a detailed description of the node hardware, see the [AMD Rome node](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") hardware documentation.
 
 > [!NOTE]
 >
@@ -870,11 +870,11 @@ The nodes on Alps provide a lot of resources, particularly the GPU nodes that ha
 >
 > **Example**
 >
-> A workflow that runs a single GROMACS simulation, that uses one GPU.
+> A workflow that runs a single [GROMACS](<https://docs.cscs.ch/software/sciapps/gromacs/index.md#gromacs>) simulation, that uses one GPU.
 >
 > - The optimal use of resources would allocate one quarter of a node, and allow other jobs to access the other three GPUs.
 >
-> A workflow that runs 100 independent GROMACS simulations, where each simulation requires two GPUs.
+> A workflow that runs 100 independent [GROMACS](<https://docs.cscs.ch/software/sciapps/gromacs/index.md#gromacs>) simulations, where each simulation requires two GPUs.
 >
 > - The optimal use of resources would allocate 50 nodes, with two simulations run on each node.
 
@@ -882,15 +882,15 @@ The nodes on Alps provide a lot of resources, particularly the GPU nodes that ha
 
 With node sharing, a job can request part of a node. Other jobs, also from other users, can then run on the rest of the same node.
 
-Currently node sharing is not enabled on most systems (see below for exceptions). When node sharing is not available, use more than one job step per node to run small tasks side by side.
+Currently node sharing is not enabled on most systems (see below for exceptions). When node sharing is not available, use [more than one job step per node](<https://docs.cscs.ch/running/slurm/index.md#running-more-than-one-job-step-per-node> "Running more than one job step per node") to run small tasks side by side.
 
 > [!NOTE]
 >
 > **Where is node sharing enabled on Alps?**
 >
-> All partitions on Santis have node sharing enabled, where each requested GPU gives the job one GH200 chip (see node sharing on Santis),
+> All partitions on Santis have node sharing enabled, where each requested GPU gives the job one GH200 chip (see [node sharing on Santis](<https://docs.cscs.ch/clusters/santis/index.md#node-sharing-and-gpu-requests> "Node sharing and GPU requests")),
 >
-> The `xfer` partitions on all clusters, which are used for data transfer.
+> The `xfer` partitions on all clusters, which are used for [data transfer](<https://docs.cscs.ch/storage/transfer/index.md#internal-transfer> "Internal Transfer").
 
 > [!WARNING]
 >
@@ -898,11 +898,11 @@ Currently node sharing is not enabled on most systems (see below for exceptions)
 >
 > We are still integrating support for node sharing into our accounting. Currently projects are charged for each the whole node.
 >
-> See the resource allocation policies for more information.
+> See the [resource allocation policies](<https://docs.cscs.ch/policies/index.md#cscs-user-policies> "CSCS User Policies") for more information.
 
 ### Running more than one job step per node
 
-Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation. An example of running 4 independent CP2K calculations on a single GH200 node, each with 72 CPU cores and 1 GPU, can be found here.
+Running multiple job steps in parallel on the same allocated set of nodes can improve resource utilization by taking advantage of all the available CPUs, GPUs, or memory within a single job allocation. An example of running 4 independent CP2K calculations on a single GH200 node, each with 72 CPU cores and 1 GPU, can be found [here](<https://docs.cscs.ch/software/sciapps/cp2k/index.md#running-multiple-cp2k-calculations-simultaneously-on-a-single-daint-node> "Running multiple CP2K calculations simultaneously on a single Daint node").
 
 The approach is to:
 

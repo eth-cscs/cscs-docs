@@ -8,15 +8,19 @@ A key feature of Alps is multi-tenancy, where tenants are organizations, typical
 
 - **Platforms**
 
-  Alps Platforms
+  [Alps Platforms](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps")
 - **Clusters**
 
   The resources on Alps are partitioned and configured into versatile software defined clusters.
 
-  Alps Clusters
+  [Alps Clusters](<https://docs.cscs.ch/clusters/index.md#alps-clusters>)
 - **Hardware**
 
   Learn about the node types and networking infrastructure in Alps.
+
+  [Alps Hardware](<https://docs.cscs.ch/alps/hardware/index.md>)
 - **Storage**
 
   Learn about the file systems attached to Alps.
+
+  [Alps Storage](<https://docs.cscs.ch/alps/storage/index.md>)

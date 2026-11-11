@@ -1,14 +1,14 @@
 # prgenv-gnu-openmpi
 
-The `prgenv-gnu-openmpi` uenv is otherwise similar to `prgenv-gnu` except it provides OpenMPI instead of Cray MPICH.
+The `prgenv-gnu-openmpi` uenv is otherwise similar to [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) except it provides OpenMPI instead of Cray MPICH.
 
 > [!WARNING]
 >
 > **OpenMPI is not officially supported on CSCS systems**
 >
-> Cray MPICH is the preferred, and officially supported, MPI implementation on CSCS systems. OpenMPI is provided on a best effort basis. While most applications should work correctly with OpenMPI, there may be missing features, broken functionality, or bad performance compared to Cray MPICH. Issues are best reported upstream, but CSCS is happy to help facilitate and coordinate issue reporting if you get in touch.
+> Cray MPICH is the preferred, and officially supported, MPI implementation on CSCS systems. OpenMPI is provided on a best effort basis. While most applications should work correctly with OpenMPI, there may be missing features, broken functionality, or bad performance compared to Cray MPICH. Issues are best reported upstream, but CSCS is happy to help facilitate and coordinate issue reporting if you [get in touch](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch").
 
-Use of the uenv is similar to `prgenv-gnu`. See the OpenMPI documentation for important information on configuring OpenMPI to take advantage of the Slingshot network. Start OpenMPI applications with `srun --mpi=pmix` (see MPI plugins).
+Use of the uenv is similar to [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>). See the [OpenMPI documentation](<https://docs.cscs.ch/software/communication/openmpi/index.md#openmpi>) for important information on configuring OpenMPI to take advantage of the Slingshot network. Start OpenMPI applications with `srun --mpi=pmix` (see [MPI plugins](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins>)).
 
 ### Versions
 

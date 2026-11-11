@@ -4,7 +4,7 @@
 >
 > **Info**
 >
-> The GPU Saturation Scorer (GSSR) will ultimately replace Jobreport but is currently limited to Swiss AI proposals. Please refer to the submission guidelines for which tool to use.
+> The GPU Saturation Scorer (GSSR) will ultimately replace [Jobreport](<https://docs.cscs.ch/running/jobreport/index.md#job-report> "Job report") but is currently limited to Swiss AI proposals. Please refer to the submission guidelines for which tool to use.
 
 ## Overview
 
@@ -43,7 +43,7 @@ make install-uv
 
 > [!TIP]
 >
-> Consider putting `gssr-record` and `gssr-analyze` in an architecture-specific location in your `$PATH`. This is discussed in detail on this page. Otherwise, you will need to modify the examples to include the path to the tools in the command.
+> Consider putting `gssr-record` and `gssr-analyze` in an architecture-specific location in your `$PATH`. This is discussed in detail [on this page](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM"). Otherwise, you will need to modify the examples to include the path to the tools in the command.
 
 ## Quick start example, single node
 
@@ -126,7 +126,7 @@ error while loading shared libraries: libdcgm.so.3: cannot open shared object fi
 
 > [!WARNING]
 >
-> The output directory should be under a path that has been bind-mounted in the `.toml` file. If the output directory is inside the container, the data will be lost when the container ends. GSSR attempts to detect this scenario and warn the user.
+> The output directory should be under a path that has been [bind-mounted](<https://docs.cscs.ch/software/container-engine/edf/index.md#mounts>) in the `.toml` file. If the output directory is inside the container, the data will be lost when the container ends. GSSR attempts to detect this scenario and warn the user.
 
 ## Important behaviour to know
 
@@ -200,7 +200,7 @@ Options:
 
 ## Support
 
-If you encounter problems, contact support and include:
+If you encounter problems, [contact support](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") and include:
 
 - Job script
 - GSSR output directory

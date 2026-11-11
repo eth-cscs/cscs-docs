@@ -10,7 +10,7 @@
 >
 > Accordingly, the contents of this page are not final and should be expected to change.
 >
-> Familiarity with the current Container Engine (CE) toolset is assumed.
+> Familiarity with the current [Container Engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>) toolset is assumed.
 
 > [!CAUTION]
 >
@@ -408,7 +408,7 @@ PRETTY_NAME="Ubuntu 24.04.3 LTS"
 
 ## Enabling HPC Features
 
-With Sarus Suite, HPC features are enabled through OCI hooks, CDI specs and raw device files. Hooks are enabled through EDF annotations, while CDI specs and device files through the EDF device array.
+With Sarus Suite, HPC features are enabled through OCI hooks, CDI specs and raw device files. Hooks are enabled through EDF annotations, while CDI specs and device files through the EDF [device array](<https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/index.md#device-array-in-edfs> "Device Array in EDFs").
 
 > [!NOTE]
 >
@@ -416,21 +416,21 @@ With Sarus Suite, HPC features are enabled through OCI hooks, CDI specs and raw 
 >
 > The following devices are enabled automatically in Sarus Suite if they are detected in a compute node when the Container Engine is deployed:
 >
-> - NVIDIA GPUs
-> - CXI device nodes
+> - [NVIDIA GPUs](<https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/index.md#nvidia-gpus>)
+> - [CXI device nodes](<https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/index.md#cxi-devices-files> "CXI devices files")
 > - `/dev/xpmem`
 > - `/dev/gdrdrv`
 
 ### Hooks and annotations
 
-The following EDF annotations are currently supported on Alps, matching interfaces from the Enroot-based Container Engine:
+The following EDF annotations are currently supported on Alps, [matching interfaces](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#container-hooks> "Container Hooks") from the Enroot-based Container Engine:
 
 | Annotation | Feature |
 | --- | --- |
-| `com.hooks.cxi.enabled = "true"` | Libfabric-based support for the HPE Slingshot high-speed network |
-| `com.hooks.aws_ofi_nccl.enabled = "true"` | AWS OFI NCCL plugin injection to use Slingshot (through libfabric) in NCCL containers |
-| `com.hooks.dcgm.enabled = "true"` | NVIDIA DCGM libraries required to use the GSSR and jobreport tools |
-| `com.hooks.nvidia_cuda_mps.enabled = "true"` | Support for the NVIDIA CUDA Multi-Process Service |
+| `com.hooks.cxi.enabled = "true"` | Libfabric-based support for the [HPE Slingshot high-speed network](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") |
+| `com.hooks.aws_ofi_nccl.enabled = "true"` | [AWS OFI NCCL plugin injection](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") to use Slingshot (through libfabric) in NCCL containers |
+| `com.hooks.dcgm.enabled = "true"` | NVIDIA DCGM libraries required to use the [GSSR](<https://docs.cscs.ch/running/gssr/index.md#using-gssr-inside-containers> "Using GSSR inside containers") and [jobreport](<https://docs.cscs.ch/running/jobreport/index.md#example-with-container-engine-ce> "Example with container-engine (CE)") tools |
+| `com.hooks.nvidia_cuda_mps.enabled = "true"` | Support for the [NVIDIA CUDA Multi-Process Service](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#nvidia-cuda-mps-hook> "NVIDIA CUDA MPS hook") |
 | `com.hooks.slurm.enabled = "true"` | **Experimental** support for host Slurm commands in containers |
 
 > [!IMPORTANT]
@@ -445,7 +445,7 @@ The following EDF annotations are currently supported on Alps, matching interfac
 
 > [!WARNING]
 >
-> The CXI and AWS OFI NCCL hooks use a fixed version of a network stack artifact. It is not currently possible to select a netstack source or specific artifact version.
+> The CXI and AWS OFI NCCL hooks use a fixed version of a [network stack artifact](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source"). It is not currently possible to select a netstack source or specific artifact version.
 
 ### NVIDIA GPUs
 

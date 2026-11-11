@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> NAMD is supported software on Alps. See the main applications page for more information.
+> NAMD is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [NAMD](<http://www.ks.uiuc.edu/Research/namd/>) is a parallel molecular dynamics code based on [Charm++](<https://charm.cs.uiuc.edu/>), designed for high-performance simulations of large biomolecular systems.
 
@@ -16,7 +16,7 @@
 >
 > **User Environments**
 >
-> [NAMD](<http://www.ks.uiuc.edu/Research/namd/>) is provided on ALPS as a uenv. Please have a look at the uenv documentation for more information about UENVs and how to use them.
+> [NAMD](<http://www.ks.uiuc.edu/Research/namd/>) is provided on [ALPS](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") as a uenv. Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about UENVs and how to use them.
 
 [NAMD](<http://www.ks.uiuc.edu/Research/namd/>) is provided in two flavours on [CSCS](<https://www.cscs.ch>) systems:
 
@@ -35,7 +35,7 @@ The single-node build works on a single node and benefits from the new GPU-resid
 >
 > **Eiger**
 >
-> The multi-node version is the only version of NAMD available on Eiger - single-node is not provided.
+> The multi-node version is the only version of NAMD available on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) - single-node is not provided.
 
 > [!NOTE]
 >

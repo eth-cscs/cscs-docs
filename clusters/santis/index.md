@@ -1,38 +1,38 @@
 # Santis
 
-Santis is the main Climate and Weather Platform cluster that provides compute nodes and file systems for GPU-enabled climate and weather workloads.
+Santis is the main [Climate and Weather Platform](<https://docs.cscs.ch/platforms/cwp/index.md#climate-and-weather-platform>) cluster that provides compute nodes and file systems for GPU-enabled climate and weather workloads.
 
 ## Cluster specification
 
 ### Compute nodes
 
-Santis consists of 302 Grace-Hopper nodes.
+Santis consists of 302 [Grace-Hopper nodes](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes").
 
-The number of nodes can vary as nodes are added or removed from other clusters on Alps. See the Slurm documentation for information on how to check the number of nodes.
+The number of nodes can vary as nodes are added or removed from other clusters on Alps. See the [Slurm documentation](<https://docs.cscs.ch/running/slurm/index.md#ref-slurm-partitions-nodecount> "Partitions") for information on how to check the number of nodes.
 
 There are two login nodes, `santis-ln00[1,2]`, which are repurposed compute nodes from the pool of 302 GH200 nodes. You will be assigned to one of the two login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs. This leaves 300 nodes available for compute jobs.
 
 | Node type | Memory | Nodes | CPU sockets | GPUs |
 | --- | --- | --- | --- | --- |
-| gh200 | – | 300 | 1200 | 1200 |
+| [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | – | 300 | 1200 | 1200 |
 
-In addition, two zen2 nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
+In addition, two [zen2](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
 
 ### Storage and file systems
 
-Santis uses the CWP filesystems and storage policies.
+Santis uses the [CWP filesystems and storage policies](<https://docs.cscs.ch/platforms/cwp/index.md#file-systems-and-storage> "File systems and storage").
 
 ## Getting started
 
 ### Logging into Santis
 
-To connect to Santis via SSH, first refer to the ssh guide.
+To connect to Santis via SSH, first refer to the [ssh guide](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH").
 
 > [!NOTE]
 >
 > **`~/.ssh/config`**
 >
-> Add the following to your SSH configuration to enable you to directly connect to Santis using `ssh santis`.
+> Add the following to your [SSH configuration](<https://docs.cscs.ch/access/ssh/index.md#adding-ela-as-a-jump-host-in-ssh-configuration> "Adding Ela as a jump host in SSH configuration") to enable you to directly connect to Santis using `ssh santis`.
 >
 > ```text
 > Host santis
@@ -47,29 +47,29 @@ To connect to Santis via SSH, first refer to the ssh guide.
 
 #### uenv
 
-Santis provides uenv to deliver programming environments and application software for the climate and weather community. Please refer to the uenv documentation for detailed information on how to use the uenv tools on the system.
+Santis provides uenv to deliver programming environments and application software for the climate and weather community. Please refer to the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for detailed information on how to use the uenv tools on the system.
 
 - **Climate and Weather Applications**
 
   Provide software stacks for climate and weather workflows on Santis.
 
-  - ICON
-  - netcdf-tools
+  - [ICON](<https://docs.cscs.ch/software/cw/icon/index.md#icon>)
+  - [netcdf-tools](<https://docs.cscs.ch/software/cw/netcdf-tools/index.md#netcdf-tools>)
 
 - **Programming Environments**
 
   Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
 
-  - prgenv-gnu
-  - prgenv-gnu-openmpi
-  - julia
+  - [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>)
+  - [prgenv-gnu-openmpi](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md#prgenv-gnu-openmpi>)
+  - [julia](<https://docs.cscs.ch/software/prgenv/julia/index.md#julia>)
 
 - **Tools**
 
   Provide tools for debugging and performance analysis.
 
-  - Linaro Forge
-  - Score-P
+  - [Linaro Forge](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#linaro-forge>)
+  - [Score-P](<https://docs.cscs.ch/software/devtools/vihps/index.md#vi-hps-tools> "VI-HPS tools")
 
 To list all uenv that are available on Santis, run `uenv image find`.
 
@@ -77,7 +77,7 @@ To list all uenv that are available on Santis, run `uenv image find`.
 >
 > **using uenv provided for other clusters**
 >
-> You can run uenv that were built for other Alps clusters using the `@` notation. For example, to use uenv images for daint:
+> You can run uenv that were built for other Alps clusters using the `@` notation. For example, to use uenv images for [daint](<https://docs.cscs.ch/clusters/daint/index.md#daint> "Daint"):
 >
 > ```bash
 > # list all images available for daint
@@ -92,22 +92,22 @@ To list all uenv that are available on Santis, run `uenv image find`.
 
 #### Containers
 
-Santis supports container workloads using the container engine.
+Santis supports container workloads using the [container engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine").
 
-To build images, see the guide to building container images on Alps.
+To build images, see the [guide to building container images on Alps](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 
 ## Running jobs on Santis
 
 ### Slurm
 
-Santis uses Slurm as the workload manager, which is used to launch and monitor compute-intensive workloads.
+Santis uses [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) as the workload manager, which is used to launch and monitor compute-intensive workloads.
 
-There are four Slurm partitions on the system:
+There are four [Slurm partitions](<https://docs.cscs.ch/running/slurm/index.md#partitions> "Partitions") on the system:
 
 - the `normal` partition is for standard compute, and is the default.
 - the `debug` partition is for short testing.
 - the `low` partition is for overflow, and for projects that have exhausted their quota.
-- the `xfer` partition is for internal data transfer at CSCS.
+- the `xfer` partition is for [internal data transfer](<https://docs.cscs.ch/storage/transfer/index.md#internal-transfer> "Internal Transfer") at CSCS.
 
 | Partition | Nodes | Max nodes/job | Default time | Max time |
 | --- | --- | --- | --- | --- |
@@ -119,25 +119,25 @@ There are four Slurm partitions on the system:
 
 Slurm uses the default time when a job does not set `--time`.
 
-The hardware available in each partition, including the Slurm features that can be selected with `--constraint`:
+The hardware available in each partition, including the [Slurm features](<https://docs.cscs.ch/running/slurm/index.md#slurm-features>) that can be selected with `--constraint`:
 
 | Partition | Nodes | Node type | Features |
 | --- | --- | --- | --- |
-| `normal` | 296 | gh200 | vboost, thp |
-| `low` | 296 | gh200 | vboost, thp |
-| `tier0` | 296 | gh200 | vboost, thp |
-| `debug` | 4 | gh200 | vboost, thp |
-| `xfer` | 2 | zen2 256 GB | none |
+| `normal` | 296 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `low` | 296 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `tier0` | 296 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `debug` | 4 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `xfer` | 2 | [zen2 256 GB](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") | none |
 
 > [!NOTE]
 >
 > **Default MPI plugin**
 >
-> The default MPI plugin on Santis is `cray_shasta`. This plugin is correct for applications that use Cray MPICH, for example applications in uenv. Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+> The default [MPI plugin](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") on Santis is `cray_shasta`. This plugin is correct for applications that use Cray MPICH, for example applications in uenv. Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
 #### Node sharing and GPU requests
 
-All GH200 partitions on Santis use node sharing.
+All GH200 partitions on Santis use [node sharing](<https://docs.cscs.ch/running/slurm/index.md#node-sharing> "Node sharing").
 
 By default MPI ranks on Santis are given a single CPU core and no GPUs.
 
@@ -214,7 +214,7 @@ Slurm is configured to allocate resources in units of one GH200 chip for each GP
 >
 > **Charge for shared nodes**
 >
-> Your project is charged for the whole node, including when a job uses only part of it. For example, a job that uses one GPU is charged one node hour for each hour that it runs. See the resource allocation policies.
+> Your project is charged for the whole node, including when a job uses only part of it. For example, a job that uses one GPU is charged one node hour for each hour that it runs. See the [resource allocation policies](<https://docs.cscs.ch/policies/index.md#cscs-user-policies> "CSCS User Policies").
 
 #### Multi-GPU jobs with P2P/IPC
 
@@ -236,7 +236,7 @@ This keeps all GPUs allocated to a job visible to all tasks of that job while pr
 
 #### CPU Power Capping
 
-This power capping feature allows to optimize power distribution on the GH200 nodes in favour of the GPUs for applications using CPU and GPU simultaneously. You can find more details and instructions how to activate the power capping in your runs here.
+This power capping feature allows to optimize power distribution on the GH200 nodes in favour of the GPUs for applications using CPU and GPU simultaneously. You can find more details and instructions how to activate the power capping in your runs [here](<https://docs.cscs.ch/running/slurm/index.md#gh200-power-capping> "GH200 power capping").
 
 #### Low-priority overflow partition
 
@@ -270,11 +270,11 @@ $ sacctmgr show qos normal,slowdown format=name,maxjobspu,maxsubmitpu
   slowdown        10          20
 ```
 
-See the Slurm documentation for instructions on how to run jobs on the Grace-Hopper nodes.
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes").
 
 ### FirecREST
 
-Santis can also be accessed using FirecREST at the `https://api.cscs.ch/cw/firecrest/v2` API endpoint.
+Santis can also be accessed using [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) at the `https://api.cscs.ch/cw/firecrest/v2` API endpoint.
 
 > [!WARNING]
 >
@@ -322,7 +322,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > **Login node limits**
 >
-> To enforce our fair usage of shared resources policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+> To enforce our [fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
 
 > [!NOTE]
 >
@@ -330,7 +330,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > - Enable node sharing on all GH200 compute partitions. Resources are allocated per GH200 chip: one requested GPU corresponds to 72 cores and 115 GB of host memory by default.
 > - Introduce the `low` partition for overflow work and quota-exhausted projects.
-> - Enforce a per-user limit on concurrently running jobs (see the current job limits).
+> - Enforce a per-user limit on concurrently running jobs (see the current [job limits](<https://docs.cscs.ch/clusters/santis/index.md#concurrent-job-limit> "Concurrent job limit")).
 > - Enable the power capping feature on the GH200 nodes.
 > - Multi-GPU jobs relying on intra-node P2P/IPC must add `--gres-flags=allow-task-sharing` to the `srun` command or `export SLURM_GRES_FLAGS=allow-task-sharing`.
 
@@ -390,7 +390,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 >   - Changed a hard error to a warning when image metadata is not attached in the registry.
 >   - Fixed a latent bug parsing date strings in image metadata.
-> - uenv changelog
+> - [uenv changelog](<https://docs.cscs.ch/software/uenv/release-notes/index.md#v100> "v10.0")
 
 **2025-05-21**
 

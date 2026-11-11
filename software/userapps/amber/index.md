@@ -2,13 +2,13 @@
 
 > [!WARNING]
 >
-> Amber is user software on Alps. This guide is provided based on our experiences helping users — however we can’t provide the same level of support as we do for supported software. See the main applications page for more information.
+> Amber is [user software](<https://docs.cscs.ch/policies/support/index.md#user-applications> "User Applications") on Alps. This guide is provided based on our experiences helping users — however we can’t provide the same level of support as we do for [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications"). See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 >
 > Amber provides many options and tools. The process shown here builds a representative CUDA + MPI configuration for Grace-Hopper — you may have to modify the CMake options to build the exact set of tools you need.
 
 [Amber](<https://ambermd.org>) is a suite of programs for molecular dynamics simulation of biomolecular systems such as proteins, nucleic acids, and small molecules. It is widely used in computational chemistry and structural biology, with GPU acceleration support through its PMEMD engine.
 
-The instructions provided here are for building Amber on daint with Grace-Hopper (GH200) support.
+The instructions provided here are for building Amber on [daint](<https://docs.cscs.ch/clusters/daint/index.md#daint> "Daint") with Grace-Hopper (GH200) support.
 
 ## Licensing
 
@@ -22,18 +22,18 @@ Users are responsible for following the terms of the license that they agree to 
 
 ## Overview
 
-Because CSCS cannot redistribute Amber (see Licensing), we provide a uenv that contains everything needed to build Amber, for users to build their own Amber. The workflow has three steps:
+Because CSCS cannot redistribute Amber (see [Licensing](<https://docs.cscs.ch/software/userapps/amber/index.md#licensing>)), we provide a uenv that contains everything needed to build Amber, for users to build their own Amber. The workflow has three steps:
 
-1. Pull the `amber/26` uenv: provides the compiler, CUDA, Python and libraries.
-2. Download and extract the Amber source: you agree to the license and download it yourself.
-3. Build Amber: with the provided script, then test it.
-4. Optionally, package the build as its own uenv so it survives scratch cleanup.
+1. [Pull the `amber/26` uenv](<https://docs.cscs.ch/software/userapps/amber/index.md#the-amber-uenv> "The Amber uenv"): provides the compiler, CUDA, Python and libraries.
+2. [Download and extract the Amber source](<https://docs.cscs.ch/software/userapps/amber/index.md#getting-amber> "Getting Amber"): you agree to the license and download it yourself.
+3. [Build Amber](<https://docs.cscs.ch/software/userapps/amber/index.md#getting-amber> "Getting Amber"): with the provided script, then test it.
+4. Optionally, [package the build as its own uenv](<https://docs.cscs.ch/software/userapps/amber/index.md#making-a-uenv> "Making a Uenv") so it survives scratch cleanup.
 
 The whole build takes roughly 1 to 2 hours on a single Grace-Hopper node.
 
 ## The Amber uenv
 
-The `amber/26` uenv provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the gh200 nodes of daint. It provides, in a single view called `amber`:
+The `amber/26` [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) provides the compilers and libraries needed to build both CPU-only and CUDA-enabled installations on the [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") nodes of [daint](<https://docs.cscs.ch/clusters/daint/index.md#daint> "Daint"). It provides, in a single view called `amber`:
 
 - **CUDA 12.8**: the most recent version of CUDA supported by Amber26.
 - **GCC 12.5**: the most recent non-deprecated GCC compatible with CUDA 12.8.
@@ -68,7 +68,7 @@ You do not need to install any Python packages by hand—everything required to 
 >   views  [amber]
 > ```
 >
-> If you frequently use the tools interactively, consider creating an alias for a custom environment that loads the uenv and also sets `AMBERHOME`.
+> If you frequently use the tools interactively, consider creating an alias for a [custom environment](<https://docs.cscs.ch/software/uenv/guides/index.md#custom-environments> "Custom environments") that loads the uenv and also sets `AMBERHOME`.
 
 ## Getting Amber
 
@@ -85,7 +85,7 @@ After downloading you will have two files:
 >
 > **Copying the Amber sources to Daint**
 >
-> We assume you have SSH set up as described in Using SSH.
+> We assume you have SSH set up as described in [Using SSH](<https://docs.cscs.ch/access/ssh/index.md#using-ssh>).
 >
 > ```console
 > $ ssh daint 'mkdir -p ~/ambersources'
@@ -98,7 +98,7 @@ After downloading you will have two files:
 >
 > **Where to build**
 >
-> Building generates a large number of files. Build on a fast file system with plenty of space — your Scratch is a good choice. Install the result into your Store path (e.g. `export AMBERHOME=$STORE/amber26`) if you want everyone in your group to be able to use it.
+> Building generates a large number of files. Build on a fast file system with plenty of space — your [Scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) is a good choice. Install the result into your [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) path (e.g. `export AMBERHOME=$STORE/amber26`) if you want everyone in your group to be able to use it.
 
 Choose a directory to unpack the sources into, and set `AMBER_ROOT` to point at it:
 
@@ -429,7 +429,7 @@ export PMEMD_SRC=$AMBER_ROOT/pmemd26_src
 
 ## Making a Uenv
 
-A full Amber install contains a very large number of files, which can push you over your inode quota if it is stored on Store. Scratch is also subject to cleanup policies.
+A full Amber install contains a very large number of files, which can push you over your inode quota if it is stored on [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>). [Scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) is also subject to [cleanup policies](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies").
 
 The fix is to package the installed `$AMBERHOME` directory itself as a uenv that mounts at the `$AMBERHOME` path, and is designed to be loaded **alongside** the `amber` uenv rather than on its own.
 
@@ -608,9 +608,9 @@ $ pmemd.cuda -O -i mdin -p prmtop -c inpcrd -o out
 
 ## Running simulations
 
-Load the uenv with the `amber` view in your batch script and launch the GPU engine with `srun`. Each MPI rank uses one GPU; the gh200 nodes have 4 GPUs.
+Load the uenv with the `amber` view in your batch script and launch the GPU engine with `srun`. Each MPI rank uses one GPU; the [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") nodes have 4 GPUs.
 
-If you packaged your build as the `amber-build` uenv, load it alongside `amber` and drop the `source amber.sh` step — `pmemd.cuda.MPI` is already on `PATH`:
+If you [packaged your build as the `amber-build` uenv](<https://docs.cscs.ch/software/userapps/amber/index.md#making-a-uenv> "Making a Uenv"), load it alongside `amber` and drop the `source amber.sh` step — `pmemd.cuda.MPI` is already on `PATH`:
 
 submit.sh — 1 node, 4 GPUs, using the packaged amber-build uenv
 

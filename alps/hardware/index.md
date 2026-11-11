@@ -43,11 +43,11 @@ There are currently five node types in Alps:
 
 | type | abbreviation | blades | nodes | CPU sockets | GPU devices |
 | --- | --- | ---: | ---: | ---: | ---: |
-| NVIDIA GH200 | gh200 | 1344 | 2688 | 10,752 | 10,752 |
-| AMD Rome | zen2 | 256 | 1024 | 2,048 | – |
-| NVIDIA A100 | a100 | 72 | 144 | 144 | 576 |
-| AMD MI250x | mi200 | 12 | 24 | 24 | 96 |
-| AMD MI300A | mi300 | 64 | 128 | 512 | 512 |
+| [NVIDIA GH200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | gh200 | 1344 | 2688 | 10,752 | 10,752 |
+| [AMD Rome](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") | zen2 | 256 | 1024 | 2,048 | – |
+| [NVIDIA A100](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-a100-gpu-nodes> "NVIDIA A100 GPU Nodes") | a100 | 72 | 144 | 144 | 576 |
+| [AMD MI250x](<https://docs.cscs.ch/alps/hardware/index.md#amd-mi250x-gpu-nodes> "AMD MI250x GPU Nodes") | mi200 | 12 | 24 | 24 | 96 |
+| [AMD MI300A](<https://docs.cscs.ch/alps/hardware/index.md#amd-mi300a-gpu-nodes> "AMD MI300A GPU Nodes") | mi300 | 64 | 128 | 512 | 512 |
 
 ### NVIDIA GH200 GPU Nodes
 
@@ -100,7 +100,7 @@ Each node contains four Grace-Hopper modules and four corresponding network inte
 
 ### AMD Rome CPU Nodes
 
-These nodes have two [AMD Epyc 7742](<https://www.amd.com/en/support/downloads/drivers.html/processors/epyc/epyc-7002-series/amd-epyc-7742.html>) 64-core CPU sockets, and are used primarily for the Eiger system. They come in two memory configurations:
+These nodes have two [AMD Epyc 7742](<https://www.amd.com/en/support/downloads/drivers.html/processors/epyc/epyc-7002-series/amd-epyc-7742.html>) 64-core CPU sockets, and are used primarily for the [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) system. They come in two memory configurations:
 
 - *Standard-memory*: 256 GB in 16x16 GB DDR4 DIMMs.
 - *Large-memory*: 512 GB in 16x32 GB DDR4 DIMMs.

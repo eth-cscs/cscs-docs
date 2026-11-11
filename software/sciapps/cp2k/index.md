@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> CP2K is supported software on Alps. See the main applications page for more information.
+> CP2K is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [CP2K](<https://www.cp2k.org/>) is a quantum chemistry and solid state physics software package that can perform atomistic simulations of solid state, liquid, molecular, periodic, material, crystal, and biological systems.
 
@@ -12,7 +12,7 @@ CP2K provides a general framework for different modeling methods such as DFT usi
 >
 > **uenvs**
 >
-> [CP2K](<https://www.cp2k.org/>) is provided on ALPS via uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> [CP2K](<https://www.cp2k.org/>) is provided on [ALPS](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 > [!WARNING]
 >
@@ -28,7 +28,7 @@ CP2K provides a general framework for different modeling methods such as DFT usi
 > >
 > > - Updated CUDA to `@13.2`
 > > - Updated GCC from `@12.5.0` to `@15.3.0`
-> > - Updated Cray MPICH to `@9.2.1`, solving slow host buffer communication with GPU-aware MPI
+> > - Updated Cray MPICH to `@9.2.1`, solving [slow host buffer communication with GPU-aware MPI](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#known-issues> "Known issues")
 > > - Updated ELPA to `@2026.02.002` with [patch](<https://github.com/marekandreas/elpa/pull/85>) for MPI communicator leak
 > > - Most dependencies have been updated to the latest version available on Spack
 >
@@ -56,7 +56,7 @@ CP2K provides a general framework for different modeling methods such as DFT usi
 > >   - The DLA-Future integration has been moved to a separate `cp2k-dlaf` view
 > >   - The two views available in `cp2k@2025.1:v1` are still available, without DLA-Future: `cp2k` and `develop`
 > >   - Two new views with DLA-Future are available in `cp2k@2025.1:v2`: `cp2k-dlaf` and `develop-dlaf`
-> > - The default BLAS/LAPACK library on Eiger is now [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) (changed from Intel oneAPI MKL, oneMKL)
+> > - The default BLAS/LAPACK library on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) is now [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) (changed from Intel oneAPI MKL, oneMKL)
 > >
 > >   - Performance on some workloads is better and on others is comparable
 > >   - Brings uniformity across platforms
@@ -66,7 +66,7 @@ CP2K provides a general framework for different modeling methods such as DFT usi
 On our systems, CP2K is built with the following dependencies:
 
 - [COSMA](<https://github.com/eth-cscs/COSMA>)
-- Cray MPICH
+- [Cray MPICH](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#cray-mpich>)
 - [DBCSR](<https://cp2k.github.io/dbcsr/develop/>)
 - [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) (from `cp2k@2025.1` in view `cp2k-dlaf`, from `cp2k@2026.1` onwards in view `cp2k`)
 - [dftd4](<https://dftd4.readthedocs.io/en/latest/>) (from `cp2k@2025.1` onwards)
@@ -87,19 +87,19 @@ On our systems, CP2K is built with the following dependencies:
 >
 > **GPU-aware MPI**
 >
-> [COSMA](<https://github.com/eth-cscs/COSMA>) and [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) are built with GPU-aware MPI, which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`. On Daint, `MPICH_GPU_SUPPORT_ENABLED=1` is set by default.
+> [COSMA](<https://github.com/eth-cscs/COSMA>) and [DLA-Future](<https://github.com/eth-cscs/DLA-Future>) are built with [GPU-aware MPI](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#gpu-aware-mpi>), which requires setting `MPICH_GPU_SUPPORT_ENABLED=1`. On [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), `MPICH_GPU_SUPPORT_ENABLED=1` is set by default.
 
 > [!NOTE]
 >
 > **CUDA cache path for JIT compilation**
 >
-> [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) uses JIT compilation for CUDA kernels. The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation. Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`. On Daint, `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by default.
+> [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) uses JIT compilation for CUDA kernels. The default location is in the home directory, which can put unnecessary burden on the filesystem and lead to performance degradation. Because of this we set `CUDA_CACHE_PATH` to point to the in-memory filesystem in `/dev/shm`. On [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), `CUDA_CACHE_PATH` is set to a directory under `/dev/shm` by default.
 
 ## Running CP2K
 
 ### Running on Daint
 
-Daint nodes have four GH200 GPUs that have to be configured properly for best performance. To start a job, two bash scripts are potentially required: a Slurm submission script, and a wrapper to start the CUDA MPS daemon so that multiple MPI ranks can use the same GPU.
+[Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) nodes have [four GH200 GPUs](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") that have to be configured properly for best performance. To start a job, two bash scripts are potentially required: a [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) submission script, and a wrapper to start the [CUDA MPS](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU") daemon so that multiple MPI ranks can use the same GPU.
 
 run\_cp2k.sh
 
@@ -132,8 +132,8 @@ srun --cpu-bind=socket ./mps-wrapper.sh cp2k.psmp -i <CP2K_INPUT> -o <CP2K_OUTPU
 2. Number of MPI ranks per node
 3. Number of CPUs per MPI ranks
 4. [OpenBLAS](<http://www.openmathlib.org/OpenBLAS/>) spawns an extra thread, therefore it is necessary to set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK - 1` for good performance. With [Intel MKL](<https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html>), this is not necessary and one can set `OMP_NUM_THREADS` to `SLURM_CPUS_PER_TASK`.
-5. [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead. This is set by default on Daint, but it’s set here explicitly as it’s essential to avoid performance degradation.
-6. CP2K’s dependencies use GPU-aware MPI, which requires enabling support at runtime. This is set by default on Daint, but it’s set here explicitly as it’s a requirement in general for enabling GPU-aware MPI.
+5. [DBCSR](<https://cp2k.github.io/dbcsr/develop/>) relies on extensive JIT compilation, and we store the cache in memory to avoid I/O overhead. This is set by default on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), but it’s set here explicitly as it’s essential to avoid performance degradation.
+6. CP2K’s dependencies use GPU-aware MPI, which requires enabling support at runtime. This is set by default on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), but it’s set here explicitly as it’s a requirement in general for enabling GPU-aware MPI.
 7. Change  to your project account name
 8. Change `<CP2K_UENV>` to the name (or path) of the actual CP2K uenv you want to use
 9. Change `<PATH_TO_CP2K_DATA_DIR>` to the actual path to the CP2K data directory
@@ -147,7 +147,7 @@ sbatch run_cp2k.sh
 
 > [!NOTE]
 >
-> The `mps-wrapper.sh` script, required to properly over-subscribe the GPU, is provided at the following page: NVIDIA GH200 GPU nodes: multiple ranks per GPU.
+> The `mps-wrapper.sh` script, required to properly over-subscribe the GPU, is provided at the following page: [NVIDIA GH200 GPU nodes: multiple ranks per GPU](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 
 > [!WARNING]
 >
@@ -155,7 +155,7 @@ sbatch run_cp2k.sh
 
 > [!WARNING]
 >
-> Each GH200 node has 4 modules, each of them composed of a ARM Grace CPU with 72 cores and a H200 GPU directly attached to it. Please see Alps hardware for more information. It is important that the number of MPI ranks passed to \[Slurm\] with `--ntasks-per-node` is a multiple of 4.
+> Each GH200 node has 4 modules, each of them composed of a ARM Grace CPU with 72 cores and a H200 GPU directly attached to it. Please see [Alps hardware](<https://docs.cscs.ch/alps/hardware/index.md#alps-hardware> "Alps Hardware") for more information. It is important that the number of MPI ranks passed to \[Slurm\] with `--ntasks-per-node` is a multiple of 4.
 >
 > > **Note**
 > >
@@ -582,7 +582,7 @@ Note that COSMA is the default parallel dense matrix-matrix multiplication libra
 &END FM
 ```
 
-For workloads that use both host and device buffers for communication, see the Cray MPICH known issues page for an alternative workaround.
+For workloads that use both host and device buffers for communication, see [the Cray MPICH known issues page](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#slow-host-buffer-communication-with-nvidia-driver-version-590-and-later> "Slow host buffer communication with Nvidia driver version 590 and later") for an alternative workaround.
 
 ### ELPA slowdown with 2026.1 on Daint
 

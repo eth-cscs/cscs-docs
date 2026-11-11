@@ -17,13 +17,13 @@ graphroot = "/dev/shm/$USER/root"
 
 > [!WARNING]
 >
-> If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead. See the terminal user guide for further information about XDG variables.
+> If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead. See the [terminal user guide](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM") for further information about XDG variables.
 
 > [!WARNING]
 >
 > In the above configuration, `/dev/shm` is used to store the container images. `/dev/shm` is the mount point of a [tmpfs filesystem](<https://www.kernel.org/doc/html/latest/filesystems/tmpfs.html#tmpfs>) and is compatible with the user namespaces used by Podman. The limitation of this approach is that container images created during a job allocation are deleted when the job ends. Therefore, the image needs to either be pushed to a container registry or imported by the Container Engine before the job allocation finishes.
 >
-> Local-registry can be used to enable caching on a filesystem other than `/dev/shm`, and speed up subsequent build processes.
+> [Local-registry](<https://docs.cscs.ch/build-install/containers/index.md#caching-image-layers-on-a-local-registry> "Caching image layers on a local registry") can be used to enable caching on a filesystem other than `/dev/shm`, and speed up subsequent build processes.
 
 You can use
 
@@ -73,7 +73,7 @@ An image built using Podman can be easily imported as a squashfs archive in orde
 >
 > **Preliminary configuration: Lustre settings for container images**
 >
-> Container images are stored in a single SquashFS file, that is typically between 1-20 GB in size (particularly for large ML containers). To ensure good performance for jobs on multiple nodes, take the time to configure the target directory using `lfs setstripe` according to best practices for Lustre before importing the container image, or using `lfs migrate` to fix files that are already imported.
+> Container images are stored in a single SquashFS file, that is typically between 1-20 GB in size (particularly for large ML containers). To ensure good performance for jobs on multiple nodes, take the time to configure the target directory using `lfs setstripe` according to [best practices for Lustre](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") before importing the container image, or using `lfs migrate` to fix files that are already imported.
 
 To import the image:
 

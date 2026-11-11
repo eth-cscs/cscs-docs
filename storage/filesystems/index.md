@@ -2,50 +2,50 @@
 
 > [!NOTE]
 >
-> The different file systems provided on the Alps platforms and policies like quotas and backups are documented here. The file systems available on a cluster and policy details are determined by the cluster’s platform. Please read the documentation for the clusters that you are working on after reviewing this documentation.
+> The different file systems provided on the Alps platforms and policies like quotas and backups are documented here. The file systems available on a [cluster](<https://docs.cscs.ch/clusters/index.md#alps-clusters> "Alps Clusters") and policy details are determined by the [cluster](<https://docs.cscs.ch/clusters/index.md#alps-clusters> "Alps Clusters")’s [platform](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps"). Please read the documentation for the clusters that you are working on after reviewing this documentation.
 
 - **File Systems**
 
   There are three *types* of file system that are provided on Alps clusters:
 
-  |  | backups | snapshot | cleanup | access |
+  |  | [backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3> "Backups") | [snapshot](<https://docs.cscs.ch/storage/filesystems/index.md#snapshots> "Snapshots") | [cleanup](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") | access |
   | --- | --- | --- | --- | --- |
-  | Home | yes | yes | no | user |
-  | Scratch | no | no | yes | user |
-  | Store | yes | no | no | project |
+  | [Home](<https://docs.cscs.ch/storage/filesystems/index.md#home>) | yes | yes | no | user |
+  | [Scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) | no | no | yes | user |
+  | [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) | yes | no | no | project |
 
 - **Backups**
 
-  There are two forms of data backup that are provided on some file systems.
+  There are two forms of data [backup](<https://docs.cscs.ch/storage/filesystems/index.md#backup> "Backup") that are provided on some file systems.
 
-  Backups
+  [Backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3>)
 
-  Snapshots
+  [Snapshots](<https://docs.cscs.ch/storage/filesystems/index.md#snapshots>)
 - **Cleanup**
 
   Data retention policies and automatic cleanup of Scratch.
 
-  Cleanup policies
+  [Cleanup policies](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies>)
 - **Quota**
 
   Find out about quota on capacity and file counts, and how to check your quota limits.
 
-  Quota
+  [Quota](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3>)
 - **Troubleshooting**
 
   Answers to common issues and questions.
 
-  common questions
+  [common questions](<https://docs.cscs.ch/storage/filesystems/index.md#frequently-asked-questions> "Frequently asked questions")
 
 ## Home
 
-The Home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`. It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the Vadret file system.
+The Home file system is mounted on every cluster, and is referenced by the environment variable `$HOME`. It is a relatively small storage for files such as source code or shell scripts and configuration files, provided on the [Vadret](<https://docs.cscs.ch/alps/storage/index.md#vadret>) file system.
 
 > [!NOTE]
 >
 > **Home on Daint**
 >
-> The Home path for the user `$USER` is mounted at `/users/$USER`. For example, the user `bcumming` on Daint:
+> The Home path for the user `$USER` is mounted at `/users/$USER`. For example, the user `bcumming` on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>):
 >
 > ```console
 > $ ssh daint.alps.cscs.ch
@@ -55,37 +55,37 @@ The Home file system is mounted on every cluster, and is referenced by the envir
 
 ### Cleanup and expiration
 
-There is no cleanup policy on Home, and the contents are retained for three months after your last project finishes.
+There is no [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") on Home, and the contents are retained for three months after your last project finishes.
 
 ### Quota
 
-All users get a quota of 50 GB and 500,000 inodes in Home.
+All users get a [quota](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3> "Quota") of 50 GB and 500,000 inodes in Home.
 
 ### Backups
 
-Daily snapshots for the last seven days are provided in the hidden directory `$HOME/.snapshot`.
+Daily [snapshots](<https://docs.cscs.ch/storage/filesystems/index.md#snapshots> "Snapshots") for the last seven days are provided in the hidden directory `$HOME/.snapshot`.
 
 > [!NOTE]
 >
 > **Backup is not yet available on Home**
 >
-> Backups to tape storage are currently being implemented for Home directories.
+> [Backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3>) to tape storage are currently being implemented for Home directories.
 
 ## Scratch
 
-The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the Capstor Lustre filesystem or the Ritom VAST NFS filesystem. See the Lustre guide and VAST guide for some hints on how to get the best performance out of each filesystem.
+The Scratch file system is a fast workspace tuned for use by parallel jobs, with an emphasis on performance over reliability, hosted on the [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) Lustre filesystem or the [Ritom](<https://docs.cscs.ch/alps/storage/index.md#ritom>) VAST NFS filesystem. See the [Lustre guide](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") and [VAST guide](<https://docs.cscs.ch/guides/storage/index.md#vast-tuning-on-ritom> "VAST tuning on Ritom") for some hints on how to get the best performance out of each filesystem.
 
-All users on Alps get their own Scratch path. On the HPC Platform clusters Eiger, Daint it points to `/ritom/scratch/cscs/$USER`, on the Climate and Weather Platform cluster Santis it points to `/capstor/scratch/cscs/$USER`.
+All users on Alps get their own Scratch path. On the [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>) clusters Eiger, Daint it points to `/ritom/scratch/cscs/$USER`, on the [Climate and Weather Platform](<https://docs.cscs.ch/platforms/cwp/index.md#climate-and-weather-platform>) cluster Santis it points to `/capstor/scratch/cscs/$USER`.
 
 > [!NOTE]
 >
 > **`$SCRATCH` on MLP points to Iopsstor**
 >
-> On the machine learning platform (MLP) systems clariden and bristen the `$SCRATCH` variable points to storage on Iopsstor. See the MLP docs for more information.
+> On the machine learning platform (MLP) systems [clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden> "Clariden") and [bristen](<https://docs.cscs.ch/clusters/bristen/index.md#bristen> "Bristen") the `$SCRATCH` variable points to storage on [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>). See the [MLP docs](<https://docs.cscs.ch/platforms/mlp/index.md#file-systems-and-storage> "File Systems and Storage") for more information.
 
 ### Cleanup and expiration
 
-The cleanup policy is enforced on Scratch, to ensure continued performance of the file system.
+The [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") is enforced on Scratch, to ensure continued performance of the file system.
 
 - Files on `/capstor/scratch/cscs/$USER` and `/ritom/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
 - Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
@@ -100,7 +100,7 @@ The cleanup policy is enforced on Scratch, to ensure continued performance of th
 >
 > The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
 >
-> - `.uenv-images`: used by uenv as the default repository for managing uenv images.
+> - `.uenv-images`: used by [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) as the default repository for [managing uenv images](<https://docs.cscs.ch/software/uenv/management/index.md#managing-uenvs> "Managing uenvs").
 >
 > Using this directory to store general data in order to circumvent the cleaning policy is a violation of CSCS usage policies.
 >
@@ -109,13 +109,13 @@ The cleanup policy is enforced on Scratch, to ensure continued performance of th
 > Note that the following directories **are** subject to the cleaning policy and their contents will be removed if not accessed within the retention period:
 >
 > - `.enroot`: container images downloaded by the user
-> - `.edf_imagestore`: container images used by the Container Engine
+> - `.edf_imagestore`: container images used by the [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>)
 
 ### Quota
 
-A soft quota is enforced on the Scratch file system, with a grace period to allow data transfer.
+A [soft quota](<https://docs.cscs.ch/storage/filesystems/index.md#ref-storage-quota-types> "Quota") is enforced on the Scratch file system, with a grace period to allow data transfer.
 
-Every user gets the following quota:
+Every user gets the following [quota](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3> "Quota"):
 
 - 150 TB of disk space;
 - 1 million inodes;
@@ -123,15 +123,15 @@ Every user gets the following quota:
 
 > [!IMPORTANT]
 >
-> In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command `quota`. Even if you are not close to the quota, please endeavor to reduce usage wherever possible to improve user experience for everybody on the system.
+> In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`](<https://docs.cscs.ch/storage/filesystems/index.md#checking-quota> "Checking quota"). Even if you are not close to the quota, please endeavor to reduce usage wherever possible to improve user experience for everybody on the system.
 
 ### Backups
 
-There are no backups on Scratch. Please ensure that you move important data to a file system with backups, for example Store.
+There are no backups on Scratch. Please ensure that you move important data to a file system with backups, for example [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>).
 
 ## Store
 
-Store is a large, medium-performance, storage on the Capstor Lustre file system for sharing data within a project, and for medium term data storage. See the Lustre guide for some hints on how to get the best performance out of the filesystem.
+Store is a large, medium-performance, storage on the [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) Lustre file system for sharing data within a project, and for medium term data storage. See the [Lustre guide](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") for some hints on how to get the best performance out of the filesystem.
 
 Space on Store is allocated per-project, with a path created for each project. To accomodate the different customers and projects on Alps, the project paths are organised as follows:
 
@@ -144,8 +144,8 @@ Space on Store is allocated per-project, with a path created for each project. T
   - the vast majority of projects are hosted by the `cscs` tenant.
 - **`customer`**: refers to the contractual partner responsible for the project. Examples of customers include:
 
-  - `userlab`: projects allocated in the CSCS User Lab through open calls. The majority of projects are hosted here, particularly on the HPC platform.
-  - `swissai`: most projects allocated on the Machine Learning Platform.
+  - `userlab`: projects allocated in the CSCS User Lab through open calls. The majority of projects are hosted here, particularly on the [HPC platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform> "HPC Platform").
+  - `swissai`: most projects allocated on the [Machine Learning Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform").
   - `2go`: projects allocated under the [CSCS2GO](<https://2go.cscs.ch>) scheme.
 - **`group_id`**: refers to the linux group created for the project.
 
@@ -171,7 +171,7 @@ Space on Store is allocated per-project, with a path created for each project. T
 >
 > **The `$STORE` environment variable**
 >
-> On some clusters, for example, Eiger and Daint, the project folder for your primary project can be accessed using the `$STORE` environment variable.
+> On some clusters, for example, [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) and [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), the project folder for your primary project can be accessed using the `$STORE` environment variable.
 
 > [!WARNING]
 >
@@ -183,15 +183,15 @@ Space on Store is allocated per-project, with a path created for each project. T
 
 ### Cleanup and expiration
 
-There is no cleanup policy on Store, and the contents are retained for three months after the project ends.
+There is no [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") on Store, and the contents are retained for three months after the project ends.
 
 ### Quota
 
-Paths on Store is allocated per-project: a path is created for each project with a quota based on the initial resource request. Users have read and write access to the Store paths for each project that they are a member of, and you can check the quota on Store for all of your projects using the `quota` tool.
+Paths on Store is allocated per-project: a path is created for each project with a [quota](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3> "Quota") based on the initial resource request. Users have read and write access to the Store paths for each project that they are a member of, and you can check the quota on Store for all of your projects using the [`quota`](<https://docs.cscs.ch/storage/filesystems/index.md#checking-quota> "Checking quota") tool.
 
 ### Backups
 
-Backups are performed on Store, with the three most recent copies of every file backed up to tape every 24 hours.
+[Backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3>) are performed on Store, with the three most recent copies of every file backed up to tape every 24 hours.
 
 ## Quota
 
@@ -214,13 +214,13 @@ Storage quota is a limit on available storage applied to:
 >
 > Consider archiving folders that you are not actively using with the tar command to reduce used capacity and the number of inodes.
 >
-> Consider compressing directories full of many small input files as SquashFS images (see the following example of generating SquashFS images for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
+> Consider compressing directories full of many small input files as SquashFS images (see the following example of generating [SquashFS images](<https://docs.cscs.ch/guides/storage/index.md#squash-python-virtual-environments-with-uenv> "Squash Python virtual environments with uenv") for an example) - which pack many files into a single file that can be mounted to access the contents efficiently.
 
 > [!TIP]
 >
 > **Update file timestamps when unpacking tar files**
 >
-> The default behavior of the `tar` command is to retain the access date of the original file when unpacking tar balls. When unpacking on a file system with cleanup policy, use the `--touch` flag with `tar` to ensure that the files won’t be cleaned up prematurely. For example:
+> The default behavior of the `tar` command is to retain the access date of the original file when unpacking tar balls. When unpacking on a file system with [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies"), use the `--touch` flag with `tar` to ensure that the files won’t be cleaned up prematurely. For example:
 >
 > ```console
 > $ tar --touch -xvf data_archive.tgz
@@ -233,9 +233,9 @@ There are two types of quota:
 
 ### Checking quota
 
-You can check your storage quotas with the command `quota` on the front-end system Ela (`ela.cscs.ch`) and the login nodes of Daint, Santis, Clariden and Eiger.
+You can check your storage quotas with the command `quota` on the front-end system Ela (`ela.cscs.ch`) and the login nodes of [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>), [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>) and [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>).
 
-The tool shows available capacity and used capacity for each file system that you have access to. If you are in multiple projects, information for the Store path for each project that you are a member of will be shown.
+The tool shows available capacity and used capacity for each file system that you have access to. If you are in multiple projects, information for the [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) path for each project that you are a member of will be shown.
 
 > [!NOTE]
 >
@@ -266,7 +266,7 @@ The tool shows available capacity and used capacity for each file system that yo
 
 ## Backup
 
-There are two methods for retaining backup copies of data on CSCS file systems, namely backups and snapshots.
+There are two methods for retaining backup copies of data on CSCS file systems, namely [backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3> "Backups") and [snapshots](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3> "Backups").
 
 ### Backups
 
@@ -298,13 +298,13 @@ A snapshot is a full copy of a file system at a certain point in time, that can 
 >
 > **Where are snapshots available?**
 >
-> Currently, only the Home file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
+> Currently, only the [Home](<https://docs.cscs.ch/storage/filesystems/index.md#home>) file system provides snapshots, with snapshots of the last 7 days available in the path `$HOME/.snapshot`.
 
 > [!NOTE]
 >
 > **Accessing snapshots on Home**
 >
-> The snapshots for Home are in the hidden `.snapshot` path in Home (the path is not visible even to `ls -a`)
+> The snapshots for [Home](<https://docs.cscs.ch/storage/filesystems/index.md#home>) are in the hidden `.snapshot` path in Home (the path is not visible even to `ls -a`)
 >
 > ```console
 > $ ls $HOME/.snapshot
@@ -327,8 +327,8 @@ File cleanup removes files that are not being used to ensure that occupancy and 
 
 A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
-- **30 days** on Capstor (`/capstor/scratch/cscs/$USER`)
-- **14 days** on Iopsstor (`/iopsstor/scratch/cscs/$USER`)
+- **30 days** on [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) (`/capstor/scratch/cscs/$USER`)
+- **14 days** on [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) (`/iopsstor/scratch/cscs/$USER`)
 
 > [!NOTE]
 >
@@ -358,7 +358,7 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 >
 > **How do I ensure that important data is not cleaned up?**
 >
-> File systems with cleanup, namely Scratch, are not intended for long term storage. Copy the data to a file system designed for file storage that does not have a cleanup policy, for example Store.
+> File systems with cleanup, namely [Scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>), are not intended for long term storage. Copy the data to a file system designed for file storage that does not have a cleanup policy, for example [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>).
 
 ## Frequently asked questions
 
@@ -366,13 +366,13 @@ In addition to the automatic deletion of old files, if occupancy exceeds 60% the
 >
 > **My files are gone, but the directories are still there**
 >
-> When the cleanup policy is applied on Lustre file systems, the files are removed, but the directories remain.
+> When the [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") is applied on Lustre file systems, the files are removed, but the directories remain.
 
 > [!NOTE]
 >
 > **What do messages like `mkdir: cannot create directory 'test': Disk quota exceeded` mean?**
 >
-> You have run out of quota on the target file system. Consider deleting unneeded files, or moving data to a different file system. Specifically, if you see this message when using Home, which has a relatively small 50 GB limit, consider moving the data to your project’s Store path.
+> You have run out of quota on the target file system. Consider deleting unneeded files, or moving data to a different file system. Specifically, if you see this message when using [Home](<https://docs.cscs.ch/storage/filesystems/index.md#home>), which has a relatively small 50 GB limit, consider moving the data to your project’s [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) path.
 
 > [!NOTE]
 >

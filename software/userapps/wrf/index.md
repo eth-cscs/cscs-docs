@@ -2,24 +2,24 @@
 
 > [!WARNING]
 >
-> WRF is user software on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for supported software. See the main applications page for more information.
+> WRF is [user software](<https://docs.cscs.ch/policies/support/index.md#user-applications> "User Applications") on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications"). See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [The Weather Research &amp; Forecasting Model](<https://www.mmm.ucar.edu/models/wrf>) (WRF) is a numerical weather prediction system designed for both atmospheric research and weather forecasting.
 
-It is used for CPU-only simulation on Eiger, for which this guide applies.
+It is used for CPU-only simulation on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), for which this guide applies.
 
 ## Using Spack
 
-Spack provides the [wrf](<https://packages.spack.io/package.html?name=wrf>) package, which we can install using the uenv-spack tool.
+Spack provides the [wrf](<https://packages.spack.io/package.html?name=wrf>) package, which we can install using the [uenv-spack](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack") tool.
 
-First create a working directory where you will install the software. Here, we create it in your project’s Store path, where the package can be accessed by all users in your project.
+First create a working directory where you will install the software. Here, we create it in your project’s [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) path, where the package can be accessed by all users in your project.
 
 ```bash
 mkdir $STORE/wrf
 cd $STORE/wrf
 ```
 
-Then follow the steps in the uenv-spack guide to install `uenv-spack`
+Then follow the steps in the [uenv-spack](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack") guide to install `uenv-spack`
 
 ```bash
 git clone https://github.com/eth-cscs/uenv-spack.git
@@ -27,13 +27,13 @@ git clone https://github.com/eth-cscs/uenv-spack.git
 export PATH=$PWD/uenv-spack:$PATH
 ```
 
-The `prgenv-gnu` uenv is suitable for building WRF.
+The [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) uenv is suitable for building WRF.
 
 ```text
 uenv start prgenv-gnu/24.11:v2 --view=spack
 ```
 
-In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing—check the `prgenv-gnu` guide for the latest version.
+In this example we use the latest version of `prgenv-gnu` on Eiger at the time of writing—check the `prgenv-gnu` [guide](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu> "prgenv-gnu") for the latest version.
 
 ```bash
 # build the latest version provided by the version of Spack used by prgenv-gnu
@@ -116,11 +116,11 @@ Building CRYOWRF is a three step process:
 >
 > **Eiger only**
 >
-> This guide is for building on Eiger, which is an x86-based system.
+> This guide is for building on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), which is an x86-based system.
 >
-> Building on the Grace-Hopper clusters like Daint is
+> Building on the Grace-Hopper clusters like [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) is
 
-We use `prgenv-gnu/24.11:v2` uenv.
+We use [`prgenv-gnu/24.11:v2`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 ### Step 1: install required packages
 
@@ -156,7 +156,7 @@ We use `prgenv-gnu/24.11:v2` uenv.
 > exit
 > ```
 
-The first step is to create an empty directory where everything will be installed. Here, we create it in your project’s Store path, where the package can be accessed by all users in your project.
+The first step is to create an empty directory where everything will be installed. Here, we create it in your project’s [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) path, where the package can be accessed by all users in your project.
 
 ```bash
 # the root directory under which all dependencies and WRF/CRYOWRF will be installed
@@ -175,7 +175,7 @@ The following dependencies that are not provided by `prgenv-gnu` are required:
 - `jasper~shared`: used by WPS (`~shared` will build static libraries, required by WPS).
 - `zlib-ng` and `libpng`: used by WPS.
 
-Then follow the steps in the uenv-spack guide to install `uenv-spack`, which will be used to install the dependencies
+Then follow the steps in the [uenv-spack](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack") guide to install `uenv-spack`, which will be used to install the dependencies
 
 ```bash
 # download and install uenv-spack

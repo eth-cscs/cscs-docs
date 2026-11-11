@@ -22,7 +22,7 @@ The name of the uenv. In this case `prgenv-gnu`.
 
 The version of the uenv.
 
-The format of `version` depends on the specific uenv. Often they use the `yy.mm` format, though they may also use the version of the software being packaged. For example the `namd/3.0` uenv packages version 3.0 of the popular [NAMD](<https://www.ks.uiuc.edu/Research/namd/>) simulation tool.
+The format of `version` depends on the specific uenv. Often they use the `yy.mm` format, though they may also use the version of the software being packaged. For example the [`namd/3.0`](<https://docs.cscs.ch/software/sciapps/namd/index.md#namd> "NAMD") uenv packages version 3.0 of the popular [NAMD](<https://www.ks.uiuc.edu/Research/namd/>) simulation tool.
 
 ### uenv tag
 
@@ -34,7 +34,7 @@ Used to differentiate between *releases* of a versioned uenv. Some examples of t
 
 ### uenv system
 
-The name of the Alps cluster for which the uenv was built.
+The name of the [Alps cluster](<https://docs.cscs.ch/clusters/index.md#alps-clusters> "Alps Clusters") for which the uenv was built.
 
 ### uenv uarch
 
@@ -42,11 +42,11 @@ The node type (microarchitecture) that the uenv is built for.
 
 | uarch | CPU | GPU | comment |
 | --- | --- | --- | --- |
-| gh200 | 4 72-core NVIDIA Grace (`aarch64`) | 4 NVIDIA H100 GPUs |  |
-| zen2 | 2 64-core AMD Rome (`zen2`) | \- | used in Eiger |
-| a100 | 1 64-core AMD Milan (`zen3`) | 4 NVIDIA A100 GPUs |  |
-| mi200 | 1 64-core AMD Milan (`zen3`) | 4 AMD Mi250x GPUs |  |
-| mi300 | 4 24-core AMD Genoa (`zen4`) | 4 AMD Mi300 GPUs |  |
+| [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | 4 72-core NVIDIA Grace (`aarch64`) | 4 NVIDIA H100 GPUs |  |
+| [zen2](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") | 2 64-core AMD Rome (`zen2`) | \- | used in Eiger |
+| [a100](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-a100-gpu-nodes> "NVIDIA A100 GPU Nodes") | 1 64-core AMD Milan (`zen3`) | 4 NVIDIA A100 GPUs |  |
+| [mi200](<https://docs.cscs.ch/alps/hardware/index.md#amd-mi250x-gpu-nodes> "AMD MI250x GPU Nodes") | 1 64-core AMD Milan (`zen3`) | 4 AMD Mi250x GPUs |  |
+| [mi300](<https://docs.cscs.ch/alps/hardware/index.md#amd-mi300a-gpu-nodes> "AMD MI300A GPU Nodes") | 4 24-core AMD Genoa (`zen4`) | 4 AMD Mi300 GPUs |  |
 | zen3 | 2 64-core AMD Milan (`zen3`) | \- | only in MCH system |
 
 ## Registries
@@ -63,7 +63,7 @@ The `namespace` is one of:
 
 - `build`: where the CI/CD pipeline pushes uenv images.
 - `deploy`: where uenv images are copied by CSCS staff when they are officially provided to users.
-- `service`: where the uenv build service pushes images.
+- `service`: where the uenv [build service](<https://docs.cscs.ch/software/uenv/build/index.md#building-uenvs> "Building uenvs") pushes images.
 
 > [!NOTE]
 >
@@ -201,7 +201,7 @@ uenv image delete --token=${HOME}/.ssh/jfrog-token <NAMESPACE>::<IMAGE>
 >
 > **Danger**
 >
-> Removing a uenv that has been deployed (i.e. is in the `deploy::` namespace) is potentially disruptive for users. Please see the uenv life cycle guide for more information.
+> Removing a uenv that has been deployed (i.e. is in the `deploy::` namespace) is potentially disruptive for users. Please see the [uenv life cycle](<https://docs.cscs.ch/software/uenv/deploy/index.md#uenv-life-cycle>) guide for more information.
 
 ## Source code access
 
@@ -221,7 +221,7 @@ By default, all packages in [uenv-sources](<https://jfrog.svc.cscs.ch/artifactor
 
 Permissions to access restricted resources is set on a per-pipeline basis
 
-- For example, only the `alps-uenv` pipeline has access to the VASP source code, while the `uenv build` pipeline does not.
+- For example, only the `alps-uenv` pipeline has access to the VASP source code, while the [`uenv build`](<https://docs.cscs.ch/software/uenv/build/index.md#building-uenvs> "Building uenvs") pipeline does not.
 
 | Package | Access | Path | Notes | Contact |
 | --- | --- | --- | --- | --- |
@@ -243,7 +243,7 @@ While the frequency of updates and deprecation policy is defined by the uenv mai
 - \[optional\] release updated versions of a uenv with tags (`:v2`, `:v3`, …) with patches and fixes.
 - Remove old versions according to a deprecation policy.
 
-A uenv’s release and support policy is part of the uenv’s documentation under the “Versioning” section, see prgenv-gnu for example.
+A uenv’s release and support policy is part of the uenv’s documentation under the “Versioning” section, see [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#versioning> "Versioning") for example.
 
 The versioning section should provide the following information:
 

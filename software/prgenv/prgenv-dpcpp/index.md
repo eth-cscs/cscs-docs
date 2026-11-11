@@ -4,15 +4,15 @@
 >
 > **experimental and not officially supported**
 >
-> `prgenv-dpcpp` is experimental and not officially supported. It is provided as-is and may break or be removed on system upgrades. It is currently deployed only on Daint.
+> `prgenv-dpcpp` is experimental and not officially supported. It is provided as-is and may break or be removed on system upgrades. It is currently deployed only on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>).
 >
-> Try `prgenv-gnu` first, because it is better tested and better supported. Use `prgenv-dpcpp` only if you specifically need the DPC++ (SYCL) compiler; it provides the same package set as `prgenv-gnu/25.11`, plus DPC++.
+> Try [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) first, because it is better tested and better supported. Use `prgenv-dpcpp` only if you specifically need the DPC++ (SYCL) compiler; it provides the same package set as `prgenv-gnu/25.11`, plus DPC++.
 
-Provides the `prgenv-gnu` toolchain together with the Intel DPC++ (SYCL) compiler with a CUDA backend. It is for building SYCL applications that target the gh200 nodes on Alps.
+Provides the [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) toolchain together with the Intel DPC++ (SYCL) compiler with a CUDA backend. It is for building SYCL applications that target the [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") nodes on Alps.
 
 ## Versioning
 
-The naming scheme is `prgenv-dpcpp/<version>`, where `<version>` tracks the `prgenv-gnu` version it extends, in the `YY.M[M]` format (for example `25.11` for November 2025).
+The naming scheme is `prgenv-dpcpp/<version>`, where `<version>` tracks the [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) version it extends, in the `YY.M[M]` format (for example `25.11` for November 2025).
 
 The release schedule is not fixed. New versions will be released to match an underlying `prgenv-gnu` based on user requests: contact the CSCS [service desk](<https://jira.cscs.ch/plugins/servlet/desk>) for an updated version.
 
@@ -26,7 +26,7 @@ There is no fixed deprecation policy for this experimental uenv. Versions are pr
 
 ### Versions
 
-Extends `prgenv-gnu` `25.11` with the Intel DPC++ (SYCL) compiler. The Intel oneAPI binary distribution is x86\_64 only, so the compiler is built from source (the [intel/llvm](<https://github.com/intel/llvm>) `sycl` branch) with a custom Spack package.
+Extends [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) `25.11` with the Intel DPC++ (SYCL) compiler. The Intel oneAPI binary distribution is x86\_64 only, so the compiler is built from source (the [intel/llvm](<https://github.com/intel/llvm>) `sycl` branch) with a custom Spack package.
 
 The notable differences from `prgenv-gnu/25.11` are:
 
@@ -38,7 +38,7 @@ The notable differences from `prgenv-gnu/25.11` are:
 >
 > **packages**
 >
-> The package set is the same as `prgenv-gnu` `25.11` (Boost, HDF5, NetCDF, Kokkos, FFTW, OpenBLAS, ScaLAPACK, NCCL, Python and so on; see its page for the full list with versions), with the DPC++ compiler ([llvmdpcpp](<https://github.com/intel/llvm>)) added.
+> The package set is the same as [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) `25.11` (Boost, HDF5, NetCDF, Kokkos, FFTW, OpenBLAS, ScaLAPACK, NCCL, Python and so on; see its page for the full list with versions), with the DPC++ compiler ([llvmdpcpp](<https://github.com/intel/llvm>)) added.
 
 ## How to use
 
@@ -95,4 +95,4 @@ The uenv provides modules for all of the software packages, which can be made av
 
 The uenv provides compilers, MPI, Python and common libraries, and can be used as a base for building further software with Spack.
 
-Check out the guide for using Spack with uenv.
+[Check out the guide for using Spack with uenv](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack").

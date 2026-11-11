@@ -1,18 +1,18 @@
 # OpenMPI
 
-Cray MPICH is the recommended MPI implementation on Alps, particularly if you are using uenv.
+[Cray MPICH](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#cray-mpich>) is the recommended MPI implementation on Alps, particularly if you are using [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 However, [OpenMPI](<https://www.open-mpi.org/>) can be used as an alternative in some cases, with limited support from CSCS. OpenMPI is available for use in both uenv and containers.
 
-Support for the Slingshot 11 network is provided by the libfabric library.
+Support for the [Slingshot 11 network](<https://docs.cscs.ch/alps/hardware/index.md#alps-high-speed-network> "Alps High Speed Network") is provided by the [libfabric](<https://docs.cscs.ch/software/communication/libfabric/index.md#libfabric> "Libfabric") library.
 
 ## Using OpenMPI
 
 ### uenv
 
-OpenMPI is provided in the `prgenv-gnu-openmpi` uenv. Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent. At runtime, some additional options must be set to correctly use the Slingshot network.
+OpenMPI is provided in the [`prgenv-gnu-openmpi`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md#prgenv-gnu-openmpi>) uenv. Once the uenv is loaded, compiling and linking with OpenMPI and libfabric is transparent. At runtime, some additional options must be set to correctly use the Slingshot network.
 
-First, when launching applications through Slurm, [PMIx](<https://pmix.github.com>) must be used for application launching. This is done with the `--mpi` flag of `srun`:
+First, when launching applications through Slurm, [PMIx](<https://pmix.github.com>) must be used for application launching. This is done with the [`--mpi` flag](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") of `srun`:
 
 ```bash
 srun --mpi=pmix ...
@@ -20,10 +20,10 @@ srun --mpi=pmix ...
 
 There are two primary ways to configure OpenMPI and libfabric to use the Slingshot network:
 
-1. Only using the CXI provider. This method has been found to work in more applications but uses NICs for intra-node communication which can limit performance.
-2. Using the LINKx provider which combines the CXI provider for inter-node communication with the shared memory provider for intra-node communication. This provider is newer, may not support all features, and more likely to contain bugs, but makes full use of intra-node bandwidth.
+1. [Only using the CXI provider](<https://docs.cscs.ch/software/communication/openmpi/index.md#using-the-cxi-provider> "Using the CXI provider"). This method has been found to work in more applications but uses NICs for intra-node communication which can limit performance.
+2. [Using the LINKx provider](<https://docs.cscs.ch/software/communication/openmpi/index.md#using-the-linkx-provider>) which combines the CXI provider for inter-node communication with the shared memory provider for intra-node communication. This provider is newer, may not support all features, and more likely to contain bugs, but makes full use of intra-node bandwidth.
 
-We recommend trying the LINKx provider first as it provides better performance in the situations that it’s supported. If you encounter failures using the LINKx provider we ask you to get in touch with us so that we can evaluate whether upstream libfabric or OpenMPI need fixing.
+We recommend trying the LINKx provider first as it provides better performance in the situations that it’s supported. If you encounter failures using the LINKx provider we ask you to [get in touch with us](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") so that we can evaluate whether upstream libfabric or OpenMPI need fixing.
 
 #### Using the CXI provider
 
@@ -45,7 +45,7 @@ export OMPI_MCA_mtl="ofi"     # (4)!
 >
 > **The CXI provider does all communication through the network interface cards (NICs)**
 >
-> When using the libfabric CXI provider, all communication goes through NICs, including intra-node communication. This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will be severely limited. Use the LINKx provider to make full use of the available intra-node bandwidth.
+> When using the libfabric CXI provider, all communication goes through NICs, including intra-node communication. This means that intra-node communication can not make use of shared memory optimizations and the maximum bandwidth will be severely limited. Use the [LINKx](<https://docs.cscs.ch/software/communication/openmpi/index.md#using-the-linkx-provider> "Using the LINKx provider") provider to make full use of the available intra-node bandwidth.
 
 #### Using the LINKx provider
 
@@ -87,7 +87,7 @@ To install OpenMPI in a container, libfabric (and possibly UCX if the container 
 > - OpenMPI version 5 is required for full libfabric support.
 > - It is linked against UCX only, and can’t be modified to use the system libfabric.
 >
-> See the performance section below for examples of the level of performance loss caused by using HPC-X.
+> See the [performance section](<https://docs.cscs.ch/software/communication/openmpi/index.md#openmpi-performance> "OpenMPI performance") below for examples of the level of performance loss caused by using HPC-X.
 
 > [!NOTE]
 >
@@ -111,9 +111,9 @@ To install OpenMPI in a container, libfabric (and possibly UCX if the container 
 > ```
 >
 > - The `--with-ofi` and `--with-ucx` flags configure OpenMPI with the libfabric and UCX back ends respectively.
-> - The `--enable-oshmem` flag builds OpenSHMEM as part of the OpenMPI installation, which is useful to support SHMEM implementations like NVSHMEM.
+> - The `--enable-oshmem` flag builds OpenSHMEM as part of the OpenMPI installation, which is useful to support SHMEM implementations like [NVSHMEM](<https://docs.cscs.ch/software/communication/nvshmem/index.md#nvshmem>).
 >
-> Note that this example does not enable the LINKx provider as in the uenv. We do not currently provide instructions to enable the LINKx provider in manually built container images.
+> Note that this example does not enable the [LINKx provider](<https://docs.cscs.ch/software/communication/openmpi/index.md#using-the-linkx-provider> "Using the LINKx provider") as in the uenv. We do not currently provide instructions to enable the LINKx provider in manually built container images.
 >
 > Expand the box below to see an example of a full Containerfile that can be used to create an OpenMPI container on the gh200 nodes of Alps:
 >
@@ -242,7 +242,7 @@ OMPI_MCA_mtl="ofi"     # (4)!
 3. Use CM for [point-to-point communication](<https://docs.open-mpi.org/en/v5.0.x/mca.html#selecting-which-open-mpi-components-are-used-at-run-time>).
 4. Use libfabric for the [Matching Transport Layer](<https://docs.open-mpi.org/en/v5.0.x/mca.html#frameworks>).
 
-Like with the uenv, the `--mpi=pmix` flag must be passed to `srun` to ensure PMIx is used for MPI initialization:
+Like with the uenv, the [`--mpi=pmix` flag](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") must be passed to `srun` to ensure PMIx is used for MPI initialization:
 
 ```bash
 srun --mpi=pmix ...
@@ -269,13 +269,13 @@ The first performance benchmarks are for the OSU point-to-point bandwidth test `
 
 > [!NOTE]
 >
-> The container is configured to only use the CXI provider of libfabric, routing intra-node communication over NICs. We currently only provide instructions on using the experimental LINKx provider, which can make use of higher intra-node bandwidth, for uenv.
+> The container is configured to only use the CXI provider of libfabric, routing intra-node communication over NICs. We currently only provide instructions on using the [experimental LINKx provider](<https://docs.cscs.ch/software/communication/openmpi/index.md#using-the-linkx-provider> "Using the LINKx provider"), which can make use of higher intra-node bandwidth, for uenv.
 
 > [!NOTE]
 >
 > **Impact of disabling the CXI hook**
 >
-> On many Alps vClusters, the Container Engine is configured with the CXI hook enabled by default, enabling transparent access to the Slingshot interconnect.
+> On many Alps vClusters, the Container Engine is configured with the [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") enabled by default, enabling transparent access to the Slingshot interconnect.
 >
 > The inter-node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration. If you see similar performance degradation in your tests, the first thing to investigate is whether your setup is using the libfabric CXI provider.
 

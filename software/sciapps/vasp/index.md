@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> VASP is supported software on Alps. See the main applications page for more information.
+> VASP is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 The Vienna Ab initio Simulation Package ([VASP](<https://vasp.at/>)) is a computer program for atomic scale materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics, from first principles.
 
@@ -10,12 +10,12 @@ The Vienna Ab initio Simulation Package ([VASP](<https://vasp.at/>)) is a comput
 >
 > **uenvs**
 >
-> [VASP](<https://vasp.at/>) is provided on Alps via uenv, with two views:
+> [VASP](<https://vasp.at/>) is provided on [Alps](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>), with two views:
 >
 > - `vasp`: includes the precompiled `vasp_std`, `vasp_ncl` and `vasp_gam` executables.
 > - `develop`: includes only the dependencies required to build VASP from source.
 >
-> Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 > [!NOTE]
 >
@@ -25,7 +25,7 @@ The Vienna Ab initio Simulation Package ([VASP](<https://vasp.at/>)) is a comput
 >
 > Once you have a license, submit a request on the [CSCS service desk](<https://jira.cscs.ch/plugins/servlet/desk>), with a copy of your license, to be added to the `vasp6` unix group. Membership of the `vasp6` group grants access to the precompiled VASP executables and library files in the `vasp` uenv.
 >
-> Because of these restrictions, the VASP images cannot be pulled in the same way as other uenv: follow the guide to accessing restricted software.
+> Because of these restrictions, the VASP images cannot be pulled in the same way as other uenv: follow the guide to [accessing restricted software](<https://docs.cscs.ch/software/uenv/management/index.md#accessing-restricted-software> "Accessing restricted software").
 >
 > Please refer to the [VASP web site](<https://www.vasp.at>) for more information about licensing.
 
@@ -33,7 +33,7 @@ The Vienna Ab initio Simulation Package ([VASP](<https://vasp.at/>)) is a comput
 
 ### Running VASP
 
-To load the VASP uenv on Daint:
+To load the VASP uenv on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>):
 
 load the vasp view
 
@@ -70,13 +70,13 @@ srun vasp_std
 
 > [!NOTE]
 >
-> Since v6.6.0, the VASP uenv views on Daint enable the AWS NCCL plugin, which should provide better multi-node performance. See the NCCL documentation for more information.
+> Since v6.6.0, the VASP uenv views on Daint enable the AWS NCCL plugin, which should provide better multi-node performance. See the [NCCL documentation](<https://docs.cscs.ch/software/communication/nccl/index.md#nccl>) for more information.
 
 ### Multiple tasks per GPU
 
 Using more than one task per GPU is possible with VASP and may lead to better GPU utilization. However, VASP relies on [NCCL](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html>) for efficient communication, but falls back to MPI when using multiple tasks per GPU. In many cases, this drawback is the greater factor and it’s best to use one task per GPU.
 
-To run with multiple tasks per GPU, a wrapper script is required to start a CUDA MPS service. This script can be found at NVIDIA GH200 GPU nodes: multiple ranks per GPU.
+To run with multiple tasks per GPU, a wrapper script is required to start a CUDA MPS service. This script can be found at [NVIDIA GH200 GPU nodes: multiple ranks per GPU](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 
 Slurm script for running VASP on a single node with two tasks per GPU
 
@@ -672,7 +672,7 @@ LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
 
 ### Running VASP
 
-The optimal setting for running VASP on CPU depends on the workload, but usually involves setting OpenMP related environment variables and using a mixture of MPI and multi-threading. An example to run on Eiger on two nodes:
+The optimal setting for running VASP on CPU depends on the workload, but usually involves setting OpenMP related environment variables and using a mixture of MPI and multi-threading. An example to run on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) on two nodes:
 
 Slurm script for running VASP on Eiger
 

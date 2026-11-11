@@ -8,24 +8,24 @@ This page covers Alps-specific considerations for running coding agents, regardl
 >
 > **You are responsible for actions taken by coding agents**
 >
-> Any action taken by a coding agent you launch is your responsibility. The CSCS policies apply.
+> Any action taken by a coding agent you launch is your responsibility. The [CSCS policies](<https://docs.cscs.ch/policies/index.md#cscs-user-policies> "CSCS User Policies") apply.
 >
 > In particular:
 >
 > - Compute resources used by agent-launched Slurm jobs are billed to your project account.
-> - Coding agents may inadvertently submit many jobs, consume node hours, or modify files in unintended ways. Not following the Fair Usage of Shared Resources may result in access being revoked.
+> - Coding agents may inadvertently submit many jobs, consume node hours, or modify files in unintended ways. Not following the [Fair Usage of Shared Resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") may result in access being revoked.
 > - CSCS takes no responsibility for files deleted, quotas being exhausted, or other unintended behaviour by agents.
 > - CSCS takes no responsibility for data inadvertently shared by your agent with third party LLM providers.
 
-The LLM inference service hosted by CSCS can be used as a provider in most coding agents. See the inference API documentation for instructions on how to set up the most common agents to use the CSCS-hosted inference service.
+The [LLM inference service hosted by CSCS](<https://docs.cscs.ch/services/inference/api/index.md#llm-inference-api-service> "LLM Inference API Service") can be used as a provider in most coding agents. See the [inference API documentation](<https://docs.cscs.ch/services/inference/api/index.md#setting-up-coding-agents-to-use-the-inference-service> "Setting up coding agents to use the inference service") for instructions on how to set up the most common agents to use the CSCS-hosted inference service.
 
-CSCS also publishes agent skills that help agents answer questions about Alps, such as which partition a job should use, from facts read on the system.
+CSCS also publishes [agent skills](<https://docs.cscs.ch/agents/index.md#agent-skills> "Agent skills") that help agents answer questions about Alps, such as which partition a job should use, from facts read on the system.
 
 > [!NOTE]
 >
 > **Discovering best practices**
 >
-> As agentic workflows change and improve rapidly, so do best practices. To help keep this page relevant, we encourage and welcome contributions from the CSCS user community on best practices on using coding agents. If you have suggestions, tips, or warnings that you’d like to share, please get in touch with us, share your findings directly with other users on the [CSCS User Slack](<https://cscs-users.slack.com/>), or contribute directly to the documentation.
+> As agentic workflows change and improve rapidly, so do best practices. To help keep this page relevant, we encourage and welcome contributions from the CSCS user community on best practices on using coding agents. If you have suggestions, tips, or warnings that you’d like to share, please [get in touch with us](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch"), share your findings directly with other users on the [CSCS User Slack](<https://cscs-users.slack.com/>), or [contribute directly to the documentation](<https://docs.cscs.ch/contributing/index.md#contributing> "Contributing").
 
 ## Running on Alps
 
@@ -33,15 +33,15 @@ Coding agents can be run on Alps in different ways:
 
 - running the agent on a login node,
 - running the agent on a compute node, or
-- running the agent locally and submitting jobs over SSH and Slurm or via FirecREST.
+- running the agent locally and submitting jobs over [SSH](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH") and [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) or via [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>).
 
 We ask *not* running agents on login nodes because of the potential for unintended high resource usage on a shared resource. However, even when not running on login nodes other resources are limited and care should be taken for example to not:
 
-- overload the filesystems,
+- overload the [filesystems](<https://docs.cscs.ch/storage/filesystems/index.md#file-systems> "File Systems"),
 - overload the Slurm scheduler with many small jobs, or
 - submit excessive network requests from Alps.
 
-We recommend running agents either on compute nodes or on your local computer with limited Slurm or FirecREST jobs allowed. When running on a compute node, run the agent inside a container with only necessary directories mounted or inside a uenv to give the agent access to build tools and dependencies for your project. See the sandboxing section below for more pointers on restricting coding agents.
+We recommend running agents either on compute nodes or on your local computer with limited Slurm or FirecREST jobs allowed. When running on a compute node, [run the agent inside a container](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine") with [only necessary directories mounted](<https://docs.cscs.ch/software/container-engine/edf/index.md#mounts>) or inside a [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) to give the agent access to build tools and dependencies for your project. See the [sandboxing section](<https://docs.cscs.ch/guides/coding-agents/index.md#sandboxing> "Sandboxing") below for more pointers on restricting coding agents.
 
 > [!NOTE]
 >
@@ -64,7 +64,7 @@ We recommend starting with restrictive permissions and progressively whitelistin
 >
 > **Anthropic srt uenv**
 >
-> On the daint cluster a preview uenv containing the [Anthropic Sandbox Runtime (srt)](<https://github.com/anthropic-experimental/sandbox-runtime>) is available in the `build::` namespace:
+> On the [daint cluster](<https://docs.cscs.ch/clusters/daint/index.md#daint> "Daint") a preview [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) containing the [Anthropic Sandbox Runtime (srt)](<https://github.com/anthropic-experimental/sandbox-runtime>) is available in the `build::` namespace:
 >
 > Pulling and using the srt uenv
 >

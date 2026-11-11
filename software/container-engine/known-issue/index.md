@@ -122,7 +122,7 @@ Notice the section `[annotations]` disabling Slurm and CXI hooks.
 
 ## NCCL errors with a dynamically linked AWS OFI NCCL plugin: `libcudart.so could not be found`
 
-When using the `cuda-dl` variant of the AWS OFI NCCL hook or `artifact` as network stack source (default in some vClusters), a dynamically linked AWS OFI NCCL plugin is mounted inside containers. Dynamic linking makes the plugin interoperable across CUDA versions, but also reliant on a non-versioned symlink to the CUDA Runtime Library (e.g. `/usr/local/cuda/lib64/libcudart.so`). Such a link might not exist in some old container images, causing an error message at NCCL startup which mentions that `libcudart.so` could not be found.
+When using the `cuda-dl` variant of the [AWS OFI NCCL hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook>) or `artifact` as [network stack source](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source") (default in some vClusters), a dynamically linked AWS OFI NCCL plugin is mounted inside containers. Dynamic linking makes the plugin interoperable across CUDA versions, but also reliant on a non-versioned symlink to the CUDA Runtime Library (e.g. `/usr/local/cuda/lib64/libcudart.so`). Such a link might not exist in some old container images, causing an error message at NCCL startup which mentions that `libcudart.so` could not be found.
 
 In these cases, we suggest the following alternatives (pick one) to work around or solve the issue:
 
@@ -145,7 +145,7 @@ In these cases, we suggest the following alternatives (pick one) to work around 
 
 ## Using NCCL from remote SSH terminals
 
-We are aware of an issue when enabling both the AWS OFI NCCL hook and the SSH hook, and launching programs using NCCL from Bash sessions connected via SSH. The issue manifests with messages reporting `Error: network 'AWS Libfabric' not found`.
+We are aware of an issue when enabling both [the AWS OFI NCCL hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook>) and [the SSH hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#ssh-hook>), and launching programs using NCCL from Bash sessions connected via SSH. The issue manifests with messages reporting `Error: network 'AWS Libfabric' not found`.
 
 In addition to setting up a server for remote connections, the SSH hook also performs actions intended to improve the user experience. One of these is creating a script to be loaded by Bash in order to propagate the container job environment variables when connecting through SSH. The script is translating the value of the `NCCL_NET` variable as `"'AWS Libfabric'"`, that is with additional quotes compared to the original value set by the AWS OFI NCCL hook. The quoted string induces NCCL to look for a network which is not defined, resulting in the unrecoverable error mentioned earlier.
 
@@ -186,7 +186,7 @@ srun: error: nid001234: task 0: Exited with exit code 1
 srun: Terminating StepId=12345.0
 ```
 
-it does not indicate an issue with your container, but instead means that one or more of the compute nodes have user databases that are not fully synchronized. If the problematic node is not automatically drained, please let us know so that we can ensure the node is in a good state. You can check the state of a node using `sinfo --nodes=<node>`, e.g.:
+it does not indicate an issue with your container, but instead means that one or more of the compute nodes have user databases that are not fully synchronized. If the problematic node is not automatically drained, please [let us know](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") so that we can ensure the node is in a good state. You can check the state of a node using `sinfo --nodes=<node>`, e.g.:
 
 ```console
 $ sinfo --nodes=nid006886

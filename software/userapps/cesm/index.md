@@ -2,11 +2,11 @@
 
 > [!WARNING]
 >
-> CESM is user software on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for supported software. See the main applications page for more information.
+> CESM is [user software](<https://docs.cscs.ch/policies/support/index.md#user-applications> "User Applications") on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications"). See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 The [Community Earth System Model (CESM)](<https://www.cesm.ucar.edu/>) is a fully coupled global Earth system model.
 
-This guide demonstrates a uenv-based workflow that CSCS has developed with CESM users on Eiger. Specifically, the workflow is for users of CESM version 3, which is currently in beta release, on multi-core x86 CPUs.
+This guide demonstrates a uenv-based workflow that CSCS has developed with CESM users on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>). Specifically, the workflow is for users of CESM version 3, which is currently in beta release, on multi-core x86 CPUs.
 
 The uenv is named `esmf` because it provides all of the dependencies of CESM, of which the [Earth System Modeling Framework (ESMF)](<https://earthsystemmodeling.org/>) is the main dependency.
 
@@ -18,7 +18,7 @@ The naming scheme is `esmf/<version>`, where `<version>` has the `YY.M[M]` forma
 
 > [!WARNING]
 >
-> Version `26.2` is incompatible with Eiger after the system update on 2026-08-26.
+> Version `26.2` is incompatible with [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) after the system update on 2026-08-26.
 >
 > Update your workflow to use `esmf/26.7:v1`, after downloading it.
 

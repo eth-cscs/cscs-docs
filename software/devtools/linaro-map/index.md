@@ -4,7 +4,7 @@ Linaro MAP can be used for profiling serial, multi-threaded (OpenMP), multi-proc
 
 > [!NOTE]
 >
-> Linaro MAP is provided in the `linaro-forge` uenv. Before using MAP, please read the `linaro-forge` uenv documentation, which explains how to download and set up the latest version.
+> Linaro MAP is provided in the `linaro-forge` [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Before using MAP, please read the [`linaro-forge` uenv documentation](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#linaro-forge> "Linaro Forge"), which explains how to download and set up the latest version.
 
 ## Linaro Forge MAP
 
@@ -35,4 +35,4 @@ More informations regarding how to use Linaro MAP and Performance Reports are pr
 
 ## Troubleshooting
 
-See the troubleshooting guide for the `linaro-forge` uenv.
+See the troubleshooting guide for the [`linaro-forge` uenv](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#troubleshooting> "Troubleshooting").

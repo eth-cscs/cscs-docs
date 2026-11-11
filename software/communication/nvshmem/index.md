@@ -6,7 +6,7 @@
 
 ### uenv
 
-Version 2.8 of the PyTorch uenv is currently the only uenv that provides NVSHMEM.
+Version 2.8 of the [PyTorch uenv](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-a-uenv> "Running PyTorch with a uenv") is currently the only uenv that provides NVSHMEM.
 
 CSCS working on building NVSHMEM that runs efficiently on the Alps network in uenv, and will update these docs when it is available.
 
@@ -14,7 +14,7 @@ CSCS working on building NVSHMEM that runs efficiently on the Alps network in ue
 
 To use NVSHMEM, we recommend first installing OpenMPI with libfabric support in the container, or starting with an image that contains OpenMPI with libfabric.
 
-The image recipe described here is based on the OpenMPI image for NVIDIA, and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
+The image recipe described here is based on the [OpenMPI image for NVIDIA](<https://docs.cscs.ch/software/communication/openmpi/index.md#openmpi>), and thus it is suited for hosts with NVIDIA GPUs, like Alps GH200 nodes.
 
 > [!WARNING]
 >
@@ -265,9 +265,9 @@ NVSHMEM is built from source in the container, from a source tar ball provided b
 >
 > 1. Ensures PMIx uses the same security domain as Slurm. Otherwise PMIx will print warnings at startup.
 > 2. NVSHMEM’s `libfabric` transport does not support VMM yet, so VMM must be disabled by setting the environment variable `NVSHMEM_DISABLE_CUDA_VMM=1`.
-> 3. NCCL requires the presence of the [AWS OFI NCCL plugin](<https://github.com/aws/aws-ofi-nccl>) in order to correctly interface with Libfabric and (through the latter) the Slingshot interconnect. Therefore, for optimal performance the related CE hook must be enabled and set to match the CUDA version in the container.
+> 3. NCCL requires the presence of the [AWS OFI NCCL plugin](<https://github.com/aws/aws-ofi-nccl>) in order to correctly interface with Libfabric and (through the latter) the Slingshot interconnect. Therefore, for optimal performance the [related CE hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") must be enabled and set to match the CUDA version in the container.
 >
-> Libfabric itself is usually injected by the CXI hook, which is enabled by default on several Alps vClusters.
+> Libfabric itself is usually injected by the [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect"), which is enabled by default on several Alps vClusters.
 >
 > ```bash
 > srun -N2 --ntasks-per-node=4  \
@@ -276,13 +276,13 @@ NVSHMEM is built from source in the container, from a source tar ball provided b
 >     /usr/local/nvshmem/bin/perftest/device/coll/alltoall_latency
 > ```
 >
-> 1. Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option `--mpi=pmix` must be used to run successful multi-rank jobs.
+> 1. Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option [`--mpi=pmix`](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") must be used to run successful multi-rank jobs.
 >
-> Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](<https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options>). When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. the `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
+> Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](<https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options>). When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. the [`srun --mpi` option](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins")) matches the one expected by NVSHMEM or the MPI library.
 
 ## NVSHMEM Performance
 
-The results of running the `alltoall_latency` benchmark provided by the NCCL test suite, built in the example container above.
+The results of running the `alltoall_latency` benchmark provided by the NCCL test suite, built in the example container [above](<https://docs.cscs.ch/software/communication/nvshmem/index.md#containers> "Containers").
 
 ```console
 $ srun -N2 --ntasks-per-node=4  --mpi=pmix --environment=nvshmem /usr/local/nvshmem/bin/perftest/device/coll/alltoall_latency

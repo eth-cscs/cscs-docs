@@ -2,7 +2,7 @@
 
 ## Slurm
 
-The Slurm scheduling system is a shared resource that can handle a limited number of batch jobs and interactive commands simultaneously. Therefore users should not submit hundreds of Slurm jobs and commands at the same time, as doing so would infringe our fair usage policy.
+The [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) scheduling system is a shared resource that can handle a limited number of batch jobs and interactive commands simultaneously. Therefore users should not submit hundreds of Slurm jobs and commands at the same time, as doing so would infringe our fair usage policy.
 
 ## Login nodes
 

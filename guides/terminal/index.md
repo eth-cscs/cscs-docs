@@ -29,7 +29,7 @@ Every user has a shell that will be used when they log in, with [bash](<https://
 
 ## Managing x86 and ARM
 
-Alps has nodes with different CPU architectures, for example Santis has ARM (Grace `aarch64`) processors, and Eiger uses x86 (AMD Rome `x86_64`) processors. Binary applications are generally not portable, for example if you compile or install a tool compiled for `x86_64` on Eiger, you will get an error when you run it on an `aarch64` node.
+Alps has nodes with different CPU architectures, for example [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) has ARM (Grace `aarch64`) processors, and [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) uses x86 (AMD Rome `x86_64`) processors. Binary applications are generally not portable, for example if you compile or install a tool compiled for `x86_64` on Eiger, you will get an error when you run it on an `aarch64` node.
 
 > [!WARNING]
 >
@@ -37,7 +37,7 @@ Alps has nodes with different CPU architectures, for example Santis has ARM (Gra
 >
 > You will see this error message if you try to execute an executable built for a different architecture.
 >
-> In this case, the `rg` executable built for `aarch64` (Grace-Hopper nodes) is run on an `x86_64` node on Eiger:
+> In this case, the `rg` executable built for `aarch64` (Grace-Hopper nodes) is run on an `x86_64` node on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>):
 >
 > ```text
 > $ ~/.local/aarch64/bin/rg
@@ -102,7 +102,7 @@ It is strongly recommended that customization in `~/.bashrc` should be kept to t
 >
 > **Do not call `uenv` in bashrc**
 >
-> The `uenv` command is designed for creating isolated environments, and calling it in `~/.bashrc` will not work as expected. See the uenv docs for more information about how to create bespoke uenv environments that can be started with a single command.
+> The `uenv` command is designed for creating isolated environments, and calling it in `~/.bashrc` will not work as expected. See the [uenv docs](<https://docs.cscs.ch/software/uenv/guides/index.md#custom-environments> "Custom environments") for more information about how to create bespoke uenv environments that can be started with a single command.
 
 > [!NOTE]
 >
@@ -122,7 +122,7 @@ It is strongly recommended that customization in `~/.bashrc` should be kept to t
 >
 > If there is a critical error, like calling `exit`, the approach above won’t work. In such cases, the only solution that doesn’t require root permissions is to log in and hit `<ctrl-c>` during the log in. With luck, this will cancel the login process before `~/.bashrc` is executed, and you will be able to edit and fix `~/.bashrc`. Note that you might have to try a few times to get the timing right.
 >
-> If this does not work, create a service desk ticket with the following message:
+> If this does not work, create a [service desk ticket](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") with the following message:
 >
 > > **Help request**
 > >

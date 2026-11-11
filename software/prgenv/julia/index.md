@@ -35,7 +35,7 @@ The key updates in version `26.3:v1` from the version `25.5:v1` were:
 - adding `cuTENSOR`
 - adding `papi`
 - upgrading to `cuda@12.9` and `cray-mpich@8.1.32`
-- for `NCCL`, environment variables to use Slingshot and to optimize communication performance are automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see the NCCL documentation); the variables set are:
+- for `NCCL`, environment variables to use Slingshot and to optimize communication performance are automatically set when loading the `juliaup` or `jupyter` view (these variables can be tuned further depending on the application, see [the NCCL documentation](<https://docs.cscs.ch/software/communication/nccl/index.md#uenv> "uenv")); the variables set are:
 
   - `NCCL_NET="AWS Libfabric"`
   - `NCCL_NET_GDR_LEVEL=PHB`
@@ -83,7 +83,7 @@ Start the image and activate the Julia\[up\] HPC setup by loading the following 
 > uenv start julia/26.3:v1 --view=juliaup,modules
 > ```
 
-There is also a view `jupyter` available, which is required for using Julia in JupyterHub.
+There is also a view `jupyter` available, which is required for [using Julia in JupyterHub](<https://docs.cscs.ch/access/jupyterlab/index.md#using-julia-in-jupyter> "Using Julia in Jupyter").
 
 > [!NOTE]
 >
@@ -95,7 +95,7 @@ There is also a view `jupyter` available, which is required for using Julia in J
 >     juliaup
 > ```
 
-Note that the `julia` uenv is built extending the `prgenv-gnu` uenv. As a result, it provides also all the features of `prgenv-gnu`. Please see the `prgenv-gnu` documentation for details. You can for example load the `modules` view to see the exact versions of the libraries available in the uenv.
+Note that the `julia` uenv is built extending the `prgenv-gnu` uenv. As a result, it provides also all the features of `prgenv-gnu`. Please see [the `prgenv-gnu` documentation](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#how-to-use> "How to use") for details. You can for example load the `modules` view to see the exact versions of the libraries available in the uenv.
 
 ## Background on Julia for HPC
 

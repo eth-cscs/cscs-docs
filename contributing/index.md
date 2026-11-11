@@ -30,7 +30,7 @@ The CSCS documentation takes contributions from all CSCS staff and CSCS users, w
 >
 > **Before contributing**
 >
-> Please read the guidelines and style guide before making any contribution. Consistency and common practices make it easier for users to read and navigate the documentation, make it easier for regular contributors to write, and avoid style debates. We try to strike a balance between following the guidelines and letting authors write in a style that is comfortable for them.
+> Please read the [guidelines](<https://docs.cscs.ch/contributing/index.md#guidelines> "Guidelines") and [style guide](<https://docs.cscs.ch/contributing/index.md#style-guide> "Style guide") before making any contribution. Consistency and common practices make it easier for users to read and navigate the documentation, make it easier for regular contributors to write, and avoid style debates. We try to strike a balance between following the guidelines and letting authors write in a style that is comfortable for them.
 >
 > To speed up the merge process and avoid lengthy style discussions, we reserve the right to make changes to pull requests to bring it into line with the guidelines. The core team will also update pages when they are out of date or when the style guidelines change.
 
@@ -56,7 +56,7 @@ If you want to follow changes to a page or section, add your name to the CODEOWN
 >
 > **Updating the tables of a cluster**
 >
-> The partition, node and file system tables of the cluster and platform pages are generated from the configuration of each cluster. Platform owners and system administrators can update them by following updating cluster descriptions.
+> The partition, node and file system tables of the cluster and platform pages are generated from the configuration of each cluster. Platform owners and system administrators can update them by following [updating cluster descriptions](<https://docs.cscs.ch/contributing/clusters/index.md#updating-cluster-descriptions> "Updating cluster descriptions").
 
 ## Getting started
 
@@ -76,7 +76,7 @@ git switch -c 'fix/ssh-alias'
 # ... make your edits ...
 ```
 
-Review your edits checking the Guidelines section below.
+Review your edits checking the [Guidelines](<https://docs.cscs.ch/contributing/index.md#guidelines>) section below.
 
 > [!NOTE]
 >
@@ -100,7 +100,7 @@ You can now open your browser at the address shown above (`http://127.0.0.1:8000
 >
 > **Building the complete site**
 >
-> `./serve` shows the documentation only. To build the site as CI does, including the agent skills that are published with it, run `./build`. It writes the site to the `site` directory, and stops on any warning.
+> `./serve` shows the documentation only. To build the site as CI does, including the [agent skills](<https://docs.cscs.ch/contributing/skills/index.md#publishing-agent-skills> "Publishing agent skills") that are published with it, run `./build`. It writes the site to the `site` directory, and stops on any warning.
 
 After your first review, commit and push your changes
 
@@ -118,7 +118,7 @@ Then navigate to GitHub, and create a pull request.
 
 ## Review process
 
-After you have made a pull request, a CI/CD pipeline will run the spell checker and build a copy of the docs with the PR changes. A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
+After you have made a pull request, a CI/CD pipeline will run the [spell checker](<https://docs.cscs.ch/contributing/index.md#spell-checker> "Spell checker") and build a copy of the docs with the PR changes. A temporary preview copy of the docs is deployed, to allow reviewers to see the finished documentation, at the address `https://cscs-docs-preview.svc.cscs.ch/$PR`, where `PR` is the number of the pull request.
 
 To make changes based on reviewer feedback, make a new commit on your branch, and push it to your fork. The PR will automatically be updated, the spell checker will run again, and the preview documentation site will be rebuilt.
 
@@ -330,7 +330,7 @@ This method defines a canonical representation of text, i.e. there is one and on
 
 The documentation does not have a FAQ section, because questions are best answered by the documentation, not in a separate section. Integrating information into the main documentation requires some care to identify where the information needs to go, and edit the documentation around it. Adding the information to a FAQ is easier, but the result is information about a topic distributed between the docs and FAQ questions, which ultimately makes the documentation harder to search.
 
-FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts. If you want to add such content, create a section at the bottom of a topic page, for example this section on the SSH documentation page.
+FAQ content, such as lists of most frequently encountered error messages, is still very useful in many contexts. If you want to add such content, create a section at the bottom of a topic page, for example this section on the [SSH documentation page](<https://docs.cscs.ch/access/ssh/index.md#known-issues> "Known issues").
 
 ### Small contributions
 

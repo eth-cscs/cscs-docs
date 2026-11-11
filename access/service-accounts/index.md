@@ -6,20 +6,20 @@ Use a Service Account when:
 
 - You need to run SSH commands from a CI/CD pipeline (e.g., GitHub Actions, GitLab CI).
 - You have scripts that execute multiple cluster operations in sequence.
-- You want to call FirecREST using an API key instead of a personal OAuth2 client application.
+- You want to call [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) using an [API key instead of a personal OAuth2 client application](<https://docs.cscs.ch/access/firecrest/index.md#service-account-api-keys> "Service Account API keys").
 - You want to isolate automated access from your personal credentials.
 
-To use Service Accounts, you’ll need the `cscs-key` CLI tool, a helper that wraps the authentication flow described below into simple commands. Alternatively, you can implement the flow yourself using the raw API calls documented here.
+To use Service Accounts, you’ll need the [`cscs-key` CLI tool](<https://docs.cscs.ch/access/ssh/index.md#command-line-access> "Command-line access"), a helper that wraps the authentication flow described below into simple commands. Alternatively, you can implement the flow yourself using the raw API calls documented here.
 
 > [!NOTE]
 >
 > **Requesting a Service Account**
 >
-> If you need to request a Service Account, please see Requesting a Service Account in the accounts and projects documentation.
+> If you need to request a Service Account, please see [Requesting a Service Account](<https://docs.cscs.ch/accounts/account-create/index.md#requesting-a-service-account>) in the accounts and projects documentation.
 
 ## Creating a Service Account in Waldur
 
-Once enabled, you can create a Service Account in your Waldur project at [`https://portal.cscs.ch/projects/`](<https://portal.cscs.ch/projects/>).
+Once enabled, you can create a Service Account in your [Waldur project](<https://docs.cscs.ch/accounts/waldur/index.md#the-project-and-resources-management-tool> "The Project and Resources Management Tool") at [`https://portal.cscs.ch/projects/`](<https://portal.cscs.ch/projects/>).
 
 1. Navigate to your project’s **Team** tab.
 2. Click **Add** -\> **Service account**.
@@ -63,7 +63,7 @@ Cluster access requires two API calls: first to obtain a **JWT Token** from your
 API Key  ->  JWT Token  ->  SSH Certificate  ->  Cluster Login
 ```
 
-The `cscs-key` tool handles this flow for you. If you prefer to call the API directly, follow Steps 1 and 2 below.
+The `cscs-key` tool [handles this flow for you](<https://docs.cscs.ch/access/service-accounts/index.md#quick-authentication-with-cscs-key> "Quick Authentication with "). If you prefer to call the API directly, follow Steps 1 and 2 below.
 
 ### 1\. Request a JWT Token
 
@@ -119,7 +119,7 @@ However, each non-interactive SSH invocation (`ssh <host> <command>`) opens a ne
 
 ### 1\. Configure your SSH client
 
-See the SSH documentation for general SSH configuration. For Service Accounts, we recommend using a separate wildcard pattern and key pair to avoid interfering with your personal configuration:
+See the [SSH documentation](<https://docs.cscs.ch/access/ssh/index.md#adding-ela-as-a-jump-host-in-ssh-configuration> "Adding Ela as a jump host in SSH configuration") for general SSH configuration. For Service Accounts, we recommend using a separate wildcard pattern and key pair to avoid interfering with your personal configuration:
 
 ```text
 Host sa-*

@@ -1,36 +1,36 @@
 # Clariden
 
-Clariden is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of machine learning workloads in the MLP.
+Clariden is an Alps cluster that provides GPU accelerators and file systems designed to meet the needs of machine learning workloads in the [MLP](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform").
 
 ## Cluster Specification
 
 ### Compute Nodes
 
-Clariden consists of Grace-Hopper nodes. The number of nodes can change when nodes are added or removed from other clusters on Alps.
+Clariden consists of [Grace-Hopper nodes](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes"). The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
 | Node type | Memory | Nodes | CPU sockets | GPUs |
 | --- | --- | --- | --- | --- |
-| gh200 | – | 1332 | 5328 | 5328 |
+| [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | – | 1332 | 5328 | 5328 |
 
-In addition, two zen2 nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
+In addition, two [zen2](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
 
-Most nodes are in the `normal` Slurm partition, while a few nodes are in the `debug` partition.
+Most nodes are in the [`normal` Slurm partition](<https://docs.cscs.ch/running/slurm/index.md#normal-partition> "Normal partition"), while a few nodes are in the [`debug` partition](<https://docs.cscs.ch/running/slurm/index.md#debug-partition> "Debug partition").
 
 ### Storage and file systems
 
-Clariden uses the MLP filesystems and storage policies.
+Clariden uses the [MLP filesystems and storage policies](<https://docs.cscs.ch/platforms/mlp/index.md#file-systems-and-storage> "File Systems and Storage").
 
 ## Getting started
 
 ### Logging into Clariden
 
-To connect to Clariden via SSH, first refer to the ssh guide.
+To connect to Clariden via SSH, first refer to the [ssh guide](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH").
 
 > [!NOTE]
 >
 > **`~/.ssh/config`**
 >
-> Add the following to your SSH configuration to enable you to directly connect to clariden using `ssh clariden`.
+> Add the following to your [SSH configuration](<https://docs.cscs.ch/access/ssh/index.md#adding-ela-as-a-jump-host-in-ssh-configuration> "Adding Ela as a jump host in SSH configuration") to enable you to directly connect to clariden using `ssh clariden`.
 >
 > ```text
 > Host clariden
@@ -45,23 +45,23 @@ To connect to Clariden via SSH, first refer to the ssh guide.
 
 Users are encouraged to use containers on Clariden.
 
-- Jobs using containers can be easily set up and submitted using the container engine.
-- To build images, see the guide to building container images on Alps.
+- Jobs using containers can be easily set up and submitted using the [container engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine").
+- To build images, see the [guide to building container images on Alps](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 - The [Nvidia NGC Catalog](<https://catalog.ngc.nvidia.com/containers>) provides containers with pre-built ML software stacks:
 
-  - **Recommended**: Alps extended images provided by CSCS are customized versions of NGC images optimized for the Alps network.
-  - Or start with base images from the [Nvidia NGC Catalog](<https://catalog.ngc.nvidia.com/containers>), for example the [HPC](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc>) and [PyTorch](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch>) images — note that you will have to use container hooks to get optimal network performance.
+  - **Recommended**: [Alps extended images](<https://docs.cscs.ch/software/alps-extended-images/index.md#alps-extended-images> "Alps Extended Images") provided by CSCS are customized versions of NGC images optimized for the Alps network.
+  - Or start with base images from the [Nvidia NGC Catalog](<https://catalog.ngc.nvidia.com/containers>), for example the [HPC](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/nvhpc>) and [PyTorch](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch>) images — note that you will have to use [container hooks](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#annotations> "Annotations") to get optimal network performance.
 
-Alternatively, uenv are also available on Clariden. Currently deployed on Clariden:
+Alternatively, [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) are also available on Clariden. Currently deployed on Clariden:
 
-- prgenv-gnu
-- pytorch
+- [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>)
+- [pytorch](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-a-uenv> "Running PyTorch with a uenv")
 
 > [!NOTE]
 >
 > **using uenv provided for other clusters**
 >
-> You can run uenv that were built for other Alps clusters using the `@` notation. For example, to use uenv images for daint:
+> You can run uenv that were built for other Alps clusters using the `@` notation. For example, to use uenv images for [daint](<https://docs.cscs.ch/clusters/daint/index.md#daint> "Daint"):
 >
 > ```bash
 > # list all images available for daint
@@ -74,19 +74,19 @@ Alternatively, uenv are also available on Clariden. Currently deployed on Clarid
 > uenv start namd/3.0:v3@daint
 > ```
 
-For detailed instructions and best practices with ML frameworks, please refer to the dedicated pages under ML software.
+For detailed instructions and best practices with ML frameworks, please refer to the dedicated pages under [ML software](<https://docs.cscs.ch/software/ml/index.md#machine-learning-applications-and-frameworks> "Machine learning applications and frameworks").
 
 ## Running Jobs on Clariden
 
 ### Slurm
 
-Clariden uses Slurm as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
+Clariden uses [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
 > [!WARNING]
 >
 > **Clariden has no default MPI plugin**
 >
-> On Clariden, Slurm does not select an MPI plugin by default (`MpiDefault` is `(null)`). Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application. For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI. If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error. Applications that do not use MPI do not need this setting.
+> On Clariden, Slurm does not select an [MPI plugin](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") by default (`MpiDefault` is `(null)`). Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application. For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI. If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error. Applications that do not use MPI do not need this setting.
 
 #### Partitions
 
@@ -97,7 +97,7 @@ There are six Slurm partitions on the system:
 - the `normal` partition is for all production workloads, and its jobs cannot be stopped by highprio jobs.
 - the `debug` partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as `normal`, with tight per-user limits to keep it focused on its intended use case.
 - the `low` partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).
-- the `xfer` partition is for internal and S3 data transfer at CSCS.
+- the `xfer` partition is for [internal and S3 data transfer](<https://docs.cscs.ch/storage/transfer/index.md#internal-transfer> "Internal Transfer") at CSCS.
 
 | Partition | Nodes | Max nodes in use | Max nodes/job | Default time | Max time |
 | --- | --- | --- | --- | --- | --- |
@@ -114,7 +114,7 @@ There are six Slurm partitions on the system:
 >
 > The suggested largest job in the `normal` and `preemptable` partitions is 128 nodes, so that the system is used efficiently. Slurm accepts larger jobs in these partitions, but they can wait a long time in the queue before enough nodes are free at the same time, even with backfill, and the nodes that are kept free for them are unavailable for other jobs while they wait. The `highprio` partition is reserved for jobs larger than 128 nodes, and is available to selected projects.
 
-Most partitions are configured on the same pool of nodes. The jobs in `normal` and `highprio` are also limited by a Slurm QoS to the number of nodes in *Max nodes in use*, which all the running jobs of the partition share. These limits are set so that `normal` and `highprio`, together with a reserve for nodes that are down and for interactive use, add up to the whole system. They may be adjusted: the table shows the current values. When the limit of a partition is reached, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
+Most partitions are configured on the same pool of nodes. The jobs in `normal` and `highprio` are also limited by a [Slurm QoS](<https://docs.cscs.ch/running/slurm/index.md#qos-limits> "QoS limits") to the number of nodes in *Max nodes in use*, which all the running jobs of the partition share. These limits are set so that `normal` and `highprio`, together with a reserve for nodes that are down and for interactive use, add up to the whole system. They may be adjusted: the table shows the current values. When the limit of a partition is reached, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
 
 > [!WARNING]
 >
@@ -128,16 +128,16 @@ Most partitions are configured on the same pool of nodes. The jobs in `normal` a
 - because these partitions overlap, a node may belong to more than one of them at the same time
 - nodes in the `xfer` partition can be shared
 
-The hardware available in each partition, including the Slurm features that can be selected with `--constraint`:
+The hardware available in each partition, including the [Slurm features](<https://docs.cscs.ch/running/slurm/index.md#slurm-features>) that can be selected with `--constraint`:
 
 | Partition | Nodes | Node type | Features |
 | --- | --- | --- | --- |
-| `normal` | 1308 | gh200 | vboost, thp |
-| `highprio` | 1308 | gh200 | vboost, thp |
-| `low` | 1308 | gh200 | vboost, thp |
-| `preemptable` | 1308 | gh200 | vboost, thp |
-| `debug` | 1332 | gh200 | vboost, thp |
-| `xfer` | 2 | zen2 256 GB | none |
+| `normal` | 1308 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `highprio` | 1308 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `low` | 1308 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `preemptable` | 1308 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `debug` | 1332 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `xfer` | 2 | [zen2 256 GB](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") | none |
 
 #### `highprio` partition
 
@@ -204,7 +204,7 @@ If a job is stopped to start a highprio jobs it is not automatically requeued un
 
 If you request requeuing you have to be careful about not overwriting files (for example file redirect \>output). The variable `$SLURM_RESTART_COUNT`can be used to disambiguate the file names between different runs (SLURM\_JOB\_ID will be the same).
 
-See the Slurm documentation for instructions on how to run jobs on the Grace-Hopper nodes.
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes").
 
 > [!NOTE]
 >
@@ -225,7 +225,7 @@ See the Slurm documentation for instructions on how to run jobs on the Grace-Hop
 
 ### FirecREST
 
-Clariden can also be accessed using FirecREST at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
+Clariden can also be accessed using [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) at the `https://api.cscs.ch/ml/firecrest/v2` API endpoint.
 
 ## Maintenance and status
 
@@ -243,7 +243,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > > **Login node limits**
 > >
-> > To enforce our fair usage of shared resources policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. In addition, each login session is pinned to a subset of the cores of the node. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+> > To enforce our [fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. In addition, each login session is pinned to a subset of the cores of the node. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
 >
 > > **Enforce performance cpufreq governor**
 > >

@@ -6,7 +6,7 @@ The Alps infrastructure (specifically the networking stack) requires custom-buil
 >
 > **Info**
 >
-> See our communication library guide for detailed information about how to build containers with optimised support for the Slingshot network used by Alps.
+> See our [communication library guide](<https://docs.cscs.ch/software/communication/index.md#communication-libraries> "Communication Libraries") for detailed information about how to build containers with optimised support for the Slingshot network used by Alps.
 
 > [!NOTE]
 >
@@ -188,7 +188,7 @@ com.hooks.cxi.enabled = "false" # (4)!
 > - Explicitly **disable** the `cxi` hook
 > - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
 > - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
-> - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`, see MPI plugins)
+> - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`, see [MPI plugins](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins>))
 
 > [!NOTE]
 >
@@ -216,7 +216,7 @@ srun \
     python my_script.py
 ```
 
-1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
+1. The [`--mpi=pmix` flag](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
 2. The `--network=disable_rdzv_get` flag is required to disable the rendezvous mechanism for network initialization. Alternatively, you can also set the environment variable `SLURM_NETWORK=disable_rdzv_get` to achieve the same effect.
 3. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
 
@@ -254,7 +254,7 @@ srun \
 > Transport endpoint is not connected
 > ```
 >
-> this likely indicates that Slurm is not configured to use `PMIx` for launching MPI applications. To resolve this, ensure that you are launching your application with the `--mpi=pmix` flag, for example:
+> this likely indicates that Slurm is not configured to use `PMIx` for launching MPI applications. To resolve this, ensure that you are launching your application with the [`--mpi=pmix` flag](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins"), for example:
 >
 > ```bash
 > srun --mpi=pmix ...
@@ -284,7 +284,7 @@ FROM jfrog.svc.cscs.ch/docker-group-csstaff/alps-images/ngc-pytorch:26.02-py3-al
 FROM ghcr.io/eth-cscs/alps-extended-images/ngc-pytorch:26.02-py3-alps6
 ```
 
-For further information, please see the guide to building container images on Alps.
+For further information, please see the [guide to building container images on Alps](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 
 ### Inspecting image provenance labels
 

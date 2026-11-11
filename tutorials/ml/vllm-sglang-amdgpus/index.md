@@ -17,7 +17,7 @@ In this specific tutorial we are going to show how to:
 
 ### Prerequisites
 
-This tutorial assumes that you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide here, and read through the documentation about the ML platform.
+This tutorial assumes that you are able to access the cluster via SSH. To set up access to CSCS systems, follow the guide [here](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH"), and read through the documentation about the [ML platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform").
 
 In particular, this tutorial targets the Beverin cluster, but it should be possible to adapt it with minor changes to other clusters as well.
 
@@ -25,7 +25,7 @@ In particular, this tutorial targets the Beverin cluster, but it should be possi
 
 In this tutorial we are going to use an official vLLM/SGLang image for ROCm systems. From early 2026 AMD’s Docker images [`rocm/vllm`](<https://hub.docker.com/r/rocm/vllm>) and [`rocm/sgl-dev`](<https://hub.docker.com/r/rocm/sgl-dev>) (and others) have been deprecated (see, e.g., [here](<https://docs.vllm.ai/en/v0.19.1/getting_started/installation/gpu/#use-amds-docker-images-deprecated>) and [here](<https://lmsysorg.mintlify.app/docs/hardware-platforms/amd_gpu#install-using-docker-recommended>)) in favour of [`vllm/vllm-openai-rocm`](<https://hub.docker.com/r/vllm/vllm-openai-rocm>) and [`lmsysorg/sglang`](<https://hub.docker.com/r/lmsysorg/sglang/tags>) images, respectively. The following steps will show how to use the new images.
 
-Beforehand, if you have not done already, let us create a directory to keep track of all images used with the Container Engine. Since container images are large files and the filesystem is a shared resource, we need to apply best practices for Lustre so they are properly distributed across storage nodes.
+Beforehand, if you have not done already, let us create a directory to keep track of all images used with the [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>). Since container images are large files and the filesystem is a shared resource, we need to apply [best practices for Lustre](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") so they are properly distributed across storage nodes.
 
 Container image directory with recommended LUSTRE settings
 
@@ -34,7 +34,7 @@ mkdir -p $SCRATCH/ce-images
 lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images
 ```
 
-Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as a squashfs archive that can be used with the Container Engine.
+Now we can pull the docker image in our container images directory just created. The following command allows to import a docker image as a squashfs archive that can be used with the [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>).
 
 > [!NOTE]
 >
@@ -58,7 +58,7 @@ Now we can pull the docker image in our container images directory just created.
 
 ### Setup EDF
 
-The following step is the creation of an Environment Definition File (EDF) where details on how to start the container are specified. In particular, this tutorial makes use of netstack and related hooks for binding compatible network libraries (mainly `libfabric`, `CXI` and `aws-ofi-nccl`) inside the container.
+The following step is the creation of an Environment Definition File ([EDF](<https://docs.cscs.ch/software/container-engine/edf/index.md#edf-reference> "EDF reference")) where details on how to start the container are specified. In particular, this tutorial makes use of [netstack](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source") and related hooks for binding compatible network libraries (mainly `libfabric`, `CXI` and `aws-ofi-nccl`) inside the container.
 
 Save this as a TOML file named `env-inference.toml` so that you can use it later.
 
@@ -346,4 +346,4 @@ which might require quite some time for completing the startup phase. For this r
 tail -f inference-*-0.out
 ```
 
-Once the vLLM/SGLang inference instance is ready, it can be used exactly as how it has been done before for single node instances (see here).
+Once the vLLM/SGLang inference instance is ready, it can be used exactly as how it has been done before for single node instances (see [here](<https://docs.cscs.ch/tutorials/ml/vllm-sglang-amdgpus/index.md#use-the-instance> "Use the instance")).

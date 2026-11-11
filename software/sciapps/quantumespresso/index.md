@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> Quantum ESPRESSO is supported software on Alps. See the main applications page for more information.
+> Quantum ESPRESSO is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [Quantum ESPRESSO](<https://www.quantum-espresso.org/>) is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials:
 
@@ -14,7 +14,7 @@
 >
 > **uenvs**
 >
-> [Quantum ESPRESSO](<https://www.quantum-espresso.org/>) is provided on ALPS via uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> [Quantum ESPRESSO](<https://www.quantum-espresso.org/>) is provided on [ALPS](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 ## How to run
 
@@ -37,7 +37,7 @@ export OMP_PLACES=cores
 srun -u /user-environment/env/default/bin/pw.x < pw.in
 ```
 
-How to run multiple ranks per GPU is described here. We recommend to run a few benchmarks upfront, to determine the optimal number of MPI ranks per GPU for your configuration. Note: In general the benefit of using OpenMP threads is marginal, using too many OpenMP threads (oversubscription) will have adverse effects on performance.
+How to run multiple ranks per GPU is described [here](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU"). We recommend to run a few benchmarks upfront, to determine the optimal number of MPI ranks per GPU for your configuration. Note: In general the benefit of using OpenMP threads is marginal, using too many OpenMP threads (oversubscription) will have adverse effects on performance.
 
 ```bash
 #!/bin/bash -l

@@ -4,7 +4,7 @@ CSCS supports a wide range of machine learning (ML) applications and frameworks 
 
 Users can choose between running containers, using provided uenv software stacks, or building custom Python environments tailored to their needs.
 
-First time users are recommended to consult the LLM tutorials to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples.
+First time users are recommended to consult the [LLM tutorials](<https://docs.cscs.ch/tutorials/ml/index.md#machine-learning-platform-tutorials> "Machine Learning Platform Tutorials") to get familiar with the concepts of the Machine Learning platform in a series of hands-on examples.
 
 ## Optimizing Data Loading for Machine Learning
 
@@ -19,13 +19,13 @@ Key recommendations:
 
 Optimizing data access not only improves training speed but also reduces contention on shared storage resources, benefiting all users.
 
-For detailed information on storage options and best practices for managing data on CSCS systems, refer to the Storage Guide.
+For detailed information on storage options and best practices for managing data on CSCS systems, refer to the [Storage Guide](<https://docs.cscs.ch/guides/storage/index.md#storage>).
 
 ## Running ML applications with containers (recommended)
 
 Containerization is the recommended approach for ML workloads on Alps, as it simplifies software management and maximizes compatibility with other systems.
 
-The recommended container to use as the base for your work are the Alps extended images — [Nvidia NGC](<https://catalog.ngc.nvidia.com/containers>) containers that have been fine-tuned and extended for best performance on Alps.
+The recommended container to use as the base for your work are the [Alps extended images](<https://docs.cscs.ch/software/alps-extended-images/index.md#alps-extended-images> "Alps Extended Images") — [Nvidia NGC](<https://catalog.ngc.nvidia.com/containers>) containers that have been fine-tuned and extended for best performance on Alps.
 
 Alternatively users can build their own images starting from popular sources such as the [Nvidia NGC Catalog](<https://catalog.ngc.nvidia.com/containers>), which offers a variety of pre-built images optimized for HPC and ML workloads. Examples include:
 
@@ -35,33 +35,33 @@ Alternatively users can build their own images starting from popular sources suc
 
 Documented best practices are available for:
 
-- PyTorch
+- [PyTorch](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-the-container-engine-recommended> "Running PyTorch with the Container Engine (recommended)")
 
 > [!NOTE]
 >
 > **Extending a container with a virtual environment**
 >
-> For frequently changing Python dependencies during development, consider creating a Virtual Environment (venv) on top of the packages in the container (see this example).
+> For frequently changing Python dependencies during development, consider creating a Virtual Environment (venv) on top of the packages in the container (see [this example](<https://docs.cscs.ch/software/ml/pytorch/index.md#optionally-extend-container-with-virtual-environment> "(Optionally) extend container with virtual environment")).
 
 Helpful references:
 
-- Introduction to concepts of the Machine Learning platform: LLM tutorials
-- Running containers on Alps: Container Engine Guide
-- Building custom container images: Container Build Guide
+- Introduction to concepts of the Machine Learning platform: [LLM tutorials](<https://docs.cscs.ch/tutorials/ml/index.md#machine-learning-platform-tutorials> "Machine Learning Platform Tutorials")
+- Running containers on Alps: [Container Engine Guide](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>)
+- Building custom container images: [Container Build Guide](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps")
 
 ## Using provided uenv software stacks
 
-Alternatively, CSCS provides pre-configured software stacks (uenvs) that can serve as a starting point for machine learning projects. These environments provide optimized compilers, libraries, and selected ML frameworks.
+Alternatively, CSCS provides pre-configured software stacks ([uenvs](<https://docs.cscs.ch/software/uenv/index.md#uenv>)) that can serve as a starting point for machine learning projects. These environments provide optimized compilers, libraries, and selected ML frameworks.
 
 Available ML-related uenvs:
 
-- PyTorch — available on Clariden, Daint and Santis
+- [PyTorch](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-a-uenv> "Running PyTorch with a uenv") — available on [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>), [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) and [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>)
 
 > [!NOTE]
 >
 > **Extending a uenv with a virtual environment**
 >
-> To extend these environments with additional Python packages, it is recommended to create a Python Virtual Environment (venv) layered on top of the packages in the uenv. See this PyTorch venv example for details.
+> To extend these environments with additional Python packages, it is recommended to create a Python Virtual Environment (venv) layered on top of the packages in the uenv. See this [PyTorch venv example](<https://docs.cscs.ch/software/ml/pytorch/index.md#adding-python-packages-on-top-of-the-uenv> "Adding Python packages on top of the uenv") for details.
 
 ## Building custom Python environments
 
@@ -79,7 +79,7 @@ To ensure optimal performance on CSCS systems, we recommend starting from an env
 
 This can be achieved either by:
 
-- building a custom container image based on a suitable ML-ready base image,
-- or starting from a provided uenv (e.g., `prgenv-gnu` or PyTorch uenv),
+- building a [custom container image](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps") based on a suitable ML-ready base image,
+- or starting from a provided uenv (e.g., [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) or [PyTorch uenv](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-a-uenv> "Running PyTorch with a uenv")),
 
 and extending it with a virtual environment.

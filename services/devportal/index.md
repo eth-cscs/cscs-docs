@@ -1,6 +1,6 @@
 # Developer Portal
 
-The [Developer Portal](<https://developer.cscs.ch>) facilitates CSCS users to manage client applications’ subscriptions to an API at CSCS, such as FirecREST or CI/CD.
+The [Developer Portal](<https://developer.cscs.ch>) facilitates CSCS users to manage client applications’ subscriptions to an API at CSCS, such as [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) or [CI/CD](<https://docs.cscs.ch/services/cicd/index.md#continuous-integration-continuous-deployment-cicd> "Continuous Integration / Continuous Deployment (CI/CD)").
 
 ## Terminology
 
@@ -92,7 +92,7 @@ To do so:
 
 - (8.a) click on the `Subscriptions` option on the left panel
 - (8.b) click the `SUBSCRIBE APIS` button
-- (8.c) choose the business plan and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
+- (8.c) choose the [business plan](<https://docs.cscs.ch/services/devportal/index.md#view-information-of-apis> "View information of APIs") and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
 
 ![Devportal subscriptions](<https://docs.cscs.ch/images/services/devportal-api-subscriptions.png>)
 

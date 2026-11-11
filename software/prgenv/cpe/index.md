@@ -6,7 +6,7 @@ The Cray Programming Environment (CPE) is provided to users on Alps as container
 >
 > **CPE is not supported by CSCS**
 >
-> CSCS offers full support for building software using uenv-based programming environments. See the programming environment documentation for supported programming environments.
+> CSCS offers full support for building software using [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>)-based programming environments. See the [programming environment](<https://docs.cscs.ch/software/prgenv/index.md#programming-environments> "Programming Environments") documentation for supported programming environments.
 
 The CPE is a suite of software: programming environments, compilers, libraries and tools. The CPE will be familiar to users of previous CSCS systems, including Piz Daint, and users of HPE/Cray systems at other sites. It provides modules for programming environments including `Prgenv-gnu` and `Prgenv-cray`, and packages like `cray-python` and `cray-fftw`.
 
@@ -14,22 +14,22 @@ The CPE is a suite of software: programming environments, compilers, libraries a
 >
 > **The `cray` module is no longer available**
 >
-> The `cray` module on Eiger was removed on August 26th, 2026.
+> The `cray` module on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) was removed on August 26th, 2026.
 >
-> The recommended method for building and running software is to use uenv or containers. See the programming environment documentation for alternative programming environments.
+> The recommended method for building and running software is to use [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) or [containers](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine"). See the [programming environment](<https://docs.cscs.ch/software/prgenv/index.md#programming-environments> "Programming Environments") documentation for alternative programming environments.
 
 ## CPE in a container
 
-The CPE is provided on Eiger, Daint and Santis in containers.
+The CPE is provided on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) and [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) in containers.
 
 ### Available versions
 
-CPE containers are provided for `zen2` and `gh200` micro-architectures. The `zen2` containers are intended for use on Eiger, and the `gh200` images are available for Grace-Hopper systems for the systems below:
+CPE containers are provided for `zen2` and `gh200` [micro-architectures](<https://docs.cscs.ch/alps/hardware/index.md#alps-nodes> "Alps Nodes"). The `zen2` containers are intended for use on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), and the `gh200` images are available for [Grace-Hopper](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") systems for the systems below:
 
 | uarch | system |
 | --- | --- |
-| `zen2` | Eiger |
-| `gh200` | Daint, Santis |
+| `zen2` | [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) |
+| `gh200` | [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) |
 
 The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as separate containers, named `gnu-$version` and `cray-$version` respectively, where `version` is the CPE version in the container.
 
@@ -50,7 +50,7 @@ The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as sepa
 >
 > HPE have announced that 26.3 is the last release of CPE.
 >
-> HPE Supercomputing Programming Software (SUPS) will be the replacement. CSCS will provide software packages from SUPS in uenv.
+> HPE Supercomputing Programming Software (SUPS) will be the replacement. CSCS will provide software packages from SUPS in [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 > [!NOTE]
 >
@@ -76,7 +76,7 @@ The `PrgEnv-gnu` and `PrgEnv-cray` programming environments are provided as sepa
 
 ### How to use
 
-To start a session with the CPE with a specific version above):
+To start a session with the CPE with a [specific version](<https://docs.cscs.ch/software/prgenv/cpe/index.md#available-versions> "Available versions") above):
 
 ```console
 $ srun --environment=cpe-cray-24.07 --pty bash
@@ -148,4 +148,4 @@ The recommended way of using CPE in a container is to start the container, and u
 
 > [!NOTE]
 >
-> `/users` will not be mounted by default. If you need your home directory, you need to override the `mounts` directive. The recommended way is to derive from existing EDF file using the key `base_environment`, further details at EDF file reference.
+> `/users` will not be mounted by default. If you need your home directory, you need to override the `mounts` directive. The recommended way is to derive from existing EDF file using the key `base_environment`, further details at [EDF file reference](<https://docs.cscs.ch/software/container-engine/edf/index.md#edf-reference> "EDF reference").

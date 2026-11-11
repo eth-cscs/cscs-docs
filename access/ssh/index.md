@@ -1,6 +1,6 @@
 # Using SSH
 
-Before accessing CSCS clusters using SSH, first ensure that you have created a user account that is part of a project that has access to the cluster, and have multi factor authentication configured.
+Before accessing CSCS clusters using SSH, first ensure that you have [created a user account](<https://docs.cscs.ch/accounts/index.md#getting-and-managing-accounts> "Getting and Managing Accounts") that is part of a project that has access to the cluster, and have [multi factor authentication](<https://docs.cscs.ch/access/mfa/index.md#multi-factor-authentication> "Multi Factor Authentication") configured.
 
 ## SSH key management overview
 
@@ -171,7 +171,7 @@ For more details about any command please refer to help with `-h, --help`.
 >
 > - **OpenID Connect**: Web browser window opens where user authenticates with the CSCS credentials.
 > - **OAuth2 Device Authorization Grant** for remote headless machines, enabled by `--headless` flag.
-> - **API keys**: For automation with service accounts. See Service Accounts for details.
+> - **API keys**: For automation with service accounts. See [Service Accounts](<https://docs.cscs.ch/access/service-accounts/index.md#service-accounts>) for details.
 
 ### Shell completion
 
@@ -329,7 +329,7 @@ When using signed keys or newly generated keys, add the private key to the SSH a
 ssh-add -t 1d ~/.ssh/cscs-key
 ```
 
-`ssh-add` also adds the certificate `~/.ssh/cscs-key-cert.pub`, if it has the correct name.
+`ssh-add` also adds the certificate `~/.ssh/cscs-key-cert.pub`, if it [has the correct name](<https://docs.cscs.ch/access/ssh/index.md#ref-ssh-cert-name> "Sign your existing SSH key").
 
 > [!WARNING]
 >
@@ -357,9 +357,9 @@ If you have a server listening on a compute node in an Alps cluster and want to 
 
 Before starting, make sure you:
 
-- Have SSH keys loaded in your agent.
+- [Have SSH keys loaded in your agent](<https://docs.cscs.ch/access/ssh/index.md#using-ssh-agent> "Using SSH agent").
 - Have your CSCS username handy (replace `MYUSER` below).
-- Have your server running on a compute node on Alps. See the Slurm documentation for help on how to allocate a node and start your server on a compute node.
+- Have your server running on a compute node on Alps. See the [Slurm documentation](<https://docs.cscs.ch/running/slurm/index.md#slurm>) for help on how to allocate a node and start your server on a compute node.
 - Know the compute node ID (e.g., `nid006554`) and the port of your running server.
 
 > [!WARNING]
@@ -454,7 +454,7 @@ The revocation takes effect immediately across all CSCS systems.
 >
 > This might indicate that your key has expired or is not valid. Check the validity of your key at [user-account.cscs.ch](<https://user-account.cscs.ch>). If expired, sign or generate a new key.
 >
-> This error also occurs if the certificate name does not match the private key. In this case, `ssh -v` prints `no such identity` for the private key. Save the certificate as `<private key>-cert.pub`, as described in Sign your existing SSH key.
+> This error also occurs if the certificate name does not match the private key. In this case, `ssh -v` prints `no such identity` for the private key. Save the certificate as `<private key>-cert.pub`, as described in [Sign your existing SSH key](<https://docs.cscs.ch/access/ssh/index.md#ref-ssh-cert-name>).
 
 > [!WARNING]
 >

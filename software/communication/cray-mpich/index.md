@@ -1,8 +1,8 @@
 # Cray MPICH
 
-Cray MPICH is the recommended MPI implementation on Alps. It is available through uenvs like prgenv-gnu and the application-specific uenvs.
+Cray MPICH is the recommended MPI implementation on Alps. It is available through uenvs like [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) and [the application-specific uenvs](<https://docs.cscs.ch/software/sciapps/index.md#scientific-applications> "Scientific Applications").
 
-Slurm starts Cray MPICH applications with the `cray_shasta` MPI plugin. This plugin is the default on most Alps clusters. On clusters with no default plugin, for example Clariden, use `srun --mpi=cray_shasta`.
+Slurm starts Cray MPICH applications with the `cray_shasta` [MPI plugin](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins"). This plugin is the default on most Alps clusters. On clusters with no default plugin, for example [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>), use `srun --mpi=cray_shasta`.
 
 The [Cray MPICH documentation](<https://cpe.ext.hpe.com/docs/latest/mpt/mpich/index.html>) contains detailed information about Cray MPICH. On this page we outline the most common workflows and issues that you may encounter on Alps.
 
@@ -30,7 +30,7 @@ In supported uenvs, Cray MPICH is built with GPU support (on clusters that have 
 >
 > The path may be different, but the `libmpi_gtl_cuda.so` library should be printed when using CUDA. In ROCm environments the `libmpi_gtl_hsa.so` library should be linked. If the GTL library is not linked, nothing will be printed.
 
-In addition to linking to the GTL library, Cray MPICH must be configured to be GPU-aware at runtime by setting the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable. On some CSCS systems this option is set by default. See this page for more information on configuring Slurm to use GPUs.
+In addition to linking to the GTL library, Cray MPICH must be configured to be GPU-aware at runtime by setting the `MPICH_GPU_SUPPORT_ENABLED=1` environment variable. On some CSCS systems this option is set by default. See [this page](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") for more information on configuring Slurm to use GPUs.
 
 > [!WARNING]
 >
@@ -52,7 +52,7 @@ In addition to linking to the GTL library, Cray MPICH must be configured to be G
 > MPIDI_CRAY_init: GPU_SUPPORT_ENABLED is requested, but GTL library is not linked
 > ```
 >
-> This means that the required GTL library was not linked to the application. In supported uenvs, GPU support is enabled by default. If you believe a uenv should have GPU support but you are getting the above error, feel free to get in touch with us to understand whether there is an issue with the uenv or something else in your environment. If you are using Cray modules you must load the corresponding accelerator module, e.g. `craype-accel-nvidia90`, before compiling your application.
+> This means that the required GTL library was not linked to the application. In supported uenvs, GPU support is enabled by default. If you believe a uenv should have GPU support but you are getting the above error, feel free to [get in touch with us](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") to understand whether there is an issue with the uenv or something else in your environment. If you are using Cray modules you must load the corresponding accelerator module, e.g. `craype-accel-nvidia90`, before compiling your application.
 >
 > Alternatively, if you wish to not use GPU-aware MPI, either unset `MPICH_GPU_SUPPORT_ENABLED` or explicitly set it to `0` in your launch scripts.
 
@@ -104,7 +104,7 @@ The library overrides the `cuPointerGetAttribute` function with an implementatio
 > }
 > ```
 >
-> It can be compiled manually for example with the prgenv-gnu uenv default view:
+> It can be compiled manually for example with the [prgenv-gnu uenv default view](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#how-to-use> "How to use"):
 >
 > ```bash
 > gcc -shared -o cuptrgetattr_override.so -I/user-environment/env/default/include -fPIC cuptrgetattr_override.c

@@ -1,8 +1,8 @@
 # linalg
 
-The `linalg` and `linalg-complex` uenvs are similar to the `prgenv-gnu` and `prgenv-nvfortran` uenvs in that they don’t provide a specific application, but common libraries useful as a base for building other applications. They contain linear algebra and mesh partitioning libraries for a broad range of use cases.
+The `linalg` and `linalg-complex` uenvs are similar to the [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) and [`prgenv-nvfortran`](<https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/index.md#prgenv-nvfortran>) uenvs in that they don’t provide a specific application, but common libraries useful as a base for building other applications. They contain linear algebra and mesh partitioning libraries for a broad range of use cases.
 
-The two uenvs contain otherwise identical packages, except that `linalg-complex` contains `petsc` and `trilinos` with complex types enabled, but without the [`hypre`](<https://packages.spack.io/package.html?name=hypre>) package. `hypre` only supports double precision. See below for the full list of packages in each version of the uenv. Note that many of the packages available in `linalg` and `linalg-complex` are also available in `prgenv-gnu`.
+The two uenvs contain otherwise identical packages, except that `linalg-complex` contains `petsc` and `trilinos` with complex types enabled, but without the [`hypre`](<https://packages.spack.io/package.html?name=hypre>) package. `hypre` only supports double precision. See below for the full list of packages in each version of the uenv. Note that many of the packages available in `linalg` and `linalg-complex` are also available in [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ## Versioning
 
@@ -121,4 +121,4 @@ In version 24.11, the common set of packages in both uenvs is:
 
 ## How to use
 
-Using the `linalg` and `linalg-complex` uenvs is similar to `prgenv-gnu`. Like `prgenv-gnu`, the `linalg` and `linalg-complex` uenvs provide `default` and `modules` views. Please see the `prgenv-gnu` documentation for details on different ways of accessing the packages available in the uenv. You can for example load the `modules` view to see the exact versions of the packages available in the uenv.
+Using the `linalg` and `linalg-complex` uenvs is similar to `prgenv-gnu`. Like `prgenv-gnu`, the `linalg` and `linalg-complex` uenvs provide `default` and `modules` views. Please see [the `prgenv-gnu` documentation](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#how-to-use> "How to use") for details on different ways of accessing the packages available in the uenv. You can for example load the `modules` view to see the exact versions of the packages available in the uenv.

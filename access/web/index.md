@@ -4,7 +4,7 @@ Most services at CSCS are connected to the CSCS Single Sign-On gate. This gives 
 
 ## Using MFA to access web-based services
 
-After having completed the setup of MFA, you will be asked to enter your login/password and the OTP to access all web-based services.
+After having completed the setup of [MFA](<https://docs.cscs.ch/access/mfa/index.md#multi-factor-authentication> "Multi Factor Authentication"), you will be asked to enter your login/password and the OTP to access all web-based services.
 
 Enter username and password.
 

@@ -99,11 +99,11 @@ While the procedure to enable CSCS CI for your repository consists of only a few
 
    > **FirecREST credentials**
    >
-   > If you don’t already know how to obtain FirecREST credentials, you can find more information on CSCS Developer Portal. You must subscribe your application to the FirecREST API of the platform to which you want to submit jobs, e.g. `FirecREST-HPC` for the HPC platform. It is not mandatory to subscribe to the `ciext-container-builder` API to use pure CI workflows (this API is only used for building manually container images).
+   > If you don’t already know how to obtain FirecREST credentials, you can find more information on [CSCS Developer Portal](<https://docs.cscs.ch/services/devportal/index.md#developer-portal>). You must subscribe your application to the FirecREST API of the platform to which you want to submit jobs, e.g. `FirecREST-HPC` for the HPC platform. It is not mandatory to subscribe to the `ciext-container-builder` API to use pure CI workflows (this API is only used for building manually container images).
 
    > **Service accounts**
    >
-   > Service accounts only use an API key. You need to enter the string `api-key` for the Consumer Key, and the generated API key as Consumer Secret.
+   > [Service accounts](<https://docs.cscs.ch/access/service-accounts/index.md#service-accounts> "Service Accounts") only use an API key. You need to enter the string `api-key` for the Consumer Key, and the generated API key as Consumer Secret.
 3. **(Optional) Private project**: If your Git repository is a private repository make sure to check the `Private repository` box and follow the instructions to add an SSH key to your Git repository.
 4. **Add notification token**: On the setup page you will also find the field `Notification token`. By clicking on the small triangle next to `Notification token`, you will find instructions on how to generate a token on GitHub. The token is live tested, and you will see a green checkmark when the token is valid and can be used by the CI. It is mandatory to add a token so that your Git repository will be notified about the status of the build jobs. You cannot save anything as long as the notification token is invalid.
 5. **Add webhook**: On the CI setup page you will find the `Webhook setup details` button (go to the [CI overview](<https://cicd-ext-mw.cscs.ch>), then the project, and there is a blue button with the text `Webhook setup details` on the top left of the page under the Repository ID number). If you click on it you will see all the entries which have to be added to a new webhook in your Git repository. Follow the link given there to your repository, and add the webhook with the given entries.
@@ -610,7 +610,7 @@ RUN apt-get -yqq update && apt-get -yqq upgrade \
 
 It is possible to use CI’s mechanisms to build a container image manually providing a `Dockerfile`, or even a full build context with a `Dockerfile`. For reproducibility one should aim to use a code versioning system like `git`, but for debugging a manual API call might not pollute the code history so much.
 
-To use the API endpoint you need to create API credentials (one time setup) using the developer portal. Please follow this guide. To be able to use manual API container builds you must subscribe your application to the `ciext-container-builder` API.
+To use the API endpoint you need to create API credentials (one time setup) using the developer portal. Please follow [this guide](<https://docs.cscs.ch/services/devportal/index.md#developer-portal> "Developer Portal"). To be able to use manual API container builds you must subscribe your application to the `ciext-container-builder` API.
 
 After your application is created the tab `APIs` will appear at the top of the developer portal, which allows you to inspect the API for `ciext-container-builder`. The section `Documents` is very helpful as it contains the endpoint documentation for `/container/build POST`. Refer to the documentation there for all parameters.
 
@@ -978,7 +978,7 @@ job2:
 
 ### container-runner
 
-This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the FirecREST documentation for additional FirecREST information.
+This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the [FirecREST documentation](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) for additional FirecREST information.
 
 The naming for the runner is `.container-runner-<CLUSTERNAME>-<MICROARCHITECTURE>`
 
@@ -1019,7 +1019,7 @@ This variable is optional and the default value is `AUTO` , where it is set to `
 
 Optional variable, default is empty
 
-Set to the NCCL variant that you would like to use (e.g. `cuda12`) This adds the annotations `aws_ofi_nccl.variant=<value>` and `aws_ofi_nccl.enabled=true`.
+Set to the [NCCL variant](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") that you would like to use (e.g. `cuda12`) This adds the annotations `aws_ofi_nccl.variant=<value>` and `aws_ofi_nccl.enabled=true`.
 
 ##### `EDF_APPEND`
 
@@ -1124,7 +1124,7 @@ job2:
 
 ### uenv-builder
 
-This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the FirecREST documentation for additional FirecREST information.
+This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the [FirecREST documentation](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) for additional FirecREST information.
 
 The naming for the runner is `.uenv-builder-<CLUSTERNAME>-<MICROARCHITECTURE>`
 
@@ -1189,7 +1189,7 @@ job2:
 
 ### uenv-runner
 
-This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the FirecREST documentation for additional FirecREST information.
+This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the [FirecREST documentation](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) for additional FirecREST information.
 
 The naming for the runner is `.uenv-runner-<CLUSTERNAME>-<MICROARCHITECTURE>`
 
@@ -1242,7 +1242,7 @@ job2:
 
 ### baremetal-runner
 
-This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the FirecREST documentation for additional FirecREST information.
+This runner submits SLURM jobs through FirecREST. See the [comments below](<#firecrest>) and the [FirecREST documentation](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) for additional FirecREST information.
 
 The naming for the runner is `baremetal-runner-<CLUSTERNAME>-<MICROARCHITECTURE>`
 
@@ -1271,7 +1271,7 @@ job:
 
 ### f7t-controller
 
-This runner allows submitting jobs to Slurm clusters using FirecREST.
+This runner allows submitting jobs to Slurm clusters using [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>).
 
 The following runners are available:
 
@@ -1383,7 +1383,7 @@ job:
 
 ### FirecREST
 
-This is not a runner per se, but since most runners are built on top of FirecREST some relevant notes how CI is interacting with FirecREST.
+This is not a runner per se, but since most runners are built on top of [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) some relevant notes how CI is interacting with FirecREST.
 
 The terms `Client ID` and `Consumer Key` are meaning the same thing. In the [developer portal](<https://developer.cscs.ch>) they are called `Consumer Key` and `Consumer Secret`, while the standard naming would be `Client ID` and `Client Secret`.
 
@@ -1408,7 +1408,7 @@ The documented runners above, set the correct `F7T_TOKEN_URL` and `F7T_URL` for 
 >
 > **Service accounts**
 >
-> Service accounts only use an API key. You need to enter the string `api-key` for the client ID, and the generated API key as client secret.
+> [Service accounts](<https://docs.cscs.ch/access/service-accounts/index.md#service-accounts> "Service Accounts") only use an API key. You need to enter the string `api-key` for the client ID, and the generated API key as client secret.
 
 ## Example projects
 

@@ -2,15 +2,15 @@
 
 To use one, it must first be loaded into your running environment. There are three ways to use a uenv:
 
-- **Start** a shell with a uenv environment for **interactive use**;
-- **Run** a single command in a uenv, for use in scripts or in workflows that use software provided by more than one uenv.
-- Configure a **Slurm** job to use a uenv on compute nodes.
+- [**Start**](<https://docs.cscs.ch/software/uenv/using/index.md#starting-a-uenv-session> "Starting a uenv session") a shell with a uenv environment for **interactive use**;
+- [**Run**](<https://docs.cscs.ch/software/uenv/using/index.md#running-a-uenv> "Running a uenv") a single command in a uenv, for use in scripts or in workflows that use software provided by more than one uenv.
+- Configure a [**Slurm**](<https://docs.cscs.ch/software/uenv/using/index.md#slurm-integration> "Slurm integration") job to use a uenv on compute nodes.
 
 ## How uenv works
 
 A uenv provides full software stacks that provide specific applications, or programming/development environments. They are stored as [SquashFS images](<https://docs.kernel.org/filesystems/squashfs.html>), a compressed file that contains a directory tree. The SquashFS image of a uenv is a directory that contains all of the software provided by the uenv, along with useful meta data.
 
-When you use `uenv start`, `uenv run`, or use the `--uenv` flag with Slurm, the SquashFS file is mounted at the mount location for the uenv, which is most often `/user-environment`.
+When you use [`uenv start`](<https://docs.cscs.ch/software/uenv/using/index.md#starting-a-uenv-session> "Starting a uenv session"), [`uenv run`](<https://docs.cscs.ch/software/uenv/using/index.md#running-a-uenv> "Running a uenv"), or use the [`--uenv`](<https://docs.cscs.ch/software/uenv/using/index.md#slurm-integration> "Slurm integration") flag with Slurm, the SquashFS file is mounted at the mount location for the uenv, which is most often `/user-environment`.
 
 The following example demonstrates how a uenv mounts the software at `/user-environment`:
 
@@ -40,16 +40,16 @@ $ ls -l /user-environment
 total 0
 ```
 
-The software is available in the shell started by `uenv start`. Note that the mounted software is only visible inside the uenv call: other users and sessions on the node do not see the mounted software at `/user-environment` - and they can mount different environments at the same time.
+The software is available in the shell started by [`uenv start`](<https://docs.cscs.ch/software/uenv/using/index.md#starting-a-uenv-session> "Starting a uenv session"). Note that the mounted software is only visible inside the uenv call: other users and sessions on the node do not see the mounted software at `/user-environment` - and they can mount different environments at the same time.
 
 When the uenv was started above, the only change was the software stack mounted at `/user-environment`:
 
-- the scratch, store, and home filesystems are still available;
+- the [scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch> "Scratch"), [store](<https://docs.cscs.ch/storage/filesystems/index.md#store> "Store"), and [home](<https://docs.cscs.ch/storage/filesystems/index.md#home> "Home") filesystems are still available;
 - the environment variables are not modified.
 
 As such, the environment is not necessarily very useful, because environment variables like `PATH`, `LD_LIBRARY_PATH` and `CUDA_HOME` are no set to make the software in the mounted path useable.
 
-For example, using the `uenv run` command that executes a single command inside an environment before returning, we see that the same gcc 7 is detected inside the uenv - despite it providing gcc 14:
+For example, using the [`uenv run`](<https://docs.cscs.ch/software/uenv/using/index.md#running-a-uenv> "Running a uenv") command that executes a single command inside an environment before returning, we see that the same gcc 7 is detected inside the uenv - despite it providing gcc 14:
 
 ```console
 # the default gcc is installed in /usr/bin
@@ -65,7 +65,7 @@ $ uenv run prgenv-gnu/25.6:v2 -- gcc --version
 gcc (SUSE Linux) 7.5.0
 ```
 
-To set environment variables, uenv provide views, which set additional environment variables inside the uenv:
+To set environment variables, uenv provide [views](<https://docs.cscs.ch/software/uenv/using/index.md#views> "Views"), which set additional environment variables inside the uenv:
 
 ```text
 # use the default view to make all software available
@@ -169,7 +169,7 @@ The `uenv start` command will start a new shell with one or more uenv images mou
 >
 > Unload the active uenv by exiting the current shell before loading the new uenv.
 
-The basic syntax of uenv start is `uenv start image` where `image` is the uenv to start. The image can be a label, the hash/id of the uenv, or a file:
+The basic syntax of uenv start is `uenv start image` where `image` is the uenv to start. The image can be a [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels"), the hash/id of the uenv, or a file:
 
 > [!NOTE]
 >
@@ -192,13 +192,13 @@ The basic syntax of uenv start is `uenv start image` where `image` is the uenv t
 >
 > The `uenv start` command is only for creating interactive environments, because it creates an interactive shell. For Slurm jobs, and use inside scripts, use the `uenv run` and Slurm integration.
 >
-> Because `uenv start` and `uenv run` execute commands in a new environment, they can’t be used in bashrc to configure your environment during login. See our guide for creating convenient custom environments with uenv for alternatives to `module load` in your `~/.basrhc`.
+> Because `uenv start` and `uenv run` execute commands in a new environment, they [can’t be used in bashrc](<https://docs.cscs.ch/guides/terminal/index.md#modifying-bashrc> "Modifying bashrc") to configure your environment during login. See our guide for creating [convenient custom environments](<https://docs.cscs.ch/software/uenv/guides/index.md#custom-environments> "Custom environments") with uenv for alternatives to `module load` in your `~/.basrhc`.
 
 ## Running a uenv
 
 The `uenv run` command can be used to run an application or script in a uenv environment, and return control to the calling shell when the command has finished running. While the `uenv start` command is useful for interactive sessions and experimentation, the `uenv run` command is for use inside scripts, Slurm jobs and automated pipelines.
 
-It can also be used to create customized environments. See the guide to creating custom environments for an example.
+It can also be used to create customized environments. See the guide to [creating custom environments](<https://docs.cscs.ch/software/uenv/guides/index.md#custom-environments> "Custom environments") for an example.
 
 > [!NOTE]
 >
@@ -284,9 +284,9 @@ The environment to load can be provided directly to Slurm via three arguments:
 
 - `--uenv`: a comma-separated list of uenv to mount
 - `--view`: a comma-separated list of views to load
-- `--repo`: specify the repositories to search for the requested uenv. See the `--repo` flag docs for more information.
-- `--uenv-passthrough`: uenv v10.0 configure how sbatch and srun load or ignore uenv environments that are already loaded.
-- `--no-default-view`: uenv v10.0 disable default views.
+- `--repo`: specify the repositories to search for the requested uenv. See the [`--repo` flag docs](<https://docs.cscs.ch/software/uenv/management/index.md#the-repo-flag> "The ") for more information.
+- `--uenv-passthrough`: uenv v10.0 configure how sbatch and srun [load or ignore uenv environments](<https://docs.cscs.ch/software/uenv/using/index.md#passthrough-behaviour> "Passthrough behaviour") that are already loaded.
+- `--no-default-view`: uenv v10.0 disable [default views](<https://docs.cscs.ch/software/uenv/using/index.md#default-views> "Default views").
 
 For example, the flags can be used with srun:
 
@@ -503,9 +503,9 @@ Uenv images provide **views**, which will set environment variables that load th
 > $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors/24.7:v2
 > ```
 
-Each uenv can provide more than one view. The `modules` and `spack` are standard views provided by nearly all uenv.
+Each uenv can provide more than one view. The [`modules`](<https://docs.cscs.ch/software/uenv/using/index.md#modules-view> "Modules view") and [`spack`](<https://docs.cscs.ch/software/uenv/using/index.md#spack-view> "Spack view") are standard views provided by nearly all uenv.
 
-To find a list of the views in a uenv, use `uenv image inspect` without having to mount it first.
+To find a list of the views in a uenv, use [`uenv image inspect`](<https://docs.cscs.ch/software/uenv/management/index.md#uenv-image-inspect>) without having to mount it first.
 
 > [!NOTE]
 >
@@ -530,13 +530,13 @@ To find a list of the views in a uenv, use `uenv image inspect` without having t
 >
 > This view is not loaded by default if no view is specified with the `--view` flag.
 >
-> Uenv v10 introduces support for default views.
+> Uenv v10 introduces support for [default views](<https://docs.cscs.ch/software/uenv/using/index.md#default-views> "Default views").
 
 > [!NOTE]
 >
 > **installing Python venv with uenv**
 >
-> Python virtual environments can be created on top of a uenv view. However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on building Python virtual environments with uenv.
+> Python virtual environments can be created on top of a uenv view. However, to ensure that the Python interpreter and packages from the uenv view are used, the `PYTHONPATH` and `PYTHONUSERBASE` environment variables must be set correctly, see our guide on [building Python virtual environments with uenv](<https://docs.cscs.ch/build-install/python/index.md#installing-venv-on-top-of-a-uenv-view> "Installing venv on top of a uenv view").
 
 ### Default views
 
@@ -545,7 +545,7 @@ uenv v10.0
 Uenv images can provide a default view. When a default view is declared and no `--view` flag is given, that view is loaded automatically.
 
 - To opt out of the automatic default view, use the `--no-default-view` flag;
-- Use `uenv image inspect` to check whether a given uenv has one.
+- Use [`uenv image inspect`](<https://docs.cscs.ch/software/uenv/management/index.md#uenv-image-inspect>) to check whether a given uenv has one.
 
 > [!NOTE]
 >
@@ -663,4 +663,4 @@ Most uenvs provide the modules, that can be accessed using the `module` command.
 
 ### Spack view
 
-uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies. No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv. For more information, see our guide on building software with Spack and uenv.
+uenv images provide a full upstream Spack configuration to facilitate building your own software with Spack using the packages installed inside as dependencies. No view needs to be loaded to use Spack, however all uenv provide a `spack` view that sets some environment variables that contain useful information like the location of the Spack configuration, and the version of Spack that was used to build the uenv. For more information, see our guide on building software with [Spack and uenv](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack").

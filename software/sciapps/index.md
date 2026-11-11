@@ -6,9 +6,9 @@ Please have a look at the individual application page on the menu to find out ho
 
 CSCS staff can also help users with performance analysis to optimise their workflow in production.
 
-- CP2K
-- GROMACS
-- LAMMPS
-- NAMD
-- Quantum ESPRESSO
-- VASP
+- [CP2K](<https://docs.cscs.ch/software/sciapps/cp2k/index.md#cp2k>)
+- [GROMACS](<https://docs.cscs.ch/software/sciapps/gromacs/index.md#gromacs>)
+- [LAMMPS](<https://docs.cscs.ch/software/sciapps/lammps/index.md#lammps>)
+- [NAMD](<https://docs.cscs.ch/software/sciapps/namd/index.md#namd>)
+- [Quantum ESPRESSO](<https://docs.cscs.ch/software/sciapps/quantumespresso/index.md#quantum-espresso>)
+- [VASP](<https://docs.cscs.ch/software/sciapps/vasp/index.md#vasp>)

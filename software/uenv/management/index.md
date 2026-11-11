@@ -13,8 +13,8 @@ In the above image there are two locations where uenv images are stored:
 - The CSCS uenv **registry** is a server that hosts uenv images, that can be access from all clusters on Alps. The images in the registry include:
 
   - officially supported uenv images provided by CSCS for users on Alps;
-  - and, images built by users using the uenv build service.
-- A **repository** (or repo) is a directory on the file system that contains downloaded uenv. See the repository documentation for more information.
+  - and, images built by users using the [uenv build](<https://docs.cscs.ch/software/uenv/build/index.md#building-uenvs> "Building uenvs") service.
+- A **repository** (or repo) is a directory on the file system that contains downloaded uenv. See the [repository](<https://docs.cscs.ch/software/uenv/management/index.md#repositories> "Repositories") documentation for more information.
 
 ## Finding and downloading uenv
 
@@ -47,9 +47,9 @@ The uenv images are in a registry can be queried using the `uenv image find` com
 > quantumespresso/v7.3.1:v1  zen2  eiger   61d1f21881a65578     864    2024-11-08
 > ```
 
-The output above lists all of the uenv that are available on the current system (Eiger in this case).
+The output above lists all of the uenv that are available on the current system ([Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) in this case).
 
-The search can be refined by providing a label.
+The search can be refined by providing a [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels").
 
 > [!NOTE]
 >
@@ -76,11 +76,11 @@ The search can be refined by providing a label.
 >
 > **Info**
 >
-> All uenv commands that take a label as an argument use the same flexible syntax label descriptions.
+> All uenv commands that take a [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels") as an argument use the same flexible syntax [label descriptions](<https://docs.cscs.ch/software/uenv/guides/index.md#using-labels> "Using labels").
 
 ### `uenv image pull`
 
-To download a uenv so that you can use it, use the `uenv image pull` command to download it from the registry to your local repository. For example, to download a version of the `prgenv-gnu` uenv:
+To download a uenv so that you can use it, use the `uenv image pull` command to download it from the registry to your local [repository](<https://docs.cscs.ch/software/uenv/management/index.md#repositories> "Repositories"). For example, to download a version of the `prgenv-gnu` uenv:
 
 > [!NOTE]
 >
@@ -102,7 +102,7 @@ Some images can be large, over 10 GB, and it can take a while to download them f
 
 By default, uenv can be pulled by all users on a system, with no restrictions.
 
-Some uenv are not available to all users, for example the `vasp` images are only available for users with a VASP license, who are added to the `vasp6` group once they have provided CSCS with a copy of their license.
+Some uenv are not available to all users, for example the `vasp` images are only available for users with a [VASP](<https://docs.cscs.ch/software/sciapps/vasp/index.md#vasp>) license, who are added to the `vasp6` group once they have provided CSCS with a copy of their license.
 
 To be able to pull such images a token that authorizes access must be provided. Tokens are created by CSCS, and stored on SCRATCH in a file that only users who have access to the software can read.
 
@@ -168,7 +168,7 @@ To view all uenv that are available and ready to run from your repository, use t
 >
 > **filtering downloaded uenv**
 
-This command will show you all images that have been downloaded to your repository, and labelled for the current cluster. The examples above were executed on Daint (see the `system` column in the output). To view all images that are available for all clusters:
+This command will show you all images that have been downloaded to your repository, and labelled for the current cluster. The examples above were executed on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) (see the `system` column in the output). To view all images that are available for all clusters:
 
 ```console
 $ uenv image ls @*
@@ -207,7 +207,7 @@ The `uenv image inspect` command shows the views, mount point, and other metadat
 >     default:
 > ```
 
-Like other image commands, it accepts a label, a uenv id, or a path to a SquashFS file.
+Like other image commands, it accepts a [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels"), a uenv id, or a path to a SquashFS file.
 
 ### `uenv image rm`
 
@@ -247,7 +247,7 @@ To remove downloaded images from your repository, use the `uenv image rm` comman
 
 ### `uenv image add`
 
-To add a uenv SquashFS file to a repository, so that it can be used with a label, use the `uenv image add` command.
+To add a uenv SquashFS file to a repository, so that it can be used with a [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels"), use the `uenv image add` command.
 
 > [!NOTE]
 >
@@ -257,7 +257,7 @@ To add a uenv SquashFS file to a repository, so that it can be used with a label
 > $ uenv image add myenv/24.7:v1@eiger%zen2 ./store.squashfs
 > ```
 >
-> Note that the label must be of the complete `name/version:tag@system%uarch` form.
+> Note that the [label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels") must be of the complete `name/version:tag@system%uarch` form.
 
 ## Repositories
 
@@ -277,7 +277,7 @@ repo
 
 ### Creating and using repositories
 
-A repository will automatically be created in your Scratch path attached to the cluster you are on when you first use uenv. This *default repo* is used by all calls to uenv, unless it is overridden in a configuration file or using the `--repo` CLI flag, both documented below.
+A repository will automatically be created in your [Scratch path](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) attached to the cluster you are on when you first use uenv. This *default repo* is used by all calls to uenv, unless it is overridden in a configuration file or using the `--repo` CLI flag, both documented below.
 
 > [!NOTE]
 >
@@ -296,7 +296,7 @@ A repository will automatically be created in your Scratch path attached to the 
 
 uenv v10.0
 
-uenv supports multiple named repositories, which is useful for sharing images within a team or project. Repos are configured in the uenv configuration file using the `[[repositories]]` array:
+uenv supports multiple named repositories, which is useful for sharing images within a team or project. Repos are configured in the [uenv configuration file](<https://docs.cscs.ch/software/uenv/configure/index.md#repositories>) using the `[[repositories]]` array:
 
 \~/.config/uenv/config.toml
 
@@ -357,7 +357,7 @@ To write to a different repository, use the `--repo` flag with the repository na
 > uenv --repo=team image pull cp2k/2025.1:v2
 > ```
 
-See the documentation for the `--repo` flag below for more information about how to customize the search order.
+See the documentation for the [`--repo`](<https://docs.cscs.ch/software/uenv/management/index.md#the-repo-flag> "The ") flag below for more information about how to customize the search order.
 
 > [!NOTE]
 >
@@ -432,13 +432,13 @@ Warnings are printed if:
 - the repository is in inconsistent state;
 - or, if the repository database needs updating.
 
-If a warning is printed, it is possible to fix the issues by running the `repo update` command.
+If a warning is printed, it is possible to fix the issues by running the [`repo update`](<https://docs.cscs.ch/software/uenv/management/index.md#uenv-repo-update>) command.
 
 > [!NOTE]
 >
 > **what is an inconsistent repository?**
 >
-> A repository is inconsistent if one or more uenv images have been removed without updating the database. This should not happen to repositories in the default location, which are protected from cleanup policies. However, if you are using a non-standard location, infrequently used images may be removed by Scratch cleanup. Images can sometimes be removed manually/accidentally.
+> A repository is inconsistent if one or more uenv images have been removed without updating the database. This should not happen to repositories in the default location, which are protected from [cleanup policies](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies"). However, if you are using a non-standard location, infrequently used images may be removed by Scratch cleanup. Images can sometimes be removed manually/accidentally.
 
 ### `uenv repo update`
 

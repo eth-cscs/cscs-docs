@@ -12,9 +12,9 @@
 
 ### uenv
 
-To use the Slingshot network on Alps, the [`aws-ofi-nccl`](<https://github.com/aws/aws-ofi-nccl>) plugin must be used. With the container engine, the AWS OFI NCCL hook can be used to load the plugin into the container and configure NCCL to use it.
+To use the Slingshot network on Alps, the [`aws-ofi-nccl`](<https://github.com/aws/aws-ofi-nccl>) plugin must be used. With the container engine, the [AWS OFI NCCL hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook>) can be used to load the plugin into the container and configure NCCL to use it.
 
-Most uenvs, like `prgenv-gnu`, also contain the NCCL plugin. When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin will be available in the environment. Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment. The environment variables described below must be set to ensure that NCCL uses the plugin.
+Most uenvs, like [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>), also contain the NCCL plugin. When using e.g. the `default` view of `prgenv-gnu` the `aws-ofi-nccl` plugin will be available in the environment. Alternatively, loading the `aws-ofi-nccl` module with the `modules` view also makes the plugin available in the environment. The environment variables described below must be set to ensure that NCCL uses the plugin.
 
 While the container engine sets these automatically when using the NCCL hook, the following environment variables should always be set for correctness and optimal performance when using NCCL with uenv:
 
@@ -46,7 +46,7 @@ export FI_MR_CACHE_MONITOR=userfaultfd
 
 ### Containers
 
-To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL as the starting point. Then install libfabric as documented in the libfabric container documentation, and use the AWS OFI hook to configure NCCL to use libfabric optimised for the Alps network.
+To use NCCL in a container, we suggest using a container provided by NVIDIA that already contains CUDA and NCCL as the starting point. Then install libfabric as documented in the [libfabric container documentation](<https://docs.cscs.ch/software/communication/libfabric/index.md#containers> "Containers"), and use the [AWS OFI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") to configure NCCL to use [libfabric](<https://docs.cscs.ch/software/communication/libfabric/index.md#libfabric> "Libfabric") optimised for the Alps network.
 
 > [!NOTE]
 >
@@ -66,7 +66,7 @@ To use NCCL in a container, we suggest using a container provided by NVIDIA that
 >     && rm -rf nccl-tests-${nccl_tests_version}.tar.gz
 > ```
 >
-> Expand the box below to see the full Containerfile that installs the NCCL tests on top of the example in the libfabric documentation.
+> Expand the box below to see the full Containerfile that installs the NCCL tests on top of the example in the [libfabric](<https://docs.cscs.ch/software/communication/libfabric/index.md#containers> "Containers") documentation.
 >
 > > **The full Containerfile**
 > >
@@ -152,7 +152,7 @@ To use NCCL in a container, we suggest using a container provided by NVIDIA that
 > >     && rm -rf nccl-tests-${nccl_tests_version}.tar.gz
 > > ```
 
-To use NCCL in a container, enable the AWS OFI hook in the EDF file.
+To use NCCL in a container, enable the [AWS OFI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") in the [EDF file](<https://docs.cscs.ch/software/container-engine/edf/index.md#edf-reference> "EDF reference").
 
 ```toml
 [env]
@@ -165,9 +165,9 @@ com.hooks.aws_ofi_nccl.variant = "cuda-dl"  # (3)!
 
 1. Ensures PMIx does not use the Munge security domain, which is not exposed into containers. Otherwise PMIx will print warnings at startup.
 2. Enable the AWS OFI plugin.
-3. The dynamically-linked (`dl`) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details here.
+3. The dynamically-linked (`dl`) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details [here](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook").
 
-Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](<https://pmix.org/>) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
+Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](<https://pmix.org/>) for wire-up, pass the [`--mpi=pmix` option](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") to `srun` when launching jobs.
 
 ```console
 $ srun --mpi=pmix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf
@@ -223,7 +223,7 @@ A value of 4 is generally a good compromise to improve point-to-point performanc
 >
 > **GPU-aware MPI with NCCL**
 >
-> Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi>). Unless care is taken to ensure that the two methods of communication are not used concurrently, we recommend not using GPU-aware MPI with NCCL. To explicitly disable GPU-aware MPI with Cray MPICH, explicitly set `MPICH_GPU_SUPPORT_ENABLED=0`. Note that this option may be set to `1` by default on some Alps clusters. See the Cray MPICH documentation for more details on GPU-aware MPI with Cray MPICH.
+> Using GPU-aware MPI together with NCCL [can easily lead to deadlocks](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi>). Unless care is taken to ensure that the two methods of communication are not used concurrently, we recommend not using GPU-aware MPI with NCCL. To explicitly disable GPU-aware MPI with Cray MPICH, explicitly set `MPICH_GPU_SUPPORT_ENABLED=0`. Note that this option may be set to `1` by default on some Alps clusters. See [the Cray MPICH documentation](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#cray-mpich>) for more details on GPU-aware MPI with Cray MPICH.
 
 > [!WARNING]
 >
@@ -263,7 +263,7 @@ A value of 4 is generally a good compromise to improve point-to-point performanc
 >
 > **Impact of disabling the CXI hook**
 >
-> On many Alps vClusters, the Container Engine is configured with the CXI hook enabled by default, enabling transparent access to the Slingshot interconnect.
+> On many Alps vClusters, the Container Engine is configured with the [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") enabled by default, enabling transparent access to the Slingshot interconnect.
 >
 > The inter node tests marked with `(*)` were run with the CXI container hook disabled, to demonstrate the effect of not using an optimised network configuration. If you see similar performance degradation in your tests, the first thing to investigate is whether your setup is using the libfabric optimised back end.
 

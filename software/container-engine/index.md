@@ -25,7 +25,7 @@ Let’s set up a containerized Ubuntu 24.04 environment on the scratch folder (`
 
 ### Step 1. Create an environment
 
-Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default location of EDF files). Create `${HOME}/.edf` if the folder doesn’t exist. A more detailed explanation of each entry for the EDF can be seen in the EDF reference.
+Save this file below as `ubuntu.toml` in `${HOME}/.edf` directory (the default location of EDF files). Create `${HOME}/.edf` if the folder doesn’t exist. A more detailed explanation of each entry for the EDF can be seen in the [EDF reference](<https://docs.cscs.ch/software/container-engine/edf/index.md#edf-reference>).
 
 ```toml
 image = "library/ubuntu:24.04"

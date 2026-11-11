@@ -27,21 +27,21 @@ Users can make HTTP requests to perform the following operations:
 
 ## FirecREST Deployment on Alps
 
-FirecREST is available for all three major Alps platforms, with a dedicated API endpoint for each platform.
+FirecREST is available for all three major [Alps platforms](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps"), with a dedicated API endpoint for each platform.
 
 | Platform | API Endpoint | Clusters |
 | --- | --- | --- |
-| HPC Platform | https://api.cscs.ch/hpc/firecrest/v2 | Daint, Eiger |
-| ML Platform | https://api.cscs.ch/ml/firecrest/v2 | Bristen, Clariden |
-| C&amp;W Platform | https://api.cscs.ch/cw/firecrest/v2 | Santis |
-| Beverin | https://api.cscs.ch/beverin/firecrest/v2 | Beverin |
+| [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>) | https://api.cscs.ch/hpc/firecrest/v2 | [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) |
+| [ML Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform") | https://api.cscs.ch/ml/firecrest/v2 | [Bristen](<https://docs.cscs.ch/clusters/bristen/index.md#bristen>), [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>) |
+| [C&amp;W Platform](<https://docs.cscs.ch/platforms/cwp/index.md#climate-and-weather-platform> "Climate and Weather Platform") | https://api.cscs.ch/cw/firecrest/v2 | [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) |
+| [Beverin](<https://docs.cscs.ch/clusters/beverin/index.md#beverin>) | https://api.cscs.ch/beverin/firecrest/v2 | [Beverin](<https://docs.cscs.ch/clusters/beverin/index.md#beverin>) |
 | MeteoSwiss (MCH) | https://api.cscs.ch/mch/firecrest/v2 | Balfrin, Linard |
 
 ## Accessing FirecREST
 
 ### Clients and access tokens
 
-For authenticating requests to FirecREST, client applications use an **access token** instead of directly using the user’s credentials. The access token is a signed JSON Web Token ([JWT](<https://jwt.io/introduction>)) which contains user information and is only valid for a short time (5 minutes). Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
+For authenticating requests to FirecREST, [client applications](<https://docs.cscs.ch/services/devportal/index.md#application> "Application") use an **access token** instead of directly using the user’s credentials. The access token is a signed JSON Web Token ([JWT](<https://jwt.io/introduction>)) which contains user information and is only valid for a short time (5 minutes). Behind the API, all commands launched by the client will use the account of the user that registered the client, inheriting their access rights.
 
 Every client has a client ID (Consumer Key) and a secret (Consumer Secret) that are used to get a short-lived access token with an HTTP request.
 
@@ -56,13 +56,13 @@ Every client has a client ID (Consumer Key) and a secret (Consumer Secret) that 
 >      --data "client_secret=<client_secret>"
 > ```
 
-You can manage your client application on the CSCS Developer Portal.
+You can manage your client application on the [CSCS Developer Portal](<https://docs.cscs.ch/services/devportal/index.md#developer-portal>).
 
 To use your client credentials to access FirecREST, follow the [API documentation](<https://eth-cscs.github.io/firecrest-v2/openapi>).
 
 ### Service Account API keys
 
-Service Accounts provide programmatic, non-interactive access to CSCS resources. A Service Account API key can be used to authenticate requests to FirecREST instead of a personal client application. This is useful for automated workflows that need to call FirecREST but should not be tied to a personal user account or Developer Portal application.
+[Service Accounts](<https://docs.cscs.ch/access/service-accounts/index.md#service-accounts>) provide programmatic, non-interactive access to CSCS resources. A Service Account API key can be used to authenticate requests to FirecREST instead of a personal client application. This is useful for automated workflows that need to call FirecREST but should not be tied to a personal user account or Developer Portal application.
 
 > [!WARNING]
 >
@@ -76,15 +76,15 @@ Service Accounts provide programmatic, non-interactive access to CSCS resources.
 >
 > **Requesting a Service Account**
 >
-> To use FirecREST with a Service Account you first need a Service Account and its API key. See Requesting a Service Account for how to create one.
+> To use FirecREST with a Service Account you first need a Service Account and its API key. See [Requesting a Service Account](<https://docs.cscs.ch/accounts/account-create/index.md#requesting-a-service-account>) for how to create one.
 
-Service Account requests are not sent to the platform endpoints, but to a separate proxy deployment at `https://f7t-pat.api.svc.cscs.ch/<platform>`, where the platform path selects which FirecREST deployment the request is forwarded to.
+Service Account requests are not sent to the [platform endpoints](<https://docs.cscs.ch/access/firecrest/index.md#firecrest-deployment-on-alps> "FirecREST Deployment on Alps"), but to a separate proxy deployment at `https://f7t-pat.api.svc.cscs.ch/<platform>`, where the platform path selects which FirecREST deployment the request is forwarded to.
 
 | Platform | Service Account endpoint | Clusters |
 | --- | --- | --- |
-| HPC Platform | `https://f7t-pat.api.svc.cscs.ch/hpcp` | Daint, Eiger |
-| ML Platform | `https://f7t-pat.api.svc.cscs.ch/mlp` | Bristen, Clariden |
-| C&amp;W Platform | `https://f7t-pat.api.svc.cscs.ch/cw` | Santis |
+| [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>) | `https://f7t-pat.api.svc.cscs.ch/hpcp` | [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) |
+| [ML Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform") | `https://f7t-pat.api.svc.cscs.ch/mlp` | [Bristen](<https://docs.cscs.ch/clusters/bristen/index.md#bristen>), [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>) |
+| [C&amp;W Platform](<https://docs.cscs.ch/platforms/cwp/index.md#climate-and-weather-platform> "Climate and Weather Platform") | `https://f7t-pat.api.svc.cscs.ch/cw` | [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) |
 
 The API surface under each endpoint is the same as the corresponding platform deployment. The API key is passed in the `X-API-Key` header, and unlike the platform endpoints, the proxy does not require an OAuth2 access token.
 
@@ -95,7 +95,7 @@ curl -s -X GET "https://f7t-pat.api.svc.cscs.ch/hpcp/status/systems" \
      -H "X-API-Key: $CSCS_API_KEY"
 ```
 
-For calling the proxy from Python, see using a Service Account with pyFirecREST.
+For calling the proxy from Python, see [using a Service Account with pyFirecREST](<https://docs.cscs.ch/access/firecrest/index.md#using-a-service-account-api-key> "Using a Service Account API key").
 
 > [!WARNING]
 >
@@ -235,7 +235,7 @@ The tutorial is written for a generic instance of FirecREST but if you have a va
 
 #### Using a Service Account API key
 
-pyFirecREST supports the `X-API-Key` authentication used by the Service Account endpoints through the `ApiKeyAuth` authorization class, available from pyFirecREST version 3.10.0. Pass an `ApiKeyAuth` object instead of `ClientCredentialsAuth` when creating the client, and point the client at the Service Account endpoint of your platform. The rest of the client API is the same as with a personal client application.
+pyFirecREST supports the `X-API-Key` authentication used by the [Service Account endpoints](<https://docs.cscs.ch/access/firecrest/index.md#service-account-api-keys> "Service Account API keys") through the `ApiKeyAuth` authorization class, available from pyFirecREST version 3.10.0. Pass an `ApiKeyAuth` object instead of `ClientCredentialsAuth` when creating the client, and point the client at the Service Account endpoint of your platform. The rest of the client API is the same as with a personal client application.
 
 > [!NOTE]
 >
@@ -283,7 +283,7 @@ pyFirecREST supports the `X-API-Key` authentication used by the Service Account 
 
 ### Data transfer with FirecREST
 
-In addition to the external transfer methods at CSCS, FirecREST provides automated data transfer within the API.
+In addition to the [external transfer methods at CSCS](<https://docs.cscs.ch/storage/transfer/index.md#external-transfer> "External Transfer"), FirecREST provides automated data transfer within the API.
 
 A staging area is used for external transfers and downloading/uploading a file from/to a CSCS filesystem.
 

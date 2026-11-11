@@ -2,7 +2,7 @@
 
 Annotations define arbitrary metadata for containers in the form of key-value pairs. Within the EDF, annotations are designed to be similar in appearance and behavior to those defined by the [OCI Runtime Specification](<https://github.com/opencontainers/runtime-spec/blob/main/config.md#annotations>). Annotation keys usually express a hierarchical namespace structure, with domains separated by “.” (full stop) characters.
 
-As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the SSH hook described below, the annotation `com.hooks.ssh.enabled` must be set to the string `true`.
+As annotations are often used to control hooks, they have a deep nesting level. For example, to execute the [SSH hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#ssh-hook>) described below, the annotation `com.hooks.ssh.enabled` must be set to the string `true`.
 
 EDF files support setting annotations through the `annotations` table. This can be done in multiple ways in TOML: for example, both of the following usages are equivalent:
 
@@ -94,13 +94,13 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
 > [!NOTE]
 >
 > - Due to the nature of Slingshot and the mechanism implemented by the CXI hook, container applications need to use a communication library which supports libfabric in order to benefit from usage of the hook.
-> - Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also this section for more details).
+> - Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") section for more details).
 
 > [!NOTE]
 >
 > **Comparison between with and without the CXI hook**
 >
-> The container image in this example uses MPICH, so the commands use `--mpi=pmi2`.
+> The container image in this example uses MPICH, so the commands use [`--mpi=pmi2`](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins").
 >
 > - Without the CXI hook
 >
@@ -226,13 +226,13 @@ com.hooks.aws_ofi_nccl.variant = "cuda-dl"   # (1)!
 
 1. `com.hooks.aws_ofi_nccl.variant` may vary depending on vClusters. Details below.
 
-The [AWS OFI NCCL plugin](<https://github.com/aws/aws-ofi-nccl>) is a software extension that allows the [NCCL](<https://developer.nvidia.com/nccl>) and [RCCL](<https://rocm.docs.amd.com/projects/rccl/en/latest/>) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect. Also see NCCL and libfabric for more information on using the libraries on Alps.
+The [AWS OFI NCCL plugin](<https://github.com/aws/aws-ofi-nccl>) is a software extension that allows the [NCCL](<https://developer.nvidia.com/nccl>) and [RCCL](<https://rocm.docs.amd.com/projects/rccl/en/latest/>) libraries to use libfabric as a network provider and, through libfabric, to access the Slingshot high-speed interconnect. Also see [NCCL](<https://docs.cscs.ch/software/communication/nccl/index.md#nccl>) and [libfabric](<https://docs.cscs.ch/software/communication/libfabric/index.md#libfabric> "Libfabric") for more information on using the libraries on Alps.
 
 The Container Engine includes a hook program to inject the AWS OFI NCCL plugin in containers; since the plugin must also be compatible with the GPU programming software stack being used, the `com.hooks.aws_ofi_nccl.variant` annotation is used to specify a plugin variant suitable for a given container image. At the moment of writing, the following plugin variants are configured:
 
 - For NVIDIA GPU nodes: `cuda12`, `cuda13`, `cuda-dl`.
 
-  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don’t provide generic symlinks to the CUDA Runtime (more details here).
+  The `cuda-dl` variant uses a plugin which is dynamically linked to CUDA, therefore being portable across versions, and is the generally recommended choice. Some issues may arise with old container images which don’t provide generic symlinks to the CUDA Runtime (more details [here](<https://docs.cscs.ch/software/container-engine/known-issue/index.md#nccl-errors-with-a-dynamically-linked-aws-ofi-nccl-plugin-libcudartso-could-not-be-found> "NCCL errors with a dynamically linked AWS OFI NCCL plugin: ")).
 
   The numbered variants are statically linked against a specific CUDA version and must be matched exactly with containers providing a corresponding CUDA installation.
 - For AMD GPU nodes, alongside RCCL: `rocm5`, and `rocm6`.
@@ -241,7 +241,7 @@ The Container Engine includes a hook program to inject the AWS OFI NCCL plugin i
 
 > [!TIP]
 >
-> The hook implicitly enables the CXI hook, therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it’s unnecessary to also enable the CXI hook separately in the EDF.
+> The hook implicitly enables the [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect"), therefore exposing the Slingshot interconnect to container applications. In other words, when enabling the AWS OFI NCCL hook, it’s unnecessary to also enable the CXI hook separately in the EDF.
 
 > [!NOTE]
 >
@@ -393,7 +393,7 @@ The Container Engine provides a hook to automatically manage the setup and remov
 
 ### Selecting the network stack source
 
-The CXI hook and AWS OFI NCCL hook inject a set of specialized network libraries, extensions, and dependencies (more details here). These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
+The [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") and [AWS OFI NCCL hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook>) inject a set of specialized network libraries, extensions, and dependencies (more details [here](<https://docs.cscs.ch/software/communication/index.md#communication-libraries> "Communication Libraries")). These components allow containers to use the Alps Slingshot interconnect transparently and efficiently.
 
 For convenience, we refer to one such interdependent set of networking-related software as a **network stack**, or *netstack* for short.
 
@@ -410,7 +410,7 @@ The following values are currently supported:
 
 Host libraries are provided by the system vendor and match a specific system configuration. Injecting them requires overriding all corresponding libraries inside the container, which can cause compatibility issues. Host libraries are also tied to vendor-defined settings, and their available versions and update frequency depend on several factors.
 
-Network stack artifacts are built independently by CSCS staff for use with containers on Alps. They reduce compatibility issues by searching for their dependencies in a separate directory, configured through `rpath` at build time. This leaves most container libraries unchanged. Artifacts are available in multiple versions and variants, and they are not tied to operating-system changes, while remaining tuned for Slingshot performance.
+Network stack artifacts are built independently by CSCS staff for use with containers on Alps. They reduce compatibility issues by searching for their dependencies in a separate directory, configured through `rpath` at build time. This leaves most container libraries unchanged. Artifacts are available in multiple [versions and variants](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-network-stack-artifacts> "Selecting network stack artifacts"), and they are not tied to operating-system changes, while remaining tuned for Slingshot performance.
 
 > [!NOTE]
 >
@@ -428,7 +428,7 @@ Network stack artifacts are built independently by CSCS staff for use with conta
 >
 > **Artifact availability**
 >
-> Network stack artifacts are currently fully tested and supported only on GH200 vClusters connected to the Capstor Store filesystem. Availability will be expanded progressively.
+> Network stack artifacts are currently fully tested and supported only on GH200 vClusters connected to the [Capstor Store](<https://docs.cscs.ch/alps/storage/index.md#store>) filesystem. Availability will be expanded progressively.
 
 ### Selecting network stack artifacts
 

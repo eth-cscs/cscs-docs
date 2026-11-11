@@ -15,23 +15,23 @@ The Alps infrastructure offers multiple storage solutions, each with characteris
 
 Capstor, Iopsstor and Ritom are on the same Slingshot network as Alps, while Vadret is on the CSCS Ethernet network.
 
-See the Lustre guide for some hints on how to get the best performance out of the filesystem.
+See the [Lustre guide](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") for some hints on how to get the best performance out of the filesystem.
 
-The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the file system docs.
+The mounts, and how they are used for Scratch, Store, and Home file systems that are mounted on clusters are documented in the [file system docs](<https://docs.cscs.ch/storage/filesystems/index.md#file-systems> "File Systems").
 
 ## Capstor
 
-Capstor is the largest file system, and it is meant for storing large amounts of input and output data. It is used to provide scratch and store.
+Capstor is the largest file system, and it is meant for storing large amounts of input and output data. It is used to provide [scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch> "Scratch") and [store](<https://docs.cscs.ch/storage/filesystems/index.md#store> "Store").
 
 Capstor has 80 Object Storage Servers ([OSS](<https://wiki.lustre.org/Lustre_Object_Storage_Service_(OSS)>)), and 6 Metadata Servers ([MDS](<https://wiki.lustre.org/Lustre_Metadata_Service_(MDS)>)). Two of of these Metadata servers are dedicated for Store, and the remaining four are dedicated for Scratch.
 
 ### Scratch
 
-All users on Alps get their own scratch path on Alps, `/capstor/scratch/cscs/$USER`. Since Capstor OSSs are made of HDDs, Capstor is a storage well suited for jobs which perform large sequential and parallel read/write operations. See the Scratch documentation for more information.
+All users on Alps get their own scratch path on Alps, `/capstor/scratch/cscs/$USER`. Since Capstor OSSs are made of HDDs, Capstor is a storage well suited for jobs which perform large sequential and parallel read/write operations. See the [Scratch documentation](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) for more information.
 
 ### Store
 
-The Store mount point on Capstor provides stable storage with backups and no cleaning policy. It is mounted on clusters at the `/capstor/store` mount point, with folders created for each project.
+The [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) mount point on Capstor provides stable storage with [backups](<https://docs.cscs.ch/storage/filesystems/index.md#backups_3> "Backups") and no [cleaning policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies"). It is mounted on clusters at the `/capstor/store` mount point, with folders created for each project.
 
 ## Iopsstor
 
@@ -41,14 +41,14 @@ Iopsstor has has 20 OSSs, and 2 MDSs.
 
 ## Ritom
 
-Ritom storage is a [VAST](<https://www.vastdata.com>) filesystem for Scratch use cases. Additionally, it provides support for advanced features:
+Ritom storage is a [VAST](<https://www.vastdata.com>) filesystem for [Scratch](<https://docs.cscs.ch/storage/filesystems/index.md#scratch>) use cases. Additionally, it provides support for advanced features:
 
 - **Quality of Service (QoS)** ensures more consistent performance by not letting individual users overload the system.
 - **Encryption and multi-tenancy** required for secure computing.
 - **Deduplication** gives more usable storage than Lustre file systems.
 
-For high performance applications, some tuning settings are recommended for optimal results.
+For high performance applications, some [tuning settings](<https://docs.cscs.ch/guides/storage/index.md#vast-tuning-on-ritom> "VAST tuning on Ritom") are recommended for optimal results.
 
 ## Vadret
 
-The Vadret storage is smaller capacity system that is designed for use as Home folders.
+The Vadret storage is smaller capacity system that is designed for use as [Home](<https://docs.cscs.ch/storage/filesystems/index.md#home>) folders.

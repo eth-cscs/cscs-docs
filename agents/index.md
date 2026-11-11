@@ -1,8 +1,8 @@
 # Agent skills
 
-CSCS publishes skills for coding agents such as Claude Code, Codex and OpenCode. A skill is a set of instructions, and sometimes tools, that an agent reads when a task needs it. The CSCS skills help agents answer questions about Alps from facts read on the system, instead of from memory.
+CSCS publishes skills for [coding agents](<https://docs.cscs.ch/guides/coding-agents/index.md#using-coding-agents-on-alps> "Using coding agents on Alps") such as Claude Code, Codex and OpenCode. A skill is a set of instructions, and sometimes tools, that an agent reads when a task needs it. The CSCS skills help agents answer questions about Alps from facts read on the system, instead of from memory.
 
-Skills are never installed or enabled for you: you choose which ones your agent uses. They work in the same way whether the agent runs on Alps, or on your own computer and connects to Alps with SSH.
+Skills are never installed or enabled for you: you choose which ones your agent uses. They work in the same way whether the agent runs on Alps, or on your own computer and connects to Alps with [SSH](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH").
 
 ## Available skills
 
@@ -10,10 +10,10 @@ Skills are never installed or enabled for you: you choose which ones your agent 
 | --- | --- |
 | `cscs-alps` | Orients an agent on Alps: which cluster and CPU architecture it is on, where files should go, and how to get software with uenv and the Container Engine instead of modules. |
 | `cscs-cluster-probes` | Looks up how a cluster is configured and what it is doing now: partitions and their limits, QoS, node hardware and features, file systems, tool versions, idle nodes, pending jobs, and which partitions you can submit to. |
-| `build-uenv-stackinator` | Builds a uenv with Stackinator and Spack: writing and editing recipes, configuring and running the build, fixing build and runtime problems, and testing the image. |
-| `cscs-ci` | Works with CSCS CI/CD: checking the status of pipelines, fetching their logs, triggering them from pull requests, and writing their configuration. |
+| `build-uenv-stackinator` | Builds a [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) with Stackinator and Spack: writing and editing recipes, configuring and running the build, fixing build and runtime problems, and testing the image. |
+| `cscs-ci` | Works with [CSCS CI/CD](<https://docs.cscs.ch/services/cicd/index.md#continuous-integration-continuous-deployment-cicd> "Continuous Integration / Continuous Deployment (CI/CD)"): checking the status of pipelines, fetching their logs, triggering them from pull requests, and writing their configuration. |
 
-See publishing agent skills for how the skills are built and published. The skills are listed for agents in [`index.json`](<https://docs.cscs.ch/.well-known/agent-skills/index.json>), which follows the [Agent Skills Discovery](<https://github.com/cloudflare/agent-skills-discovery-rfc>) draft. Each skill is one `.tar.gz` archive, and its `SKILL.md` can be read before it is installed, at `.well-known/agent-skills/<name>/SKILL.md` on this site.
+See [publishing agent skills](<https://docs.cscs.ch/contributing/skills/index.md#publishing-agent-skills> "Publishing agent skills") for how the skills are built and published. The skills are listed for agents in [`index.json`](<https://docs.cscs.ch/.well-known/agent-skills/index.json>), which follows the [Agent Skills Discovery](<https://github.com/cloudflare/agent-skills-discovery-rfc>) draft. Each skill is one `.tar.gz` archive, and its `SKILL.md` can be read before it is installed, at `.well-known/agent-skills/<name>/SKILL.md` on this site.
 
 ## Installing skills
 
@@ -45,7 +45,7 @@ Tell me what you will install and where, and ask me before you change anything.
 > - Show the user the name and description of each skill. Ask the user which skills to install, and install no others.
 > - Ask the user which agents they use, to know which links to create: `~/.agents/skills/<name>` for Codex and OpenCode, `~/.claude/skills/<name>` for Claude Code.
 > - Find the directory for the skills, `<skills>` below: `$XDG_DATA_HOME/cscs/skills` if `XDG_DATA_HOME` is set, otherwise `$HOME/.local/share/cscs/skills`. Expand it to an absolute path, such as `/home/alice/.local/share/cscs/skills`, and write that path in full in every command that follows.
-> - If `<skills>/<name>` already exists, the skill is installed: follow the instructions for updating instead. If one of the links already exists, tell the user, and ask before you replace it.
+> - If `<skills>/<name>` already exists, the skill is installed: follow the [instructions for updating](<https://docs.cscs.ch/agents/index.md#updating-and-removing-skills> "Updating and removing skills") instead. If one of the links already exists, tell the user, and ask before you replace it.
 > - For each skill, download the archive named by `url`, relative to the index, and check that its SHA-256 matches `digest`. If it does not match, stop and tell the user.
 > - Unpack the archive into `<skills>/<name>/`. The archive has `SKILL.md` at its root.
 > - Write the digest to `<skills>/<name>/.digest`, so that an update can be detected later.
@@ -65,7 +65,7 @@ curl -fsSLO https://docs.cscs.ch/.well-known/agent-skills/cscs-cluster-probes.ta
 sha256sum cscs-cluster-probes.tar.gz
 ```
 
-If it matches, unpack it, and record its digest in the `.digest` file of the skill, so that you can check for updates later:
+If it matches, unpack it, and record its digest in the `.digest` file of the skill, so that you can [check for updates](<https://docs.cscs.ch/agents/index.md#updating-and-removing-skills> "Updating and removing skills") later:
 
 unpack the cscs-cluster-probes skill
 
@@ -92,7 +92,7 @@ mkdir -p ~/.claude/skills
 ln -s "${XDG_DATA_HOME:-$HOME/.local/share}/cscs/skills/cscs-cluster-probes" ~/.claude/skills/
 ```
 
-If the skill is already installed, update it instead.
+If the skill is already installed, [update it](<https://docs.cscs.ch/agents/index.md#updating-and-removing-skills> "Updating and removing skills") instead.
 
 > [!NOTE]
 >
@@ -102,7 +102,7 @@ If the skill is already installed, update it instead.
 
 > [!WARNING]
 >
-> You are responsible for what an agent does with a skill, as with any other action of a coding agent. Read the `SKILL.md` of a skill to see what it asks the agent to do. For example, `cscs-cluster-probes` only reads the configuration and state of a cluster, and submits no jobs, while `build-uenv-stackinator` runs builds that can occupy a node for hours.
+> You are responsible for what an agent does with a skill, as with any [other action of a coding agent](<https://docs.cscs.ch/guides/coding-agents/index.md#using-coding-agents-on-alps> "Using coding agents on Alps"). Read the `SKILL.md` of a skill to see what it asks the agent to do. For example, `cscs-cluster-probes` only reads the configuration and state of a cluster, and submits no jobs, while `build-uenv-stackinator` runs builds that can occupy a node for hours.
 
 ## Updating and removing skills
 
@@ -121,7 +121,7 @@ Show me what has changed, and ask me before you change anything.
 >
 > **Instructions for agents**
 >
-> - Read the index of skills, and find the directory of the skills, `<skills>`, as for installing them. The installed skills are the directories in `<skills>` that contain a `SKILL.md`.
+> - Read the index of skills, and find the directory of the skills, `<skills>`, as for [installing them](<https://docs.cscs.ch/agents/index.md#installing-skills> "Installing skills"). The installed skills are the directories in `<skills>` that contain a `SKILL.md`.
 > - For each installed skill, compare the content of its `.digest` file with the `digest` of the skill in the index:
 >
 >   - if they are the same, the skill is up to date;

@@ -6,7 +6,7 @@ The LLM Inference API service provides [OpenAI](<https://developers.openai.com/a
 
 In order to maximize utilization and reduce costs, a reduced set of models is available. Private model deployment is not supported. If you are interested to deploy a model that is not available in this service, we encourage using the [sml tool](<https://github.com/swiss-ai/model-launch>) developed by the Swiss AI community.
 
-Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Usage follows the CSCS user regulations.
+Privacy and confidentiality are essential to us. CSCS does not record user prompts or model responses, and your data does not leave the infrastructure we control. Usage follows the [CSCS user regulations](<https://docs.cscs.ch/policies/regulations/index.md#user-regulations> "User Regulations").
 
 ## Service at a glance
 
@@ -32,7 +32,7 @@ Your data is yours and is processed entirely within CSCS in Switzerland. Prompts
 
 ## Quick start
 
-Before using the API, obtain a key by following the access section. Include this API key in every API request. The base URL for the inference API is `https://api.inference.cscs.ch/v1`.
+Before using the API, obtain a key by following the [access section](<https://docs.cscs.ch/services/inference/api/index.md#access> "Access"). Include this API key in every API request. The base URL for the inference API is `https://api.inference.cscs.ch/v1`.
 
 > [!NOTE]
 >
@@ -180,9 +180,9 @@ Access to the inference service is granted at the project level. In order to use
 
 ### Available models and pricing
 
-Available models, along with pricing information, are listed on the [Inference API UI pricing page](<https://ui.inference.cscs.ch/pricing>). The available models can also be listed for a given API key using the `models` endpoint or on the Inference API UI when creating a new key.
+Available models, along with pricing information, are listed on the [Inference API UI pricing page](<https://ui.inference.cscs.ch/pricing>). The available models can also be listed for a given API key using the [`models` endpoint](<https://docs.cscs.ch/services/inference/api/index.md#api> "API") or on the Inference API UI when creating a new key.
 
-The available models, their maximum context length, and their supported input modalities are also listed in the table below. Most coding agents benefit from being configured with the given context sizes so that they can do context compaction before hitting the context limit.
+The available models, their maximum context length, and their supported input modalities are also listed in the table below. Most coding agents benefit from being [configured](<https://docs.cscs.ch/services/inference/api/index.md#setting-up-coding-agents-to-use-the-inference-service> "Setting up coding agents to use the inference service") with the given context sizes so that they can do context compaction before hitting the context limit.
 
 > [!WARNING]
 >
@@ -207,7 +207,7 @@ The available models, their maximum context length, and their supported input mo
 >
 > **Image, audio, and video input in API requests**
 >
-> The OpenAI-compatible `/v1/chat/completions` endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](<https://developers.openai.com/api/docs/guides/images-vision>), [audio](<https://developers.openai.com/api/docs/guides/audio-chat-completions>)). Video input uses the `video_url` content part, a vLLM extension that is not part of the official OpenAI API ([vLLM multimodal inputs documentation](<https://docs.vllm.ai/en/latest/features/multimodal_inputs/>)). The Anthropic-compatible `/v1/messages` endpoint takes images as Anthropic `source` blocks and does not support audio or video input ([Anthropic Messages API reference](<https://platform.claude.com/docs/en/api/messages>)).
+> The OpenAI-compatible [`/v1/chat/completions`](<https://docs.cscs.ch/services/inference/api/index.md#api> "API") endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](<https://developers.openai.com/api/docs/guides/images-vision>), [audio](<https://developers.openai.com/api/docs/guides/audio-chat-completions>)). Video input uses the `video_url` content part, a vLLM extension that is not part of the official OpenAI API ([vLLM multimodal inputs documentation](<https://docs.vllm.ai/en/latest/features/multimodal_inputs/>)). The Anthropic-compatible [`/v1/messages`](<https://docs.cscs.ch/services/inference/api/index.md#api> "API") endpoint takes images as Anthropic `source` blocks and does not support audio or video input ([Anthropic Messages API reference](<https://platform.claude.com/docs/en/api/messages>)).
 
 ### Create an inference resource
 
@@ -227,7 +227,7 @@ The node hours you specify are deducted from your project’s node hours on `<cl
 >
 > At the node-hour rate of CHF 2.69 in effect on 1 July 2026, allocating 2,000 node hours on Daint (Grace-Hopper) corresponds to CHF 5,380 of inference credits. Always check the [institutional pricing page](<https://2go.cscs.ch/offering/swiss_academia/institutional_customers/>) for the current rate.
 
-The PI or deputy PI can create the inference resource directly in the project management portal:
+The PI or deputy PI can create the inference resource directly in the [project management portal](<https://docs.cscs.ch/accounts/waldur/index.md#the-project-and-resources-management-tool> "The Project and Resources Management Tool"):
 
 - Click the “Add resource” button in the top left of the UI.
 - Select your project from the dropdown.
@@ -247,7 +247,7 @@ Once an inference resource has been created for your project, any project member
    - Enter a key alias for the key. Choose a memorable name that you can distinguish among other keys in your project and resource.
    - Optionally set a token budget, reset period, or restrict the available models. Please note that the global resource limits apply as well.
 3. Click “Create Key” and copy the generated key and store securely, for example in a password manager. The key will be displayed once.
-4. Test that the key works by following the quick start guide.
+4. Test that the key works by following the [quick start guide](<https://docs.cscs.ch/services/inference/api/index.md#quick-start> "Quick start").
 
 > [!NOTE]
 >
@@ -266,19 +266,19 @@ The base URL for the inference API is `https://api.inference.cscs.ch/v1`. The fo
 | `/v1/messages` | Chat completions (Anthropic) |
 | `/v1/embeddings` | Get a vector representation of a given input |
 
-When using the endpoints for example through agents, the framework will handle API requests for you. For information on how to use the endpoints directly, see the [OpenAI](<https://developers.openai.com/api/reference/overview>) and [Anthropic](<https://platform.claude.com/docs/en/api/overview>) documentation.
+When using the endpoints for example [through agents](<https://docs.cscs.ch/services/inference/api/index.md#setting-up-coding-agents-to-use-the-inference-service> "Setting up coding agents to use the inference service"), the framework will handle API requests for you. For information on how to use the endpoints directly, see the [OpenAI](<https://developers.openai.com/api/reference/overview>) and [Anthropic](<https://platform.claude.com/docs/en/api/overview>) documentation.
 
 ## Setting up coding agents to use the inference service
 
-Below are instructions for setting up [Claude Code](<https://claude.com/product/claude-code>), [OpenCode](<https://opencode.ai>) and [VS Code Copilot](<https://code.visualstudio.com/docs/copilot/overview>) to use the inference service. For more information on using coding agents on Alps, see the coding agents guide.
+Below are instructions for setting up [Claude Code](<https://claude.com/product/claude-code>), [OpenCode](<https://opencode.ai>) and [VS Code Copilot](<https://code.visualstudio.com/docs/copilot/overview>) to use the inference service. For more information on using coding agents on Alps, see the [coding agents guide](<https://docs.cscs.ch/guides/coding-agents/index.md#using-coding-agents-on-alps> "Using coding agents on Alps").
 
-See the available models table for context sizes. Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.
+See the [available models table](<https://docs.cscs.ch/services/inference/api/index.md#available-models-and-pricing> "Available models and pricing") for context sizes. Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.
 
 > [!NOTE]
 >
 > **Apertus models in agents**
 >
-> We recommend using the Apertus models e.g. in [OpenWebUI](<https://openwebui.com>) as they’re optimized for general use rather than programming tasks specifically. See the OpenWebUI section for information on setting up the inference endpoint in OpenWebUI.
+> We recommend using the Apertus models e.g. in [OpenWebUI](<https://openwebui.com>) as they’re optimized for general use rather than programming tasks specifically. See the [OpenWebUI section](<https://docs.cscs.ch/services/inference/api/index.md#setting-up-openwebui-to-use-the-inference-service> "Setting up OpenWebUI to use the inference service") for information on setting up the inference endpoint in OpenWebUI.
 >
 > Note particularly that the `-thinking` variants of the Apertus models are served with tool use disabled. If you attempt to use them you may see errors such as `"auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set`.
 
@@ -443,10 +443,10 @@ Once configured, you can choose models configured in the config with `/models` o
 > **Info**
 >
 > - OpenCode does not auto-discover available models. Models have to be explicitly configured in the config. Use the `/v1/models` endpoint to list available models for your key.
-> - The install path of the install script from [opencode.ai](<https://opencode.ai>) is hardcoded to `$HOME/.opencode`, which will cause a conflict when using OpenCode on both X86\_64 and ARM architectures. As a workaround, either tweak the install script or copy the `opencode` binary from `$HOME/.opencode` to an XDG directory.
+> - The install path of the install script from [opencode.ai](<https://opencode.ai>) is hardcoded to `$HOME/.opencode`, which will cause a conflict when using OpenCode on both X86\_64 and ARM architectures. As a workaround, either tweak the install script or copy the `opencode` binary from `$HOME/.opencode` to an [XDG directory](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM").
 > - Copy and paste with middle-click does not work on some terminal emulators, e.g. `gnome-terminal`. Use `Ctrl+Shift+C/V` or `Shift` + middle-click as a workaround.
 
-Model support for different input modalities are described in the available models table.
+Model support for different input modalities are described in the [available models table](<https://docs.cscs.ch/services/inference/api/index.md#available-models-and-pricing> "Available models and pricing").
 
 ### VS Code Copilot
 
@@ -488,13 +488,13 @@ chatLanguageModels.json
 
 The fields of each model entry are:
 
-- `id` is the model identifier as returned by the `/v1/models` endpoint,
+- `id` is the model identifier as returned by the [`/v1/models` endpoint](<https://docs.cscs.ch/services/inference/api/index.md#api> "API"),
 - `name` is the display name shown in the model picker,
 - `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
 - `toolCalling` enables tool use, which is required for agent mode,
-- `vision` enables image input and should only be set for models that support image input (see the available models table),
+- `vision` enables image input and should only be set for models that support image input (see the [available models table](<https://docs.cscs.ch/services/inference/api/index.md#available-models-and-pricing> "Available models and pricing")),
 - `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks, and
-- `maxInputTokens` is the maximum context length of the model from the available models table minus `maxOutputTokens`.
+- `maxInputTokens` is the maximum context length of the model from the [available models table](<https://docs.cscs.ch/services/inference/api/index.md#available-models-and-pricing> "Available models and pricing") minus `maxOutputTokens`.
 
 After filling in the file, save and close it. Then open the Chat view, click the model picker at the bottom of the chat input, and select the model under “Other models”.
 
@@ -535,7 +535,7 @@ The models will be automatically detected and available for use.
 
 Planned maintenance, incidents, and changes to the available models are published on the [service status page](<https://inference.status.cscs.ch>). Everyone with access to a project that has an inference resource is subscribed automatically and can opt out at any time.
 
-The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see get in touch to join.
+The same announcements are also posted in the `#inference-service` channel of the CSCS User Slack; see [get in touch](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch") to join.
 
 ## Known issues and limitations
 

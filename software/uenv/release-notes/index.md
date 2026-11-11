@@ -1,14 +1,14 @@
 # uenv release notes
 
-The latest version of uenv deployed on Alps clusters is **v10.1.0**. Version v10.2.0 is deployed on Starlex, and will be deployed on the other clusters soon. You can check the version available on a specific system with the `uenv --version` command.
+The latest version of uenv deployed on [Alps clusters](<https://docs.cscs.ch/clusters/index.md#alps-clusters> "Alps Clusters") is **v10.1.0**. Version v10.2.0 is deployed on Starlex, and will be deployed on the other clusters soon. You can check the version available on a specific system with the `uenv --version` command.
 
 ## v10.0
 
 ### Features
 
-- TOML configuration format and improved repository management: multiple named repositories can be configured and selected by name.
-- Default views: uenv images can declare a view to load automatically when no `--view` flag is given.
-- Advanced Slurm workflows: the `--uenv-passthrough` flag controls whether a loaded uenv is forwarded to nested `srun`, `sbatch`, or `salloc` calls.
+- [TOML configuration format](<https://docs.cscs.ch/software/uenv/configure/index.md#configuring-uenvs> "Configuring uenvs") and [improved repository management](<https://docs.cscs.ch/software/uenv/management/index.md#multiple-repositories> "Multiple repositories"): multiple named repositories can be configured and selected by name.
+- [Default views](<https://docs.cscs.ch/software/uenv/using/index.md#views> "Views"): uenv images can declare a view to load automatically when no `--view` flag is given.
+- Advanced Slurm workflows: the [`--uenv-passthrough`](<https://docs.cscs.ch/software/uenv/using/index.md#passthrough-behaviour> "Passthrough behaviour") flag controls whether a loaded uenv is forwarded to nested `srun`, `sbatch`, or `salloc` calls.
 - New global `--system` flag to override the cluster name on the CLI (e.g. `uenv --system='*' image find`).
 - Improved bash completion for uenv labels and file paths.
 
@@ -23,7 +23,7 @@ The latest version of uenv deployed on Alps clusters is **v10.1.0**. Version v10
 >
 > **calling `sbatch` from inside a uenv session is now an error**
 >
-> Starting with uenv v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default. See the passthrough documentation for how to handle this.
+> Starting with uenv v10, submitting a job with `sbatch` or `salloc` from inside an active `uenv start` session fails by default. See the [passthrough documentation](<https://docs.cscs.ch/software/uenv/using/index.md#passthrough-behaviour> "Passthrough behaviour") for how to handle this.
 
 ### Minor and patch releases
 
@@ -83,13 +83,13 @@ This [version](<https://github.com/eth-cscs/uenv2/releases/tag/v9.0.0>) will rep
 >
 > **user-installed uenv stopped working**
 >
-> This version introduced changes to the `squashfs-mount` tool used by `uenv start` and `uenv -run` that are incompatible with older versions of uenv. If you see errors that contain `error: unable to exec '...': No such file or directory (errno=2)`, follow the guide for uninstalling user-installed uenv.
+> This version introduced changes to the `squashfs-mount` tool used by `uenv start` and `uenv -run` that are incompatible with older versions of uenv. If you see errors that contain `error: unable to exec '...': No such file or directory (errno=2)`, follow the guide for [uninstalling user-installed uenv](<https://docs.cscs.ch/software/uenv/guides/index.md#uninstalling-the-uenv-tool> "Uninstalling the uenv tool").
 
 > [!WARNING]
 >
 > **bash: module: command not found**
 >
-> This is a known issue with version 9.0.0 that was fixed in 9.0.1, and should no longer be an issue on Alps. See the uenv modules docs for a workaround.
+> This is a known issue with version 9.0.0 that was fixed in 9.0.1, and should no longer be an issue on Alps. See the [uenv modules](<https://docs.cscs.ch/software/uenv/using/index.md#ref-uenv-error-v9modules> "Modules view") docs for a workaround.
 
 ### Minor and patch releases
 

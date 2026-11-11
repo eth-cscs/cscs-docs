@@ -31,7 +31,7 @@ Ordered list of EDFs that this file inherits from. Parameters from listed enviro
 > [!NOTE]
 >
 > - Parameters from the listed environments are evaluated sequentially, adding new entries or overwriting previous ones, before evaluating the parameters from the current EDF. In other words, the current EDF inherits the parameters from the EDFs listed in `base_environment`. When evaluating `mounts` or `env` parameters, values from downstream EDFs are appended to inherited values.
-> - The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the EDF search path.
+> - The individual EDF entries in the array follow the same search rules as the arguments of the `--environment` CLI option for Slurm; they can be either file paths or filenames without extension if the file is located in the [EDF search path](<https://docs.cscs.ch/software/container-engine/run/index.md#edf-search-path>).
 > - This parameter can be a string if there is only one base environment.
 
 ### `image`
@@ -147,7 +147,7 @@ If false, the container filesystem is read-only.
 | **Type** | array |
 | **Default** | `[]` |
 
-List of mounts in the format `SOURCE:DESTINATION[:FLAGS]`. By default, it performs bind mount unless the only flag is `sqsh`, in which it performs a SquashFS mount. When bind mounting, the flags are forwarded to the system mount operation (e.g., `ro` or `private`).
+List of mounts in the format `SOURCE:DESTINATION[:FLAGS]`. By default, it performs bind mount unless the only flag is `sqsh`, in which it performs [a SquashFS mount](<https://docs.cscs.ch/software/container-engine/run/index.md#mounting-a-squashfs-image> "Mounting a SquashFS image"). When bind mounting, the flags are forwarded to the system mount operation (e.g., `ro` or `private`).
 
 > [!NOTE]
 >
@@ -217,7 +217,7 @@ Environment variables to set in the container. Empty string values will unset th
 
 ### `annotations`
 
-OCI-like annotations for the container. For more details, refer to the Annotations section.
+OCI-like annotations for the container. For more details, refer to the [Annotations](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#annotations>) section.
 
 > [!NOTE]
 >

@@ -24,7 +24,7 @@ The [VI-HPS](<https://www.vi-hps.org/tools>) Institute (Virtual Institute for Hi
 
 ## Quickstart guide
 
-The VI-HPS uenv is named `scorep` and it can be loaded into your environment as explained here and in the uenv documentation.
+The VI-HPS uenv is named `scorep` and it can be loaded into your environment as explained here and in the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 > [!NOTE]
 >

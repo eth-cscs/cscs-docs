@@ -131,11 +131,11 @@ To set up a default so all newly created folders and dirs inside or your desired
 
 ## Lustre tuning
 
-Capstor and Iopsstor are both [Lustre](<https://lustre.org>) filesystem.
+[Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) and [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) are both [Lustre](<https://lustre.org>) filesystem.
 
 ![Lustre architecture](<https://docs.cscs.ch/images/storage/lustre.png>)
 
-As shown in the schema above, Lustre uses *metadata* servers to store and query metadata, which is basically what is shown by `ls`: directory structure, file permission, and modification dates. Its performance is roughly the same on Capstor and Iopsstor. This data is globally synchronized, which means Lustre is not well suited to handling many small files, see the discussion on how to handle many small files.
+As shown in the schema above, Lustre uses *metadata* servers to store and query metadata, which is basically what is shown by `ls`: directory structure, file permission, and modification dates. Its performance is roughly the same on [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) and [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>). This data is globally synchronized, which means Lustre is not well suited to handling many small files, see the discussion on [how to handle many small files](<https://docs.cscs.ch/guides/storage/index.md#many-small-files-vs-hpc-file-systems> "Many small files vs. HPC File Systems").
 
 The data itself is subdivided in blocks of size `<blocksize>` and is stored by Object Storage Servers (OSS) in one or more Object Storage Targets (OST). The block size and number of OSTs to use is defined by the striping settings, which are applied to a path, with new files and directories inheriting them from their parent directory. The `lfs getstripe <path>` command can be used to get information on the stripe settings of a path. For directories and empty files `lfs setstripe --stripe-count <count> --stripe-size <size> <directory/file>` can be used to set the layout.
 
@@ -169,11 +169,11 @@ Lustre also supports composite layouts, switching from one layout to another at 
 
 ### Iopsstor vs Capstor
 
-Iopsstor uses SSD as OST, thus random access is quick, and the performance of the single OST is high. Capstor on another hand uses hard disks, it has a larger capacity, and it also have many more OSS, thus the total bandwidth is larger. See for example the ML filesystem guide.
+[Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) uses SSD as OST, thus random access is quick, and the performance of the single OST is high. [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) on another hand uses hard disks, it has a larger capacity, and it also have many more OSS, thus the total bandwidth is larger. See for example the [ML filesystem guide](<https://docs.cscs.ch/platforms/mlp/index.md#ref-mlp-storage-suitability> "Scratch").
 
 ## VAST tuning on Ritom
 
-Ritom is a scratch space using the VAST Data filesystem accessed over NFS. While VAST provides excellent throughput and scalability, its behavior differs from Lustre and other parallel filesystems. In particular, MPI-IO libraries may apply NFS-specific optimizations and locking semantics that can significantly reduce performance for collective I/O workloads.
+[Ritom](<https://docs.cscs.ch/alps/storage/index.md#ritom>) is a scratch space using the VAST Data filesystem accessed over NFS. While VAST provides excellent throughput and scalability, its behavior differs from Lustre and other parallel filesystems. In particular, MPI-IO libraries may apply NFS-specific optimizations and locking semantics that can significantly reduce performance for collective I/O workloads.
 
 ### Recommended settings
 
@@ -294,7 +294,7 @@ One solution is to use the tool `mksquashfs` to compresses the contents of a dir
 
 #### Step 1: create the virtual environment
 
-The first step is to create the virtual environment using the usual workflow described in the Python environment documentation.
+The first step is to create the virtual environment using the usual workflow described in the [Python environment documentation](<https://docs.cscs.ch/build-install/python/index.md#installing-venv-on-top-of-a-uenv-view> "Installing venv on top of a uenv view").
 
 The recommended way to create a new virtual environment is to use the [uv](<https://docs.astral.sh/uv/>) tool, which supports *relocatable* virtual environments and asynchronous package downloads. The main benefit of a relocatable virtual environment is that it does not need to be created in the final path from where it will be used. This allows the use of shared memory to speed up the creation and initialization of the virtual environment and, since the virtual environment can be used from any location, the resulting squashfs image can be safely shared across projects.
 
@@ -386,7 +386,7 @@ mksquashfs $SCRATCH/sqfs-demo/.venv py_venv.squashfs \
 >
 > **Hint**
 >
-> The `-Xcompression-level` flag sets the compression level to a value between 1 and 9, with 9 being the most compressed. We find that level 3 provides a good trade off between the size of the compressed image and performance: both uenv and the container engine use level 3.
+> The `-Xcompression-level` flag sets the compression level to a value between 1 and 9, with 9 being the most compressed. We find that level 3 provides a good trade off between the size of the compressed image and performance: both [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) and the [container engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine") use level 3.
 
 > [!WARNING]
 >

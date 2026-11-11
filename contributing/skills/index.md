@@ -1,6 +1,6 @@
 # Publishing agent skills
 
-CSCS publishes agent skills with the documentation. This page explains how they are built, published and installed, for contributors and for users who want to know what they are installing.
+CSCS publishes [agent skills](<https://docs.cscs.ch/agents/index.md#agent-skills> "Agent skills") with the documentation. This page explains how they are built, published and installed, for contributors and for users who want to know what they are installing.
 
 The details needed to add or change a skill are in [`skills/README.md`](<https://github.com/eth-cscs/cscs-docs/blob/main/skills/README.md>), next to the code.
 
@@ -41,13 +41,13 @@ Before a skill is published, the build checks it, and stops if:
 - the frontmatter of `SKILL.md` is invalid, or the name of the skill is not the name of its directory;
 - a file that the skill needs from elsewhere in the repository does not exist;
 - the skill fails its own test, which runs the assembled skill as a user would;
-- the skill is not listed on the agent skills page, where users choose what to install.
+- the skill is not listed on the [agent skills page](<https://docs.cscs.ch/agents/index.md#agent-skills> "Agent skills"), where users choose what to install.
 
 The archives are reproducible: building the same files gives the same bytes. So the digest of a skill, the SHA-256 of its archive, changes when the skill changes, and serves as its version: an installed skill is up to date if its digest matches the one in `index.json`.
 
 ## How users install skills
 
-Skills are never installed or enabled automatically: CSCS does not set environment variables or change configuration files that would make an agent load them. Users choose which skills to install, by following the agent skills page, or by asking their agent to follow it. The page contains instructions for agents, which tell them to show the user what they will install and where, and to ask before changing anything.
+Skills are never installed or enabled automatically: CSCS does not set environment variables or change configuration files that would make an agent load them. Users choose which skills to install, by following the [agent skills page](<https://docs.cscs.ch/agents/index.md#agent-skills> "Agent skills"), or by asking their agent to follow it. The page contains instructions for agents, which tell them to show the user what they will install and where, and to ask before changing anything.
 
 Each agent looks for skills in its own directory:
 
@@ -65,4 +65,4 @@ The digest of the installed archive is kept in the `.digest` file of the skill, 
 >
 > **Skills on Alps**
 >
-> The skills will be published on every cluster in `/capstor/store/cscs/cscs/public/skills`, kept up to date with the documentation. Users on Alps will then be able to link to that copy instead of downloading their own, and receive updates without further action. The message of the day on the clusters will point users of coding agents to the agent skills page.
+> The skills will be published on every cluster in `/capstor/store/cscs/cscs/public/skills`, kept up to date with the documentation. Users on Alps will then be able to link to that copy instead of downloading their own, and receive updates without further action. The message of the day on the clusters will point users of coding agents to the [agent skills page](<https://docs.cscs.ch/agents/index.md#agent-skills> "Agent skills").

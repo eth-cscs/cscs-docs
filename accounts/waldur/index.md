@@ -63,4 +63,4 @@ DonnaSchwartz@example.com,Project manager,prj02
 > An email will be sent to invited users:
 >
 > - users who already have CSCS accounts should click on the link in the email they received, and authenticate against CSCS KeyCloak with username, password, and OTP to accept the invitation.
-> - new users should follow the procedure to create a CSCS account.
+> - new users should follow the procedure to [create a CSCS account](<https://docs.cscs.ch/accounts/account-create/index.md#creating-an-account> "Creating an account").

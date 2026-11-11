@@ -1,8 +1,8 @@
 # Machine Learning Platform project policies
 
-This page describes the policies that govern the lifetime of a project on the Machine Learning Platform (MLP): project types, recorded project data, compute and storage budgets, and the rules for a project’s start, duration and end.
+This page describes the policies that govern the lifetime of a project on the [Machine Learning Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform") (MLP): project types, recorded project data, compute and storage budgets, and the rules for a project’s start, duration and end.
 
-These policies are specific to the MLP. They complement, and where they differ take precedence over, the general CSCS user policies. Formulas and worked examples for compute consumption are collected in the appendix.
+These policies are specific to the MLP. They complement, and where they differ take precedence over, the general [CSCS user policies](<https://docs.cscs.ch/policies/index.md#cscs-user-policies> "CSCS User Policies"). Formulas and worked examples for compute consumption are collected in the [appendix](<https://docs.cscs.ch/platforms/mlp/policies/index.md#appendix-computing-compute-consumption> "Appendix: computing compute consumption").
 
 ## Project types
 
@@ -12,26 +12,26 @@ Every MLP project is either small or large depending on the type of proposal sub
 | --- | --- | --- |
 | Typical compute budget | ≤ 32,000 GPUh | ≳ 500,000 GPUh |
 | Duration | 6 months | 12 months |
-| Start | Rolling start | Fixed start |
-| Storage budget | Optional in proposal (defaults apply) | Mandatory in proposal |
+| Start | [Rolling start](<https://docs.cscs.ch/platforms/mlp/policies/index.md#small-projects-rolling-start> "Small projects: rolling start") | [Fixed start](<https://docs.cscs.ch/platforms/mlp/policies/index.md#large-projects-fixed-start> "Large projects: fixed start") |
+| Storage budget | Optional in proposal ([defaults](<https://docs.cscs.ch/platforms/mlp/policies/index.md#storage-budget> "Storage budget") apply) | Mandatory in proposal |
 
 ## Core project data
 
-Recorded for every project at proposal time, and managed through the project management tool:
+Recorded for every project at proposal time, and managed through the [project management tool](<https://docs.cscs.ch/accounts/waldur/index.md#the-project-and-resources-management-tool> "The Project and Resources Management Tool"):
 
 - **Project kind** — small or large.
 - **Project ID** — unique identifier.
 - **Project title**.
 - **Principal investigators (PIs) and deputy PIs** — the project administrators. Only institutional email addresses are accepted; personal addresses (for example generic webmail accounts) cannot be used.
-- **Compute budget** — in GPU hours (GPUh), corresponding to a credit in CHF (see compute budget).
-- **Storage budget** — space (TB) and inodes (see storage budget).
+- **Compute budget** — in GPU hours (GPUh), corresponding to a credit in CHF (see [compute budget](<https://docs.cscs.ch/platforms/mlp/policies/index.md#compute-budget> "Compute budget")).
+- **Storage budget** — space (TB) and inodes (see [storage budget](<https://docs.cscs.ch/platforms/mlp/policies/index.md#storage-budget> "Storage budget")).
 - **Scientific fields** — the project’s research areas.
-- **Start date** — fixed for large projects; derived from the creation date for small projects.
+- **Start date** — fixed for [large projects](<https://docs.cscs.ch/platforms/mlp/policies/index.md#large-projects-fixed-start> "Large projects: fixed start"); derived from the creation date for [small projects](<https://docs.cscs.ch/platforms/mlp/policies/index.md#small-projects-rolling-start> "Small projects: rolling start").
 - **Duration** — 6 months (small) or 12 months (large).
 
 ## Compute budget
 
-Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit in CHF according to node-hour [price for swiss institutions](<https://2go.cscs.ch/offering/swiss_academia/institutional_customers/>) at the start of the project. The cost per hour is fixed for the whole duration of the project (the price can be seen in the resource). Because a GH200 node has four GPUs, one node-hour of a GH200 node costs 4 GPUh. The jobs that you submit get billed according to the node-hours that they run.
+Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit in CHF according to node-hour [price for swiss institutions](<https://2go.cscs.ch/offering/swiss_academia/institutional_customers/>) at the start of the project. The cost per hour is fixed for the whole duration of the project (the price can be seen in the resource). Because a [GH200 node](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") has four GPUs, one node-hour of a GH200 node costs 4 GPUh. The jobs that you submit get billed according to the node-hours that they run.
 
 > [!NOTE]
 >
@@ -39,7 +39,7 @@ Your compute budget is granted in GPU hours (GPUh) and corresponds to a credit i
 >
 > A 3 hours 4-nodes job on Clariden will be billed as 12 node-hours (48 GPUh), and with the swiss institutional prices of 2026 (2.69 CHF) means 32.28 CHF
 
-You are expected to use your credit roughly linearly over the project: every month has an expected consumption, the amount you should use that month. The expected consumption is also used to set your scheduling priority through Slurm fair-share.
+You are expected to use your credit roughly linearly over the project: every month has an expected consumption, the amount you should use that month. The expected consumption is also used to set your scheduling priority through [Slurm fair-share](<https://docs.cscs.ch/policies/shared/index.md#fair-usage-of-shared-resources> "Fair Usage of Shared Resources").
 
 - You can consume more than the expected amount and consume the credit for you future months, but:
 
@@ -51,7 +51,7 @@ Use monthly consumption in the Project overview in [portal.cscs.ch](<https://por
 
 ![waldur-usage](<https://docs.cscs.ch/images/access/waldur-monthly-usage.png>)
 
-If you use up your credit before the end of the project, you can run extra jobs in the `low` partition. This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget. Once that is also exhausted, the project can no longer use compute resources.
+If you use up your credit before the end of the project, you can run extra jobs in the [`low` partition](<https://docs.cscs.ch/clusters/clariden/index.md#clariden> "Clariden"). This is not guaranteed, since jobs run only when the cluster has spare capacity and at lower priority, and it is capped at the equivalent of one month of your budget. Once that is also exhausted, the project can no longer use compute resources.
 
 The usage for a project can be seen in the project dashboard on [portal.cscs.ch](<https://portal.cscs.ch>) where you have an overview showing the your usage for current month, and how it is with respect to the expected and ideal usage, and the global credit usage.
 
@@ -59,30 +59,30 @@ The usage for a project can be seen in the project dashboard on [portal.cscs.ch]
 
 Above an example of a project that has been below pace in the past months (and has thus lost some unused credit), but is much ahead of pace for the current month.
 
-See the appendix for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
+See the [appendix](<https://docs.cscs.ch/platforms/mlp/policies/index.md#appendix-computing-compute-consumption> "Appendix: computing compute consumption") for how the expected consumption, the grace and the monthly threshold are computed, with worked examples.
 
 ## Storage budget
 
-The storage budget sets two quotas on project storage: the space (in TB) and the number of inodes (files and directories).
+The storage budget sets two quotas on [project storage](<https://docs.cscs.ch/platforms/mlp/index.md#file-systems-and-storage> "File Systems and Storage"): the space (in TB) and the number of inodes (files and directories).
 
 - Small projects need not specify a storage budget; if none is requested, the default of 1 TB and 1,000,000 inodes applies.
 - Large projects must specify their storage budget in the proposal, and no default is applied.
 
-CSCS reviews the requested quota and reserves the right to adjust it. Check current usage against the quota with the `quota` command on a login node.
+CSCS reviews the requested quota and reserves the right to adjust it. Check current usage against the quota with the [`quota`](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3> "Quota") command on a login node.
 
 ### After the project ends
 
-When a project ends, it remains accessible for a grace period of 90 days for data retrieval: only the storage systems are accessible, and compute resources can no longer be used.
+When a project ends, it remains accessible for a grace period of 90 days for data retrieval: only the [storage systems](<https://docs.cscs.ch/platforms/mlp/index.md#file-systems-and-storage> "File Systems and Storage") are accessible, and compute resources can no longer be used.
 
-See the general data retention policies for how long data is kept and backed up after a project expires.
+See the general [data retention policies](<https://docs.cscs.ch/policies/index.md#cscs-user-policies> "CSCS User Policies") for how long data is kept and backed up after a project expires.
 
 ## Other resources
 
-The main resource for the computation is Clariden, it is the one where we guarantee availability of the computational resources (if you use them gradually). Depending on the project you might also access to other resources.
+The main resource for the computation is [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>), it is the one where we guarantee availability of the computational resources (if you use them gradually). Depending on the project you might also access to other resources.
 
 - A project directory as persistent storage (described in the previous section)
-- The x86 cluster Bristen
-- Inference API Service
+- The x86 cluster [Bristen](<https://docs.cscs.ch/clusters/bristen/index.md#bristen>)
+- [Inference API Service](<https://docs.cscs.ch/services/inference/index.md#inference>)
 
 Currently storage is not explicitly part of the credit, but the other resources are billed on your credit, using them reduces the credit and thus the node hours that can be used on clariden. Please note that the availability of other resources is not necessarily guaranteed, and can be limited and on a best effort basis (like bristen).
 
@@ -94,7 +94,7 @@ How a project’s start date is set depends on its type.
 
 Small projects start in a rolling fashion, as soon as they are accepted. The effective start date, from which the 6-month duration is counted, defaults to the first day of the following month, and can be delayed by up to 3 months on request of the PI.
 
-The time between creation and the effective start date is a **preparatory period**: the project is already active and usable, but jobs run at low priority, balanced by Slurm fair-share. The duration and the compute budget only start counting from the effective start date.
+The time between creation and the effective start date is a **preparatory period**: the project is already active and usable, but jobs run at low priority, balanced by [Slurm fair-share](<https://docs.cscs.ch/policies/shared/index.md#fair-usage-of-shared-resources> "Fair Usage of Shared Resources"). The duration and the [compute budget](<https://docs.cscs.ch/platforms/mlp/policies/index.md#compute-budget> "Compute budget") only start counting from the effective start date.
 
 > [!NOTE]
 >
@@ -106,7 +106,7 @@ The time between creation and the effective start date is a **preparatory period
 
 Large projects start at the scheduled time of the call they were submitted to, normally 1 July or 1 January. The 12-month duration and the compute budget start counting from that date.
 
-Unlike small projects, a large project has no preparatory period: it is expected to be ready to run at scale from its start date. For this reason a large allocation is often preceded by a small project, used to get familiar with the systems and prepare the workflows before committing to a large allocation.
+Unlike small projects, a large project has no preparatory period: it is expected to be ready to run at scale from its start date. For this reason a large allocation is often preceded by a [small project](<https://docs.cscs.ch/platforms/mlp/policies/index.md#small-projects-rolling-start> "Small projects: rolling start"), used to get familiar with the systems and prepare the workflows before committing to a large allocation.
 
 ## Duration
 
@@ -121,7 +121,7 @@ Per-user consumption can be tracked and is available through the [CSCS portal](<
 
 ## Appendix: computing compute consumption
 
-The exact rules behind the compute budget: how the grace, the expected consumption and the monthly minimal threshold are computed, with worked examples.
+The exact rules behind the [compute budget](<https://docs.cscs.ch/platforms/mlp/policies/index.md#compute-budget> "Compute budget"): how the grace, the expected consumption and the monthly minimal threshold are computed, with worked examples.
 
 ### Grace
 
@@ -170,7 +170,7 @@ In both cases the month is accounted for `max(used, minimal(m))` GPUh — the cr
 >
 > **consuming ahead of schedule**
 >
-> You can always consume more than the expected amount. If a project is already ahead of the linear line, having accounted for more than `target(m)`, then `expected(m)` is zero or negative: there is no minimal to meet for the month, and the project is never penalised for having used its credit early. Running ahead of schedule only lowers your scheduling priority through Slurm fair-share, until your consumption falls back in line with the schedule.
+> You can always consume more than the expected amount. If a project is already ahead of the linear line, having accounted for more than `target(m)`, then `expected(m)` is zero or negative: there is no minimal to meet for the month, and the project is never penalised for having used its credit early. Running ahead of schedule only lowers your scheduling priority through [Slurm fair-share](<https://docs.cscs.ch/policies/shared/index.md#fair-usage-of-shared-resources> "Fair Usage of Shared Resources"), until your consumption falls back in line with the schedule.
 
 > [!NOTE]
 >

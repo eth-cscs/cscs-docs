@@ -7,7 +7,7 @@ Requests for support must be submitted to the [CSCS Service Desk](<https://suppo
 It is worth checking the following:
 
 - Check the [status page](<https://status.cscs.ch>) for the latest updates and ongoing incidents.
-- Check your available disk quotas using the `quota` command.
+- Check your [available disk quotas](<https://docs.cscs.ch/storage/filesystems/index.md#quota_3> "Quota") using the [`quota`](<https://docs.cscs.ch/storage/filesystems/index.md#checking-quota> "Checking quota") command.
 - Check whether scheduled maintenance is in progress (see the [Scheduled Events](<https://status.cscs.ch/scheduled-events>) tab on the status page).
 
 ## Writing a good support ticket
@@ -95,7 +95,7 @@ Always provide the paths to the standard output and standard error logs, and ens
 >
 > **CSCS staff can’t read your paths by default**
 >
-> Support staff at CSCS do not have access to your files and folders by default. If you would like to share logs, scripts and other artifacts, ensure that you give access to the `csstaff` group.
+> Support staff at CSCS do not have access to your files and folders by default. If you would like to share logs, scripts and other artifacts, ensure that you [give access to the `csstaff` group](<https://docs.cscs.ch/guides/storage/index.md#sharing-files-and-data> "Sharing files and data").
 
 Include any relevant error messages, stack traces, and the last few lines of output before the failure. Paste error messages verbatim, even if the numbers and codes seem meaningless to you, they are often the fastest path to a diagnosis.
 

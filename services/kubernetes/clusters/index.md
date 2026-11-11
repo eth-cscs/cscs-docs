@@ -21,7 +21,7 @@ Clusters are grouped into two main environments:
 - **TDS** – Test and Development Systems
 - **PROD** – Production
 
-See Kubernetes upgrades for detailed upgrade policy.
+See [Kubernetes upgrades](<https://docs.cscs.ch/services/kubernetes/kubernetes-upgrades/index.md#kubernetes-cluster-upgrade-policy> "Kubernetes Cluster Upgrade Policy") for detailed upgrade policy.
 
 ## Kubernetes API Access
 

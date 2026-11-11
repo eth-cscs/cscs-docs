@@ -14,7 +14,7 @@ To change any other account data, contact CSCS via the [Service Desk](<https://s
 
 > [!NOTE]
 >
-> Only personal user accounts can change their data here. Service accounts are managed by their project, see requesting a service account.
+> Only personal user accounts can change their data here. Service accounts are managed by their project, see [requesting a service account](<https://docs.cscs.ch/accounts/account-create/index.md#requesting-a-service-account> "Requesting a Service Account").
 
 ## Requesting a change
 
@@ -36,7 +36,7 @@ You receive an email when your request is approved or rejected, and a notice whe
 >
 > **Changing your email address**
 >
-> The new address must be an institutional email address, as for signing up: personal addresses (Gmail, Hotmail, etc.) are not accepted. After CSCS approves a new email address, a confirmation link is sent to the new address, not to your current one. Your email address only changes once you open that link and confirm. The link is valid for 7 days: if it expires, submit a new request.
+> The new address must be an institutional email address, as for [signing up](<https://docs.cscs.ch/accounts/index.md#signing-up-for-a-new-account> "Signing up for a new account"): personal addresses (Gmail, Hotmail, etc.) are not accepted. After CSCS approves a new email address, a confirmation link is sent to the new address, not to your current one. Your email address only changes once you open that link and confirm. The link is valid for 7 days: if it expires, submit a new request.
 
 > [!NOTE]
 >
@@ -46,7 +46,7 @@ You receive an email when your request is approved or rejected, and a notice whe
 
 ## Following your requests
 
-To see your requests, open **Change Requests** under **Account** in the menu, or follow **My change requests** on the **Account** page. The page shows your open request, which you can change (**Edit request**) or withdraw (**Withdraw request**) while it is pending, and all your past requests and changes. Each entry shows what was changed, your comment, and the reason or note from CSCS when a request was rejected or approved, as in the screenshot above.
+To see your requests, open **Change Requests** under **Account** in the menu, or follow **My change requests** on the **Account** page. The page shows your open request, which you can change (**Edit request**) or withdraw (**Withdraw request**) while it is pending, and all your past requests and changes. Each entry shows what was changed, your comment, and the reason or note from CSCS when a request was rejected or approved, as in the [screenshot above](<https://docs.cscs.ch/accounts/account-change/index.md#requesting-a-change> "Requesting a change").
 
 | Status | Meaning |
 | --- | --- |

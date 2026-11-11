@@ -13,7 +13,7 @@
       "type": "archive",
       "description": "Orientation for the Alps clusters of CSCS, the Swiss National Supercomputing Centre (Daint, Eiger, Clariden, Santis, Bristen, Beverin). Read before running, building, installing or storing anything on them, where CPU architecture, file systems and software environments differ from a generic Linux or HPC system. Use when the host name is like daint-ln001 or nid001234, when paths start with /users, /capstor, /iopsstor or /ritom, or when the user mentions CSCS or Alps. Also use when installing or updating the CSCS agent skills.",
       "url": "cscs-alps.tar.gz",
-      "digest": "sha256:0005fb4fc68256fc286438d5eb3b6ec0add4b5abb1f234eea57bee3d183346f3"
+      "digest": "sha256:a47c0def7f6814c62412efe6e9c36bed1ab35b16468e0c3377fbc35c2c38cce2"
     },
     {
       "name": "cscs-ci",

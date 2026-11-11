@@ -24,19 +24,19 @@ The different fields are described in the following table:
 >
 > > **`prgenv-gnu/24.11:v2@daint%gh200`**
 > >
-> > The `prgenv-gnu` programming environment, built on Daint for the Grace-Hopper GH200 (`gh200`) architecture.
+> > The `prgenv-gnu` programming environment, built on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) for the Grace-Hopper GH200 (`gh200`) architecture.
 > >
 > > - the *version* is `24.11`, referring to the December 2024 version.
 > > - the *tag* `v2` refers to a minor update to the uenv (e.g. a bug fix or addition of a new package).
 >
 > > **`cp2k/2025.1:v3@eiger%zen2`**
 > >
-> > The uenv provides version 2025.1 of the CP2K simulation code, built for the AMD Rome (`zen2`) architecture of Eiger.
+> > The uenv provides version 2025.1 of the CP2K simulation code, built for the AMD Rome (`zen2`) architecture of [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>).
 > >
 > > - the *version* `2025.1` refers to the CP2K version [v2025.1](<https://github.com/cp2k/cp2k/releases/tag/v2025.1>)
 > > - the *tag* `v2` refers to a minor update by CSCS to the original `v1` version of the uenv that had a bug.
 
-For more information about the labeling scheme, see the uenv deployment docs.
+For more information about the labeling scheme, see the [uenv deployment](<https://docs.cscs.ch/software/uenv/deploy/index.md#versioning-and-labeling> "Versioning and labeling") docs.
 
 ### Using labels
 
@@ -98,7 +98,7 @@ uenv image find @*%gh200
 
 > [!WARNING]
 >
-> **Keep bashrc clean**
+> **[Keep bashrc clean](<https://docs.cscs.ch/guides/terminal/index.md#modifying-bashrc> "Modifying bashrc")**
 
 It is common practice to add `module` commands to `~.bashrc`, for example
 
@@ -260,4 +260,4 @@ $ which uenv
 
 ## Ritom Migration
 
-The new Ritom file system has been mounted on Eiger and Daint, where it is being tested before it is going into service as a the new primary scratch file system for the HPC Platform. The uenv tool stores images in a repository on each user’s scratch, `$SCRATCH/.uenv-images`, which will have to migrate to ritom.
+The new Ritom file system has been mounted on Eiger and Daint, where it is being tested before it is going into service as a the new primary scratch file system for the HPC Platform. The uenv tool stores images in a [repository](<https://docs.cscs.ch/software/uenv/management/index.md#managing-uenvs> "Managing uenvs") on each user’s scratch, `$SCRATCH/.uenv-images`, which will have to migrate to ritom.

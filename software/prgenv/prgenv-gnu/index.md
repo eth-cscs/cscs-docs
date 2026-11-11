@@ -6,13 +6,13 @@ Provides a set of tools and libraries built around the GNU compiler toolchain. I
 >
 > **alternatives to prgenv-gnu**
 >
-> The `prgenv-nvfortran` is for applications that require the NVIDIA Fortran compiler - typically because they need to use OpenACC or CUDA Fortran.
+> The [`prgenv-nvfortran`](<https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/index.md#prgenv-nvfortran>) is for applications that require the NVIDIA Fortran compiler - typically because they need to use OpenACC or CUDA Fortran.
 >
-> The `linalg` environment is similar to prgenv-gnu, with additional linear algebra and mesh partitioning algorithms.
+> The [`linalg`](<https://docs.cscs.ch/software/prgenv/linalg/index.md#linalg>) environment is similar to prgenv-gnu, with additional linear algebra and mesh partitioning algorithms.
 >
-> The `prgenv-gnu-openmpi` is otherwise similar to `prgenv-gnu`, but provides OpenMPI instead of Cray MPICH.
+> The [`prgenv-gnu-openmpi`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md#prgenv-gnu-openmpi>) is otherwise similar to `prgenv-gnu`, but provides OpenMPI instead of Cray MPICH.
 >
-> The `prgenv-intel` is similar to `prgenv-gnu`, but provides the intel OneAPI compiler. Only available on Eiger, and provides fewer general libraries than the full GNU environment.
+> The [`prgenv-intel`](<https://docs.cscs.ch/software/prgenv/prgenv-intel/index.md#prgenv-intel>) is similar to `prgenv-gnu`, but provides the intel OneAPI compiler. Only available on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), and provides fewer general libraries than the full GNU environment.
 
 ## Versioning
 
@@ -132,7 +132,7 @@ The key updates in version 25.6 compared to 24.11 are:
 
 - upgrading GCC to version 14 and CUDA to version 12.9
 - upgrading cray-mpich to version 8.1.32
-- adding xcb-util-cursor to the default view to allow the NVIDIA Nsight UIs to be used without manual workarounds
+- adding xcb-util-cursor to the default view to allow the [NVIDIA Nsight UIs](<https://docs.cscs.ch/software/devtools/nvidia-nsight/index.md#nvidia-nsight>) to be used without manual workarounds
 
 The spack version used to build the packages was also upgraded to 1.0.
 
@@ -235,4 +235,4 @@ The uenv provides modules for all of the software packages, which can be made av
 
 The gnu programming environment is a very good base for building software with Spack, because it provides compilers, MPI, Python and common packages like hdf5.
 
-Check out the guide for using Spack with uenv.
+[Check out the guide for using Spack with uenv](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack").

@@ -10,11 +10,11 @@ In this tutorial, we will build a container image to run multi-node training job
 
 ### Prerequisites
 
-It is recommended to follow the previous two tutorials on LLM Inference and LLM Fine-tuning first, as this will build upon them.
+It is recommended to follow the previous two tutorials on [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial") and [LLM Fine-tuning](<https://docs.cscs.ch/tutorials/ml/llm-fine-tuning/index.md#llm-fine-tuning-tutorial> "LLM Fine-tuning Tutorial") first, as this will build upon them.
 
 ### Set up Podman
 
-If not already done as part of the LLM Inference tutorial, edit your podman configuration in `$HOME/.config/containers/storage.conf` as follows:
+If not already done as part of the [LLM Inference tutorial](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial"), edit your podman configuration in `$HOME/.config/containers/storage.conf` as follows:
 
 $HOME/.config/containers/storage.conf
 
@@ -32,7 +32,7 @@ $HOME/.config/containers/storage.conf
 >
 > If `$XDG_CONFIG_HOME` is set, place this file at `$XDG_CONFIG_HOME/containers/storage.conf` instead.
 
-Create a directory to store container images used with CE and configure it with recommended LUSTRE settings:
+Create a directory to store container images used with CE and configure it with [recommended LUSTRE settings](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning"):
 
 Container image directory with recommended LUSTRE settings
 
@@ -79,7 +79,7 @@ RUN pip install \
 >
 > **More recent NGC releases**
 >
-> As discussed in the LLM Inference tutorial, starting with the 24.11 release, NGC PyTorch no longer requires the installation of the Python venv module. Furthermore, FlashAttention and several other packages were integrated into the hosted image. However, as `nanotron` as of June 2025 still requires Python 3.10 (cf. this [issue](<https://github.com/huggingface/nanotron/issues/217>)), this example is restricted to NGC releases up to `24.10`.
+> As discussed in the [LLM Inference tutorial](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial"), starting with the 24.11 release, NGC PyTorch no longer requires the installation of the Python venv module. Furthermore, FlashAttention and several other packages were integrated into the hosted image. However, as `nanotron` as of June 2025 still requires Python 3.10 (cf. this [issue](<https://github.com/huggingface/nanotron/issues/217>)), this example is restricted to NGC releases up to `24.10`.
 >
 > $SCRATCH/tutorials/nanotron-pretrain/Dockerfile
 >
@@ -164,7 +164,7 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 1. It is important to use curly braces for environment variables used in the EDF
 2. The path `/users` is not mounted since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
-4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the AWS OFI NCCL plugin with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
+4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") with libfabric. While not strictly needed for single node workloads, it is good practice to keep it always on.
 5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario (see later tutorials). Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys>).
 6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
@@ -185,7 +185,7 @@ Now let’s download nanotron. In the login node run:
 
 1. This ensures the compatibility of nanotron with the following example. For general usage, there is no reason to stick to an outdated version of nanotron, though.
 
-We will install nanotron in a thin virtual environment on top of the container image built above. This proceeds as in the LLM Inference.
+We will install nanotron in a thin virtual environment on top of the container image built above. This proceeds as in the [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial").
 
 ```console
 [clariden-lnXXX]$ srun  -A <ACCOUNT> --environment=./ngc-nanotron-24.04.toml --pty bash
@@ -362,8 +362,8 @@ srun -ul --environment=./ngc-nanotron-24.04.toml bash -c "
 > **A few comments**
 >
 > - The parts outside the srun command will be run on the first node of the Slurm allocation for this job. srun commands without further specifiers execute with the settings of the sbatch script (i.e. using all nodes allocated to the job).
-> - Note that we are setting `HF_HOME` to a directory in scratch. This is done to place the dataset downloaded from `huggingface_hub` in your scratch, instead of your home directory. The same applies to your HuggingFace token as well as any models/spaces unless `HF_HUB_CACHE` is set (cf. [HuggingFace docs](<https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome>)). As discussed in the tutorial on LLM Inference, it is good practice to apply the recommended LUSTRE settings there.
-> - If instead of downloading a dataset from HuggingFace you want to re-use one managed by a colleague, please refer to the storage guide for instructions on dataset sharing.
+> - Note that we are setting `HF_HOME` to a directory in scratch. This is done to place the dataset downloaded from `huggingface_hub` in your scratch, instead of your home directory. The same applies to your HuggingFace token as well as any models/spaces unless `HF_HUB_CACHE` is set (cf. [HuggingFace docs](<https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome>)). As discussed in the tutorial on [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial"), it is good practice to apply the [recommended LUSTRE settings](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") there.
+> - If instead of downloading a dataset from HuggingFace you want to re-use one managed by a colleague, please refer to the [storage guide](<https://docs.cscs.ch/guides/storage/index.md#sharing-files-and-data> "Sharing files and data") for instructions on dataset sharing.
 > - If you have a [wandb API key](<https://docs.wandb.ai/guides/track/environment-variables/>) and want to synchronize the training run, be sure to set the `WANDB_API_KEY` variable. Alternatively, `wandb` can write log data to the distributed filesystem with `WANDB_MODE=of​f​line` so that it can be uploaded with `wandb sync` (cf. [Weights &amp; Biases docs](<https://docs.wandb.ai/support/run_wandb_offline/>)) after the training run has finished.
 
 > [!WARNING]

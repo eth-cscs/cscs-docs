@@ -4,7 +4,7 @@
 >
 > **Info**
 >
-> The GPU Saturation Scorer (GSSR) will ultimately replace Jobreport but is currently limited to Swiss AI proposals. Please refer to the submission guidelines for which tool to use.
+> The [GPU Saturation Scorer (GSSR)](<https://docs.cscs.ch/running/gssr/index.md#gpu-saturation-scorer>) will ultimately replace Jobreport but is currently limited to Swiss AI proposals. Please refer to the submission guidelines for which tool to use.
 
 A batch job summary report is often requested in project proposals at CSCS to demonstrate the effective use of GPUs. [jobreport](<https://github.com/eth-cscs/alps-jobreport/releases>) is used in two stages. The first stage monitors an application and records the GPU usage statistics. The monitoring stage must be executed within a `slurm` environment. The information is recorded as `.csv` data within a directory `jobreport_${SLURM_JOB_ID}` or a directory supplied on the command line. The second stage prints this information in a tabular form that can be inserted into a project proposal.
 
@@ -137,7 +137,7 @@ GPU Specific Values
 >
 > **Too many GPUs reported by `jobreport`**
 >
-> If the job reporting utility reports more GPUs than you expect from the number of nodes requested by Slurm, you may be missing options to set the visible devices correctly for your job. See the GH200 Slurm documentation for examples on how to expose GPUs correctly in your job. When oversubscribing ranks to GPUs, the utility will always report too many GPUs. The utility does not combine data for the same GPU from different ranks.
+> If the job reporting utility reports more GPUs than you expect from the number of nodes requested by Slurm, you may be missing options to set the visible devices correctly for your job. See the [GH200 Slurm documentation](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") for examples on how to expose GPUs correctly in your job. When oversubscribing ranks to GPUs, the utility will always report too many GPUs. The utility does not combine data for the same GPU from different ranks.
 
 > [!WARNING]
 >
@@ -193,7 +193,7 @@ wait
 
 ## Example with uenv
 
-The following example runs a program called `burn` that computes repeated matrix multiplications to stress the GPUs. It was built with, and requires to run the prgenv-gnu.
+The following example runs a program called `burn` that computes repeated matrix multiplications to stress the GPUs. It was built with, and requires to run the [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ```console
 $ srun --uenv=prgenv-gnu/24.2:v1 -t 5:00 --nodes=1 --ntasks-per-node=4 --gpus-per-task=1 ${JOBREPORT} -o report -- ./burn --gpu=gemm -d 30
@@ -248,7 +248,7 @@ GPU Specific Values
 
 ## Example with container-engine (CE)
 
-Running `jobreport` with the container-engine (CE) requires a little more setup to allow the CE to mount the required GPU library paths inside the container.
+Running `jobreport` with the [container-engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine") requires a little more setup to allow the CE to mount the required GPU library paths inside the container.
 
 A script to set up the mount points needs to be placed in `${HOME}/.config/enroot/hooks.d/`. This can be generated with the `jobreport` tool, and by default, the script will be placed in `${HOME}/.config/enroot/hooks.d/cscs_jobreport.sh`.
 

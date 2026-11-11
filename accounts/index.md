@@ -22,7 +22,7 @@ New PIs who have successfully applied for a preparatory project will receive an 
 
 ## Tools for managing accounts and projects
 
-As of 1 April 2026, the HPC Platform, Climate and Weather Platform and Machine Learning Platform all use the project and resources management tool at [portal.cscs.ch](<https://portal.cscs.ch>).
+As of 1 April 2026, the [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>), [Climate and Weather Platform](<https://docs.cscs.ch/platforms/cwp/index.md#climate-and-weather-platform>) and [Machine Learning Platform](<https://docs.cscs.ch/platforms/mlp/index.md#machine-learning-platform> "Machine learning platform") all use the [project and resources management tool](<https://docs.cscs.ch/accounts/waldur/index.md#the-project-and-resources-management-tool> "The Project and Resources Management Tool") at [portal.cscs.ch](<https://portal.cscs.ch>).
 
 ## Signing up for a new account
 
@@ -38,7 +38,7 @@ New accounts are usually opened within 48 hours.
 
 ## Changing account data
 
-You can update your email address, your affiliation and your primary project yourself in the user portal at [user-account.cscs.ch](<https://user-account.cscs.ch>). See changing your account data for how it works and which changes are reviewed by CSCS.
+You can update your email address, your affiliation and your primary project yourself in the user portal at [user-account.cscs.ch](<https://user-account.cscs.ch>). See [changing your account data](<https://docs.cscs.ch/accounts/account-change/index.md#changing-account-data> "Changing account data") for how it works and which changes are reviewed by CSCS.
 
 ## Using different accounts
 

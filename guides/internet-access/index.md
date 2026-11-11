@@ -1,12 +1,12 @@
 # Internet Access on Alps
 
-The Alps network is mostly configured with private IP addresses (`172.28.0.0/16`). Login nodes have public IP addresses which means that they can directly access the internet, while compute nodes access the internet through NAT.
+The [Alps network](<https://docs.cscs.ch/alps/hardware/index.md#alps-high-speed-network> "Alps High Speed Network") is mostly configured with private IP addresses (`172.28.0.0/16`). Login nodes have public IP addresses which means that they can directly access the internet, while compute nodes access the internet through NAT.
 
 > [!WARNING]
 >
 > **Public IPs are a shared resource**
 >
-> Be aware that public IPs, whether on login nodes or through NAT, are essentially a shared resource. Many services will rate limit or block usage based on the IP address if abused. An example is pulling container images from Docker Hub. Authenticating with Docker Hub makes their rate limit apply per user instead. See also the guidelines below
+> Be aware that public IPs, whether on login nodes or through NAT, are essentially a shared resource. Many services will rate limit or block usage based on the IP address if abused. An example is pulling container images from Docker Hub. [Authenticating with Docker Hub](<https://docs.cscs.ch/software/container-engine/run/index.md#third-party-and-private-registries> "Third-party and private registries") makes their rate limit apply per user instead. See also the [guidelines below](<https://docs.cscs.ch/guides/internet-access/index.md#communicating-with-external-services> "Communicating with external services")
 
 ## Accessing the public IP of a node
 

@@ -105,4 +105,4 @@ pip     25.1.1  /path/to/my-venv/lib/python3.13/site-packages pip
 >
 > **Performance considerations**
 >
-> On our Lustre parallel file system, large virtual environments can be slow due to many small files. See How to squash virtual environments for turning a venv into a compact image to improve startup and import performance.
+> On our Lustre parallel file system, large virtual environments can be slow due to many small files. See [How to squash virtual environments](<https://docs.cscs.ch/guides/storage/index.md#squash-python-virtual-environments-with-uenv> "Squash Python virtual environments with uenv") for turning a venv into a compact image to improve startup and import performance.

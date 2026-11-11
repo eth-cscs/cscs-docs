@@ -24,11 +24,11 @@ Currently Globus provide the following mount points at CSCS:
 
 | Mount Point | Description |
 | --- | --- |
-| `/iopsstor/scratch/cscs` | Iopsstor scratch |
-| `/capstor/scratch/cscs` | Capstor scratch |
-| `/ritom/scratch/cscs` | Ritom scratch |
-| `/capstor/store/cscs` | Store |
-| `/vast/users/cscs` | Home |
+| `/iopsstor/scratch/cscs` | [Iopsstor scratch](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) |
+| `/capstor/scratch/cscs` | [Capstor scratch](<https://docs.cscs.ch/alps/storage/index.md#capstor>) |
+| `/ritom/scratch/cscs` | [Ritom scratch](<https://docs.cscs.ch/alps/storage/index.md#ritom>) |
+| `/capstor/store/cscs` | [Store](<https://docs.cscs.ch/storage/filesystems/index.md#store>) |
+| `/vast/users/cscs` | [Home](<https://docs.cscs.ch/alps/storage/index.md#vadret> "Vadret") |
 
 ## Internal Transfer
 

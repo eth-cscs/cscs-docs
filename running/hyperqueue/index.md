@@ -12,7 +12,7 @@ By using a meta-scheduler like HyperQueue, you get fine-grained control over you
 
 ## Setup
 
-Before you can use HyperQueue, you’ll need to download it. No installation is needed as it is a statically linked binary with no external dependencies. You can download the latest version from the [official site](<https://it4innovations.github.io/hyperqueue/stable/installation/>). Because there are different architectures on Alps (ARM and x86\_64), we recommend unpacking the binary in `$HOME/.local/<arch>/bin`, as described here.
+Before you can use HyperQueue, you’ll need to download it. No installation is needed as it is a statically linked binary with no external dependencies. You can download the latest version from the [official site](<https://it4innovations.github.io/hyperqueue/stable/installation/>). Because there are different architectures on Alps (ARM and x86\_64), we recommend unpacking the binary in `$HOME/.local/<arch>/bin`, as described [here](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM").
 
 ## Example workflow
 

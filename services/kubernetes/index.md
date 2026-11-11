@@ -14,14 +14,14 @@ It explains how clusters are provisioned, maintained, and the policies in place 
 
   CSCS Kubernetes cluster overview. What are the main components and how to interact with it.
 
-  Clusters
+  [Clusters](<https://docs.cscs.ch/services/kubernetes/clusters/index.md#cscs-kubernetes-clusters> "CSCS Kubernetes clusters")
 - **Kubernetes Upgrades**
 
   Kubernetes Cluster upgrade policy (Kubernetes version upgrades)
 
-  Kubernetes Upgrades
+  [Kubernetes Upgrades](<https://docs.cscs.ch/services/kubernetes/kubernetes-upgrades/index.md#kubernetes-cluster-upgrade-policy> "Kubernetes Cluster Upgrade Policy")
 - **Node Updates**
 
   Cluster Nodes OS update policy (Regular Node Security Updates)
 
-  Node OS Updates
+  [Node OS Updates](<https://docs.cscs.ch/services/kubernetes/node-updates/index.md#kubernetes-nodes-os-update-policy> "Kubernetes Nodes OS Update Policy")

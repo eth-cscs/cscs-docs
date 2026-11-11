@@ -4,15 +4,15 @@ The `prgenv-intel` uenv provides the Intel OneAPI compiler, cray-mpich, python a
 
 > [!NOTE]
 >
-> The `prgenv-intel` uenv does not have as many packages as the full `prgenv-gnu` environment.
+> The `prgenv-intel` uenv does not have as many packages as the full [`prgenv-gnu`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) environment.
 >
 > Try using the `prgenv-gnu` uenv first, because it is better tested, better supported, and has more software packages available.
 
 > [!NOTE]
 >
-> **only on zen2 nodes**
+> **only on [zen2](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") nodes**
 >
-> Only available on Eiger, and provides fewer general libraries than the full GNU environment.
+> Only available on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), and provides fewer general libraries than the full GNU environment.
 
 ## Versioning
 
@@ -107,4 +107,4 @@ The uenv provides modules for all of the software packages, which can be made av
 
 The gnu programming environment is a very good base for building software with Spack, because it provides compilers, MPI, Python and common packages like hdf5.
 
-Check out the guide for using Spack with uenv.
+[Check out the guide for using Spack with uenv](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack").

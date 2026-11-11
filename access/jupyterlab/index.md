@@ -2,13 +2,13 @@
 
 ## Access and setup
 
-The JupyterHub service enables the interactive execution of JupyterLab on the compute nodes of Daint, Clariden, Santis and Eiger.
+The JupyterHub service enables the interactive execution of JupyterLab on the compute nodes of [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>), [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) and [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>).
 
 The service is accessed at [jupyter-daint.cscs.ch](<https://jupyter-daint.cscs.ch/>), [jupyter-clariden.cscs.ch](<https://jupyter-clariden.cscs.ch/>), [jupyter-santis.cscs.ch](<https://jupyter-santis.cscs.ch/>) and [jupyter-eiger.cscs.ch](<https://jupyter-eiger.cscs.ch>), respectively. As the notebook servers are executed on compute nodes, you must have a project with compute resources available on the respective cluster.
 
 Once logged in, you will be redirected to the JupyterHub Spawner Options form, where typical job configuration options can be selected. These options might include the type and number of compute nodes, the wall time limit, and your project account.
 
-By default, JupyterLab servers are launched in a dedicated queue, which should ensure a start-up time of less than a few minutes. If your server is not running within 5 minutes we encourage you to first try the non-dedicated queue, and then contact us.
+By default, JupyterLab servers are launched in a dedicated queue, which should ensure a start-up time of less than a few minutes. If your server is not running within 5 minutes we encourage you to first try the non-dedicated queue, and then [contact us](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch").
 
 When resources are granted the page redirects to the JupyterLab session, where you can browse, open and execute notebooks on the compute nodes. A new notebook with a Python 3 kernel can be created with the menu `new` and then `Python 3` . Under `new` it is also possible to create new text files and folders, as well as to open a terminal session on the allocated compute node.
 
@@ -26,7 +26,7 @@ When resources are granted the page redirects to the JupyterLab session, where y
 
 ## Runtime environment
 
-A Jupyter session can be started with either a uenv or a container as a base image. The JupyterHub Spawner form provides a set of default images such as the prgenv-gnu uenv or the NGC PyTorch container to choose from in a dropdown menu. When using uenv, the software stack will be mounted at `/user-environment`, and the specified view will be activated. For a container, the Jupyter session will launch inside the container filesystem with only a select set of paths mounted from the host. Once you have found a suitable option, you can start the session with `Launch JupyterLab`.
+A Jupyter session can be started with either a [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) or a [container](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine") as a base image. The JupyterHub Spawner form provides a set of default images such as the [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>) uenv or the [NGC PyTorch container](<https://docs.cscs.ch/software/ml/index.md#machine-learning-applications-and-frameworks> "Machine learning applications and frameworks") to choose from in a dropdown menu. When using uenv, the software stack will be mounted at `/user-environment`, and the specified view will be activated. For a container, the Jupyter session will launch inside the container filesystem with only a select set of paths mounted from the host. Once you have found a suitable option, you can start the session with `Launch JupyterLab`.
 
 > [!NOTE]
 >
@@ -40,7 +40,7 @@ A Jupyter session can be started with either a uenv or a container as a base ima
 >
 > The Jupyter servers can be shut down through the Hub. To end a JupyterLab session, please select `Hub Control Panel` under the `File` menu and then `Stop My Server`. By contrast, clicking `Logout` will log you out of the server, but the server will continue to run until the Slurm job reaches its maximum wall time.
 
-If the default base images do not meet your requirements, you can specify a custom environment instead. For this purpose, you supply either a custom uenv image/view or container engine (CE) TOML file under the section `Advanced options` before launching the session. The supported uenvs are compatible with the Jupyter service out of the box, whereas container images typically require the installation of some additional packages.
+If the default base images do not meet your requirements, you can specify a custom environment instead. For this purpose, you supply either a custom uenv image/view or [container engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine") TOML file under the section `Advanced options` before launching the session. The supported uenvs are compatible with the Jupyter service out of the box, whereas container images typically require the installation of some additional packages.
 
 **Example of a custom PyTorch container**
 
@@ -117,7 +117,7 @@ As a preliminary step to running any code in Jupyter notebooks, a kernel needs t
 
 ### Using Python in Jupyter
 
-For Python, the recommended setup consists of a uenv or container as a base image as described above that includes the stable dependencies of the software stack. Additional packages can be installed in a virtual environment *on top* of the Python installation in the base image (mandatory for most uenvs). Having the base image loaded, such a virtual environment can be created with
+For Python, the recommended setup consists of a uenv or container as a base image as described [above](<https://docs.cscs.ch/access/jupyterlab/index.md#runtime-environment> "Runtime environment") that includes the stable dependencies of the software stack. Additional packages can be installed in a virtual environment *on top* of the Python installation in the base image (mandatory for most uenvs). Having the base image loaded, such a virtual environment can be created with
 
 Create a virtual environment on top of a base image
 
@@ -167,11 +167,11 @@ The `<kernel-name>` can be replaced by a name specific to the base image/virtual
 
 ### Using Julia in Jupyter
 
-To run Julia code in Jupyter notebooks, you can use the provided uenv for this language. In particular, you need to use the following in the JupyterHub Spawner `Advanced options` forms mentioned above:
+To run Julia code in Jupyter notebooks, you can use the provided uenv for this language. In particular, you need to use the following in the JupyterHub Spawner `Advanced options` forms mentioned [above](<https://docs.cscs.ch/access/jupyterlab/index.md#runtime-environment> "Runtime environment"):
 
 > [!IMPORTANT]
 >
-> **pass a `julia` uenv and the view `jupyter`.**
+> **pass a [`julia`](<https://docs.cscs.ch/software/prgenv/julia/index.md#julia>) uenv and the view `jupyter`.**
 
 When Julia is first used within Jupyter, IJulia and one or more Julia kernel need to be installed. Type the following command in a shell within JupyterHub to install IJulia, the default Julia kernel and, on systems with Nvidia GPUs, a Julia kernel running under Nvidia Nsight Systems:
 
@@ -229,7 +229,7 @@ Examples of notebooks with `ipcmagic` can be found [here](<https://github.com
 
 While it is generally recommended to submit long-running machine learning training and inference jobs via `sbatch`, certain use cases can benefit from an interactive Jupyter environment.
 
-A popular approach to run multi-GPU ML workloads is with [`accelerate`](<https://github.com/huggingface/accelerate>) and [`torchrun`](<https://docs.pytorch.org/docs/stable/elastic/run.html>) as demonstrated in the tutorials. In particular, the `accelerate launch` script in the LLM fine-tuning tutorial can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node nanotron tutorial to run on a single GH200 node using the following line in a Jupyter cell
+A popular approach to run multi-GPU ML workloads is with [`accelerate`](<https://github.com/huggingface/accelerate>) and [`torchrun`](<https://docs.pytorch.org/docs/stable/elastic/run.html>) as demonstrated in the [tutorials](<https://docs.cscs.ch/tutorials/ml/index.md#machine-learning-platform-tutorials> "Machine Learning Platform Tutorials"). In particular, the `accelerate launch` script in the [LLM fine-tuning tutorial](<https://docs.cscs.ch/tutorials/ml/llm-fine-tuning/index.md#llm-fine-tuning-tutorial> "LLM Fine-tuning Tutorial") can be directly carried over to a Jupyter cell with a `%%bash` header (to run its contents interpreted by bash). For `torchrun`, one can adapt the command from the multi-node [nanotron tutorial](<https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/index.md#llm-nanotron-pre-training-tutorial> "LLM Nanotron Pre-training Tutorial") to run on a single GH200 node using the following line in a Jupyter cell
 
 ```bash
 !python -m torch.distributed.run --standalone --nproc_per_node=4 run_train.py ...

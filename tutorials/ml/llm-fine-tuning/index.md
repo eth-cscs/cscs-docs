@@ -1,6 +1,6 @@
 # LLM Fine-tuning Tutorial
 
-This tutorial will take the model from the LLM Inference tutorial and show you how to perform fine-tuning. This means that we take the model and train it on some new custom data to change its behavior.
+This tutorial will take the model from the [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial") tutorial and show you how to perform fine-tuning. This means that we take the model and train it on some new custom data to change its behavior.
 
 To complete the tutorial, we set up some extra libraries that will help us to update the state of the machine learning model. We also write a script that will allow us to unlock more of the performance offered by the cluster, by running our fine-tuning task on two or more nodes.
 
@@ -8,7 +8,7 @@ To complete the tutorial, we set up some extra libraries that will help us to up
 
 ### Prerequisites
 
-This tutorial assumes you’ve already successfully completed the LLM Inference tutorial. For fine-tuning Gemma, we will rely on the NGC PyTorch container and the libraries we’ve already installed in the Python virtual environment used previously.
+This tutorial assumes you’ve already successfully completed the [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial") tutorial. For fine-tuning Gemma, we will rely on the NGC PyTorch container and the libraries we’ve already installed in the Python virtual environment used previously.
 
 ### Set up TRL
 
@@ -80,9 +80,9 @@ The cluster has four GH200 chips per compute node. We can make them accessible t
 >
 > **Dataset management and sharing**
 >
-> For datasets, recommended LUSTRE settings should be used as illustrated in the tutorial on LLM Inference. As they have been set there for `HF_HOME`, which `huggingface_hub` uses for its dataset cache, they don’t need to be re-applied here.
+> For datasets, recommended LUSTRE settings should be used as illustrated in the tutorial on [LLM Inference](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial"). As they have been set there for `HF_HOME`, which `huggingface_hub` uses for its dataset cache, they don’t need to be re-applied here.
 >
-> To enable your colleagues to use also use your datasets, please refer to the storage guide.
+> To enable your colleagues to use also use your datasets, please refer to the [storage guide](<https://docs.cscs.ch/guides/storage/index.md#sharing-files-and-data> "Sharing files and data").
 
 Make this script executable with
 

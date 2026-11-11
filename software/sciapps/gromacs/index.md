@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> GROMACS is supported software on Alps. See the main applications page for more information.
+> GROMACS is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [GROMACS](<https://www.gromacs.org>) (GROningen Machine for Chemical Simulations) is a versatile and widely-used open source package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.
 
@@ -12,7 +12,7 @@ It is primarily designed for biochemical molecules like proteins, lipids and nuc
 >
 > **uenvs**
 >
-> [GROMACS](<https://www.gromacs.org>) is provided on Alps via uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> [GROMACS](<https://www.gromacs.org>) is provided on [Alps](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 > [!NOTE]
 >
@@ -81,7 +81,7 @@ Use `exit` to leave the user environment and return to the original shell.
 
 ### How to run
 
-To start a job, 2 bash scripts are required: a standard Slurm submission script, and a wrapper to start the CUDA MPS daemon (in order to have multiple MPI ranks per GPU).
+To start a job, 2 bash scripts are required: a standard Slurm submission script, and a [wrapper to start the CUDA MPS daemon](<https://docs.cscs.ch/running/slurm/index.md#one-rank-per-gpu> "One rank per GPU") (in order to have multiple MPI ranks per GPU).
 
 The wrapper script above needs to be made executable with `chmod +x mps-wrapper.sh`.
 

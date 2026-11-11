@@ -36,7 +36,7 @@ After your password has been set, you will be redirected to a page where you log
 
 ![](<https://docs.cscs.ch/images/access/first-login.png>)
 
-From here you will need to set up multi-factor authentication (MFA).
+From here you will need to set up [multi-factor authentication](<https://docs.cscs.ch/access/mfa/index.md#configure-the-authenticator> "Configure the Authenticator") (MFA).
 
 Once MFA has been configured, you will finally be redirected to the CSCS portal as shown:
 
@@ -67,4 +67,4 @@ Additional Notes: [Any other relevant information, e.g., specific requirements o
 
 ### After Approval
 
-Once approved and enabled, the **Service Account** menu entry will appear under the **Team** tab of your Waldur project. For details on setting up and using a Service Account, see Service Accounts.
+Once approved and enabled, the **Service Account** menu entry will appear under the **Team** tab of your Waldur project. For details on setting up and using a Service Account, see [Service Accounts](<https://docs.cscs.ch/access/service-accounts/index.md#service-accounts>).

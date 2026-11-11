@@ -4,7 +4,7 @@
 >
 > **LTS is in read-only mode**
 >
-> The LTS service no longer accepts new customers, and is in read-only mode for existing data. New data collections can no longer be created, and data can no longer be uploaded. Existing data collections remain accessible, see downloading data from LTS.
+> The LTS service no longer accepts new customers, and is in read-only mode for existing data. New data collections can no longer be created, and data can no longer be uploaded. Existing data collections remain accessible, see [downloading data from LTS](<https://docs.cscs.ch/storage/longterm/index.md#accessing-data-in-lts> "Accessing data in LTS").
 
 The Long Term Storage (LTS) service enables CSCS users to preserve their scientific data and ensures that it can be publicly accessed through a persistent identifier. The current implementation of the LTS service addresses the first two principles of the FAIR quadrant: **findable** and **accessible**.
 

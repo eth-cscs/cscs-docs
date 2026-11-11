@@ -12,7 +12,7 @@ Specifying the `--environment` option to the Slurm command (e.g., `srun` or `sal
    ```console
    $ srun --environment=./.edf/ubuntu.toml echo "Hello"    # from ${HOME}. 
    ```
-3. **From EDF search paths**: the name of EDF in the EDF search path. Notice that in this way, `--environment` accepts the EDF filename **without** the `.toml` extension.
+3. **From EDF search paths**: the name of EDF in the [EDF search path](<https://docs.cscs.ch/software/container-engine/run/index.md#edf-search-path>). Notice that in this way, `--environment` accepts the EDF filename **without** the `.toml` extension.
 
    ```console
    $ srun --environment=ubuntu echo "Hello" 
@@ -28,7 +28,7 @@ Specifying the `--environment` option to the Slurm command (e.g., `srun` or `sal
 >
 > **Container start failure with `id: cannot find name for user ID`**
 >
-> Containers may fail to start due to user database issues on compute nodes. See this section for more details.
+> Containers may fail to start due to user database issues on compute nodes. See [this section](<https://docs.cscs.ch/software/container-engine/known-issue/index.md#container-start-fails-with-id-cannot-find-name-for-user-id> "Container start fails with ") for more details.
 
 ### Use from batch scripts
 
@@ -62,14 +62,14 @@ Multiple Slurm commands may have different EDF environments; this is useful when
 > srun --environment=env2 ... # (2)!
 > ```
 >
-> 1. Assuming `env1.toml` is at `EDF_PATH`. See EDF search path below.
-> 2. Assuming `env2.toml` is at `EDF_PATH`. See EDF search path below.
+> 1. Assuming `env1.toml` is at `EDF_PATH`. See [EDF search path](<https://docs.cscs.ch/software/container-engine/run/index.md#edf-search-path>) below.
+> 2. Assuming `env2.toml` is at `EDF_PATH`. See [EDF search path](<https://docs.cscs.ch/software/container-engine/run/index.md#edf-search-path>) below.
 
 Specifying the `--environment` option with an `#SBATCH` option is **experimental**. Such usage is discouraged as it may result in unexpected behaviors.
 
 > [!WARNING]
 >
-> The use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, and it may result in several **counterintuitive, hard-to-diagnose failures**. See Why `--environment` as `#SBATCH` is discouraged for details.
+> The use of `--environment` as an `#SBATCH` option is reserved for highly customized workflows, and it may result in several **counterintuitive, hard-to-diagnose failures**. See [Why `--environment` as `#SBATCH` is discouraged](<https://docs.cscs.ch/software/container-engine/known-issue/index.md#why-environment-as-sbatch-is-discouraged>) for details.
 
 ### EDF search path
 
@@ -151,7 +151,7 @@ After the import is complete, images are available in Squashfs format in the cur
 >
 > **Registry rate limits**
 >
-> Some registries will rate limit image pulls by IP address. Since public IPs are a shared resource we recommend authenticating even for publicly available images. For example, [Docker Hub applies its rate limits per user when authenticated](<https://docs.docker.com/docker-hub/usage/>).
+> Some registries will rate limit image pulls by IP address. Since [public IPs are a shared resource](<https://docs.cscs.ch/guides/internet-access/index.md#internet-access-on-alps> "Internet Access on Alps") we recommend authenticating even for publicly available images. For example, [Docker Hub applies its rate limits per user when authenticated](<https://docs.docker.com/docker-hub/usage/>).
 
 To use an image from a different registry, the corresponding registry URL has to be prepended to the image reference, using a hash character (\#) as a separator:
 
@@ -243,7 +243,7 @@ Directories outside a container can be *mounted* inside a container so that the 
 >
 > The source (before `:`) should be present on the cluster: the destination (after `:`) doesn’t have to be inside the container.
 
-See the EDF reference for the full specification of the `mounts` EDF entry.
+See [the EDF reference](<https://docs.cscs.ch/software/container-engine/edf/index.md#edf-reference>) for the full specification of the `mounts` EDF entry.
 
 ### Mounting a SquashFS image
 
@@ -265,5 +265,5 @@ The Container Engine currently uses a customized version of [NVIDIA Pyxis](<http
 
 Compared to the original, upstream Pyxis code, the following user-facing differences should be noted:
 
-- **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and `SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container’s environment. This behavior has been **disabled** by default. The remapping can be reactivated by setting the annotation `com.pyxis.pytorch_remap_vars="true"` in the EDF.
-- **Logging container entrypoint output through EDF annotation:** by default, Pyxis hides the output of the container’s entrypoint, if the latter is used. To make the entrypoint output printed on the stdout stream of the Slurm job, upstream Pyxis provides the `--container-entrypoint-log` CLI option for `srun`. In the Pyxis version used by the Container Engine, entrypoint output printing can also be enabled by setting the annotation `com.pyxis.entrypoint_log="true"` in the EDF.
+- **Disabled remapping of PyTorch-related variables:** upstream Pyxis automatically remaps the `RANK` and `LOCAL_RANK` environment variables used by PyTorch to match the `SLURM_PROCID` and `SLURM_LOCALID` variables, respectively, if the `PYTORCH_VERSION` variable is detected in the container’s environment. This behavior has been **disabled** by default. The remapping can be reactivated by setting the [annotation](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#annotations> "Annotations") `com.pyxis.pytorch_remap_vars="true"` in the EDF.
+- **Logging container entrypoint output through EDF annotation:** by default, Pyxis hides the output of the container’s entrypoint, if the latter is used. To make the entrypoint output printed on the stdout stream of the Slurm job, upstream Pyxis provides the `--container-entrypoint-log` CLI option for `srun`. In the Pyxis version used by the Container Engine, entrypoint output printing can also be enabled by setting the [annotation](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#annotations> "Annotations") `com.pyxis.entrypoint_log="true"` in the EDF.

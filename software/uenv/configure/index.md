@@ -13,7 +13,7 @@ The location of the configuration file follows the [XDG base directory specifica
 
 A system-wide configuration file may also be present at `/etc/uenv/config.toml`. This file is managed by CSCS and sets system defaults such as the registry endpoint and elastic logging. User settings take precedence over system settings, and CLI flags take precedence over both.
 
-Use the `uenv config` command to inspect the active configuration.
+Use the [`uenv config`](<https://docs.cscs.ch/software/uenv/configure/index.md#the-uenv-config-command> "The ") command to inspect the active configuration.
 
 > [!NOTE]
 >
@@ -63,10 +63,10 @@ The configuration file uses [TOML v1.0](<https://toml.io/en/>) syntax. Comments 
 
 | key | description | default | values |
 | --- | --- | --- | --- |
-| `color` | Use color output | automatically chosen | `true`, `false` |
-| `system_name` | Override the cluster name | auto-detected from `$CLUSTER_NAME` | cluster name or `"*"` |
-| `[[repositories]]` | One or more local image repositories | `$SCRATCH/.uenv-images` | array of `name`/`path` pairs |
-| `[elastic]` | Elastic logging configuration | — | set by CSCS in system config |
+| [`color`](<https://docs.cscs.ch/software/uenv/configure/index.md#color>) | Use color output | automatically chosen | `true`, `false` |
+| [`system_name`](<https://docs.cscs.ch/software/uenv/configure/index.md#system_name>) | Override the cluster name | auto-detected from `$CLUSTER_NAME` | cluster name or `"*"` |
+| [`[[repositories]]`](<https://docs.cscs.ch/software/uenv/configure/index.md#repositories>) | One or more local image repositories | `$SCRATCH/.uenv-images` | array of `name`/`path` pairs |
+| [`[elastic]`](<https://docs.cscs.ch/software/uenv/configure/index.md#elastic>) | Elastic logging configuration | — | set by CSCS in system config |
 
 #### `color`
 
@@ -99,7 +99,7 @@ uenv image find prgenv-gnu@'*'
 
 #### `[[repositories]]`
 
-Multiple repositories can be configured as a TOML array-of-tables.
+Multiple [repositories](<https://docs.cscs.ch/software/uenv/management/index.md#repositories> "Repositories") can be configured as a TOML array-of-tables.
 
 defining multiple repositories
 
@@ -124,7 +124,7 @@ Each entry requires a `name`, a `path`, and an optional `priority`:
 
 The priority of each repo determines the order in which they will be searched, from lowest to highest. The default priority for repos is 10, and the priority of the default user repo is 9, so the default repo has the highest precedence.
 
-The `--repo` CLI flag can reference a repository by name or by path, and overrides the priority ordering specified by the configuration.
+The [`--repo`](<https://docs.cscs.ch/software/uenv/management/index.md#the-repo-flag> "The ") CLI flag can reference a repository by name or by path, and overrides the priority ordering specified by the configuration.
 
 #### `[elastic]`
 

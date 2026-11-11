@@ -1,38 +1,38 @@
 # Daint
 
-Daint is the main HPC Platform cluster that provides compute nodes and file systems for GPU-enabled workloads.
+Daint is the main [HPC Platform](<https://docs.cscs.ch/platforms/hpcp/index.md#hpc-platform>) cluster that provides compute nodes and file systems for GPU-enabled workloads.
 
 ## Cluster specification
 
 ### Compute nodes
 
-Daint consists of Grace-Hopper nodes.
+Daint consists of [Grace-Hopper nodes](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes").
 
-The number of nodes can vary as nodes are added or removed from other clusters on Alps. See the Slurm documentation for information on how to check the number of nodes.
+The number of nodes can vary as nodes are added or removed from other clusters on Alps. See the [Slurm documentation](<https://docs.cscs.ch/running/slurm/index.md#ref-slurm-partitions-nodecount> "Partitions") for information on how to check the number of nodes.
 
 There are four login nodes, `daint-ln00[1-4]`. You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 
 | Node type | Memory | Nodes | CPU sockets | GPUs |
 | --- | --- | --- | --- | --- |
-| gh200 | – | 946 | 3784 | 3784 |
+| [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | – | 946 | 3784 | 3784 |
 
-In addition, two zen2 nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
+In addition, two [zen2](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") nodes are reserved for data transfer in the `xfer` partition, and cannot run compute jobs.
 
 ### Storage and file systems
 
-Daint uses the HPCP filesystems and storage policies.
+Daint uses the [HPCP filesystems and storage policies](<https://docs.cscs.ch/platforms/hpcp/index.md#file-systems-and-storage> "File systems and storage").
 
 ## Getting started
 
 ### Logging into Daint
 
-To connect to Daint via SSH, first refer to the ssh guide.
+To connect to Daint via SSH, first refer to the [ssh guide](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH").
 
 > [!NOTE]
 >
 > **`~/.ssh/config`**
 >
-> Add the following to your SSH configuration to enable you to directly connect to Daint using `ssh daint`.
+> Add the following to your [SSH configuration](<https://docs.cscs.ch/access/ssh/index.md#adding-ela-as-a-jump-host-in-ssh-configuration> "Adding Ela as a jump host in SSH configuration") to enable you to directly connect to Daint using `ssh daint`.
 >
 > ```text
 > Host daint
@@ -47,39 +47,39 @@ To connect to Daint via SSH, first refer to the ssh guide.
 
 #### uenv
 
-Daint provides uenv to deliver programming environments and application software. Please refer to the uenv documentation for detailed information on how to use the uenv tools on the system.
+Daint provides uenv to deliver programming environments and application software. Please refer to the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for detailed information on how to use the uenv tools on the system.
 
 - **Scientific Applications**
 
   Provide the latest versions of scientific applications, tuned for Daint, and the tools required to build your own versions of the applications.
 
-  - CP2K
-  - GROMACS
-  - LAMMPS
-  - NAMD
-  - Quantumespresso
-  - VASP
+  - [CP2K](<https://docs.cscs.ch/software/sciapps/cp2k/index.md#cp2k>)
+  - [GROMACS](<https://docs.cscs.ch/software/sciapps/gromacs/index.md#gromacs>)
+  - [LAMMPS](<https://docs.cscs.ch/software/sciapps/lammps/index.md#lammps>)
+  - [NAMD](<https://docs.cscs.ch/software/sciapps/namd/index.md#namd>)
+  - [Quantumespresso](<https://docs.cscs.ch/software/sciapps/quantumespresso/index.md#quantum-espresso> "Quantum ESPRESSO")
+  - [VASP](<https://docs.cscs.ch/software/sciapps/vasp/index.md#vasp>)
 
 - **Programming Environments**
 
   Provide compilers, MPI, Python, common libraries and tools used to build your own applications.
 
-  - prgenv-gnu
-  - prgenv-nvfortran
-  - linalg
-  - julia
+  - [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>)
+  - [prgenv-nvfortran](<https://docs.cscs.ch/software/prgenv/prgenv-nvfortran/index.md#prgenv-nvfortran>)
+  - [linalg](<https://docs.cscs.ch/software/prgenv/linalg/index.md#linalg>)
+  - [julia](<https://docs.cscs.ch/software/prgenv/julia/index.md#julia>)
 
 - **Tools**
 
   Provide tools like
 
-  - Linaro Forge
+  - [Linaro Forge](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#linaro-forge>)
 
 #### Containers
 
-Daint supports container workloads using the container engine.
+Daint supports container workloads using the [container engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine").
 
-To build images, see the guide to building container images on Alps.
+To build images, see the [guide to building container images on Alps](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 
 #### Cray Modules
 
@@ -89,19 +89,19 @@ To build images, see the guide to building container images on Alps.
 >
 > CSCS will continue to support and update uenv and container engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
 >
-> The CPE is still installed on Daint, however it will receive no support or updates, and will be replaced with a container in a future update.
+> The CPE is still installed on Daint, however it will receive no support or updates, and will be [replaced with a container](<https://docs.cscs.ch/software/prgenv/cpe/index.md#cray-programming-environment-cpe> "Cray Programming Environment (CPE)") in a future update.
 
 ## Running jobs on Daint
 
 ### Slurm
 
-Daint uses Slurm as the workload manager, which is used to launch and monitor compute-intensive workloads.
+Daint uses [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) as the workload manager, which is used to launch and monitor compute-intensive workloads.
 
-There are four Slurm partitions on the system:
+There are four [Slurm partitions](<https://docs.cscs.ch/running/slurm/index.md#partitions> "Partitions") on the system:
 
 - the `normal` partition is for all production workloads.
 - the `debug` partition can be used to access a small allocation for up to 30 minutes for debugging and testing purposes.
-- the `xfer` partition is for internal data transfer.
+- the `xfer` partition is for [internal data transfer](<https://docs.cscs.ch/storage/transfer/index.md#internal-transfer> "Internal Transfer").
 - the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
 | Partition | Nodes | Max nodes/job | Default time | Max time |
@@ -117,26 +117,26 @@ The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so th
 - jobs in `debug`: at most 1 running and 2 submitted per user
 - nodes in the `xfer` partition can be shared
 
-The hardware available in each partition, including the Slurm features that can be selected with `--constraint`:
+The hardware available in each partition, including the [Slurm features](<https://docs.cscs.ch/running/slurm/index.md#slurm-features>) that can be selected with `--constraint`:
 
 | Partition | Nodes | Node type | Features |
 | --- | --- | --- | --- |
-| `normal` | 922 | gh200 | vboost, thp |
-| `low` | 922 | gh200 | vboost, thp |
-| `debug` | 24 | gh200 | vboost, thp |
-| `xfer` | 2 | zen2 256 GB | none |
+| `normal` | 922 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `low` | 922 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `debug` | 24 | [gh200](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") | [vboost](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost"), [thp](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") |
+| `xfer` | 2 | [zen2 256 GB](<https://docs.cscs.ch/alps/hardware/index.md#amd-rome-cpu-nodes> "AMD Rome CPU Nodes") | none |
 
 > [!NOTE]
 >
 > **Default MPI plugin**
 >
-> The default MPI plugin on Daint is `cray_shasta`. This plugin is correct for applications that use Cray MPICH, for example applications in uenv. Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
+> The default [MPI plugin](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") on Daint is `cray_shasta`. This plugin is correct for applications that use Cray MPICH, for example applications in uenv. Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
-See the Slurm documentation for instructions on how to run jobs on the Grace-Hopper nodes.
+See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes](<https://docs.cscs.ch/running/slurm/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes").
 
 ### FirecREST
 
-Daint can also be accessed using FirecREST at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
+Daint can also be accessed using [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) at the `https://api.cscs.ch/hpc/firecrest/v2` API endpoint.
 
 > [!WARNING]
 >
@@ -188,7 +188,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > **Login node limits**
 >
-> To enforce our fair usage of shared resources policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+> To enforce our [fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
 
 > [!NOTE]
 >
@@ -218,7 +218,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > **uenv default repository**
 >
-> Using `uenv` with a repository stored on `capstor` will issue a migration warning. It is safe to follow the migration guide, and move your repository to `ritom`. Please take note of potential access permission problems and the fix, as described in the migration guide.
+> Using `uenv` with a repository stored on `capstor` will issue a migration warning. It is safe to follow the [migration guide](<https://docs.cscs.ch/software/uenv/management/index.md#migration-to-ritom> "Migration to Ritom"), and move your repository to `ritom`. Please take note of potential access permission problems and the fix, as described in the migration guide.
 
 **2026-07-15**
 
@@ -242,18 +242,18 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 > - Updated HPE Cray Supercomputing User Services Software (USS) from 1.3.1 to version 1.4.0
 > - Updated Slingshot Host Software (SHS) from version 12.0.1 to version 13.1.0.
-> - Improved Ritom performance, see also VAST tuning for individual IO tuning parameters
+> - Improved Ritom performance, see also [VAST tuning](<https://docs.cscs.ch/guides/storage/index.md#vast-tuning-on-ritom> "VAST tuning on Ritom") for individual IO tuning parameters
 
 > [!NOTE]
 >
 > **Container Engine**
 >
 > - Updated Container Engine to v26.06.1
-> - Slingshot-related hooks now use Network Stack Artifacts (also called “netstacks”) as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see our docs
+> - Slingshot-related hooks now use Network Stack Artifacts (also called “netstacks”) as default resources for the components, libraries and dependencies mounted inside containers (e.g., libfabric, AWS OFI NCCL, Slingshot dependencies). Previously, the host stack was the default: see [our docs](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source")
 >
 >   - To enable the previous behaviour, you should use `com.hooks.netstack.source = "host"`
 > - Fixed an issue with importing images using multi-line LABEL, e.g., ubuntu-26.04 based images.
-> - Environment variables: We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the Alps Extended Images, i.e., they bring both environments into sync.
+> - Environment variables: We introduced a few new (or changed) default environment variables when running with the Container Engine hook `aws_ofi_nccl.enabled="true"`. These variables have the same values as the [Alps Extended Images](<https://docs.cscs.ch/software/alps-extended-images/index.md#alps-extended-images>), i.e., they bring both environments into sync.
 >
 >   ```text
 >   CUDA_CACHE_DISABLE="1"
@@ -303,7 +303,7 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 >
 >   - Changed a hard error to a warning when image metadata is not attached in the registry.
 >   - Fixed a latent bug parsing date strings in image metadata.
-> - uenv changelog
+> - [uenv changelog](<https://docs.cscs.ch/software/uenv/release-notes/index.md#v100> "v10.0")
 
 **2025-05-21**
 
@@ -321,7 +321,7 @@ Minor enhancements to system configuration have been applied. These changes shou
 >
 > **NVIDIA boost slider**
 >
-> Added an option to enable the NVIDIA boost slider (vboost) via Slurm using the `-C nvidia_vboost_enabled` flag. This feature, disabled by default, may increase GPU frequency and performance while staying within the power budget
+> Added [an option to enable the NVIDIA boost slider (vboost)](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost") via Slurm using the `-C nvidia_vboost_enabled` flag. This feature, disabled by default, may increase GPU frequency and performance while staying within the power budget
 
 > [!NOTE]
 >
@@ -335,7 +335,7 @@ Minor enhancements to system configuration have been applied. These changes shou
 >
 > **uenv is updated from v7.0.1 to v8.1.0**
 >
-> Release notes
+> [Release notes](<https://docs.cscs.ch/software/uenv/release-notes/index.md#v810> "v8.1.0")
 
 > [!NOTE]
 >

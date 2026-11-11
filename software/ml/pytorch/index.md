@@ -2,9 +2,9 @@
 
 > [!NOTE]
 >
-> PyTorch is supported software on Alps. See the main applications page for more information.
+> PyTorch is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
-PyTorch is available both as a container with the Container Engine (CE) and a uenv software stack. The best choice for your use case depends on the amount of control required over the lower level libraries.
+PyTorch is available both as a container with the [Container Engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>) and a [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) software stack. The best choice for your use case depends on the amount of control required over the lower level libraries.
 
 While NGC provides an optimized build of PyTorch with many dependencies included, uenv allows a more flexible choice of lower level libraries and represents a thinner layer over the host system. Both options can be customized - a container via a Dockerfile and a uenv (in advanced use cases) via its recipe and both, additionally, via Python virtual environments built on top. Due to the simplicity and reproducible performance, containers are generally the recommended default for most users.
 
@@ -21,13 +21,13 @@ Running PyTorch from a container ensures maximum portability, reproducibility, a
 >
 > **Example**
 >
-> These steps are illustrated in the machine learning tutorials and the instructions detailed in the podman build guide.
+> These steps are illustrated in the [machine learning tutorials](<https://docs.cscs.ch/tutorials/ml/index.md#machine-learning-platform-tutorials> "Machine Learning Platform Tutorials") and the instructions detailed in the [podman build guide](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 
 > [!NOTE]
 >
 > **Preliminary steps**
 >
-> Before proceeding with the next steps, make sure you have storage for podman configured as in the build guide and make sure to apply recommended Lustre settings to every directory (e.g. `$SCRATCH/ce-images`) dedicated to container images before importing them with enroot. This is necessary to guarantee good filesystem performance.
+> Before proceeding with the next steps, make sure you have storage for podman configured as in the [build guide](<https://docs.cscs.ch/build-install/containers/index.md#preliminary-step-configuring-podmans-storage> "Preliminary step: configuring Podman’s storage") and make sure to apply [recommended Lustre settings](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") to every directory (e.g. `$SCRATCH/ce-images`) dedicated to container images before importing them with enroot. This is necessary to guarantee good filesystem performance.
 >
 > ```bash
 > lfs setstripe -E 4M -c 1 -E 64M -c 4 -E -1 -c -1 -S 4M $SCRATCH/ce-images # (1)!
@@ -37,16 +37,16 @@ Running PyTorch from a container ensures maximum portability, reproducibility, a
 
 ### Select the base image
 
-For most applications, the [PyTorch NGC container](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch>) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](<https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html>) give an overview of installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the podman build guide.
+For most applications, the [PyTorch NGC container](<https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch>) is a good base image as PyTorch comes pre-installed with an optimized build including many dependencies. The [Release Notes](<https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html>) give an overview of installed packages and compatibility. This image can be further customized in a Dockerfile and built with podman as detailed in the [podman build guide](<https://docs.cscs.ch/build-install/containers/index.md#building-container-images-on-alps> "Building container images on Alps").
 
 ### Define Container Runtime Environment
 
-Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted from the host and a working directory for the process in the container to start in as in the quickstart examples for CE.
+Having built and imported a container image with podman and enroot, the next step is to configure the runtime environment with an environment definition file (EDF). In particular, this includes specifying the image, any directories mounted from the host and a working directory for the process in the container to start in as in the [quickstart examples for CE](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine").
 
-Apart from this, there are specific features relevant for machine learning made available through annotations, which customize the container at runtime.
+Apart from this, there are specific features relevant for machine learning made available through [annotations](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#annotations> "Annotations"), which customize the container at runtime.
 
-- When using NCCL inside the container, include the aws-ofi-nccl plugin which enables the container to interface with the host’s libfabric and, thus, use the Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
-- An SSH annotation allows adding a light-weight SSH server to the container without the need to modify the container image
+- When using NCCL inside the container, include the [aws-ofi-nccl](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") plugin which enables the container to interface with the host’s libfabric and, thus, use the Slingshot high-speed interconnect. This is crucial for multi-node communication performance.
+- An [SSH annotation](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#ssh-hook> "SSH hook") allows adding a light-weight SSH server to the container without the need to modify the container image
 
 A resulting example TOML file following best practices may look like
 
@@ -77,7 +77,7 @@ MPICH_GPU_SUPPORT_ENABLED = "0" # (8)!
 1. It is important to use curly braces for environment variables used in the EDF
 2. The path `/users` is not mounted as a whole since it often contains user-specific initialization scripts for the host environment and many frameworks leave temporary data behind that can lead to non-trivial runtime errors when swapping container images. Thus, it is recommended to selectively mount specific subfolders under `${HOME}` if needed.
 3. You can use `${PWD}` as an alternative to use the path submitted from when the container is started
-4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the AWS OFI NCCL plugin. While not strictly needed for single node workloads, it is good practice to keep it always on.
+4. This enables NCCL installed in the container to make effective use of the Slingshot interconnect on Alps by interfacing with the [AWS OFI NCCL plugin](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook"). While not strictly needed for single node workloads, it is good practice to keep it always on.
 5. This makes NCCL output debug info during initialization, which can be useful to spot communication-related issues in a distributed scenario. Subsystems with debug log can be configured with [`NCCL_DEBUG_SUBSYS`](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-debug-subsys>).
 6. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
 7. Async error handling when an exception is observed in NCCL watchdog: aborting NCCL communicator and tearing down process upon error
@@ -149,7 +149,7 @@ The changes made to the virtual environment will outlive the container as they a
 
 ### Submit jobs with the Container Engine in Slurm
 
-A general template for a Pytorch distributed training job with Slurm in analogy to the last tutorial may look like
+A general template for a Pytorch distributed training job with Slurm in analogy to the [last tutorial](<https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/index.md#llm-nanotron-pre-training-tutorial> "LLM Nanotron Pre-training Tutorial") may look like
 
 $HOME/my-app/submit-dist-train.sh
 
@@ -186,7 +186,7 @@ srun -ul --environment=./ngc-pytorch-my-app-25.06.toml bash -c "
 3. Loading the virtual environment is mandatory within every `srun` command if it is used to manage packages.
 4. The environment variables are set to initialize PyTorch’s distributed module through the environment (cf. [docs](<https://docs.pytorch.org/docs/stable/distributed.html#environment-variable-initialization>)).
 
-For further details on execution logic, job monitoring and data management, please refer to the nanotron tutorial (which in particular also explains the usage of `torchrun` with Slurm). Make sure to apply recommended Lustre settings to datasets, models and container images persisted to the distributed filesystem.
+For further details on execution logic, job monitoring and data management, please refer to the [nanotron tutorial](<https://docs.cscs.ch/tutorials/ml/llm-nanotron-training/index.md#llm-nanotron-pre-training-tutorial> "LLM Nanotron Pre-training Tutorial") (which in particular also explains the usage of `torchrun` with Slurm). Make sure to apply [recommended Lustre settings](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") to datasets, models and container images persisted to the distributed filesystem.
 
 > [!WARNING]
 >
@@ -205,7 +205,7 @@ For further details on execution logic, job monitoring and data management, plea
 > The following settings were established to **improve compute throughput** of LLM training in [Megatron-LM](<https://github.com/NVIDIA/Megatron-LM>):
 >
 > - Extensively evaluate all possible parallelization dimensions, including data-, tensor- and pipeline parallelism (including virtual pipeline parallelism) and more, when available. Identify storage-related bottlenecks by isolating data loading/generation operations into a separate benchmark.
-> - Disabling transparent huge pages and enabling the Nvidia vboost feature has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
+> - [Disabling transparent huge pages](<https://docs.cscs.ch/running/slurm/index.md#transparent-hugepages> "Transparent hugepages") and [enabling the Nvidia vboost feature](<https://docs.cscs.ch/running/slurm/index.md#nvidia-vboost> "NVIDIA vboost") has been observed to improve performance in large-scale LLM training in Megatron-LM. This can be achieved by adding these constraints to the sbatch script:
 >
 >   ```bash
 >   #SBATCH -C thp_never&nvidia_vboost_enabled
@@ -215,9 +215,9 @@ For further details on execution logic, job monitoring and data management, plea
 >
 > Additionally, consider the **best practice for checkpointing and data management**:
 >
-> - Following the advice on filesystems, write checkpoints (sequential write) to `/capstor/scratch` and place randomly accessed training data (many small random reads) on `/iopsstor/scratch`. Use the data transfer instructions to move data to/from `/capstor/store`. Make sure to apply recommended Lustre settings on all directories containing significant amount of data, including those containing container images and managed by other tools (e.g. the HuggingFace cache, see [`HF_HOME`](<https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome>) in the this tutorial). In case your workload continues to be limited by filesystem performance, contact CSCS support.
+> - Following the advice on [filesystems](<https://docs.cscs.ch/storage/filesystems/index.md#file-systems> "File Systems"), write checkpoints (sequential write) to `/capstor/scratch` and place randomly accessed training data (many small random reads) on `/iopsstor/scratch`. Use the [data transfer instructions](<https://docs.cscs.ch/storage/transfer/index.md#data-transfer> "Data Transfer") to move data to/from `/capstor/store`. Make sure to apply recommended [Lustre settings](<https://docs.cscs.ch/guides/storage/index.md#lustre-tuning> "Lustre tuning") on all directories containing significant amount of data, including those containing container images and managed by other tools (e.g. the HuggingFace cache, see [`HF_HOME`](<https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhome>) in the [this tutorial](<https://docs.cscs.ch/tutorials/ml/llm-inference/index.md#llm-inference-tutorial> "LLM Inference Tutorial")). In case your workload continues to be limited by filesystem performance, contact CSCS support.
 > - Regularly adjust checkpoint writing intervals to the current overhead induced by writing a checkpoint (\\(T\_1\\)) and mean time between job failures (\\(T\_2\\)). As a first order approximation use a checkpointing interval of \\(\\sqrt{2 T\_1 T\_2}\\) (derived by [Young](<https://doi.org/10.1145/361147.361115>) and [Daly](<https://doi.org/10.1016/j.future.2004.11.016>)).
-> - Avoid activities that put excessive load on third party services (such as web scraping or bulk downloads) in line with the guidelines on Internet Access on Alps.
+> - Avoid activities that put excessive load on third party services (such as web scraping or bulk downloads) in line with the [guidelines on Internet Access on Alps](<https://docs.cscs.ch/guides/internet-access/index.md#communicating-with-external-services> "Communicating with external services").
 >
 > Adjust for **cluster availability**:
 >
@@ -275,7 +275,7 @@ The PyTorch uenv software stack was designed with the intention of being able to
 >
 > **uenv**
 >
-> The PyTorch uenv is provided via the tool uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> The [PyTorch uenv](<https://docs.cscs.ch/software/ml/pytorch/index.md#running-pytorch-with-a-uenv> "Running PyTorch with a uenv") is provided via the tool [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 ### Versioning
 
@@ -1045,11 +1045,11 @@ $ exit # (4)!
 
 The pytorch uenv can also be used as a base for building software with Spack, because it provides compilers, MPI, Python and common packages like HDF5.
 
-Check out the guide for using Spack with uenv.
+[Check out the guide for using Spack with uenv](<https://docs.cscs.ch/build-install/uenv/index.md#building-software-using-spack> "Building software using Spack").
 
 ### Adding Python packages on top of the uenv
 
-Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages. Please refer to the guide for installing Python virtual environments on uenv and the guide on performance for more details on:
+Python virtual environments can be created on top of the uenv to install additional Python packages not provided by the uenv itself, or to override existing packages. Please refer to the [guide for installing Python virtual environments on uenv](<https://docs.cscs.ch/build-install/python/index.md#installing-venv-on-top-of-a-uenv-view> "Installing venv on top of a uenv view") and the [guide on performance](<https://docs.cscs.ch/guides/storage/index.md#squash-python-virtual-environments-with-uenv> "Squash Python virtual environments with uenv") for more details on:
 
 - creating and managing virtual environments on top of uenvs;
 - best practices and caveats when using virtual environments with uenvs;
@@ -1146,6 +1146,6 @@ srun -ul bash -c "
 5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system. This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it. Avoid this setting with the container engine as it may lead to errors related to mount settings of `/dev/shm` (use a filesystem path inside the container instead).
 6. Disable GPU support in MPICH, as it [can lead to deadlocks](<https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi>) when using together with nccl.
 7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
-8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see the detailed explanation.
-9. Activate the virtual environment created on top of the uenv (if any). Please follow the guidelines for python virtual environments with uenv to enhance scalability and reduce load times.
+8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation](<https://docs.cscs.ch/software/communication/nccl/index.md#nccl> "NCCL").
+9. Activate the virtual environment created on top of the uenv (if any). Please follow the guidelines for [python virtual environments with uenv](<https://docs.cscs.ch/guides/storage/index.md#squash-python-virtual-environments-with-uenv> "Squash Python virtual environments with uenv") to enhance scalability and reduce load times.
 10. The environment variables are used by PyTorch to initialize the distributed backend. The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node. Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.

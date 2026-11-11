@@ -6,7 +6,7 @@ MPICH is an open-source MPI implementation actively developed in this [github re
 
 ### uenv
 
-MPICH is not provided in any uenv images, which instead use the Cray MPICH distribution which is optimised for the Alps network.
+MPICH is not provided in any uenv images, which instead use the [Cray MPICH](<https://docs.cscs.ch/software/communication/cray-mpich/index.md#cray-mpich>) distribution which is optimised for the Alps network.
 
 ### Containers
 
@@ -19,9 +19,9 @@ MPICH can be built inside containers, however for native Slingshot performance s
 
 To achieve native performance MPICH must be built with both `libfabric` and `xpmem` support. Additionally, when building for GH200 nodes, one needs to ensure to build `libfabric` and `mpich` with CUDA support.
 
-At runtime, the container engine CXI hook will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system. This will ensure native performance when doing MPI communication.
+At runtime, the container engine [CXI hook](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") will replace the libraries `xpmem` and `libfabric` inside the container, with the libraries on the host system. This will ensure native performance when doing MPI communication.
 
-These are example Dockerfiles that can be used on Eiger and Daint to build a container image with MPICH and best communication performance.
+These are example Dockerfiles that can be used on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) and [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) to build a container image with MPICH and best communication performance.
 
 They are explicit and building manually the necessary packages, however for production one can fall back to Spack to do the building.
 
@@ -138,7 +138,7 @@ RUN wget -q http://mvapich.cse.ohio-state.edu/download/mvapich/osu-micro-benchma
 RUN rm /etc/ld.so.conf.d/cuda_stubs.conf && ldconfig
 ```
 
-Once the container is built and pushed to a registry, one can create a container environment.
+Once the container is built and pushed to a registry, one can create a [container environment](<https://docs.cscs.ch/software/container-engine/index.md#container-engine> "Container Engine").
 
 > [!NOTE]
 >
@@ -154,7 +154,7 @@ Once the container is built and pushed to a registry, one can create a container
 >
 > **Use PMI-2**
 >
-> By default MPICH uses [PMI-2](<https://www.mcs.anl.gov/papers/P1760.pdf>) for wire-up and communication between ranks. Hence, when launching containers that use MPICH through Slurm, PMI-2 must be used for application launching. This is done with the `--mpi` flag of `srun`:
+> By default MPICH uses [PMI-2](<https://www.mcs.anl.gov/papers/P1760.pdf>) for wire-up and communication between ranks. Hence, when launching containers that use MPICH through Slurm, PMI-2 must be used for application launching. This is done with the [`--mpi` flag](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins") of `srun`:
 >
 > ```bash
 > srun --mpi=pmi2 ...

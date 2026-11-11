@@ -10,13 +10,13 @@ HPC Console is a web application that provides users with a modern web-based env
 
 ## Alps platforms
 
-HPC console is currently available on three Alps platforms.
+HPC console is currently available on three [Alps platforms](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps").
 
 | Platform | URL | Clusters |
 | --- | --- | --- |
-| HPC Platform | [https://console.hpcp.cscs.ch/](<https://console.hpcp.cscs.ch/>) | Daint, Eiger |
-| ML Platform | [https://console.mlp.cscs.ch/](<https://console.mlp.cscs.ch/>) | Bristen, Clariden |
-| CW Platform | [https://console.cwp.cscs.ch/](<https://console.cwp.cscs.ch/>) | Santis |
+| HPC Platform | [https://console.hpcp.cscs.ch/](<https://console.hpcp.cscs.ch/>) | [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>), [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) |
+| ML Platform | [https://console.mlp.cscs.ch/](<https://console.mlp.cscs.ch/>) | [Bristen](<https://docs.cscs.ch/clusters/bristen/index.md#bristen>), [Clariden](<https://docs.cscs.ch/clusters/clariden/index.md#clariden>) |
+| CW Platform | [https://console.cwp.cscs.ch/](<https://console.cwp.cscs.ch/>) | [Santis](<https://docs.cscs.ch/clusters/santis/index.md#santis>) |
 
 ## Access and prerequisites
 
@@ -26,7 +26,7 @@ HPC console is currently available on three Alps platforms.
 
 ## Feedback
 
-We welcome your feedback to help us improve HPC Console. If you encounter issues or have suggestions, please let us know.
+We welcome your feedback to help us improve HPC Console. If you encounter issues or have suggestions, please [let us know](<https://docs.cscs.ch/index.md#get-in-touch> "Get in Touch").
 
 ## Further information
 

@@ -63,7 +63,7 @@ In case users lose access to their mobile device/Authenticator OTP, users can re
 2. From the login screen, click the “Reset OTP” link below the “LOG IN” button
 3. Enter your username and password.
 4. On successful validation of user credentials, users will receive an email with a reset credentials link like the one below, click on the link in the email
-5. The steps are the same as for the first time you configured the authenticator.
+5. The steps are the same as for the first time you [configured the authenticator](<https://docs.cscs.ch/access/mfa/index.md#configure-the-authenticator> "Configure the Authenticator").
 
 > [!WARNING]
 >

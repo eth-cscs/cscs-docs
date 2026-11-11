@@ -2,11 +2,11 @@
 
 > [!WARNING]
 >
-> ORCA is user software on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for supported software. See the main applications page for more information.
+> ORCA is [user software](<https://docs.cscs.ch/policies/support/index.md#user-applications> "User Applications") on Alps. This guide is provided based on our experiences helping users – however we can’t provide the same level of support as we do for [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications"). See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [ORCA](<https://www.faccts.de/orca/>) is a quantum chemistry software package implementing a wide range of methods (DFT, HF, wave-function methods, etc) with Gaussian basis sets.
 
-It is used for CPU-only simulations on Eiger, for which this guide applies. Please do not use it on GPU platforms such as Daint.
+It is used for CPU-only simulations on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>), for which this guide applies. Please do not use it on GPU platforms such as [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>).
 
 ## Installation
 
@@ -16,7 +16,7 @@ Move the archive into your `$HOME` or `$PROJECT`, and unpack it in its own subfo
 
 ## Running ORCA calculations
 
-ORCA is shipped as a pre-compiled executable linked against OpenMPI. To be able to run, the `prgenv-gnu-openmpi` uenv is required. Here is a sample Slurm batch script:
+ORCA is shipped as a pre-compiled executable linked against OpenMPI. To be able to run, the [`prgenv-gnu-openmpi`](<https://docs.cscs.ch/software/prgenv/prgenv-gnu-openmpi/index.md#prgenv-gnu-openmpi>) uenv is required. Here is a sample Slurm batch script:
 
 ```bash
 #!/bin/bash -l
@@ -74,7 +74,7 @@ H   0.7920  12.0000  -0.4973
 
 ## Launching multiple ORCA calculations on a single node
 
-Many ORCA calculations do not scale well enough to efficiently use an entire node (128 CPU cores on Eiger). Therefore, launching a single calculation per Slurm job can be quite wasteful. If the scientific workflow allows it, it is much more efficient to launch multiple ORCA calculations in parallel from a single Slurm submission script, with each calculation using only a fraction of the node. This can be done with HyperQueue.
+Many ORCA calculations do not scale well enough to efficiently use an entire node (128 CPU cores on [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>)). Therefore, launching a single calculation per Slurm job can be quite wasteful. If the scientific workflow allows it, it is much more efficient to launch multiple ORCA calculations in parallel from a single Slurm submission script, with each calculation using only a fraction of the node. This can be done with [HyperQueue](<https://docs.cscs.ch/running/hyperqueue/index.md#hyperqueue>).
 
 After downloading the `hq` executable, any number of ORCA jobs can be scheduled with HyperQueue, each running on a specified number of CPUs. If all jobs cannot run concurrently, some will be queued until resources become available. You can adapt the following Slurm script to your needs. Note that all input files must contain an appropriate `%PAL` setting, and do not forget to use the `--oversubscribe` option.
 

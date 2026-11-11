@@ -18,7 +18,7 @@ uenv build <recipe> <label>
   - `name` is the name, e.g. `prgenv-gnu`, `gromacs`, `vistools`.
   - `version` is a version string, e.g. `24.11`, `v1.2`, `2025-rc2`
   - `system` is the CSCS cluster to build on (e.g. `daint`, `santis`, `clariden`, `eiger`)
-  - `uarch` is the micro-architecture.
+  - `uarch` is the [micro-architecture](<https://docs.cscs.ch/software/uenv/deploy/index.md#uenv-uarch> "uenv uarch").
 
 > [!NOTE]
 >

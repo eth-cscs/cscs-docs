@@ -1,10 +1,10 @@
 # Linaro DDT
 
-DDT allows source-level debugging of Fortran, C, C++ and Python codes. It can be used for debugging serial, multi-threaded (OpenMP), multi-process (MPI), and accelerated (CUDA, OpenACC) programs running on research and production systems, including the CSCS Alps system. DDT can be executed either with its graphical user interface or from the command-line.
+DDT allows source-level debugging of Fortran, C, C++ and Python codes. It can be used for debugging serial, multi-threaded (OpenMP), multi-process (MPI), and accelerated (CUDA, OpenACC) programs running on research and production systems, including the CSCS [Alps](<https://docs.cscs.ch/alps/index.md#alps-infrastructure> "Alps Infrastructure") system. DDT can be executed either with its graphical user interface or from the command-line.
 
 > [!NOTE]
 >
-> Linaro DDT is provided in the `linaro-forge` uenv. Before using DDT, please read the `linaro-forge` uenv documentation, which explains how to download and set up the latest version.
+> Linaro DDT is provided in the `linaro-forge` [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Before using DDT, please read the [`linaro-forge` uenv documentation](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#linaro-forge> "Linaro Forge"), which explains how to download and set up the latest version.
 
 ## User guide
 
@@ -24,7 +24,7 @@ mpicxx -g test_cpu.cpp test_gpu.o -o myexe
 
 ### Launch Linaro DDT
 
-To use the DDT client with uenv, it must be launched in `Manual Launch` mode (assuming that it is connected to Alps via `Remote Launch`):
+To use the DDT client with uenv, it must be launched in `Manual Launch` mode (assuming that it is connected to [Alps](<https://docs.cscs.ch/alps/index.md#alps-infrastructure> "Alps Infrastructure") via `Remote Launch`):
 
 Log into the system and launch with the `srun` command:
 
@@ -43,7 +43,7 @@ Note that two uenv are selected:
 >
 > Older versions of the `linaro-forge` required starting an `activate` script, which is no longer needed if you use the `forge` view.
 
-Start DDT, and connect to the target cluster using the drop down menu for `Remote Launch`. If you don’t have a target cluster, the `linaro-forge` uenv documentation explains how to set up the connection the first time.
+Start DDT, and connect to the target cluster using the drop down menu for `Remote Launch`. If you don’t have a target cluster, the [`linaro-forge` uenv documentation](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#linaro-forge> "Linaro Forge") explains how to set up the connection the first time.
 
 Click on `Manual launch`, set the number of processes to listen to, then wait for the Slurm job to start (see the “on Alps” tab for how to start the Slurm job).
 
@@ -75,4 +75,4 @@ More informations regarding how to use Linaro DDT are provided in the Forge [Use
 
 ## Troubleshooting
 
-See the troubleshooting guide for the `linaro-forge` uenv.
+See the troubleshooting guide for the [`linaro-forge` uenv](<https://docs.cscs.ch/software/devtools/linaro-uenv/index.md#troubleshooting> "Troubleshooting").

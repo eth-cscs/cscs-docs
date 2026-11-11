@@ -29,11 +29,11 @@ tar -xf vscode_cli_alpine_x64_cli.tar.gz
 
 After downloading, copy the `code` executable to a location in your PATH, so that it is available for future sessions.
 
-Clusters on Alps share a common home path `HOME=/users/$USER` that is mounted on all clusters.
+Clusters on Alps share a common [home](<https://docs.cscs.ch/storage/filesystems/index.md#home> "Home") path `HOME=/users/$USER` that is mounted on all clusters.
 
-If you want to use VS Code on multiple clusters, possibly with different CPU architectures (Daint, Clariden and Santis use `aarch64` CPUs, and Eiger uses `x86_64` CPUs), you need to take some additional steps to ensure that VS Code installation and configuration is separated.
+If you want to use VS Code on multiple clusters, possibly with different CPU architectures (Daint, Clariden and Santis use `aarch64` CPUs, and [Eiger](<https://docs.cscs.ch/clusters/eiger/index.md#eiger>) uses `x86_64` CPUs), you need to take some additional steps to ensure that VS Code installation and configuration is separated.
 
-First, install the `code` executable in an architecture-specific path.
+First, install the `code` executable in an [architecture-specific path](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM").
 
 > [!NOTE]
 >
@@ -150,7 +150,7 @@ Once the tunnel is configured, you can access it from VS Code.
 
 > [!WARNING]
 >
-> If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below. Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS fair usage of Shared Resources policy.
+> If you plan to do any intensive work: repeated compilation of large projects or running python code in Jupyter, please see the guide to running on a compute node below. Running intensive workloads on login nodes, which are shared resources between all users, is against CSCS [fair usage](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") of Shared Resources policy.
 
 ### Running on a compute node
 
@@ -203,7 +203,7 @@ If you plan to do computation using your VS Code, then you should first allocate
 
 ### Using with containers
 
-This will use CSCS’s Container Engine, to launch the container on a compute node and start the VS Code server.
+This will use CSCS’s [Container Engine](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>), to launch the container on a compute node and start the VS Code server.
 
 EDF file with image and mount paths
 
@@ -218,7 +218,7 @@ workdir = "default/working/dir/path"
 
 > [!NOTE]
 >
-> Ensure that the `code` executable is accessible in the container. It can either be contained in the image, or you can install and update the server in a path that you mount inside the container in the `mounts` field of the EDF file.
+> Ensure that the `code` executable is accessible in the container. It can either be contained in the image, or you can [install](<https://docs.cscs.ch/access/vscode/index.md#installing-the-server> "Installing the server") and [update](<https://docs.cscs.ch/access/vscode/index.md#updating-vs-code-server> "Updating VS Code server") the server in a path that you [mount](<https://docs.cscs.ch/software/container-engine/edf/index.md#mounts>) inside the container in the `mounts` field of the EDF file.
 
 Log into the target system, and launch an interactive session with the container image:
 
@@ -242,7 +242,7 @@ $ ./code tunnel --name=$CLUSTER_NAME-tunnel
 >
 > It is relatively easy to connect to a log in node using the “Connect to Host… (Remote-SSH)” option in the VS Code GUI on your laptop. However, it is complicated and difficult to configure the connection so that the environment used by the VS Code session is in a uenv/container or on a compute node.
 
-VSCode is known to spawn many threads, especially if many plugins are enabled. This might lead that you hit the limits set for the login nodes. The error in the logs would manifest to something like this
+VSCode is known to spawn many threads, especially if many plugins are enabled. This might lead that you hit the [limits](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") set for the login nodes. The error in the logs would manifest to something like this
 
 ```text
 [14:37:21.537] > Spawned remote CLI: 225006
@@ -253,4 +253,4 @@ VSCode is known to spawn many threads, especially if many plugins are enabled. T
 [14:37:28.563] stderr> main: fork: retry: Resource temporarily unavailable
 ```
 
-In that case you very likely still have old sessions running on the login node. You should manually ssh to the system and kill any remaining old sessions.
+In that case you very likely still have old sessions running on the login node. You should manually [ssh](<https://docs.cscs.ch/access/ssh/index.md#using-ssh> "Using SSH") to the system and kill any remaining old sessions.

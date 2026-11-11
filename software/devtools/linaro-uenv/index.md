@@ -10,12 +10,12 @@
 >
 > Once you are set up, follow the specific guides:
 >
-> - DDT debugger,
-> - MAP performance analysis tool.
+> - [DDT debugger](<https://docs.cscs.ch/software/devtools/linaro-ddt/index.md#linaro-ddt> "Linaro DDT"),
+> - [MAP performance analysis tool](<https://docs.cscs.ch/software/devtools/linaro-map/index.md#linaro-forge-map-and-performance-reports> "Linaro Forge MAP and Performance Reports").
 
 ## Quickstart guide
 
-The Linaro uenv is named `linaro-forge`, and the available versions can be determined using the `uenv image find` command, as explained in the uenv documentation.
+The Linaro [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>) is named `linaro-forge`, and the available versions can be determined using the `uenv image find` command, as explained in the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 > [!NOTE]
 >
@@ -50,7 +50,7 @@ Version: 26.0
 
 1. The `forge` view provided by the `linaro-forge` uenv makes `ddt` and `map` executables available.
 2. Test that everything has been mounted correctly by looking at `uenv status`. There will be warnings if there are problems.
-3. Check that the DDT debugger is in the path.
+3. Check that the [DDT debugger](<https://docs.cscs.ch/software/devtools/linaro-ddt/index.md#linaro-ddt> "Linaro DDT") is in the path.
 
 > [!NOTE]
 >
@@ -72,7 +72,7 @@ We recommend installing the [Linaro desktop client](<https://www.linaroforge.com
 > > The local version of Linaro DDT (24.0.6) is not compatible with the remote version (24.1.2).
 > > ```
 
-The client can be configured to connect with the debug jobs running on Alps, offering a better user experience compared to running with X11 forwarding. Once installed, the client needs to be configured to connect to the vCluster on which you are working.
+The client can be configured to connect with the debug jobs running on [Alps](<https://docs.cscs.ch/alps/index.md#alps-infrastructure> "Alps Infrastructure"), offering a better user experience compared to running with X11 forwarding. Once installed, the client needs to be configured to connect to the vCluster on which you are working.
 
 First, start the client on your laptop:
 
@@ -140,14 +140,14 @@ Next, configure a connection to the target system. Open the `Remote Launch` menu
 
 > [!TIP]
 >
-> It is recommended to log into Alps using `ela.cscs.ch` as a ssh Jump host, as explained here. In that case, you can remove `cscsusername@ela.cscs.ch` from the Linaro client configuration above.
+> It is recommended to log into Alps using `ela.cscs.ch` as a ssh Jump host, as explained [here](<https://docs.cscs.ch/access/ssh/index.md#adding-ela-as-a-jump-host-in-ssh-configuration> "Adding Ela as a jump host in SSH configuration"). In that case, you can remove `cscsusername@ela.cscs.ch` from the Linaro client configuration above.
 
 Some notes on the examples above:
 
 - SSH forwarding via `ela.cscs.ch` is used to access the cluster;
 - replace the username `cscsusername` with your CSCS user name that you would normally use to open an SSH connection to CSCS;
 - `Remote Installation Directory` is pointing to the install directory of DDT inside the uenv image;
-- private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your SSH agent.
+- private keys should be the ones generated for CSCS MFA, and this field does not need to be set if you have added the key to your [SSH agent](<https://docs.cscs.ch/access/ssh/index.md#using-ssh-agent> "Using SSH agent").
 
 Once configured, test and save the configuration:
 
@@ -171,7 +171,7 @@ Notes about known issues.
 > Attempting again while ignoring proxies.
 > ```
 >
-> Proxy environment variables need to be set to let the tool connect to the license server, as explained in Compute node proxy configuration.
+> Proxy environment variables need to be set to let the tool connect to the license server, as explained in [Compute node proxy configuration](<https://docs.cscs.ch/guides/internet-access/index.md#internet-access-on-alps> "Internet Access on Alps").
 
 > [!NOTE]
 >

@@ -2,15 +2,15 @@
 
 The CSCS [code of conduct](<https://docs.cscs.ch/policies/code-of-conduct/index.md>) outlines the responsibilities and proper practices for the CSCS user community.
 
-The User Regulations define the basic guidelines for the usage of CSCS computing resources. The right to access CSCS resources may be revoked to whoever breaches any of the user regulations.
+The [User Regulations](<https://docs.cscs.ch/policies/regulations/index.md#user-regulations>) define the basic guidelines for the usage of CSCS computing resources. The right to access CSCS resources may be revoked to whoever breaches any of the user regulations.
 
 The [User Support Policies](<https://docs.cscs.ch/policies/support/index.md>), the [Slack Code of Conduct](<https://docs.cscs.ch/policies/slack/index.md>) and the [Scheduled Maintenance and System Unavailability Policies](<https://docs.cscs.ch/policies/maintenance/index.md>) provide additional information on support services, the regulations of the Users Slack space and the scheduled maintenance events.
 
-Individual platforms may define their own policies, which take precedence over the general policies below. The Machine Learning Platform policies describe the project types, compute and storage budgets, and project lifetime rules that apply to MLP projects.
+Individual platforms may define their own policies, which take precedence over the general policies below. The [Machine Learning Platform policies](<https://docs.cscs.ch/platforms/mlp/policies/index.md#machine-learning-platform-project-policies> "Machine Learning Platform project policies") describe the project types, compute and storage budgets, and project lifetime rules that apply to MLP projects.
 
 ## Resource Allocation Policies
 
-Compute time on Alps systems is measured in node hours. Most partitions allocate whole nodes to a job. Some partitions can share a node between jobs, for example the GH200 partitions on Santis. Your project is charged for each node that your job uses, for the full run time of the job. This also applies when the job uses only part of the node. For example, a job that uses one GPU on a shared Santis node is charged one node hour for each hour that it runs.
+Compute time on Alps systems is measured in node hours. Most partitions allocate whole nodes to a job. Some partitions can [share a node](<https://docs.cscs.ch/running/slurm/index.md#node-sharing> "Node sharing") between jobs, for example the GH200 partitions on Santis. Your project is charged for each node that your job uses, for the full run time of the job. This also applies when the job uses only part of the node. For example, a job that uses one GPU on a shared Santis node is charged one node hour for each hour that it runs.
 
 Please note that resources at CSCS are assigned over three-months windows
 

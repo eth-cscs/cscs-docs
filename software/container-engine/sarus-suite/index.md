@@ -2,9 +2,9 @@
 
 This section provides starting documentation for using [Sarus Suite](<https://github.com/sarus-suite>) on Alps. Sarus Suite is a collection of components that enable the use of [Podman](<https://podman.io/>) for running containers at scale in HPC workloads.
 
-Sarus Suite and Podman are planned to become the core machinery behind the next generation of the Container Engine (CE) service. The tools described here are **currently intended for early access testing and evaluation only**, with the goal of collecting feedback to guide further development and eventual production rollout.
+Sarus Suite and Podman are planned to become the core machinery behind the next generation of the [Container Engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>) service. The tools described here are **currently intended for early access testing and evaluation only**, with the goal of collecting feedback to guide further development and eventual production rollout.
 
-Familiarity with the current Container Engine (CE) toolset is assumed.
+Familiarity with the current [Container Engine (CE)](<https://docs.cscs.ch/software/container-engine/index.md#container-engine>) toolset is assumed.
 
 > [!NOTE]
 >
@@ -38,7 +38,7 @@ Sarus Suite:
 
 ## Quickstart with Alps Extended Images
 
-Alps Extended Images offer a convenient way of starting to experiment with Sarus Suite, due to their self-sufficient nature that does not require modifications from hooks or device definitions.
+[Alps Extended Images](<https://docs.cscs.ch/software/alps-extended-images/index.md#alps-extended-images>) offer a convenient way of starting to experiment with Sarus Suite, due to their self-sufficient nature that does not require modifications from hooks or device definitions.
 
 Consider an EDF like the following:
 
@@ -53,7 +53,7 @@ PMIX_MCA_psec = "native"
 
 The key user-visible difference of using Sarus Suite from the production Container Engine is the use of the `--edf` option in Slurm commands instead of `--environment`.
 
-For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows. The command uses `--mpi=pmix`, because Alps Extended Images use PMIx to start MPI applications.
+For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows. The command uses [`--mpi=pmix`](<https://docs.cscs.ch/running/slurm/index.md#mpi-plugins> "MPI plugins"), because Alps Extended Images use PMIx to start MPI applications.
 
 ```console
 $ srun -N2 --gpus-per-node=4 --mpi=pmix --edf=aei-alps6 --network=disable_rdzv_get all_reduce_perf -b 1M -e 128M -f2
@@ -85,4 +85,4 @@ $ srun -N2 --gpus-per-node=4 --mpi=pmix --edf=aei-alps6 --network=disable_rdzv_g
 
 ## Further reading
 
-More details about using Sarus Suite and its features on Alps are provided in the Early Access User Guide.
+More details about using Sarus Suite and its features on Alps are provided in the [Early Access User Guide](<https://docs.cscs.ch/software/container-engine/sarus-suite/user-guide/index.md#sarus-suite-podman-on-alps-early-access-user-guide> "Sarus Suite &amp; Podman on Alps — Early Access User Guide").

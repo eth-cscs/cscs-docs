@@ -7,11 +7,11 @@ ParaView is both:
 - a general purpose end-user application with a distributed architecture, that can be seamlessly leveraged by your desktop or other remote parallel computing resources, and
 - an extensible framework with a collection of tools and libraries for various applications, including scripting (using Python), web visualization (through Trame and ParaViewWeb), and in situ analysis (with Catalyst).
 
-ParaView is provided on ALPS via uenv.
+ParaView is provided on [ALPS](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>).
 
 ## Before Starting
 
-The very first step is pulling a ParaView uenv (see uenv quick-start guide on how to do it). Pick the latest version (or the one you prefer) from the list of available uenvs given by
+The very first step is pulling a ParaView uenv (see [uenv quick-start guide](<https://docs.cscs.ch/software/uenv/index.md#quick-start> "Quick start") on how to do it). Pick the latest version (or the one you prefer) from the list of available uenvs given by
 
 ```text
 uenv image find paraview
@@ -31,7 +31,7 @@ and you’re ready to start.
 >
 > Over time you might end up with multiple ParaView uenvs pulled in your local repository.
 >
-> But for the sake of simplicity, this guide assumes that `uenv image ls paraview` list one and exactly one uenv. If it lists more, you will have to use a more specific uenv label in all code/file snippets in this guide when there is a reference to the uenv to disambiguate which one to use.
+> But for the sake of simplicity, this guide assumes that `uenv image ls paraview` list one and exactly one uenv. If it lists more, you will have to use a more specific [uenv label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels") in all code/file snippets in this guide when there is a reference to the uenv to disambiguate which one to use.
 
 ## One-time setup
 
@@ -46,7 +46,7 @@ CSCS provides helper scripts that are very handy for launching live sessions and
 > - you use different uenv images on the same system
 > - you use the same uenv image version but on different systems (e.g. paraview/6.0.1:v1 on gh200 and zen2)
 >
-> Mainly because **helper scripts might not be cross-platform nor cross-version compatible**. Have a look at how to manage different platforms configuration for what concerns the cross-platform compatibility, while for what concerns cross-version compatibility you should consider in your setup also the uenv labels.
+> Mainly because **helper scripts might not be cross-platform nor cross-version compatible**. Have a look at [how to manage different platforms configuration](<https://docs.cscs.ch/guides/terminal/index.md#managing-x86-and-arm> "Managing x86 and ARM") for what concerns the cross-platform compatibility, while for what concerns cross-version compatibility you should consider in your setup also the [uenv labels](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels>).
 
 To install these utilities, the simplest approach is to place them in a directory that is part of your `PATH`. A common convention is to create a personal `~/bin` directory and add it to your `PATH`.
 
@@ -80,7 +80,7 @@ The following sbatch script can be used as template for running ParaView in batc
 
 > [!NOTE]
 >
-> Current observation is that best performance is achieved using one MPI rank per GPU. How to run multiple ranks per GPU is described here.
+> Current observation is that best performance is achieved using [one MPI rank per GPU](<https://docs.cscs.ch/running/slurm/index.md#one-rank-per-gpu> "One rank per GPU"). How to run multiple ranks per GPU is described [here](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 
 ```bash
 #!/bin/bash -l
@@ -124,7 +124,7 @@ A [ParaView Server Configuration (PVSC)](<https://docs.paraview.org/en/latest/Re
 >
 > This is a very simple configuration that at each connection to Alps Daint it prompts you for:
 >
-> - uenv image label to use (it will be stored for next time)
+> - [uenv image label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels") to use (it will be stored for next time)
 > - SLURM arguments for the allocation (every time it proposes the default value)
 > - TCP port to use for the reverse connection
 >
@@ -231,11 +231,11 @@ You should **use whatever SSH option you are normally using to connect to Alps**
 paraview-reverse-connect paraview $PV_SERVER_PORT$ -n4 -pdebug --gpus-per-task=1
 ```
 
-The second part uses `paraview-reverse-connect` (see how to obtain it), which runs on the Alps login node to launch a SLURM job. It will execute ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
+The second part uses `paraview-reverse-connect` (see [how to obtain it](<https://docs.cscs.ch/software/sciviz/paraview/index.md#one-time-setup> "One-time setup")), which runs on the Alps login node to launch a SLURM job. It will execute ParaView `pvserver` instances on compute nodes, that will (reverse) connect with your ParaView UI on your workstation.
 
 The first two arguments are required, and they are:
 
-- the uenv image label and
+- the [uenv image label](<https://docs.cscs.ch/software/uenv/guides/index.md#uenv-labels> "uenv labels") and
 - the port you are forwarding via SSH.
 
 After them, it is possible to specify any srun option, giving you full control on the allocation request (e.g. time, partition).

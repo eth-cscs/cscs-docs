@@ -2,7 +2,7 @@
 
 > [!NOTE]
 >
-> LAMMPS is supported software on Alps. See the main applications page for more information.
+> LAMMPS is [supported software](<https://docs.cscs.ch/policies/support/index.md#officially-supported-applications> "Officially Supported Applications") on Alps. See the [main applications page](<https://docs.cscs.ch/software/index.md#applications-and-frameworks> "Applications and frameworks") for more information.
 
 [LAMMPS](<https://www.lammps.org>) is a classical molecular dynamics code that models an ensemble of particles in a liquid, solid, or gaseous state. It can model atomic, polymeric, biological, metallic, granular, and coarse-grained systems using a variety of force fields and boundary conditions. The current version of LAMMPS is written in C++.
 
@@ -10,7 +10,7 @@
 >
 > **uenvs**
 >
-> [LAMMPS](<https://www.lammps.org/>) is provided on ALPS via uenv. Please have a look at the uenv documentation for more information about uenvs and how to use them.
+> [LAMMPS](<https://www.lammps.org/>) is provided on [ALPS](<https://docs.cscs.ch/alps/platforms/index.md#platforms-on-alps> "Platforms on Alps") via [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). Please have a look at the [uenv documentation](<https://docs.cscs.ch/software/uenv/index.md#uenv>) for more information about uenvs and how to use them.
 
 > [!NOTE]
 >
@@ -35,7 +35,7 @@
 
 ### Loading LAMMPS Interactively
 
-On Alps, LAMMPS is precompiled and available in a uenv. LAMMPS has been built with the [Kokkos](<https://docs.lammps.org/Speed_kokkos.html>) and GPU packages separately.
+On Alps, LAMMPS is precompiled and available in a [uenv](<https://docs.cscs.ch/software/uenv/index.md#uenv>). LAMMPS has been built with the [Kokkos](<https://docs.lammps.org/Speed_kokkos.html>) and GPU packages separately.
 
 To find which LAMMPS uenv is provided, you can use the following command:
 
@@ -83,7 +83,7 @@ uenv start --view develop-gpu lammps/20251210:v2
 
 ### Running LAMMPS with Kokkos on Daint
 
-Daint nodes have four GH200 GPUs that have to be configured properly for best performance. To start a job, the following bash [Slurm](<https://eth-cscs.github.io/cscs-docs/running/slurm>) submission script is required:
+[Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>) nodes have [four GH200 GPUs](<https://docs.cscs.ch/alps/hardware/index.md#nvidia-gh200-gpu-nodes> "NVIDIA GH200 GPU Nodes") that have to be configured properly for best performance. To start a job, the following bash [Slurm](<https://eth-cscs.github.io/cscs-docs/running/slurm>) submission script is required:
 
 run\_lammps\_kokkos.sh
 
@@ -166,7 +166,7 @@ sbatch run_lammps_kokkos.sh
 
 ### Running LAMMPS + GPU on Daint
 
-To start a job, two bash scripts are required: a Slurm submission script, and a wrapper for CUDA MPS.
+To start a job, two bash scripts are required: a [Slurm](<https://docs.cscs.ch/running/slurm/index.md#slurm>) submission script, and a wrapper for [CUDA MPS](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 
 run\_lammps\_gpu.sh
 
@@ -189,12 +189,12 @@ srun ./mps-wrapper.sh lmp -sf gpu -pk gpu 4 -in lj.in
 ```
 
 1. Time format: `HH:MM:SS`.
-2. For LAMMPS + GPU it is often beneficial to use more than 1 MPI rank per GPU. To enable oversubscription of MPI ranks per GPU, you’ll need to use the `mps-wrapper.sh` script provided in the following section: multiple ranks per GPU.
+2. For LAMMPS + GPU it is often beneficial to use more than 1 MPI rank per GPU. To enable oversubscription of MPI ranks per GPU, you’ll need to use the `mps-wrapper.sh` script provided in the following section: [multiple ranks per GPU](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 3. Change `<ACCOUNT>` to your project account name.
 4. Change `<LAMMPS_UENV>` to the name (or path) of the LAMMPS uenv you want to use.
 5. Enable the `gpu` uenv view.
 
-To enable oversubscription of MPI ranks per GPU, you’ll need to use the `mps-wrapper.sh` script provided at the following page: NVIDIA GH200 GPU nodes: multiple ranks per GPU.
+To enable oversubscription of MPI ranks per GPU, you’ll need to use the `mps-wrapper.sh` script provided at the following page: [NVIDIA GH200 GPU nodes: multiple ranks per GPU](<https://docs.cscs.ch/running/slurm/index.md#multiple-ranks-per-gpu> "Multiple ranks per GPU").
 
 > [!NOTE]
 >
@@ -276,7 +276,7 @@ srun --cpu-bind=cores lmp -k on t $OMP_NUM_THREADS -sf kk -in lj_kokkos.in
 5. Change `<LAMMPS_UENV>` to the name (or path) of the LAMMPS uenv you want to use.
 6. Enable the `kokkos` uenv view.
 
-Note that the same input file `lj_kokkos.in` can be used as with running LAMMPS with Kokkos on Daint.
+Note that the same input file `lj_kokkos.in` can be used as with running LAMMPS with Kokkos on [Daint](<https://docs.cscs.ch/clusters/daint/index.md#daint>).
 
 ### Building LAMMPS from source
 
