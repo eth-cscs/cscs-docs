@@ -10,7 +10,7 @@ Your knowledge of Linux, Slurm, MPI and containers applies.
 This file lists only where Alps differs from what you would expect.
 
 Details are in the documentation at <https://docs.cscs.ch/>.
-Read the HTML pages, not the `.md` copies listed in `llms.txt`: the copies lose many of their links.
+The docs provide `.md` copies of each page, as per `llms.txt`.
 
 ## Where you are
 

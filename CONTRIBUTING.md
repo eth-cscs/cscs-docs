@@ -166,6 +166,14 @@ It is not professional, and adds no additional meaning.
 
 It is okay to select appropriate emoji from fontawesome (the free version) in card titles, but aim for subtlety.
 
+Put the arrow at the end of a card before the link, not inside it:
+
+```markdown
+:octicons-arrow-right-24: [File systems][ref-storage-filesystems]
+```
+
+The markdown copies of the pages for agents (`llms.txt`) leave out a link that contains an icon, so `[:octicons-arrow-right-24: File systems][ref-storage-filesystems]` loses its link.
+
 ### Prefer flat content over headings
 
 When creating, e.g., a list of steps, don't create numbered headers.

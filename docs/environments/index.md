@@ -9,7 +9,7 @@ This part of the documentation will give guidance on how to set up your shell, a
 
     A good spot to start is to read our guide on configuring your shell.
 
-    [:octicons-arrow-right-24: Using the terminal][ref-platform-hpcp]
+    :octicons-arrow-right-24: [Using the terminal][ref-platform-hpcp]
 
 </div>
 
@@ -21,12 +21,12 @@ This part of the documentation will give guidance on how to set up your shell, a
 
     Scientific HPC workloads are a good fit for uenv -- a tool developed by CSCS to deliver scientific software stacks on Alps.
 
-    [:octicons-arrow-right-24: uenv][ref-uenv]
+    :octicons-arrow-right-24: [uenv][ref-uenv]
 
     The container engine runtime is recommended for machine learning workflows.
     It can also be a very good choice for Python environments installed using pip, uv and conda.
 
-    [:octicons-arrow-right-24: container engine][ref-container-engine]
+    :octicons-arrow-right-24: [container engine][ref-container-engine]
 
 </div>
 

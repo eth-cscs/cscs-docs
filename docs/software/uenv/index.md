@@ -15,13 +15,13 @@ They cover everything you need to get started with using uenv to build your code
 
     A quick introduction to get you started
 
-    [:octicons-arrow-right-24: Quick start][ref-uenv-quickstart]
+    :octicons-arrow-right-24: [Quick start][ref-uenv-quickstart]
 
 -   :fontawesome-solid-layer-group: __Using uenv__
 
     Learn how to start uenv sessions on the command line, run commands in uenv environments, and use uenv in Slurm.
 
-    [:octicons-arrow-right-24: Using uenv][ref-uenv-using]
+    :octicons-arrow-right-24: [Using uenv][ref-uenv-using]
 
 -   :fontawesome-solid-layer-group: __Managing uenv__
 
@@ -29,23 +29,23 @@ They cover everything you need to get started with using uenv to build your code
 
     Learn how to search for, download and manage uenv images.
 
-    [:octicons-arrow-right-24: Managing uenvs][ref-uenv-manage]
+    :octicons-arrow-right-24: [Managing uenvs][ref-uenv-manage]
 
 -   :fontawesome-solid-layer-group: __uenv guides__
 
     How uenvs are named and referenced:
 
-    [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
+    :octicons-arrow-right-24: [uenv naming][ref-uenv-labels]
 
     Hints and tips for creating custom environments:
 
-    [:octicons-arrow-right-24: Custom environments][ref-uenv-customenv]
+    :octicons-arrow-right-24: [Custom environments][ref-uenv-customenv]
 
     How to install software on a uenv:
 
-    [:octicons-arrow-right-24: Using Spack][ref-build-uenv-spack]
+    :octicons-arrow-right-24: [Using Spack][ref-build-uenv-spack]
 
-    [:octicons-arrow-right-24: Python environments][ref-python-uenv]
+    :octicons-arrow-right-24: [Python environments][ref-python-uenv]
 
 
 </div>
@@ -58,13 +58,13 @@ The following guides provide for advanced users and CSCS staff:
 
     More adventurous users can create their own uenvs for personal use, and for other users in their team and community.
 
-    [:octicons-arrow-right-24: Building uenvs][ref-uenv-build]
+    :octicons-arrow-right-24: [Building uenvs][ref-uenv-build]
 
 -   :fontawesome-solid-layer-group: __Configuring uenv__
 
     Users can customize the behavior of uenv using a configuration file.
 
-    [:octicons-arrow-right-24: Configuring uenvs][ref-uenv-configure]
+    :octicons-arrow-right-24: [Configuring uenvs][ref-uenv-configure]
 
 -   :fontawesome-solid-layer-group: __Release notes__
 
@@ -72,7 +72,7 @@ The following guides provide for advanced users and CSCS staff:
 
     Check here for changes, known issues and bugs for specific versions.
 
-    [:octicons-arrow-right-24: uenv release notes][ref-uenv-release-notes]
+    :octicons-arrow-right-24: [uenv release notes][ref-uenv-release-notes]
 
 -   :fontawesome-solid-layer-group: __Deploying uenv__
 
@@ -80,7 +80,7 @@ The following guides provide for advanced users and CSCS staff:
 
     **For CSCS staff**, though it may be of interest to advanced users.
 
-    [:octicons-arrow-right-24: Deploying uenvs][ref-uenv-deploy]
+    :octicons-arrow-right-24: [Deploying uenvs][ref-uenv-deploy]
 
 
 </div>
