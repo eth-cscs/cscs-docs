@@ -17,19 +17,19 @@ It explains how clusters are provisioned, maintained, and the policies in place 
 
     CSCS Kubernetes cluster overview. What are the main components and how to interact with it. 
 
-    [:octicons-arrow-right-24: Clusters][ref-kubernetes-clusters]
+    :octicons-arrow-right-24: [Clusters][ref-kubernetes-clusters]
 
 -   :fontawesome-solid-arrow-up-from-bracket: __Kubernetes Upgrades__
 
     Kubernetes Cluster upgrade policy (Kubernetes version upgrades)
 
-    [:octicons-arrow-right-24: Kubernetes Upgrades][ref-kubernetes-clusters-upgrades]
+    :octicons-arrow-right-24: [Kubernetes Upgrades][ref-kubernetes-clusters-upgrades]
 
 -   :fontawesome-solid-shield-halved: __Node Updates__
 
     Cluster Nodes OS update policy (Regular Node Security Updates)
 
-    [:octicons-arrow-right-24: Node OS Updates][ref-kubernetes-node-updates]
+    :octicons-arrow-right-24: [Node OS Updates][ref-kubernetes-node-updates]
 
 </div>
 

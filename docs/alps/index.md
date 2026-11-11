@@ -15,24 +15,24 @@ Additionally, network segregation ensures secure and isolated communication, wit
 
 -   :fontawesome-solid-signs-post: __Platforms__
 
-    [:octicons-arrow-right-24: Alps Platforms][ref-alps-platforms]
+    :octicons-arrow-right-24: [Alps Platforms][ref-alps-platforms]
 
 -   :fontawesome-solid-signs-post: __Clusters__
 
     The resources on Alps are partitioned and configured into versatile software defined clusters.
 
-    [:octicons-arrow-right-24: Alps Clusters][ref-alps-clusters]
+    :octicons-arrow-right-24: [Alps Clusters][ref-alps-clusters]
 
 -   :fontawesome-solid-signs-post: __Hardware__
 
     Learn about the node types and networking infrastructure in Alps.
 
-    [:octicons-arrow-right-24: Alps Hardware](hardware.md)
+    :octicons-arrow-right-24: [Alps Hardware](hardware.md)
 
 -   :fontawesome-solid-signs-post: __Storage__
 
     Learn about the file systems attached to Alps.
 
-    [:octicons-arrow-right-24: Alps Storage](storage.md)
+    :octicons-arrow-right-24: [Alps Storage](storage.md)
 
 </div>

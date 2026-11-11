@@ -13,19 +13,19 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
     Specific guidance for configuring Slurm jobs on different node types.
 
-    [:octicons-arrow-right-24: GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
+    :octicons-arrow-right-24: [GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
 
-    [:octicons-arrow-right-24: AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
+    :octicons-arrow-right-24: [AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
 
-    [:octicons-arrow-right-24: MPI plugins (`--mpi`)][ref-slurm-mpi]
+    :octicons-arrow-right-24: [MPI plugins (`--mpi`)][ref-slurm-mpi]
 
 -   :fontawesome-solid-mountain-sun: __Node sharing__
 
     Guides on how to effectively use all resources on nodes by running more than one job per node.
 
-    [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
+    :octicons-arrow-right-24: [Node sharing][ref-slurm-sharing]
 
-    [:octicons-arrow-right-24: Multiple MPI jobs per node][ref-slurm-exclusive]
+    :octicons-arrow-right-24: [Multiple MPI jobs per node][ref-slurm-exclusive]
 
 </div>
 

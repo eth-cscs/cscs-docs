@@ -26,27 +26,27 @@
 
     There are two forms of data [backup][ref-storage-backup] that are provided on some file systems.
 
-    [:octicons-arrow-right-24: Backups][ref-storage-backups]
+    :octicons-arrow-right-24: [Backups][ref-storage-backups]
 
-    [:octicons-arrow-right-24: Snapshots][ref-storage-snapshots]
+    :octicons-arrow-right-24: [Snapshots][ref-storage-snapshots]
 
 -   :fontawesome-solid-broom: __Cleanup__
 
     Data retention policies and automatic cleanup of Scratch.
 
-    [:octicons-arrow-right-24: Cleanup policies][ref-storage-cleanup]
+    :octicons-arrow-right-24: [Cleanup policies][ref-storage-cleanup]
 
 -   :fontawesome-solid-layer-group: __Quota__
 
     Find out about quota on capacity and file counts, and how to check your quota limits.
 
-    [:octicons-arrow-right-24: Quota][ref-storage-quota]
+    :octicons-arrow-right-24: [Quota][ref-storage-quota]
 
 -   :fontawesome-solid-circle-question: __Troubleshooting__
 
     Answers to common issues and questions.
 
-    [:octicons-arrow-right-24: common questions][ref-storage-troubleshooting]
+    :octicons-arrow-right-24: [common questions][ref-storage-troubleshooting]
 
 </div>
 

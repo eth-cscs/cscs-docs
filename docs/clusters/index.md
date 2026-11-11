@@ -16,11 +16,11 @@ The following clusters are part of the platforms that are fully operated by CSCS
 
     Clariden is the main Grace-Hopper cluster
 
-    [:octicons-arrow-right-24: Clariden][ref-cluster-clariden]
+    :octicons-arrow-right-24: [Clariden][ref-cluster-clariden]
 
     Bristen is a small system with A100 nodes used for data processing, development, x86 workloads and ML inference services.
 
-    [:octicons-arrow-right-24: Bristen][ref-cluster-bristen]
+    :octicons-arrow-right-24: [Bristen][ref-cluster-bristen]
 </div>
 
 <div class="grid cards" markdown>
@@ -28,11 +28,11 @@ The following clusters are part of the platforms that are fully operated by CSCS
 
     Daint is the main Grace-Hopper cluster for GPU workloads
 
-    [:octicons-arrow-right-24: Daint][ref-cluster-daint]
+    :octicons-arrow-right-24: [Daint][ref-cluster-daint]
 
     Eiger is a large AMD-CPU cluster for CPU workloads
 
-    [:octicons-arrow-right-24: Eiger][ref-cluster-eiger]
+    :octicons-arrow-right-24: [Eiger][ref-cluster-eiger]
 </div>
 
 <div class="grid cards" markdown>
@@ -40,7 +40,7 @@ The following clusters are part of the platforms that are fully operated by CSCS
 
     Santis is a Grace-Hopper cluster for climate and weather simulation
 
-    [:octicons-arrow-right-24: Santis][ref-cluster-santis]
+    :octicons-arrow-right-24: [Santis][ref-cluster-santis]
 </div>
 
 ## Other systems
@@ -50,10 +50,10 @@ The following clusters are part of the platforms that are fully operated by CSCS
 
     Beverin is a medium-sized system used for testing, developing and porting applications to AMD GPUs.
 
-    [:octicons-arrow-right-24: Beverin][ref-cluster-beverin]
+    :octicons-arrow-right-24: [Beverin][ref-cluster-beverin]
     
     Besso is a small system used by some partners for development and porting with AMD and NVIDIA GPUs.
     
-    [:octicons-arrow-right-24: Besso][ref-cluster-besso]
+    :octicons-arrow-right-24: [Besso][ref-cluster-besso]
 
 </div>
