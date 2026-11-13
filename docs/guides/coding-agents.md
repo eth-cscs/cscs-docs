@@ -143,6 +143,45 @@ The agent is able to write freely inside the container, but the only way for the
 Containers do not restrict the network access of the agent.
 Running an agent in a container can be combined with the sandboxing and permissions restrictions described on this page.
 
+[](){#ref-coding-agents-sandboxing-bwrap}
+#### Sandboxing with bubblewrap
+
+[bubblewrap](https://github.com/containers/bubblewrap) is a simple but powerful sandboxing tool.
+Compared to other solutions, it requires manual setup, but can be customized to many needs.
+Similar to other sandboxing solutions, bubblewrap also does not move to compute nodes when submitting jobs to Slurm.
+The example below shows a reasonable default: a read-only filesystem, a writable working directory with a private `/tmp`, private PID and IPC namespaces, and cleanup on exit:
+
+```bash title="bwrap-sandbox.sh"
+#!/usr/bin/env bash
+bwrap --die-with-parent \ # (1)!
+    --ro-bind / / \ # (2)!
+    --dev /dev --proc /proc \ # (3)!
+    --bind "$PWD" "$PWD" \ # (4)!
+    --tmpfs /tmp \ # (5)!
+    --chdir "$PWD" \ # (6)!
+    --unshare-pid \ # (7)!
+    --unshare-ipc \ # (8)!
+    --bind "${SCRATCH}/output" "${SCRATCH}/output" \ # (9)!
+    --tmpfs "$HOME/.ssh" \ # (10)!
+    claude
+```
+
+1. Exits the sandbox when the process that started it dies, so no orphaned agent processes survive a closed terminal or a lost SSH connection.
+2. Mounts the whole filesystem read-only.
+3. Provides the device and process filesystems that programs expect.
+4. Makes the working directory writable.
+5. Gives the agent a private, writable `/tmp`.
+6. Starts the agent in the working directory.
+7. Gives the agent a private PID namespace: it cannot see or signal processes outside the sandbox.
+8. Gives the agent a private IPC namespace, isolating System V shared memory, semaphores, and message queues.
+9. A writable directory in scratch, for outputs.
+10. Hides your SSH keys: the agent sees an empty directory instead of `$HOME/.ssh`.
+
+The default read-only mount with `--ro-bind / /` still lets agents read files anywhere on the filesystem.
+If you want to fully hide files, use a `--tmpfs` mount, as for `$HOME/.ssh` in the example.
+
+As with other sandboxing solutions, compute nodes do not get the same sandbox when an agent submits Slurm jobs.
+
 
 [](){#ref-coding-agents-support}
 ## Getting help
