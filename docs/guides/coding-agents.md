@@ -95,6 +95,54 @@ OpenCode does not have a built-in sandbox.
 The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
 An agent can still write outside the working directory through indirection in scripts etc.
 
+[](){#ref-coding-agents-sandboxing-containers}
+#### Running an agent in a container
+
+An alternative to sandboxing an agent directly on the system is to run the agent inside a container and expose only the directories from the host system needed for the agent to do its work.
+This can be done with the [Container Engine][ref-container-engine] on Alps.
+An [Environment Definition File][ref-ce-edf-reference] lets you define the image and mounts to expose from the host system.
+Additionally, the agent can run on a compute node with no Slurm available so it will not be able to spawn new jobs.
+
+The example below uses the official OpenCode image to start a job on a compute node using the Container Engine.
+For building a custom image with the tools you need, see [building container images on Alps][ref-build-containers].
+
+!!! todo "Try this example!"
+
+```toml title="~/.edf/opencode.toml"
+image = "ghcr.io#anomalyco/opencode:latest"  # (1)!
+mounts = [
+    "${PROJECT}/myproject:${PROJECT}/myproject:ro",  # (2)!
+    "${SCRATCH}/output:${SCRATCH}/output",  # (3)!
+]
+workdir = "${PROJECT}/myproject"  # (4)!
+
+[annotations]
+com.hooks.cxi.enabled = "false"  # (5)!
+
+[env]
+ENROOT_SLURM_HOOK = "0"  # (6)!
+```
+
+1. The container image with the agent and tools that you or the agent needs for development.
+2. A project directory, mounted read-only.
+3. A writable directory for e.g. outputs.
+4. The directory that the agent starts in.
+5. Disables the CXI hook, which does not work with the OpenCode image, which is based on Alpine. Without this the container does not start.
+6. Disables the Slurm inside the container, so an agent can't submit jobs.
+
+Once you've saved the file as `~/.edf/opencode.toml`, start an interactive shell on a compute node using the environment file:
+
+```console title="running an agent in the container"
+srun --environment=opencode --pty opencode
+```
+
+The agent sees only the container and the mounts that you listed.
+Files outside them, including your home directory, are not visible to the agent.
+The project directory is mounted read-only.
+The agent is able to write freely inside the container, but the only way for the agent to persist work outside the container is in the `output` directory.
+Containers do not restrict the network access of the agent.
+Running an agent in a container can be combined with the sandboxing and permissions restrictions described on this page.
+
 
 [](){#ref-coding-agents-support}
 ## Getting help
