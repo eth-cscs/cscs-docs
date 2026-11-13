@@ -58,6 +58,9 @@ See the section on [restricting agents][ref-coding-restricting-agents] below for
 Most agents will by default give access only to files within the working directory in which the agent is launched.
 This provides a basic level of protection against unwanted and irreversible actions taken by agents.
 Sandboxing can provide stronger protection.
+Below we describe multiple alternatives for restricting agent access on and outside of Alps.
+Multiple options can and should often be combined.
+The level of restrictions that you apply must be considered in relation to the risk that you consider acceptable for your work and project.
 
 !!! warning "Sandbox restrictions do not apply to Slurm jobs submitted by agents"
 
@@ -75,6 +78,22 @@ We highly recommend consulting your coding agent's documentation for instruction
 
 We recommend starting with restrictive permissions and progressively whitelisting or approving commands manually as you get to know the behaviour of your particular coding agent and model on Alps.
 This is particularly important if you are new to coding agents, but is important even if you have used them in the past and are moving workflows to Alps.
+
+[](){#ref-coding-agents-sandboxing-builtin}
+#### Built-in sandboxing
+
+Some coding agents come with a built-in sandbox that restricts the commands that they run:
+
+- Claude Code wraps bash commands in a bubblewrap sandbox.
+  It can be enabled with the `/sandbox` command.
+  The file tools of Claude Code and MCP servers still run outside the sandbox.
+  See the Claude Code documentation on [sandboxing](https://code.claude.com/docs/en/sandbox-environments) for more information.
+- Codex CLI runs commands in a built-in OS sandbox, with network access off by default.
+  See its documentation on [agent approvals and security](https://learn.chatgpt.com/docs/agent-approvals-security) for more details.
+
+OpenCode does not have a built-in sandbox.
+The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
+An agent can still write outside the working directory through indirection in scripts etc.
 
 
 [](){#ref-coding-agents-support}
