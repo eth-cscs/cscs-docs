@@ -46,18 +46,27 @@ However, even when not running on login nodes other resources are limited and ca
 
 We recommend running agents either on compute nodes or on your local computer with limited Slurm or FirecREST jobs allowed.
 When running on a compute node, [run the agent inside a container][ref-container-engine] with [only necessary directories mounted][ref-ce-edf-reference-mounts] or inside a [uenv][ref-uenv] to give the agent access to build tools and dependencies for your project.
-See the [sandboxing section][ref-coding-agents-sandboxing] below for more pointers on restricting coding agents.
+See the section on [restricting agents][ref-coding-restricting-agents] below for more pointers on restricting coding agents.
 
 !!! note "uenvs do not restrict access to the host system"
     While containers provide some isolation from the host system, uenvs provide no isolation.
     uenvs only provide additional software on top of the host system.
 
-[](){#ref-coding-agents-sandboxing}
-### Sandboxing
+[](){#ref-coding-restricting-agents}
+### Restricting agents
 
 Most agents will by default give access only to files within the working directory in which the agent is launched.
 This provides a basic level of protection against unwanted and irreversible actions taken by agents.
 Sandboxing can provide stronger protection.
+
+!!! warning "Sandbox restrictions do not apply to Slurm jobs submitted by agents"
+
+    Most sandboxing and permissions restrict the agent on the node where it runs.
+    Jobs that the agent submits to Slurm, directly or through [FirecREST][ref-firecrest], run without those restrictions.
+    See [Sandboxing Slurm jobs][ref-coding-agents-sandboxing-slurm] for options for restricting permissions on compute nodes for agents submitting jobs to Slurm.
+
+[](){#ref-coding-agents-permissions}
+#### Restricting agent permissions
 
 We highly recommend consulting your coding agent's documentation for instructions on how to restrict commands and filesystem access. See for example:
 
@@ -67,28 +76,6 @@ We highly recommend consulting your coding agent's documentation for instruction
 We recommend starting with restrictive permissions and progressively whitelisting or approving commands manually as you get to know the behaviour of your particular coding agent and model on Alps.
 This is particularly important if you are new to coding agents, but is important even if you have used them in the past and are moving workflows to Alps.
 
-!!! info "Anthropic srt uenv"
-    On the [daint cluster][ref-cluster-daint] a preview [uenv][ref-uenv] containing the [Anthropic Sandbox Runtime (srt)](https://github.com/anthropic-experimental/sandbox-runtime) is available in the `build::` namespace:
-    
-    ```console title="Pulling and using the srt uenv"
-    $ uenv image find build::srt
-    uenv                 arch   system  id                size(MB)  date
-    srt/26.4:2590682466  gh200  daint   ae6b951e8de7276f     969    2026-06-10
-    $ uenv image pull build::srt
-    $ uenv start srt/26.4 --view=srt
-    $ srt curl "anthropic.com"
-    Connection blocked by network allowlist
-    ```
-    
-    See the [srt documentation](https://github.com/anthropic-experimental/sandbox-runtime) for more information on configuring the sandbox.
-    
-!!! warning "Slurm does not propagate sandbox restrictions"
-    Sandboxing agents is effective for the agent process and its tool calls on the particular node where the agent is running.
-    When an agent submits a Slurm job, the restrictions of the sandbox are typically not propagated to the compute nodes of the Slurm job, resulting in the agent having broader access than the sandbox would indicate.
-    
-    We are investigating alternatives for improving the integration with Slurm.
-
-!!! todo "Provide more concrete examples of sandboxing and useful permissions configurations on Alps"
 
 [](){#ref-coding-agents-support}
 ## Getting help
