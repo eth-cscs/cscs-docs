@@ -293,7 +293,7 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
 ??? info "Removed models"
     The following models have been served in the past, but are no longer offered.
 
-    | Model                                           | Retired on |
+    | Model                                           | Removed on |
     |-------------------------------------------------|------------|
     | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 2026-11-16 |
     | `moonshotai/Kimi-K2.7-Code`                     | 2026-11-16 |
