@@ -104,38 +104,37 @@ This can be done with the [Container Engine][ref-container-engine] on Alps.
 An [Environment Definition File][ref-ce-edf-reference] lets you define the image and mounts to expose from the host system.
 Additionally, the agent can run on a compute node with no Slurm available so it will not be able to spawn new jobs.
 
-The example below uses the official OpenCode image to start a job on a compute node using the Container Engine.
+The example below runs the official OpenCode image through the early-access [Sarus Suite][ref-sarus-suite-user-guide] tooling.
 For building a custom image with the tools you need, see [building container images on Alps][ref-build-containers].
-
-!!! todo "Try this example!"
 
 ```toml title="~/.edf/opencode.toml"
 image = "ghcr.io#anomalyco/opencode:latest"  # (1)!
 mounts = [
     "${PROJECT}/myproject:${PROJECT}/myproject:ro",  # (2)!
     "${SCRATCH}/output:${SCRATCH}/output",  # (3)!
+    "${HOME}/.local/share/opencode:${HOME}/.local/share/opencode",  # (4)!
+    "${HOME}/.local/state/opencode:${HOME}/.local/state/opencode",  # (5)!
+    "${HOME}/.config/opencode:${HOME}/.config/opencode",  # (6)!
 ]
-workdir = "${PROJECT}/myproject"  # (4)!
-
-[annotations]
-com.hooks.cxi.enabled = "false"  # (5)!
-
-[env]
-ENROOT_SLURM_HOOK = "0"  # (6)!
+workdir = "${PROJECT}/myproject"  # (7)!
 ```
 
 1. The container image with the agent and tools that you or the agent needs for development.
 2. A project directory, mounted read-only.
 3. A writable directory for e.g. outputs.
-4. The directory that the agent starts in.
-5. Disables the CXI hook, which does not work with the OpenCode image, which is based on Alpine. Without this the container does not start.
-6. Disables Slurm inside the container, so an agent cannot submit jobs.
+4. The data directory of OpenCode, with the credentials in `auth.json`; mounted read-write so that the agent can refresh tokens.
+5. The state directory of OpenCode: prompt history, last model choice, and locks; mounted read-write so that they survive between runs.
+6. Your custom OpenCode configuration, if you have one; remove this line if you do not.
+7. The directory that the agent starts in.
 
-Once you've saved the file as `~/.edf/opencode.toml`, start an interactive shell on a compute node using the environment file:
+Once you've saved the file as `~/.edf/opencode.toml`, and made sure that the directories in the `mounts` list exist, start an interactive shell on a compute node using the environment file:
 
-```console title="running an agent in the container"
-srun --environment=opencode --pty opencode
+```bash title="running an agent in the container"
+srun --pty sarusctl run opencode
 ```
+
+!!! warning "Slurm hooks do not currently work with Alpine-based images"
+    The command above calls `sarusctl run` directly instead of using the Slurm plugin with `--edf`, because Alpine-based images, such as the `opencode` image, do not currently start correctly with Slurm hooks.
 
 The agent sees only the container and the mounts that you listed.
 Files outside them, including your home directory, are not visible to the agent.
