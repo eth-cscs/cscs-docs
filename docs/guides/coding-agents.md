@@ -60,7 +60,8 @@ This provides a basic level of protection against unwanted and irreversible acti
 Sandboxing can provide stronger protection.
 Below we describe multiple alternatives for restricting agent access on and outside of Alps.
 Multiple options can and should often be combined.
-The level of restrictions that you apply must be considered in relation to the risk that you consider acceptable for your work and project.
+We recommend at least setting up restrictions on permissions and one of the sandboxing options below for your agent.
+If your workflow allows it, we recommend testing one of the sandboxing options that [take Slurm job submission into account][ref-coding-agents-sandboxing-slurm].
 
 !!! warning "Sandbox restrictions do not apply to Slurm jobs submitted by agents"
 
