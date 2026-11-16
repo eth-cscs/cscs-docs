@@ -495,3 +495,6 @@ Codex
 Cloudflare
 frontmatter
 RFC
+bwrap
+bubblewrap
+Landlock
