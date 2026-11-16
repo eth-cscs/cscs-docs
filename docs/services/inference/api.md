@@ -198,9 +198,6 @@ The available models can also be listed for a given API key using the [`models` 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
-!!! warning "Decommissioning of models"
-    `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
-
 <!--begin no spell check-->
 <table>
   <thead>
@@ -224,22 +221,6 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td>✓</td>
       <td></td>
       <td>✓</td>
-    </tr>
-    <tr>
-      <td><code>moonshotai/Kimi-K2.7-Code</code></td>
-      <td>262,144</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
-      <td>262,144</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
     <tr>
       <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
@@ -290,14 +271,6 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
       <td></td>
     </tr>
     <tr>
-      <td><code>zai-org/GLM-5.2</code></td>
-      <td>976,000</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
       <td><code>zai-org/GLM-5.3</code></td>
       <td>1,048,576</td>
       <td>✓</td>
@@ -320,10 +293,13 @@ Most coding agents benefit from being [configured][ref-inference-api-coding-agen
 ??? info "Removed models"
     The following models have been served in the past, but are no longer offered.
 
-    | Model                              |
-    |------------------------------------|
-    | swiss-ai/Apertus-70B-Instruct-2509 |
-    | swiss-ai/Apertus-8B-Instruct-2509  |
+    | Model                                         | Retired on |
+    |-----------------------------------------------|------------|
+    | nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16 | 2026-11-16 |
+    | moonshotai/Kimi-K2.7-Code                     | 2026-11-16 |
+    | zai-org/GLM-5.2                               | 2026-11-16 |
+    | swiss-ai/Apertus-70B-Instruct-2509            | 2026-10-21 |
+    | swiss-ai/Apertus-8B-Instruct-2509             | 2026-10-21 |
 
 ??? info "Image, audio, and video input in API requests"
     The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
