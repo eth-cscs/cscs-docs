@@ -184,6 +184,23 @@ If you want to fully hide files, use a `--tmpfs` mount, as for `$HOME/.ssh` in t
 As with other sandboxing solutions, compute nodes do not get the same sandbox when an agent submits Slurm jobs.
 
 
+[](){#ref-coding-agents-sandboxing-slurm}
+#### Sandboxing Slurm jobs
+
+All of the options above restrict the agent process and its tool calls on the node where the agent runs.
+When an agent submits a Slurm job, the restrictions do not travel with the job and an agent has full access to your account on a compute node.
+The same applies to jobs that an agent submits through [FirecREST][ref-firecrest].
+
+Two early-stage projects aim to make the sandbox apply both on the login node and on a compute node.
+Both options disallow agents from submitting Slurm jobs directly and intercept the submission to enforce that a sandbox is used also on compute nodes.
+We recommend evaluating both for your use case:
+
+- [`husk`](https://github.com/MeteoSwiss/husk) currently supports only Claude Code.
+- [`agent_sandbox`](https://github.com/katosh/agent_sandbox) supports multiple agent harnesses.
+
+!!! warning "FirecREST submissions are not handled by the above sandboxing tools"
+    Neither `husk` nor `agent_sandbox` sandbox jobs submitted via FirecREST.
+
 [](){#ref-coding-agents-support}
 ## Getting help
 
