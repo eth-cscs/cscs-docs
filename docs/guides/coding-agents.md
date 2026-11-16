@@ -183,6 +183,28 @@ If you want to fully hide files, use a `--tmpfs` mount, as for `$HOME/.ssh` in t
 
 As with other sandboxing solutions, compute nodes do not get the same sandbox when an agent submits Slurm jobs.
 
+[](){#ref-coding-agents-sandboxing-tools}
+#### Existing sandboxing tools
+
+Many existing sandboxing tools do not run easily or at all on Alps clusters.
+Below we list some alternatives, but we are continuously looking to improve support for established sandboxing support to make it easier for you to use them on Alps.
+
+The [Anthropic sandbox runtime (srt)](https://github.com/anthropics/sandbox-runtime) restricts the filesystem and network access of arbitrary processes, without a container.
+The sandbox requires `npm` for installation, which is not available globally on Alps, but a preview [uenv][ref-uenv] is available on the [daint cluster][ref-cluster-daint] in the `build::` namespace:
+
+```console title="Pulling and using the srt uenv"
+$ uenv image find build::srt
+uenv                 arch   system  id                size(MB)  date
+srt/26.4:2590682466  gh200  daint   ae6b951e8de7276f     969    2026-06-10
+$ uenv image pull build::srt
+$ uenv start srt/26.4 --view=srt
+$ srt curl "anthropic.com"
+Connection blocked by network allowlist
+```
+
+[nono](https://nono.sh/) is another popular sandboxing solution.
+However, `nono` currently does not run on Alps due to [Landlock](https://landlock.io) not being enabled.
+We are investigating enabling Landlock to allow use of `nono` and other sandboxing solutions based on it.
 
 [](){#ref-coding-agents-sandboxing-slurm}
 #### Sandboxing Slurm jobs
