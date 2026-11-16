@@ -134,6 +134,7 @@ srun --pty sarusctl run opencode
 ```
 
 !!! warning "Slurm hooks do not currently work with Alpine-based images"
+
     The command above calls `sarusctl run` directly instead of using the Slurm plugin with `--edf`, because Alpine-based images, such as the `opencode` image, do not currently start correctly with Slurm hooks.
 
 The agent sees only the container and the mounts that you listed.
@@ -220,6 +221,7 @@ We recommend evaluating both for your use case:
 - [`agent_sandbox`](https://github.com/katosh/agent_sandbox) supports multiple agent harnesses.
 
 !!! warning "FirecREST submissions are not handled by the above sandboxing tools"
+
     Neither `husk` nor `agent_sandbox` sandbox jobs submitted via FirecREST.
 
 [](){#ref-coding-agents-support}
