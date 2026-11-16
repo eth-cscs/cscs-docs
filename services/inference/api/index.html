@@ -6722,10 +6722,6 @@ In order to use the service users must have an active project granted via an ope
 The available models can also be listed for a given API key using the <a class="autorefs autorefs-internal" title="API" href="./#api"><code>models</code> endpoint</a> or on the Inference API UI when creating a new key.</p>
 <p>The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being <a class="autorefs autorefs-internal" title="Setting up coding agents to use the inference service" href="./#setting-up-coding-agents-to-use-the-inference-service">configured</a> with the given context sizes so that they can do context compaction before hitting the context limit.</p>
-<div class="admonition warning">
-<p class="admonition-title">Decommissioning of models</p>
-<p><code>moonshotai/Kimi-K2.7-Code</code>, <code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code>, and <code>zai-org/GLM-5.2</code> will be decommissioned on 16 November 2026.</p>
-</div>
 <!--begin no spell check-->
 <table>
   <thead>
@@ -6749,22 +6745,6 @@ Most coding agents benefit from being <a class="autorefs autorefs-internal" titl
       <td>✓</td>
       <td></td>
       <td>✓</td>
-    </tr>
-    <tr>
-      <td><code>moonshotai/Kimi-K2.7-Code</code></td>
-      <td>262,144</td>
-      <td>✓</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
-      <td>262,144</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
     <tr>
       <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
@@ -6815,14 +6795,6 @@ Most coding agents benefit from being <a class="autorefs autorefs-internal" titl
       <td></td>
     </tr>
     <tr>
-      <td><code>zai-org/GLM-5.2</code></td>
-      <td>976,000</td>
-      <td>✓</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
       <td><code>zai-org/GLM-5.3</code></td>
       <td>1,048,576</td>
       <td>✓</td>
@@ -6849,14 +6821,29 @@ Most coding agents benefit from being <a class="autorefs autorefs-internal" titl
 <thead>
 <tr>
 <th>Model</th>
+<th>Removed on</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>swiss-ai/Apertus-70B-Instruct-2509</td>
+<td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>
+<td>2026-11-16</td>
 </tr>
 <tr>
-<td>swiss-ai/Apertus-8B-Instruct-2509</td>
+<td><code>moonshotai/Kimi-K2.7-Code</code></td>
+<td>2026-11-16</td>
+</tr>
+<tr>
+<td><code>zai-org/GLM-5.2</code></td>
+<td>2026-11-16</td>
+</tr>
+<tr>
+<td><code>swiss-ai/Apertus-70B-Instruct-2509</code></td>
+<td>2026-10-21</td>
+</tr>
+<tr>
+<td><code>swiss-ai/Apertus-8B-Instruct-2509</code></td>
+<td>2026-10-21</td>
 </tr>
 </tbody>
 </table>

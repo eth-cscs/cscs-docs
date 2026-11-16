@@ -24962,13 +24962,7 @@ Available models, along with pricing information, are listed on the [Inference A
 
 The available models, their maximum context length, and their supported input modalities are also listed in the table below. Most coding agents benefit from being [configured](<https://docs.cscs.ch/services/inference/api/index.md#setting-up-coding-agents-to-use-the-inference-service> "Setting up coding agents to use the inference service") with the given context sizes so that they can do context compaction before hitting the context limit.
 
-> [!WARNING]
->
-> **Decommissioning of models**
->
-> `moonshotai/Kimi-K2.7-Code`, `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16`, and `zai-org/GLM-5.2` will be decommissioned on 16 November 2026.
-
-<table>   <thead>     <tr>       <th rowspan="2">Model</th>       <th rowspan="2">Maximum context length</th>       <th colspan="4" style="text-align: center">Supported modalities</th>     </tr>     <tr>       <th>Text</th>       <th>Image</th>       <th>Audio</th>       <th>Video</th>     </tr>   </thead>   <tbody>     <tr>       <td><code>google/gemma-4-31B-it</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>moonshotai/Kimi-K2.7-Code</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16</code></td>       <td>262,144</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-27B-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.2</code></td>       <td>976,000</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3</code></td>       <td>1,048,576</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3-Flash</code></td>       <td>1,048,576</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>   </tbody> </table>
+<table>   <thead>     <tr>       <th rowspan="2">Model</th>       <th rowspan="2">Maximum context length</th>       <th colspan="4" style="text-align: center">Supported modalities</th>     </tr>     <tr>       <th>Text</th>       <th>Image</th>       <th>Audio</th>       <th>Video</th>     </tr>   </thead>   <tbody>     <tr>       <td><code>google/gemma-4-31B-it</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-27B-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-70B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>swiss-ai/Apertus-v1.5-8B</code></td>       <td>262,144</td>       <td>✓</td>       <td>✓</td>       <td>✓</td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3</code></td>       <td>1,048,576</td>       <td>✓</td>       <td></td>       <td></td>       <td></td>     </tr>     <tr>       <td><code>zai-org/GLM-5.3-Flash</code></td>       <td>1,048,576</td>       <td>✓</td>       <td>✓</td>       <td></td>       <td>✓</td>     </tr>   </tbody> </table>
 
 > [!NOTE]
 >
@@ -24976,10 +24970,13 @@ The available models, their maximum context length, and their supported input mo
 >
 > The following models have been served in the past, but are no longer offered.
 >
-> | Model |
-> | --- |
-> | swiss-ai/Apertus-70B-Instruct-2509 |
-> | swiss-ai/Apertus-8B-Instruct-2509 |
+> | Model | Removed on |
+> | --- | --- |
+> | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 2026-11-16 |
+> | `moonshotai/Kimi-K2.7-Code` | 2026-11-16 |
+> | `zai-org/GLM-5.2` | 2026-11-16 |
+> | `swiss-ai/Apertus-70B-Instruct-2509` | 2026-10-21 |
+> | `swiss-ai/Apertus-8B-Instruct-2509` | 2026-10-21 |
 
 > [!NOTE]
 >
