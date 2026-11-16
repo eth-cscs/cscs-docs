@@ -287,7 +287,7 @@ Set the following environment variables before starting a `claude` session.
 export ANTHROPIC_AUTH_TOKEN=$CSCS_INFERENCE_API_KEY
 
 export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch
-export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
+export ANTHROPIC_MODEL=zai-org/GLM-5.3-Flash
 claude
 ```
 
@@ -300,8 +300,8 @@ OpenCode configuration for the inference API
 ```json
 {
     "$schema": "https://opencode.ai/config.json",
-    // Set Kimi as default OpenCode model
-    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    // Set GLM 5.3 Flash as default OpenCode model
+    "model": "cscs/zai-org/GLM-5.3-Flash",
     "providers": {
         "cscs": {
             "package": "@ai-sdk/anthropic",
@@ -312,14 +312,14 @@ OpenCode configuration for the inference API
                 "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
             },
             "models": {
-                "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7-Code",
+                "zai-org/GLM-5.3-Flash": {
+                    "name": "GLM 5.3 Flash",
                     "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
                     "limit": {
-                        "context": 262144,
+                        "context": 1048576,
                         "output": 16384
                     }
                 }
@@ -336,8 +336,8 @@ OpenCode configuration for the inference API
 ```json
 {
     "$schema": "https://opencode.ai/config.json",
-    // Set Kimi as default OpenCode model
-    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    // Set GLM 5.3 Flash as default OpenCode model
+    "model": "cscs/zai-org/GLM-5.3-Flash",
     "providers": {
         "cscs": {
             "package": "@ai-sdk/anthropic",
@@ -347,14 +347,14 @@ OpenCode configuration for the inference API
                 "systemMessageMode": "system"
             },
             "models": {
-                "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7-Code",
+                "zai-org/GLM-5.3-Flash": {
+                    "name": "GLM 5.3 Flash",
                     "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
                     "limit": {
-                        "context": 262144,
+                        "context": 1048576,
                         "output": 16384
                     }
                 }
@@ -369,8 +369,8 @@ OpenCode configuration for the inference API
 ```json
 {
     "$schema": "https://opencode.ai/config.json",
-    // Set Kimi as default OpenCode model
-    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    // Set GLM 5.3 Flash as default OpenCode model
+    "model": "cscs/zai-org/GLM-5.3-Flash",
     "provider": {
         "cscs": {
             "npm": "@ai-sdk/anthropic",
@@ -380,14 +380,14 @@ OpenCode configuration for the inference API
                 "systemMessageMode": "system"
             },
             "models": {
-                "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7-Code",
+                "zai-org/GLM-5.3-Flash": {
+                    "name": "GLM 5.3 Flash",
                     "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
                     "limit": {
-                        "context": 262144,
+                        "context": 1048576,
                         "output": 16384
                     }
                 }
@@ -402,8 +402,8 @@ OpenCode configuration for the inference API
 ```json
 {
     "$schema": "https://opencode.ai/config.json",
-    // Set Kimi as default OpenCode model
-    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    // Set GLM 5.3 Flash as default OpenCode model
+    "model": "cscs/zai-org/GLM-5.3-Flash",
     "provider": {
         "cscs": {
             "npm": "@ai-sdk/anthropic",
@@ -414,14 +414,14 @@ OpenCode configuration for the inference API
                 "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
             },
             "models": {
-                "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7-Code",
+                "zai-org/GLM-5.3-Flash": {
+                    "name": "GLM 5.3 Flash",
                     "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
                     "limit": {
-                        "context": 262144,
+                        "context": 1048576,
                         "output": 16384
                     }
                 }
@@ -470,12 +470,12 @@ chatLanguageModels.json
         "apiType": "chat-completions",
         "models": [
             {
-                "id": "moonshotai/Kimi-K2.7-Code",
-                "name": "Kimi K2.7-Code",
+                "id": "zai-org/GLM-5.3-Flash",
+                "name": "GLM 5.3 Flash",
                 "url": "https://api.inference.cscs.ch/v1",
                 "toolCalling": true,
                 "vision": true,
-                "maxInputTokens": 245760,
+                "maxInputTokens": 1032192,
                 "maxOutputTokens": 16384
             }
         ]
