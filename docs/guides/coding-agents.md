@@ -129,7 +129,7 @@ ENROOT_SLURM_HOOK = "0"  # (6)!
 3. A writable directory for e.g. outputs.
 4. The directory that the agent starts in.
 5. Disables the CXI hook, which does not work with the OpenCode image, which is based on Alpine. Without this the container does not start.
-6. Disables the Slurm inside the container, so an agent can't submit jobs.
+6. Disables Slurm inside the container, so an agent cannot submit jobs.
 
 Once you've saved the file as `~/.edf/opencode.toml`, start an interactive shell on a compute node using the environment file:
 
@@ -187,7 +187,7 @@ As with other sandboxing solutions, compute nodes do not get the same sandbox wh
 #### Existing sandboxing tools
 
 Many existing sandboxing tools do not run easily or at all on Alps clusters.
-Below we list some alternatives, but we are continuously looking to improve support for established sandboxing support to make it easier for you to use them on Alps.
+Below we list some alternatives, but we are continuously looking to improve support for established sandboxing tools to make it easier for you to use them on Alps.
 
 The [Anthropic sandbox runtime (srt)](https://github.com/anthropics/sandbox-runtime) restricts the filesystem and network access of arbitrary processes, without a container.
 The sandbox requires `npm` for installation, which is not available globally on Alps, but a preview [uenv][ref-uenv] is available on the [daint cluster][ref-cluster-daint] in the `build::` namespace:
@@ -202,7 +202,7 @@ $ srt curl "anthropic.com"
 Connection blocked by network allowlist
 ```
 
-[nono](https://nono.sh/) is another popular sandboxing solution.
+[`nono`](https://nono.sh/) is another popular sandboxing solution.
 However, `nono` currently does not run on Alps due to [Landlock](https://landlock.io) not being enabled.
 We are investigating enabling Landlock to allow use of `nono` and other sandboxing solutions based on it.
 
