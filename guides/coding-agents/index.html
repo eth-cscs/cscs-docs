@@ -5546,13 +5546,85 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sandboxing" class="md-nav__link">
+  <a href="#restricting-agents" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Sandboxing
+        Restricting agents
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Restricting agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restricting-agent-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Restricting agent permissions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#built-in-sandboxing" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Built-in sandboxing
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-an-agent-in-a-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Running an agent in a container
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandboxing-with-bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sandboxing with bubblewrap
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#existing-sandboxing-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Existing sandboxing tools
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandboxing-slurm-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sandboxing Slurm jobs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -6135,13 +6207,85 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sandboxing" class="md-nav__link">
+  <a href="#restricting-agents" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Sandboxing
+        Restricting agents
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Restricting agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restricting-agent-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Restricting agent permissions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#built-in-sandboxing" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Built-in sandboxing
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-an-agent-in-a-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Running an agent in a container
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandboxing-with-bubblewrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sandboxing with bubblewrap
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#existing-sandboxing-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Existing sandboxing tools
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sandboxing-slurm-jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sandboxing Slurm jobs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -6301,17 +6445,29 @@ However, even when not running on login nodes other resources are limited and ca
 </ul>
 <p>We recommend running agents either on compute nodes or on your local computer with limited Slurm or FirecREST jobs allowed.
 When running on a compute node, <a class="autorefs autorefs-internal" title="Container Engine" href="../../software/container-engine/#container-engine">run the agent inside a container</a> with <a class="autorefs autorefs-internal" href="../../software/container-engine/edf/#mounts">only necessary directories mounted</a> or inside a <a class="autorefs autorefs-internal" href="../../software/uenv/#uenv">uenv</a> to give the agent access to build tools and dependencies for your project.
-See the <a class="autorefs autorefs-internal" title="Sandboxing" href="./#sandboxing">sandboxing section</a> below for more pointers on restricting coding agents.</p>
+See the section on <a class="autorefs autorefs-internal" title="Restricting agents" href="./#restricting-agents">restricting agents</a> below for more pointers on restricting coding agents.</p>
 <div class="admonition note">
 <p class="admonition-title">uenvs do not restrict access to the host system</p>
 <p>While containers provide some isolation from the host system, uenvs provide no isolation.
 uenvs only provide additional software on top of the host system.</p>
 </div>
-<p><a href="" id="ref-coding-agents-sandboxing"></a></p>
-<h3 id="sandboxing">Sandboxing<a class="headerlink" href="#sandboxing" title="Permanent link">&para;</a></h3>
+<p><a href="" id="ref-coding-restricting-agents"></a></p>
+<h3 id="restricting-agents">Restricting agents<a class="headerlink" href="#restricting-agents" title="Permanent link">&para;</a></h3>
 <p>Most agents will by default give access only to files within the working directory in which the agent is launched.
 This provides a basic level of protection against unwanted and irreversible actions taken by agents.
-Sandboxing can provide stronger protection.</p>
+Sandboxing can provide stronger protection.
+Below we describe multiple alternatives for restricting agent access on and outside of Alps.
+Multiple options can and should often be combined.
+We recommend at least setting up restrictions on permissions and one of the sandboxing options below for your agent.
+If your workflow allows it, we recommend testing one of the sandboxing options that <a class="autorefs autorefs-internal" title="Sandboxing Slurm jobs" href="./#sandboxing-slurm-jobs">take Slurm job submission into account</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Sandbox restrictions do not apply to Slurm jobs submitted by agents</p>
+<p>Most sandboxing and permissions restrict the agent on the node where it runs.
+Jobs that the agent submits to Slurm, directly or through <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a>, run without those restrictions.
+See <a class="autorefs autorefs-internal" href="./#sandboxing-slurm-jobs">Sandboxing Slurm jobs</a> for options for restricting permissions on compute nodes for agents submitting jobs to Slurm.</p>
+</div>
+<p><a href="" id="ref-coding-agents-permissions"></a></p>
+<h4 id="restricting-agent-permissions">Restricting agent permissions<a class="headerlink" href="#restricting-agent-permissions" title="Permanent link">&para;</a></h4>
 <p>We highly recommend consulting your coding agent&rsquo;s documentation for instructions on how to restrict commands and filesystem access. See for example:</p>
 <ul>
 <li>Claude Code documentation on <a href="https://code.claude.com/docs/en/sandbox-environments">sandboxing</a> or <a href="https://code.claude.com/docs/en/permissions">permissions</a></li>
@@ -6319,27 +6475,126 @@ Sandboxing can provide stronger protection.</p>
 </ul>
 <p>We recommend starting with restrictive permissions and progressively whitelisting or approving commands manually as you get to know the behaviour of your particular coding agent and model on Alps.
 This is particularly important if you are new to coding agents, but is important even if you have used them in the past and are moving workflows to Alps.</p>
-<div class="admonition info">
-<p class="admonition-title">Anthropic srt uenv</p>
-<p>On the <a class="autorefs autorefs-internal" title="Daint" href="../../clusters/daint/#daint">daint cluster</a> a preview <a class="autorefs autorefs-internal" href="../../software/uenv/#uenv">uenv</a> containing the <a href="https://github.com/anthropic-experimental/sandbox-runtime">Anthropic Sandbox Runtime (srt)</a> is available in the <code>build::</code> namespace:</p>
-<div class="language-console highlight"><span class="filename">Pulling and using the srt uenv</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>find<span class="w"> </span>build::srt
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">uenv                 arch   system  id                size(MB)  date</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">srt/26.4:2590682466  gh200  daint   ae6b951e8de7276f     969    2026-06-10</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>build::srt
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>srt/26.4<span class="w"> </span>--view<span class="o">=</span>srt
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="gp">$ </span>srt<span class="w"> </span>curl<span class="w"> </span><span class="s2">"anthropic.com"</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">Connection blocked by network allowlist</span>
+<p><a href="" id="ref-coding-agents-sandboxing-builtin"></a></p>
+<h4 id="built-in-sandboxing">Built-in sandboxing<a class="headerlink" href="#built-in-sandboxing" title="Permanent link">&para;</a></h4>
+<p>Some coding agents come with a built-in sandbox that restricts the commands that they run:</p>
+<ul>
+<li>Claude Code wraps bash commands in a bubblewrap sandbox.
+  It can be enabled with the <code>/sandbox</code> command.
+  The file tools of Claude Code and MCP servers still run outside the sandbox.
+  See the Claude Code documentation on <a href="https://code.claude.com/docs/en/sandbox-environments">sandboxing</a> for more information.</li>
+<li>Codex CLI runs commands in a built-in OS sandbox, with network access off by default.
+  See its documentation on <a href="https://learn.chatgpt.com/docs/agent-approvals-security">agent approvals and security</a> for more details.</li>
+</ul>
+<p>OpenCode does not have a built-in sandbox.
+The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
+An agent can still write outside the working directory through indirection in scripts etc.</p>
+<p><a href="" id="ref-coding-agents-sandboxing-containers"></a></p>
+<h4 id="running-an-agent-in-a-container">Running an agent in a container<a class="headerlink" href="#running-an-agent-in-a-container" title="Permanent link">&para;</a></h4>
+<p>An alternative to sandboxing an agent directly on the system is to run the agent inside a container and expose only the directories from the host system needed for the agent to do its work.
+This can be done with the <a class="autorefs autorefs-internal" href="../../software/container-engine/#container-engine">Container Engine</a> on Alps.
+An <a class="autorefs autorefs-internal" title="EDF reference" href="../../software/container-engine/edf/#edf-reference">Environment Definition File</a> lets you define the image and mounts to expose from the host system.
+Additionally, the agent can run on a compute node with no Slurm available so it will not be able to spawn new jobs.</p>
+<p>The example below runs the official OpenCode image through the early-access <a class="autorefs autorefs-internal" title="Sarus Suite &amp; Podman on Alps — Early Access User Guide" href="../../software/container-engine/sarus-suite/user-guide/#sarus-suite-podman-on-alps-early-access-user-guide">Sarus Suite</a> tooling.
+For building a custom image with the tools you need, see <a class="autorefs autorefs-internal" title="Building container images on Alps" href="../../build-install/containers/#building-container-images-on-alps">building container images on Alps</a>.</p>
+<div class="language-toml highlight"><span class="filename">~/.edf/opencode.toml</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ghcr.io#anomalyco/opencode:latest"</span><span class="w">  </span><span class="c1"># (1)!</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">mounts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="s2">"${PROJECT}/myproject:${PROJECT}/myproject:ro"</span><span class="p">,</span><span class="w">  </span><span class="c1"># (2)!</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="s2">"${SCRATCH}/output:${SCRATCH}/output"</span><span class="p">,</span><span class="w">  </span><span class="c1"># (3)!</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="s2">"${HOME}/.local/share/opencode:${HOME}/.local/share/opencode"</span><span class="p">,</span><span class="w">  </span><span class="c1"># (4)!</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="s2">"${HOME}/.local/state/opencode:${HOME}/.local/state/opencode"</span><span class="p">,</span><span class="w">  </span><span class="c1"># (5)!</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="s2">"${HOME}/.config/opencode:${HOME}/.config/opencode"</span><span class="p">,</span><span class="w">  </span><span class="c1"># (6)!</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">]</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">workdir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"${PROJECT}/myproject"</span><span class="w">  </span><span class="c1"># (7)!</span>
 </span></code></pre></div>
-<p>See the <a href="https://github.com/anthropic-experimental/sandbox-runtime">srt documentation</a> for more information on configuring the sandbox.</p>
-</div>
+<ol>
+<li>The container image with the agent and tools that you or the agent needs for development.</li>
+<li>A project directory, mounted read-only.</li>
+<li>A writable directory for e.g. outputs.</li>
+<li>The data directory of OpenCode, with the credentials in <code>auth.json</code>; mounted read-write so that the agent can refresh tokens.</li>
+<li>The state directory of OpenCode: prompt history, last model choice, and locks; mounted read-write so that they survive between runs.</li>
+<li>Your custom OpenCode configuration, if you have one; remove this line if you do not.</li>
+<li>The directory that the agent starts in.</li>
+</ol>
+<p>Once you&rsquo;ve saved the file as <code>~/.edf/opencode.toml</code>, and made sure that the directories in the <code>mounts</code> list exist, start an interactive shell on a compute node using the environment file:</p>
+<div class="language-bash highlight"><span class="filename">running an agent in the container</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>srun<span class="w"> </span>--pty<span class="w"> </span>sarusctl<span class="w"> </span>run<span class="w"> </span>opencode
+</span></code></pre></div>
 <div class="admonition warning">
-<p class="admonition-title">Slurm does not propagate sandbox restrictions</p>
-<p>Sandboxing agents is effective for the agent process and its tool calls on the particular node where the agent is running.
-When an agent submits a Slurm job, the restrictions of the sandbox are typically not propagated to the compute nodes of the Slurm job, resulting in the agent having broader access than the sandbox would indicate.</p>
-<p>We are investigating alternatives for improving the integration with Slurm.</p>
+<p class="admonition-title">Slurm hooks do not currently work with Alpine-based images</p>
+<p>The command above calls <code>sarusctl run</code> directly instead of using the Slurm plugin with <code>--edf</code>, because Alpine-based images, such as the <code>opencode</code> image, do not currently start correctly with Slurm hooks.</p>
 </div>
-<div class="admonition todo">
-<p class="admonition-title">Provide more concrete examples of sandboxing and useful permissions configurations on Alps</p>
+<p>The agent sees only the container and the mounts that you listed.
+Files outside them, including your home directory, are not visible to the agent.
+The project directory is mounted read-only.
+The agent is able to write freely inside the container, but the only way for the agent to persist work outside the container is in the <code>output</code> directory.
+Containers do not restrict the network access of the agent.
+Running an agent in a container can be combined with the sandboxing and permissions restrictions described on this page.</p>
+<p><a href="" id="ref-coding-agents-sandboxing-bwrap"></a></p>
+<h4 id="sandboxing-with-bubblewrap">Sandboxing with bubblewrap<a class="headerlink" href="#sandboxing-with-bubblewrap" title="Permanent link">&para;</a></h4>
+<p><a href="https://github.com/containers/bubblewrap">bubblewrap</a> is a simple but powerful sandboxing tool.
+Compared to other solutions, it requires manual setup, but can be customized to many needs.
+Similar to other sandboxing solutions, bubblewrap also does not move to compute nodes when submitting jobs to Slurm.
+The example below shows a reasonable default: a read-only filesystem, a writable working directory with a private <code>/tmp</code>, private PID and IPC namespaces, and cleanup on exit:</p>
+<div class="language-bash highlight"><span class="filename">bwrap-sandbox.sh</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>bwrap<span class="w"> </span>--die-with-parent<span class="w"> </span><span class="se">\ </span><span class="c1"># (1)!</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>--ro-bind<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span><span class="se">\ </span><span class="c1"># (2)!</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>--dev<span class="w"> </span>/dev<span class="w"> </span>--proc<span class="w"> </span>/proc<span class="w"> </span><span class="se">\ </span><span class="c1"># (3)!</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>--bind<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span><span class="w"> </span><span class="se">\ </span><span class="c1"># (4)!</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>--tmpfs<span class="w"> </span>/tmp<span class="w"> </span><span class="se">\ </span><span class="c1"># (5)!</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span>--chdir<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span><span class="w"> </span><span class="se">\ </span><span class="c1"># (6)!</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>--unshare-pid<span class="w"> </span><span class="se">\ </span><span class="c1"># (7)!</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span>--unshare-ipc<span class="w"> </span><span class="se">\ </span><span class="c1"># (8)!</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span>--bind<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SCRATCH</span><span class="si">}</span><span class="s2">/output"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SCRATCH</span><span class="si">}</span><span class="s2">/output"</span><span class="w"> </span><span class="se">\ </span><span class="c1"># (9)!</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span>--tmpfs<span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.ssh"</span><span class="w"> </span><span class="se">\ </span><span class="c1"># (10)!</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span>claude
+</span></code></pre></div>
+<ol>
+<li>Exits the sandbox when the process that started it dies, so no orphaned agent processes survive a closed terminal or a lost SSH connection.</li>
+<li>Mounts the whole filesystem read-only.</li>
+<li>Provides the device and process filesystems that programs expect.</li>
+<li>Makes the working directory writable.</li>
+<li>Gives the agent a private, writable <code>/tmp</code>.</li>
+<li>Starts the agent in the working directory.</li>
+<li>Gives the agent a private PID namespace: it cannot see or signal processes outside the sandbox.</li>
+<li>Gives the agent a private IPC namespace, isolating System V shared memory, semaphores, and message queues.</li>
+<li>A writable directory in scratch, for outputs.</li>
+<li>Hides your SSH keys: the agent sees an empty directory instead of <code>$HOME/.ssh</code>.</li>
+</ol>
+<p>The default read-only mount with <code>--ro-bind / /</code> still lets agents read files anywhere on the filesystem.
+If you want to fully hide files, use a <code>--tmpfs</code> mount, as for <code>$HOME/.ssh</code> in the example.</p>
+<p>As with other sandboxing solutions, compute nodes do not get the same sandbox when an agent submits Slurm jobs.</p>
+<p><a href="" id="ref-coding-agents-sandboxing-tools"></a></p>
+<h4 id="existing-sandboxing-tools">Existing sandboxing tools<a class="headerlink" href="#existing-sandboxing-tools" title="Permanent link">&para;</a></h4>
+<p>Many existing sandboxing tools do not run easily or at all on Alps clusters.
+Below we list some alternatives, but we are continuously looking to improve support for established sandboxing tools to make it easier for you to use them on Alps.</p>
+<p>The <a href="https://github.com/anthropics/sandbox-runtime">Anthropic sandbox runtime (srt)</a> restricts the filesystem and network access of arbitrary processes, without a container.
+The sandbox requires <code>npm</code> for installation, which is not available globally on Alps, but a preview <a class="autorefs autorefs-internal" href="../../software/uenv/#uenv">uenv</a> is available on the <a class="autorefs autorefs-internal" title="Daint" href="../../clusters/daint/#daint">daint cluster</a> in the <code>build::</code> namespace:</p>
+<div class="language-console highlight"><span class="filename">Pulling and using the srt uenv</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>find<span class="w"> </span>build::srt
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">uenv                 arch   system  id                size(MB)  date</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">srt/26.4:2590682466  gh200  daint   ae6b951e8de7276f     969    2026-06-10</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>build::srt
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>srt/26.4<span class="w"> </span>--view<span class="o">=</span>srt
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="gp">$ </span>srt<span class="w"> </span>curl<span class="w"> </span><span class="s2">"anthropic.com"</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="go">Connection blocked by network allowlist</span>
+</span></code></pre></div>
+<p><a href="https://nono.sh/"><code>nono</code></a> is another popular sandboxing solution.
+However, <code>nono</code> currently does not run on Alps due to <a href="https://landlock.io">Landlock</a> not being enabled.
+We are investigating enabling Landlock to allow use of <code>nono</code> and other sandboxing solutions based on it.</p>
+<p><a href="" id="ref-coding-agents-sandboxing-slurm"></a></p>
+<h4 id="sandboxing-slurm-jobs">Sandboxing Slurm jobs<a class="headerlink" href="#sandboxing-slurm-jobs" title="Permanent link">&para;</a></h4>
+<p>All of the options above restrict the agent process and its tool calls on the node where the agent runs.
+When an agent submits a Slurm job, the restrictions do not travel with the job and an agent has full access to your account on a compute node.
+The same applies to jobs that an agent submits through <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a>.</p>
+<p>Two early-stage projects aim to make the sandbox apply both on the login node and on a compute node.
+Both options disallow agents from submitting Slurm jobs directly and intercept the submission to enforce that a sandbox is used also on compute nodes.
+We recommend evaluating both for your use case:</p>
+<ul>
+<li><a href="https://github.com/MeteoSwiss/husk"><code>husk</code></a> currently supports only Claude Code.</li>
+<li><a href="https://github.com/katosh/agent_sandbox"><code>agent_sandbox</code></a> supports multiple agent harnesses.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">FirecREST submissions are not handled by the above sandboxing tools</p>
+<p>Neither <code>husk</code> nor <code>agent_sandbox</code> sandbox jobs submitted via FirecREST.</p>
 </div>
 <p><a href="" id="ref-coding-agents-support"></a></p>
 <h2 id="getting-help">Getting help<a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
