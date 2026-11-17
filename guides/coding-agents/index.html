@@ -6460,7 +6460,7 @@ Below we describe multiple alternatives for restricting agent access on and outs
 Multiple options can and should often be combined.
 We recommend at least setting up restrictions on permissions and one of the sandboxing options below for your agent.
 If your workflow allows it, we recommend testing one of the sandboxing options that <a class="autorefs autorefs-internal" title="Sandboxing Slurm jobs" href="./#sandboxing-slurm-jobs">take Slurm job submission into account</a>.</p>
-<div class="admonition warning">
+<div class="admonition danger">
 <p class="admonition-title">Sandbox restrictions do not apply to Slurm jobs submitted by agents</p>
 <p>Most sandboxing and permissions restrict the agent on the node where it runs.
 Jobs that the agent submits to Slurm, directly or through <a class="autorefs autorefs-internal" href="../../access/firecrest/#firecrest">FirecREST</a>, run without those restrictions.
@@ -6485,10 +6485,11 @@ This is particularly important if you are new to coding agents, but is important
   See the Claude Code documentation on <a href="https://code.claude.com/docs/en/sandbox-environments">sandboxing</a> for more information.</li>
 <li>Codex CLI runs commands in a built-in OS sandbox, with network access off by default.
   See its documentation on <a href="https://learn.chatgpt.com/docs/agent-approvals-security">agent approvals and security</a> for more details.</li>
+<li>OpenCode does not have a built-in sandbox.
+  The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
+  An agent can still write outside the working directory through indirection in scripts etc.
+  Use the sandboxing solutions described in the other sections instead together with restricted permissions.</li>
 </ul>
-<p>OpenCode does not have a built-in sandbox.
-The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
-An agent can still write outside the working directory through indirection in scripts etc.</p>
 <p><a href="" id="ref-coding-agents-sandboxing-containers"></a></p>
 <h4 id="running-an-agent-in-a-container">Running an agent in a container<a class="headerlink" href="#running-an-agent-in-a-container" title="Permanent link">&para;</a></h4>
 <p>An alternative to sandboxing an agent directly on the system is to run the agent inside a container and expose only the directories from the host system needed for the agent to do its work.
