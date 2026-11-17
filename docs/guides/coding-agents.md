@@ -63,7 +63,7 @@ Multiple options can and should often be combined.
 We recommend at least setting up restrictions on permissions and one of the sandboxing options below for your agent.
 If your workflow allows it, we recommend testing one of the sandboxing options that [take Slurm job submission into account][ref-coding-agents-sandboxing-slurm].
 
-!!! warning "Sandbox restrictions do not apply to Slurm jobs submitted by agents"
+!!! danger "Sandbox restrictions do not apply to Slurm jobs submitted by agents"
 
     Most sandboxing and permissions restrict the agent on the node where it runs.
     Jobs that the agent submits to Slurm, directly or through [FirecREST][ref-firecrest], run without those restrictions.
@@ -91,10 +91,11 @@ Some coding agents come with a built-in sandbox that restricts the commands that
   See the Claude Code documentation on [sandboxing](https://code.claude.com/docs/en/sandbox-environments) for more information.
 - Codex CLI runs commands in a built-in OS sandbox, with network access off by default.
   See its documentation on [agent approvals and security](https://learn.chatgpt.com/docs/agent-approvals-security) for more details.
+- OpenCode does not have a built-in sandbox.
+  The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
+  An agent can still write outside the working directory through indirection in scripts etc.
+  Use the sandboxing solutions described in the other sections instead together with restricted permissions.
 
-OpenCode does not have a built-in sandbox.
-The permission system described in the previous section provides basic checks for e.g. writes outside the working directory, but provides no guarantees.
-An agent can still write outside the working directory through indirection in scripts etc.
 
 [](){#ref-coding-agents-sandboxing-containers}
 #### Running an agent in a container
