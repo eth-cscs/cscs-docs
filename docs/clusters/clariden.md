@@ -218,18 +218,17 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 ### Change log
 
 !!! change "2026-11-18"
-    !!! note "Slurm"
+    !!! note "Slurm controller high availability"
         The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
-        Some nodes have been removed from the Slurm configuration, so the number of available nodes is slightly lower.
 
-    !!! note "Container Engine"
-        - Updated Container Engine to v26.10.1
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
 
-    !!! note "uenv"
-        - Updated uenv to v10.2.1
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
 
-    !!! note "OS updates"
-        - Kernel update to 6.4.0-150600.23.143 to solve CVEs
+    !!! note "Kernel update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
 
 ??? change "2026-08-26"
     !!! note "Login node limits"
