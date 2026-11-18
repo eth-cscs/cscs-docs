@@ -224,7 +224,8 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     !!! note "Environment variables removed"
         - `$PROJECT` is no longer set
         - `$STORE` is no longer set
-        - Update any scripts or job definitions that use these variables to use explicit paths instead
+
+        **Note:** if your scripts or job definitions use these variables, you can either set them again in your shell environment (for example in your `~/.bashrc`), or update your scripts to use explicit paths instead.
 
     !!! note "Container Engine updated to v26.10.1"
         - CE was updated from v26.08.1 to v26.10.1
