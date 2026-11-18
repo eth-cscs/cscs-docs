@@ -217,7 +217,26 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-08-26"
+!!! change "2026-11-18"
+    !!! note "Slurm controller high availability"
+        The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
+
+    !!! note "Environment variables removed"
+        - `$PROJECT` is no longer set
+        - `$STORE` is no longer set
+
+        **Note:** if your scripts or job definitions use these variables, you can either set them again in your shell environment (for example in your `~/.bashrc`), or update your scripts to use explicit paths instead.
+
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
+
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
+
+    !!! note "Kernel update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+??? change "2026-08-26"
     !!! note "Login node limits"
         To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
         Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.
