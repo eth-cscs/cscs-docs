@@ -988,35 +988,70 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 > [!NOTE]
 >
-> **2026-08-26**
+> **2026-11-18**
 >
-> > **Login node limits**
+> > **Slurm controller high availability**
 > >
-> > To enforce our [fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. In addition, each login session is pinned to a subset of the cores of the node. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+> > The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
 >
-> > **Enforce performance cpufreq governor**
+> > **Environment variables removed**
 > >
-> > Due to a bug the cpu frequency governor has not always been set to `performance`. This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+> > - `$PROJECT` is no longer set
+> > - `$STORE` is no longer set
+> >
+> > **Note:** if your scripts or job definitions use these variables, you can either set them again in your shell environment (for example in your `~/.bashrc`), or update your scripts to use explicit paths instead.
 >
-> > **Container Engine**
+> > **Container Engine updated to v26.10.1**
 > >
-> > - Updated Container Engine to v26.08.1
-> > - Podman-5.8.6
-> > - NVIDIA Container Toolkit to 1.20.0
-> > - crun 1.29.1
-> > - sarusctl 0.6.0
-> > - Skybox 0.3.0
-> > - Sarus Suite Performance Extensions 26.08.1
-> > - The default netstack artifact version is now 26.08.1. There are no software changes: only the naming format of the variants has changed.
+> > - CE was updated from v26.08.1 to v26.10.1
 >
-> > **OS updates**
+> > **Uenv updated to 10.2.1**
 > >
-> > - Kernel update to solve CVEs
-> > - VAST client update to 4.5.8
+> > - `uenv` has been updated to 10.2.1
 >
-> > **New file system**
+> > **Kernel update**
 > >
-> > The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes and on the nodes of the `xfer` partition.
+> > - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+**2026-08-26**
+
+> [!NOTE]
+>
+> **Login node limits**
+>
+> To enforce our [fair usage of shared resources](<https://docs.cscs.ch/policies/shared/index.md#login-nodes> "Login nodes") policies, we have enabled limits on the login nodes. Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes. In addition, each login session is pinned to a subset of the cores of the node. Agentic tools and VSCode might be affected by these limits. Compute intensive tasks will also be affected by the limits. Any compute intensive task that is beyond the limits should be submitted to a compute node.
+
+> [!NOTE]
+>
+> **Enforce performance cpufreq governor**
+>
+> Due to a bug the cpu frequency governor has not always been set to `performance`. This bug has been fixed and the frequency governor will always be set to `performance` (instead of the default `ondemand`)
+
+> [!NOTE]
+>
+> **Container Engine**
+>
+> - Updated Container Engine to v26.08.1
+> - Podman-5.8.6
+> - NVIDIA Container Toolkit to 1.20.0
+> - crun 1.29.1
+> - sarusctl 0.6.0
+> - Skybox 0.3.0
+> - Sarus Suite Performance Extensions 26.08.1
+> - The default netstack artifact version is now 26.08.1. There are no software changes: only the naming format of the variants has changed.
+
+> [!NOTE]
+>
+> **OS updates**
+>
+> - Kernel update to solve CVEs
+> - VAST client update to 4.5.8
+
+> [!NOTE]
+>
+> **New file system**
+>
+> The Lustre file system `/iopsstor/datacache/cscs` is now mounted on the compute nodes and on the nodes of the `xfer` partition.
 
 **2025-03-05 container engine updated**
 

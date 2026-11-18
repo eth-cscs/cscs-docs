@@ -7008,7 +7008,40 @@ The last column shows the number of nodes that have been allocated in currently 
 <p>Exceptional and non-disruptive updates may happen outside this time frame and will be announced to the users mailing list, and on the <a href="https://status.cscs.ch">CSCS status page</a>.</p>
 <h3 id="change-log">Change log<a class="headerlink" href="#change-log" title="Permanent link">&para;</a></h3>
 <div class="admonition change">
-<p class="admonition-title">2026-08-26</p>
+<p class="admonition-title">2026-11-18</p>
+<div class="admonition note">
+<p class="admonition-title">Slurm controller high availability</p>
+<p>The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Environment variables removed</p>
+<ul>
+<li><code>$PROJECT</code> is no longer set</li>
+<li><code>$STORE</code> is no longer set</li>
+</ul>
+<p><strong>Note:</strong> if your scripts or job definitions use these variables, you can either set them again in your shell environment (for example in your <code>~/.bashrc</code>), or update your scripts to use explicit paths instead.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Container Engine updated to v26.10.1</p>
+<ul>
+<li>CE was updated from v26.08.1 to v26.10.1</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Uenv updated to 10.2.1</p>
+<ul>
+<li><code>uenv</code> has been updated to 10.2.1</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Kernel update</p>
+<ul>
+<li>The kernel was updated to 6.4.0-150600.23.143 to solve CVEs</li>
+</ul>
+</div>
+</div>
+<details class="change">
+<summary>2026-08-26</summary>
 <div class="admonition note">
 <p class="admonition-title">Login node limits</p>
 <p>To enforce our <a class="autorefs autorefs-internal" title="Login nodes" href="../../policies/shared/#login-nodes">fair usage of shared resources</a> policies, we have enabled limits on the login nodes.
@@ -7048,7 +7081,7 @@ This bug has been fixed and the frequency governor will always be set to <code>p
 <p class="admonition-title">New file system</p>
 <p>The Lustre file system <code>/iopsstor/datacache/cscs</code> is now mounted on the compute nodes and on the nodes of the <code>xfer</code> partition.</p>
 </div>
-</div>
+</details>
 <details class="change">
 <summary>2025-03-05 container engine updated</summary>
 <p>now supports better containers that go faster. Users do not to change their workflow to take advantage of these updates.</p>
