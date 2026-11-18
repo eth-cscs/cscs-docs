@@ -153,7 +153,22 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-09-16"
+!!! change "2026-11-18"
+    !!! note "Slurm controller high availability"
+        The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
+
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
+        - Default netstack comes with `libfabric-2.7.0` and `aws-ofi-nccl-plugin-1.2.11`
+
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
+        - Fixes an issue with file permissions on `ritom`
+
+    !!! note "Kernel update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+??? change "2026-09-16"
     !!! note "New $SCRATCH directory"
         - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
         - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
