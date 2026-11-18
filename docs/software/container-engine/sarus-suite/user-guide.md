@@ -440,6 +440,9 @@ The following EDF annotations are currently supported on Alps,
 | `com.hooks.cxi.enabled = "true"`             | Libfabric-based support for the [HPE Slingshot high-speed network][ref-ce-cxi-hook]                                   |
 | `com.hooks.aws_ofi_nccl.enabled = "true"`    | [AWS OFI NCCL plugin injection][ref-ce-aws-ofi-hook] to use Slingshot (through libfabric) in NCCL containers          |
 | `com.hooks.dcgm.enabled = "true"`            | NVIDIA DCGM libraries required to use the [GSSR][ref-gssr-containers] and [jobreport][ref-jobreport-containers] tools |
+| `com.hooks.netstack.name = "<string>"` | [Select the network stack artifact name][ref-ce-netstack-artifacts]                                             |
+| `com.hooks.netstack.source = "<string>"` | [Select the network stack source][ref-ce-netstack-source]                                             |
+| `com.hooks.netstack.version = "<string>"` | [Select the network stack artifact version][ref-ce-netstack-artifacts]                                             |
 | `com.hooks.nvidia_cuda_mps.enabled = "true"` | Support for the [NVIDIA CUDA Multi-Process Service][ref-ce-cuda-mps-hook]                                             |
 | `com.hooks.slurm.enabled = "true"`           | **Experimental** support for host Slurm commands in containers                                                        |
 
@@ -454,11 +457,6 @@ The following EDF annotations are currently supported on Alps,
 
     The AWS OFI NCCL hook uses a dynamically linked plugin from a network stack artifact.
     Therefore, the `com.hooks.aws_ofi_nccl.variant` annotation is ignored.
-
-!!! warning
-
-    The CXI and AWS OFI NCCL hooks use a fixed version of a [network stack artifact][ref-ce-netstack-source].
-    It is not currently possible to select a netstack source or specific artifact version.
 
 [](){#ref-sarus-suite-nvidia-gpus}
 ### NVIDIA GPUs
