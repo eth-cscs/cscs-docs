@@ -411,9 +411,9 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
             "cscs": {
                 "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
-                "options": {
+                "settings": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
-                    "systemMessageMode": "system"
+                    "systemMessageMode": "system",
                     "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
                 },
                 "models": {
@@ -448,7 +448,7 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
             "cscs": {
                 "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
-                "options": {
+                "settings": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
                     "systemMessageMode": "system"
                 },
