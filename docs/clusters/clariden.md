@@ -221,6 +221,11 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
     !!! note "Slurm controller high availability"
         The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
 
+    !!! note "Environment variables removed"
+        - `$PROJECT` is no longer set
+        - `$STORE` is no longer set
+        - Update any scripts or job definitions that use these variables to use explicit paths instead
+
     !!! note "Container Engine updated to v26.10.1"
         - CE was updated from v26.08.1 to v26.10.1
 
