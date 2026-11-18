@@ -164,8 +164,9 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
         - `uenv` has been updated to 10.2.1
         - Fixes an issue with file permissions on `ritom`
 
-    !!! note "Kernel update"
+    !!! note "System update"
         - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+        - The nvidia driver has been updated to 595.91.07
 
 ??? change "2026-09-16"
     !!! note "New $SCRATCH directory"
