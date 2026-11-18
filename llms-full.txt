@@ -1184,33 +1184,64 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 > [!NOTE]
 >
-> **2026-09-16**
+> **2026-11-18**
 >
-> > **New $SCRATCH directory**
+> > **Slurm controller high availability**
 > >
-> > - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
-> > - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
-> > - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+> > The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
 >
-> > **Slurm updated to 25.05.9**
+> > **Container Engine updated to v26.10.1**
 > >
-> > - Slurm was updated from 25.05.8 to 25.05.9
+> > - CE was updated from v26.08.1 to v26.10.1
+> > - Default netstack comes with `libfabric-2.7.0` and `aws-ofi-nccl-plugin-1.2.11`
 >
-> > **Container Engine updated to v26.09.1**
+> > **Uenv updated to 10.2.1**
 > >
-> > - CE was updated from v26.08.1 to v26.09.1
-> > - `fuse-overlayfs` updated for Podman to 1.18
-> > - Fixes a bug in the netstack hook
-> > - Sarus Suite (beta) default location changed to new `$SCRATCH`
+> > - `uenv` has been updated to 10.2.1
+> > - Fixes an issue with file permissions on `ritom`
 >
-> > **Uenv updated to 10.1.0**
+> > **System update**
 > >
-> > - `uenv` has been updated from 10.0.1 to 10.1.0
-> > - This fixes an issue downloading images that need a token authentication
+> > - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+> > - The nvidia driver has been updated to 595.91.07
+
+**2026-09-16**
+
+> [!NOTE]
 >
-> > **Slurm batch policies plugin**
-> >
-> > - Fixes a bug with library dependencies
+> **New $SCRATCH directory**
+>
+> - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
+> - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
+> - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+
+> [!NOTE]
+>
+> **Slurm updated to 25.05.9**
+>
+> - Slurm was updated from 25.05.8 to 25.05.9
+
+> [!NOTE]
+>
+> **Container Engine updated to v26.09.1**
+>
+> - CE was updated from v26.08.1 to v26.09.1
+> - `fuse-overlayfs` updated for Podman to 1.18
+> - Fixes a bug in the netstack hook
+> - Sarus Suite (beta) default location changed to new `$SCRATCH`
+
+> [!NOTE]
+>
+> **Uenv updated to 10.1.0**
+>
+> - `uenv` has been updated from 10.0.1 to 10.1.0
+> - This fixes an issue downloading images that need a token authentication
+
+> [!NOTE]
+>
+> **Slurm batch policies plugin**
+>
+> - Fixes a bug with library dependencies
 
 **2026-08-26**
 
@@ -1551,26 +1582,54 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 > [!NOTE]
 >
-> **2026-09-16**
+> **2026-11-18**
 >
-> > **New $SCRATCH directory**
+> > **Slurm controller high availability**
 > >
-> > - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
-> > - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
-> > - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+> > The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
 >
-> > **Slurm updated to 25.05.9**
+> > **Container Engine updated to v26.10.1**
 > >
-> > - Slurm was updated from 25.05.8 to 25.05.9
+> > - CE was updated from v26.08.1 to v26.10.1
+> > - Default netstack comes with `libfabric-2.7.0` and `aws-ofi-nccl-plugin-1.2.11`
 >
-> > **Uenv updated to 10.1.0**
+> > **Uenv updated to 10.2.1**
 > >
-> > - `uenv` has been updated from 10.0.1 to 10.1.0
-> > - This fixes an issue downloading images that need a token authentication
+> > - `uenv` has been updated to 10.2.1
+> > - Fixes an issue with file permissions on `ritom`
 >
-> > **Slurm batch policies plugin**
+> > **Kernel update**
 > >
-> > - Fixes a bug with library dependencies
+> > - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+**2026-09-16**
+
+> [!NOTE]
+>
+> **New $SCRATCH directory**
+>
+> - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
+> - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`
+> - `$SCRATCH_NEW` is unchanged and points to `/ritom/scratch/cscs/<username>`
+
+> [!NOTE]
+>
+> **Slurm updated to 25.05.9**
+>
+> - Slurm was updated from 25.05.8 to 25.05.9
+
+> [!NOTE]
+>
+> **Uenv updated to 10.1.0**
+>
+> - `uenv` has been updated from 10.0.1 to 10.1.0
+> - This fixes an issue downloading images that need a token authentication
+
+> [!NOTE]
+>
+> **Slurm batch policies plugin**
+>
+> - Fixes a bug with library dependencies
 
 **2026-08-26**
 

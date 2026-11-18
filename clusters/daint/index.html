@@ -6871,7 +6871,35 @@ Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code
 <p>Exceptional and non-disruptive updates may happen outside this time frame and will be announced via the <a href="https://status.cscs.ch">CSCS status page</a>.</p>
 <h3 id="change-log">Change log<a class="headerlink" href="#change-log" title="Permanent link">&para;</a></h3>
 <div class="admonition change">
-<p class="admonition-title">2026-09-16</p>
+<p class="admonition-title">2026-11-18</p>
+<div class="admonition note">
+<p class="admonition-title">Slurm controller high availability</p>
+<p>The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Container Engine updated to v26.10.1</p>
+<ul>
+<li>CE was updated from v26.08.1 to v26.10.1</li>
+<li>Default netstack comes with <code>libfabric-2.7.0</code> and <code>aws-ofi-nccl-plugin-1.2.11</code></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Uenv updated to 10.2.1</p>
+<ul>
+<li><code>uenv</code> has been updated to 10.2.1</li>
+<li>Fixes an issue with file permissions on <code>ritom</code></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">System update</p>
+<ul>
+<li>The kernel was updated to 6.4.0-150600.23.143 to solve CVEs</li>
+<li>The nvidia driver has been updated to 595.91.07</li>
+</ul>
+</div>
+</div>
+<details class="change">
+<summary>2026-09-16</summary>
 <div class="admonition note">
 <p class="admonition-title">New $SCRATCH directory</p>
 <ul>
@@ -6908,7 +6936,7 @@ Applications that use OpenMPI or MPICH must set <code>--mpi=pmix</code> or <code
 <li>Fixes a bug with library dependencies</li>
 </ul>
 </div>
-</div>
+</details>
 <details class="change">
 <summary>2026-08-26</summary>
 <div class="admonition note">
