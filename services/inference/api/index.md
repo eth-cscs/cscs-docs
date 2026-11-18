@@ -306,9 +306,9 @@ OpenCode configuration for the inference API
         "cscs": {
             "package": "@ai-sdk/anthropic",
             "name": "CSCS Inference",
-            "options": {
+            "settings": {
                 "baseURL": "https://api.inference.cscs.ch/v1",
-                "systemMessageMode": "system"
+                "systemMessageMode": "system",
                 "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
             },
             "models": {
@@ -342,7 +342,7 @@ OpenCode configuration for the inference API
         "cscs": {
             "package": "@ai-sdk/anthropic",
             "name": "CSCS Inference",
-            "options": {
+            "settings": {
                 "baseURL": "https://api.inference.cscs.ch/v1",
                 "systemMessageMode": "system"
             },
