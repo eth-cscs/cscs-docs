@@ -55,7 +55,7 @@ To use a uenv as an [upstream Spack instance](https://spack.readthedocs.io/en/la
 the uenv has to be started with the `spack` view:
 
 ```bash
-uenv start prgenv-gnu/24.11:v1 --view=spack
+uenv start prgenv-gnu/26.9:v1 --view=spack
 ```
 
 !!! note "What does the `spack` view do?"
@@ -247,10 +247,10 @@ A Spack view is generated in `<build-path>/view` with an activation script `<bui
 When the view is activated, all of the installed packages are available for use in the environment.
 
 !!! example "Activating the view"
-    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v1`:
 
     ```bash
-    uenv start prgenv-gnu/25.6:v2                   # (1)!
+    uenv start prgenv-gnu/26.9:v1                   # (1)!
     source $SCRATCH/software/tool/view/activate.sh  # (2)!
     ```
 
@@ -265,10 +265,10 @@ Module files are generated in the `module` sub-directory of the `<build-path>`
 To use them, add them to the module environment:
 
 !!! example "Use the modules"
-    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/25.6:v2`:
+    For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v1`:
 
     ```bash
-    uenv start prgenv-gnu/25.6:v2             # (1)!
+    uenv start prgenv-gnu/26.9:v1             # (1)!
     module use $SCRATCH/software/tool/modules # (2)!
     module avail                              # (3)!
     ```

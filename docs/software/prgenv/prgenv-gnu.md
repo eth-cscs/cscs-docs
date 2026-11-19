@@ -182,24 +182,24 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
 
     The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
 
-    !!! example "test mpi compilers and python provided by prgenv-gnu/24.11"
+    !!! example "test mpi compilers and python provided by prgenv-gnu/26.9"
         ```console
         # start using the default view
-        $ uenv start --view=default prgenv-gnu/25.6:v1
+        $ uenv start --view=default prgenv-gnu/26.9:v1
 
         # the python executable provided by the uenv is the default, and is a recent version
         $ which python
         /user-environment/env/default/bin/python
         $ python --version 
-        Python 3.13.5
+        Python 3.14.5
 
         # the mpi compiler wrappers are also available
         $ which mpicc
         /user-environment/env/default/bin/mpicc
         $ mpicc --version
-        gcc (Spack GCC) 14.2.0
+        gcc (Spack GCC) 16.2.0
         $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
-        gcc (Spack GCC) 14.2.0
+        gcc (Spack GCC) 16.2.0
         ```
 
 === "modules"
@@ -209,25 +209,27 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
 
     !!! example "starting prgenv-gnu and listing the provided modules"
         ```console
-        $ uenv start prgenv-gnu/25.6:v1 --view=modules
+        $ uenv start prgenv-gnu/26.9:v1 --view=modules
         $ module avail
             ---------------------------- /user-environment/modules ----------------------------
-               aws-ofi-nccl/1.16.0      meson/1.7.0
-               boost/1.88.0             nccl-tests/2.16.3
-               cmake/3.31.8             nccl/2.27.5-1
-               cray-mpich/8.1.32        netcdf-c/4.9.2
-               cuda/12.9.0              netcdf-cxx/4.2
-               fftw/3.3.10              netcdf-fortran/4.6.1
-               fmt/11.2.0               netlib-scalapack/2.2.2
-               gsl/2.8                  ninja/1.12.1
-               hdf5/1.14.6              openblas/0.3.29
-               kokkos-kernels/4.6.01    osu-micro-benchmarks/7.5
-               kokkos-tools/develop     papi/7.1.0
-               kokkos/4.6.01            python/3.13.5
-               libfabric/1.22.0         squashfs/4.6.1
-               libtree/3.1.1            superlu/7.0.0
-               lua/5.4.6                xcb-util-cursor/0.1.5
-               lz4/1.10.0               zlib-ng/2.2.4
+               aws-ofi-nccl/1.19.0      lz4/1.10.0
+               boost/1.90.0             meson/1.12.0
+               cmake/3.31.12            nccl-tests/2.17.6
+               cray-mpich/9.2.1         nccl/2.29.7-1
+               cuda/13.4.1              netcdf-c/4.10.0
+               cufftmp/11.4.0.6         netcdf-cxx/4.2
+               fftw/3.3.11              netcdf-cxx4/4.3.1
+               fmt/12.2.0               netcdf-fortran/4.6.4
+               gcc/16.2.0               netlib-scalapack/2.2.3
+               gmp/6.3.0                ninja/1.13.2
+               gsl/2.8                  nvshmem/3.8.0-0
+               hdf5/1.14.6              openblas/0.3.34
+               kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2
+               kokkos-tools/5.2.0       papi/7.2.0
+               kokkos/4.7.04            python/3.14.5
+               libfabric/2.6.0          superlu/7.0.1
+               libtree/3.1.1            xcb-util-cursor/0.1.6
+               lua/5.4.8                zlib-ng/2.3.3
         ```
 
 === "Spack"

@@ -307,7 +307,7 @@ Use `powershell` for the PowerShell equivalent.
 
 ```
 ```bash title="load a uenv"
-uenv start prgenv-gnu/24.11:v1
+uenv start prgenv-gnu/26.9:v1
 ```
 ```
 

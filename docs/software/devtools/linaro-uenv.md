@@ -34,7 +34,7 @@ When using alongside another uenv, start a uenv session with both uenv.
 In the following example, the `prgenv-gnu` and `linaro-forge` uenv will be mounted at `/user-environment` and `/user-tools`  respectively:
 
 ```console
-$ uenv start prgenv-gnu/26.3:v1,linaro-forge/26.0:v1 \
+$ uenv start prgenv-gnu/26.9:v1,linaro-forge/26.0:v1 \
     --view=prgenv-gnu:default,forge # (1)!
 
 $ uenv status # (2)!
