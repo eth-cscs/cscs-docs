@@ -6347,6 +6347,11 @@ Only available on <a class="autorefs autorefs-internal" href="../../../clusters/
 </thead>
 <tbody>
 <tr>
+<td>26.9</td>
+<td>gh200, zen2</td>
+<td>daint, eiger, santis, clariden</td>
+</tr>
+<tr>
 <td>26.3</td>
 <td>gh200, zen2</td>
 <td>daint, eiger, santis, clariden</td>
@@ -6391,8 +6396,57 @@ Only available on <a class="autorefs autorefs-internal" href="../../../clusters/
 <li>It is recommended to document how you compiled and set up your workflow using <code>prgenv-gnu</code> so that you can recreate it with future versions.</li>
 </ul>
 <h3 id="versions">Versions<a class="headerlink" href="#versions" title="Permanent link">&para;</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">26.3</label><label for="__tabbed_1_2">25.11</label><label for="__tabbed_1_3">25.6</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">26.9</label><label for="__tabbed_1_2">26.3</label><label for="__tabbed_1_3">25.11</label><label for="__tabbed_1_4">25.6</label></div>
 <div class="tabbed-content">
+<div class="tabbed-block">
+<p>The key updates in version 26.9 compared to 26.3 are:</p>
+<ul>
+<li>upgrading GCC to version 16.2 and CUDA to version 13.4</li>
+<li>upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0</li>
+<li>adding <a href="https://docs.nvidia.com/hpc-sdk/cufftmp/">cuFFTMp</a> and <a class="autorefs autorefs-internal" href="../../communication/nvshmem/#nvshmem">NVSHMEM</a></li>
+</ul>
+<details class="info">
+<summary>all packages exposed via the <code>default</code> and <code>modules</code> views in <code>v1</code></summary>
+<ul>
+<li><a href="https://packages.spack.io/package.html?name=aws-ofi-nccl">aws-ofi-nccl@1.19.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=boost">boost@1.90.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cmake">cmake@3.31.12</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cray-mpich">cray-mpich@9.2.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cuda">cuda@13.4.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cufftmp">cufftmp@11.4.0.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=fftw">fftw@3.3.11</a></li>
+<li><a href="https://packages.spack.io/package.html?name=fmt">fmt@12.2.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=gcc">gcc@16.2.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=gmp">gmp@6.3.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=gsl">gsl@2.8</a></li>
+<li><a href="https://packages.spack.io/package.html?name=hdf5">hdf5@1.14.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=kokkos">kokkos@4.7.04</a></li>
+<li><a href="https://packages.spack.io/package.html?name=kokkos-kernels">kokkos-kernels@4.7.04</a></li>
+<li><a href="https://packages.spack.io/package.html?name=kokkos-tools">kokkos-tools@5.2.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=libfabric">libfabric@2.6.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=libtree">libtree@3.1.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=lua">lua@5.4.8</a></li>
+<li><a href="https://packages.spack.io/package.html?name=lz4">lz4@1.10.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=meson">meson@1.12.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nccl">nccl@2.29.7-1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nccl-tests">nccl-tests@2.17.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-c">netcdf-c@4.10.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-cxx">netcdf-cxx@4.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-cxx4">netcdf-cxx4@4.3.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-fortran">netcdf-fortran@4.6.4</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netlib-scalapack">netlib-scalapack@2.2.3</a></li>
+<li><a href="https://packages.spack.io/package.html?name=ninja">ninja@1.13.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nvshmem">nvshmem@3.8.0-0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=openblas">openblas@0.3.34</a></li>
+<li><a href="https://packages.spack.io/package.html?name=osu-micro-benchmarks">osu-micro-benchmarks@7.5.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=papi">papi@7.2.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=python">python@3.14.5</a></li>
+<li><a href="https://packages.spack.io/package.html?name=superlu">superlu@7.0.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=xcb-util-cursor">xcb-util-cursor@0.1.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=zlib-ng">zlib-ng@2.3.3</a></li>
+</ul>
+</details>
+</div>
 <div class="tabbed-block">
 <p>The key updates in version 26.3 compared to 25.11 are upgrading CUDA to version 13.1 and Cray MPICH to 9.1.0.</p>
 <details class="info">
@@ -6535,23 +6589,23 @@ This newer version brings stability and performance improvements, in particular 
 <div class="tabbed-block">
 <p>The simplest way to get started is to use the <code>default</code> file system view, which automatically loads all of the packages when the uenv is started.</p>
 <div class="admonition example">
-<p class="admonition-title">test mpi compilers and python provided by prgenv-gnu/24.11</p>
+<p class="admonition-title">test mpi compilers and python provided by prgenv-gnu/26.9</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>start<span class="w"> </span>using<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>view
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/25.6:v1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>the<span class="w"> </span>python<span class="w"> </span>executable<span class="w"> </span>provided<span class="w"> </span>by<span class="w"> </span>the<span class="w"> </span>uenv<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>default,<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>recent<span class="w"> </span>version
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">$ </span>which<span class="w"> </span>python
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">/user-environment/env/default/bin/python</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">$ </span>python<span class="w"> </span>--version<span class="w"> </span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">Python 3.13.5</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">Python 3.14.5</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp"># </span>the<span class="w"> </span>mpi<span class="w"> </span>compiler<span class="w"> </span>wrappers<span class="w"> </span>are<span class="w"> </span>also<span class="w"> </span>available
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">$ </span>which<span class="w"> </span>mpicc
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">/user-environment/env/default/bin/mpicc</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="gp">$ </span>mpicc<span class="w"> </span>--version
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">gcc (Spack GCC) 14.2.0</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">gcc (Spack GCC) 16.2.0</span>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="gp">$ </span>gcc<span class="w"> </span>--version<span class="w"> </span><span class="c1"># the compiler wrapper uses the gcc provided by the uenv</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">gcc (Spack GCC) 14.2.0</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">gcc (Spack GCC) 16.2.0</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -6560,25 +6614,27 @@ This newer version brings stability and performance improvements, in particular 
 No modules are loaded when a uenv starts, and have to be loaded individually using <code>module load</code>.</p>
 <div class="admonition example">
 <p class="admonition-title">starting prgenv-gnu and listing the provided modules</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/25.6:v1<span class="w"> </span>--view<span class="o">=</span>modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>modules
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">    ---------------------------- /user-environment/modules ----------------------------</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="go">       aws-ofi-nccl/1.16.0      meson/1.7.0</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">       boost/1.88.0             nccl-tests/2.16.3</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="go">       cmake/3.31.8             nccl/2.27.5-1</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="go">       cray-mpich/8.1.32        netcdf-c/4.9.2</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="go">       cuda/12.9.0              netcdf-cxx/4.2</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="go">       fftw/3.3.10              netcdf-fortran/4.6.1</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="go">       fmt/11.2.0               netlib-scalapack/2.2.2</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="go">       gsl/2.8                  ninja/1.12.1</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="go">       hdf5/1.14.6              openblas/0.3.29</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="go">       kokkos-kernels/4.6.01    osu-micro-benchmarks/7.5</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="go">       kokkos-tools/develop     papi/7.1.0</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="go">       kokkos/4.6.01            python/3.13.5</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="go">       libfabric/1.22.0         squashfs/4.6.1</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="go">       libtree/3.1.1            superlu/7.0.0</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="go">       lua/5.4.6                xcb-util-cursor/0.1.5</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="go">       lz4/1.10.0               zlib-ng/2.2.4</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="go">       aws-ofi-nccl/1.19.0      lz4/1.10.0</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">       boost/1.90.0             meson/1.12.0</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="go">       cmake/3.31.12            nccl-tests/2.17.6</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="go">       cray-mpich/9.2.1         nccl/2.29.7-1</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="go">       cuda/13.4.1              netcdf-c/4.10.0</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="go">       cufftmp/11.4.0.6         netcdf-cxx/4.2</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="go">       fftw/3.3.11              netcdf-cxx4/4.3.1</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="go">       fmt/12.2.0               netcdf-fortran/4.6.4</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="go">       gcc/16.2.0               netlib-scalapack/2.2.3</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="go">       gmp/6.3.0                ninja/1.13.2</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="go">       gsl/2.8                  nvshmem/3.8.0-0</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="go">       hdf5/1.14.6              openblas/0.3.34</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="go">       kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="go">       kokkos-tools/5.2.0       papi/7.2.0</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="go">       kokkos/4.7.04            python/3.14.5</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="go">       libfabric/2.6.0          superlu/7.0.1</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="go">       libtree/3.1.1            xcb-util-cursor/0.1.6</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="go">       lua/5.4.8                zlib-ng/2.3.3</span>
 </span></code></pre></div>
 </div>
 </div>

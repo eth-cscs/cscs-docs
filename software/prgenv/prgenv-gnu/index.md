@@ -22,6 +22,7 @@ The release schedule is not fixed, with new versions will be released roughly ev
 
 | version | node types | system |
 | --- | --- | --- |
+| 26.9 | gh200, zen2 | daint, eiger, santis, clariden |
 | 26.3 | gh200, zen2 | daint, eiger, santis, clariden |
 | 25.11 | gh200, zen2 | daint, eiger, santis, clariden |
 | 25.6 | gh200, zen2 | daint, eiger, santis, clariden |
@@ -44,6 +45,53 @@ We will provide full support for 12 months after the uenv image is released, and
 - It is recommended to document how you compiled and set up your workflow using `prgenv-gnu` so that you can recreate it with future versions.
 
 ### Versions
+
+The key updates in version 26.9 compared to 26.3 are:
+
+- upgrading GCC to version 16.2 and CUDA to version 13.4
+- upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0
+- adding [cuFFTMp](<https://docs.nvidia.com/hpc-sdk/cufftmp/>) and [NVSHMEM](<https://docs.cscs.ch/software/communication/nvshmem/index.md#nvshmem>)
+
+> [!NOTE]
+>
+> **all packages exposed via the `default` and `modules` views in `v1`**
+>
+> - [aws-ofi-nccl@1.19.0](<https://packages.spack.io/package.html?name=aws-ofi-nccl>)
+> - [boost@1.90.0](<https://packages.spack.io/package.html?name=boost>)
+> - [cmake@3.31.12](<https://packages.spack.io/package.html?name=cmake>)
+> - [cray-mpich@9.2.1](<https://packages.spack.io/package.html?name=cray-mpich>)
+> - [cuda@13.4.1](<https://packages.spack.io/package.html?name=cuda>)
+> - [cufftmp@11.4.0.6](<https://packages.spack.io/package.html?name=cufftmp>)
+> - [fftw@3.3.11](<https://packages.spack.io/package.html?name=fftw>)
+> - [fmt@12.2.0](<https://packages.spack.io/package.html?name=fmt>)
+> - [gcc@16.2.0](<https://packages.spack.io/package.html?name=gcc>)
+> - [gmp@6.3.0](<https://packages.spack.io/package.html?name=gmp>)
+> - [gsl@2.8](<https://packages.spack.io/package.html?name=gsl>)
+> - [hdf5@1.14.6](<https://packages.spack.io/package.html?name=hdf5>)
+> - [kokkos@4.7.04](<https://packages.spack.io/package.html?name=kokkos>)
+> - [kokkos-kernels@4.7.04](<https://packages.spack.io/package.html?name=kokkos-kernels>)
+> - [kokkos-tools@5.2.0](<https://packages.spack.io/package.html?name=kokkos-tools>)
+> - [libfabric@2.6.0](<https://packages.spack.io/package.html?name=libfabric>)
+> - [libtree@3.1.1](<https://packages.spack.io/package.html?name=libtree>)
+> - [lua@5.4.8](<https://packages.spack.io/package.html?name=lua>)
+> - [lz4@1.10.0](<https://packages.spack.io/package.html?name=lz4>)
+> - [meson@1.12.0](<https://packages.spack.io/package.html?name=meson>)
+> - [nccl@2.29.7-1](<https://packages.spack.io/package.html?name=nccl>)
+> - [nccl-tests@2.17.6](<https://packages.spack.io/package.html?name=nccl-tests>)
+> - [netcdf-c@4.10.0](<https://packages.spack.io/package.html?name=netcdf-c>)
+> - [netcdf-cxx@4.2](<https://packages.spack.io/package.html?name=netcdf-cxx>)
+> - [netcdf-cxx4@4.3.1](<https://packages.spack.io/package.html?name=netcdf-cxx4>)
+> - [netcdf-fortran@4.6.4](<https://packages.spack.io/package.html?name=netcdf-fortran>)
+> - [netlib-scalapack@2.2.3](<https://packages.spack.io/package.html?name=netlib-scalapack>)
+> - [ninja@1.13.2](<https://packages.spack.io/package.html?name=ninja>)
+> - [nvshmem@3.8.0-0](<https://packages.spack.io/package.html?name=nvshmem>)
+> - [openblas@0.3.34](<https://packages.spack.io/package.html?name=openblas>)
+> - [osu-micro-benchmarks@7.5.2](<https://packages.spack.io/package.html?name=osu-micro-benchmarks>)
+> - [papi@7.2.0](<https://packages.spack.io/package.html?name=papi>)
+> - [python@3.14.5](<https://packages.spack.io/package.html?name=python>)
+> - [superlu@7.0.1](<https://packages.spack.io/package.html?name=superlu>)
+> - [xcb-util-cursor@0.1.6](<https://packages.spack.io/package.html?name=xcb-util-cursor>)
+> - [zlib-ng@2.3.3](<https://packages.spack.io/package.html?name=zlib-ng>)
 
 The key updates in version 26.3 compared to 25.11 are upgrading CUDA to version 13.1 and Cray MPICH to 9.1.0.
 
@@ -184,25 +232,25 @@ The simplest way to get started is to use the `default` file system view, which 
 
 > [!NOTE]
 >
-> **test mpi compilers and python provided by prgenv-gnu/24.11**
+> **test mpi compilers and python provided by prgenv-gnu/26.9**
 >
 > ```console
 > # start using the default view
-> $ uenv start --view=default prgenv-gnu/25.6:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v1
 >
 > # the python executable provided by the uenv is the default, and is a recent version
 > $ which python
 > /user-environment/env/default/bin/python
 > $ python --version 
-> Python 3.13.5
+> Python 3.14.5
 >
 > # the mpi compiler wrappers are also available
 > $ which mpicc
 > /user-environment/env/default/bin/mpicc
 > $ mpicc --version
-> gcc (Spack GCC) 14.2.0
+> gcc (Spack GCC) 16.2.0
 > $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
-> gcc (Spack GCC) 14.2.0
+> gcc (Spack GCC) 16.2.0
 > ```
 
 The uenv provides modules for all of the software packages, which can be made available by using the `modules` view in No modules are loaded when a uenv starts, and have to be loaded individually using `module load`.
@@ -212,25 +260,27 @@ The uenv provides modules for all of the software packages, which can be made av
 > **starting prgenv-gnu and listing the provided modules**
 >
 > ```console
-> $ uenv start prgenv-gnu/25.6:v1 --view=modules
+> $ uenv start prgenv-gnu/26.9:v1 --view=modules
 > $ module avail
 >     ---------------------------- /user-environment/modules ----------------------------
->        aws-ofi-nccl/1.16.0      meson/1.7.0
->        boost/1.88.0             nccl-tests/2.16.3
->        cmake/3.31.8             nccl/2.27.5-1
->        cray-mpich/8.1.32        netcdf-c/4.9.2
->        cuda/12.9.0              netcdf-cxx/4.2
->        fftw/3.3.10              netcdf-fortran/4.6.1
->        fmt/11.2.0               netlib-scalapack/2.2.2
->        gsl/2.8                  ninja/1.12.1
->        hdf5/1.14.6              openblas/0.3.29
->        kokkos-kernels/4.6.01    osu-micro-benchmarks/7.5
->        kokkos-tools/develop     papi/7.1.0
->        kokkos/4.6.01            python/3.13.5
->        libfabric/1.22.0         squashfs/4.6.1
->        libtree/3.1.1            superlu/7.0.0
->        lua/5.4.6                xcb-util-cursor/0.1.5
->        lz4/1.10.0               zlib-ng/2.2.4
+>        aws-ofi-nccl/1.19.0      lz4/1.10.0
+>        boost/1.90.0             meson/1.12.0
+>        cmake/3.31.12            nccl-tests/2.17.6
+>        cray-mpich/9.2.1         nccl/2.29.7-1
+>        cuda/13.4.1              netcdf-c/4.10.0
+>        cufftmp/11.4.0.6         netcdf-cxx/4.2
+>        fftw/3.3.11              netcdf-cxx4/4.3.1
+>        fmt/12.2.0               netcdf-fortran/4.6.4
+>        gcc/16.2.0               netlib-scalapack/2.2.3
+>        gmp/6.3.0                ninja/1.13.2
+>        gsl/2.8                  nvshmem/3.8.0-0
+>        hdf5/1.14.6              openblas/0.3.34
+>        kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2
+>        kokkos-tools/5.2.0       papi/7.2.0
+>        kokkos/4.7.04            python/3.14.5
+>        libfabric/2.6.0          superlu/7.0.1
+>        libtree/3.1.1            xcb-util-cursor/0.1.6
+>        lua/5.4.8                zlib-ng/2.3.3
 > ```
 
 The gnu programming environment is a very good base for building software with Spack, because it provides compilers, MPI, Python and common packages like hdf5.

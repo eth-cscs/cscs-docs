@@ -17,7 +17,7 @@ Once the uenv is loaded and activated, the program to debug must be compiled wit
 compiling a simple app to debug
 
 ```bash
-uenv start prgenv-gnu/26.3:v1 --view=default
+uenv start prgenv-gnu/26.9:v1 --view=default
 nvcc -c -arch=sm_90 -g -G test_gpu.cu
 mpicxx -g test_cpu.cpp test_gpu.o -o myexe
 ```
@@ -29,7 +29,7 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode (as
 Log into the system and launch with the `srun` command:
 
 ```console
-$ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/26.3:v1,linaro-forge/26.0:v1 --view=default,forge ddt-client  ./myexe
+$ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/26.9:v1,linaro-forge/26.0:v1 --view=default,forge ddt-client  ./myexe
 ```
 
 Note that two uenv are selected:

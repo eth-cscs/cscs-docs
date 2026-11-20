@@ -6517,23 +6517,23 @@ Note that the mounted software is only visible inside the uenv call: other users
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">gcc (SUSE Linux) 7.5.0</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="gp"># </span>inside<span class="w"> </span>the<span class="w"> </span>uenv<span class="w"> </span>we<span class="w"> </span>still<span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span>system<span class="w"> </span>gcc
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/25.6:v2<span class="w"> </span>--<span class="w"> </span>which<span class="w"> </span>gcc
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--<span class="w"> </span>which<span class="w"> </span>gcc
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="go">/usr/bin/gcc</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/25.6:v2<span class="w"> </span>--<span class="w"> </span>gcc<span class="w"> </span>--version
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--<span class="w"> </span>gcc<span class="w"> </span>--version
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="go">gcc (SUSE Linux) 7.5.0</span>
 </span></code></pre></div></p>
 <p>To set environment variables, uenv provide <a class="autorefs autorefs-internal" title="Views" href="./#views">views</a>, which set additional environment variables inside the uenv:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a># use the default view to make all software available
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>$ uenv run --view=default prgenv-gnu/25.6:v2 -- gcc --version
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gcc (Spack GCC) 14.2.0
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>$ uenv run --view=default prgenv-gnu/25.6:v2 -- which gcc
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>$ uenv run --view=default prgenv-gnu/26.9:v1 -- gcc --version
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>gcc (Spack GCC) 16.2.0
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>$ uenv run --view=default prgenv-gnu/26.9:v1 -- which gcc
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/user-environment/env/default/bin/gcc
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a># use the modules view to make modules available
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>$ uenv run --view=modules prgenv-gnu/25.6:v2 -- bash -c 'module avail'
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>$ uenv run --view=modules prgenv-gnu/26.9:v1 -- bash -c 'module avail'
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>------- /user-environment/modules -------
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>   aws-ofi-nccl/1.16.0    gcc/14.2.0
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>   boost/1.88.0           gsl/2.8
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>   aws-ofi-nccl/1.19.0    gcc/16.2.0
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>   boost/1.90.0           gmp/6.3.0
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>   ...
 </span></code></pre></div>
 <p><a href="" id="ref-uenv-start"></a></p>
@@ -6545,7 +6545,7 @@ This is very useful for interactive sessions, for example if you want to work in
 <p>Here we want to compile an MPI + CUDA application &ldquo;affinity&rdquo;.</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp"># </span>start<span class="w"> </span>the<span class="w"> </span>prgenv-gnu<span class="w"> </span>uenv,<span class="w"> </span>which<span class="w"> </span>provides<span class="w"> </span>MPI,<span class="w"> </span>cuda<span class="w"> </span>and<span class="w"> </span>CMake
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gp"># </span>use<span class="w"> </span>the<span class="w"> </span><span class="s2">"default"</span><span class="w"> </span>view,<span class="w"> </span>which<span class="w"> </span>will<span class="w"> </span>load<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>software<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>uenv
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/25.6:v2<span class="w"> </span>--view<span class="o">=</span>default
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>default
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="gp"># </span>clone<span class="w"> </span>the<span class="w"> </span>software<span class="w"> </span>and<span class="w"> </span><span class="nb">set</span><span class="w"> </span>up<span class="w"> </span>the<span class="w"> </span>build<span class="w"> </span>directory
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/bcumming/affinity.git
@@ -6641,16 +6641,16 @@ When you are finished, you can type <code>exit</code> to finish the session.</p>
 <p><code>uenv run</code> is more generic - instead of running a shell in environment, it takes the executable and arguments to run in the shell.
 The following commands are equivalent:</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="gp"># </span>start<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>bash<span class="w"> </span>shell<span class="w"> </span><span class="k">in</span><span class="w"> </span>prgenv-gnu
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="go">uenv start prgenv-gnu/26.3:v1</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="go">uenv start prgenv-gnu/26.9:v1</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="gp"># </span>start<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>bash<span class="w"> </span>shell<span class="w"> </span><span class="k">in</span><span class="w"> </span>prgenv-gnu
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="go">uenv run prgenv-gnu/26.3:v1 -- bash</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="go">uenv run prgenv-gnu/26.9:v1 -- bash</span>
 </span></code></pre></div>
 </div>
 <div class="admonition example">
 <p class="admonition-title">running commands from within a uenv</p>
 <p>Call the <code>cmake</code> provided by the uenv to configure a build with the <code>default</code> view loaded:
 <div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp"># </span>run<span class="w"> </span>a<span class="w"> </span><span class="nb">command</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/25.6:v2<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>--<span class="w"> </span>cmake<span class="w"> </span>-DUSE_GPU<span class="o">=</span>cuda<span class="w"> </span>..
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>--<span class="w"> </span>cmake<span class="w"> </span>-DUSE_GPU<span class="o">=</span>cuda<span class="w"> </span>..
 </span></code></pre></div></p>
 <p>Run the GROMACS executable from inside the <code>gromacs</code> uenv.
 <div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gp"># </span>run<span class="w"> </span>an<span class="w"> </span>executable:
@@ -6659,9 +6659,9 @@ The following commands are equivalent:</p>
 <p><code>uenv run</code> is useful for running multiple applications or scripts in a pipeline or workflow, where each application has separate requirements.
 In this example the pre and post processing stages use <code>prgenv-gnu</code>, while the simulation stage uses the <code>gromacs</code> uenv.
 <div class="language-console highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="gp"># </span>run<span class="w"> </span>multiple<span class="w"> </span>applications,<span class="w"> </span>one<span class="w"> </span>after<span class="w"> </span>the<span class="w"> </span>other,<span class="w"> </span>that<span class="w"> </span>have<span class="w"> </span>different<span class="w"> </span>requirements
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/24.11:v1<span class="w"> </span>--<span class="w"> </span>./pre-processing-script.sh
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--<span class="w"> </span>./pre-processing-script.sh
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>--view<span class="o">=</span>gromacs<span class="w"> </span>gromacs/2024:v1<span class="w"> </span>--<span class="w"> </span>gmx_mpi<span class="w"> </span><span class="nv">$gromacs_args</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/24.11:v1<span class="w"> </span>--<span class="w"> </span>./post-processing-script.sh
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="gp">$ </span>uenv<span class="w"> </span>run<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--<span class="w"> </span>./post-processing-script.sh
 </span></code></pre></div></p>
 </div>
 <div class="admonition example">
@@ -6669,7 +6669,7 @@ In this example the pre and post processing stages use <code>prgenv-gnu</code>, 
 <p>It can be verbose typing the full <code>uenv run --view=... name/version:tag --</code> in front of each command.</p>
 <p>If you want to use commands from a specific uenv frequently, create an alias:</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="gp"># </span>create<span class="w"> </span>a<span class="w"> </span>shortcut<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>running<span class="w"> </span>commands<span class="w"> </span><span class="k">in</span><span class="w"> </span>prgenv-gnu
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="gp">$ </span><span class="nb">alias</span><span class="w"> </span><span class="nv">prg</span><span class="o">=</span><span class="s1">'uenv run --view=default prgenv-gnu/25.11:v1 --'</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="gp">$ </span><span class="nb">alias</span><span class="w"> </span><span class="nv">prg</span><span class="o">=</span><span class="s1">'uenv run --view=default prgenv-gnu/26.9:v1 --'</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="gp">#</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="gp"># </span>tools<span class="w"> </span>like<span class="w"> </span>cmake<span class="w"> </span>and<span class="w"> </span>gcc<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>called:<span class="w"> </span>the<span class="w"> </span>entire<span class="w"> </span><span class="nb">command</span><span class="w"> </span>will<span class="w"> </span>run<span class="w"> </span>inside
@@ -6707,13 +6707,13 @@ They do no work by default inside bash scripts, and have other quirks that mean 
 </ul>
 <p>For example, the flags can be used with srun:
 <div class="language-console highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gp"># </span>mount<span class="w"> </span>the<span class="w"> </span>uenv<span class="w"> </span>prgenv-gnu<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>view<span class="w"> </span>named<span class="w"> </span>default
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/24.7:v3<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>...
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>...
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="gp"># </span>mount<span class="w"> </span>an<span class="w"> </span>image<span class="w"> </span>at<span class="w"> </span>an<span class="w"> </span>explicit<span class="w"> </span>location<span class="w"> </span><span class="o">(</span>/user-tools<span class="o">)</span>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv<span class="o">=</span><span class="nv">$IMAGES</span>/myenv.squashfs:/user-tools<span class="w"> </span>...
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
 </span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="gp"># </span>mount<span class="w"> </span>multiple<span class="w"> </span>images:<span class="w"> </span>use<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>to<span class="w"> </span>separate<span class="w"> </span>the<span class="w"> </span>different<span class="w"> </span>options
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/24.7:v3,editors/24.7:v2<span class="w"> </span>--view<span class="o">=</span>default,editors:modules<span class="w"> </span>...
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv<span class="o">=</span>prgenv-gnu/26.9:v1,editors/24.7:v2<span class="w"> </span>--view<span class="o">=</span>default,editors:modules<span class="w"> </span>...
 </span></code></pre></div></p>
 <p>The commands can also be used in sbatch scripts to have fine-grained control:</p>
 <div class="admonition example">
@@ -6738,7 +6738,7 @@ They do no work by default inside bash scripts, and have other quirks that mean 
 </span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>srun -n4 bash -c 'echo $SLURM_PROCID on $(hostname): $(which emacs)'
 </span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>
 </span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>echo "==== alternative mount ===="
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>srun -n4 --uenv=prgenv-gnu/26.3:v1 --view=prgenv-gnu:default \
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>srun -n4 --uenv=prgenv-gnu/26.9:v1 --view=prgenv-gnu:default \
 </span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>    bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
 </span></code></pre></div></p>
 <p>The sbatch job above would generate output like the following:
@@ -6773,7 +6773,7 @@ They do no work by default inside bash scripts, and have other quirks that mean 
 <p>The <code>SBATCH_UENV</code>, <code>SBATCH_UENV_VIEW</code>, and <code>SBATCH_UENV_REPO</code> environment variables can be used to pre-configure the uenv for a batch job.
 Useful in CI/CD pipelines or wrapper scripts where passing flags to <code>sbatch</code> is inconvenient:</p>
 <p>The following example is equivalent to adding <code>--uenv</code> and <code>--view</code> to the sbatch call or inside the sbatch script.</p>
-<div class="language-bash highlight"><span class="filename">setting uenv via environment variables</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SBATCH_UENV</span><span class="o">=</span>prgenv-gnu/25.6:v2
+<div class="language-bash highlight"><span class="filename">setting uenv via environment variables</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SBATCH_UENV</span><span class="o">=</span>prgenv-gnu/26.9:v1
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SBATCH_UENV_VIEW</span><span class="o">=</span>default
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>sbatch<span class="w"> </span>my-job.sh
 </span></code></pre></div>
@@ -6809,12 +6809,12 @@ The passthrough option can take one of three values:</p>
 <p class="admonition-title">srun passthrough behavior</p>
 <p>By default, srun will recreate the uenv environment.
 Below the <code>prgenv-gnu</code> uenv is mounted remotely, and the copy of gcc installed in the uenv is found</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.3:v1
+<div class="language-console highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="gp">$ </span>srun<span class="w"> </span>which<span class="w"> </span>gcc
 </span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="go">/user-environment/env/default/bin/gcc</span>
 </span></code></pre></div>
 <p>To ignore, use <code>--uenv-passthrough=ignore</code> option:
-<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.3:v1
+<div class="language-console highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="gp">$ </span>srun<span class="w"> </span>--uenv-passthrough<span class="o">=</span>ignore<span class="w"> </span>which<span class="w"> </span>gcc
 </span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="go">/usr/bin/gcc</span>
 </span></code></pre></div></p>
@@ -6823,7 +6823,7 @@ Below the <code>prgenv-gnu</code> uenv is mounted remotely, and the copy of gcc 
 <p>By default, sbatch will raise an error if it is run with a uenv already mounted.</p>
 <div class="admonition example">
 <p class="admonition-title">sbatch default passthrough behavior</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.3:v1
+<div class="language-console highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="gp">$ </span>sbatch<span class="w"> </span>./job.sh
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="go">error: Calling sbatch/salloc from inside a uenv session is disabled by default.</span>
 </span></code></pre></div>
@@ -6837,7 +6837,7 @@ In these situations, the <code>--uenv-passthrough</code> flag can be used to exp
 <p class="admonition-title">using <code>--uenv-passthrough</code> with <code>sbatch</code></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1">#SBATCH --nodes=4</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1">#SBATCH --ntasks-per-node=4</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1">#SBATCH --uenv=prgenv-gnu/26.3:v1</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1">#SBATCH --uenv=prgenv-gnu/26.9:v1</span>
 </span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1">#SBATCH --view=default</span>
 </span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
 </span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use</span>
@@ -6860,7 +6860,7 @@ In these situations, the <code>--uenv-passthrough</code> flag can be used to exp
 <details class="warning">
 <summary>Breaking change: calling <code>sbatch</code> from inside a uenv session</summary>
 <p>In v10, calling <code>sbatch</code> or <code>salloc</code> from inside an active <code>uenv start</code> session is disabled by default and will produce an error:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/25.6:v2<span class="w"> </span>--view<span class="o">=</span>default
+<div class="language-console highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>default
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="gp">$ </span>sbatch<span class="w"> </span>my-job.sh
 </span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="go">error: Calling sbatch/salloc from inside a uenv session is disabled by default.</span>
 </span></code></pre></div>
@@ -6880,14 +6880,14 @@ Views are loaded using the <code>--view</code> flag for <code>uenv start</code>,
 <div class="admonition example">
 <p class="admonition-title">loading views</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="gp"># </span>activate<span class="w"> </span>the<span class="w"> </span>view<span class="w"> </span>named<span class="w"> </span>default<span class="w"> </span><span class="k">in</span><span class="w"> </span>prgenv-gnu
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/24.11:v1
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
 </span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="gp"># </span>activate<span class="w"> </span>both<span class="w"> </span>the<span class="w"> </span>spack<span class="w"> </span>and<span class="w"> </span>modules<span class="w"> </span>views<span class="w"> </span><span class="k">in</span><span class="w"> </span>prgenv-gnu<span class="w"> </span>using
 </span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="gp"># </span>a<span class="w"> </span>comma-separated<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>view<span class="w"> </span>names
-</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>spack,modules<span class="w"> </span>prgenv-gnu/24.11:v1
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>spack,modules<span class="w"> </span>prgenv-gnu/26.9:v1
 </span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
 </span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="gp"># </span>when<span class="w"> </span>starting<span class="w"> </span>multiple<span class="w"> </span>uenv,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>disambiguate<span class="w"> </span>using<span class="w"> </span>uenvname:viewname
-</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>prgenv-gnu:default,editors:ed<span class="w"> </span>prgenv-gnu/24.11:v1,editors/24.7:v2
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>prgenv-gnu:default,editors:ed<span class="w"> </span>prgenv-gnu/26.9:v1,editors/24.7:v2
 </span></code></pre></div>
 </div>
 <p>Each uenv can provide more than one view.
@@ -6962,7 +6962,7 @@ This is a new feature, so uenv built before it was introduced will have no defau
 By default, the modules are not activated when a uenv is started, and need to be explicitly activated using the <code>module</code> view.</p>
 <div class="admonition example">
 <p class="admonition-title">using the module view</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v1<span class="w"> </span>--view<span class="o">=</span>modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>modules
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="go">---------------------------- /user-environment/modules ----------------------------</span>
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="go">   aws-ofi-nccl/git.v1.9.2-aws_1.9.2    lua/5.4.6</span>
@@ -7002,12 +7002,12 @@ By default, the modules are not activated when a uenv is started, and need to be
 <p>A fix has been implemented, and will be installed as soon as possible.</p>
 </div>
 <p>Specifically, the <code>module</code> command is not available inside <code>uenv start</code> sessions:
-<div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>modules
 </span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="go">bash: module: command not found</span>
 </span></code></pre></div></p>
 <p>The workaround is to manually load the module tool after starting your uenv session:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/24.11:v2<span class="w"> </span>--view<span class="o">=</span>modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>modules
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/usr/share/lmod/8.7.17/init/bash
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>

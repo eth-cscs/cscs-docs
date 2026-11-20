@@ -302,7 +302,7 @@ The recommended way to create a new virtual environment is to use the [uv](<http
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/24.11:v1 --view=default
+uenv start prgenv-gnu/26.9:v1 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -321,7 +321,7 @@ uv pip install --link-mode=copy torch torchvision torchaudio \
 
 # optionally, to reduce the import times, precompile all
 # python modules to bytecode before creating the squashfs image
-python -m compileall -j 8 -o 0 -o 1 -o 2 .venv/lib/python3.12/site-packages
+python -m compileall -j 8 -o 0 -o 1 -o 2 .venv/lib/python3.14/site-packages
 ```
 
 A new virtual environment can also be created using the standard `venv` module. However, virtual environments created by `venv` are not relocatable, and thus they need to be created and initialized in the path from where they will be used. This implies that the installation process can not be optimized for file system performance and will still be slow on Lustre filesystems.
@@ -330,7 +330,7 @@ A new virtual environment can also be created using the standard `venv` module. 
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/24.11:v1 --view=default
+uenv start prgenv-gnu/26.9:v1 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -420,7 +420,7 @@ To use the optimised virtual environment, mount the squashfs image at the locati
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 
@@ -429,7 +429,7 @@ Remember that virtual environments created by `uv` are relocatable only if the `
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 

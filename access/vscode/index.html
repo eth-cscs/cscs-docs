@@ -6490,13 +6490,13 @@ Log into the target system and start the uenv, then start the remote server, for
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># log into daint (this could be any other Alps cluster)
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>ssh daint
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a># start a uenv session on the login node
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>uenv start --view=default prgenv-gnu/24.11:v1
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>uenv start --view=default prgenv-gnu/26.9:v1
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a># then start the tunnel
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>code tunnel --name=$CLUSTER_NAME-tunnel
 </span></code></pre></div></p>
 <p>Alternatively, you can execute <code>code tunnel</code> directly in the environment:
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ssh daint
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>uenv run --view=default prgenv-gnu/24.11:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>uenv run --view=default prgenv-gnu/26.9:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
 </span></code></pre></div></p>
 <p>Once the tunnel is configured, you can access it from VS Code.</p>
 <div class="admonition warning">
@@ -6511,7 +6511,7 @@ Running intensive workloads on login nodes, which are shared resources between a
 <p class="admonition-title">directly create the tunnel using srun</p>
 <p>You can directly execute the <code>code tunnel</code> command using srun:
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ssh daint
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>srun --uenv=prgenv-gnu/24.11:v1 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>srun --uenv=prgenv-gnu/26.9:v1 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
 </span></code></pre></div></p>
 <ul>
 <li><code>--uenv</code> and <code>--view</code> set up the uenv</li>
@@ -6535,7 +6535,7 @@ If you don&rsquo;t want to use a uenv, the command is even simpler:
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>srun -t120 -n1 --pty bash
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a># set up the environment before starting the tunnel
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>uenv start prgenv-gnu/24.11:v1 --view=default
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>uenv start prgenv-gnu/26.9:v1 --view=default
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>code tunnel --name=$CLUSTER_NAME-tunnel
 </span></code></pre></div></p>
 <ul>

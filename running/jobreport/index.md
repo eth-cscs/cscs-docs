@@ -196,7 +196,7 @@ wait
 The following example runs a program called `burn` that computes repeated matrix multiplications to stress the GPUs. It was built with, and requires to run the [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ```console
-$ srun --uenv=prgenv-gnu/24.2:v1 -t 5:00 --nodes=1 --ntasks-per-node=4 --gpus-per-task=1 ${JOBREPORT} -o report -- ./burn --gpu=gemm -d 30
+$ srun --uenv=prgenv-gnu/26.9:v1 -t 5:00 --nodes=1 --ntasks-per-node=4 --gpus-per-task=1 ${JOBREPORT} -o report -- ./burn --gpu=gemm -d 30
 
 $ ./jobreport print report
 Summary of Job Statistics
