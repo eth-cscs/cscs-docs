@@ -53,7 +53,9 @@ We will provide full support for 12 months after the uenv image is released, and
     * upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0
     * adding [cuFFTMp](https://docs.nvidia.com/hpc-sdk/cufftmp/) and [NVSHMEM][ref-communication-nvshmem]
 
-    ??? info "all packages exposed via the `default` and `modules` views in `v1`"
+    v2 of the uenv upgrades Kokkos and Kokkos Kernels from version 4.7.04 to 5.2.2.
+
+    ??? info "all packages exposed via the `default` and `modules` views in `v2`"
         * [aws-ofi-nccl@1.19.0](https://packages.spack.io/package.html?name=aws-ofi-nccl)
         * [boost@1.90.0](https://packages.spack.io/package.html?name=boost)
         * [cmake@3.31.12](https://packages.spack.io/package.html?name=cmake)
@@ -66,8 +68,8 @@ We will provide full support for 12 months after the uenv image is released, and
         * [gmp@6.3.0](https://packages.spack.io/package.html?name=gmp)
         * [gsl@2.8](https://packages.spack.io/package.html?name=gsl)
         * [hdf5@1.14.6](https://packages.spack.io/package.html?name=hdf5)
-        * [kokkos@4.7.04](https://packages.spack.io/package.html?name=kokkos)
-        * [kokkos-kernels@4.7.04](https://packages.spack.io/package.html?name=kokkos-kernels)
+        * [kokkos@5.2.2](https://packages.spack.io/package.html?name=kokkos)
+        * [kokkos-kernels@5.2.2](https://packages.spack.io/package.html?name=kokkos-kernels)
         * [kokkos-tools@5.2.0](https://packages.spack.io/package.html?name=kokkos-tools)
         * [libfabric@2.6.0](https://packages.spack.io/package.html?name=libfabric)
         * [libtree@3.1.1](https://packages.spack.io/package.html?name=libtree)
@@ -232,7 +234,7 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
     !!! example "test mpi compilers and python provided by prgenv-gnu/26.9"
         ```console
         # start using the default view
-        $ uenv start --view=default prgenv-gnu/26.9:v1
+        $ uenv start --view=default prgenv-gnu/26.9:v2
 
         # the python executable provided by the uenv is the default, and is a recent version
         $ which python
@@ -256,7 +258,7 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
 
     !!! example "starting prgenv-gnu and listing the provided modules"
         ```console
-        $ uenv start prgenv-gnu/26.9:v1 --view=modules
+        $ uenv start prgenv-gnu/26.9:v2 --view=modules
         $ module avail
             ---------------------------- /user-environment/modules ----------------------------
                aws-ofi-nccl/1.19.0      lz4/1.10.0
@@ -271,9 +273,9 @@ There are three ways to access the software provided by prgenv-gnu, once it has 
                gmp/6.3.0                ninja/1.13.2
                gsl/2.8                  nvshmem/3.8.0-0
                hdf5/1.14.6              openblas/0.3.34
-               kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2
+               kokkos-kernels/5.2.2     osu-micro-benchmarks/7.5.2
                kokkos-tools/5.2.0       papi/7.2.0
-               kokkos/4.7.04            python/3.14.5
+               kokkos/5.2.2             python/3.14.5
                libfabric/2.6.0          superlu/7.0.1
                libtree/3.1.1            xcb-util-cursor/0.1.6
                lua/5.4.8                zlib-ng/2.3.3
