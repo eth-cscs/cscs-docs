@@ -40,7 +40,7 @@ Three consequences worth knowing:
 **A uenv session is a one-way door.** `squashfs-mount` sets `PR_SET_NO_NEW_PRIVS` before handing control back (symbol `return_to_user_and_no_new_privs`), which permanently disables setuid for that process tree. So inside a uenv session nothing can mount another image — `uenv start`/`uenv run` refuse outright (*"a uenv session is already running"*), and `squashfs-mount`, `squashfuse` and rootless `podman` all fail with permission errors. Two images have to be requested together at session start, at different mount points:
 
 ```bash
-uenv start prgenv-gnu/24.7:v3,editors/24.7:v1     # /user-environment + /user-tools
+uenv start prgenv-gnu/26.9:v1,editors/24.7:v1     # /user-environment + /user-tools
 ```
 
 This matters when designing an image whose software launches other software: an application started from inside a uenv session cannot itself start a uenv. If users must be able to load a uenv *from* the tool, the tool's image has to be mounted outside a session — at boot, like `/mch-environment` — rather than started with `uenv start`.

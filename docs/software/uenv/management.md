@@ -84,7 +84,7 @@ For example, to download a version of the `prgenv-gnu` uenv:
     # The following commands have the same effect
 
     # method 1: pull using the name of the uenv
-    uenv image pull prgenv-gnu/26.3:v1
+    uenv image pull prgenv-gnu/26.9:v1
 
     # method 2: pull using the id of the image
     uenv image pull 577a2b7d6362b5ce
@@ -187,7 +187,7 @@ It is useful for checking what views an image provides before deciding how to us
     ```
 
     ```console
-    $ uenv image inspect prgenv-gnu/24.11:v1
+    $ uenv image inspect prgenv-gnu/26.9:v1
     prgenv-gnu:/user-environment
       GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
       views:
