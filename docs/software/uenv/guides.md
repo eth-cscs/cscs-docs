@@ -109,7 +109,7 @@ This will make custom modules available, and load `ncview`, every time you log i
 It is not possible to do the equivalent with `uenv start`, for example:
 ```bash title="~/.bashrc"
 # start the uenv that I always use
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 # ERROR: the following lines will not be executed
 module use $STORE/myenv/modules
 module load ncview
@@ -142,7 +142,7 @@ export DATAPATH=$STORE/2025/data
 Then create an alias in `~/.bashrc` for the `myenv` environment:
 
 ```bash title="~/.bashrc"
-alias myenv='uenv run prgenv-gnu/26.9:v1 --view=default -- bash --rcfile ~/.myenvrc'
+alias myenv='uenv run prgenv-gnu/26.9:v2 --view=default -- bash --rcfile ~/.myenvrc'
 ```
 
 This alias uses `uenv run` to start a new bash shell that will apply the customizations in `~/.myenvrc` once the uenv has been loaded.

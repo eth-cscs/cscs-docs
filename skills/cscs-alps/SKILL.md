@@ -61,7 +61,7 @@ Software comes from one of:
 
 * **uenv**, a CSCS tool that mounts a SquashFS image of software built with Spack, usually at `/user-environment`.
   * `uenv image find` lists the images available on the cluster; `uenv image pull <image>` downloads one.
-  * `uenv run --view=default prgenv-gnu/26.9:v1 -- <command>` runs a command in it.
+  * `uenv run --view=default prgenv-gnu/26.9:v2 -- <command>` runs a command in it.
   * In jobs, use `srun --uenv=<image> --view=<view>`, or the same as `#SBATCH` options.
   * [Using uenv](https://docs.cscs.ch/software/uenv/using/), [programming environments](https://docs.cscs.ch/software/prgenv/).
 * **The Container Engine**, a CSCS container runtime integrated with Slurm.

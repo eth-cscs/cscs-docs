@@ -26,7 +26,7 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
 === "uv"
     ```console title="Creating a Python virtual environment on top of a uenv view"
     # start the uenv with the default view
-    $ uenv start --view=default prgenv-gnu/26.9:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     # unset PYTHONPATH to avoid surprises
     $ unset PYTHONPATH
     # set PYTHONUSERBASE to the root of the view
@@ -58,7 +58,7 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
 
     ```console title="Creating a Python virtual environment on top of a uenv view"
     # start the uenv with the default view
-    $ uenv start --view=default prgenv-gnu/26.9:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     # unset PYTHONPATH to avoid surprises
     $ unset PYTHONPATH
     # set PYTHONUSERBASE to the root of the view
