@@ -6251,9 +6251,7 @@
 <li>Due to the way Podman&rsquo;s image storage works, it&rsquo;s no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.</li>
 <li>CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.</li>
 <li>Mount destinations in EDFs must be explicit (e.g. <code>mounts=["${SCRATCH}"]</code> will result in an error).</li>
-<li>SquashFS mounts from EDFs are not supported yet.</li>
 <li>PMIx propagation is achieved by bind-mounting <code>/tmp</code> into containers, until a hook for proper PMIx support is rolled out.</li>
-<li>No support yet for selecting netstack source and netstack artifact version.</li>
 <li>No support for direct SSH into containers.</li>
 <li>Error propagation, reporting and logging still need improvements.</li>
 </ul>

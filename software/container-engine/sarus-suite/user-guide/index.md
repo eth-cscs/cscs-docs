@@ -19,9 +19,7 @@
 > - Due to the way Podman’s image storage works, it’s no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.
 > - CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.
 > - Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
-> - SquashFS mounts from EDFs are not supported yet.
 > - PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.
-> - No support yet for selecting netstack source and netstack artifact version.
 > - No support for direct SSH into containers.
 > - Error propagation, reporting and logging still need improvements.
 
@@ -430,6 +428,9 @@ The following EDF annotations are currently supported on Alps, [matching interfa
 | `com.hooks.cxi.enabled = "true"` | Libfabric-based support for the [HPE Slingshot high-speed network](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#hpe-slingshot-interconnect> "HPE Slingshot interconnect") |
 | `com.hooks.aws_ofi_nccl.enabled = "true"` | [AWS OFI NCCL plugin injection](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#aws-ofi-nccl-hook> "AWS OFI NCCL hook") to use Slingshot (through libfabric) in NCCL containers |
 | `com.hooks.dcgm.enabled = "true"` | NVIDIA DCGM libraries required to use the [GSSR](<https://docs.cscs.ch/running/gssr/index.md#using-gssr-inside-containers> "Using GSSR inside containers") and [jobreport](<https://docs.cscs.ch/running/jobreport/index.md#example-with-container-engine-ce> "Example with container-engine (CE)") tools |
+| `com.hooks.netstack.name = "<string>"` | [Select the network stack artifact name](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-network-stack-artifacts> "Selecting network stack artifacts") |
+| `com.hooks.netstack.source = "<string>"` | [Select the network stack source](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source") |
+| `com.hooks.netstack.version = "<string>"` | [Select the network stack artifact version](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-network-stack-artifacts> "Selecting network stack artifacts") |
 | `com.hooks.nvidia_cuda_mps.enabled = "true"` | Support for the [NVIDIA CUDA Multi-Process Service](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#nvidia-cuda-mps-hook> "NVIDIA CUDA MPS hook") |
 | `com.hooks.slurm.enabled = "true"` | **Experimental** support for host Slurm commands in containers |
 
@@ -442,10 +443,6 @@ The following EDF annotations are currently supported on Alps, [matching interfa
 > [!NOTE]
 >
 > The AWS OFI NCCL hook uses a dynamically linked plugin from a network stack artifact. Therefore, the `com.hooks.aws_ofi_nccl.variant` annotation is ignored.
-
-> [!WARNING]
->
-> The CXI and AWS OFI NCCL hooks use a fixed version of a [network stack artifact](<https://docs.cscs.ch/software/container-engine/resource-hook/index.md#selecting-the-network-stack-source> "Selecting the network stack source"). It is not currently possible to select a netstack source or specific artifact version.
 
 ### NVIDIA GPUs
 

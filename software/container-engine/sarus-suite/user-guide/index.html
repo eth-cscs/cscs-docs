@@ -6792,9 +6792,7 @@
 <li>Due to the way Podman&rsquo;s image storage works, it&rsquo;s no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.</li>
 <li>CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.</li>
 <li>Mount destinations in EDFs must be explicit (e.g. <code>mounts=["${SCRATCH}"]</code> will result in an error).</li>
-<li>SquashFS mounts from EDFs are not supported yet.</li>
 <li>PMIx propagation is achieved by bind-mounting <code>/tmp</code> into containers, until a hook for proper PMIx support is rolled out.</li>
-<li>No support yet for selecting netstack source and netstack artifact version.</li>
 <li>No support for direct SSH into containers.</li>
 <li>Error propagation, reporting and logging still need improvements.</li>
 </ul>
@@ -7163,6 +7161,18 @@ Hooks are enabled through EDF annotations, while CDI specs and device files thro
 <td>NVIDIA DCGM libraries required to use the <a class="autorefs autorefs-internal" title="Using GSSR inside containers" href="../../../../running/gssr/#using-gssr-inside-containers">GSSR</a> and <a class="autorefs autorefs-internal" title="Example with container-engine (CE)" href="../../../../running/jobreport/#example-with-container-engine-ce">jobreport</a> tools</td>
 </tr>
 <tr>
+<td><code>com.hooks.netstack.name = "&lt;string&gt;"</code></td>
+<td><a class="autorefs autorefs-internal" title="Selecting network stack artifacts" href="../../resource-hook/#selecting-network-stack-artifacts">Select the network stack artifact name</a></td>
+</tr>
+<tr>
+<td><code>com.hooks.netstack.source = "&lt;string&gt;"</code></td>
+<td><a class="autorefs autorefs-internal" title="Selecting the network stack source" href="../../resource-hook/#selecting-the-network-stack-source">Select the network stack source</a></td>
+</tr>
+<tr>
+<td><code>com.hooks.netstack.version = "&lt;string&gt;"</code></td>
+<td><a class="autorefs autorefs-internal" title="Selecting network stack artifacts" href="../../resource-hook/#selecting-network-stack-artifacts">Select the network stack artifact version</a></td>
+</tr>
+<tr>
 <td><code>com.hooks.nvidia_cuda_mps.enabled = "true"</code></td>
 <td>Support for the <a class="autorefs autorefs-internal" title="NVIDIA CUDA MPS hook" href="../../resource-hook/#nvidia-cuda-mps-hook">NVIDIA CUDA Multi-Process Service</a></td>
 </tr>
@@ -7182,11 +7192,6 @@ Similarly, enabling the AWS OFI NCCL hook does not automatically enable the CXI 
 <p class="admonition-title">Note</p>
 <p>The AWS OFI NCCL hook uses a dynamically linked plugin from a network stack artifact.
 Therefore, the <code>com.hooks.aws_ofi_nccl.variant</code> annotation is ignored.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The CXI and AWS OFI NCCL hooks use a fixed version of a <a class="autorefs autorefs-internal" title="Selecting the network stack source" href="../../resource-hook/#selecting-the-network-stack-source">network stack artifact</a>.
-It is not currently possible to select a netstack source or specific artifact version.</p>
 </div>
 <p><a href="" id="ref-sarus-suite-nvidia-gpus"></a></p>
 <h3 id="nvidia-gpus">NVIDIA GPUs<a class="headerlink" href="#nvidia-gpus" title="Permanent link">&para;</a></h3>

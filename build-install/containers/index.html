@@ -2957,6 +2957,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#caching-container-images-via-a-local-registry-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Caching container images via a local registry mirror
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6195,6 +6206,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#caching-container-images-via-a-local-registry-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Caching container images via a local registry mirror
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6474,6 +6496,22 @@ An example Environment Definition File (EDF) using the imported image looks as f
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
 </span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="go">local registry is DELETED.</span>
 </span></code></pre></div>
+<p><a href="" id="ref-registry-caching"></a></p>
+<h2 id="caching-container-images-via-a-local-registry-mirror">Caching container images via a local registry mirror<a class="headerlink" href="#caching-container-images-via-a-local-registry-mirror" title="Permanent link">&para;</a></h2>
+<p>On Alps, podman is configured to pull images from certain external registries
+through a local registry mirror. The first time an image is pulled, the
+requested layers are downloaded from the external registry and stored
+in the local registry mirror; all subsequent pulls for that image are
+then served by the mirror, reducing both network load on the external registry
+and pull times.</p>
+<p>The following external registries are currently configured on the mirror:</p>
+<ul>
+<li><code>docker.io</code></li>
+<li><code>gcr.io</code></li>
+<li><code>ghcr.io</code></li>
+<li><code>nvcr.io</code></li>
+<li><code>quay.io</code></li>
+</ul>
 
 
 
