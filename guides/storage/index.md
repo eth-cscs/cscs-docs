@@ -302,7 +302,7 @@ The recommended way to create a new virtual environment is to use the [uv](<http
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -330,7 +330,7 @@ A new virtual environment can also be created using the standard `venv` module. 
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -420,7 +420,7 @@ To use the optimised virtual environment, mount the squashfs image at the locati
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 
@@ -429,7 +429,7 @@ Remember that virtual environments created by `uv` are relocatable only if the `
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 

@@ -4296,7 +4296,7 @@ To use a uenv with VS Code, the uenv must be started before calling `code tunnel
 # log into daint (this could be any other Alps cluster)
 ssh daint
 # start a uenv session on the login node
-uenv start --view=default prgenv-gnu/26.9:v1
+uenv start --view=default prgenv-gnu/26.9:v2
 # then start the tunnel
 code tunnel --name=$CLUSTER_NAME-tunnel
 ```
@@ -4305,7 +4305,7 @@ Alternatively, you can execute `code tunnel` directly in the environment:
 
 ```text
 ssh daint
-uenv run --view=default prgenv-gnu/26.9:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
+uenv run --view=default prgenv-gnu/26.9:v2 -- code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
 Once the tunnel is configured, you can access it from VS Code.
@@ -4326,7 +4326,7 @@ If you plan to do computation using your VS Code, then you should first allocate
 >
 > ```text
 > ssh daint
-> srun --uenv=prgenv-gnu/26.9:v1 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
+> srun --uenv=prgenv-gnu/26.9:v2 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
 > ```
 >
 > - `--uenv` and `--view` set up the uenv
@@ -4355,7 +4355,7 @@ If you plan to do computation using your VS Code, then you should first allocate
 > srun -t120 -n1 --pty bash
 >
 > # set up the environment before starting the tunnel
-> uenv start prgenv-gnu/26.9:v1 --view=default
+> uenv start prgenv-gnu/26.9:v2 --view=default
 > code tunnel --name=$CLUSTER_NAME-tunnel
 > ```
 >
@@ -5016,7 +5016,7 @@ wait
 The following example runs a program called `burn` that computes repeated matrix multiplications to stress the GPUs. It was built with, and requires to run the [prgenv-gnu](<https://docs.cscs.ch/software/prgenv/prgenv-gnu/index.md#prgenv-gnu>).
 
 ```console
-$ srun --uenv=prgenv-gnu/26.9:v1 -t 5:00 --nodes=1 --ntasks-per-node=4 --gpus-per-task=1 ${JOBREPORT} -o report -- ./burn --gpu=gemm -d 30
+$ srun --uenv=prgenv-gnu/26.9:v2 -t 5:00 --nodes=1 --ntasks-per-node=4 --gpus-per-task=1 ${JOBREPORT} -o report -- ./burn --gpu=gemm -d 30
 
 $ ./jobreport print report
 Summary of Job Statistics
@@ -5380,7 +5380,7 @@ It is straightforward to build the affinity tool to experiment with Slurm config
 Compiling affinity
 
 ```console
-$ uenv start prgenv-gnu/26.9:v1 --view=default     #(1)
+$ uenv start prgenv-gnu/26.9:v2 --view=default     #(1)
 $ git clone https://github.com/bcumming/affinity.git
 $ cd affinity; mkdir build; cd build;
 $ CC=gcc CXX=g++ cmake ..                           #(2)
@@ -5407,7 +5407,7 @@ The build generates the following executables:
 > Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=default
+> $ uenv start prgenv-gnu/26.9:v2 --view=default
 > $ srun -n8 -N2 -c72 ./affinity.mpi
 > affinity test for 8 MPI ranks
 > rank   0 @ nid006363: thread 0 -> cores [  0: 71]
@@ -6687,7 +6687,7 @@ The goal of a support ticket is to give the engineer enough information to repro
 > Steps to reproduce:
 >
 > ```text
-> uenv start --view=default prgenv-gnu/26.9:v1
+> uenv start --view=default prgenv-gnu/26.9:v2
 > sbatch mpi_gpu.slurm
 > ```
 >
@@ -7198,7 +7198,7 @@ The recommended way to create a new virtual environment is to use the [uv](<http
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -7226,7 +7226,7 @@ A new virtual environment can also be created using the standard `venv` module. 
 # start the uenv
 # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
 # and other useful tools
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 
 # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
 unset PYTHONPATH
@@ -7316,7 +7316,7 @@ To use the optimised virtual environment, mount the squashfs image at the locati
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 
@@ -7325,7 +7325,7 @@ Remember that virtual environments created by `uv` are relocatable only if the `
 ```bash
 cd $SCRATCH/sqfs-demo
 uenv start --view=default \
-    prgenv-gnu/26.9:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+    prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
 source .venv/bin/activate
 ```
 
@@ -7777,7 +7777,7 @@ Creating a Python virtual environment on top of a uenv view
 
 ```console
 # start the uenv with the default view
-$ uenv start --view=default prgenv-gnu/26.9:v1
+$ uenv start --view=default prgenv-gnu/26.9:v2
 # unset PYTHONPATH to avoid surprises
 $ unset PYTHONPATH
 # set PYTHONUSERBASE to the root of the view
@@ -7809,7 +7809,7 @@ Creating a Python virtual environment on top of a uenv view
 
 ```console
 # start the uenv with the default view
-$ uenv start --view=default prgenv-gnu/26.9:v1
+$ uenv start --view=default prgenv-gnu/26.9:v2
 # unset PYTHONPATH to avoid surprises
 $ unset PYTHONPATH
 # set PYTHONUSERBASE to the root of the view
@@ -7912,7 +7912,7 @@ graph TD
 To use a uenv as an [upstream Spack instance](<https://spack.readthedocs.io/en/latest/chain.html>), the uenv has to be started with the `spack` view:
 
 ```bash
-uenv start prgenv-gnu/26.9:v1 --view=spack
+uenv start prgenv-gnu/26.9:v2 --view=spack
 ```
 
 > [!NOTE]
@@ -8120,10 +8120,10 @@ A Spack view is generated in `<build-path>/view` with an activation script `<bui
 >
 > **Activating the view**
 >
-> For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v1`:
+> For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v2`:
 >
 > ```bash
-> uenv start prgenv-gnu/26.9:v1                   # (1)!
+> uenv start prgenv-gnu/26.9:v2                   # (1)!
 > source $SCRATCH/software/tool/view/activate.sh  # (2)!
 > ```
 >
@@ -8140,10 +8140,10 @@ To use them, add them to the module environment:
 >
 > **Use the modules**
 >
-> For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v1`:
+> For an environment with `build-path=$SCRATCH/software/tool` that was built using `prgenv-gnu/26.9:v2`:
 >
 > ```bash
-> uenv start prgenv-gnu/26.9:v1             # (1)!
+> uenv start prgenv-gnu/26.9:v2             # (1)!
 > module use $SCRATCH/software/tool/modules # (2)!
 > module avail                              # (3)!
 > ```
@@ -12920,7 +12920,7 @@ Once the uenv is loaded and activated, the program to debug must be compiled wit
 compiling a simple app to debug
 
 ```bash
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 nvcc -c -arch=sm_90 -g -G test_gpu.cu
 mpicxx -g test_cpu.cpp test_gpu.o -o myexe
 ```
@@ -12932,7 +12932,7 @@ To use the DDT client with uenv, it must be launched in `Manual Launch` mode (as
 Log into the system and launch with the `srun` command:
 
 ```console
-$ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/26.9:v1,linaro-forge/26.0:v1 --view=default,forge ddt-client  ./myexe
+$ srun -N1 -n4 -t15 -pdebug --uenv=prgenv-gnu/26.9:v2,linaro-forge/26.0:v1 --view=default,forge ddt-client  ./myexe
 ```
 
 Note that two uenv are selected:
@@ -13058,7 +13058,7 @@ This uenv is configured to be mounted in the `/user-tools` path so that they can
 When using alongside another uenv, start a uenv session with both uenv. In the following example, the `prgenv-gnu` and `linaro-forge` uenv will be mounted at `/user-environment` and `/user-tools` respectively:
 
 ```console
-$ uenv start prgenv-gnu/26.9:v1,linaro-forge/26.0:v1 \
+$ uenv start prgenv-gnu/26.9:v2,linaro-forge/26.0:v1 \
     --view=prgenv-gnu:default,forge # (1)!
 
 $ uenv status # (2)!
@@ -15380,9 +15380,11 @@ The key updates in version 26.9 compared to 26.3 are:
 - upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0
 - adding [cuFFTMp](<https://docs.nvidia.com/hpc-sdk/cufftmp/>) and [NVSHMEM](<https://docs.cscs.ch/software/communication/nvshmem/index.md#nvshmem>)
 
+v2 of the uenv upgrades Kokkos and Kokkos Kernels from version 4.7.04 to 5.2.2.
+
 > [!NOTE]
 >
-> **all packages exposed via the `default` and `modules` views in `v1`**
+> **all packages exposed via the `default` and `modules` views in `v2`**
 >
 > - [aws-ofi-nccl@1.19.0](<https://packages.spack.io/package.html?name=aws-ofi-nccl>)
 > - [boost@1.90.0](<https://packages.spack.io/package.html?name=boost>)
@@ -15396,8 +15398,8 @@ The key updates in version 26.9 compared to 26.3 are:
 > - [gmp@6.3.0](<https://packages.spack.io/package.html?name=gmp>)
 > - [gsl@2.8](<https://packages.spack.io/package.html?name=gsl>)
 > - [hdf5@1.14.6](<https://packages.spack.io/package.html?name=hdf5>)
-> - [kokkos@4.7.04](<https://packages.spack.io/package.html?name=kokkos>)
-> - [kokkos-kernels@4.7.04](<https://packages.spack.io/package.html?name=kokkos-kernels>)
+> - [kokkos@5.2.2](<https://packages.spack.io/package.html?name=kokkos>)
+> - [kokkos-kernels@5.2.2](<https://packages.spack.io/package.html?name=kokkos-kernels>)
 > - [kokkos-tools@5.2.0](<https://packages.spack.io/package.html?name=kokkos-tools>)
 > - [libfabric@2.6.0](<https://packages.spack.io/package.html?name=libfabric>)
 > - [libtree@3.1.1](<https://packages.spack.io/package.html?name=libtree>)
@@ -15564,7 +15566,7 @@ The simplest way to get started is to use the `default` file system view, which 
 >
 > ```console
 > # start using the default view
-> $ uenv start --view=default prgenv-gnu/26.9:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v2
 >
 > # the python executable provided by the uenv is the default, and is a recent version
 > $ which python
@@ -15588,7 +15590,7 @@ The uenv provides modules for all of the software packages, which can be made av
 > **starting prgenv-gnu and listing the provided modules**
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=modules
+> $ uenv start prgenv-gnu/26.9:v2 --view=modules
 > $ module avail
 >     ---------------------------- /user-environment/modules ----------------------------
 >        aws-ofi-nccl/1.19.0      lz4/1.10.0
@@ -15603,9 +15605,9 @@ The uenv provides modules for all of the software packages, which can be made av
 >        gmp/6.3.0                ninja/1.13.2
 >        gsl/2.8                  nvshmem/3.8.0-0
 >        hdf5/1.14.6              openblas/0.3.34
->        kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2
+>        kokkos-kernels/5.2.2     osu-micro-benchmarks/7.5.2
 >        kokkos-tools/5.2.0       papi/7.2.0
->        kokkos/4.7.04            python/3.14.5
+>        kokkos/5.2.2             python/3.14.5
 >        libfabric/2.6.0          superlu/7.0.1
 >        libtree/3.1.1            xcb-util-cursor/0.1.6
 >        lua/5.4.8                zlib-ng/2.3.3
@@ -19384,7 +19386,7 @@ This will make custom modules available, and load `ncview`, every time you log i
 
 ```bash
 # start the uenv that I always use
-uenv start prgenv-gnu/26.9:v1 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 # ERROR: the following lines will not be executed
 module use $STORE/myenv/modules
 module load ncview
@@ -19421,7 +19423,7 @@ Then create an alias in `~/.bashrc` for the `myenv` environment:
 \~/.bashrc
 
 ```bash
-alias myenv='uenv run prgenv-gnu/26.9:v1 --view=default -- bash --rcfile ~/.myenvrc'
+alias myenv='uenv run prgenv-gnu/26.9:v2 --view=default -- bash --rcfile ~/.myenvrc'
 ```
 
 This alias uses `uenv run` to start a new bash shell that will apply the customizations in `~/.myenvrc` once the uenv has been loaded. Then, the environment can be started with a single command once logged in.
@@ -19746,7 +19748,7 @@ To download a uenv so that you can use it, use the `uenv image pull` command to 
 > # The following commands have the same effect
 >
 > # method 1: pull using the name of the uenv
-> uenv image pull prgenv-gnu/26.9:v1
+> uenv image pull prgenv-gnu/26.9:v2
 >
 > # method 2: pull using the id of the image
 > uenv image pull 577a2b7d6362b5ce
@@ -19854,7 +19856,7 @@ The `uenv image inspect` command shows the views, mount point, and other metadat
 > ```
 >
 > ```console
-> $ uenv image inspect prgenv-gnu/26.9:v1
+> $ uenv image inspect prgenv-gnu/26.9:v2
 > prgenv-gnu:/user-environment
 >   GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.
 >   views:
@@ -20417,9 +20419,9 @@ $ gcc --version
 gcc (SUSE Linux) 7.5.0
 
 # inside the uenv we still see the system gcc
-$ uenv run prgenv-gnu/26.9:v1 -- which gcc
+$ uenv run prgenv-gnu/26.9:v2 -- which gcc
 /usr/bin/gcc
-$ uenv run prgenv-gnu/26.9:v1 -- gcc --version
+$ uenv run prgenv-gnu/26.9:v2 -- gcc --version
 gcc (SUSE Linux) 7.5.0
 ```
 
@@ -20427,13 +20429,13 @@ To set environment variables, uenv provide [views](<https://docs.cscs.ch/softwar
 
 ```text
 # use the default view to make all software available
-$ uenv run --view=default prgenv-gnu/26.9:v1 -- gcc --version
+$ uenv run --view=default prgenv-gnu/26.9:v2 -- gcc --version
 gcc (Spack GCC) 16.2.0
-$ uenv run --view=default prgenv-gnu/26.9:v1 -- which gcc
+$ uenv run --view=default prgenv-gnu/26.9:v2 -- which gcc
 /user-environment/env/default/bin/gcc
 
 # use the modules view to make modules available
-$ uenv run --view=modules prgenv-gnu/26.9:v1 -- bash -c 'module avail'
+$ uenv run --view=modules prgenv-gnu/26.9:v2 -- bash -c 'module avail'
 ------- /user-environment/modules -------
    aws-ofi-nccl/1.19.0    gcc/16.2.0
    boost/1.90.0           gmp/6.3.0
@@ -20453,7 +20455,7 @@ The `uenv start` command will start a new shell with one or more uenv images mou
 > ```console
 > # start the prgenv-gnu uenv, which provides MPI, cuda and CMake
 > # use the "default" view, which will load all of the software in the uenv
-> $ uenv start prgenv-gnu/26.9:v1 --view=default
+> $ uenv start prgenv-gnu/26.9:v2 --view=default
 >
 > # clone the software and set up the build directory
 > $ git clone https://github.com/bcumming/affinity.git
@@ -20568,9 +20570,9 @@ It can also be used to create customized environments. See the guide to [creatin
 >
 > ```console
 > # start a new bash shell in prgenv-gnu
-> uenv start prgenv-gnu/26.9:v1
+> uenv start prgenv-gnu/26.9:v2
 > # start a new bash shell in prgenv-gnu
-> uenv run prgenv-gnu/26.9:v1 -- bash
+> uenv run prgenv-gnu/26.9:v2 -- bash
 > ```
 
 > [!NOTE]
@@ -20581,7 +20583,7 @@ It can also be used to create customized environments. See the guide to [creatin
 >
 > ```console
 > # run a command
-> $ uenv run prgenv-gnu/26.9:v1 --view=default -- cmake -DUSE_GPU=cuda ..
+> $ uenv run prgenv-gnu/26.9:v2 --view=default -- cmake -DUSE_GPU=cuda ..
 > ```
 >
 > Run the GROMACS executable from inside the `gromacs` uenv.
@@ -20595,9 +20597,9 @@ It can also be used to create customized environments. See the guide to [creatin
 >
 > ```console
 > # run multiple applications, one after the other, that have different requirements
-> $ uenv run --view=default prgenv-gnu/26.9:v1 -- ./pre-processing-script.sh
+> $ uenv run --view=default prgenv-gnu/26.9:v2 -- ./pre-processing-script.sh
 > $ uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi $gromacs_args
-> $ uenv run --view=default prgenv-gnu/26.9:v1 -- ./post-processing-script.sh
+> $ uenv run --view=default prgenv-gnu/26.9:v2 -- ./post-processing-script.sh
 > ```
 
 > [!NOTE]
@@ -20610,7 +20612,7 @@ It can also be used to create customized environments. See the guide to [creatin
 >
 > ```console
 > # create a shortcut alias for running commands in prgenv-gnu
-> $ alias prg='uenv run --view=default prgenv-gnu/26.9:v1 --'
+> $ alias prg='uenv run --view=default prgenv-gnu/26.9:v2 --'
 >
 > #
 > # tools like cmake and gcc can be called: the entire command will run inside
@@ -20650,13 +20652,13 @@ For example, the flags can be used with srun:
 
 ```console
 # mount the uenv prgenv-gnu with the view named default
-$ srun --uenv=prgenv-gnu/26.9:v1 --view=default ...
+$ srun --uenv=prgenv-gnu/26.9:v2 --view=default ...
 
 # mount an image at an explicit location (/user-tools)
 $ srun --uenv=$IMAGES/myenv.squashfs:/user-tools ...
 
 # mount multiple images: use a comma to separate the different options
-$ srun --uenv=prgenv-gnu/26.9:v1,editors/24.7:v2 --view=default,editors:modules ...
+$ srun --uenv=prgenv-gnu/26.9:v2,editors/24.7:v2 --view=default,editors:modules ...
 ```
 
 The commands can also be used in sbatch scripts to have fine-grained control:
@@ -20687,7 +20689,7 @@ The commands can also be used in sbatch scripts to have fine-grained control:
 > srun -n4 bash -c 'echo $SLURM_PROCID on $(hostname): $(which emacs)'
 >
 > echo "==== alternative mount ===="
-> srun -n4 --uenv=prgenv-gnu/26.9:v1 --view=prgenv-gnu:default \
+> srun -n4 --uenv=prgenv-gnu/26.9:v2 --view=prgenv-gnu:default \
 >     bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
 > ```
 >
@@ -20729,7 +20731,7 @@ The following example is equivalent to adding `--uenv` and `--view` to the sbatc
 setting uenv via environment variables
 
 ```bash
-export SBATCH_UENV=prgenv-gnu/26.9:v1
+export SBATCH_UENV=prgenv-gnu/26.9:v2
 export SBATCH_UENV_VIEW=default
 sbatch my-job.sh
 ```
@@ -20755,7 +20757,7 @@ The `--uenv-passthrough` flag controls how a uenv that is already loaded in the 
 > By default, srun will recreate the uenv environment. Below the `prgenv-gnu` uenv is mounted remotely, and the copy of gcc installed in the uenv is found
 >
 > ```console
-> $ uenv start --view=default prgenv-gnu/26.9:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v2
 > $ srun which gcc
 > /user-environment/env/default/bin/gcc
 > ```
@@ -20763,7 +20765,7 @@ The `--uenv-passthrough` flag controls how a uenv that is already loaded in the 
 > To ignore, use `--uenv-passthrough=ignore` option:
 >
 > ```console
-> $ uenv start --view=default prgenv-gnu/26.9:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v2
 > $ srun --uenv-passthrough=ignore which gcc
 > /usr/bin/gcc
 > ```
@@ -20777,7 +20779,7 @@ By default, sbatch will raise an error if it is run with a uenv already mounted.
 > **sbatch default passthrough behavior**
 >
 > ```console
-> $ uenv start --view=default prgenv-gnu/26.9:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v2
 > $ sbatch ./job.sh
 > error: Calling sbatch/salloc from inside a uenv session is disabled by default.
 > ```
@@ -20795,7 +20797,7 @@ However, there are workflows and situations where `sbatch` must be called with a
 > ```bash
 > #SBATCH --nodes=4
 > #SBATCH --ntasks-per-node=4
-> #SBATCH --uenv=prgenv-gnu/26.9:v1
+> #SBATCH --uenv=prgenv-gnu/26.9:v2
 > #SBATCH --view=default
 >
 > # this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use
@@ -20822,7 +20824,7 @@ However, there are workflows and situations where `sbatch` must be called with a
 > In v10, calling `sbatch` or `salloc` from inside an active `uenv start` session is disabled by default and will produce an error:
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=default
+> $ uenv start prgenv-gnu/26.9:v2 --view=default
 > $ sbatch my-job.sh
 > error: Calling sbatch/salloc from inside a uenv session is disabled by default.
 > ```
@@ -20851,14 +20853,14 @@ Uenv images provide **views**, which will set environment variables that load th
 >
 > ```console
 > # activate the view named default in prgenv-gnu
-> $ uenv start --view=default prgenv-gnu/26.9:v1
+> $ uenv start --view=default prgenv-gnu/26.9:v2
 >
 > # activate both the spack and modules views in prgenv-gnu using
 > # a comma-separated list of view names
-> $ uenv start --view=spack,modules prgenv-gnu/26.9:v1
+> $ uenv start --view=spack,modules prgenv-gnu/26.9:v2
 >
 > # when starting multiple uenv, you can disambiguate using uenvname:viewname
-> $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/26.9:v1,editors/24.7:v2
+> $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/26.9:v2,editors/24.7:v2
 > ```
 
 Each uenv can provide more than one view. The [`modules`](<https://docs.cscs.ch/software/uenv/using/index.md#modules-view> "Modules view") and [`spack`](<https://docs.cscs.ch/software/uenv/using/index.md#spack-view> "Spack view") are standard views provided by nearly all uenv.
@@ -20951,7 +20953,7 @@ Most uenvs provide the modules, that can be accessed using the `module` command.
 > **using the module view**
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=modules
+> $ uenv start prgenv-gnu/26.9:v2 --view=modules
 > $ module avail
 > ---------------------------- /user-environment/modules ----------------------------
 >    aws-ofi-nccl/git.v1.9.2-aws_1.9.2    lua/5.4.6
@@ -20995,7 +20997,7 @@ Most uenvs provide the modules, that can be accessed using the `module` command.
 > Specifically, the `module` command is not available inside `uenv start` sessions:
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=modules
+> $ uenv start prgenv-gnu/26.9:v2 --view=modules
 > $ module avail
 > bash: module: command not found
 > ```
@@ -21003,7 +21005,7 @@ Most uenvs provide the modules, that can be accessed using the `module` command.
 > The workaround is to manually load the module tool after starting your uenv session:
 >
 > ```console
-> $ uenv start prgenv-gnu/26.9:v1 --view=modules
+> $ uenv start prgenv-gnu/26.9:v2 --view=modules
 > $ source /usr/share/lmod/8.7.17/init/bash
 > $ module avail
 >
@@ -24644,7 +24646,7 @@ Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the
 ```yaml
 job1:
   extends: .uenv-runner-eiger-zen2
-  image: prgenv-gnu/26.9:v1
+  image: prgenv-gnu/26.9:v2
   script:
     - gcc --version
   variables:
@@ -24685,7 +24687,7 @@ job:
   extends: .baremetal-runner-daint-gh200
   script:
     - hostname
-    - srun -n 4 --uenv prgenv-gnu/26.9:v1 --view=default ./my_application
+    - srun -n 4 --uenv prgenv-gnu/26.9:v2 --view=default ./my_application
   variables:
     SLURM_JOB_NUM_NODES: 1
 ```

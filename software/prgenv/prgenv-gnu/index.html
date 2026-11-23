@@ -6405,8 +6405,9 @@ Only available on <a class="autorefs autorefs-internal" href="../../../clusters/
 <li>upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0</li>
 <li>adding <a href="https://docs.nvidia.com/hpc-sdk/cufftmp/">cuFFTMp</a> and <a class="autorefs autorefs-internal" href="../../communication/nvshmem/#nvshmem">NVSHMEM</a></li>
 </ul>
+<p>v2 of the uenv upgrades Kokkos and Kokkos Kernels from version 4.7.04 to 5.2.2.</p>
 <details class="info">
-<summary>all packages exposed via the <code>default</code> and <code>modules</code> views in <code>v1</code></summary>
+<summary>all packages exposed via the <code>default</code> and <code>modules</code> views in <code>v2</code></summary>
 <ul>
 <li><a href="https://packages.spack.io/package.html?name=aws-ofi-nccl">aws-ofi-nccl@1.19.0</a></li>
 <li><a href="https://packages.spack.io/package.html?name=boost">boost@1.90.0</a></li>
@@ -6420,8 +6421,8 @@ Only available on <a class="autorefs autorefs-internal" href="../../../clusters/
 <li><a href="https://packages.spack.io/package.html?name=gmp">gmp@6.3.0</a></li>
 <li><a href="https://packages.spack.io/package.html?name=gsl">gsl@2.8</a></li>
 <li><a href="https://packages.spack.io/package.html?name=hdf5">hdf5@1.14.6</a></li>
-<li><a href="https://packages.spack.io/package.html?name=kokkos">kokkos@4.7.04</a></li>
-<li><a href="https://packages.spack.io/package.html?name=kokkos-kernels">kokkos-kernels@4.7.04</a></li>
+<li><a href="https://packages.spack.io/package.html?name=kokkos">kokkos@5.2.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=kokkos-kernels">kokkos-kernels@5.2.2</a></li>
 <li><a href="https://packages.spack.io/package.html?name=kokkos-tools">kokkos-tools@5.2.0</a></li>
 <li><a href="https://packages.spack.io/package.html?name=libfabric">libfabric@2.6.0</a></li>
 <li><a href="https://packages.spack.io/package.html?name=libtree">libtree@3.1.1</a></li>
@@ -6591,7 +6592,7 @@ This newer version brings stability and performance improvements, in particular 
 <div class="admonition example">
 <p class="admonition-title">test mpi compilers and python provided by prgenv-gnu/26.9</p>
 <div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>start<span class="w"> </span>using<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>view
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>--view<span class="o">=</span>default<span class="w"> </span>prgenv-gnu/26.9:v2
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>the<span class="w"> </span>python<span class="w"> </span>executable<span class="w"> </span>provided<span class="w"> </span>by<span class="w"> </span>the<span class="w"> </span>uenv<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>default,<span class="w"> </span>and<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>recent<span class="w"> </span>version
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">$ </span>which<span class="w"> </span>python
@@ -6614,7 +6615,7 @@ This newer version brings stability and performance improvements, in particular 
 No modules are loaded when a uenv starts, and have to be loaded individually using <code>module load</code>.</p>
 <div class="admonition example">
 <p class="admonition-title">starting prgenv-gnu and listing the provided modules</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v2<span class="w"> </span>--view<span class="o">=</span>modules
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">    ---------------------------- /user-environment/modules ----------------------------</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="go">       aws-ofi-nccl/1.19.0      lz4/1.10.0</span>
@@ -6629,9 +6630,9 @@ No modules are loaded when a uenv starts, and have to be loaded individually usi
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="go">       gmp/6.3.0                ninja/1.13.2</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="go">       gsl/2.8                  nvshmem/3.8.0-0</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="go">       hdf5/1.14.6              openblas/0.3.34</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="go">       kokkos-kernels/4.7.04    osu-micro-benchmarks/7.5.2</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="go">       kokkos-kernels/5.2.2     osu-micro-benchmarks/7.5.2</span>
 </span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="go">       kokkos-tools/5.2.0       papi/7.2.0</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="go">       kokkos/4.7.04            python/3.14.5</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="go">       kokkos/5.2.2             python/3.14.5</span>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="go">       libfabric/2.6.0          superlu/7.0.1</span>
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="go">       libtree/3.1.1            xcb-util-cursor/0.1.6</span>
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="go">       lua/5.4.8                zlib-ng/2.3.3</span>

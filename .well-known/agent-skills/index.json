@@ -6,14 +6,14 @@
       "type": "archive",
       "description": "Build a uenv (SquashFS software-stack image) on Alps HPC systems using Stackinator and Spack. Use when the task involves creating, configuring, building, debugging, or iterating on a uenv \u2014 writing or editing a Stackinator recipe (config.yaml, compilers.yaml, environments.yaml, packages.yaml), running stack-config, building store.squashfs, resolving Spack concretization/build failures inside the bubblewrap sandbox, fixing runtime issues in views, or testing an image with `uenv run`.",
       "url": "build-uenv-stackinator.tar.gz",
-      "digest": "sha256:d3ab86f3744f45a9da37d401cf283c89d4cb00652dcd8bc54da3b1988a2e6a4e"
+      "digest": "sha256:c05911e251257e0953ad5d9679a647430b20f868f177b99d780194b2f8d2f9c4"
     },
     {
       "name": "cscs-alps",
       "type": "archive",
       "description": "Orientation for the Alps clusters of CSCS, the Swiss National Supercomputing Centre (Daint, Eiger, Clariden, Santis, Bristen, Beverin). Read before running, building, installing or storing anything on them, where CPU architecture, file systems and software environments differ from a generic Linux or HPC system. Use when the host name is like daint-ln001 or nid001234, when paths start with /users, /capstor, /iopsstor or /ritom, or when the user mentions CSCS or Alps. Also use when installing or updating the CSCS agent skills.",
       "url": "cscs-alps.tar.gz",
-      "digest": "sha256:ecc16ad578cc756f4d75fce9fc89e7c4abb0803bd13278ff02366750e0c605c6"
+      "digest": "sha256:4ef5dad7f32a7286ab32930fae3a6810aa324201a21f9ab8a8620f4f2298b0f3"
     },
     {
       "name": "cscs-ci",

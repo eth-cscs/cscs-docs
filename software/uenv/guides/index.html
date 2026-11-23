@@ -6461,7 +6461,7 @@ Use full labels, e.g. <code>prgenv-gnu/26.3:v1</code>, in scripts and job files,
 <p>This will make custom modules available, and load <code>ncview</code>, every time you log in.
 It is not possible to do the equivalent with <code>uenv start</code>, for example:
 <div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># start the uenv that I always use</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>default
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v2<span class="w"> </span>--view<span class="o">=</span>default
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># ERROR: the following lines will not be executed</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$STORE</span>/myenv/modules
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>module<span class="w"> </span>load<span class="w"> </span>ncview
@@ -6486,7 +6486,7 @@ Here is an example for an environment called <code>myenv</code>:</p>
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DATAPATH</span><span class="o">=</span><span class="nv">$STORE</span>/2025/data
 </span></code></pre></div>
 <p>Then create an alias in <code>~/.bashrc</code> for the <code>myenv</code> environment:</p>
-<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">myenv</span><span class="o">=</span><span class="s1">'uenv run prgenv-gnu/26.9:v1 --view=default -- bash --rcfile ~/.myenvrc'</span>
+<div class="language-bash highlight"><span class="filename">~/.bashrc</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">myenv</span><span class="o">=</span><span class="s1">'uenv run prgenv-gnu/26.9:v2 --view=default -- bash --rcfile ~/.myenvrc'</span>
 </span></code></pre></div>
 <p>This alias uses <code>uenv run</code> to start a new bash shell that will apply the customizations in <code>~/.myenvrc</code> once the uenv has been loaded.
 Then, the environment can be started with a single command once logged in.</p>

@@ -6437,7 +6437,7 @@ It provides the latest versions of <code>gcc</code>, <code>cray-mpich</code>, <c
 </div>
 <p>To use a uenv as an <a href="https://spack.readthedocs.io/en/latest/chain.html">upstream Spack instance</a>,
 the uenv has to be started with the <code>spack</code> view:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w"> </span>--view<span class="o">=</span>spack
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v2<span class="w"> </span>--view<span class="o">=</span>spack
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What does the <code>spack</code> view do?</p>
@@ -6653,8 +6653,8 @@ you can provide it as an argument to <code>uenv-spack</code>:</p>
 When the view is activated, all of the installed packages are available for use in the environment.</p>
 <div class="admonition example">
 <p class="admonition-title">Activating the view</p>
-<p>For an environment with <code>build-path=$SCRATCH/software/tool</code> that was built using <code>prgenv-gnu/26.9:v1</code>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w">                   </span><span class="c1"># (1)!</span>
+<p>For an environment with <code>build-path=$SCRATCH/software/tool</code> that was built using <code>prgenv-gnu/26.9:v2</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v2<span class="w">                   </span><span class="c1"># (1)!</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">source</span><span class="w"> </span><span class="nv">$SCRATCH</span>/software/tool/view/activate.sh<span class="w">  </span><span class="c1"># (2)!</span>
 </span></code></pre></div>
 <ol>
@@ -6667,8 +6667,8 @@ When the view is activated, all of the installed packages are available for use 
 <p>To use them, add them to the module environment:</p>
 <div class="admonition example">
 <p class="admonition-title">Use the modules</p>
-<p>For an environment with <code>build-path=$SCRATCH/software/tool</code> that was built using <code>prgenv-gnu/26.9:v1</code>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v1<span class="w">             </span><span class="c1"># (1)!</span>
+<p>For an environment with <code>build-path=$SCRATCH/software/tool</code> that was built using <code>prgenv-gnu/26.9:v2</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-gnu/26.9:v2<span class="w">             </span><span class="c1"># (1)!</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>module<span class="w"> </span>use<span class="w"> </span><span class="nv">$SCRATCH</span>/software/tool/modules<span class="w"> </span><span class="c1"># (2)!</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>module<span class="w"> </span>avail<span class="w">                              </span><span class="c1"># (3)!</span>
 </span></code></pre></div>

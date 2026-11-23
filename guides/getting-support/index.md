@@ -45,7 +45,7 @@ The goal of a support ticket is to give the engineer enough information to repro
 > Steps to reproduce:
 >
 > ```text
-> uenv start --view=default prgenv-gnu/26.9:v1
+> uenv start --view=default prgenv-gnu/26.9:v2
 > sbatch mpi_gpu.slurm
 > ```
 >

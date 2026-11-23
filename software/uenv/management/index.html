@@ -6739,7 +6739,7 @@ For example, to download a version of the <code>prgenv-gnu</code> uenv:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># The following commands have the same effect</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># method 1: pull using the name of the uenv</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-gnu/26.9:v1
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-gnu/26.9:v2
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># method 2: pull using the id of the image</span>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>577a2b7d6362b5ce
@@ -6822,7 +6822,7 @@ It is useful for checking what views an image provides before deciding how to us
 </span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="go">    develop-single-node:</span>
 </span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="go">    develop:</span>
 </span></code></pre></div>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>prgenv-gnu/26.9:v1
+<div class="language-console highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>prgenv-gnu/26.9:v2
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">prgenv-gnu:/user-environment</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="go">  GNU Compiler toolchain with cray-mpich, Python, CMake and other development tools.</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="go">  views:</span>

@@ -1223,7 +1223,7 @@ Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the
 ```yaml
 job1:
   extends: .uenv-runner-eiger-zen2
-  image: prgenv-gnu/26.9:v1
+  image: prgenv-gnu/26.9:v2
   script:
     - gcc --version
   variables:
@@ -1264,7 +1264,7 @@ job:
   extends: .baremetal-runner-daint-gh200
   script:
     - hostname
-    - srun -n 4 --uenv prgenv-gnu/26.9:v1 --view=default ./my_application
+    - srun -n 4 --uenv prgenv-gnu/26.9:v2 --view=default ./my_application
   variables:
     SLURM_JOB_NUM_NODES: 1
 ```

@@ -25,7 +25,7 @@ Creating a Python virtual environment on top of a uenv view
 
 ```console
 # start the uenv with the default view
-$ uenv start --view=default prgenv-gnu/26.9:v1
+$ uenv start --view=default prgenv-gnu/26.9:v2
 # unset PYTHONPATH to avoid surprises
 $ unset PYTHONPATH
 # set PYTHONUSERBASE to the root of the view
@@ -57,7 +57,7 @@ Creating a Python virtual environment on top of a uenv view
 
 ```console
 # start the uenv with the default view
-$ uenv start --view=default prgenv-gnu/26.9:v1
+$ uenv start --view=default prgenv-gnu/26.9:v2
 # unset PYTHONPATH to avoid surprises
 $ unset PYTHONPATH
 # set PYTHONUSERBASE to the root of the view
