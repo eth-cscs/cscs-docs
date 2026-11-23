@@ -271,7 +271,7 @@ Parameters that worked on a different cluster---or with a different Slurm versio
 It is straightforward to build the affinity tool to experiment with Slurm configurations.
 
 ```console title="Compiling affinity"
-$ uenv start prgenv-gnu/26.9:v1 --view=default     #(1)
+$ uenv start prgenv-gnu/26.9:v2 --view=default     #(1)
 $ git clone https://github.com/bcumming/affinity.git
 $ cd affinity; mkdir build; cd build;
 $ CC=gcc CXX=g++ cmake ..                           #(2)
@@ -297,7 +297,7 @@ The build generates the following executables:
 ??? example "Testing CPU affinity"
     Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
     ```console
-    $ uenv start prgenv-gnu/26.9:v1 --view=default
+    $ uenv start prgenv-gnu/26.9:v2 --view=default
     $ srun -n8 -N2 -c72 ./affinity.mpi
     affinity test for 8 MPI ranks
     rank   0 @ nid006363: thread 0 -> cores [  0: 71]
