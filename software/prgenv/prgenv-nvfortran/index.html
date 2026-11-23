@@ -6299,14 +6299,55 @@ It provides CUDA and libraries with GPU support enabled for the Grace-Hopper nod
 <td>25.7</td>
 <td>25.7</td>
 </tr>
+<tr>
+<td>26.9</td>
+<td>26.9</td>
+</tr>
 </tbody>
 </table>
 <details class="note">
 <summary>I need a different version</summary>
 <p>If you need a version of the NVHPC SDK that is not provided, e.g. the 25.1 version that falls between 24.11 and 25.4, make a request on the <a href="https://jira.cscs.ch/plugins/servlet/desk">CSCS service desk</a>.</p>
 </details>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">25.7</label><label for="__tabbed_1_2">24.11</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">26.9</label><label for="__tabbed_1_2">25.7</label><label for="__tabbed_1_3">24.11</label></div>
 <div class="tabbed-content">
+<div class="tabbed-block">
+<p>The key updates in version 26.9 compared to 25.7 are:</p>
+<ul>
+<li>upgrading the NVIDIA HPC SDK to version 26.9, CUDA to version 13.4 and GCC to version 14.4</li>
+<li>upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0</li>
+<li>adding <a href="https://packages.spack.io/package.html?name=nvpl-scalapack">nvpl-scalapack</a></li>
+<li>removing the SquashFS tools</li>
+</ul>
+<p>Version 26.9 provides the following software:</p>
+<ul>
+<li><a href="https://packages.spack.io/package.html?name=aws-ofi-nccl">aws-ofi-nccl@1.19.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cmake">cmake@3.31.12</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cray-mpich">cray-mpich@9.2.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=cuda">cuda@13.4.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=fftw">fftw@3.3.11</a></li>
+<li><a href="https://packages.spack.io/package.html?name=fmt">fmt@12.2.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=gcc">gcc@14.4.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=hdf5">hdf5@1.14.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=libfabric">libfabric@2.6.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=libtree">libtree@3.1.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=lua">lua@5.4.8</a></li>
+<li><a href="https://packages.spack.io/package.html?name=lz4">lz4@1.10.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=meson">meson@1.12.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nccl">nccl@2.29.7-1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nccl-tests">nccl-tests@2.17.6</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-c">netcdf-c@4.10.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=netcdf-fortran">netcdf-fortran@4.6.4</a></li>
+<li><a href="https://packages.spack.io/package.html?name=ninja">ninja@1.13.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nvhpc">nvhpc@26.9</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nvpl-blas">nvpl-blas@0.6.0</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nvpl-lapack">nvpl-lapack@0.4.0.1</a></li>
+<li><a href="https://packages.spack.io/package.html?name=nvpl-scalapack">nvpl-scalapack@0.2.4</a></li>
+<li><a href="https://packages.spack.io/package.html?name=osu-micro-benchmarks">osu-micro-benchmarks@7.5.2</a></li>
+<li><a href="https://packages.spack.io/package.html?name=python">python@3.14.5</a></li>
+<li><a href="https://packages.spack.io/package.html?name=zlib-ng">zlib-ng@2.3.3</a></li>
+</ul>
+</div>
 <div class="tabbed-block">
 <div class="admonition info">
 <p class="admonition-title">The v2 tag adds the <code>+cxx</code> variant to <code>hdf5</code></p>
@@ -6384,13 +6425,13 @@ To see which versions have been installed on a system:</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>uenv<span class="w"> </span>image<span class="w"> </span>find<span class="w"> </span>prgenv-nvfortran@*
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># pull a version</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-nvfortran/25.7:v1
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>uenv<span class="w"> </span>image<span class="w"> </span>pull<span class="w"> </span>prgenv-nvfortran/26.9:v1
 </span></code></pre></div>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">the <code>nvfort</code> view</label><label for="__tabbed_2_2">the modules view</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>The <code>nvfort</code> view loads all of the packages into your environment (equivalent to loading all the modules at once):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-nvfortran/25.7:v1<span class="w"> </span>--view<span class="o">=</span>nvfort
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-nvfortran/26.9:v1<span class="w"> </span>--view<span class="o">=</span>nvfort
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mpif90<span class="w"> </span>--version
 </span></code></pre></div>
 <p>The above example shows that the MPI compiler wrappers are using the underlying NVIDIA compiler.
@@ -6408,18 +6449,18 @@ The following wrappers are available:</p>
 </div>
 <div class="tabbed-block">
 <p>The modules view will start the uenv, and make a set of modules available:</p>
-<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-nvfortran/25.7:v1<span class="w"> </span>--view<span class="o">=</span>nvfort,modules
+<div class="language-console highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp">$ </span>uenv<span class="w"> </span>start<span class="w"> </span>prgenv-nvfortran/26.9:v1<span class="w"> </span>--view<span class="o">=</span>nvfort,modules
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="gp">$ </span>module<span class="w"> </span>avail
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">---------------------------- /user-environment/modules ------------------------</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go">     aws-ofi-nccl/1.16.0    libtree/3.1.1           nvhpc/25.7</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">     cmake/3.31.8           lua/5.4.6               nvpl-blas/0.4.0.1</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go">     cray-mpich/8.1.32      lz4/1.10.0              nvpl-lapack/0.3.0</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="go">     cuda/12.9.0            meson/1.7.0             osu-micro-benchmarks/7.5</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="go">     fftw/3.3.10            nccl-tests/2.16.3       python/3.13.5</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="go">     fmt/11.2.0             nccl/2.27.5-1           squashfs/4.6.1</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="go">     gcc/13.4.0             netcdf-c/4.9.2          zlib-ng/2.2.4</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="go">     hdf5/1.14.6            netcdf-fortran/4.6.1</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="go">     libfabric/1.22.0       ninja/1.12.1</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="go">     aws-ofi-nccl/1.19.0    libtree/3.1.1           nvhpc/26.9</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="go">     cmake/3.31.12          lua/5.4.8               nvpl-blas/0.6.0</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go">     cray-mpich/9.2.1       lz4/1.10.0              nvpl-lapack/0.4.0.1</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="go">     cuda/13.4.1            meson/1.12.0            nvpl-scalapack/0.2.4</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="go">     fftw/3.3.11            nccl-tests/2.17.6       osu-micro-benchmarks/7.5.2</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="go">     fmt/12.2.0             nccl/2.29.7-1           python/3.14.5</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="go">     gcc/14.4.0             netcdf-c/4.10.0         zlib-ng/2.3.3</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="go">     hdf5/1.14.6            netcdf-fortran/4.6.4</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="go">     libfabric/2.6.0        ninja/1.13.2</span>
 </span></code></pre></div>
 <p>None of the modules are loaded by default, so you will have to load the required modules</p>
 </div>

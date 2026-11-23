@@ -19,12 +19,48 @@ The currently supported versions are:
 | --- | --- |
 | 24.11 | 24.11 |
 | 25.7 | 25.7 |
+| 26.9 | 26.9 |
 
 > [!NOTE]
 >
 > **I need a different version**
 >
 > If you need a version of the NVHPC SDK that is not provided, e.g. the 25.1 version that falls between 24.11 and 25.4, make a request on the [CSCS service desk](<https://jira.cscs.ch/plugins/servlet/desk>).
+
+The key updates in version 26.9 compared to 25.7 are:
+
+- upgrading the NVIDIA HPC SDK to version 26.9, CUDA to version 13.4 and GCC to version 14.4
+- upgrading Cray MPICH to version 9.2.1 and libfabric to version 2.6.0
+- adding [nvpl-scalapack](<https://packages.spack.io/package.html?name=nvpl-scalapack>)
+- removing the SquashFS tools
+
+Version 26.9 provides the following software:
+
+- [aws-ofi-nccl@1.19.0](<https://packages.spack.io/package.html?name=aws-ofi-nccl>)
+- [cmake@3.31.12](<https://packages.spack.io/package.html?name=cmake>)
+- [cray-mpich@9.2.1](<https://packages.spack.io/package.html?name=cray-mpich>)
+- [cuda@13.4.1](<https://packages.spack.io/package.html?name=cuda>)
+- [fftw@3.3.11](<https://packages.spack.io/package.html?name=fftw>)
+- [fmt@12.2.0](<https://packages.spack.io/package.html?name=fmt>)
+- [gcc@14.4.0](<https://packages.spack.io/package.html?name=gcc>)
+- [hdf5@1.14.6](<https://packages.spack.io/package.html?name=hdf5>)
+- [libfabric@2.6.0](<https://packages.spack.io/package.html?name=libfabric>)
+- [libtree@3.1.1](<https://packages.spack.io/package.html?name=libtree>)
+- [lua@5.4.8](<https://packages.spack.io/package.html?name=lua>)
+- [lz4@1.10.0](<https://packages.spack.io/package.html?name=lz4>)
+- [meson@1.12.0](<https://packages.spack.io/package.html?name=meson>)
+- [nccl@2.29.7-1](<https://packages.spack.io/package.html?name=nccl>)
+- [nccl-tests@2.17.6](<https://packages.spack.io/package.html?name=nccl-tests>)
+- [netcdf-c@4.10.0](<https://packages.spack.io/package.html?name=netcdf-c>)
+- [netcdf-fortran@4.6.4](<https://packages.spack.io/package.html?name=netcdf-fortran>)
+- [ninja@1.13.2](<https://packages.spack.io/package.html?name=ninja>)
+- [nvhpc@26.9](<https://packages.spack.io/package.html?name=nvhpc>)
+- [nvpl-blas@0.6.0](<https://packages.spack.io/package.html?name=nvpl-blas>)
+- [nvpl-lapack@0.4.0.1](<https://packages.spack.io/package.html?name=nvpl-lapack>)
+- [nvpl-scalapack@0.2.4](<https://packages.spack.io/package.html?name=nvpl-scalapack>)
+- [osu-micro-benchmarks@7.5.2](<https://packages.spack.io/package.html?name=osu-micro-benchmarks>)
+- [python@3.14.5](<https://packages.spack.io/package.html?name=python>)
+- [zlib-ng@2.3.3](<https://packages.spack.io/package.html?name=zlib-ng>)
 
 > [!NOTE]
 >
@@ -100,13 +136,13 @@ uenv image find prgenv-nvfortran
 uenv image find prgenv-nvfortran@*
 
 # pull a version
-uenv image pull prgenv-nvfortran/25.7:v1
+uenv image pull prgenv-nvfortran/26.9:v1
 ```
 
 The `nvfort` view loads all of the packages into your environment (equivalent to loading all the modules at once):
 
 ```bash
-uenv start prgenv-nvfortran/25.7:v1 --view=nvfort
+uenv start prgenv-nvfortran/26.9:v1 --view=nvfort
 mpif90 --version
 ```
 
@@ -124,18 +160,18 @@ And the following C/C++ wrappers are available:
 The modules view will start the uenv, and make a set of modules available:
 
 ```console
-$ uenv start prgenv-nvfortran/25.7:v1 --view=nvfort,modules
+$ uenv start prgenv-nvfortran/26.9:v1 --view=nvfort,modules
 $ module avail
 ---------------------------- /user-environment/modules ------------------------
-     aws-ofi-nccl/1.16.0    libtree/3.1.1           nvhpc/25.7
-     cmake/3.31.8           lua/5.4.6               nvpl-blas/0.4.0.1
-     cray-mpich/8.1.32      lz4/1.10.0              nvpl-lapack/0.3.0
-     cuda/12.9.0            meson/1.7.0             osu-micro-benchmarks/7.5
-     fftw/3.3.10            nccl-tests/2.16.3       python/3.13.5
-     fmt/11.2.0             nccl/2.27.5-1           squashfs/4.6.1
-     gcc/13.4.0             netcdf-c/4.9.2          zlib-ng/2.2.4
-     hdf5/1.14.6            netcdf-fortran/4.6.1
-     libfabric/1.22.0       ninja/1.12.1
+     aws-ofi-nccl/1.19.0    libtree/3.1.1           nvhpc/26.9
+     cmake/3.31.12          lua/5.4.8               nvpl-blas/0.6.0
+     cray-mpich/9.2.1       lz4/1.10.0              nvpl-lapack/0.4.0.1
+     cuda/13.4.1            meson/1.12.0            nvpl-scalapack/0.2.4
+     fftw/3.3.11            nccl-tests/2.17.6       osu-micro-benchmarks/7.5.2
+     fmt/12.2.0             nccl/2.29.7-1           python/3.14.5
+     gcc/14.4.0             netcdf-c/4.10.0         zlib-ng/2.3.3
+     hdf5/1.14.6            netcdf-fortran/4.6.4
+     libfabric/2.6.0        ninja/1.13.2
 ```
 
 None of the modules are loaded by default, so you will have to load the required modules
