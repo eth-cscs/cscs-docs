@@ -204,3 +204,21 @@ Additional commands can be used to manage the local registry:
 
    local registry is DELETED.
    ```
+
+[](){#ref-registry-caching}
+## Caching container images via a local registry mirror
+
+On Alps, podman is configured to pull images from certain external registries
+through a local registry mirror. The first time an image is pulled, the
+requested layers are downloaded from the external registry and stored
+in the local registry mirror; all subsequent pulls for that image are
+then served by the mirror, reducing both network load on the external registry
+and pull times.
+
+The following external registries are currently configured on the mirror:
+
+* `docker.io`
+* `gcr.io`
+* `ghcr.io`
+* `nvcr.io`
+* `quay.io`
