@@ -1,6 +1,6 @@
 ---
 name: build-uenv-stackinator
-description: Build a uenv (SquashFS software-stack image) on Alps HPC systems using Stackinator and Spack. Use when the task involves creating, configuring, building, debugging, or iterating on a uenv — writing or editing a Stackinator recipe (config.yaml, compilers.yaml, environments.yaml, packages.yaml), running stack-config, building store.squashfs, resolving Spack concretization/build failures inside the bubblewrap sandbox, fixing runtime issues in views, or testing an image with `uenv run`.
+description: Build a uenv (SquashFS software-stack image) on Alps HPC systems using Stackinator and Spack. Use when the task involves creating, configuring, building, debugging, or iterating on a uenv — writing or editing a Stackinator recipe (config.yaml, compilers.yaml, environments.yaml, packages.yaml), running stack-config, building store.squashfs, resolving Spack concretization/build failures inside the bubblewrap sandbox, fixing runtime issues in views, testing an image with `uenv run`, or testing it with the CSCS ReFrame test suite (`extra/reframe.yaml`).
 ---
 
 # Building a uenv with Stackinator
@@ -90,7 +90,7 @@ Match `<uarch>` to the target system (`gh200`, `a100`, `mc`, `amdgpu`). Then str
 - `config.yaml` — set `name`, `store` (the mount point), `description`, `version: 3`. Set `default-view` only when one view is obviously the one to load.
 - `compilers.yaml` — `gcc: version: "system"` unless the image must build another compiler. This skips a full gcc bootstrap and is a large saving.
 - `environments.yaml` — delete the whole `network:` block (it defaults to no MPI), delete `variants:` (`+mpi`, `+cuda`, `cuda_arch=`), and cut `specs:` to what the image is actually for.
-- Delete `modules.yaml` unless users will `module load`, and delete `extra/`.
+- Delete `modules.yaml` unless users will `module load`, and delete `extra/`, except `extra/reframe.yaml`: keep it, and correct its features and views for the new image (see `references/reframe-testing.md`).
 
 **Write `mirrors.yaml`.** Find the existing cache in `$SCRATCH` — it is the directory containing a `push-key.gpg`:
 
@@ -205,6 +205,7 @@ A recipe is a directory of YAML files. See `references/recipe-files.md` for the 
 - `modules.yaml` (optional) — module file generation.
 - `repo/` (optional) — custom Spack packages (last resort — prefer fixing upstream via variants/specs/externals).
 - `post-install` / `pre-install` (optional) — shell scripts run inside the sandbox before/after the Spack build.
+- `extra/` (optional) — files copied to `meta/extra/` in the image. `extra/reframe.yaml` enables the CSCS ReFrame tests for the image: see `references/reframe-testing.md`.
 
 Read `references/recipe-files.md` before writing or editing any recipe file.
 
@@ -261,10 +262,21 @@ uenv inspect /dev/shm/$USER/build/store.squashfs
 
 If running from `/dev/shm` fails with `error: unable to exec 'bash': Input/output error (errno=5)` although the image is complete (`unsquashfs -s` reads its header), copy it to a regular filesystem (e.g. `$SCRATCH`) and run it from there. This was seen on daint GH200 nodes (2026-11-05): the same image mounted from `$SCRATCH` worked. Copying the image off `/dev/shm` is worthwhile anyway: `/dev/shm` disappears when the job ends.
 
+### Testing with ReFrame
+
+`uenv run` checks are the first test. For an image that will be deployed, or one that provides MPI, GPU libraries or an application, also run the CSCS ReFrame test suite on it: these are the tests the uenv build pipeline and the regular cluster tests run, and they cover multi-node communication and application benchmarks with reference performance.
+
+- The recipe needs `extra/reframe.yaml`, which lists the features the image provides and the views to load. Write it, or check it when the recipe was copied: its `views` must exist in `environments.yaml`.
+- ReFrame is run from a login node and submits its own Slurm jobs. Pass `-S build_locally=0` so that tests which compile do so on a compute node, where the image is mounted. `CSCS_RFM_UENV=/path/to/store.squashfs` tests an image that was just built, with its `meta/` directory extracted beside it.
+- List the selected tests and do a `--dry-run` first: some tests use tens of nodes. Tell the user what will be submitted.
+
+Read `references/reframe-testing.md` before writing `extra/reframe.yaml` or running the tests.
+
 ## Reference material
 
 - `references/recipe-files.md` — full recipe file reference with annotated examples and per-field decisions.
 - `references/runtime-fixes.md` — detailed runtime-issue remediation.
+- `references/reframe-testing.md` — testing an image with the CSCS ReFrame test suite: `extra/reframe.yaml`, choosing features, running the tests on a built image, reading the results.
 - `references/vnc-example.md` — worked example: design decisions for a VNC/remote-visualization uenv on GH200 (what to bundle, what to rely on from the host, GPU/EGL notes).
 
 ## Updates

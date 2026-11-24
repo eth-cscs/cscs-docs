@@ -15,7 +15,7 @@ They work in the same way whether the agent runs on Alps, or on your own compute
 |-------|--------------|
 | `cscs-alps` | Orients an agent on Alps: which cluster and CPU architecture it is on, where files should go, and how to get software with uenv and the Container Engine instead of modules. |
 | `cscs-cluster-probes` | Looks up how a cluster is configured and what it is doing now: partitions and their limits, QoS, node hardware and features, file systems, tool versions, idle nodes, pending jobs, and which partitions you can submit to. |
-| `build-uenv-stackinator` | Builds a [uenv][ref-uenv] with Stackinator and Spack: writing and editing recipes, configuring and running the build, fixing build and runtime problems, and testing the image. |
+| `build-uenv-stackinator` | Builds a [uenv][ref-uenv] with Stackinator and Spack: writing and editing recipes, configuring and running the build, fixing build and runtime problems, and testing the image, including with the CSCS ReFrame test suite. |
 | `cscs-ci` | Works with [CSCS CI/CD][ref-cicd]: checking the status of pipelines, fetching their logs, triggering them from pull requests, and writing their configuration. |
 
 See [publishing agent skills][ref-contributing-skills] for how the skills are built and published.
