@@ -97,11 +97,16 @@ On the [HPC Platform][ref-platform-hpcp] clusters Eiger, Daint it points to `/ri
 
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
-* Files on `/capstor/scratch/cscs/$USER` and `/ritom/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
-* Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
-* When capacity grows above:
-    * 60%: users are asked to start removing or archiving unneeded files
-    * 80%: CSCS will start removing files and paths without further notice.
+A daily process removes files that have not been **accessed (either read or written)** within the retention period:
+
+* **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
+* **30 days** on [Ritom][ref-alps-capstor] (`/ritom/scratch/cscs/$USER`)
+* **14 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
+
+Furthermore, when capacity grows above:
+
+* 60%: users are asked to start removing or archiving unneeded files
+* 80%: CSCS will start removing files and paths without further notice.
 
 !!! warning "Hidden directories are excluded from the cleaning policy"
     The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
@@ -321,6 +326,7 @@ File cleanup removes files that are not being used to ensure that occupancy and 
 A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
 * **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
+* **30 days** on [Ritom][ref-alps-capstor] (`/ritom/scratch/cscs/$USER`)
 * **14 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
 
 ??? example "How can I tell when a file was last accessed?"
