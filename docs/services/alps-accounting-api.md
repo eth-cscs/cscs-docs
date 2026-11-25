@@ -36,30 +36,77 @@ Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal-sub
     (4.c) choose the [business plan][ref-devportal-api-info] and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
 ![Devportal subscriptions](../images/services/alps-accounting-api-subscriptions.png)
 
-Keep the *Consumer Key* (client ID) and *Consumer Secret* (client secret) secure; they are credentials for accessing the API.
+The application now has a *Consumer Key* and a *Consumer Secret*, shown on the `Production Keys` page of the application in the Developer Portal.
+These are the credentials used to [request an access token][ref-alps-accounting-api-auth] for the API.
 
+[](){#ref-alps-accounting-api-auth}
 ## Authentication
 
-The API uses OAuth2 client credentials.
-Exchange the client ID and secret for a short-lived Bearer token, then include the token in the `Authorization` header of every request.
+The API uses the OAuth2 client credentials flow.
+Exchange the credentials of your application for a short-lived access token, then include the token in the `Authorization` header of every request.
 
-```bash title="request an access token"
-curl -s -X POST "https://auth.cscs.ch/auth/realms/cscs/protocol/openid-connect/token" \
-  --data "grant_type=client_credentials" \
-  --data "client_id=<CLIENT_ID>" \
-  --data "client_secret=<CLIENT_SECRET>"
+The Developer Portal and OAuth2 use different names for the two credentials.
+The examples on this page use the Developer Portal names:
+
+| Developer Portal  | OAuth2 name                       | Placeholder in the examples |
+|-------------------|-----------------------------------|-----------------------------|
+| *Consumer Key*    | client ID (`client_id`)           | `<CONSUMER_KEY>`            |
+| *Consumer Secret* | client secret (`client_secret`)   | `<CONSUMER_SECRET>`         |
+
+Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password of HTTP Basic authentication:
+
+```console title="request an access token"
+$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
+  "expires_in": 300,
+  "refresh_expires_in": 0,
+  "token_type": "Bearer",
+  "not-before-policy": 0,
+  "scope": "firecrest firecrest-v2 profile email"
+}
 ```
 
-Use the returned `access_token` in subsequent requests:
+The `access_token` field of the response is the token.
+It is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
+
+```bash title="store the token in the ACCESS_TOKEN environment variable"
+ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq -r .access_token)
+```
+
+Use the token in subsequent requests:
 
 ```bash title="call the API with a Bearer token"
 curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/compute/usage/day?from=2025-01-01&to=2025-01-07" \
-  -H "Authorization: Bearer <ACCESS_TOKEN>"
+  -H "Authorization: Bearer $ACCESS_TOKEN"
 ```
 
 !!! warning
-    Store client credentials and access tokens in a secure location such as a password manager or CI/CD secret store.
+    Store the *Consumer Key*, *Consumer Secret* and access tokens in a secure location such as a password manager or CI/CD secret store.
     Never commit them to repositories or expose them in logs.
+
+[](){#ref-alps-accounting-api-limits}
+## Request limits
+
+The number of requests that an application can make is limited by the requests per minute chosen when [creating the application][ref-devportal-application] and by the [business plan][ref-devportal-api-info] of the subscription.
+The quota is shared by all of the APIs that the application is subscribed to.
+
+When the quota is exceeded, the API responds with the HTTP status `429` and the following message:
+
+```json title="response when the request quota is exceeded"
+{
+  "code": "900807",
+  "message": "Message throttled out",
+  "description": "You have exceeded your quota .You can access API after 2026-Nov-25 15:23:23+0000 UTC",
+  "nextAccessTime": "2026-Nov-25 15:23:23+0000 UTC"
+}
+```
+
+Wait until the time given in the `nextAccessTime` field, which is also returned in the `Retry-After` header of the response, before sending the next request.
 
 ## API endpoints
 
@@ -377,6 +424,23 @@ Each element contains:
 | `gid`             | int     | Group identifier. |
 | `aggregationPeriod`| string | Aggregation period, e.g. `daily` or `monthly`. |
 | `updated`         | string  | ISO 8601 timestamp of the last update. |
+
+## Known issues
+
+??? warning "`Token's public key not found.`"
+    The API returns the HTTP status `401` with this message when the access token was not issued by the `firecrest-clients` realm, for example when it was requested from `https://auth.cscs.ch/auth/realms/cscs/...`.
+
+    Request the token from the `firecrest-clients` realm, as shown in [Authentication][ref-alps-accounting-api-auth].
+
+??? warning "`Invalid method used to get client secret. Client requires method 'client_secret_basic' to obtain client secret from the request`"
+    The token request fails with the error `unauthorized_client` and this description when the *Consumer Key* and *Consumer Secret* are sent as `client_id` and `client_secret` fields in the body of the request.
+
+    Pass them using HTTP Basic authentication instead, with the `-u "<CONSUMER_KEY>:<CONSUMER_SECRET>"` option of `curl`, as shown in [Authentication][ref-alps-accounting-api-auth].
+
+??? warning "`Invalid client or Invalid client credentials`"
+    The token request fails with the error `invalid_client` and this description when the *Consumer Key* or *Consumer Secret* is wrong, or when the token is requested from a realm other than the one that the keys were generated for.
+
+    Check the values against the `Production Keys` page of the application in the Developer Portal, and request the token from the `firecrest-clients` realm.
 
 ## Further information
 
