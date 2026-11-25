@@ -222,7 +222,7 @@ It is the same thing.
     - Disallowed characters for PIPELINE_NAME, variable name and variable value are the characters `,;=` (comma, semicolon, equal), because they serve as separators of the different components.
 - Triggering by wildcard is also possible (e.g. `cscs-ci run *`).
   Every pipeline that matches the wildcard will be triggered.
-    - Please not that a pipeline is triggered only at most once, i.e. if you have two patterns matching the same pipeline name, only the first will be taken into account.
+    - Please note that a pipeline is triggered only at most once, i.e. if you have two patterns matching the same pipeline name, only the first will be taken into account.
       One such example is `cscs-ci run *;MY_VAR=1,rocm*;MY_VAR=2`. The second pattern is more specific, however every pipeline would be already matched by the first pattern, hence every pipeline would see `MY_VAR=1`.
 
 [](){#ref-cicd-pipeline-triggers-api}
