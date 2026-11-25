@@ -1,0 +1,5 @@
+PartitionName=normal AllowGroups=ALL AllowAccounts=ALL AllowQos=normal,stop Default=YES QoS=normalp DefaultTime=01:00:00 Hidden=NO MaxNodes=UNLIMITED MaxTime=06:00:00 PriorityTier=20 OverSubscribe=EXCLUSIVE PreemptMode=REQUEUE State=UP TotalNodes=16
+PartitionName=debug AllowGroups=ALL AllowAccounts=ALL AllowQos=normal,stop Default=NO QoS=debug-qos DefaultTime=00:30:00 Hidden=NO MaxNodes=8 MaxTime=00:30:00 PriorityTier=1 OverSubscribe=NO PreemptMode=OFF State=UP TotalNodes=16
+PartitionName=big AllowGroups=ALL AllowAccounts=proj1 AllowQos=big,stop Default=NO QoS=N/A DefaultTime=01:00:00 Hidden=NO MaxNodes=UNLIMITED MaxTime=2-00:00:00 PriorityTier=30 OverSubscribe=NO PreemptMode=REQUEUE State=UP TotalNodes=16
+PartitionName=xfer AllowGroups=ALL AllowAccounts=ALL AllowQos=ALL Default=NO QoS=N/A DefaultTime=01:00:00 Hidden=NO MaxNodes=1 MaxTime=1-00:00:00 PriorityTier=1 OverSubscribe=FORCE:10 PreemptMode=REQUEUE State=UP TotalNodes=2
+PartitionName=staff AllowGroups=staff AllowAccounts=ALL AllowQos=ALL Default=NO QoS=N/A DefaultTime=01:00:00 Hidden=YES MaxNodes=UNLIMITED MaxTime=1-00:00:00 PriorityTier=1 OverSubscribe=NO PreemptMode=REQUEUE State=UP TotalNodes=18

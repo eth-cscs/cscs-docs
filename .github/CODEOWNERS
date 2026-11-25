@@ -2,7 +2,6 @@
 docs/access/jupyterlab.md @rsarm
 docs/access/ssh @rjanalik
 docs/alps/storage.md @mpasserini
-docs/clusters/besso.md @victorusu
 docs/running/hyperqueue.md @rjanalik
 docs/services/devportal.md @jpdorsch @ekouts @theely @ibonesana-ethz
 docs/services/firecrest.md @jpdorsch @ekouts @theely @ibonesana-ethz

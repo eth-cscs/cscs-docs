@@ -1,0 +1,23 @@
+name: test the agent skills
+
+# The docs build (./build) assembles, checks and packs the skills on every pull
+# request. This job runs the tests of skills/build.py when the skills, or what
+# they bundle and publish, change.
+on:
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'skills/**'
+      - 'probes/**'
+      - 'generated/**'
+      - 'docs/agents/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python3 -m unittest discover -s skills/tests

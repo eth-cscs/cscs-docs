@@ -67,7 +67,7 @@ com.hooks.aws_ofi_nccl.variant = "cuda-dl"  # (3)!
 2. Enable the AWS OFI plugin.
 3. The dynamically-linked (`dl`) variant is generally recommended for portability across CUDA versions. Statically linked variants must match the major CUDA version installed in the container. More details [here][ref-ce-aws-ofi-hook].
 
-Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the `--mpi=pmix` option to `srun` when launching jobs.
+Because the NCCL Tests use OpenMPI in the container to perform initial setup, which in turn uses [PMIx](https://pmix.org/) for wire-up, pass the [`--mpi=pmix` option][ref-slurm-mpi] to `srun` when launching jobs.
 
 ```console
 $ srun --mpi=pmix -n8 -N2 --environment=nccl-test /nccl-tests-2.17.1/build/all_reduce_perf

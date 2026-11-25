@@ -229,8 +229,8 @@ The following sbatch script shows how to run NAMD on Eiger:
 #SBATCH --job-name=namd-test
 #SBATCH --time=00:30:00
 #SBATCH --nodes=4
-#SBATCH --ntasks-per-core=2
-#SBATCH --ntasks-per-node=64
+#SBATCH --ntasks-per-node=16
+#SBATCH --cpus-per-task=8
 #SBATCH --account=<ACCOUNT> (1)
 #SBATCH --hint=nomultithread
 #SBATCH --uenv=namd/3.0:v1 (2)
@@ -244,9 +244,10 @@ srun --cpu-bind=cores namd3 +setcpuaffinity +ppn ${PPN} <NAMD_CONFIG_FILE> # (4)
 ```
 
 1. Change `<ACCOUNT>` to your project account
-2. Load the NAMD UENV (UENV name or path to the UENV). Change `<NAMD_UENV>` to the name (or path) of the actual NAMD UENV you want to use
+2. Load the NAMD uenv (uenv label or path to the uenv)
 3. Load the `namd` view
-4. Make sure you set `++ppn`, and other NAMD options optimally for your calculation.
+4. Each rank runs `+ppn` worker threads and one communication thread, so `+ppn` is `--cpus-per-task` minus 1.
+   Make sure you set `+ppn`, and other NAMD options optimally for your calculation.
    Change `<NAMD_CONFIG_FILE>` to the name (or path) of the NAMD configuration file for your simulation 
 
     

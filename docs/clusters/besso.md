@@ -1,12 +1,18 @@
 [](){#ref-cluster-besso}
 # Besso
 
-Besso is a small Alps cluster that provides development resources for porting software for selected customers.
+Besso is a small Alps cluster that provides development resources for porting software for the [SKA project](https://www.skao.int/).
 It is provided as is, without the same level of support as the main platform clusters.
 
 ### Storage and file systems
 
-Besso uses the [HPCP filesystems and storage policies][ref-hpcp-storage].
+Besso uses the [HPCP filesystems and storage policies][ref-hpcp-storage], except that `$SCRATCH` points to the old HPCP scratch on [Capstor][ref-alps-capstor] (`$SCRATCH_OLD` on the other HPCP clusters), instead of [Ritom][ref-alps-ritom].
+
+The file systems provided on Besso, the environment variables that point to them, and the [Alps storage system][ref-alps-storage] that hosts each one:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/besso/filesystems.md"
+<!--end no spell check-->
 
 ## Getting started
 
@@ -41,15 +47,6 @@ Besso supports container workloads using the [Container Engine][ref-container-en
 
 To build images, see the [guide to building container images on Alps][ref-build-containers].
 
-#### Cray Modules
-
-!!! warning
-    The Cray Programming Environment (CPE), loaded using `module load cray`, is no longer supported by CSCS.
-
-    CSCS will continue to support and update uenv and the Container Engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
-
-    The CPE is still installed on Besso, however it will receive no support or updates, and will be [replaced with a container][ref-cpe] in a future update.
-
 ## Running jobs on Besso
 
 ### Slurm
@@ -62,11 +59,20 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `mi200` partition contains [AMD Mi250x GPU][ref-alps-mi200-node] nodes
 * the `normal` partition contains all of the nodes in the system.
 
-| name | max nodes per job | time limit |
-| --   |  -- | -- |
-| `a100`   | 2    | 24 hours |
-| `mi200`  | 2    | 24 hours |
-| `normal` | 4    | 24 hours |
+<!--begin no spell check-->
+--8<-- "generated/clusters/besso/partitions.md"
+<!--end no spell check-->
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/besso/nodetypes.md"
+<!--end no spell check-->
+
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Besso is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
 See the Slurm documentation for instructions on how to [run jobs][ref-slurm].
 

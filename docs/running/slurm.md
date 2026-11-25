@@ -13,17 +13,19 @@ Refer to the [Quick Start User Guide](https://slurm.schedmd.com/quickstart.html)
 
     Specific guidance for configuring Slurm jobs on different node types.
 
-    [:octicons-arrow-right-24: GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
+    :octicons-arrow-right-24: [GH200 nodes (Daint, Clariden, Santis)][ref-slurm-gh200]
 
-    [:octicons-arrow-right-24: AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
+    :octicons-arrow-right-24: [AMD CPU-only nodes (Eiger)][ref-slurm-amdcpu]
+
+    :octicons-arrow-right-24: [MPI plugins (`--mpi`)][ref-slurm-mpi]
 
 -   :fontawesome-solid-mountain-sun: __Node sharing__
 
     Guides on how to effectively use all resources on nodes by running more than one job per node.
 
-    [:octicons-arrow-right-24: Node sharing][ref-slurm-sharing]
+    :octicons-arrow-right-24: [Node sharing][ref-slurm-sharing]
 
-    [:octicons-arrow-right-24: Multiple MPI jobs per node][ref-slurm-exclusive]
+    :octicons-arrow-right-24: [Multiple MPI jobs per node][ref-slurm-exclusive]
 
 </div>
 
@@ -97,6 +99,22 @@ Slurm ensures that user jobs request and receive the appropriate resources while
     ```
     The last column shows the number of nodes that have been allocated in currently running jobs (`A`) and the number of jobs that are idle (`I`).
 
+[](){#ref-slurm-partitions-qos}
+### QoS limits
+
+The number of nodes in a partition is not always the number of nodes that its jobs can use.
+Partitions on some clusters share the same nodes, and a Slurm quality of service (QoS) then limits how many nodes the jobs of each partition can hold at the same time, the size of a job, or the number of jobs for each user.
+A QoS can be attached to a partition, in which case it applies to every job in the partition, or to a job.
+
+```console title="check the QoS of a partition, and the limits of each QoS"
+$ scontrol show partition normal | grep -o ' QoS=[^ ]*'
+ QoS=normalp
+$ sacctmgr show qos format=name,grptres,maxtres,maxjobspu,maxsubmitpu,maxwall
+```
+
+`GrpTRES` is the limit for all the jobs that use the QoS together, for example `node=400`.
+A job that is waiting because that limit has been reached is shown by `squeue` with the reason `QOSGrpNodeLimit`.
+
 [](){#ref-slurm-partition-debug}
 ### Debug partition
 The Slurm `debug` partition is useful for quick turnaround workflows. The partition has a short maximum time (timelimit can be seen with `sinfo -p debug`), and a low number of maximum nodes (the `MaxNodes` can be seen with `scontrol show partition=debug`).
@@ -162,6 +180,86 @@ $ srun --jobid=<JOB-ID> --overlap --pty bash
 This will drop you into a shell on the first compute node of the job.
 If you want to connect to a specific node of your job, add the additional flags `--nodes=1 --nodelist=nidXXXXXX`.
 
+[](){#ref-slurm-mpi}
+## MPI plugins
+
+When `srun` starts an MPI application, each rank must get the information that it needs to connect to the other ranks.
+Slurm gives this information to the MPI library through a process management interface (PMI).
+The `--mpi` flag of `srun` selects the PMI plugin that Slurm uses for the job step.
+
+The MPI library and the PMI plugin must match.
+If they do not match, the application can fail when it starts.
+The application can also start each rank as a separate MPI job with one rank, and Slurm does not report an error.
+
+!!! warning "Use the wrong plugin and every MPI rank reports that they are rank 0"
+    With the wrong plugin, each rank reports that it is rank 0 in an MPI job of size 1, and does all of the work alone.
+
+[](){#ref-slurm-mpi-plugins}
+### Available plugins
+
+| Plugin | MPI library | Use it for |
+| --     | --          | -- |
+| <span style="white-space: nowrap">`cray_shasta`</span> | [Cray MPICH][ref-communication-cray-mpich] | Applications in uenv, for example [prgenv-gnu][ref-uenv-prgenv-gnu] and the [application uenv][ref-software-sciapps], and the [CPE][ref-cpe] containers. |
+| <span style="white-space: nowrap">`pmix`</span> | [OpenMPI][ref-communication-openmpi] | The [prgenv-gnu-openmpi][ref-uenv-prgenv-gnu-openmpi] uenv, and containers that use OpenMPI or PMIx, for example [NCCL tests][ref-communication-nccl] and [NVSHMEM][ref-communication-nvshmem]. |
+| <span style="white-space: nowrap">`pmi2`</span> | [MPICH][ref-communication-mpich] | Containers that use MPICH. |
+| <span style="white-space: nowrap">`none`</span> | none | Applications that do not use MPI. |
+
+[](){#ref-slurm-mpi-select}
+### Select a plugin
+
+Use the `--mpi` flag of `srun` to select the plugin:
+
+```console title="Start an OpenMPI application with PMIx"
+$ srun --mpi=pmix -n4 ./my_app
+```
+
+You can also set the `SLURM_MPI_TYPE` environment variable.
+Then all `srun` commands in the same shell or batch script use this plugin.
+The `--mpi` flag overrides `SLURM_MPI_TYPE`.
+
+```bash title="Set the MPI plugin in a batch script"
+#!/bin/bash
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=4
+
+export SLURM_MPI_TYPE=cray_shasta
+srun ./my_app
+```
+
+!!! note
+    The `--mpi` flag is an option of `srun` only.
+    The `sbatch` and `salloc` commands do not accept it.
+    In a batch script, set `--mpi` on each `srun` command, or set `SLURM_MPI_TYPE`.
+
+[](){#ref-slurm-mpi-default}
+### Check the default plugin
+
+Slurm uses the default plugin of the cluster when you do not set `--mpi` or `SLURM_MPI_TYPE`.
+The default plugin can be different on different clusters, and some clusters have no default plugin set.
+The Slurm section of each [cluster page][ref-alps-clusters] gives the default plugin for that cluster.
+
+To show the default plugin of the current cluster, run:
+
+```console title="Show the default MPI plugin"
+$ scontrol show config | grep MpiDefault
+MpiDefault              = cray_shasta
+```
+
+If the value is `(null)` or `none`, Slurm does not set up PMI for the job step.
+On these clusters, you must set `--mpi` or `SLURM_MPI_TYPE` for all MPI applications.
+
+To list the plugins that are available on the cluster, run:
+
+```console title="List the available MPI plugins"
+$ srun --mpi=list
+MPI plugin types are...
+	none
+	pmix
+	pmi2
+	cray_shasta
+specific pmix plugin versions available: pmix_v5
+```
+
 ## Affinity
 
 The following sections will document how to use Slurm on different compute nodes available on Alps.
@@ -173,7 +271,7 @@ Parameters that worked on a different cluster---or with a different Slurm versio
 It is straightforward to build the affinity tool to experiment with Slurm configurations.
 
 ```console title="Compiling affinity"
-$ uenv start prgenv-gnu/24.11:v2 --view=default     #(1)
+$ uenv start prgenv-gnu/26.9:v2 --view=default     #(1)
 $ git clone https://github.com/bcumming/affinity.git
 $ cd affinity; mkdir build; cd build;
 $ CC=gcc CXX=g++ cmake ..                           #(2)
@@ -199,7 +297,7 @@ The build generates the following executables:
 ??? example "Testing CPU affinity"
     Test CPU affinity (this can be used on both CPU and GPU enabled nodes).
     ```console
-    $ uenv start prgenv-gnu/24.11:v2 --view=default
+    $ uenv start prgenv-gnu/26.9:v2 --view=default
     $ srun -n8 -N2 -c72 ./affinity.mpi
     affinity test for 8 MPI ranks
     rank   0 @ nid006363: thread 0 -> cores [  0: 71]
@@ -380,6 +478,16 @@ Some applications perform badly with a single rank per GPU, and require use of [
 
 The best Slurm configuration is application- and workload-specific, so it is worth testing which works best in your particular case.
 See [Scientific Applications][ref-software-sciapps] for information about recommended application-specific Slurm configurations.
+
+!!! note "GH200 jobs on Santis"
+    Santis uses [node sharing][ref-cluster-santis-sharing].
+    A rank that does not request a GPU gets one CPU core and no GPU.
+    Each GPU that a job requests gives it a whole GH200 chip: one GPU, 72 CPU cores and 115 GB of host memory.
+
+    * Request GPUs with `--gpus-per-task`, as in the [one rank per GPU][ref-slurm-gh200-single-rank-per-gpu] example, so that Slurm gives each rank its own GPU and the CPU cores next to it.
+    * Use `--gpus-per-node` only if you know that the ranks must share GPUs, for example to [oversubscribe GPUs with MPS][ref-slurm-gh200-multi-rank-per-gpu].
+      With `--gpus-per-node`, every rank on the node can use all of the GPUs and CPU cores that the job has on that node, and you must assign GPUs and CPU cores to ranks yourself.
+    * Add `--gres-flags=allow-task-sharing` to `srun` (not to `#SBATCH`) when ranks on the same node communicate GPU to GPU, for example with GPU-aware MPI (see [multi-GPU jobs on Santis][ref-cluster-santis-p2p]).
 
 !!! warning
     The GH200 nodes have their GPUs configured in ["default" compute mode](https://docs.nvidia.com/deploy/mps/index.html#gpu-compute-modes).
@@ -774,10 +882,23 @@ For workflows and use cases with tasks that require only a subset of these resou
 [](){#ref-slurm-sharing}
 ### Node sharing
 
-!!! under-construction
-    Node sharing, whereby jobs can request part of the resources on a node, and multiple jobs can run on a node (possibly from different users) is _not currently available on Alps clusters_.
+With node sharing, a job can request part of a node.
+Other jobs, also from other users, can then run on the rest of the same node.
 
-    CSCS will support this feature on some Alps [clusters][ref-alps-clusters] in the near-medium future.
+Currently node sharing is not enabled on most systems (see below for exceptions).
+When node sharing is not available, use [more than one job step per node][ref-slurm-exclusive] to run small tasks side by side.
+
+!!! info "Where is node sharing enabled on Alps?"
+
+    All partitions on Santis have node sharing enabled, where each requested GPU gives the job one GH200 chip (see [node sharing on Santis][ref-cluster-santis-sharing]),
+
+    The `xfer` partitions on all clusters, which are used for [data transfer][ref-data-xfer-internal].
+
+!!! warning "Node sharing still charges for the whole node"
+    We are still integrating support for node sharing into our accounting.
+    Currently projects are charged for each the whole node.
+
+    See the [resource allocation policies][ref-policies] for more information.
 
 [](){#ref-slurm-exclusive}
 ### Running more than one job step per node

@@ -93,6 +93,8 @@ The hook is activated by setting the `com.hooks.cxi.enabled` annotation, which 
     * Libfabric support might have to be defined at compilation time (as is the case for some MPI implementations, like MPICH and OpenMPI) or could be dynamically available at runtime (as is the case with NCCL - see also [this][ref-ce-aws-ofi-hook] section for more details).
 
 ??? example "Comparison between with and without the CXI hook"
+    The container image in this example uses MPICH, so the commands use [`--mpi=pmi2`][ref-slurm-mpi].
+
     * Without the CXI hook
 
     ```toml title="EDF: osu-mb-wo-cxi.toml"

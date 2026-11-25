@@ -1,0 +1,4 @@
+normal|allocated|11
+normal|idle|3
+normal|drained*|2
+xfer|idle|2

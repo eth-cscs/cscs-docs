@@ -11,7 +11,7 @@ To ensure the **security** and **stability** of our infrastructure, CSCS will pe
 
 These updates include important security patches and system updates for the operating systems of cluster nodes.
 
-??? Note "Nodes will be rebooted only if required by the updates."
+!!! Note "Nodes will be rebooted only if required by the updates."
 
 ## Urgent Security Patches
 

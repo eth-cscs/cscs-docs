@@ -1,4 +1,6 @@
+ACLs
 claude
+FFTMp
 JAX
 makefiles
 netstack
@@ -9,5 +11,6 @@ NVRTC
 placeholders
 prebuilt
 PVSC
+ROMIO
 usernames
 Zarr

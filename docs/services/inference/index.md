@@ -9,7 +9,7 @@ Inference services leverage Machine Learning models to generate content from use
 
     Managed, Internet-accessible [OpenAI](https://developers.openai.com/api/docs)/[Anthropic](https://platform.claude.com/docs/en/api/overview)-compatible inference APIs providing open-weight models (e.g., [Apertus](https://apertvs.ai/)), with token-based resource consumption.
 
-    [:octicons-arrow-right-24: LLM Inference API service][ref-inference-api]
+    :octicons-arrow-right-24: [LLM Inference API service][ref-inference-api]
 
 </div>
 

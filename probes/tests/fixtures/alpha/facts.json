@@ -1,0 +1,11 @@
+{
+  "cluster": "alpha",
+  "user": "alice",
+  "groups": ["g100", "proj2"],
+  "env": {
+    "HOME": "/users/alice",
+    "SCRATCH": "/capstor/scratch/cscs/alice",
+    "STORE": "/capstor/store/cscs/userlab/g100",
+    "PROJECT": "/capstor/store/cscs/userlab/g100"
+  }
+}

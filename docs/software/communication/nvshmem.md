@@ -83,15 +83,15 @@ NVSHMEM is built from source in the container, from a source tar ball provided b
 
     ```bash
     srun -N2 --ntasks-per-node=4  \
-         -mpi=pmix                \ # (1)!
+         --mpi=pmix               \ # (1)!
          --environment=nvshmem    \
         /usr/local/nvshmem/bin/perftest/device/coll/alltoall_latency
     ```
 
-    1. Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option `--mpi=pmix` must be used to run successful multi-rank jobs.
+    1. Since NVSHMEM has been configured in the Containerfile to use PMIx for bootstrapping, when using this image the `srun` option [`--mpi=pmix`][ref-slurm-mpi] must be used to run successful multi-rank jobs.
 
     Other bootstrapping methods (including different PMI implementations) can be specified for NVSHMEM through the related [environment variables](https://docs.nvidia.com/nvshmem/api/gen/env.html#bootstrap-options).
-    When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. `srun --mpi` option) matches the one expected by NVSHMEM or the MPI library.
+    When bootstrapping through PMI or MPI through Slurm, ensure that the PMI implementation used by Slurm (i.e. the [`srun --mpi` option][ref-slurm-mpi]) matches the one expected by NVSHMEM or the MPI library.
 
 [](){#ref-communication-nvshmem-performance}
 ## NVSHMEM Performance

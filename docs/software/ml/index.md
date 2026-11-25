@@ -56,7 +56,7 @@ These environments provide optimized compilers, libraries, and selected ML frame
 
 Available ML-related uenvs:
 
-* [PyTorch][ref-uenv-pytorch] — available on [Clariden][ref-cluster-clariden] and [Daint][ref-cluster-daint]
+* [PyTorch][ref-uenv-pytorch] — available on [Clariden][ref-cluster-clariden], [Daint][ref-cluster-daint] and [Santis][ref-cluster-santis]
 
 !!! note "Extending a uenv with a virtual environment"
     To extend these environments with additional Python packages, it is recommended to create a Python Virtual Environment (venv) layered on top of the packages in the uenv.

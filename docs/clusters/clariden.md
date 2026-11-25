@@ -7,12 +7,12 @@ Clariden is an Alps cluster that provides GPU accelerators and file systems desi
 
 ### Compute Nodes
 
-Clariden consists of around 1200 [Grace-Hopper nodes][ref-alps-gh200-node].
+Clariden consists of [Grace-Hopper nodes][ref-alps-gh200-node].
 The number of nodes can change when nodes are added or removed from other clusters on Alps.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|--------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,200 | 4,800 | 4,800 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/clariden/nodes.md"
+<!--end no spell check-->
 
 Most nodes are in the [`normal` Slurm partition][ref-slurm-partition-normal], while a few nodes are in the [`debug` partition][ref-slurm-partition-debug].
 
@@ -73,25 +73,42 @@ For detailed instructions and best practices with ML frameworks, please refer to
 
 Clariden uses [Slurm][ref-slurm] as the workload manager, which is used to launch and monitor distributed workloads, such as training runs.
 
+!!! warning "Clariden has no default MPI plugin"
+    On Clariden, Slurm does not select an [MPI plugin][ref-slurm-mpi] by default (`MpiDefault` is `(null)`).
+    Set `--mpi` or `SLURM_MPI_TYPE` for each `srun` command that starts an MPI application.
+    For example, use `--mpi=cray_shasta` for Cray MPICH in uenv, and `--mpi=pmix` for OpenMPI.
+    If you do not set a plugin, each rank starts as a separate MPI job with one rank, and Slurm does not report an error.
+    Applications that do not use MPI do not need this setting.
+
 #### Partitions
 
 There are six Slurm partitions on the system:
 
-* the `highprio` partition is reserved for persons requiring a large number of nodes.
+* the `highprio` partition is reserved for persons requiring a large number of nodes (jobs of more than 128 nodes).
 * the `preemptable` partition is for all production workloads, has access to the largest number of nodes, but its jobs might be stopped.
 * the `normal` partition is for all production workloads, and its jobs cannot be stopped by highprio jobs.
 * the `debug` partition is intended for short debugging and testing jobs. It is configured on top of the same node pool as `normal`, with tight per-user limits to keep it focused on its intended use case.
 * the `low` partition is a low-priority partition, which might be available to projects having exhausted their credit early (downscaled resource).
 * the `xfer` partition is for [internal and S3 data transfer][ref-data-xfer-internal] at CSCS.
 
-| name          | nodes  | nodes per job | time limit |
-| --            | --     | --                | -- |
-| `highprio`    | several nodes | >128    | 24 hours |
-| `preemptable` | most nodes | 1-128    | 24 hours |
-| `normal`  | several nodes| 1-128 | 12 hours |
-| `debug`  | most nodes (shared with `preemptable`) <br> plus a few dedicated | 1-4 | 1.5 node-hours |
-| `low`    | most nodes (shared with `preemptable`) | 1-10    | 6 hours |
-| `xfer`   | 2         | 1    | 24 hours |
+<!--begin no spell check-->
+--8<-- "generated/clusters/clariden/partitions.md"
+<!--end no spell check-->
+
+!!! info "Keep jobs in `normal` and `preemptable` to 128 nodes or fewer"
+    The suggested largest job in the `normal` and `preemptable` partitions is 128 nodes, so that the system is used efficiently.
+    Slurm accepts larger jobs in these partitions, but they can wait a long time in the queue before enough nodes are free at the same time, even with backfill, and the nodes that are kept free for them are unavailable for other jobs while they wait.
+    The `highprio` partition is reserved for jobs larger than 128 nodes, and is available to selected projects.
+
+Most partitions are configured on the same pool of nodes.
+The jobs in `normal` and `highprio` are also limited by a [Slurm QoS][ref-slurm-partitions-qos] to the number of nodes in *Max nodes in use*, which all the running jobs of the partition share.
+These limits are set so that `normal` and `highprio`, together with a reserve for nodes that are down and for interactive use, add up to the whole system.
+They may be adjusted: the table shows the current values.
+When the limit of a partition is reached, the jobs waiting in it are shown by `squeue` with the reason `QOSGrpNodeLimit`.
+
+!!! warning "Jobs larger than *Max nodes in use* never start"
+    A job in `normal` or `highprio` that requests more nodes than *Max nodes in use* is accepted, but never starts: it stays pending with the reason `QOSGrpNodeLimit`.
+    Cancel it with `scancel`, and submit it again with fewer nodes.
 
 * jobs in the `highprio`, `preemptable` `normal`, `debug`, and `low` partitions get exclusive use of their allocated nodes (one job per node)
 * the `low` partition shares the exact same node pool as `normal`, while `debug` shares that pool *and* adds a small set of nodes dedicated to debugging: short debug jobs therefore always have capacity available, even when `preemptable` is full
@@ -99,11 +116,18 @@ There are six Slurm partitions on the system:
 * because these partitions overlap, a node may belong to more than one of them at the same time
 * nodes in the `xfer` partition can be shared
 
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/clariden/nodetypes.md"
+<!--end no spell check-->
+
 #### `highprio` partition
 
 The `highprio` partition is usable only with the highprio qos, which is provided only to users needing to run large jobs and not abusing it.
 It allows to use the resources more efficiently (smaller startup time).
-Both partition and qos have to be set (`--partions=highprio` `--qos=highprio`).
+Access is restricted to selected projects.
+Both partition and qos have to be set (`--partition=highprio` `--qos=highprio`).
 
 #### `debug` partition
 
@@ -193,7 +217,26 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-08-26"
+!!! change "2026-11-18"
+    !!! note "Slurm controller high availability"
+        The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
+
+    !!! note "Environment variables removed"
+        - `$PROJECT` is no longer set
+        - `$STORE` is no longer set
+
+        **Note:** if your scripts or job definitions use these variables, you can either set them again in your shell environment (for example in your `~/.bashrc`), or update your scripts to use explicit paths instead.
+
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
+
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
+
+    !!! note "Kernel update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+??? change "2026-08-26"
     !!! note "Login node limits"
         To enforce our [fair usage of shared resources][ref-policies-fair-use-login-node] policies, we have enabled limits on the login nodes.
         Please note that some limits apply to individual processes, while other limits apply to the sum of your running processes.

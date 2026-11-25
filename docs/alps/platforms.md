@@ -13,19 +13,19 @@ The following platforms are fully operated by CSCS:
 
     The HPC Platform (HPCP) provides services for the HPC community in Switzerland and abroad. The majority of compute cycles are provided to the [User Lab](https://www.cscs.ch/user-lab/overview) via peer-reviewed allocation schemes.
 
-    [:octicons-arrow-right-24: HPCP][ref-platform-hpcp]
+    :octicons-arrow-right-24: [HPCP][ref-platform-hpcp]
 
 -   :fontawesome-solid-mountain: __Machine Learning Platform__
 
     The Machine Learning Platform (MLP) hosts ML and AI researchers, particularly the SwissAI initiative.
 
-    [:octicons-arrow-right-24: MLP][ref-platform-mlp]
+    :octicons-arrow-right-24: [MLP][ref-platform-mlp]
 
 -   :fontawesome-solid-mountain: __Climate and Weather Platform__
 
     The Climate and Weather Platform (CWP) provides resources to the climate modeling community.
 
-    [:octicons-arrow-right-24: CWP][ref-platform-cwp]
+    :octicons-arrow-right-24: [CWP][ref-platform-cwp]
 
 </div>
 
@@ -38,19 +38,19 @@ The following platforms are jointly operated by different Swiss projects and ins
 
     The Merlin resources are available to all PSI staff and external collaborators.
 
-    [:octicons-arrow-right-24: Merlin](https://www.psi.ch/en/awi/the-merlin-hpc-cluster)
+    :octicons-arrow-right-24: [Merlin](https://www.psi.ch/en/awi/the-merlin-hpc-cluster)
 
 -   :fontawesome-solid-mountain: __Materials Cloud__
 
     Materials Cloud is built to enable the seamless sharing and dissemination of resources in computational materials science.
 
-    [:octicons-arrow-right-24: Materials Cloud](https://www.materialscloud.org/)
+    :octicons-arrow-right-24: [Materials Cloud](https://www.materialscloud.org/)
 
 -   :fontawesome-solid-mountain: __Numerical weather forecasting__
 
     MeteoSwiss uses a numerical weather forecasting model for the production of regional and local forecast products in the Alpine region.
 
-    [:octicons-arrow-right-24: NWP](https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html)
+    :octicons-arrow-right-24: [NWP](https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html)
 
 </div>
 

@@ -184,7 +184,7 @@ uenv image copy build::<SOURCE> deploy::<DESTINATION> # (1)!
     to make it available on `santis`, you can use the following command:
 
     ```bash
-    uenv image copy deploy::prgenv-gnu/24.11:v1@daint%gh200 deploy::prgenv-gny/24.11@santis%gh200
+    uenv image copy deploy::prgenv-gnu/24.11:v1@daint%gh200 deploy::prgenv-gnu/24.11:v1@santis%gh200
     ```
 
 [](){#ref-uenv-remove}

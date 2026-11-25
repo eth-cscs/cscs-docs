@@ -9,15 +9,15 @@ A good spot to get started is with the documentation for the platform that your 
 
     Projects at CSCS are granted access to [clusters][ref-alps-clusters], which are managed by platforms.
 
-    [:octicons-arrow-right-24: HPC Platform (__Daint__, __Eiger__)][ref-platform-hpcp]
+    :octicons-arrow-right-24: [HPC Platform (__Daint__, __Eiger__)][ref-platform-hpcp]
 
-    [:octicons-arrow-right-24: Machine Learning Platform (__Clariden__, __Bristen__)][ref-platform-mlp]
+    :octicons-arrow-right-24: [Machine Learning Platform (__Clariden__, __Bristen__)][ref-platform-mlp]
 
-    [:octicons-arrow-right-24: Climate and Weather Platform (__Santis__)][ref-platform-cwp]
+    :octicons-arrow-right-24: [Climate and Weather Platform (__Santis__)][ref-platform-cwp]
 
     For an overview of the different platforms:
 
-    [:octicons-arrow-right-24: Platforms overview][ref-alps-platforms]
+    :octicons-arrow-right-24: [Platforms overview][ref-alps-platforms]
 
 </div>
 
@@ -30,29 +30,29 @@ Find out more about Alps...
 
     Learn more about the Alps research infrastructure
 
-    [:octicons-arrow-right-24: Alps Overview][ref-alps]
+    :octicons-arrow-right-24: [Alps Overview][ref-alps]
 
     Get detailed information about the main components of the infrastructure
 
-    [:octicons-arrow-right-24: Alps Clusters][ref-alps-clusters]
+    :octicons-arrow-right-24: [Alps Clusters][ref-alps-clusters]
 
-    [:octicons-arrow-right-24: Alps Hardware][ref-alps-hardware]
+    :octicons-arrow-right-24: [Alps Hardware][ref-alps-hardware]
 
-    [:octicons-arrow-right-24: Alps Storage][ref-alps-storage]
+    :octicons-arrow-right-24: [Alps Storage][ref-alps-storage]
 
 -   :fontawesome-solid-key: __Logging In__
 
     Once you have an account, you can set up multi factor authentication:
 
-    [:octicons-arrow-right-24: Setting up MFA][ref-mfa]
+    :octicons-arrow-right-24: [Setting up MFA][ref-mfa]
 
     Then access CSCS services:
 
-    [:octicons-arrow-right-24: Accessing CSCS Web Portals][ref-access-web]
+    :octicons-arrow-right-24: [Accessing CSCS Web Portals][ref-access-web]
 
-    [:octicons-arrow-right-24: Using SSH][ref-ssh]
+    :octicons-arrow-right-24: [Using SSH][ref-ssh]
 
-    [:octicons-arrow-right-24: FirecREST API][ref-firecrest]
+    :octicons-arrow-right-24: [FirecREST API][ref-firecrest]
 
 </div>
 <div class="grid cards" markdown>
@@ -61,7 +61,7 @@ Find out more about Alps...
 
     If you are a new user, or working on a project for the first time:
 
-    [:octicons-arrow-right-24: Accounts and Projects][ref-account-management]
+    :octicons-arrow-right-24: [Accounts and Projects][ref-account-management]
 
 </div>
 
@@ -79,15 +79,15 @@ Learn by doing with our guides and tutorials.
 
     Hands on tutorials that show how to implement workflows on Alps.
 
-    [:octicons-arrow-right-24: Machine Learning][ref-tutorials-ml]
+    :octicons-arrow-right-24: [Machine Learning][ref-tutorials-ml]
 
 -   :fontawesome-solid-mountain-sun: __Guides__
 
     Guides with practical advice, hints and tips for key topics.
 
-    [:octicons-arrow-right-24: Using storage effectively][ref-guides-storage]
+    :octicons-arrow-right-24: [Using storage effectively][ref-guides-storage]
 
-    [:octicons-arrow-right-24: Accessing internet and external services][ref-guides-internet-access]
+    :octicons-arrow-right-24: [Accessing internet and external services][ref-guides-internet-access]
 
 </div>
 
@@ -98,45 +98,45 @@ Learn by doing with our guides and tutorials.
 
     CSCS provides services and software on Alps.
 
-    [:octicons-arrow-right-24: Services Overview][ref-services]
+    :octicons-arrow-right-24: [Services Overview][ref-services]
 
     Learn about individual services
 
-    [:octicons-arrow-right-24: Developer Portal][ref-devportal]
+    :octicons-arrow-right-24: [Developer Portal][ref-devportal]
 
-    [:octicons-arrow-right-24: CI/CD for external projects][ref-cicd]
+    :octicons-arrow-right-24: [CI/CD for external projects][ref-cicd]
 
-    [:octicons-arrow-right-24: Inference services][ref-inference]
+    :octicons-arrow-right-24: [Inference services][ref-inference]
 
 
 -   :fontawesome-solid-hammer: __Software__
 
     CSCS provides applications, programming environments and tools.
 
-    [:octicons-arrow-right-24: Scientific applications](software/sciapps/index.md)
+    :octicons-arrow-right-24: [Scientific applications](software/sciapps/index.md)
 
-    [:octicons-arrow-right-24: Programming environments](software/prgenv/index.md)
+    :octicons-arrow-right-24: [Programming environments](software/prgenv/index.md)
 
-    [:octicons-arrow-right-24: Development tools](software/devtools/index.md)
+    :octicons-arrow-right-24: [Development tools](software/devtools/index.md)
 
     Find out how to use uenv and containers to access software
 
-    [:octicons-arrow-right-24: uenv][ref-uenv]
+    :octicons-arrow-right-24: [uenv][ref-uenv]
 
-    [:octicons-arrow-right-24: Container engine][ref-container-engine]
+    :octicons-arrow-right-24: [Container engine][ref-container-engine]
 
 
 -   :fontawesome-solid-screwdriver-wrench: __Data management and storage__
 
     CSCS provides [data management and storage](storage/index.md) services
 
-    [:octicons-arrow-right-24: File systems](storage/filesystems.md)
+    :octicons-arrow-right-24: [File systems](storage/filesystems.md)
 
-    [:octicons-arrow-right-24: Data transfer](storage/transfer.md)
+    :octicons-arrow-right-24: [Data transfer](storage/transfer.md)
 
-    [:octicons-arrow-right-24: Long term storage](storage/longterm.md)
+    :octicons-arrow-right-24: [Long term storage](storage/longterm.md)
 
-    [:octicons-arrow-right-24: Object storage](storage/object.md)
+    :octicons-arrow-right-24: [Object storage](storage/object.md)
 
 </div>
 
@@ -151,24 +151,24 @@ If you cannot find the information that you need in the documentation, help is a
 
     Contact the CSCS Service Desk for help.
 
-    [:octicons-arrow-right-24: Service Desk](https://support.cscs.ch)
+    :octicons-arrow-right-24: [Service Desk](https://support.cscs.ch)
 
     Check our hints for what information to provide for us to help you most effectively:
 
-    [:octicons-arrow-right-24: Support Guide][ref-guide-support]
+    :octicons-arrow-right-24: [Support Guide][ref-guide-support]
 
 -   :fontawesome-regular-comments: __Chat__
 
     Discuss Alps with other users and CSCS staff on Slack.
 
-    [:octicons-arrow-right-24: CSCS User Slack](https://cscs-users.slack.com/)
+    :octicons-arrow-right-24: [CSCS User Slack](https://cscs-users.slack.com/)
 
 <div class="grid cards" markdown>
 -   :fontawesome-solid-hammer: __Contribute__
 
     The source for the documentation is hosted on GitHub.
 
-    [:octicons-arrow-right-24: Contribute to the docs ](contributing/index.md)
+    :octicons-arrow-right-24: [Contribute to the docs ](contributing/index.md)
 </div>
 
 </div>

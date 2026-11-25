@@ -65,9 +65,9 @@ $ gcc --version
 gcc (SUSE Linux) 7.5.0
 
 # inside the uenv we still see the system gcc
-$ uenv run prgenv-gnu/25.6:v2 -- which gcc
+$ uenv run prgenv-gnu/26.9:v2 -- which gcc
 /usr/bin/gcc
-$ uenv run prgenv-gnu/25.6:v2 -- gcc --version
+$ uenv run prgenv-gnu/26.9:v2 -- gcc --version
 gcc (SUSE Linux) 7.5.0
 ```
 
@@ -75,16 +75,16 @@ To set environment variables, uenv provide [views][ref-uenv-views], which set ad
 
 ```
 # use the default view to make all software available
-$ uenv run --view=default prgenv-gnu/25.6:v2 -- gcc --version
-gcc (Spack GCC) 14.2.0
-$ uenv run --view=default prgenv-gnu/25.6:v2 -- which gcc
+$ uenv run --view=default prgenv-gnu/26.9:v2 -- gcc --version
+gcc (Spack GCC) 16.2.0
+$ uenv run --view=default prgenv-gnu/26.9:v2 -- which gcc
 /user-environment/env/default/bin/gcc
 
 # use the modules view to make modules available
-$ uenv run --view=modules prgenv-gnu/25.6:v2 -- bash -c 'module avail'
+$ uenv run --view=modules prgenv-gnu/26.9:v2 -- bash -c 'module avail'
 ------- /user-environment/modules -------
-   aws-ofi-nccl/1.16.0    gcc/14.2.0
-   boost/1.88.0           gsl/2.8
+   aws-ofi-nccl/1.19.0    gcc/16.2.0
+   boost/1.90.0           gmp/6.3.0
    ...
 ```
 
@@ -100,7 +100,7 @@ This is very useful for interactive sessions, for example if you want to work in
     ```console
     # start the prgenv-gnu uenv, which provides MPI, cuda and CMake
     # use the "default" view, which will load all of the software in the uenv
-    $ uenv start prgenv-gnu/25.6:v2 --view=default
+    $ uenv start prgenv-gnu/26.9:v2 --view=default
 
     # clone the software and set up the build directory
     $ git clone https://github.com/bcumming/affinity.git
@@ -170,10 +170,10 @@ The image can be a [label][ref-uenv-labels], the hash/id of the uenv, or a file:
 !!! example "uenv start"
     ```console
     # start the image using the name of the uenv
-    $ uenv start netcdf-tools/2024:v1
+    $ uenv start netcdf-tools/2025:v1
 
     # or use the unique id of the uenv
-    $ uenv start 499c886f2947538e
+    $ uenv start 2351d01a9f1165c4
 
     # or provide the path to a squashfs file
     $ uenv start $SCRATCH/my-uenv/gromacs.squashfs
@@ -205,16 +205,16 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
 
     ```console
     # start a new bash shell in prgenv-gnu
-    uenv start prgenv-gnu/24.11
+    uenv start prgenv-gnu/26.9:v2
     # start a new bash shell in prgenv-gnu
-    uenv run prgenv-gnu/24.11 -- bash
+    uenv run prgenv-gnu/26.9:v2 -- bash
     ```
 
 !!! example "running commands from within a uenv"
     Call the `cmake` provided by the uenv to configure a build with the `default` view loaded:
     ```console
     # run a command
-    $ uenv run prgenv-gnu/25.6:v2 --view=default -- cmake -DUSE_GPU=cuda ..
+    $ uenv run prgenv-gnu/26.9:v2 --view=default -- cmake -DUSE_GPU=cuda ..
     ```
 
     Run the GROMACS executable from inside the `gromacs` uenv.
@@ -227,9 +227,9 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     In this example the pre and post processing stages use `prgenv-gnu`, while the simulation stage uses the `gromacs` uenv.
     ```console
     # run multiple applications, one after the other, that have different requirements
-    $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./pre-processing-script.sh
+    $ uenv run --view=default prgenv-gnu/26.9:v2 -- ./pre-processing-script.sh
     $ uenv run --view=gromacs gromacs/2024:v1 -- gmx_mpi $gromacs_args
-    $ uenv run --view=default prgenv-gnu/24.11:v1 -- ./post-processing-script.sh
+    $ uenv run --view=default prgenv-gnu/26.9:v2 -- ./post-processing-script.sh
     ```
 
 !!! example "using alias to create shortcuts"
@@ -239,7 +239,7 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
 
     ```console
     # create a shortcut alias for running commands in prgenv-gnu
-    $ alias prg='uenv run --view=default prgenv-gnu/25.11:v1 --'
+    $ alias prg='uenv run --view=default prgenv-gnu/26.9:v2 --'
 
     #
     # tools like cmake and gcc can be called: the entire command will run inside
@@ -256,7 +256,7 @@ See the guide to [creating custom environments][ref-uenv-customenv] for an examp
     For example, if you want to use `nvim` from the `editors` uenv:
 
     ```
-    $ alias nvim='uenv run --view=ed editors/24.7 -- nvim'
+    $ alias nvim='uenv run --view=ed editors/24.7:v2 -- nvim'
 
     # now edit a file using neovim from the uenv
     $ nvim main.f90
@@ -281,13 +281,13 @@ The environment to load can be provided directly to Slurm via three arguments:
 For example, the flags can be used with srun:
 ```console
 # mount the uenv prgenv-gnu with the view named default
-$ srun --uenv=prgenv-gnu/24.7:v3 --view=default ...
+$ srun --uenv=prgenv-gnu/26.9:v2 --view=default ...
 
 # mount an image at an explicit location (/user-tools)
 $ srun --uenv=$IMAGES/myenv.squashfs:/user-tools ...
 
 # mount multiple images: use a comma to separate the different options
-$ srun --uenv=prgenv-gnu/24.7:v3,editors/24.7:v2 --view=default,editors:modules ...
+$ srun --uenv=prgenv-gnu/26.9:v2,editors/24.7:v2 --view=default,editors:modules ...
 ```
 
 The commands can also be used in sbatch scripts to have fine-grained control:
@@ -314,7 +314,7 @@ The commands can also be used in sbatch scripts to have fine-grained control:
     srun -n4 bash -c 'echo $SLURM_PROCID on $(hostname): $(which emacs)'
 
     echo "==== alternative mount ===="
-    srun -n4 --uenv=prgenv-gnu --view=prgenv-gnu:default \
+    srun -n4 --uenv=prgenv-gnu/26.9:v2 --view=prgenv-gnu:default \
         bash -c 'echo $SLURM_PROCID on $(hostname): $(which mpicc)'
     ```
 
@@ -356,7 +356,7 @@ Useful in CI/CD pipelines or wrapper scripts where passing flags to `sbatch` is 
 The following example is equivalent to adding `--uenv` and `--view` to the sbatch call or inside the sbatch script.
 
 ```bash title="setting uenv via environment variables"
-export SBATCH_UENV=prgenv-gnu/25.6:v2
+export SBATCH_UENV=prgenv-gnu/26.9:v2
 export SBATCH_UENV_VIEW=default
 sbatch my-job.sh
 ```
@@ -382,14 +382,14 @@ The passthrough option can take one of three values:
     Below the `prgenv-gnu` uenv is mounted remotely, and the copy of gcc installed in the uenv is found
 
     ```console
-    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     $ srun which gcc
     /user-environment/env/default/bin/gcc
     ```
 
     To ignore, use `--uenv-passthrough=ignore` option:
     ```console
-    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     $ srun --uenv-passthrough=ignore which gcc
     /usr/bin/gcc
     ```
@@ -400,7 +400,7 @@ By default, sbatch will raise an error if it is run with a uenv already mounted.
 
 !!! example "sbatch default passthrough behavior"
     ```console
-    $ uenv start --view=default prgenv-gnu/26.3:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     $ sbatch ./job.sh
     error: Calling sbatch/salloc from inside a uenv session is disabled by default.
     ```
@@ -417,7 +417,7 @@ In these situations, the `--uenv-passthrough` flag can be used to explicitly sta
     ```bash
     #SBATCH --nodes=4
     #SBATCH --ntasks-per-node=4
-    #SBATCH --uenv=prgenv-gnu
+    #SBATCH --uenv=prgenv-gnu/26.9:v2
     #SBATCH --view=default
 
     # this srun will use prgenv-gnu because srun defaults to --uenv-passthrough=use
@@ -427,7 +427,7 @@ In these situations, the `--uenv-passthrough` flag can be used to explicitly sta
     srun --uenv-passthrough=ignore ./my.exe
 
     # this srun ignores prgenv-gnu from the calling environment, and uses cp2k instead.
-    srun --uenv=cp2k --view=develop ./build
+    srun --uenv=cp2k/2026.1:v1 --view=develop ./build
 
     # start another sbatch job that does not automatically load
     # the prgenv-gnu uenv
@@ -442,7 +442,7 @@ In these situations, the `--uenv-passthrough` flag can be used to explicitly sta
     In v10, calling `sbatch` or `salloc` from inside an active `uenv start` session is disabled by default and will produce an error:
 
     ```console
-    $ uenv start prgenv-gnu/25.6:v2 --view=default
+    $ uenv start prgenv-gnu/26.9:v2 --view=default
     $ sbatch my-job.sh
     error: Calling sbatch/salloc from inside a uenv session is disabled by default.
     ```
@@ -468,14 +468,14 @@ Views are loaded using the `--view` flag for `uenv start`, `uenv run` and the Sl
 !!! example "loading views"
     ```console
     # activate the view named default in prgenv-gnu
-    $ uenv start --view=default prgenv-gnu/24.11:v1
+    $ uenv start --view=default prgenv-gnu/26.9:v2
 
     # activate both the spack and modules views in prgenv-gnu using
     # a comma-separated list of view names
-    $ uenv start --view=spack,modules prgenv-gnu/24.11:v1
+    $ uenv start --view=spack,modules prgenv-gnu/26.9:v2
 
     # when starting multiple uenv, you can disambiguate using uenvname:viewname
-    $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/24.11:v1,editors
+    $ uenv start --view=prgenv-gnu:default,editors:ed prgenv-gnu/26.9:v2,editors/24.7:v2
     ```
 
 Each uenv can provide more than one view.
@@ -485,16 +485,14 @@ To find a list of the views in a uenv, use [`uenv image inspect`][ref-uenv-image
 
 !!! example "listing views in a uenv"
     ```console
-    $ uenv image inspect namd
-    namd:/user-environment
-      NAMD: Scalable Molecular Dynamics
-      views:
-        spack: configure spack upstream
-        namd-single-node:
-        namd:
-        modules: activate modules
-        develop-single-node:
-        develop:
+    $ uenv image inspect namd/3.0:v1
+    repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
+    namd/3.0:v1@eiger%zen2 mount at /user-environment
+    views:
+      spack: configure spack upstream
+      namd:
+      modules: activate modules
+      develop:
     ```
 
 !!! question "why is the `default` view not the default?"
@@ -520,12 +518,12 @@ When a default view is declared and no `--view` flag is given, that view is load
 * Use [`uenv image inspect`][ref-uenv-image-inspect] to check whether a given uenv has one.
 
 !!! example "using default views"
-    The `uenv inspect` command shows the views in a uenv, and marks defaults (if there are any).
+    The `uenv image inspect` command shows the views in a uenv, and marks defaults (if there are any).
     In the `linaro-forge` image the `forge` view is a default view:
     ```console
-    $ uenv inspect linaro-forge
-    repo default:/ritom/scratch/cscs/bcumming/.uenv-images
-    linaro-forge/25.1:v2@starlex%gh200 mount at /user-tools
+    $ uenv image inspect linaro-forge/26.0:v1
+    repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
+    linaro-forge/26.0:v1@daint%gh200 mount at /user-tools
     views:
       spack: configure spack upstream
       forge (default):
@@ -533,13 +531,15 @@ When a default view is declared and no `--view` flag is given, that view is load
 
     When the uenv is started without a view, the `forge` view is loaded by default.
     ```
-    $ uenv run linaro-forge -- uenv status
+    $ uenv run linaro-forge/26.0:v1 -- uenv status
     uenv  linaro-forge
+      image  linaro-forge/26.0:v1@daint%gh200
       mount  /user-tools
       views  [forge]
 
-    $ uenv run --no-default-view linaro-forge -- uenv status
+    $ uenv run --no-default-view linaro-forge/26.0:v1 -- uenv status
     uenv  linaro-forge
+      image  linaro-forge/26.0:v1@daint%gh200
       mount  /user-tools
       views  []
     ```
@@ -560,7 +560,7 @@ By default, the modules are not activated when a uenv is started, and need to be
 
 !!! example "using the module view"
     ```console
-    $ uenv start prgenv-gnu/24.11:v1 --view=modules
+    $ uenv start prgenv-gnu/26.9:v2 --view=modules
     $ module avail
     ---------------------------- /user-environment/modules ----------------------------
        aws-ofi-nccl/git.v1.9.2-aws_1.9.2    lua/5.4.6
@@ -600,7 +600,7 @@ By default, the modules are not activated when a uenv is started, and need to be
 
     Specifically, the `module` command is not available inside `uenv start` sessions:
     ```console
-    $ uenv start prgenv-gnu/24.11:v2 --view=modules
+    $ uenv start prgenv-gnu/26.9:v2 --view=modules
     $ module avail
     bash: module: command not found
     ```
@@ -608,7 +608,7 @@ By default, the modules are not activated when a uenv is started, and need to be
     The workaround is to manually load the module tool after starting your uenv session:
 
     ```console
-    $ uenv start prgenv-gnu/24.11:v2 --view=modules
+    $ uenv start prgenv-gnu/26.9:v2 --view=modules
     $ source /usr/share/lmod/8.7.17/init/bash
     $ module avail
 

@@ -15,7 +15,7 @@ If you have a suggestion, comment or small change to make when reading the docum
 
 ## Before starting
 
-The CSCS documentation takes contributions from all CSCS staff, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewed and merged as quickly as possible.
+The CSCS documentation takes contributions from all CSCS staff and CSCS users, with a _core team_ of maintainers responsible for ensuring that the overall documentation is well organised, that pages are well written and up to date, and that contributions are reviewed and merged as quickly as possible.
 
 ??? question "Who are the core team?"
     The docs core team are:
@@ -48,6 +48,10 @@ If you want to follow changes to a page or section, add your name to the CODEOWN
 
 !!! note
     Review from code owners is not required to merge, however the core team will try to get a timely review from code owners whenever possible.
+
+!!! tip "Updating the tables of a cluster"
+    The partition, node and file system tables of the cluster and platform pages are generated from the configuration of each cluster.
+    Platform owners and system administrators can update them by following [updating cluster descriptions][ref-contributing-clusters].
 
 ## Getting started
 
@@ -82,6 +86,11 @@ INFO    -  [08:33:34] Serving on http://127.0.0.1:8000/
     To run the serve script, you need to first install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 You can now open your browser at the address shown above (`http://127.0.0.1:8000/`). The documentation will be automatically rebuilt and the webpage reloaded on each file change you save.
+
+!!! tip "Building the complete site"
+    `./serve` shows the documentation only.
+    To build the site as CI does, including the [agent skills][ref-contributing-skills] that are published with it, run `./build`.
+    It writes the site to the `site` directory, and stops on any warning.
 
 After your first review, commit and push your changes
 ```bash

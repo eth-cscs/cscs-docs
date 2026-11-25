@@ -1,0 +1,2 @@
+NAME="SLES"
+PRETTY_NAME="SUSE Linux Enterprise Server 15 SP6"

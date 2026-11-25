@@ -34,7 +34,7 @@ See the individual pages for each library for information on how to use and best
 
     Learn about the low-level networking library libfabric, and how to use it in uenv and containers
 
-    [:octicons-arrow-right-24: libfabric][ref-communication-libfabric]
+    :octicons-arrow-right-24: [libfabric][ref-communication-libfabric]
 
 </div>
 <div class="grid cards" markdown>
@@ -43,15 +43,15 @@ See the individual pages for each library for information on how to use and best
 
     Cray MPICH is the most optimized and best tested MPI implementation on Alps, and is used by uenv.
 
-    [:octicons-arrow-right-24: Cray MPICH][ref-communication-cray-mpich]
+    :octicons-arrow-right-24: [Cray MPICH][ref-communication-cray-mpich]
 
     For compatibility in containers:
 
-    [:octicons-arrow-right-24: MPICH][ref-communication-mpich]
+    :octicons-arrow-right-24: [MPICH][ref-communication-mpich]
 
     Also OpenMPI can be built in containers or in uenv
 
-    [:octicons-arrow-right-24: OpenMPI][ref-communication-openmpi]
+    :octicons-arrow-right-24: [OpenMPI][ref-communication-openmpi]
 
 </div>
 <div class="grid cards" markdown>
@@ -60,8 +60,8 @@ See the individual pages for each library for information on how to use and best
 
     Communication libraries used by ML tools like Torch, and some simulation codes.
 
-    [:octicons-arrow-right-24: NCCL][ref-communication-nccl]
+    :octicons-arrow-right-24: [NCCL][ref-communication-nccl]
 
-    [:octicons-arrow-right-24: NVSHMEM][ref-communication-nvshmem]
+    :octicons-arrow-right-24: [NVSHMEM][ref-communication-nvshmem]
 
 </div>

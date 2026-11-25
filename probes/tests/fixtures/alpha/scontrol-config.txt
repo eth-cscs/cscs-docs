@@ -1,0 +1,2 @@
+ClusterName             = alpha
+SLURM_CONF              = /etc/slurm/slurm.conf

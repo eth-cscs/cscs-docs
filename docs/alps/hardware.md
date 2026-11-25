@@ -99,7 +99,8 @@ These nodes have two [AMD Epyc 7742](https://www.amd.com/en/support/downloads/dr
 * *Large-memory*:  512 GB in 16x32 GB DDR4 DIMMs.
 
 !!! note "Not all memory is available"
-    The total memory available to jobs on the nodes is roughly 245 GB and 497 GB on the standard and large memory nodes respectively.
+    The total memory available to jobs is roughly 236 GiB on standard-memory nodes and 474 GiB on large-memory nodes.
+    The nodes have more memory installed than this---around 6% is reserved for the operating system and is not available to jobs.
 
     The amount of memory available to your job also depends on the number of MPI ranks per node---each MPI rank has a memory overhead.
 
@@ -135,15 +136,21 @@ The Grizzly Peak blades contain two nodes, where each node has:
 [](){#ref-alps-mi200-node}
 ### AMD MI250x GPU Nodes
 
-!!! todo
+Each HPE Cray EX235A (code-name Bard Peak) blade contains two nodes, where each node is made of:
 
-Bard Peak
+* 1 socket AMD Epyc 7A53 "Trento" 64-Core processor with 2 threads per core
+* 512 GB DDR4 memory
+* 4 AMD MI250X liquid-cooled OAMs for a total of 8 Graphics Compute Dies (GCDs) and 64 GB HBM2e memory per die
+* 4 NICs -- one per OAM
 
 [](){#ref-alps-mi300-node}
 ### AMD MI300A GPU Nodes
 
 ![](../images/alps/mi300-schematic.svg)
 
-!!! todo
+Each HPE Cray EX255A (code-name Parry Peak) blade contains two nodes, where each node is made of:
 
-Parry Peak
+* 4 MI300A Accelerated Processing Units (APUs)
+    * 24 Zen4 CPU cores per APU with 2 threads per core, for a total of 192 threads per node
+* 512 GB unified physical HBM3e memory
+* 4 NICs -- one per MI300A APU

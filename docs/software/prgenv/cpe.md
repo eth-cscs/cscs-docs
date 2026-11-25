@@ -20,7 +20,7 @@ It provides modules for programming environments including `Prgenv-gnu` and `Prg
 
 ## CPE in a container
 
-The CPE is provided on [Eiger][ref-cluster-eiger] and [Daint][ref-cluster-daint] in containers.
+The CPE is provided on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint] and [Santis][ref-cluster-santis] in containers.
 
 [](){#ref-cpe-versions}
 ### Available versions

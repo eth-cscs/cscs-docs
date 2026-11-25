@@ -193,7 +193,7 @@ To use an image directly on Alps via an EDF environment file, set the image to t
     - Explicitly **disable** the `cxi` hook
     - Use the `--environment` flag for `srun` instead of `sbatch` (i.e. `srun --environment=my_edf.toml ...`)
     - Use the `--network=disable_rdzv_get` flag for `srun` to disable the rendezvous mechanism for network initialization (i.e. `srun --network=disable_rdzv_get ...` or setting `SLURM_NETWORK=disable_rdzv_get`)
-    - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`)
+    - Launch MPI applications with `PMIx` (i.e. `srun --mpi=pmix` or setting `SLURM_MPI_TYPE=pmix`, see [MPI plugins][ref-slurm-mpi])
 
 !!! question "Why is `entrypoint = true` recommended?"
 
@@ -218,7 +218,7 @@ srun \
     python my_script.py
 ```
 
-1. The `--mpi=pmix` flag is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
+1. The [`--mpi=pmix` flag][ref-slurm-mpi] is required to ensure that `PMIx` is used as the MPI launcher - without this flag you may encounter errors during initialization.
 2. The `--network=disable_rdzv_get` flag is required to disable the rendezvous mechanism for network initialization. Alternatively, you can also set the environment variable `SLURM_NETWORK=disable_rdzv_get` to achieve the same effect.
 3. The `--environment` must be used as a flag for `srun` - passing this flag to `sbatch` will lead to errors related to missing Slurm plugins.
 
@@ -246,7 +246,7 @@ srun \
     Transport endpoint is not connected
     ```
     this likely indicates that Slurm is not configured to use `PMIx` for launching MPI applications.
-    To resolve this, ensure that you are launching your application with the `--mpi=pmix` flag, for example:
+    To resolve this, ensure that you are launching your application with the [`--mpi=pmix` flag][ref-slurm-mpi], for example:
     ```bash
     srun --mpi=pmix ...
     ```

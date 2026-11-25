@@ -26,7 +26,7 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
 === "uv"
     ```console title="Creating a Python virtual environment on top of a uenv view"
     # start the uenv with the default view
-    $ uenv start --view=default prgenv-gnu/25.6:v2
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     # unset PYTHONPATH to avoid surprises
     $ unset PYTHONPATH
     # set PYTHONUSERBASE to the root of the view
@@ -41,8 +41,8 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
     (my-venv) $ python -m pip list -v
     Package Version Location                                                   Installer
     ------- ------- ---------------------------------------------------------- ---------
-    meson   1.7.0   /user-environment/env/default/lib/python3.13/site-packages pip
-    pip     25.3    /path/to/my-venv/lib/python3.13/site-packages              uv
+    meson   1.12.0  /user-environment/env/default/lib/python3.14/site-packages pip
+    pip     26.3    /path/to/my-venv/lib/python3.14/site-packages              uv
     # upgrade a package into the venv (overrides the view's version)
     (my-venv) $ uv pip install --upgrade meson
 
@@ -50,15 +50,15 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
     (my-venv) $ python -m pip list -v
     Package Version Location                                         Installer
     ------- ------- ------------------------------------------------ ---------
-    meson   1.9.1   /path/to/my-venv-uv/lib/python3.13/site-packages uv
-    pip     25.3    /path/to/my-venv-uv/lib/python3.13/site-packages uv
+    meson   1.12.1  /path/to/my-venv-uv/lib/python3.14/site-packages uv
+    pip     26.3    /path/to/my-venv-uv/lib/python3.14/site-packages uv
     ```
 
 === "venv"
 
     ```console title="Creating a Python virtual environment on top of a uenv view"
     # start the uenv with the default view
-    $ uenv start --view=default prgenv-gnu/25.6:v2
+    $ uenv start --view=default prgenv-gnu/26.9:v2
     # unset PYTHONPATH to avoid surprises
     $ unset PYTHONPATH
     # set PYTHONUSERBASE to the root of the view
@@ -72,16 +72,16 @@ When stacking a Python virtual environment on top of a _uenv view_, keep Pythonâ
     python -m pip list -v
     Package Version Location                                                   Installer
     ------- ------- ---------------------------------------------------------- ---------
-    meson   1.7.0   /user-environment/env/default/lib/python3.13/site-packages pip
-    pip     25.1.1  /path/to/my-venv/lib/python3.13/site-packages              pip
+    meson   1.12.0  /user-environment/env/default/lib/python3.14/site-packages pip
+    pip     26.1.1  /path/to/my-venv/lib/python3.14/site-packages              pip
     # upgrade a package into the venv (overrides the view's version)
     (my-venv) $ pip install --upgrade meson
     # verify that the upgraded package is now coming from the venv
     (my-venv) $ pip list
     Package Version Location                                      Installer
     ------- ------- --------------------------------------------- ---------
-    meson   1.9.1   /path/to/my-venv/lib/python3.13/site-packages pip
-    pip     25.1.1  /path/to/my-venv/lib/python3.13/site-packages pip
+    meson   1.12.1  /path/to/my-venv/lib/python3.14/site-packages pip
+    pip     26.1.1  /path/to/my-venv/lib/python3.14/site-packages pip
     ```
 
 !!! note "Listing only the packages that live in the uenvâ€™s user-site"

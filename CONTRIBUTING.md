@@ -9,8 +9,8 @@ Agents should:
 1. read the contributing guide in its raw form in the `docs/contributing/index.md` file — the spell checker section in particular is not duplicated here.
 2. read the rest of this page.
 
-To validate changes, run `./serve build --strict` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
-This will catch broken links and build errors before the CI pipeline does.
+To validate changes, run `./build` (requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed).
+It builds the complete site as CI does, the documentation and the agent skills, and stops on broken links and build errors before the CI pipeline does.
 
 ## Guidelines for agents
 
@@ -19,6 +19,16 @@ The documentation uses Zensical.
 The project configuration is in the `zensical.toml` file.
 
 The docs are in the `docs` directory.
+
+### Agent skills
+
+The repository also contains skills for coding agents, which are published with the documentation and installed by users from <https://docs.cscs.ch/agents/>.
+
+* The skills are in `skills/<name>/`. Read `skills/README.md` before adding or changing one.
+* Every `SKILL.md` ends with an `## Updates` section that points to <https://docs.cscs.ch/agents/>, so that an agent asked to update the skills knows where they come from. Copy it into every new skill.
+* `docs/contributing/skills.md` explains how the skills are published and installed; `docs/agents/index.md` is the page that users install them from. Keep both in step with changes to the skills.
+* A skill can bundle files from elsewhere in the repository, listed in its `bundle.json`. The `cscs-cluster-probes` skill bundles `probes/probe.sh` and `probes/lib/`, so a change to the probes is also a change to the published skill: the probes must keep working when run from a skill directory, outside this repository.
+* Run `./build` and `python3 -m unittest discover -s skills/tests` after changing a skill, its bundled files, or the agent skills page.
 
 ### What are we documenting?
 
@@ -156,6 +166,14 @@ It is not professional, and adds no additional meaning.
 
 It is okay to select appropriate emoji from fontawesome (the free version) in card titles, but aim for subtlety.
 
+Put the arrow at the end of a card before the link, not inside it:
+
+```markdown
+:octicons-arrow-right-24: [File systems][ref-storage-filesystems]
+```
+
+The markdown copies of the pages for agents (`llms.txt`) leave out a link that contains an icon, so `[:octicons-arrow-right-24: File systems][ref-storage-filesystems]` loses its link.
+
 ### Prefer flat content over headings
 
 When creating, e.g., a list of steps, don't create numbered headers.
@@ -289,7 +307,7 @@ Use `powershell` for the PowerShell equivalent.
 
 ```
 ```bash title="load a uenv"
-uenv start prgenv-gnu/24.11:v1
+uenv start prgenv-gnu/26.9:v1
 ```
 ```
 

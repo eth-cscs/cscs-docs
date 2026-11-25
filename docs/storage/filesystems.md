@@ -26,27 +26,27 @@
 
     There are two forms of data [backup][ref-storage-backup] that are provided on some file systems.
 
-    [:octicons-arrow-right-24: Backups][ref-storage-backups]
+    :octicons-arrow-right-24: [Backups][ref-storage-backups]
 
-    [:octicons-arrow-right-24: Snapshots][ref-storage-snapshots]
+    :octicons-arrow-right-24: [Snapshots][ref-storage-snapshots]
 
 -   :fontawesome-solid-broom: __Cleanup__
 
     Data retention policies and automatic cleanup of Scratch.
 
-    [:octicons-arrow-right-24: Cleanup policies][ref-storage-cleanup]
+    :octicons-arrow-right-24: [Cleanup policies][ref-storage-cleanup]
 
 -   :fontawesome-solid-layer-group: __Quota__
 
     Find out about quota on capacity and file counts, and how to check your quota limits.
 
-    [:octicons-arrow-right-24: Quota][ref-storage-quota]
+    :octicons-arrow-right-24: [Quota][ref-storage-quota]
 
 -   :fontawesome-solid-circle-question: __Troubleshooting__
 
     Answers to common issues and questions.
 
-    [:octicons-arrow-right-24: common questions][ref-storage-troubleshooting]
+    :octicons-arrow-right-24: [common questions][ref-storage-troubleshooting]
 
 </div>
 
@@ -97,11 +97,16 @@ On the [HPC Platform][ref-platform-hpcp] clusters Eiger, Daint it points to `/ri
 
 The [cleanup policy][ref-storage-cleanup] is enforced on Scratch, to ensure continued performance of the file system.
 
-* Files on `/capstor/scratch/cscs/$USER` and `/ritom/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
-* Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
-* When capacity grows above:
-    * 60%: users are asked to start removing or archiving unneeded files
-    * 80%: CSCS will start removing files and paths without further notice.
+A daily process removes files that have not been **accessed (either read or written)** within the retention period:
+
+* **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
+* **30 days** on [Ritom][ref-alps-capstor] (`/ritom/scratch/cscs/$USER`)
+* **14 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
+
+Furthermore, when capacity grows above:
+
+* 60%: users are asked to start removing or archiving unneeded files
+* 80%: CSCS will start removing files and paths without further notice.
 
 !!! warning "Hidden directories are excluded from the cleaning policy"
     The following directories are automatically created by the system and are **not** subject to the cleaning policy. They will never be automatically deleted:
@@ -229,8 +234,6 @@ There are two types of quota:
 * **Soft quota** when exceeded there is a grace period for transferring or deleting files, before it will become a hard quota.
 * **Hard quota** when exceeded no more files can be written.
 
-!!! todo
-    Storage team: can you please provide better/more complete definitions of the hard and soft quotas.
 
 [](){#ref-storage-quota-cli}
 ### Checking quota
@@ -284,8 +287,8 @@ The backup process checks for modified or new files every 24 hours, and makes a 
     Please provide the following information in the request:
 
     * the **full path** to restore, e.g.:
-        * a file: `/capstor/scratch/cscs/userbob/software/data/results.tar.gz`
-        * or a directory: `/capstor/scratch/cscs/userbob/software/data`.
+        * a file: `/capstor/store/cscs/your_project/software/data/results.tar.gz`
+        * or a directory: `/capstor/store/cscs/your_project/software/data`.
     * the **date** to restore from:
         * the most recent backup older than the date will be used.
 
@@ -323,6 +326,7 @@ File cleanup removes files that are not being used to ensure that occupancy and 
 A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
 * **30 days** on [Capstor][ref-alps-capstor] (`/capstor/scratch/cscs/$USER`)
+* **30 days** on [Ritom][ref-alps-capstor] (`/ritom/scratch/cscs/$USER`)
 * **14 days** on [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch/cscs/$USER`)
 
 ??? example "How can I tell when a file was last accessed?"

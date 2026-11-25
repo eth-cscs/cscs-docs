@@ -12,19 +12,19 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
     CSCS provides the following uenv:
 
-    [:octicons-arrow-right-24: prgenv-gnu][ref-uenv-prgenv-gnu]
+    :octicons-arrow-right-24: [prgenv-gnu][ref-uenv-prgenv-gnu]
 
-    [:octicons-arrow-right-24: prgenv-nvfortran][ref-uenv-prgenv-nvfortran]
+    :octicons-arrow-right-24: [prgenv-nvfortran][ref-uenv-prgenv-nvfortran]
 
-    [:octicons-arrow-right-24: linalg][ref-uenv-linalg]
+    :octicons-arrow-right-24: [linalg][ref-uenv-linalg]
 
-    [:octicons-arrow-right-24: julia][ref-uenv-julia]
+    :octicons-arrow-right-24: [julia][ref-uenv-julia]
 
     And containers are used to deploy:
 
-    [:octicons-arrow-right-24: Alps Extended Images for ML][ref-software-extended-images]
+    :octicons-arrow-right-24: [Alps Extended Images for ML][ref-software-extended-images]
 
-    [:octicons-arrow-right-24: Cray Programming Environment][ref-cpe]
+    :octicons-arrow-right-24: [Cray Programming Environment][ref-cpe]
 
 </div>
 
@@ -34,9 +34,9 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
     How to create containers or uenv, and how to share them with your colleagues and community.
 
-    [:octicons-arrow-right-24: build containers with podman][ref-build-containers]
+    :octicons-arrow-right-24: [build containers with podman][ref-build-containers]
 
-    [:octicons-arrow-right-24: use the uenv build service][ref-uenv-build]
+    :octicons-arrow-right-24: [use the uenv build service][ref-uenv-build]
 
 </div>
 
@@ -46,7 +46,7 @@ Modern HPC applications and software stacks are often very complicated, and ther
 
     How to create containers or uenv, and how to share them with your colleagues and community.
 
-    [:octicons-arrow-right-24: building software using uenv][ref-build-uenv]
+    :octicons-arrow-right-24: [building software using uenv][ref-build-uenv]
 
     Coming soon: how to install Python software stacks.
 

@@ -153,7 +153,7 @@ An example to run on [Eiger][ref-cluster-eiger] on two nodes:
 #SBATCH --cpus-per-task=8
 #SBATCH --account=<ACCOUNT>
 #SBATCH --hint=nomultithread
-#SBATCH --hint=exclusive
+#SBATCH --exclusive
 #SBATCH --constraint=mc
 #SBATCH --uenv=vasp/v6.6.1:v1
 #SBATCH --view=vasp

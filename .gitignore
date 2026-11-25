@@ -10,3 +10,8 @@ site
 
 # the deprecated mkdocs configuration
 mkdocs.yml
+
+__pycache__
+
+# configuration with a different site_url, written by ./build
+.zensical-build.toml

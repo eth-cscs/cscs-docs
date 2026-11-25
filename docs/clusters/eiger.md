@@ -3,33 +3,6 @@
 
 Eiger is an Alps cluster that provides compute nodes and file systems designed to meet the needs of CPU-only workloads for the [HPC Platform][ref-platform-hpcp].
 
-!!! note
-    This documentation is for the updated cluster `Eiger.Alps` reachable at `eiger.alps.cscs.ch`, that replaced the former cluster as on July 1 2025.
-
-??? change "Important changes from Eiger"
-    The redeployment of `eiger.cscs.ch` as `eiger.alps.cscs.ch` has introduced changes that may affect some users.
-
-    ### Breaking changes
-
-    !!! warning "Sarus is replaced with the Container Engine"
-        The Sarus container runtime is replaced with the [Container Engine][ref-container-engine].
-
-        If you are using Sarus to run containers on Eiger, you will have to [rebuild][ref-build-containers] and adapt your containers for the Container Engine.
-
-    !!! warning "Cray modules and EasyBuild are no longer supported"
-        The Cray Programming Environment (accessed via the `cray` module) is no longer supported by CSCS, along with software that CSCS provided using EasyBuild.
-
-        The same version of the Cray modules is still available, along with software that was installed using them, however they will not receive updates or support from CSCS.
-
-        You are strongly encouraged to start using [uenv][ref-cluster-eiger-uenv] to access supported applications and to rebuild your own applications.
-
-        * The versions of compilers, `cray-mpich`, Python and libraries in uenv are up to date.
-        * The scientific application uenv have up to date versions of the supported applications.
-
-    ### Minor changes
-
-    !!! change "Slurm is updated from version 23.02.6 to 24.05.4"
-
 ## Cluster specification
 
 ### Compute nodes
@@ -38,6 +11,10 @@ Eiger consists of multicore [AMD Epyc Rome][ref-alps-zen2-node] compute nodes: p
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
 
 Additionally, there are four login nodes with host names `eiger-ln00[1-4]`.
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/eiger/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 
@@ -117,19 +94,7 @@ Eiger supports container workloads using the [Container Engine][ref-container-en
 
 To build images, see the [guide to building container images on Alps][ref-build-containers].
 
-!!! warning "Sarus is not available"
-    A key change with the new Eiger deployment is that the Sarus container runtime is replaced with the [Container Engine][ref-container-engine].
-
-    If you are using Sarus to run containers on Eiger, you will have to rebuild and adapt your containers for the Container Engine.
-
-#### Cray Modules
-
-!!! warning
-    The Cray Programming Environment (CPE), loaded using `module load cray`, is no longer supported by CSCS.
-
-    CSCS will continue to support and update uenv and the Container Engine, and users are encouraged to update their workflows to use these methods at the first opportunity.
-
-    The CPE is still installed on Eiger, however it will receive no support or updates, and will be [replaced with a container][ref-cpe] in a future update.
+The CPE has been uninstalled from Eiger, however it can still be [accessed as a container][ref-cpe].
 
 ## Running jobs on Eiger
 
@@ -145,16 +110,26 @@ There are multiple [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | max nodes per job | time limit |
-| --   |  -- | -- |
-| `debug`  | 1    | 30 minutes |
-| `prepost`  | 1    | 30 minutes |
-| `normal` | -    | 24 hours |
-| `xfer`   | 1    | 24 hours |
-| `low`    | -    | 24 hours |
+<!--begin no spell check-->
+--8<-- "generated/clusters/eiger/partitions.md"
+<!--end no spell check-->
+
+The `normal`, `prepost` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` partitions are not shared
+* jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/eiger/nodetypes.md"
+<!--end no spell check-->
+
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Eiger is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv and the [CPE][ref-cpe].
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
 See the Slurm documentation for instructions on how to run jobs on the [AMD CPU nodes][ref-slurm-amdcpu].
 
@@ -178,7 +153,22 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-09-16"
+!!! change "2026-11-18"
+    !!! note "Slurm controller high availability"
+        The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
+
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
+        - Default netstack comes with `libfabric-2.7.0` and `aws-ofi-nccl-plugin-1.2.11`
+
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
+        - Fixes an issue with file permissions on `ritom`
+
+    !!! note "Kernel update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+
+??? change "2026-09-16"
     !!! note "New $SCRATCH directory"
         - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
         - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`

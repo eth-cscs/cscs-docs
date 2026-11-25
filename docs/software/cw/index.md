@@ -13,9 +13,9 @@ The software is maintained in a collaboration between the climate community and 
 
     CSCS provides some uenv and guides for users of community codes on Eiger:
 
-    [:octicons-arrow-right-24: WRF and CRYOWRF][ref-software-wrf]
+    :octicons-arrow-right-24: [WRF and CRYOWRF][ref-software-wrf]
 
-    [:octicons-arrow-right-24: ESMF and CESM][ref-software-cesm]
+    :octicons-arrow-right-24: [ESMF and CESM][ref-software-cesm]
 
 -   :fontawesome-solid-earth: [__Deployment__][ref-software-cw-deploy]
 

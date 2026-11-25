@@ -145,7 +145,7 @@ Log into the target system and start the uenv, then start the remote server, for
 # log into daint (this could be any other Alps cluster)
 ssh daint
 # start a uenv session on the login node
-uenv start --view=default prgenv-gnu/24.11:v1
+uenv start --view=default prgenv-gnu/26.9:v2
 # then start the tunnel
 code tunnel --name=$CLUSTER_NAME-tunnel
 ```
@@ -153,7 +153,7 @@ code tunnel --name=$CLUSTER_NAME-tunnel
 Alternatively, you can execute `code tunnel` directly in the environment:
 ```
 ssh daint
-uenv run --view=default prgenv-gnu/24.11:v1 -- code tunnel --name=$CLUSTER_NAME-tunnel
+uenv run --view=default prgenv-gnu/26.9:v2 -- code tunnel --name=$CLUSTER_NAME-tunnel
 ```
 
 Once the tunnel is configured, you can access it from VS Code.
@@ -171,7 +171,7 @@ If you plan to do computation using your VS Code, then you should first allocate
     You can directly execute the `code tunnel` command using srun:
     ```
     ssh daint
-    srun --uenv=prgenv-gnu/24.11:v1 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
+    srun --uenv=prgenv-gnu/26.9:v2 --view=default -t120 -n1 --pty code tunnel --name=$CLUSTER_NAME-tunnel
     ```
 
     * `--uenv` and `--view` set up the uenv
@@ -196,7 +196,7 @@ If you plan to do computation using your VS Code, then you should first allocate
     srun -t120 -n1 --pty bash
 
     # set up the environment before starting the tunnel
-    uenv start prgenv-gnu/24.11:v1 --view=default
+    uenv start prgenv-gnu/26.9:v2 --view=default
     code tunnel --name=$CLUSTER_NAME-tunnel
     ```
 

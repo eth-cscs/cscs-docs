@@ -1,0 +1,8 @@
+{
+  "files": {
+    "scripts/probe.sh": "probes/probe.sh",
+    "scripts/lib": "probes/lib"
+  },
+  "smoke_test": ["scripts/probe.sh", "--live", "--format", "json",
+                 "--fixture", "probes/tests/fixtures/alpha", "partitions"]
+}

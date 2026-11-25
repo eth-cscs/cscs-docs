@@ -1,0 +1,33 @@
+# robots.txt for https://docs.cscs.ch
+#
+# This is public documentation.
+# Search engines, AI assistants and AI training are all welcome.
+#
+# Content-Signal states how the content may be used (https://contentsignals.org):
+# in search results, as input to AI answers, and for training AI models.
+
+User-agent: *
+Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+# The main AI crawlers, named so that the welcome is explicit. A crawler that is
+# named in a group follows only that group, so it repeats the rules above.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: CCBot
+User-agent: Meta-ExternalAgent
+User-agent: Amazonbot
+User-agent: MistralAI-User
+User-agent: cohere-ai
+Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+Sitemap: https://docs.cscs.ch/sitemap.xml

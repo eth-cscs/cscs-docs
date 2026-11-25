@@ -301,7 +301,7 @@ The first step is to create the virtual environment using the usual workflow des
     # start the uenv
     # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
     # and other useful tools
-    uenv start prgenv-gnu/24.11:v1 --view=default
+    uenv start prgenv-gnu/26.9:v2 --view=default
 
     # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
     unset PYTHONPATH
@@ -320,7 +320,7 @@ The first step is to create the virtual environment using the usual workflow des
 
     # optionally, to reduce the import times, precompile all
     # python modules to bytecode before creating the squashfs image
-    python -m compileall -j 8 -o 0 -o 1 -o 2 .venv/lib/python3.12/site-packages
+    python -m compileall -j 8 -o 0 -o 1 -o 2 .venv/lib/python3.14/site-packages
     ```
 
 === "venv"
@@ -331,7 +331,7 @@ The first step is to create the virtual environment using the usual workflow des
     # start the uenv
     # in this case the "default" view of prgenv-gnu provides python, cray-mpich,
     # and other useful tools
-    uenv start prgenv-gnu/24.11:v1 --view=default
+    uenv start prgenv-gnu/26.9:v2 --view=default
 
     # unset PYTHONPATH and set PYTHONUSERBASE to avoid conflicts
     unset PYTHONPATH
@@ -416,7 +416,7 @@ To use the optimised virtual environment, mount the squashfs image at the locati
     ```bash
     cd $SCRATCH/sqfs-demo
     uenv start --view=default \
-        prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+        prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
     source .venv/bin/activate
     ```
 
@@ -427,7 +427,7 @@ To use the optimised virtual environment, mount the squashfs image at the locati
     ```bash
     cd $SCRATCH/sqfs-demo
     uenv start --view=default \
-        prgenv-gnu/24.11:v1,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
+        prgenv-gnu/26.9:v2,$PWD/py_venv.squashfs:$SCRATCH/sqfs-demo/.venv
     source .venv/bin/activate
     ```
 

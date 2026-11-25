@@ -4,6 +4,7 @@ AMPI
 Alpstein
 Ambertools
 Apertus
+APUs
 autoscaling
 auditability
 balfrin
@@ -52,6 +53,7 @@ Fock
 Foket
 GAPW
 GBit
+GCDs
 GGA
 GPFS
 GPG
@@ -69,6 +71,7 @@ HDD
 HDDs
 HPC
 HPCP
+HBM
 HPE
 HSN
 Hartree
@@ -87,6 +90,7 @@ LLMs
 LOCALID
 LUMI
 Libc
+Linard
 Linaro
 Linux
 mch
@@ -109,7 +113,9 @@ NVMe
 NVSHMEM
 NVLINK
 Nordend
+nowrap
 netcdf
+OAMs
 OpenFabrics
 OAuth
 OIDC
@@ -295,7 +301,9 @@ omlin
 omp
 oom
 openblas
+opencode
 opls
+oras
 osts
 osu
 papi
@@ -407,6 +415,7 @@ toolset
 torchaudio
 torchrun
 torchvision
+traefik
 transitioning
 treesitter
 trilinos
@@ -473,12 +482,25 @@ Neoverse
 Netstack
 mpicxx
 Copilot
-capstor
+hdl
+md5sum
+XCD
+XCDs
+SPX
+TPX
+CPX
+amdgpu
+dimm
+Codex
+Cloudflare
+frontmatter
+RFC
+bubblewrap
+Landlock
 cpuhours
 customername
 dataType
 filesystemname
-iopsstor
 jobcount
 nodehours
 spacecurrency

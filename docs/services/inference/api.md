@@ -195,21 +195,116 @@ In order to use the service users must have an active project granted via an ope
 Available models, along with pricing information, are listed on the [Inference API UI pricing page](https://ui.inference.cscs.ch/pricing).
 The available models can also be listed for a given API key using the [`models` endpoint][ref-inference-api-endpoints] or on the Inference API UI when creating a new key.
 
-The available models together with their maximum context size are also listed in the table below.
+The available models, their maximum context length, and their supported input modalities are also listed in the table below.
 Most coding agents benefit from being [configured][ref-inference-api-coding-agents-setup] with the given context sizes so that they can do context compaction before hitting the context limit.
 
-| Model                                           | Maximum context length |
-|-------------------------------------------------|------------------------|
-| `google/gemma-4-31B-it`                         | 262,144                |
-| `moonshotai/Kimi-K2.7-Code`                     | 262,144                |
-| `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 262,144                |
-| `swiss-ai/Apertus-70B-Instruct-2509`            | 64,000                 |
-| `swiss-ai/Apertus-8B-Instruct-2509`             | 32,768                 |
-| `swiss-ai/Apertus-v1.5-70B-thinking`            | 262,144                |
-| `swiss-ai/Apertus-v1.5-70B`                     | 262,144                |
-| `swiss-ai/Apertus-v1.5-8B-thinking`             | 262,144                |
-| `swiss-ai/Apertus-v1.5-8B`                      | 262,144                |
-| `zai-org/GLM-5.2`                               | 976,000                |
+<!--begin no spell check-->
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Model</th>
+      <th rowspan="2">Maximum context length</th>
+      <th colspan="4" style="text-align: center">Supported modalities</th>
+    </tr>
+    <tr>
+      <th>Text</th>
+      <th>Image</th>
+      <th>Audio</th>
+      <th>Video</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>google/gemma-4-31B-it</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>Qwen/Qwen3.8-27B-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>Qwen/Qwen3.8-Flash-Next-FP8</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-70B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B-thinking</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>swiss-ai/Apertus-v1.5-8B</code></td>
+      <td>262,144</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>zai-org/GLM-5.3-Flash</code></td>
+      <td>1,048,576</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td></td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+<!--end no spell check-->
+
+??? info "Removed models"
+    The following models have been served in the past, but are no longer offered.
+
+    | Model                                           | Removed on |
+    |-------------------------------------------------|------------|
+    | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16` | 2026-11-16 |
+    | `moonshotai/Kimi-K2.7-Code`                     | 2026-11-16 |
+    | `zai-org/GLM-5.2`                               | 2026-11-16 |
+    | `swiss-ai/Apertus-70B-Instruct-2509`            | 2026-10-21 |
+    | `swiss-ai/Apertus-8B-Instruct-2509`             | 2026-10-21 |
+
+??? info "Image, audio, and video input in API requests"
+    The OpenAI-compatible [`/v1/chat/completions`][ref-inference-api-endpoints] endpoint takes images as `image_url` and audio as `input_audio` content parts, which are part of the official OpenAI API ([OpenAI vision](https://developers.openai.com/api/docs/guides/images-vision), [audio](https://developers.openai.com/api/docs/guides/audio-chat-completions)).
+    Video input uses the `video_url` content part, a vLLM extension that is not part of the official OpenAI API ([vLLM multimodal inputs documentation](https://docs.vllm.ai/en/latest/features/multimodal_inputs/)).
+    The Anthropic-compatible [`/v1/messages`][ref-inference-api-endpoints] endpoint takes images as Anthropic `source` blocks and does not support audio or video input ([Anthropic Messages API reference](https://platform.claude.com/docs/en/api/messages)).
 
 [](){#ref-inference-api-access-resource}
 ### Create an inference resource
@@ -280,7 +375,7 @@ Below are instructions for setting up [Claude Code](https://claude.com/product/c
 For more information on using coding agents on Alps, see the [coding agents guide][ref-coding-agents].
 
 See the [available models table][ref-inference-api-available-models] for context sizes.
-Most agents benefit from having the maximum context size configured explicitly so that they can do context compaction before hitting the context limit.
+Most agents benefit from having the maximum context length configured explicitly so that they can do context compaction before hitting the context limit.
 
 !!! note "Apertus models in agents"
     We recommend using the Apertus models e.g. in [OpenWebUI](https://openwebui.com) as they're optimized for general use rather than programming tasks specifically.
@@ -297,7 +392,7 @@ Set the following environment variables before starting a `claude` session.
 export ANTHROPIC_AUTH_TOKEN=$CSCS_INFERENCE_API_KEY
 
 export ANTHROPIC_BASE_URL=https://api.inference.cscs.ch
-export ANTHROPIC_MODEL=moonshotai/Kimi-K2.7-Code
+export ANTHROPIC_MODEL=zai-org/GLM-5.3-Flash
 claude
 ```
 
@@ -305,26 +400,31 @@ claude
 
 Add a custom provider to your OpenCode config file (typically `~/.config/opencode/opencode.jsonc`).
 
-=== "OpenCode handles API key (recommended)"
+=== "OpenCode v2 handles API key (recommended)"
 
     ```json title="OpenCode configuration for the inference API"
     {
         "$schema": "https://opencode.ai/config.json",
-        // Set Kimi as default OpenCode model
-        "model": "cscs/moonshotai/Kimi-K2.7-Code",
-        "provider": {
+        // Set GLM 5.3 Flash as default OpenCode model
+        "model": "cscs/zai-org/GLM-5.3-Flash",
+        "providers": {
             "cscs": {
-                "npm": "@ai-sdk/anthropic",
+                "package": "@ai-sdk/anthropic",
                 "name": "CSCS Inference",
-                "options": {
+                "settings": {
                     "baseURL": "https://api.inference.cscs.ch/v1",
                     "systemMessageMode": "system",
+                    "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
                 },
                 "models": {
-                    "moonshotai/Kimi-K2.7-Code": {
-                        "name": "Kimi K2.7-Code",
+                    "zai-org/GLM-5.3-Flash": {
+                        "name": "GLM 5.3 Flash",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
-                            "context": 262144,
+                            "context": 1048576,
                             "output": 16384
                         }
                     }
@@ -337,13 +437,79 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
     Start OpenCode and run the `/connect` command.
     Select "CSCS Inference" to choose the newly added provider, and enter your API key when prompted.
 
-=== "API key as environment variable"
+=== "API key as environment variable (OpenCode v2)"
 
     ```json title="OpenCode configuration for the inference API"
     {
         "$schema": "https://opencode.ai/config.json",
-        // Set Kimi as default OpenCode model
-        "model": "cscs/moonshotai/Kimi-K2.7-Code",
+        // Set GLM 5.3 Flash as default OpenCode model
+        "model": "cscs/zai-org/GLM-5.3-Flash",
+        "providers": {
+            "cscs": {
+                "package": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "settings": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "zai-org/GLM-5.3-Flash": {
+                        "name": "GLM 5.3 Flash",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 1048576,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "OpenCode v1 handles API key (recommended)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set GLM 5.3 Flash as default OpenCode model
+        "model": "cscs/zai-org/GLM-5.3-Flash",
+        "provider": {
+            "cscs": {
+                "npm": "@ai-sdk/anthropic",
+                "name": "CSCS Inference",
+                "options": {
+                    "baseURL": "https://api.inference.cscs.ch/v1",
+                    "systemMessageMode": "system"
+                },
+                "models": {
+                    "zai-org/GLM-5.3-Flash": {
+                        "name": "GLM 5.3 Flash",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
+                        "limit": {
+                            "context": 1048576,
+                            "output": 16384
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+
+=== "API key as environment variable (OpenCode v1)"
+
+    ```json title="OpenCode configuration for the inference API"
+    {
+        "$schema": "https://opencode.ai/config.json",
+        // Set GLM 5.3 Flash as default OpenCode model
+        "model": "cscs/zai-org/GLM-5.3-Flash",
         "provider": {
             "cscs": {
                 "npm": "@ai-sdk/anthropic",
@@ -354,10 +520,14 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
                     "apiKey": "{env:CSCS_INFERENCE_API_KEY}" 
                 },
                 "models": {
-                    "moonshotai/Kimi-K2.7-Code": {
-                        "name": "Kimi K2.7-Code",
+                    "zai-org/GLM-5.3-Flash": {
+                        "name": "GLM 5.3 Flash",
+                        "modalities": {
+                            "input": ["text", "image"],
+                            "output": ["text"]
+                        },
                         "limit": {
-                            "context": 262144,
+                            "context": 1048576,
                             "output": 16384
                         }
                     }
@@ -373,9 +543,16 @@ Add a custom provider to your OpenCode config file (typically `~/.config/opencod
 Once configured, you can choose models configured in the config with `/models` or `Ctrl-X`+`M`.
 
 !!! info
-    OpenCode does not auto-discover available models.
-    Models have to be explicitly configured in the config.
-    Use the `/v1/models` endpoint to list available models for your key.
+    - OpenCode does not auto-discover available models.
+      Models have to be explicitly configured in the config.
+      Use the `/v1/models` endpoint to list available models for your key.
+    - The install path of the install script from [opencode.ai](https://opencode.ai) is hardcoded to `$HOME/.opencode`, which will
+      cause a conflict when using OpenCode on both X86_64 and ARM architectures. As a workaround, either tweak
+      the install script or copy the `opencode` binary from `$HOME/.opencode` to an [XDG directory][ref-guides-terminal-arch].
+    - Copy and paste with middle-click does not work on some terminal emulators, e.g. `gnome-terminal`. Use `Ctrl+Shift+C/V` or
+      `Shift` + middle-click as a workaround.
+
+Model support for different input modalities are described in the [available models table][ref-inference-api-available-models].
 
 [](){#ref-inference-api-vscode-copilot}
 ### VS Code Copilot
@@ -405,12 +582,12 @@ Add the models that you want to use to the `models` list, leaving the generated 
         "apiType": "chat-completions",
         "models": [
             {
-                "id": "moonshotai/Kimi-K2.7-Code",
-                "name": "Kimi K2.7-Code",
+                "id": "zai-org/GLM-5.3-Flash",
+                "name": "GLM 5.3 Flash",
                 "url": "https://api.inference.cscs.ch/v1",
                 "toolCalling": true,
                 "vision": true,
-                "maxInputTokens": 245760,
+                "maxInputTokens": 1032192,
                 "maxOutputTokens": 16384
             }
         ]
@@ -424,7 +601,7 @@ The fields of each model entry are:
 - `name` is the display name shown in the model picker,
 - `url` is the base URL of the inference API, to which VS Code appends `/chat/completions`,
 - `toolCalling` enables tool use, which is required for agent mode,
-- `vision` enables image input and should only be set for multimodal models,
+- `vision` enables image input and should only be set for models that support image input (see the [available models table][ref-inference-api-available-models]),
 - `maxOutputTokens` is the maximum number of tokens in a single response, for which `16384` is a good default for coding tasks, and
 - `maxInputTokens` is the maximum context length of the model from the [available models table][ref-inference-api-available-models] minus `maxOutputTokens`.
 
@@ -480,4 +657,3 @@ The same announcements are also posted in the `#inference-service` channel of th
 * Detailed self-service telemetry is limited today. Users interested in hourly/daily usage should record it from the client side.
 * Documentation and model-specific configuration transparency are work in progress.
 * The service is currently offered from a single infrastructure. Interruptions of the service should be expected due to incidents and/or planned maintenances.
-* We currently do not distinguish between cached and uncached input tokens; please beware the costs when performing typical agentic usage.

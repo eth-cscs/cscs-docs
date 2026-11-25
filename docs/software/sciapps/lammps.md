@@ -251,7 +251,7 @@ On Eiger, the following sbatch script can be used:
 #SBATCH --cpus-per-task=4 (3) 
 #SBATCH --account=<ACCOUNT> (4)
 #SBATCH --hint=nomultithread
-#SBATCH --hint=exclusive
+#SBATCH --exclusive
 #SBATCH --uenv=<LAMMPS_UENV>:/user-environment (5)
 #SBATCH --view=kokkos (6)
 

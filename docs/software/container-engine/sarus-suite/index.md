@@ -26,9 +26,7 @@ Sarus Suite:
     * Due to the way Podman's image storage works, it's no longer possible to use direct filesystem paths to define images in EDFs. Images must be entered in the form of registry references.
     * CXI libfabric support must be explicitly enabled. It is not enabled by default and is not implicitly enabled by activating the AWS OFI NCCL hook.
     * Mount destinations in EDFs must be explicit (e.g. `mounts=["${SCRATCH}"]` will result in an error).
-    * SquashFS mounts from EDFs are not supported yet.
     * PMIx propagation is achieved by bind-mounting `/tmp` into containers, until a hook for proper PMIx support is rolled out.
-    * No support yet for selecting netstack source and netstack artifact version.
     * No support for direct SSH into containers.
     * Error propagation, reporting and logging still need improvements.
 
@@ -50,7 +48,8 @@ PMIX_MCA_psec = "native"
 
 The key user-visible difference of using Sarus Suite from the production Container Engine is the use of the `--edf` option in Slurm commands instead of `--environment`.
 
-For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows:
+For example, using the EDF presented above, the NCCL Tests all-reduce bandwidth benchmark can be run as follows.
+The command uses [`--mpi=pmix`][ref-slurm-mpi], because Alps Extended Images use PMIx to start MPI applications.
 
 ```console
 $ srun -N2 --gpus-per-node=4 --mpi=pmix --edf=aei-alps6 --network=disable_rdzv_get all_reduce_perf -b 1M -e 128M -f2

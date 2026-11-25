@@ -15,13 +15,13 @@ They cover everything you need to get started with using uenv to build your code
 
     A quick introduction to get you started
 
-    [:octicons-arrow-right-24: Quick start][ref-uenv-quickstart]
+    :octicons-arrow-right-24: [Quick start][ref-uenv-quickstart]
 
 -   :fontawesome-solid-layer-group: __Using uenv__
 
     Learn how to start uenv sessions on the command line, run commands in uenv environments, and use uenv in Slurm.
 
-    [:octicons-arrow-right-24: Using uenv][ref-uenv-using]
+    :octicons-arrow-right-24: [Using uenv][ref-uenv-using]
 
 -   :fontawesome-solid-layer-group: __Managing uenv__
 
@@ -29,23 +29,23 @@ They cover everything you need to get started with using uenv to build your code
 
     Learn how to search for, download and manage uenv images.
 
-    [:octicons-arrow-right-24: Managing uenvs][ref-uenv-manage]
+    :octicons-arrow-right-24: [Managing uenvs][ref-uenv-manage]
 
 -   :fontawesome-solid-layer-group: __uenv guides__
 
     How uenvs are named and referenced:
 
-    [:octicons-arrow-right-24: uenv naming][ref-uenv-labels]
+    :octicons-arrow-right-24: [uenv naming][ref-uenv-labels]
 
     Hints and tips for creating custom environments:
 
-    [:octicons-arrow-right-24: Custom environments][ref-uenv-customenv]
+    :octicons-arrow-right-24: [Custom environments][ref-uenv-customenv]
 
     How to install software on a uenv:
 
-    [:octicons-arrow-right-24: Using Spack][ref-build-uenv-spack]
+    :octicons-arrow-right-24: [Using Spack][ref-build-uenv-spack]
 
-    [:octicons-arrow-right-24: Python environments][ref-python-uenv]
+    :octicons-arrow-right-24: [Python environments][ref-python-uenv]
 
 
 </div>
@@ -58,13 +58,13 @@ The following guides provide for advanced users and CSCS staff:
 
     More adventurous users can create their own uenvs for personal use, and for other users in their team and community.
 
-    [:octicons-arrow-right-24: Building uenvs][ref-uenv-build]
+    :octicons-arrow-right-24: [Building uenvs][ref-uenv-build]
 
 -   :fontawesome-solid-layer-group: __Configuring uenv__
 
     Users can customize the behavior of uenv using a configuration file.
 
-    [:octicons-arrow-right-24: Configuring uenvs][ref-uenv-configure]
+    :octicons-arrow-right-24: [Configuring uenvs][ref-uenv-configure]
 
 -   :fontawesome-solid-layer-group: __Release notes__
 
@@ -72,7 +72,7 @@ The following guides provide for advanced users and CSCS staff:
 
     Check here for changes, known issues and bugs for specific versions.
 
-    [:octicons-arrow-right-24: uenv release notes][ref-uenv-release-notes]
+    :octicons-arrow-right-24: [uenv release notes][ref-uenv-release-notes]
 
 -   :fontawesome-solid-layer-group: __Deploying uenv__
 
@@ -80,7 +80,7 @@ The following guides provide for advanced users and CSCS staff:
 
     **For CSCS staff**, though it may be of interest to advanced users.
 
-    [:octicons-arrow-right-24: Deploying uenvs][ref-uenv-deploy]
+    :octicons-arrow-right-24: [Deploying uenvs][ref-uenv-deploy]
 
 
 </div>
@@ -94,16 +94,10 @@ After logging into an [Alps cluster][ref-alps-clusters], you can quickly check t
 $ uenv status
 there is no uenv loaded
 $ uenv --version
-10.0.1
+10.1.0
 ```
 
-[Version 9][ref-uenv-release-notes-v9.0.0] of uenv is installed on the main Alps clusters, specifically the following versions:
-
-| version | description |
-| -- | -- |
-| [10.0][ref-uenv-release-notes-v10.0] | v10.0.1 is installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] as of 2026-06-17|
-| [9.2.0][ref-uenv-release-notes-v9.2.0] | Currently installed on [Eiger][ref-cluster-eiger], [Daint][ref-cluster-daint],  and [Clariden][ref-cluster-clariden] (upgraded to v10.0.1 on 2026-06-17) |
-| [9.1.0][ref-uenv-release-notes-v9.1.0] | Currently installed on [Santis][ref-cluster-santis]  (upgraded to v10.0.1 on 2026-06-17)|
+uenv [v10.1.0][ref-uenv-release-notes-v10.1.0] is installed on [Daint][ref-cluster-daint], [Eiger][ref-cluster-eiger], [Clariden][ref-cluster-clariden] and [Santis][ref-cluster-santis].
 
 See the [uenv release notes][ref-uenv-release-notes] for more information about features, fixes and known issues in each version.
 
@@ -121,7 +115,7 @@ $ uenv image find namd
 uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
 
-$ uenv image pull namd
+$ uenv image pull namd/3.0:v1
 pulling cd8d842d108f2eb1 100.00% ━━━━━━━━━━━━━━━━━━━━━━━━━ 348/348 (60.71 MB/s)
 updating namd/3.0:v1@eiger%zen2
 
@@ -130,16 +124,15 @@ uenv         arch  system  id                size(MB)  date
 namd/3.0:v1  zen2  eiger   cd8d842d108f2eb1     347    2025-05-21
 
 $ uenv image inspect namd/3.0:v1
+repo default:/ritom/scratch/cscs/cscsusername/.uenv-images
 namd/3.0:v1@eiger%zen2 mount at /user-environment
 views:
   spack: configure spack upstream
-  namd-single-node:
   namd:
   modules: activate modules
-  develop-single-node:
   develop:
 
-$ uenv start namd/3.0:v1
+$ uenv start --view=namd namd/3.0:v1
 $ which namd3
 /user-environment/env/namd/bin/namd3
 $ exit

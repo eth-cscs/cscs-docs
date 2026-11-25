@@ -1,7 +1,8 @@
 [](){#ref-uenv-release-notes}
 # uenv release notes
 
-The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v10.0.1**.
+The latest version of uenv deployed on [Alps clusters][ref-alps-clusters] is **v10.1.0**.
+Version v10.2.0 is deployed on Starlex, and will be deployed on the other clusters soon.
 You can check the version available on a specific system with the `uenv --version` command.
 
 [](){#ref-uenv-release-notes-v10.0}
@@ -29,8 +30,24 @@ You can check the version available on a specific system with the `uenv --versio
 
 ### Minor and patch releases
 
+[](){#ref-uenv-release-notes-v10.2.0}
+???+ info "v10.2.0 feature release"
+    - Improved bash completion.
+    - Full zsh completion.
+    - `uenv image delete` uses the same credentials as `uenv image pull` and `uenv image push`, and no longer needs the `--token` flag.
+    - Security hardening.
+    - Robustness hardening.
+    - A new FUSE mount backend that does not need root privileges (not deployed on Alps).
+
+[](){#ref-uenv-release-notes-v10.1.0}
+??? info "v10.1.0 feature release"
+    - uenv downloads and uploads images without the external `oras` tool, and is now a single static executable.
+    - `uenv status` shows the label of each loaded uenv, or the path of its SquashFS file if it has no label.
+    - Images keep the same hash when they are copied between repositories and registries.
+    - Mounting two uenvs with the same name is an error: `trying to mount multiple uenvs with same name`.
+
 [](){#ref-uenv-release-notes-v10.0.1}
-??? info "v10.0.1 feature release"
+??? info "v10.0.1 patch release"
     - `uenv status`: fix bug when no view was loaded, or when the name in the uenv meta data did not match that in the database.
 
 [](){#ref-uenv-release-notes-v9.0.0}

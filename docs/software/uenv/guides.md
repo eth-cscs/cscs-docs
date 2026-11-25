@@ -80,6 +80,18 @@ uenv image find @*
 uenv image find @*%gh200
 ```
 
+[](){#ref-uenv-labels-unique}
+!!! warning "A label must match exactly one uenv"
+    `uenv start`, `uenv run`, `uenv image inspect` and the Slurm `--uenv` flag need a label that matches exactly one uenv in your repositories.
+    If more than one uenv matches, uenv prints an error:
+    ```console
+    $ uenv start prgenv-gnu
+    error: more than one uenv matches the uenv description 'prgenv-gnu@daint':
+    prgenv-gnu/25.6:v2   gh200  daint   39339cb936125883   5,501    2025-09-15
+    prgenv-gnu/26.3:v1   gh200  daint   577a2b7d6362b5ce   4,495    2026-04-20
+    ```
+    Use full labels, e.g. `prgenv-gnu/26.3:v1`, in scripts and job files, so that they keep working when you pull other versions.
+
 [](){#ref-uenv-customenv}
 ## Custom environments
 
@@ -97,7 +109,7 @@ This will make custom modules available, and load `ncview`, every time you log i
 It is not possible to do the equivalent with `uenv start`, for example:
 ```bash title="~/.bashrc"
 # start the uenv that I always use
-uenv start prgenv-gnu/24.11:v2 --view=default
+uenv start prgenv-gnu/26.9:v2 --view=default
 # ERROR: the following lines will not be executed
 module use $STORE/myenv/modules
 module load ncview
@@ -130,7 +142,7 @@ export DATAPATH=$STORE/2025/data
 Then create an alias in `~/.bashrc` for the `myenv` environment:
 
 ```bash title="~/.bashrc"
-alias myenv='uenv run prgenv-gnu/24.11:v2 --view=default -- bash --rcfile ~/.myenvrc'
+alias myenv='uenv run prgenv-gnu/26.9:v2 --view=default -- bash --rcfile ~/.myenvrc'
 ```
 
 This alias uses `uenv run` to start a new bash shell that will apply the customizations in `~/.myenvrc` once the uenv has been loaded.

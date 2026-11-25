@@ -798,6 +798,13 @@ Clone URL for git.
 This is needed for some implementation details of the gitlab-runner custom executor.
 This is the clone URL of the registered project, i.e. this is not the clone URL of the mirror project.
 
+### `CSCS_OVERRIDE_BASE_DIR`
+value: `$SCRATCH`
+
+Override the default base directory into which the project is cloned, and from which the job runs.
+This only overrides the base directory: the full directory appends the implementation-defined subdirectories to the full clone path.
+The final clone and working directory is in the environment variable `CI_PROJECT_DIR`.
+
 ### `ARCH`
 value: `x86_64` or `aarch64`
 
@@ -1256,7 +1263,7 @@ Enable running with `nvidia-mps-server`, which allows multiple ranks sharing the
 ```yaml
 job1:
   extends: .uenv-runner-eiger-zen2
-  image: prgenv-gnu/24.7:v3
+  image: prgenv-gnu/26.9:v2
   script:
     - gcc --version
   variables:
@@ -1299,7 +1306,7 @@ job:
   extends: .baremetal-runner-daint-gh200
   script:
     - hostname
-    - srun -n 4 --uenv prgenv-gnu/24.7:v3 --view=default ./my_application
+    - srun -n 4 --uenv prgenv-gnu/26.9:v2 --view=default ./my_application
   variables:
     SLURM_JOB_NUM_NODES: 1
 ```

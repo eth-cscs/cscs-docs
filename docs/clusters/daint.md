@@ -7,7 +7,7 @@ Daint is the main [HPC Platform][ref-platform-hpcp] cluster that provides comput
 
 ### Compute nodes
 
-Daint consists of around 800-1000 [Grace-Hopper nodes][ref-alps-gh200-node].
+Daint consists of [Grace-Hopper nodes][ref-alps-gh200-node].
 
 The number of nodes can vary as nodes are added or removed from other clusters on Alps.
 See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on how to check the number of nodes.
@@ -15,9 +15,9 @@ See the [Slurm documentation][ref-slurm-partitions-nodecount] for information on
 There are four login nodes, `daint-ln00[1-4]`.
 You will be assigned to one of the four login nodes when you ssh onto the system, from where you can edit files, compile applications and launch batch jobs.
 
-| node type | number of nodes | total CPU sockets | total GPUs |
-|-----------|-----------------| ----------------- | ---------- |
-| [gh200][ref-alps-gh200-node] | 1,022 | 4,088    | 4,088 |
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/nodes.md"
+<!--end no spell check-->
 
 ### Storage and file systems
 
@@ -113,15 +113,26 @@ There are four [Slurm partitions][ref-slurm-partitions] on the system:
 * the `xfer` partition is for [internal data transfer][ref-data-xfer-internal].
 * the `low` partition is a low-priority partition, which may be enabled for specific projects at specific times.
 
-| name | nodes  | max nodes per job | time limit |
-| --   | --     | --                | -- |
-| `normal` | unlimited  | -    | 24 hours |
-| `debug`  | 24         | 2    | 30 minutes |
-| `xfer`   | 2          | 1    | 24 hours |
-| `low`    | unlimited  | -    | 24 hours |
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/partitions.md"
+<!--end no spell check-->
+
+The `normal`, `debug` and `low` partitions draw on the same pool of nodes, so the node counts above overlap and do not sum to the size of the cluster.
 
 * nodes in the `normal` and `debug` (and `low`) partitions are not shared
+* jobs in `debug`: at most 1 running and 2 submitted per user
 * nodes in the `xfer` partition can be shared
+
+The hardware available in each partition, including the [Slurm features][ref-slurm-features] that can be selected with `--constraint`:
+
+<!--begin no spell check-->
+--8<-- "generated/clusters/daint/nodetypes.md"
+<!--end no spell check-->
+
+!!! note "Default MPI plugin"
+    The default [MPI plugin][ref-slurm-mpi] on Daint is `cray_shasta`.
+    This plugin is correct for applications that use Cray MPICH, for example applications in uenv.
+    Applications that use OpenMPI or MPICH must set `--mpi=pmix` or `--mpi=pmi2`.
 
 See the Slurm documentation for instructions on how to run jobs on the [Grace-Hopper nodes][ref-slurm-gh200].
 
@@ -141,7 +152,23 @@ Exceptional and non-disruptive updates may happen outside this time frame and wi
 
 ### Change log
 
-!!! change "2026-09-16"
+!!! change "2026-11-18"
+    !!! note "Slurm controller high availability"
+        The Slurm controller now runs in a high availability configuration, which improves the resilience of job submission and scheduling during service interruptions.
+
+    !!! note "Container Engine updated to v26.10.1"
+        - CE was updated from v26.08.1 to v26.10.1
+        - Default netstack comes with `libfabric-2.7.0` and `aws-ofi-nccl-plugin-1.2.11`
+
+    !!! note "Uenv updated to 10.2.1"
+        - `uenv` has been updated to 10.2.1
+        - Fixes an issue with file permissions on `ritom`
+
+    !!! note "System update"
+        - The kernel was updated to 6.4.0-150600.23.143 to solve CVEs
+        - The nvidia driver has been updated to 595.91.07
+
+??? change "2026-09-16"
     !!! note "New $SCRATCH directory"
         - `$SCRATCH` now points to `/ritom/scratch/cscs/<username>`
         - `$SCRATCH_OLD` points to `/capstor/scratch/cscs/<username>`

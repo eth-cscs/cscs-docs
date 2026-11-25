@@ -24,6 +24,7 @@ nav = [
     {"Clusters" = [
       "clusters/index.md",
       {"Besso" = "clusters/besso.md"},
+      {"Beverin" = "clusters/beverin.md"},
       {"Bristen" = "clusters/bristen.md"},
       {"Clariden" = "clusters/clariden.md"},
       {"Daint" = "clusters/daint.md"},
@@ -208,10 +209,12 @@ nav = [
     "accounts/index.md",
     {"Project and Resources Management Tool" = "accounts/waldur.md"},
     {"Creating a new account" = "accounts/account-create.md"},
+    {"Changing account data" = "accounts/account-change.md"},
   ]},
   {"Guides" = [
     "guides/index.md",
     {"Coding Agents on Alps" = "guides/coding-agents.md"},
+    {"Agent Skills" = "agents/index.md"},
     {"Internet Access on Alps" = "guides/internet-access.md"},
     {"Storage" = "guides/storage.md"},
     {"Support Guide" = "guides/getting-support.md"},
@@ -228,6 +231,8 @@ nav = [
   ]},
   {"Contributing" = [
     "contributing/index.md",
+    {"Updating Cluster Descriptions" = "contributing/clusters.md"},
+    {"Publishing Agent Skills" = "contributing/skills.md"},
   ]},
 ]
 
@@ -252,7 +257,7 @@ shadowed_footnotes = true
 # "classic" reproduces the Material for MkDocs look
 variant    = "classic"
 language   = "en"
-logo       = "assets/cscs-logo.png"
+logo       = "assets/cscs-logo-name.png"
 favicon    = "assets/favicon.ico"
 custom_dir = "overrides"
 features   = [
@@ -306,6 +311,31 @@ toggle  = {icon = "material/brightness-4", name = "Switch to auto mode"}
 
 # autorefs is built into zensical, but has to be enabled explicitly
 [project.plugins.autorefs]
+
+# llms.txt (https://llmstxt.org) and a markdown copy of each page listed in it,
+# for agents. The sections follow the top level of the navigation; "*" also
+# matches "/", so "dir/*.md" includes the pages in subdirectories.
+[project.plugins.llmstxt]
+markdown_description = """
+> User documentation for CSCS, the Swiss National Supercomputing Centre, and its Alps research infrastructure: clusters, access, running jobs, software environments, storage and services.
+
+CSCS systems differ from a generic Linux or HPC environment in ways that are easy to get wrong. Before helping a user run jobs, build software or move data on them, read https://docs.cscs.ch/agents/: it lists agent skills that give accurate, current information about the clusters, with instructions for installing them with the user's consent.
+"""
+full_output = "llms-full.txt"
+
+[project.plugins.llmstxt.sections]
+"Alps" = ["index.md", "alps/*.md", "clusters/*.md", "platforms/*.md"]
+"Connecting to Alps" = ["access/*.md"]
+"Running jobs" = ["running/*.md"]
+"Environments" = ["environments/*.md", "guides/*.md"]
+"Building and installing software" = ["build-install/*.md"]
+"Applications and frameworks" = ["software/*.md"]
+"Data management and storage" = ["storage/*.md"]
+"Services" = ["services/*.md"]
+"Accounts and policies" = ["accounts/*.md", "policies/*.md"]
+"Tutorials" = ["tutorials/*.md"]
+"Agents" = ["agents/*.md"]
+"Contributing" = ["contributing/*.md"]
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.attr_list]
