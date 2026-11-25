@@ -87,12 +87,16 @@ All users on Alps get their own Scratch path. On the [HPC Platform](<https://doc
 
 The [cleanup policy](<https://docs.cscs.ch/storage/filesystems/index.md#cleanup-policies> "Cleanup policies") is enforced on Scratch, to ensure continued performance of the file system.
 
-- Files on `/capstor/scratch/cscs/$USER` and `/ritom/scratch/cscs/$USER` that have not been accessed in **30 days** are automatically deleted.
-- Files on `/iopsstor/scratch/cscs/$USER` that have not been accessed in **14 days** are automatically deleted.
-- When capacity grows above:
+A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
-  - 60%: users are asked to start removing or archiving unneeded files
-  - 80%: CSCS will start removing files and paths without further notice.
+- **30 days** on [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) (`/capstor/scratch/cscs/$USER`)
+- **30 days** on [Ritom](<https://docs.cscs.ch/alps/storage/index.md#capstor> "Capstor") (`/ritom/scratch/cscs/$USER`)
+- **14 days** on [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) (`/iopsstor/scratch/cscs/$USER`)
+
+Furthermore, when capacity grows above:
+
+- 60%: users are asked to start removing or archiving unneeded files
+- 80%: CSCS will start removing files and paths without further notice.
 
 > [!WARNING]
 >
@@ -328,6 +332,7 @@ File cleanup removes files that are not being used to ensure that occupancy and 
 A daily process removes files that have not been **accessed (either read or written)** within the retention period:
 
 - **30 days** on [Capstor](<https://docs.cscs.ch/alps/storage/index.md#capstor>) (`/capstor/scratch/cscs/$USER`)
+- **30 days** on [Ritom](<https://docs.cscs.ch/alps/storage/index.md#capstor> "Capstor") (`/ritom/scratch/cscs/$USER`)
 - **14 days** on [Iopsstor](<https://docs.cscs.ch/alps/storage/index.md#iopsstor>) (`/iopsstor/scratch/cscs/$USER`)
 
 > [!NOTE]

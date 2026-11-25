@@ -6764,14 +6764,16 @@ See the <a class="autorefs autorefs-internal" title="File Systems and Storage" h
 </div>
 <h3 id="cleanup-and-expiration_1">Cleanup and expiration<a class="headerlink" href="#cleanup-and-expiration_1" title="Permanent link">&para;</a></h3>
 <p>The <a class="autorefs autorefs-internal" title="Cleanup policies" href="./#cleanup-policies">cleanup policy</a> is enforced on Scratch, to ensure continued performance of the file system.</p>
+<p>A daily process removes files that have not been <strong>accessed (either read or written)</strong> within the retention period:</p>
 <ul>
-<li>Files on <code>/capstor/scratch/cscs/$USER</code> and <code>/ritom/scratch/cscs/$USER</code> that have not been accessed in <strong>30 days</strong> are automatically deleted.</li>
-<li>Files on <code>/iopsstor/scratch/cscs/$USER</code> that have not been accessed in <strong>14 days</strong> are automatically deleted.</li>
-<li>When capacity grows above:<ul>
+<li><strong>30 days</strong> on <a class="autorefs autorefs-internal" href="../../alps/storage/#capstor">Capstor</a> (<code>/capstor/scratch/cscs/$USER</code>)</li>
+<li><strong>30 days</strong> on <a class="autorefs autorefs-internal" title="Capstor" href="../../alps/storage/#capstor">Ritom</a> (<code>/ritom/scratch/cscs/$USER</code>)</li>
+<li><strong>14 days</strong> on <a class="autorefs autorefs-internal" href="../../alps/storage/#iopsstor">Iopsstor</a> (<code>/iopsstor/scratch/cscs/$USER</code>)</li>
+</ul>
+<p>Furthermore, when capacity grows above:</p>
+<ul>
 <li>60%: users are asked to start removing or archiving unneeded files</li>
 <li>80%: CSCS will start removing files and paths without further notice.</li>
-</ul>
-</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Hidden directories are excluded from the cleaning policy</p>
@@ -6972,6 +6974,7 @@ Ideally occupancy should not exceed 60%, with severe performance degradation for
 <p>A daily process removes files that have not been <strong>accessed (either read or written)</strong> within the retention period:</p>
 <ul>
 <li><strong>30 days</strong> on <a class="autorefs autorefs-internal" href="../../alps/storage/#capstor">Capstor</a> (<code>/capstor/scratch/cscs/$USER</code>)</li>
+<li><strong>30 days</strong> on <a class="autorefs autorefs-internal" title="Capstor" href="../../alps/storage/#capstor">Ritom</a> (<code>/ritom/scratch/cscs/$USER</code>)</li>
 <li><strong>14 days</strong> on <a class="autorefs autorefs-internal" href="../../alps/storage/#iopsstor">Iopsstor</a> (<code>/iopsstor/scratch/cscs/$USER</code>)</li>
 </ul>
 <details class="example">
