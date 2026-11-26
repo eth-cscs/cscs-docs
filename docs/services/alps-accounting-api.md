@@ -20,12 +20,11 @@ Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal-sub
 
 1. Sign in at [developer.cscs.ch](https://developer.cscs.ch).
 
-1. On the [Developer Portal][ref-devportal] click on the tab "Applications" and "ADD NEW APPLICATION" to create a new [application][ref-devportal-application] (or reuse an existing one).
+1. On the [Developer Portal][ref-devportal] click on the tab "Applications" 
 ![FirecREST Main Page](../images/services/devportal-apis.png)
-![Create New App](../images/services/devportal-create-new-app.png)
 
-1. Generate the [production keys][ref-devportal-generate-keys] for the application.             
-![FirecREST production keys](../images/services/devportal-keys.png)
+1. Click on "ADD NEW APPLICATION" to create a new [application][ref-devportal-application] (or reuse an existing one).
+![Create New App](../images/services/devportal-create-new-app.png)
 
 1. Subscribe the application to the **Alps Accounting API** and choose the desired version.
 
@@ -36,29 +35,33 @@ Subscribe to the Alps Accounting API in the [Developer Portal][ref-devportal-sub
     (4.c) choose the [business plan][ref-devportal-api-info] and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
 ![Devportal subscriptions](../images/services/alps-accounting-api-subscriptions.png)
 
-The application now has a *Consumer Key* and a *Consumer Secret*, shown on the `Production Keys` page of the application in the Developer Portal.
-These are the credentials used to [request an access token][ref-alps-accounting-api-auth] for the API.
+1. Generate the [production keys][ref-devportal-generate-keys] for the application.             
+![FirecREST production keys](../images/services/devportal-keys.png)
+
+1. Click on the `Generate Keys` button at the bottom of the page to generate the production keys of your application:
+![FirecREST existing keys](../images/services/devportal-generate-keys.png)
+
 
 [](){#ref-alps-accounting-api-auth}
 ## Authentication
 
-The API uses the OAuth2 client credentials flow.
+Once the keys are generated, you will see the pair `Consumer Key` (also known as "client id") and `Consumer Secret` (also known as "client secret").
+
+![FirecREST keys](../images/services/devportal-keys-overview.png)
+
+!!! note
+    At the moment, only FIRECREST keys are available for the users
+
 Exchange the credentials of your application for a short-lived access token, then include the token in the `Authorization` header of every request.
 
-The Developer Portal and OAuth2 use different names for the two credentials.
-The examples on this page use the Developer Portal names:
+Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* and the *Consumer Secret* as base64 encoded credentials in the `Authorization` header:
 
-| Developer Portal  | OAuth2 name                       | Placeholder in the examples |
-|-------------------|-----------------------------------|-----------------------------|
-| *Consumer Key*    | client ID (`client_id`)           | `<CONSUMER_KEY>`            |
-| *Consumer Secret* | client secret (`client_secret`)   | `<CONSUMER_SECRET>`         |
-
-Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password of HTTP Basic authentication:
-
-```console title="request an access token"
-$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
-    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
-    --data "grant_type=client_credentials" | jq
+```bash title="request an access token"
+curl -k -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
+-d "grant_type=client_credentials" \
+-H "Authorization: Basic Base64(consumer-key:consumer-secret)" | jq
+```
+```console title="response"
 {
   "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
   "expires_in": 300,
@@ -71,12 +74,6 @@ $ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/o
 
 The `access_token` field of the response is the token.
 It is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
-
-```bash title="store the token in the ACCESS_TOKEN environment variable"
-ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
-    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
-    --data "grant_type=client_credentials" | jq -r .access_token)
-```
 
 Use the token in subsequent requests:
 
@@ -424,23 +421,6 @@ Each element contains:
 | `gid`             | int     | Group identifier. |
 | `aggregationPeriod`| string | Aggregation period, e.g. `daily` or `monthly`. |
 | `updated`         | string  | ISO 8601 timestamp of the last update. |
-
-## Known issues
-
-??? warning "`Token's public key not found.`"
-    The API returns the HTTP status `401` with this message when the access token was not issued by the `firecrest-clients` realm, for example when it was requested from `https://auth.cscs.ch/auth/realms/cscs/...`.
-
-    Request the token from the `firecrest-clients` realm, as shown in [Authentication][ref-alps-accounting-api-auth].
-
-??? warning "`Invalid method used to get client secret. Client requires method 'client_secret_basic' to obtain client secret from the request`"
-    The token request fails with the error `unauthorized_client` and this description when the *Consumer Key* and *Consumer Secret* are sent as `client_id` and `client_secret` fields in the body of the request.
-
-    Pass them using HTTP Basic authentication instead, with the `-u "<CONSUMER_KEY>:<CONSUMER_SECRET>"` option of `curl`, as shown in [Authentication][ref-alps-accounting-api-auth].
-
-??? warning "`Invalid client or Invalid client credentials`"
-    The token request fails with the error `invalid_client` and this description when the *Consumer Key* or *Consumer Secret* is wrong, or when the token is requested from a realm other than the one that the keys were generated for.
-
-    Check the values against the `Production Keys` page of the application in the Developer Portal, and request the token from the `firecrest-clients` realm.
 
 ## Further information
 
