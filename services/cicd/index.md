@@ -169,6 +169,9 @@ A typical error is accepting to defaults of GitHub for new webhooks, where only 
 
     This will trigger the pipeline PIPELINE\_NAME, and in your jobs there will be the environment variables MY\_VARIABLE and ANOTHER\_VAR available.
   - Disallowed characters for PIPELINE\_NAME, variable name and variable value are the characters `,;=` (comma, semicolon, equal), because they serve as separators of the different components.
+- Triggering by wildcard is also possible (e.g. `cscs-ci run *`). Every pipeline that matches the wildcard will be triggered.
+
+  - Please note that a pipeline is triggered only at most once, i.e. if you have two patterns matching the same pipeline name, only the first will be taken into account. One such example is `cscs-ci run *;MY_VAR=1,rocm*;MY_VAR=2`. The second pattern is more specific, however every pipeline would be already matched by the first pattern, hence every pipeline would see `MY_VAR=1`.
 
 #### API call triggering
 
