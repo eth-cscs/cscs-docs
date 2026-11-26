@@ -251,13 +251,321 @@ Thus, it comes with batteries included and does not just provide the bare [PyTor
 
 ### Versioning
 
+!!! change "2026-11-26"
+    `pytorch/v2.14.1:v1` was deployed on Clariden, Daint and Santis.
+
+    * The package set follows the [NGC PyTorch container](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/index.html) release 26.07: PyTorch 2.14.1, CUDA 13.3, cuDNN 9.24, NCCL 2.30.7, NVSHMEM 3.6.5, Triton 3.8, TransformerEngine 2.17, `flash-attn` 2.8.3 and the Hugging Face libraries (`transformers`, `datasets`, `tokenizers`), built for the GH200 nodes.
+    * The view is now called `torch` instead of `default`.
+    * The `torch` view [sets the NCCL, libfabric and NVSHMEM environment variables][ref-uenv-pytorch-env] required on Alps, which no longer need to be set in job scripts.
+    * The `readme` command prints usage notes for the image.
+    * No longer provided: `torchaudio` (there is no release for PyTorch 2.14), `mpi4py`, UCX and UCC (which are not used by the stack, and do not support Slingshot).
+    * Not provided: `numba` and `wandb` (install them in a [virtual environment][ref-uenv-pytorch-venv]), and TensorRT, `torch-tensorrt` and DALI, which NVIDIA only distribute as binaries.
+
+    ??? info "CUDA 13.3 and the NVIDIA driver on Alps"
+        The uenv provides CUDA 13.3, while the driver on Alps supports CUDA 13.2.
+        This works through the minor-version compatibility of CUDA: the kernels in the uenv are compiled ahead of time for the GH200 GPUs (`sm_90a`), and Triton and `torch.compile` generate code using the `ptxas` in the uenv.
+
 The PyTorch uenv is versioned according to the PyTorch version it provides.
 
 | version   | node types | system                  |
 |-----------|------------|-------------------------|
+| v2.14.1   | gh200      | clariden, daint, santis |
 | v2.9.1    | gh200      | clariden, daint, santis |
 | v2.8.0    | gh200      | clariden, daint, santis |
 | v2.6.0    | gh200      | clariden, daint         |
+
+=== "v2.14.1"
+
+    ??? info "non-Python packages exposed via the `torch` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `abseil-cpp` | `20260107.1` |
+        | `arrow` | `24.0.0` |
+        | `aws-ofi-nccl` | `1.20.0` |
+        | `berkeley-db` | `18.1.40` |
+        | `boost` | `1.90.0` |
+        | `brotli` | `1.2.0` |
+        | `bzip2` | `1.0.8` |
+        | `cairo` | `1.18.4` |
+        | `c-ares` | `1.28.1` |
+        | `c-blosc` | `1.21.6` |
+        | `check` | `0.15.2` |
+        | `cmake` | `3.31.12` |
+        | `cpuinfo` | `2026-04-13` |
+        | `cray-gtl` | `9.1.0` |
+        | `cray-mpich` | `9.1.0` |
+        | `cray-pals` | `1.3.2` |
+        | `cray-pmi` | `6.1.18` |
+        | `cublasmp` | `0.9.1.3056` |
+        | `cuda` | `13.3.1` |
+        | `cudnn` | `9.24.0.43-13` |
+        | `curl` | `8.23.0` |
+        | `cusparselt` | `0.9.1-13` |
+        | `cutensor` | `2.0.1.2` |
+        | `cutlass` | `4.1.0` |
+        | `dynolog` | `0.5.0` |
+        | `eigen` | `5.0.1` |
+        | `expat` | `2.9.0` |
+        | `faiss` | `1.14.1` |
+        | `fftw` | `3.3.11` |
+        | `flatbuffers` | `25.9.23` |
+        | `fmt` | `12.2.0` |
+        | `fontconfig` | `2.18.3` |
+        | `font-util` | `1.4.1` |
+        | `fp16` | `2020-05-14` |
+        | `freetype` | `2.15.0` |
+        | `fribidi` | `1.0.12` |
+        | `fxdiv` | `2020-04-17` |
+        | `gcc` | `14.2.0` |
+        | `gcc-runtime` | `14.2.0` |
+        | `gdbm` | `1.26` |
+        | `gdrcopy` | `2.5.1` |
+        | `gettext` | `1.0` |
+        | `git` | `2.55.0` |
+        | `gmake` | `4.4.1` |
+        | `gmp` | `6.3.0` |
+        | `gperftools` | `2.15` |
+        | `gsl` | `2.8` |
+        | `harfbuzz` | `11.5.1` |
+        | `hdf5` | `1.14.6` |
+        | `hwloc` | `2.13.0` |
+        | `hydra` | `4.2.1` |
+        | `icu4c` | `76.1` |
+        | `json-c` | `0.19` |
+        | `krb5` | `1.22.2` |
+        | `less` | `710` |
+        | `libaec` | `1.1.7` |
+        | `libaio` | `0.3.113` |
+        | `libbsd` | `0.12.2` |
+        | `libedit` | `3.1-20260512` |
+        | `libfabric` | `2.6.0` |
+        | `libffi` | `3.8.0` |
+        | `libgit2` | `1.9.7` |
+        | `libiconv` | `1.18` |
+        | `libidn2` | `2.3.8` |
+        | `libjpeg-turbo` | `3.1.3` |
+        | `libmd` | `1.1.0` |
+        | `libnl` | `3.3.0` |
+        | `libpciaccess` | `0.17` |
+        | `libpng` | `1.6.58` |
+        | `libpthread-stubs` | `0.5` |
+        | `libraqm` | `0.10.5` |
+        | `libssh2` | `1.11.1` |
+        | `libtree` | `3.1.1` |
+        | `libunistring` | `1.4.2` |
+        | `libunwind` | `1.8.3` |
+        | `liburing` | `2.12` |
+        | `libxau` | `1.0.12` |
+        | `libxcb` | `1.17.0` |
+        | `libxcrypt` | `4.5.2` |
+        | `libxdmcp` | `1.1.5` |
+        | `libxml2` | `2.15.3` |
+        | `libyaml` | `0.2.5` |
+        | `lua` | `5.4.8` |
+        | `lz4` | `1.10.0` |
+        | `lzo` | `2.10` |
+        | `magma` | `2.10.0` |
+        | `meson` | `1.12.0` |
+        | `mpc` | `1.4.1` |
+        | `mpfr` | `4.2.2` |
+        | `nccl` | `2.30.7-1` |
+        | `nccl-tests` | `2.18.2` |
+        | `ncurses` | `6.6` |
+        | `netcdf-c` | `4.10.0` |
+        | `netcdf-cxx` | `4.2` |
+        | `netcdf-fortran` | `4.6.4` |
+        | `nghttp2` | `1.71.0` |
+        | `ninja` | `1.13.2` |
+        | `numactl` | `2.0.19` |
+        | `nvidia-mathdx` | `25.06.1-cuda13` |
+        | `nvshmem` | `3.6.5-0` |
+        | `nvtx` | `3.5.0` |
+        | `openblas` | `0.3.34` |
+        | `openssh` | `10.3p1` |
+        | `openssl` | `3.6.5` |
+        | `osu-micro-benchmarks` | `7.5.2` |
+        | `papi` | `7.2.0` |
+        | `pcre2` | `10.47` |
+        | `pcre` | `8.45` |
+        | `perl` | `5.44.0` |
+        | `pigz` | `2.8` |
+        | `pixman` | `0.46.4` |
+        | `pkgconf` | `3.0.10` |
+        | `prometheus-cpp` | `1.3.0` |
+        | `protobuf` | `33.1` |
+        | `psimd` | `2020-05-17` |
+        | `pthreadpool` | `2026-05-01` |
+        | `python` | `3.12.15` |
+        | `python-venv` | `1.0` |
+        | `qhull` | `2020.2` |
+        | `rapidjson` | `1.2.0-2024-08-16` |
+        | `rdma-core-mock` | `60.1` |
+        | `re2` | `2025-11-05` |
+        | `readline` | `8.3` |
+        | `rust` | `1.97.1` |
+        | `sentencepiece` | `0.2.1` |
+        | `sleef` | `3.8` |
+        | `snappy` | `1.2.1` |
+        | `sqlite` | `3.54.1` |
+        | `swig` | `4.5.1` |
+        | `tar` | `1.35` |
+        | `thrift` | `0.22.0` |
+        | `unzip` | `6.0` |
+        | `utf8proc` | `2.10.0` |
+        | `util-linux-uuid` | `2.41` |
+        | `valgrind` | `3.27.1` |
+        | `xcb-util` | `0.4.1` |
+        | `xcb-util-cursor` | `0.1.6` |
+        | `xcb-util-image` | `0.4.1` |
+        | `xcb-util-renderutil` | `0.3.10` |
+        | `xproto` | `7.0.31` |
+        | `xsimd` | `14.3.0` |
+        | `xxhash` | `0.8.3` |
+        | `xz` | `5.8.3` |
+        | `zlib` | `1.3.2` |
+        | `zlib-ng` | `2.3.3` |
+        | `zstd` | `1.5.7` |
+
+    ??? info "Python packages exposed via the `torch` view"
+
+        | Package             | Version          |
+        |---------------------|------------------|
+        | `absl-py` | `2.5.0` |
+        | `aiohappyeyeballs` | `2.6.1` |
+        | `aiohttp` | `3.14.5` |
+        | `aiosignal` | `1.4.0` |
+        | `aniso8601` | `10.0.1` |
+        | `annotated-types` | `0.7.0` |
+        | `anyio` | `4.15.1` |
+        | `apex` | `0.1` |
+        | `attrs` | `26.1.0` |
+        | `blinker` | `1.9.0` |
+        | `certifi` | `2026.10.19` |
+        | `charset-normalizer` | `3.3.0` |
+        | `click` | `8.5.0` |
+        | `contourpy` | `1.3.3` |
+        | `cuda-bindings` | `13.3.1` |
+        | `cuda-core` | `1.0.1` |
+        | `cuda-pathfinder` | `1.6.0` |
+        | `cuda-python` | `13.3.1` |
+        | `cycler` | `0.12.1` |
+        | `Cython` | `3.2.4` |
+        | `datasets` | `5.0.0` |
+        | `defusedxml` | `0.7.1` |
+        | `dill` | `0.4.1` |
+        | `docstring_parser` | `0.17.0` |
+        | `einops` | `0.8.2` |
+        | `faiss` | `1.14.1` |
+        | `filelock` | `4.2.4` |
+        | `flash_attn` | `2.8.3` |
+        | `Flask-RESTful` | `0.3.10` |
+        | `Flask` | `3.1.2` |
+        | `flit_core` | `3.12.0` |
+        | `fonttools` | `4.39.4` |
+        | `frozenlist` | `1.8.0` |
+        | `fsspec` | `2026.4.0` |
+        | `grpcio-tools` | `1.81.1` |
+        | `grpcio` | `1.81.1` |
+        | `h11` | `0.16.0` |
+        | `hatch-vcs` | `0.5.0` |
+        | `hatchling` | `1.33.0` |
+        | `hf-xet` | `1.6.0` |
+        | `httpcore` | `1.0.9` |
+        | `httpx` | `0.28.1` |
+        | `huggingface_hub` | `0.34.3` |
+        | `idna` | `3.15` |
+        | `importlib_metadata` | `9.0.0` |
+        | `iniconfig` | `2.1.0` |
+        | `itsdangerous` | `2.2.0` |
+        | `Jinja2` | `3.1.6` |
+        | `kiwisolver` | `1.5.0` |
+        | `markdown-it-py` | `4.2.0` |
+        | `Markdown` | `3.10.2` |
+        | `MarkupSafe` | `3.0.3` |
+        | `matplotlib` | `3.11.2` |
+        | `mdurl` | `0.1.2` |
+        | `meson` | `1.12.0` |
+        | `ml_dtypes` | `0.6.0` |
+        | `mpmath` | `1.3.0` |
+        | `multidict` | `7.1.0` |
+        | `multiprocess` | `0.70.19` |
+        | `nanobind` | `3.1.0` |
+        | `networkx` | `3.6.1` |
+        | `numpy` | `2.5.4` |
+        | `nvdlfw_inspect` | `0.2.2` |
+        | `nvidia-ml-py` | `13.590.48` |
+        | `nvidia-modelopt` | `0.44.0` |
+        | `nvidia-resiliency-ext` | `0.6.0` |
+        | `nvtx` | `0.2.15` |
+        | `omegaconf` | `2.4.0` |
+        | `onnx-ir` | `0.1.12` |
+        | `onnx` | `1.20.0` |
+        | `onnxscript` | `0.5.6` |
+        | `optree` | `0.10.0` |
+        | `packaging` | `26.3` |
+        | `pandas` | `3.1.0` |
+        | `pathspec` | `1.1.1` |
+        | `pillow` | `13.0.0` |
+        | `pip` | `26.2.2` |
+        | `pluggy` | `1.6.0` |
+        | `poetry-core` | `2.3.2` |
+        | `propcache` | `0.5.2` |
+        | `protobuf` | `6.33.1` |
+        | `psutil` | `7.2.2` |
+        | `PuLP` | `3.3.1` |
+        | `pyarrow` | `24.0.0` |
+        | `pybind11` | `3.1.0` |
+        | `pydantic` | `2.13.4` |
+        | `pydantic_core` | `2.46.4` |
+        | `Pygments` | `2.20.0` |
+        | `pyparsing` | `3.3.2` |
+        | `pytest` | `9.1.1` |
+        | `python-dateutil` | `2.9.0.post0` |
+        | `python-hostlist` | `1.23.0` |
+        | `pytz` | `2025.2` |
+        | `PyYAML` | `6.0.3` |
+        | `regex` | `2025.11.3` |
+        | `requests` | `2.34.2` |
+        | `rfc3986` | `1.4.0` |
+        | `rich` | `15.0.0` |
+        | `safetensors` | `0.8.0` |
+        | `scikit_build_core` | `1.0.3` |
+        | `scipy` | `1.18.1` |
+        | `sentencepiece` | `0.2.1` |
+        | `setuptools-scm` | `10.3.4` |
+        | `setuptools` | `83.0.0` |
+        | `six` | `1.17.0` |
+        | `sympy` | `1.14.0` |
+        | `tabulate` | `0.10.0` |
+        | `tensorboard` | `2.21.0` |
+        | `tensorboard_data_server` | `0.7.0` |
+        | `tiktoken` | `0.12.0` |
+        | `tokenizers` | `0.22.2` |
+        | `tomli` | `2.4.1` |
+        | `tomlkit` | `0.14.0` |
+        | `torch` | `2.14.1` |
+        | `torchao` | `0.18.0` |
+        | `torchdata` | `0.11.0` |
+        | `torchtitan` | `0.2.2` |
+        | `torchvision` | `0.29.1` |
+        | `tqdm` | `4.67.3` |
+        | `transformer_engine` | `2.17.0+2e559f0` |
+        | `transformers` | `4.57.0` |
+        | `triton` | `3.8.0` |
+        | `triton_kernels` | `1.0.0` |
+        | `trove-classifiers` | `2026.6.1.19` |
+        | `typeguard` | `4.6.0` |
+        | `typing-inspection` | `0.4.2` |
+        | `typing_extensions` | `4.16.0` |
+        | `tyro` | `1.0.15` |
+        | `urllib3` | `2.8.0` |
+        | `vcs-versioning` | `2.5.0` |
+        | `Werkzeug` | `3.1.3` |
+        | `wheel` | `0.47.0` |
+        | `xxhash` | `3.6.0` |
+        | `yarl` | `1.25.1` |
+        | `zipp` | `3.23.1` |
 
 === "v2.9.1"
 
@@ -984,38 +1292,118 @@ The PyTorch uenv is versioned according to the PyTorch version it provides.
 
 There are two ways to access the software provided by the uenv, once it has been started.
 
-=== "the default view"
+=== "the `torch` view"
 
-    The simplest way to get started is to use the `default` file system view, which automatically loads all of the packages when the uenv is started.
+    The simplest way to get started is to use the `torch` file system view, which automatically loads all of the packages when the uenv is started, and [configures the environment][ref-uenv-pytorch-env] for the Alps network.
 
-    ```console title="Test mpi compilers and python provided by pytorch/v2.8.0"
-    $ uenv start pytorch/v2.8.0:v1 --view=default # (1)!
+    ```console title="Test python, torch and the MPI compilers provided by pytorch/v2.14.1"
+    $ uenv start pytorch/v2.14.1:v1 --view=torch # (1)!
 
     $ which python # (2)!
-    /user-environment/env/default/bin/python
+    /user-environment/env/torch/bin/python
     $ python --version
-    Python 3.13.0
+    Python 3.12.15
+    $ python -c 'import torch; print(torch.__version__)'
+    2.14.1
 
     $ which mpicc # (3)!
-    /user-environment/env/default/bin/mpicc
+    /user-environment/env/torch/bin/mpicc
     $ mpicc --version
-    gcc (Spack GCC) 13.3.0
+    gcc (Spack GCC) 14.2.0
     $ gcc --version # the compiler wrapper uses the gcc provided by the uenv
-    gcc (Spack GCC) 13.3.0
+    gcc (Spack GCC) 14.2.0
 
-    $ exit # (4)!
+    $ readme # (4)!
+
+    $ exit # (5)!
     ```
 
-    1. Start using the default view.
-    2. The python executable provided by the uenv is the default, and is a recent version.
-    3. The MPI compiler wrappers are also available.
-    4. Exit the uenv.
+    1. Start using the `torch` view.
+    2. The python executable provided by the uenv is the default.
+    3. The MPI compiler wrappers are also available, along with `nvcc`, `cmake` and `ninja`.
+    4. Print the usage notes that are shipped with the image.
+    5. Exit the uenv.
+
+    !!! note "The view was called `default` in v2.9.1 and earlier"
+        Use `--view=default` with `pytorch/v2.9.1` and older versions.
+        The `default` view of those versions does not set the NCCL and libfabric environment variables: they have to be set in the job script, as shown [below][ref-uenv-pytorch-slurm].
 
 === "Spack"
 
     The pytorch uenv can also be used as a base for building software with Spack, because it provides compilers, MPI, Python and common packages like HDF5.
 
     [Check out the guide for using Spack with uenv][ref-build-uenv-spack].
+
+!!! tip "The `readme` command"
+    From v2.14.1 the image ships its own usage notes, which describe the exact image that is running: launching jobs, adding packages, Megatron-LM settings and the environment set by the view.
+    Run `readme` in the `torch` view to read them.
+
+[](){#ref-uenv-pytorch-env}
+### Environment set by the `torch` view
+
+!!! info "This section applies to v2.14.1"
+    For v2.9.1 and earlier, set the variables in the job script, as shown in the [Slurm template][ref-uenv-pytorch-slurm].
+
+The `torch` view sets the environment variables that are required for correctness and performance on Alps, so that they do not need to be set in job scripts.
+The values follow those used by the [Alps Extended Images][ref-software-extended-images].
+
+| variables | purpose |
+|-----------|---------|
+| `NCCL_NET="AWS Libfabric"`, `NCCL_*` | make [NCCL][ref-communication-nccl] use the Slingshot network through the `aws-ofi-nccl` plugin |
+| `FI_PROVIDER=cxi`, `FI_CXI_*`, `FI_MR_CACHE_*` | [libfabric][ref-communication-libfabric] settings for Slingshot |
+| `NVSHMEM_REMOTE_TRANSPORT=libfabric`, `NVSHMEM_LIBFABRIC_PROVIDER=cxi`, `NVSHMEM_DISABLE_CUDA_VMM=1` | make [NVSHMEM][ref-communication-nvshmem] use libfabric |
+| `SLURM_NETWORK=disable_rdzv_get` | Slingshot option required by NCCL jobs, see the warning below |
+| `NCCL_GRAPH_REGISTER=0` | required by NCCL collectives across nodes inside CUDA graphs |
+| `TRITON_CACHE_DIR`, `TORCHINDUCTOR_CACHE_DIR` | put the JIT caches in node-local `/tmp/$USER` |
+| `CUDA_CACHE_DISABLE=1` | avoid writing JITed binaries to the (distributed) file system |
+| `CUDA_HOME`, `PYTHONUSERBASE` | point to the view, so that `nvcc` is found for JIT and extension builds, and the packages in the uenv are visible in [virtual environments][ref-uenv-pytorch-venv] |
+
+To see the full list, with values, start the uenv and inspect the environment:
+
+```console title="List the NCCL, libfabric and NVSHMEM settings of the view"
+$ uenv run --view=torch pytorch/v2.14.1:v1 -- bash -c 'env | grep -E "^(NCCL|FI|NVSHMEM|SLURM_NETWORK)" | sort'
+```
+
+!!! warning "Use `--network=disable_rdzv_get` when calling `srun` from outside the uenv"
+    PyTorch and NCCL jobs on Alps must run with the Slingshot option `disable_rdzv_get`.
+    Because the view sets `SLURM_NETWORK=disable_rdzv_get`, every `srun` that is started inside the view uses it: in batch scripts that set `#SBATCH --uenv` and `#SBATCH --view`, and in `uenv start` sessions.
+
+    An `srun` that is launched from outside the uenv starts before the view is loaded, so the flag has to be passed explicitly:
+
+    ```bash title="srun from a shell where the uenv is not loaded"
+    srun --network=disable_rdzv_get --uenv=pytorch/v2.14.1:v1 --view=torch python train.py
+    ```
+
+    Without the option, the bandwidth of a 4 node NCCL all-reduce drops from 93 GB/s to 74 GB/s.
+
+!!! warning "Do not move the JIT caches to a shared file system"
+    When the Triton and TorchInductor caches are on a shared file system, concurrent writers on multiple nodes fail with `[Errno 116] Stale file handle`.
+
+??? info "`NCCL_CROSS_NIC` and `NCCL_PXN_DISABLE` on small jobs"
+    The view sets `NCCL_CROSS_NIC=0` and `NCCL_PXN_DISABLE=1`, which are the best choice for large runs.
+    With a small number of nodes they halve the NCCL bandwidth for mid-size messages, as shown by the following bus bandwidth measurements on 2 nodes:
+
+    | setting | all-reduce 1 MiB | all-gather 1 MiB | all-reduce 1 GiB |
+    |---------|------------------|------------------|------------------|
+    | view defaults | 6.7 GB/s | 5.0 GB/s | 154 GB/s |
+    | `NCCL_CROSS_NIC=1 NCCL_PXN_DISABLE=0` | 15.7 GB/s | 11.3 GB/s | 150 GB/s |
+
+    For small jobs that are dominated by mid-size collectives, try overriding the defaults, and measure the effect with your own workload:
+
+    ```bash title="Override the view defaults in a job script"
+    export NCCL_CROSS_NIC=1 NCCL_PXN_DISABLE=0
+    ```
+
+??? info "Benchmarks provided by the uenv"
+    The uenv provides benchmarks that can be used to check the communication performance of a job configuration:
+
+    * the [nccl-tests](https://github.com/NVIDIA/nccl-tests) (`all_reduce_perf`, `all_gather_perf`, `reduce_scatter_perf`, `alltoall_perf`, ...) are in `PATH`;
+    * the OSU micro-benchmarks are in `$CUDA_HOME/libexec/osu-micro-benchmarks`;
+    * the NVSHMEM performance tests are in `$CUDA_HOME/bin/perftest`.
+
+    ```bash title="NCCL all-reduce benchmark on 2 nodes, run inside the uenv"
+    srun -N2 --ntasks-per-node=4 --gpus-per-node=4 all_reduce_perf -b 8 -e 4G -f 2 -g 1
+    ```
 
 [](){#ref-uenv-pytorch-venv}
 ### Adding Python packages on top of the uenv
@@ -1027,77 +1415,217 @@ Please refer to the [guide for installing Python virtual environments on uenv][r
 - best practices and caveats when using virtual environments with uenvs;
 - and, troubleshooting common issues.
 
-### Running PyTorch jobs with Slurm
+The `torch` view of v2.14.1 already sets `PYTHONUSERBASE` and clears `PYTHONPATH` as recommended by the guide, so a virtual environment only needs the `--system-site-packages` option to use the PyTorch, TransformerEngine and other packages provided by the uenv:
 
-```bash title="Slurm sbatch script"
-#!/bin/bash
-#SBATCH --account=<ACCOUNT>
-#SBATCH --job-name=dist-train-ddp
-#SBATCH --time=01:00:00
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=4
-#SBATCH --output=logs/slurm-%x-%j.log
-# (1)!
-#SBATCH --uenv=pytorch/v2.8.0:/user-environment
-#SBATCH --view=default
-
-set -x
-
-ulimit -c 0 # (2)!
-
-#################################
-# OpenMP environment variables #
-#################################
-export OMP_NUM_THREADS=8 # (3)!
-
-#################################
-# PyTorch environment variables #
-#################################
-export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
-export TRITON_HOME=/dev/shm/ # (5)!
-
-#################################
-# MPICH environment variables   #
-#################################
-export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
-
-#################################
-# CUDA environment variables    #
-#################################
-export CUDA_CACHE_DISABLE=1 # (7)!
-
-############################################
-# NCCL and Fabric environment variables    #
-############################################
-# (8)!
---8<-- "docs/software/communication/nccl_env_vars"
-
-# (9)!
-# (10)!
-srun -ul bash -c "
-    . ./venv-uenv-pt2.8-v1/bin/activate
-
---8<-- "docs/software/ml/torch_distributed_env_vars"
-    python dist-train.py <dist-train-args>
-"
+```console title="Create a virtual environment on top of pytorch/v2.14.1"
+$ uenv start pytorch/v2.14.1:v1 --view=torch
+$ python -m venv --system-site-packages $SCRATCH/venvs/my-project
+$ source $SCRATCH/venvs/my-project/bin/activate
+(my-project) $ pip install wandb numba
 ```
 
-1. The `--uenv` option is used to specify the uenv to use for the job.
-   The `--view=default` option is used to load all the packages provided by the uenv.
-2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
-3. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
-   The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
-   The optimal number depends on the workload and should be determined by testing.
-   Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
-4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
-5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
-   This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it. Avoid this setting with the container engine as it may lead to errors related to mount settings of `/dev/shm` (use a filesystem path inside the container instead).
-6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
-7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
-8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation][ref-communication-nccl].
-9. Activate the virtual environment created on top of the uenv (if any).
-   Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times. 
-10. The environment variables are used by PyTorch to initialize the distributed backend.
-   The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node.
-   Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.
+Packages with CUDA extensions have to be built against the PyTorch in the uenv, which requires disabling build isolation:
 
+```console title="Build CUDA extensions against the torch provided by the uenv"
+(my-project) $ pip install --no-build-isolation mamba-ssm causal-conv1d
+```
+
+The view provides the usual build backends (`setuptools`, `wheel`, `setuptools-scm`, `hatchling`, `poetry-core`, `scikit-build-core` and `flit-core`), along with `pybind11`, `cmake`, `ninja`, `nvcc` and GCC 14.
+
+!!! warning "Do not disable the user site directory"
+    The Python packages in the uenv are found through the user site directory, also inside a virtual environment.
+    Do not use `python -I` or set `PYTHONNOUSERSITE`, which hide the packages provided by the uenv.
+
+[](){#ref-uenv-pytorch-slurm}
+### Running PyTorch jobs with Slurm
+
+=== "v2.14.1"
+
+    The `torch` view [sets the NCCL, libfabric and cache variables][ref-uenv-pytorch-env], so the job script only has to describe the job.
+
+    ```bash title="Slurm sbatch script"
+    #!/bin/bash
+    #SBATCH --account=<ACCOUNT>
+    #SBATCH --job-name=dist-train-ddp
+    #SBATCH --time=01:00:00
+    #SBATCH --nodes=2
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --gpus-per-node=4
+    #SBATCH --output=logs/slurm-%x-%j.log
+    # (1)!
+    #SBATCH --uenv=pytorch/v2.14.1:v1
+    #SBATCH --view=torch
+
+    set -x
+
+    ulimit -c 0 # (2)!
+
+    export OMP_NUM_THREADS=8 # (3)!
+    export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
+    export MPICH_GPU_SUPPORT_ENABLED=0 # (5)!
+
+    # (6)!
+    # (7)!
+    srun -ul bash -c "
+        . ./venv-uenv-pt2.14-v1/bin/activate
+
+    --8<-- "docs/software/ml/torch_distributed_env_vars"
+        python dist-train.py <dist-train-args>
+    "
+    ```
+
+    1. The `--uenv` option is used to specify the uenv to use for the job.
+       The `--view=torch` option loads all the packages provided by the uenv, and sets the environment variables for NCCL and libfabric.
+       Request all GPUs on each node with `--gpus-per-node=4`, instead of `--gpus-per-task=1`, so that every task can see the GPUs of its peers on the node, which NCCL requires.
+    2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
+    3. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+       The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
+       The optimal number depends on the workload and should be determined by testing.
+       Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
+    4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
+    5. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
+    6. Activate the virtual environment created on top of the uenv (if any).
+       Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times.
+    7. The environment variables are used by PyTorch to initialize the distributed backend.
+       The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node.
+       Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.
+
+    In the training script, select the GPU of each rank using `LOCAL_RANK` before initializing the process group:
+
+    ```python title="Select the GPU of the rank in dist-train.py"
+    import os
+    import torch
+
+    local_rank = int(os.environ["LOCAL_RANK"])
+    torch.cuda.set_device(local_rank)
+    torch.distributed.init_process_group("nccl", device_id=torch.device("cuda", local_rank))
+    ```
+
+=== "v2.9.1 and earlier"
+
+    The `default` view of the older versions does not configure NCCL and libfabric, so the variables are set in the job script.
+
+    ```bash title="Slurm sbatch script"
+    #!/bin/bash
+    #SBATCH --account=<ACCOUNT>
+    #SBATCH --job-name=dist-train-ddp
+    #SBATCH --time=01:00:00
+    #SBATCH --nodes=2
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --output=logs/slurm-%x-%j.log
+    # (1)!
+    #SBATCH --uenv=pytorch/v2.9.1:/user-environment
+    #SBATCH --view=default
+
+    set -x
+
+    ulimit -c 0 # (2)!
+
+    #################################
+    # OpenMP environment variables #
+    #################################
+    export OMP_NUM_THREADS=8 # (3)!
+
+    #################################
+    # PyTorch environment variables #
+    #################################
+    export TORCH_NCCL_ASYNC_ERROR_HANDLING=1 # (4)!
+    export TRITON_HOME=/dev/shm/ # (5)!
+
+    #################################
+    # MPICH environment variables   #
+    #################################
+    export MPICH_GPU_SUPPORT_ENABLED=0 # (6)!
+
+    #################################
+    # CUDA environment variables    #
+    #################################
+    export CUDA_CACHE_DISABLE=1 # (7)!
+
+    ############################################
+    # NCCL and Fabric environment variables    #
+    ############################################
+    # (8)!
+    --8<-- "docs/software/communication/nccl_env_vars"
+
+    # (9)!
+    # (10)!
+    srun -ul bash -c "
+        . ./venv-uenv-pt2.9-v1/bin/activate
+
+    --8<-- "docs/software/ml/torch_distributed_env_vars"
+        python dist-train.py <dist-train-args>
+    "
+    ```
+
+    1. The `--uenv` option is used to specify the uenv to use for the job.
+       The `--view=default` option is used to load all the packages provided by the uenv.
+    2. In case the application crashes, it may leave behind large core dump files that contain an image of the process memory at the time of the crash. While these can be useful for debugging the reason of a specific crash (by e.g. loading them with `cuda-gdb` and looking at the stack trace with `bt`), they may accumulate over time and occupy a large space on the filesystem. For this reason, it is recommended to disable their creation (unless needed) by adding this line.
+    3. Set `OMP_NUM_THREADS` if you are using OpenMP in your code.
+       The number of threads should be not greater than the number of cores per task (`$SLURM_CPUS_PER_TASK`).
+       The optimal number depends on the workload and should be determined by testing.
+       Consider for example that typical workloads using PyTorch may fork the processes, so the number of threads should be around the number of cores per task divided by the number of processes.
+    4. Enable more graceful exception handling, see [PyTorch documentation](https://pytorch.org/docs/stable/torch_nccl_environment_variables.html)
+    5. Set the Triton home to a local path (e.g. `/dev/shm`) to avoid writing to the (distributed) file system.
+       This is important for performance, as writing to the Lustre file system can be slow due to the amount of small files and potentially many processes accessing it. Avoid this setting with the container engine as it may lead to errors related to mount settings of `/dev/shm` (use a filesystem path inside the container instead).
+    6. Disable GPU support in MPICH, as it [can lead to deadlocks](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/mpi.html#inter-gpu-communication-with-cuda-aware-mpi) when using together with nccl.
+    7. Avoid writing JITed binaries to the (distributed) file system, which could lead to performance issues.
+    8. These variables should always be set for correctness and optimal performance when using NCCL with uenv, see [the detailed explanation][ref-communication-nccl].
+    9. Activate the virtual environment created on top of the uenv (if any).
+       Please follow the guidelines for [python virtual environments with uenv][ref-guides-storage-venv] to enhance scalability and reduce load times.
+    10. The environment variables are used by PyTorch to initialize the distributed backend.
+       The `MASTER_ADDR`, `MASTER_PORT` variables are used to determine the address and port of the master node.
+       Additionally we also need `RANK` and `LOCAL_RANK` and `WORLD_SIZE` to identify the position of each rank within the Slurm step and node, respectively.
+
+[](){#ref-uenv-pytorch-megatron}
+### Megatron-LM
+
+!!! info "This section applies to v2.14.1"
+
+Megatron-LM is not part of the image, which provides its dependencies, including TransformerEngine, `flash-attn`, apex, `sentencepiece`, `tiktoken` and `flask-restful`.
+Clone your fork, and build its C++ dataset helpers once, inside the uenv:
+
+```bash title="Set up Megatron-LM in the torch view"
+git clone https://github.com/swiss-ai/Megatron-LM.git && cd Megatron-LM
+python setup.py build_ext --inplace
+export MEGATRON_LM_DIR=$PWD PYTHONPATH=$PWD:$PYTHONPATH
+```
+
+The following environment is recommended for Megatron-LM runs:
+
+```bash title="Recommended environment for Megatron-LM"
+export CUDA_DEVICE_MAX_CONNECTIONS=1
+export UB_SKIPMC=1 # (1)!
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True # (2)!
+```
+
+1. Required by `--tp-comm-overlap`, because the GH200 nodes do not have NVLink multicast.
+2. Saves about 8 GiB of GPU memory per node.
+
+The throughput of training with the 8B Apertus model shape (sequence length 8192, tensor parallelism 2) was measured on 4 nodes, where each row adds options to the row above:
+
+| options | TFLOP/s per GPU |
+|---------|-----------------|
+| `bf16`, default settings | 358 |
+| `--fp8-format hybrid --fp8-recipe delayed --fp8-amax-history-len 1024 --fp8-amax-compute-algo max` | 441 |
+| `--fp8-param-gather --micro-batch-size 2` | 453 |
+| `--sequence-parallel --tp-comm-overlap --tp-comm-bootstrap-backend nccl` | 456-471 |
+
+Keep the default attention backend, which uses cuDNN fused attention: `--attention-backend flash` is about 7% slower.
+See also the notes on [optimizing large-scale training jobs][ref-ce-pytorch] in the Container Engine section, which apply to the uenv too.
+
+??? warning "Patches for the `swiss-ai` fork of Megatron-LM"
+    The `multimodality/main` branch of the [swiss-ai fork](https://github.com/swiss-ai/Megatron-LM) (commit `c3d83c5`) has two bugs:
+
+    * with tensor parallelism and without `--ap-sft` it deadlocks at the first step;
+    * FP8 training crashes with the error `'NoneType' object has no attribute 'padding_slice'`.
+
+    The image includes patches for both:
+
+    ```bash title="Apply the patches provided by the uenv"
+    git apply /user-environment/meta/extra/megatron/fix-tp-assistant-mask.patch
+    git apply /user-environment/meta/extra/megatron/fix-fp8-training-padding-slice.patch
+    ```
+
+    The fork also stops training when the file `<trigger-path>/exit` exists, and a finished run creates that file.
+    Use a fresh `--trigger-path` for every run.
