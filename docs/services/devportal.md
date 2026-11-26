@@ -24,14 +24,21 @@ At CSCS, it requires [OIDC/OAuth2 access tokens](https://datatracker.ietf.org/do
 
 An application *consumes* API resources by *subscribing* to the API. At CSCS, applications can be subscribed to multiple APIs.
 
-### Identity Provider (IdP)
+### Identity provider (IdP)
 
 An **identity provider** is an entity that authenticates an application and allows accessing protected resources. In this case, CSCS provides an IdP for all its APIs.
 
 [](){#ref-devportal-prodkeys}
-### Production Keys
+### Production keys
 
-Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
+Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer Key* and *Consumer Secret*) that are going to be used to authenticate.
+
+The Developer Portal and OAuth2 use different names for the two keys:
+
+| Developer Portal  | OAuth2 name                     | Placeholder in the examples |
+|-------------------|---------------------------------|-----------------------------|
+| *Consumer Key*    | client ID (`client_id`)         | `<CONSUMER_KEY>`            |
+| *Consumer Secret* | client secret (`client_secret`) | `<CONSUMER_SECRET>`         |
 
 !!! warning
     The pair Consumer Key and Secret represents a personal credential to access CSCS resources, therefore can't be shared and must be stored securely (i.e.: not exposed in public repositories, forums, documentation, etc)
@@ -45,7 +52,7 @@ Once logged in, you will see a list of APIs that are available to your user.
 !!! warning
     You might not see version 1 or version 2 of some APIs. You will be able to see all the versions when you *subscribe* your Application to the API.
 
-### Creating an Application
+### Creating an application
 
 Click on the `Applications` option at the top of the screen to manage your applications.
 
@@ -66,7 +73,7 @@ When finished, click on the `SAVE` button.
     The quota of requests per minute will be shared by all subscribers to the Application over all APIs
 
 [](){#ref-devportal-generate-keys}
-### Configuring Production Keys
+### Configuring production keys
 
 Once the Application is created, create the Production Keys by clicking on `Production Keys` in the left panel:
 
@@ -81,7 +88,8 @@ Once the keys are generated, you will see the pair `Consumer Key` (also known as
 ![FirecREST keys](../images/services/devportal-keys-overview.png)
 
 !!! note
-    At the moment, only FIRECREST keys are available for the users
+    At the moment, only FirecREST keys are available.
+    The keys belong to the `firecrest-clients` realm of the CSCS IdP, so access tokens have to be [requested from that realm][ref-devportal-token], using the `Token Endpoint` shown under `Key Configurations`.
 
 [](){#ref-devportal-subscribe}
 ### Subscribe to an API
@@ -95,6 +103,40 @@ To do so:
 * (8.c) choose the [business plan][ref-devportal-api-info] and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
 
 ![Devportal subscriptions](../images/services/devportal-api-subscriptions.png)
+
+[](){#ref-devportal-token}
+### Request an access token
+
+Exchange the production keys for a short-lived access token, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password with the `-u` option of `curl`:
+
+```console title="request an access token"
+$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
+  "expires_in": 300,
+  "refresh_expires_in": 0,
+  "token_type": "Bearer",
+  "not-before-policy": 0,
+  "scope": "firecrest firecrest-v2 profile email"
+}
+```
+
+The token is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
+
+```bash title="store the token in the ACCESS_TOKEN environment variable"
+export ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq -r .access_token)
+```
+
+Pass the token in the `Authorization: Bearer $ACCESS_TOKEN` header of every request to the API.
+
+!!! warning "`Base64(consumer-key:consumer-secret)` is a placeholder"
+    The `CURL TO GENERATE ACCESS TOKEN` button on the `Production Keys` page shows a command that passes the keys in an `Authorization: Basic` header instead of with `-u`.
+    The value in that header has to be the base64 encoding of `<CONSUMER_KEY>:<CONSUMER_SECRET>`, which is what `-u` generates.
+    The text `Base64(consumer-key:consumer-secret)` stands for that value: the request fails with `Invalid client or Invalid client credentials` if it is used as written.
 
 ## Manage your applications
 
@@ -110,7 +152,7 @@ To do this, go to the `Production Keys` view of the desired application and clic
 
 ![Devportal reset keys](../images/services/devportal-regenerate-keys.png)
 
-To regenerate the keys, refer back to the [Configuring Production Keys](#configuring-production-keys) section.
+To regenerate the keys, refer back to the [Configuring production keys][ref-devportal-generate-keys] section.
 
 !!!info
     After resetting the credentials, you will need to reconfigure your software(s) to use the new keys
@@ -138,13 +180,13 @@ The information exposed in the overview view is:
 * Applications owned by the user that are subscribed to the API
 
 
-### API Documents
+### API documents
 
 Clicking in the left option `Documents` the user will be able to see the API reference with examples:
 
 ![Devportal apis reference](../images/services/devportal-api-docs.png)
 
-## Further Information
+## Further information
 
 * [WSO2 Developer Portal](https://apim.docs.wso2.com/en/4.4.0/consume/consume-api-overview/)
 * [Open ID Connect protocol (OIDC)](https://openid.net/developers/how-connect-works/)
