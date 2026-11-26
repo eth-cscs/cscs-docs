@@ -10,7 +10,8 @@ NVSHMEM creates a global address space for data that spans the memory of multipl
 [](){#ref-communication-uenv-ce}
 ### uenv
 
-Version 2.8 of the [PyTorch uenv][ref-uenv-pytorch] is currently the only uenv that provides NVSHMEM.
+The [PyTorch uenv][ref-uenv-pytorch] is currently the only uenv that provides NVSHMEM, from version 2.8.
+From version 2.14.1, its `torch` view [sets the environment variables][ref-uenv-pytorch-env] that make NVSHMEM use libfabric on the Alps network.
 
 CSCS working on building NVSHMEM that runs efficiently on the Alps network in uenv, and will update these docs when it is available.
 
