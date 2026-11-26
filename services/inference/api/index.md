@@ -308,8 +308,7 @@ OpenCode configuration for the inference API
             "name": "CSCS Inference",
             "settings": {
                 "baseURL": "https://api.inference.cscs.ch/v1",
-                "systemMessageMode": "system",
-                "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
+                "systemMessageMode": "system"
             },
             "models": {
                 "zai-org/GLM-5.3-Flash": {
@@ -344,7 +343,8 @@ OpenCode configuration for the inference API
             "name": "CSCS Inference",
             "settings": {
                 "baseURL": "https://api.inference.cscs.ch/v1",
-                "systemMessageMode": "system"
+                "systemMessageMode": "system",
+                "apiKey": "{env:CSCS_INFERENCE_API_KEY}"
             },
             "models": {
                 "zai-org/GLM-5.3-Flash": {
