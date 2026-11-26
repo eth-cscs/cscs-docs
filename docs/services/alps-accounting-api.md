@@ -54,14 +54,12 @@ Once the keys are generated, you will see the pair `Consumer Key` (also known as
 
 Exchange the credentials of your application for a short-lived access token, then include the token in the `Authorization` header of every request.
 
-Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* and the *Consumer Secret* as base64 encoded credentials in the `Authorization` header:
+Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password with the `-u` option of `curl`:
 
-```bash title="request an access token"
-curl -k -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token \
--d "grant_type=client_credentials" \
--H "Authorization: Basic Base64(consumer-key:consumer-secret)" | jq
-```
-```console title="response"
+```console title="request an access token"
+$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq
 {
   "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
   "expires_in": 300,
@@ -74,6 +72,14 @@ curl -k -X POST https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/open
 
 The `access_token` field of the response is the token.
 It is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
+
+Store the token in the `ACCESS_TOKEN` environment variable, which is used by the examples on this page:
+
+```bash title="store the token in the ACCESS_TOKEN environment variable"
+export ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq -r .access_token)
+```
 
 Use the token in subsequent requests:
 
