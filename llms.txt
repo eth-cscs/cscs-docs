@@ -140,6 +140,7 @@ CSCS systems differ from a generic Linux or HPC environment in ways that are eas
 
 ## Services
 
+- [Alps Accounting API](<https://docs.cscs.ch/services/alps-accounting-api/index.md>)
 - [CI/CD](<https://docs.cscs.ch/services/cicd/index.md>)
 - [Developer Portal](<https://docs.cscs.ch/services/devportal/index.md>)
 - [Services](<https://docs.cscs.ch/services/index.md>)

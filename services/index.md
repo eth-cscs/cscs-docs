@@ -20,3 +20,8 @@
   Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
 
   [Inference](<https://docs.cscs.ch/services/inference/index.md#inference>)
+- **Alps Accounting API**
+
+  Query compute and storage consumption for your projects on Alps.
+
+  [Alps Accounting API](<https://docs.cscs.ch/services/alps-accounting-api/index.md#alps-accounting-api>)

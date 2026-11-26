@@ -23469,6 +23469,431 @@ $ sbatch --job-name=stage_out stage.sbatch \
 
 # Services
 
+# Alps Accounting API
+
+The Alps Accounting API provides programmatic access to compute and storage consumption data for projects on the [Alps Research Infrastructure](<https://docs.cscs.ch/alps/index.md#alps-infrastructure> "Alps Infrastructure"). It is aimed at users, PIs and deputy PIs who want to retrieve usage records for reporting, monitoring or integration with external tools.
+
+The API is hosted at `https://api.cscs.ch/alps-accounting/v2` and is documented with an [OpenAPI specification](<https://api.cscs.ch/alps-accounting/v2/openapi.json>).
+
+The API provides two groups of endpoints, with usage aggregated per day or per month for each CSCS project (`account`):
+
+- **Compute usage**: node-hours, CPU-hours, job count and other job-related metrics.
+- **Storage usage**: used space, quotas and inode counts on the Capstor and Iopsstor file systems.
+
+Any user can query their own compute and storage consumption, and PIs and deputy PIs can also retrieve the consumption of every member of their projects. Access is granted at the project level through the [Developer Portal](<https://docs.cscs.ch/services/devportal/index.md#developer-portal>).
+
+## Getting access
+
+Subscribe to the Alps Accounting API in the [Developer Portal](<https://docs.cscs.ch/services/devportal/index.md#subscribe-to-an-api> "Subscribe to an API"):
+
+1. Sign in at [developer.cscs.ch](<https://developer.cscs.ch>).
+2. On the [Developer Portal](<https://docs.cscs.ch/services/devportal/index.md#developer-portal>) click on the tab “Applications” ![FirecREST Main Page](<https://docs.cscs.ch/images/services/devportal-apis.png>)
+3. Click on “ADD NEW APPLICATION” to create a new [application](<https://docs.cscs.ch/services/devportal/index.md#application> "Application") (or reuse an existing one). ![Create New App](<https://docs.cscs.ch/images/services/devportal-create-new-app.png>)
+4. Subscribe the application to the **Alps Accounting API** and choose the desired version.
+
+   (4.a) click on the `Subscriptions` option on the left panel
+
+   (4.b) click the `SUBSCRIBE` button
+
+   (4.c) choose the [business plan](<https://docs.cscs.ch/services/devportal/index.md#view-information-of-apis> "View information of APIs") and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API. ![Devportal subscriptions](<https://docs.cscs.ch/images/services/alps-accounting-api-subscriptions.png>)
+5. Generate the [production keys](<https://docs.cscs.ch/services/devportal/index.md#configuring-production-keys> "Configuring production keys") for the application.  
+   ![FirecREST production keys](<https://docs.cscs.ch/images/services/devportal-keys.png>)
+6. Click on the `Generate Keys` button at the bottom of the page to generate the production keys of your application: ![FirecREST existing keys](<https://docs.cscs.ch/images/services/devportal-generate-keys.png>)
+
+## Authentication
+
+Once the keys are generated, you will see the pair `Consumer Key` (also known as “client id”) and `Consumer Secret` (also known as “client secret”).
+
+![FirecREST keys](<https://docs.cscs.ch/images/services/devportal-keys-overview.png>)
+
+> [!NOTE]
+>
+> At the moment, only FIRECREST keys are available for the users
+
+Exchange the credentials of your application for a short-lived access token, then include the token in the `Authorization` header of every request.
+
+Request a token from the `firecrest-clients` realm of the CSCS identity provider, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password with the `-u` option of `curl`:
+
+request an access token
+
+```console
+$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
+  "expires_in": 300,
+  "refresh_expires_in": 0,
+  "token_type": "Bearer",
+  "not-before-policy": 0,
+  "scope": "firecrest firecrest-v2 profile email"
+}
+```
+
+The `access_token` field of the response is the token. It is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
+
+Store the token in the `ACCESS_TOKEN` environment variable, which is used by the examples on this page:
+
+store the token in the ACCESS\_TOKEN environment variable
+
+```bash
+export ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq -r .access_token)
+```
+
+Use the token in subsequent requests:
+
+call the API with a Bearer token
+
+```bash
+curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/compute/usage/day?from=2025-01-01&to=2025-01-07" \
+  -H "Authorization: Bearer $ACCESS_TOKEN"
+```
+
+> [!WARNING]
+>
+> Store the *Consumer Key*, *Consumer Secret* and access tokens in a secure location such as a password manager or CI/CD secret store. Never commit them to repositories or expose them in logs.
+
+## Request limits
+
+The number of requests that an application can make is limited by the requests per minute chosen when [creating the application](<https://docs.cscs.ch/services/devportal/index.md#application> "Application") and by the [business plan](<https://docs.cscs.ch/services/devportal/index.md#view-information-of-apis> "View information of APIs") of the subscription. The quota is shared by all of the APIs that the application is subscribed to.
+
+When the quota is exceeded, the API responds with the HTTP status `429` and the following message:
+
+response when the request quota is exceeded
+
+```json
+{
+  "code": "900807",
+  "message": "Message throttled out",
+  "description": "You have exceeded your quota .You can access API after 2026-Nov-25 15:23:23+0000 UTC",
+  "nextAccessTime": "2026-Nov-25 15:23:23+0000 UTC"
+}
+```
+
+Wait until the time given in the `nextAccessTime` field, which is also returned in the `Retry-After` header of the response, before sending the next request.
+
+## API endpoints
+
+The base URL for all endpoints is `https://api.cscs.ch/alps-accounting/v2`.
+
+### Compute usage
+
+#### Daily compute usage
+
+`GET /compute/usage/day`
+
+Returns compute usage records aggregated per day for the requested date range.
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `from` | yes | Start date in `YYYY-MM-DD` format. |
+| `to` | yes | End date in `YYYY-MM-DD` format. |
+| `account` | no | One or more project identifiers to filter by. |
+| `username` | no | One or more usernames to filter by. |
+| `cluster` | no | One or more cluster names to filter by. |
+
+#### Monthly compute usage
+
+`GET /compute/usage/month`
+
+Returns compute usage records aggregated per month for the requested month range.
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `from` | yes | Start month in `YYYY-MM` format. |
+| `to` | yes | End month in `YYYY-MM` format. |
+| `account` | no | One or more project identifiers to filter by. |
+| `username` | no | One or more usernames to filter by. |
+| `cluster` | no | One or more cluster names to filter by. |
+
+### Storage usage
+
+#### Daily storage usage
+
+`GET /storage/usage/day`
+
+Returns storage usage for the specified date.
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `date` | yes | Date in `YYYY-MM-DD` format. |
+| `account` | no | One or more project identifiers to filter by. |
+| `customerName` | no | One or more customer names to filter by. |
+| `filesystemName` | no | File system to filter by, e.g. `capstor` or `iopsstor`. |
+| `dataType` | no | Storage category: `store`, `archive`, `user` or `scratch`. |
+| `path` | no | One or more paths to filter by. |
+
+#### Monthly storage usage
+
+`GET /storage/usage/month`
+
+Returns storage usage for the specified month.
+
+| Parameter | Required | Description |
+| --- | --- | --- |
+| `month` | yes | Month in `YYYY-MM` format. |
+| `account` | no | One or more project identifiers to filter by. |
+| `customerName` | no | One or more customer names to filter by. |
+| `filesystemName` | no | File system to filter by, e.g. `capstor` or `iopsstor`. |
+| `dataType` | no | Storage category: `store`, `archive`, `user` or `scratch`. Defaults to `store`. |
+| `path` | no | One or more paths to filter by. |
+
+## Examples
+
+The examples below assume that the `ACCESS_TOKEN` environment variable contains a valid Bearer token.
+
+### Query daily compute usage
+
+daily compute usage for a date range
+
+```console
+$ curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/compute/usage/day?from=2025-01-01&to=2025-01-07&account=g123" \
+    -H "Authorization: Bearer $ACCESS_TOKEN" | jq
+{
+  "compute": [
+    {
+      "id": 1,
+      "username": "bobsmith",
+      "updated": "2025-01-02T00:00:00Z",
+      "userId": 12345,
+      "account": "g123",
+      "cluster": "clariden",
+      "usageDate": "2025-01-01",
+      "nodeHours": 12.0,
+      "cpuHours": 48.0,
+      "jobCount": 3,
+      "totalElapsedTime": 43200,
+      "totalNodeCount": 4
+    }
+  ]
+}
+```
+
+daily compute usage with requests
+
+```python
+import requests
+
+url = "https://api.cscs.ch/alps-accounting/v2/compute/usage/day"
+headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+params = {
+    "from": "2025-01-01",
+    "to": "2025-01-07",
+    "account": "g123",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())
+```
+
+### Query monthly compute usage
+
+monthly compute usage for a project
+
+```console
+$ curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/compute/usage/month?from=2025-01&to=2025-03&account=g123" \
+    -H "Authorization: Bearer $ACCESS_TOKEN" | jq
+{
+  "compute": [
+    {
+      "id": 1,
+      "updated": "2025-02-01T00:00:00Z",
+      "username": "bobsmith",
+      "userId": 12345,
+      "account": "g123",
+      "cluster": "clariden",
+      "usageDate": "2025-01-01",
+      "nodeHours": 120.0,
+      "cpuHours": 480.0,
+      "jobCount": 30,
+      "totalElapsedTime": 432000,
+      "totalNodeCount": 40
+    }
+  ]
+}
+```
+
+monthly compute usage with requests
+
+```python
+import requests
+
+url = "https://api.cscs.ch/alps-accounting/v2/compute/usage/month"
+headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+params = {
+    "from": "2025-01",
+    "to": "2025-03",
+    "account": "g123",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())
+```
+
+### Query daily storage usage
+
+daily storage usage for a project
+
+```console
+$ curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/storage/usage/day?date=2025-01-01&account=g123&filesystemName=capstor&dataType=store" \
+    -H "Authorization: Bearer $ACCESS_TOKEN" | jq
+{
+  "storage": [
+    {
+      "id": 1,
+      "updated": "2025-01-02T00:00:00Z",
+      "spaceUsed": 1099511627776,
+      "spaceCurrency": "B",
+      "spaceHardQuota": 2199023255552,
+      "spaceSoftQuota": 1975684956160,
+      "inodesSoftQuota": 1000000,
+      "inodesHardQuota": 1200000,
+      "inodesUsed": 500000,
+      "usageDate": "2025-01-01",
+      "username": "bobsmith",
+      "tenant": "cscs",
+      "customerName": "acme",
+      "account": "g123",
+      "dataType": "store",
+      "filesystemName": "capstor",
+      "systemName": "capstor",
+      "path": "/capstor/store/cscs/g123",
+      "gid": 32819,
+      "uid": 12345,
+      "aggregationPeriod": "daily"
+    }
+  ]
+}
+```
+
+daily storage usage with requests
+
+```python
+import requests
+
+url = "https://api.cscs.ch/alps-accounting/v2/storage/usage/day"
+headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+params = {
+    "date": "2025-01-01",
+    "account": "g123",
+    "filesystemName": "capstor",
+    "dataType": "store",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())
+```
+
+### Query monthly storage usage
+
+monthly storage usage for a project
+
+```console
+$ curl -s -X GET "https://api.cscs.ch/alps-accounting/v2/storage/usage/month?month=2025-01&account=g123&filesystemName=iopsstor&dataType=scratch" \
+    -H "Authorization: Bearer $ACCESS_TOKEN" | jq
+{
+  "storage": [
+    {
+      "id": 1,
+      "updated": "2025-02-01T00:00:00Z",
+      "spaceUsed": 549755813888,
+      "spaceCurrency": "B",
+      "spaceHardQuota": 1099511627776,
+      "spaceSoftQuota": 989560464998,
+      "inodesSoftQuota": 500000,
+      "inodesHardQuota": 600000,
+      "inodesUsed": 250000,
+      "usageDate": "2025-01-01",
+      "username": "bobsmith",
+      "tenant": "cscs",
+      "customerName": "acme",
+      "account": "g123",
+      "dataType": "scratch",
+      "filesystemName": "iopsstor",
+      "systemName": "iopsstor",
+      "path": "/iopsstor/scratch/cscs/g123",
+      "gid": 32819,
+      "uid": 12345,
+      "aggregationPeriod": "monthly"
+    }
+  ]
+}
+```
+
+monthly storage usage with requests
+
+```python
+import requests
+
+url = "https://api.cscs.ch/alps-accounting/v2/storage/usage/month"
+headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+params = {
+    "month": "2025-01",
+    "account": "g123",
+    "filesystemName": "iopsstor",
+    "dataType": "scratch",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())
+```
+
+## Response fields
+
+### Compute usage response
+
+Both daily and monthly endpoints return a `compute` array. Each element contains:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | int | Record identifier. |
+| `username` | string | User who consumed the resources. |
+| `userId` | int | Internal user identifier. |
+| `account` | string | Project identifier. |
+| `cluster` | string | Cluster where the jobs ran. |
+| `usageDate` | string | Date or month of the aggregation (`YYYY-MM-DD` for daily, `YYYY-MM-01` for monthly). |
+| `nodeHours` | number | Total node-hours consumed. |
+| `cpuHours` | number | Total CPU-hours consumed. |
+| `jobCount` | int | Number of jobs. |
+| `totalElapsedTime` | int | Cumulative elapsed time in seconds. |
+| `totalNodeCount` | int | Cumulative number of nodes used. |
+| `updated` | string | ISO 8601 timestamp of the last update. |
+
+### Storage usage response
+
+Both daily and monthly endpoints return a `storage` array. Each element contains:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | int | Record identifier. |
+| `username` | string | User or project owner the record refers to. |
+| `account` | string | Project identifier, when applicable. |
+| `customerName` | string | Customer name. |
+| `tenant` | string | Tenant identifier. |
+| `filesystemName` | string | File system name, e.g. `capstor` or `iopsstor`. |
+| `systemName` | string | System name. |
+| `dataType` | string | Storage category: `store`, `archive`, `user` or `scratch`. |
+| `path` | string | File system path. |
+| `usageDate` | string | Date or month of the aggregation. |
+| `spaceUsed` | int | Used space in bytes. |
+| `spaceCurrency` | string | Unit of the space values, typically `B` for bytes. |
+| `spaceHardQuota` | int | Hard quota in bytes. |
+| `spaceSoftQuota` | int | Soft quota in bytes. |
+| `inodesUsed` | int | Number of inodes used. |
+| `inodesSoftQuota` | int | Soft inode quota. |
+| `inodesHardQuota` | int | Hard inode quota. |
+| `uid` | int | User identifier. |
+| `gid` | int | Group identifier. |
+| `aggregationPeriod` | string | Aggregation period, e.g. `daily` or `monthly`. |
+| `updated` | string | ISO 8601 timestamp of the last update. |
+
+## Further information
+
+- [Developer Portal documentation](<https://docs.cscs.ch/services/devportal/index.md#developer-portal>)
+- [OpenAPI specification](<https://api.cscs.ch/alps-accounting/v2/openapi.json>)
+
 # Continuous Integration / Continuous Deployment (CI/CD)
 
 > [!NOTE]
@@ -24897,7 +25322,7 @@ A couple of projects which use this CI setup. Please have a look there for more 
 
 # Developer Portal
 
-The [Developer Portal](<https://developer.cscs.ch>) facilitates CSCS users to manage client applications’ subscriptions to an API at CSCS, such as [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>) or [CI/CD](<https://docs.cscs.ch/services/cicd/index.md#continuous-integration-continuous-deployment-cicd> "Continuous Integration / Continuous Deployment (CI/CD)").
+The [Developer Portal](<https://developer.cscs.ch>) facilitates CSCS users to manage client applications’ subscriptions to an API at CSCS, such as [FirecREST](<https://docs.cscs.ch/access/firecrest/index.md#firecrest>), [CI/CD](<https://docs.cscs.ch/services/cicd/index.md#continuous-integration-continuous-deployment-cicd> "Continuous Integration / Continuous Deployment (CI/CD)") or [Alps Accounting API](<https://docs.cscs.ch/services/alps-accounting-api/index.md#alps-accounting-api>).
 
 ## Terminology
 
@@ -24919,13 +25344,20 @@ At CSCS, it requires [OIDC/OAuth2 access tokens](<https://datatracker.ietf.org/d
 
 An application *consumes* API resources by *subscribing* to the API. At CSCS, applications can be subscribed to multiple APIs.
 
-### Identity Provider (IdP)
+### Identity provider (IdP)
 
 An **identity provider** is an entity that authenticates an application and allows accessing protected resources. In this case, CSCS provides an IdP for all its APIs.
 
-### Production Keys
+### Production keys
 
-Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer ID* - or *Client ID* -, and *Consumer Secret* - or *Client Secret*) that are going to be used to authenticate.
+Applications must identify against the CSCS IdP. To do this, users must create the **production keys** (*Consumer Key* and *Consumer Secret*) that are going to be used to authenticate.
+
+The Developer Portal and OAuth2 use different names for the two keys:
+
+| Developer Portal | OAuth2 name | Placeholder in the examples |
+| --- | --- | --- |
+| *Consumer Key* | client ID (`client_id`) | `<CONSUMER_KEY>` |
+| *Consumer Secret* | client secret (`client_secret`) | `<CONSUMER_SECRET>` |
 
 > [!WARNING]
 >
@@ -24941,7 +25373,7 @@ Once logged in, you will see a list of APIs that are available to your user.
 >
 > You might not see version 1 or version 2 of some APIs. You will be able to see all the versions when you *subscribe* your Application to the API.
 
-### Creating an Application
+### Creating an application
 
 Click on the `Applications` option at the top of the screen to manage your applications.
 
@@ -24963,7 +25395,7 @@ When finished, click on the `SAVE` button.
 >
 > The quota of requests per minute will be shared by all subscribers to the Application over all APIs
 
-### Configuring Production Keys
+### Configuring production keys
 
 Once the Application is created, create the Production Keys by clicking on `Production Keys` in the left panel:
 
@@ -24979,7 +25411,7 @@ Once the keys are generated, you will see the pair `Consumer Key` (also known as
 
 > [!NOTE]
 >
-> At the moment, only FIRECREST keys are available for the users
+> At the moment, only FirecREST keys are available. The keys belong to the `firecrest-clients` realm of the CSCS IdP, so access tokens have to be [requested from that realm](<https://docs.cscs.ch/services/devportal/index.md#request-an-access-token> "Request an access token"), using the `Token Endpoint` shown under `Key Configurations`.
 
 ### Subscribe to an API
 
@@ -24992,6 +25424,44 @@ To do so:
 - (8.c) choose the [business plan](<https://docs.cscs.ch/services/devportal/index.md#view-information-of-apis> "View information of APIs") and the version of the API you want to subscribe to by clicking the `SUBSCRIBE` button on the right-side of the requested API.
 
 ![Devportal subscriptions](<https://docs.cscs.ch/images/services/devportal-api-subscriptions.png>)
+
+### Request an access token
+
+Exchange the production keys for a short-lived access token, passing the *Consumer Key* as the user name and the *Consumer Secret* as the password with the `-u` option of `curl`:
+
+request an access token
+
+```console
+$ curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6...",
+  "expires_in": 300,
+  "refresh_expires_in": 0,
+  "token_type": "Bearer",
+  "not-before-policy": 0,
+  "scope": "firecrest firecrest-v2 profile email"
+}
+```
+
+The token is valid for 5 minutes (`expires_in` is in seconds), after which a new token has to be requested.
+
+store the token in the ACCESS\_TOKEN environment variable
+
+```bash
+export ACCESS_TOKEN=$(curl -s -X POST "https://auth.cscs.ch/auth/realms/firecrest-clients/protocol/openid-connect/token" \
+    -u "<CONSUMER_KEY>:<CONSUMER_SECRET>" \
+    --data "grant_type=client_credentials" | jq -r .access_token)
+```
+
+Pass the token in the `Authorization: Bearer $ACCESS_TOKEN` header of every request to the API.
+
+> [!WARNING]
+>
+> **`Base64(consumer-key:consumer-secret)` is a placeholder**
+>
+> The `CURL TO GENERATE ACCESS TOKEN` button on the `Production Keys` page shows a command that passes the keys in an `Authorization: Basic` header instead of with `-u`. The value in that header has to be the base64 encoding of `<CONSUMER_KEY>:<CONSUMER_SECRET>`, which is what `-u` generates. The text `Base64(consumer-key:consumer-secret)` stands for that value: the request fails with `Invalid client or Invalid client credentials` if it is used as written.
 
 ## Manage your applications
 
@@ -25007,7 +25477,7 @@ To do this, go to the `Production Keys` view of the desired application and clic
 
 ![Devportal reset keys](<https://docs.cscs.ch/images/services/devportal-regenerate-keys.png>)
 
-To regenerate the keys, refer back to the [Configuring Production Keys](<#configuring-production-keys>) section.
+To regenerate the keys, refer back to the [Configuring production keys](<https://docs.cscs.ch/services/devportal/index.md#configuring-production-keys>) section.
 
 > [!NOTE]
 >
@@ -25036,13 +25506,13 @@ The information exposed in the overview view is:
 - Business plans (amount of requests per minute that are allowed in the API subscription)
 - Applications owned by the user that are subscribed to the API
 
-### API Documents
+### API documents
 
 Clicking in the left option `Documents` the user will be able to see the API reference with examples:
 
 ![Devportal apis reference](<https://docs.cscs.ch/images/services/devportal-api-docs.png>)
 
-## Further Information
+## Further information
 
 - [WSO2 Developer Portal](<https://apim.docs.wso2.com/en/4.4.0/consume/consume-api-overview/>)
 - [Open ID Connect protocol (OIDC)](<https://openid.net/developers/how-connect-works/>)
@@ -25071,6 +25541,11 @@ Clicking in the left option `Documents` the user will be able to see the API ref
   Managed LLM models accessible through public API endpoints, and Kubernetes services for deploying custom ML services.
 
   [Inference](<https://docs.cscs.ch/services/inference/index.md#inference>)
+- **Alps Accounting API**
+
+  Query compute and storage consumption for your projects on Alps.
+
+  [Alps Accounting API](<https://docs.cscs.ch/services/alps-accounting-api/index.md#alps-accounting-api>)
 
 - Visit [inference.status.cscs.ch](<https://inference.status.cscs.ch/>) for the status of the inference service, models, and latest announcements.
 
