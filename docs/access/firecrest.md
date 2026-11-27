@@ -350,7 +350,7 @@ A staging area is used for external transfers and downloading/uploading a file f
 
 ### AI agents
 
-You can connect AI agents and coding assistants (such as Claude Desktop) to CSCS HPC systems using the **Model Context Protocol (MCP)**. The [firecrest-agent-tools](https://github.com/eth-cscs/firecrest-agent-tools) repository provides a Docker Compose configuration to run a local MCP server built on  PyFirecREST and FastMCP.
+AI agents and coding assistants (such as Claude Desktop) can be connected to CSCS HPC systems using the **Model Context Protocol (MCP)**. The [firecrest-agent-tools](https://github.com/eth-cscs/firecrest-agent-tools) repository provides a Docker Compose configuration to run a local MCP server built on  PyFirecREST and FastMCP.
 
 To launch the server locally you can clone the repository, navigate to the `firecrest-mcp` directory
 
