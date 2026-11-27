@@ -347,6 +347,64 @@ A staging area is used for external transfers and downloading/uploading a file f
 
     This option ensures that the job submitted uses the same environment as your login shell to access the system-wide profile (`/etc/profile`) or to your profile (in files like `~/.bash_profile`, `~/.bash_login`, or `~/.profile`).
 
+
+### AI agents
+
+You can connect AI agents and coding assistants (such as Claude Desktop) to CSCS HPC systems using the **Model Context Protocol (MCP)**. The [firecrest-agent-tools](https://github.com/eth-cscs/firecrest-agent-tools) repository provides a Docker Compose configuration to run a local MCP server built on  PyFirecREST and FastMCP.
+
+To launch the server locally you can clone the repository, navigate to the `firecrest-mcp` directory
+
+```bash
+git clone https://github.com/eth-cscs/firecrest-agent-tools.git
+cd firecrest-agent-tools/firecrest-mcp
+```
+
+and create a `.env` file with your client credentials and target FirecREST server URL:
+
+```bash
+OAUTH_CLIENT_ID=<your-client-id>
+OAUTH_CLIENT_SECRET=<your-client-secret>
+OAUTH_TOKEN_URL=https://cscs.ch
+OAUTH_SCOPES="firecrest-v2"
+BACKEND_API_BASE_URL=<FirecREST URL>
+```
+
+Start the server:
+
+```bash
+docker compose up
+```
+
+The server can be stopped by interrupting it with the `Ctrl + C` and the
+
+```bash
+docker compose down
+```
+
+With the local server running, you can test it with Claude Desktop. You need only to include it in your  Claude Desktop configuration file (`~/.config/Claude/claude_desktop_config.json` in Linux and `~/Library/Application Support/Claude/claude_desktop_config.json` in MacOS)
+
+Add the `firecrest` server under the top-level `mcpServers` block:
+
+
+```json
+{
+  "mcpServers": {
+    "firecrest": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://localhost:8888/mcp"
+      ]
+    }
+  }
+}
+```
+
+Save the file and restart Claude Desktop to load the MCP server connection.
+
+To Verify the setup, open *Settings* in Claude Desktop and search for `firecrest` in the search bar. The `firecrest` MCP server should now appear in the list.
+
 ## Further Information
 
 * [HPC Console](https://console.hpcp.cscs.ch)
