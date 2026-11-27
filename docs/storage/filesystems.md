@@ -127,11 +127,18 @@ Furthermore, when capacity grows above:
 
 A [soft quota][ref-storage-quota-types] is enforced on the Scratch file system, with a grace period to allow data transfer.
 
-Every user gets the following [quota][ref-storage-quota]:
+The [quota][ref-storage-quota] limits on each Scratch file system are:
 
-* 150 TB of disk space;
-* 1 million inodes;
-* and a soft quota grace period of two weeks.
+| Scratch file system | disk space | inodes |
+| -- | -- | -- |
+| [Capstor][ref-alps-capstor] (`/capstor/scratch`) | 150 TB | 1 million |
+| [Ritom][ref-alps-ritom] (`/ritom/scratch`) | 300 TB | 10 million |
+| [Iopsstor][ref-alps-iopsstor] (`/iopsstor/scratch`) | 50 TB | 50 million |
+
+Which of these file systems is available depends on the platform and cluster.
+Use the command [`quota`][ref-storage-quota-cli] to see the limits and usage for the paths that you have access to.
+
+The soft quota grace period is two weeks.
 
 !!! important
     In order to prevent a degradation of the file system performance, please check your disk space and inode usage with the command [`quota`][ref-storage-quota-cli].
@@ -256,7 +263,7 @@ If you are in multiple projects, information for the [Store][ref-storage-store] 
     +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
     | Directory                          | FS     |   Used |    % |   Grace |   Used |    % | Quota limit |     Used |    % |    Grace |      Used |    % | Files limit |
     +------------------------------------+--------+--------+------+---------+--------+------+-------------+----------+------+----------+-----------+------+-------------+
-    | /iopsstor/scratch/cscs/user        | lustre |  32.0G |    - |       - |      - |    - |           - |     7746 |    - |        - |         - |    - |           - |
+    | /iopsstor/scratch/cscs/user        | lustre |  32.0G |  0.1 |       - |      - |    - |       50.0T |     7746 |  0.0 |        - |         - |    - |    50000000 |
     | /capstor/users/cscs/user           | lustre |   3.2G |  6.4 |       - |      - |    - |       50.0G |    14471 |  2.9 |        - |         - |    - |      500000 |
     | /capstor/store/cscs/director2/g33  | lustre |   1.9T |  1.3 |       - |      - |    - |      150.0T |   146254 | 14.6 |        - |         - |    - |     1000000 |
     | /capstor/store/cscs/cscs/csstaff   | 263.9T | 88.0 |      - |    - |      300.0T | 18216778 | 91.1 |         - |    - |    20000000 |
