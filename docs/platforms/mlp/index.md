@@ -89,7 +89,7 @@ The home directory has 50 GB of capacity, and is intended for configuration, sma
 
 Scratch filesystems provide temporary storage for high-performance I/O for executing jobs.
 Use scratch to store datasets that will be accessed by jobs, and for job output.
-Scratch is per user - each user gets separate scratch path and quota.
+Scratch is per user - each user gets separate scratch path and quota, which you can check with the [`quota`][ref-storage-quota-cli] command.
 
 * The environment variable `SCRATCH=/iopsstor/scratch/cscs/$USER` is set automatically when you log into a system of the ML platform, and can be used as a shortcut to access scratch.
 * There is an additional scratch path mounted on [Capstor][ref-alps-capstor] at `/capstor/scratch/cscs/$USER`.
@@ -101,15 +101,6 @@ Scratch is per user - each user gets separate scratch path and quota.
     - The cleanup policy for `/ritom/scratch/cscs/$USER` is being finalised.
 
     **Scratch is not intended for permanent storage**: transfer files back to the capstor project storage after job runs.
-
-!!! info "scratch quota"
-    Each scratch path has its own [quota][ref-storage-quota] per user:
-
-    - `/iopsstor/scratch/cscs/$USER` (`$SCRATCH`): 50 TB of space and 50 million inodes.
-    - `/capstor/scratch/cscs/$USER`: 150 TB of space and 1 million inodes.
-    - `/ritom/scratch/cscs/$USER`: 300 TB of space and 10 million inodes.
-
-    Check your usage with the [`quota`][ref-storage-quota-cli] command, see [Scratch][ref-storage-scratch] for details on grace periods.
 
 [](){#ref-mlp-storage-suitability}
 !!! note "file system suitability"

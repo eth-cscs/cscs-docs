@@ -127,13 +127,8 @@ Furthermore, when capacity grows above:
 
 A [soft quota][ref-storage-quota-types] is enforced on the Scratch file system, with a grace period to allow data transfer.
 
-Every user gets the following [quota][ref-storage-quota] on each Scratch path:
-
-| Scratch path | disk space | inodes |
-| -- | -- | -- |
-| `/capstor/scratch/cscs/$USER` ([Capstor][ref-alps-capstor]) | 150 TB | 1 million |
-| `/ritom/scratch/cscs/$USER` ([Ritom][ref-alps-ritom]) | 300 TB | 10 million |
-| `/iopsstor/scratch/cscs/$USER` ([Iopsstor][ref-alps-iopsstor]) | 50 TB | 50 million |
+Quotas are set per user on each Scratch path, and the values depend on the file system, platform and cluster.
+Use the command [`quota`][ref-storage-quota-cli] to see the capacity and inode limits that apply to you.
 
 The soft quota grace period is two weeks.
 
