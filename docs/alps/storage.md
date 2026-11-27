@@ -52,17 +52,10 @@ This makes it particularly well-suited for applications that involve frequent, r
 
 Iopsstor has has 20 OSSs, and 2 MDSs.
 
-[](){#ref-alps-iopsstor-scratch}
-### Scratch
-
-All users get their own scratch path on Iopsstor, `/iopsstor/scratch/cscs/$USER`, with a default [quota][ref-storage-quota] of 50 TB of space and 50 million inodes.
-See the [Scratch documentation][ref-storage-scratch] for more information.
-
 [](){#ref-alps-ritom}
 ## Ritom
 
 Ritom storage is a [VAST](https://www.vastdata.com) filesystem for [Scratch][ref-storage-scratch] use cases.
-Every user gets their own scratch path, `/ritom/scratch/cscs/$USER`, with a default [quota][ref-storage-quota] of 300 TB of space and 10 million inodes.
 Additionally, it provides support for advanced features:
 
 * **Quality of Service (QoS)** ensures more consistent performance by not letting individual users overload the system.
